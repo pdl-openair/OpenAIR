@@ -5,8 +5,8 @@
 > A research-agent platform that orchestrates the full research lifecycle — problem modeling, solution design, execution & validation, and insight generation — with traceable evidence.
 
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue)](LICENSE)
-[![CI](https://github.com/Maxine-1520/OpenAIR/actions/workflows/oss-ci.yml/badge.svg)](https://github.com/Maxine-1520/OpenAIR/actions/workflows/oss-ci.yml)
-[![Release](https://img.shields.io/github/v/release/Maxine-1520/OpenAIR)](https://github.com/Maxine-1520/OpenAIR/releases)
+[![CI](https://github.com/pdl-openair/OpenAIR/actions/workflows/oss-ci.yml/badge.svg)](https://github.com/pdl-openair/OpenAIR/actions/workflows/oss-ci.yml)
+[![Release](https://img.shields.io/github/v/release/pdl-openair/OpenAIR)](https://github.com/pdl-openair/OpenAIR/releases)
 
 ## 为什么是 OpenAIR
 
@@ -46,7 +46,7 @@
 ## 5 分钟 Quickstart（replay 模式，无需任何 API key）
 
 ```bash
-git clone https://github.com/Maxine-1520/OpenAIR.git
+git clone https://github.com/pdl-openair/OpenAIR.git
 cd OpenAIR
 docker compose up -d --build      # 首次构建约几分钟
 # 工作台:      http://localhost:8080
