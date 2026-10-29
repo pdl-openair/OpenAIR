@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://pdl-openair.github.io/OpenAIR/sitemap.xml

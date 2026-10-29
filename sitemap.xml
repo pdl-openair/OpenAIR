@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://pdl-openair.github.io/OpenAIR/</loc>
+    <changefreq>weekly</changefreq>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://pdl-openair.github.io/OpenAIR/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pdl-openair.github.io/OpenAIR/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pdl-openair.github.io/OpenAIR/en/"/>
+  </url>
+  <url>
+    <loc>https://pdl-openair.github.io/OpenAIR/en/</loc>
+    <changefreq>weekly</changefreq>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://pdl-openair.github.io/OpenAIR/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pdl-openair.github.io/OpenAIR/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pdl-openair.github.io/OpenAIR/en/"/>
+  </url>
+</urlset>

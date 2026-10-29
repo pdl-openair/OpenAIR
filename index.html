@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenAIR 智研星河 — 面向材料科研的智能体平台 | 科研智能体</title>
+<meta name="description" content="OpenAIR 把科研过程建模为可编排、可验证、可追溯的四阶段流水线（问题建模→方案设计→执行验证→洞察生成）。晶体材料发现 mSUN 58.0%，AlN PVD 参数寻优 d33 15.9→18.6。开源协议 Apache-2.0。">
+<meta name="keywords" content="OpenAIR, 智研星河, 科研智能体, AI4Science, research agent, 科研平台, 材料发现, 晶体设计, PVD, LLM Agent">
+<link rel="canonical" href="https://pdl-openair.github.io/OpenAIR/">
+<link rel="alternate" hreflang="zh-CN" href="https://pdl-openair.github.io/OpenAIR/">
+<link rel="alternate" hreflang="en" href="https://pdl-openair.github.io/OpenAIR/en/">
+<link rel="alternate" hreflang="x-default" href="https://pdl-openair.github.io/OpenAIR/en/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OpenAIR 智研星河 — 面向材料科研的智能体平台">
+<meta property="og:description" content="四阶段可编排、可验证、可追溯的科研流水线。晶体发现 mSUN 58.0%，PVD 寻优 d33 15.9→18.6。">
+<meta property="og:url" content="https://pdl-openair.github.io/OpenAIR/">
+<meta property="og:image" content="https://pdl-openair.github.io/OpenAIR/assets/og-cover.png">
+<meta property="og:site_name" content="OpenAIR">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OpenAIR 智研星河 — 面向材料科研的智能体平台">
+<meta name="twitter:description" content="四阶段可编排、可验证、可追溯的科研流水线。">
+<meta name="twitter:image" content="https://pdl-openair.github.io/OpenAIR/assets/og-cover.png">
+<link rel="icon" type="image/png" href="https://pdl-openair.github.io/OpenAIR/assets/openair-logo.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenAIR","alternateName":"OpenAIR 智研星河","applicationCategory":"ScientificApplication","operatingSystem":"Web, Linux, Windows, macOS","description":"面向材料科研的智能体平台：四阶段可编排、可验证、可追溯的科研流水线。","url":"https://pdl-openair.github.io/OpenAIR/","downloadUrl":"https://github.com/pdl-openair/OpenAIR/releases","license":"https://spdx.org/licenses/Apache-2.0.html","offers":{"@type":"Offer","price":"0"},"author":{"@type":"Organization","name":"pdl-openair","url":"https://github.com/pdl-openair"}}
+</script>
+<style>
+:root{--bg:#f8fafc;--fg:#0f172a;--muted:#475569;--card:#ffffff;--line:#e2e8f0;--brand:#2563eb;--brand2:#7c3aed}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--card:#111a2e;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--fg);line-height:1.7}
+a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:12px;padding-top:18px;padding-bottom:18px}
+header img{height:34px;width:34px}
+header .name{font-weight:700;font-size:18px}
+header nav{margin-left:auto;display:flex;gap:18px;font-size:14px}
+.hero{text-align:center;padding:84px 24px 64px;background:linear-gradient(180deg,transparent,rgba(37,99,235,.06))}
+.hero .logo{height:88px;width:88px;margin-bottom:18px}
+.hero h1{font-size:44px;letter-spacing:.5px}
+.hero h1 span{background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.tag{margin-top:10px;font-size:20px;color:var(--muted)}
+.hero p.sub{margin-top:8px;font-size:15px;color:var(--muted)}
+.btns{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{padding:11px 22px;border-radius:10px;font-size:15px;font-weight:600}
+.btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
+.btn.primary:hover{text-decoration:none;opacity:.92}
+.btn.ghost{border:1px solid var(--line);color:var(--fg)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:56px}
+.stat{background:var(--card);padding:22px 16px;text-align:center}
+.stat b{display:block;font-size:26px;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:13px;color:var(--muted)}
+section{padding:64px 0}
+h2{font-size:28px;text-align:center;margin-bottom:8px}
+p.lead{text-align:center;color:var(--muted);max-width:720px;margin:0 auto 36px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.card h3{font-size:17px;margin-bottom:8px}
+.card p{font-size:14px;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;counter-reset:s}
+.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative}
+.step::before{counter-increment:s;content:counter(s);display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-weight:700;margin-bottom:10px}
+.step b{display:block;font-size:15px}.step span{font-size:13px;color:var(--muted)}
+pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:18px 20px;overflow:auto;font-size:14px;font-family:Consolas,monospace}
+footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13px;text-align:center}
+footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <img src="assets/openair-logo.png" alt="OpenAIR">
+    <div class="name">OpenAIR 智研星河</div>
+    <nav>
+      <a href="https://github.com/pdl-openair/OpenAIR">GitHub</a>
+      <a href="https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0">Release</a>
+      <a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">演示视频</a>
+      <a href="en/">English</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img class="logo" src="assets/openair-logo.png" alt="OpenAIR logo">
+  <h1><span>OpenAIR</span> 智研星河</h1>
+  <p class="tag">把科研过程，建模为可编排、可验证、可追溯的流水线</p>
+  <p class="sub">问题建模 → 方案设计 → 执行验证 → 洞察生成 —— AI 与人协同推进科学发现</p>
+  <div class="btns">
+    <a class="btn primary" href="https://github.com/pdl-openair/OpenAIR">⭐ GitHub 开源仓库</a>
+    <a class="btn ghost" href="https://github.com/pdl-openair/OpenAIR#-快速开始">5 分钟快速开始</a>
+    <a class="btn ghost" href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">▶ 演示视频</a>
+  </div>
+  <div class="stats wrap">
+    <div class="stat"><b>4 阶段</b><span>科研生命周期编排</span></div>
+    <div class="stat"><b>200+</b><span>可回放的科研 skill</span></div>
+    <div class="stat"><b>mSUN 58.0%</b><span>晶体材料发现 · 搜索终评</span></div>
+    <div class="stat"><b>d33 15.9→18.6</b><span>AlN PVD 四轮湿实验迭代</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>三大核心机制</h2>
+    <p class="lead">针对科研任务周期长、工具分散、证据难追溯、实验反馈利用不足的痛点</p>
+    <div class="grid">
+      <div class="card"><h3>🔁 可编排</h3><p>四阶段是科研活动的组织框架而非固定串行流水线——新的计算结果或实验反馈，可触发平台回到相关阶段补充分析与决策。</p></div>
+      <div class="card"><h3>🔍 可验证</h3><p>能力以 Markdown 形态的 skill 承载（SKILL.md + 输入输出契约），registry 统一注册，可独立测试、可回放（replay 模式零密钥跑通全流程）。</p></div>
+      <div class="card"><h3>🧾 可追溯</h3><p>每一步产物的来源链全程可回看：哪个 skill、什么输入、什么版本——形成从自主实验到科学发现的可信闭环。</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>四阶段流水线</h2>
+    <p class="lead">干实验（计算验证）与湿实验（制备反馈）在同一流水线内协同闭环</p>
+    <div class="steps">
+      <div class="step"><b>问题建模</b><span>problem_modeling：从自然语言研究意图到结构化问题</span></div>
+      <div class="step"><b>方案设计</b><span>solution_design：规划器生成候选方案，人在工作台确认</span></div>
+      <div class="step"><b>执行验证</b><span>execution_validation：skill 执行、计算与实验、证据采集</span></div>
+      <div class="step"><b>洞察生成</b><span>insight_generation：证据汇聚、报告撰写、下一轮建议</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>5 分钟跑起来</h2>
+    <p class="lead">Docker 一键启动；replay 模式无需任何模型密钥</p>
+<pre>git clone https://github.com/pdl-openair/OpenAIR.git
+cd OpenAIR &amp;&amp; cp .env.example .env
+docker compose up -d --build
+# 工作台: http://localhost:8080　·　API: http://localhost:8000/health</pre>
+  </div>
+</section>
+
+<footer>
+  <div class="links">
+    <a href="https://github.com/pdl-openair/OpenAIR">GitHub</a>
+    <a href="https://github.com/pdl-openair/OpenAIR/releases">Releases</a>
+    <a href="https://github.com/pdl-openair/OpenAIR/blob/main/CONTRIBUTING.md">参与贡献</a>
+    <a href="en/">English</a>
+  </div>
+  <div>Apache-2.0 · © 2026 OpenAIR Contributors · 智研星河</div>
+</footer>
+</body>
+</html>
