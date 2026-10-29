@@ -70,11 +70,17 @@ services:
       OPENAIR_WORKUNIT_FALLBACK_AFTER_SECONDS: ${OPENAIR_WORKUNIT_FALLBACK_AFTER_SECONDS:-30}
       # Production fail-closed: API + durable-worker both require orchestration v1.
       OPENAIR_RESEARCH_ORCHESTRATION_V1: ${OPENAIR_RESEARCH_ORCHESTRATION_V1:-true}
-      SKILL_EXEC_MODE: live
+      SKILL_EXEC_MODE: ${SKILL_EXEC_MODE:-live}
+      OPENAIR_DEV_SEED_FIXTURES: ${OPENAIR_DEV_SEED_FIXTURES:-0}
       OPENAIR_CLAUDE_PERMISSION_MODE: bypassPermissions
       # --- Auth ---
       OPENAIR_AUTH_REQUIRED: "1"
       OPENAIR_JWT_SECRET_KEY: ${OPENAIR_JWT_SECRET_KEY:?set OPENAIR_JWT_SECRET_KEY in .env (openssl rand -hex 32)}
+      # Bootstrap admin (create/promote at startup when email is set; needed to
+      # log in at all under AUTH_REQUIRED=1 deployments)
+      OPENAIR_BOOTSTRAP_ADMIN_EMAIL: ${OPENAIR_BOOTSTRAP_ADMIN_EMAIL:-}
+      OPENAIR_BOOTSTRAP_ADMIN_PASSWORD: ${OPENAIR_BOOTSTRAP_ADMIN_PASSWORD:-}
+      OPENAIR_BOOTSTRAP_ADMIN_USERNAME: ${OPENAIR_BOOTSTRAP_ADMIN_USERNAME:-ops}
       # Image captcha (off in compose so layer4/harness can register headlessly)
       OPENAIR_CAPTCHA_ENABLED: ${OPENAIR_CAPTCHA_ENABLED:-0}
       # --- GitHub OAuth (optional; button hidden when empty) ---
@@ -233,7 +239,7 @@ services:
       OPENAIR_WORKUNIT_FALLBACK_AFTER_SECONDS: ${OPENAIR_WORKUNIT_FALLBACK_AFTER_SECONDS:-30}
       # Must match api: production worker refuses to start without orchestration v1.
       OPENAIR_RESEARCH_ORCHESTRATION_V1: ${OPENAIR_RESEARCH_ORCHESTRATION_V1:-true}
-      SKILL_EXEC_MODE: live
+      SKILL_EXEC_MODE: ${SKILL_EXEC_MODE:-live}
       OPENAIR_CLAUDE_PERMISSION_MODE: bypassPermissions
       OPENAIR_AUTH_REQUIRED: "1"
       OPENAIR_JWT_SECRET_KEY: ${OPENAIR_JWT_SECRET_KEY:?set OPENAIR_JWT_SECRET_KEY in .env (openssl rand -hex 32)}
