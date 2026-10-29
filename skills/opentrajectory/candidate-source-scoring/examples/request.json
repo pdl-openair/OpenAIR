@@ -1,0 +1,53 @@
+{
+  "screened_candidates": [
+    {
+      "candidate_id": "cand_001",
+      "dedupe_key": "doi:10.1000/aln-d33-001",
+      "title": "Reactive sputtering conditions for high piezoelectric response in AlN films",
+      "abstract": "AlN thin films were deposited on Mo electrodes. Nitrogen flow and substrate temperature were varied and the d33 response was measured.",
+      "source_name": "openalex",
+      "citation_count": 28,
+      "screening_decision": "include",
+      "screening_reason": "Directly studies AlN process conditions and d33.",
+      "relevance_signals": ["AlN", "nitrogen flow", "substrate temperature", "d33"],
+      "access_status": "pdf_ready",
+      "provenance": [
+        {
+          "stage": "source_screening_selection",
+          "skill_id": "title-abstract-screening-skill",
+          "timestamp": "2026-08-29T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "candidate_id": "cand_002",
+      "dedupe_key": "doi:10.1000/battery-002",
+      "title": "Fast-charging lithium-ion batteries under low-temperature conditions",
+      "abstract": "We investigate graphite plating during fast charging and report capacity retention.",
+      "source_name": "semantic_scholar",
+      "citation_count": 850,
+      "screening_decision": "maybe",
+      "screening_reason": "Metric language overlaps, but the research object is outside the AlN system.",
+      "relevance_signals": ["temperature", "response"],
+      "access_status": "metadata_only",
+      "provenance": [
+        {
+          "stage": "source_screening_selection",
+          "skill_id": "title-abstract-screening-skill",
+          "timestamp": "2026-08-29T12:00:00Z"
+        }
+      ]
+    }
+  ],
+  "research_context": {
+    "research_question": "Which AlN sputtering conditions are associated with higher d33?",
+    "research_objects": ["AlN", "Mo electrode"],
+    "conditions": ["nitrogen flow", "substrate temperature"],
+    "results_or_metrics": ["d33", "piezoelectric response"],
+    "mechanisms": ["reactive sputtering"],
+    "comparison_dimensions": ["nitrogen flow", "substrate temperature"],
+    "critical_evidence_requirements": ["AlN", "d33"],
+    "negative_signals": ["review only"],
+    "off_domain_signals": ["lithium-ion", "graphite plating"]
+  }
+}

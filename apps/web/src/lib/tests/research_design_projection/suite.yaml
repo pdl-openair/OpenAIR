@@ -1,0 +1,23 @@
+suite_id: component.web.lib.research-design-projection
+protected_outcome: The Web ResearchDesign projection presents the confirmed goal, primary questions, supporting dimensions, target outputs, risks, and real research path without exposing internal Artifact identifiers as user content.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: research_design_high_value_projection_or_internal_identifier_leak
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/lib/researchDesignPresentation.ts
+  - apps/web/src/lib/researchArtifactTitle.ts
+  - apps/web/src/lib/workbenchUi.ts
+  - packages/shared/src/i18n/dict.ts
+  - apps/web/src/components/workbench/WorkbenchFlowNav.tsx
+  - apps/web/src/components/workbench/SubstageArtifactFooter.tsx
+test_responsibility: deterministic component behavior for user-facing ResearchDesign projection
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [research_design_presentation_or_projection_changes]

@@ -1,0 +1,30 @@
+skill_id: gap_identification
+claude_name: gap-identification
+display_name: 空缺识别
+version: "0.1.0"
+stages:
+  - problem_modeling
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - gap_identification
+output_file: 01-problem/gap-analysis.md
+pack: sdr
+spec: 01-problem/gap-analysis.md
+input_skills:
+  - literature_search
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: gap_identification
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

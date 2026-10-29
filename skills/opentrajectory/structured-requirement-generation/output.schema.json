@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StructuredRequirement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "original_user_query",
+    "research_object",
+    "target_metrics",
+    "boundary_conditions",
+    "comparison_baseline",
+    "output_intent",
+    "requested_source_scope",
+    "ambiguities",
+    "requirement_confidence"
+  ],
+  "properties": {
+    "original_user_query": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "research_object": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "target_metrics": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 240
+      }
+    },
+    "boundary_conditions": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 320
+      }
+    },
+    "comparison_baseline": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 320
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "output_intent": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "comparison",
+            "summary",
+            "decision_support",
+            "literature_review",
+            "hypothesis_generation"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "requested_source_scope": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 480
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ambiguities": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 320
+      }
+    },
+    "requirement_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

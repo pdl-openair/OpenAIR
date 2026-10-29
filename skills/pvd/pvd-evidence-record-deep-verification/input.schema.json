@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pvd_project_context",
+    "record",
+    "source_provenance",
+    "provenance_gap",
+    "evidence_items",
+    "missing_evidence_refs",
+    "support_target_slots",
+    "review_focus",
+    "relation_questions",
+    "coverage",
+    "unresolved_gaps",
+    "conditional_evidence_linkage"
+  ],
+  "properties": {
+    "pvd_project_context": {
+      "type": "object"
+    },
+    "record": {
+      "type": "object"
+    },
+    "source_provenance": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "provenance_gap": {
+      "type": "boolean"
+    },
+    "evidence_items": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "missing_evidence_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "support_target_slots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "review_focus": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "relation_questions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "coverage": {
+      "type": "object"
+    },
+    "unresolved_gaps": {
+      "type": "array"
+    },
+    "conditional_evidence_linkage": {
+      "type": "array"
+    }
+  }
+}

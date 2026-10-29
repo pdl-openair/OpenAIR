@@ -1,0 +1,209 @@
+{
+  "version": 1,
+  "purpose": "Post-change boundary expansion to check causal-upgrade and gap-as-evidence overfitting risks.",
+  "cases": [
+    {
+      "id": "11_association_not_causation",
+      "dimension": "边界扩展：相关性不得升级因果",
+      "input": {
+        "task_id": "eval-11",
+        "research_context": {
+          "research_object": "Marker K and survival outcome",
+          "research_question": "Does Marker K cause improved survival?",
+          "target_metrics": [],
+          "boundary_conditions": [],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:421d13c7ecd67604cedbe44f88dd1f61",
+            "source": {
+              "candidate_id": "cand-11-1",
+              "anchor_id": "anchor-11-1",
+              "title": "Observational cohort",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://boundary/11-1",
+              "section_name": "Results",
+              "content_hash": "4ab6a0ad4b50df2e2a178576f4aae0c7289ea00385b9d29be0c4e3b2921b5f2d",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-11-1",
+            "record_type": "qualitative_result",
+            "research_object": "Marker K and survival outcome",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "follow_up",
+                "status": "reported",
+                "value_text": "12",
+                "unit": "months"
+              }
+            ],
+            "result": {
+              "statement": "Higher Marker K levels were associated with higher 12-month survival in the observed cohort.",
+              "values": [],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "other_source_information",
+            "assertion_mode": "association",
+            "source_quote": "Higher Marker K levels were associated with higher 12-month survival in the observed cohort.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ]
+      },
+      "oracle": {
+        "must": "direct_answer distinguishes the observed association from causation",
+        "must_not": "state that Marker K causes improved survival",
+        "expected_layers": "association may be a bounded conclusion; causal question belongs in a lead/hypothesis only if explicitly unvalidated"
+      }
+    },
+    {
+      "id": "12_gap_edge_not_support",
+      "dimension": "边界扩展：mechanism gap 不得当作支持证据",
+      "input": {
+        "task_id": "eval-12",
+        "research_context": {
+          "research_object": "Processing route L and alloy strength",
+          "research_question": "Does Processing route L improve strength, and is the mechanism established?",
+          "target_metrics": [],
+          "boundary_conditions": [],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:1f289cd1a244a837b3d946160b49e54d",
+            "source": {
+              "candidate_id": "cand-12-1",
+              "anchor_id": "anchor-12-1",
+              "title": "Strength comparison",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://boundary/12-1",
+              "section_name": "Results",
+              "content_hash": "c9240e4858c51d1ce4a845e1d2e9ea8c4c6d66bbb455ad08d1fe37e733ad0974",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-12-1",
+            "record_type": "comparison",
+            "research_object": "Processing route L and alloy strength",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "test_temperature",
+                "status": "reported",
+                "value_text": "25",
+                "unit": "C"
+              }
+            ],
+            "result": {
+              "statement": "Processing route L produced higher tensile strength than the matched baseline in the reported test.",
+              "values": [],
+              "mechanism": null,
+              "comparison": {
+                "subject": "Processing route L",
+                "baseline": "matched baseline",
+                "dimension": "tensile strength",
+                "relation": "higher",
+                "condition_text": [
+                  "25 C"
+                ]
+              }
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Processing route L produced higher tensile strength than the matched baseline in the reported test.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ],
+        "mechanism_packet": {
+          "mechanism_edges": [
+            {
+              "local_edge_key": "edge-gap",
+              "edge_id": "me:866b7b01fed85a137d77",
+              "edge_status": "gap",
+              "source_node": {
+                "node_type": "structure",
+                "label": "unmeasured microstructural change"
+              },
+              "relation": {
+                "predicate": "reveals_gap",
+                "description": "the mediating microstructural mechanism was not measured"
+              },
+              "target_node": {
+                "node_type": "performance",
+                "label": "higher tensile strength"
+              },
+              "evidence_ids": [
+                "fixture-gap"
+              ],
+              "rationale": "The mechanism synthesis records a missing mechanism link rather than support for one.",
+              "confidence": 0.5
+            }
+          ],
+          "mechanism_chains": [],
+          "conflicts": [],
+          "gaps": [],
+          "summary": {
+            "input_evidence_item_count": 1,
+            "mechanism_edge_count": 1,
+            "mechanism_chain_count": 0,
+            "edge_status_counts": {
+              "conflict": 0,
+              "gap": 1,
+              "support": 0
+            },
+            "dropped_duplicate_edge_count": 0,
+            "dropped_duplicate_chain_count": 0,
+            "degraded": true
+          },
+          "audit": {
+            "skill_id": "mechanism_chain_synthesis",
+            "traceability_mode": "evidence_id_guard",
+            "guard_version": "p07d-v1",
+            "input_fingerprint": "ada0cd7bb0e44d1680ae79490410fe4ce57a7aa7cb2e06233e033c480d17cfdf",
+            "allowed_edge_statuses": [
+              "conflict",
+              "gap",
+              "support"
+            ],
+            "allowed_predicates": [
+              "associated_with",
+              "contradicts",
+              "decreases",
+              "enables",
+              "increases",
+              "limits",
+              "promotes",
+              "reveals_gap",
+              "suppresses"
+            ]
+          },
+          "synthesis_warnings": [
+            "mechanism link unresolved"
+          ]
+        }
+      },
+      "oracle": {
+        "must": "direct_answer supports only the reported strength improvement and states that the mechanism is unresolved",
+        "must_not": "use the gap edge as evidence for any specific mechanism",
+        "expected_layers": "supported performance conclusion plus mechanism evidence gap; mechanism lead may be generated without claiming the answer"
+      }
+    }
+  ]
+}

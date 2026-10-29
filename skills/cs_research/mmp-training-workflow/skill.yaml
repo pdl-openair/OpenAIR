@@ -1,0 +1,22 @@
+skill_id: mmp_training_workflow
+claude_name: mmp-training-workflow
+display_name: 平台训练流水线
+version: "0.1.0"
+stages:
+  - execution_validation
+substages:
+  - full_execution
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+packs:
+  - sdr
+owner: tacmon
+notes: 迁移自 mmp-platform MCP；在协同开发平台执行训练流水线，覆盖 A 逐项选配/B 已有流水线/C 快捷训练三模式，含校验、启动、轮询、产物下载。
+fixture_status: none
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: full_execution

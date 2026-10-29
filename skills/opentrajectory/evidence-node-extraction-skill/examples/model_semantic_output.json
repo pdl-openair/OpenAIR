@@ -1,0 +1,118 @@
+{
+  "research_records": [
+    {
+      "source_anchor_id": "anchor_001",
+      "record_type": "quantitative_result",
+      "research_object": "Sample A",
+      "conditions": [
+        {
+          "name": "temperature",
+          "value_text": "25",
+          "unit": "°C",
+          "status": "reported"
+        }
+      ],
+      "result": {
+        "statement": "Sample A showed an ionic conductivity of 2.4 mS cm−1.",
+        "mechanism": null,
+        "comparison": null,
+        "values": [
+          {
+            "name": "ionic conductivity",
+            "value_text": "2.4",
+            "unit": "mS cm−1"
+          }
+        ]
+      },
+      "information_identity": "direct_source_fact",
+      "assertion_mode": "direct_observation",
+      "source_quote": "At 25 °C, Sample A showed an ionic conductivity of 2.4 mS cm−1.",
+      "qualifiers": [],
+      "uncertainty": null,
+      "unknown_fields": [],
+      "relevant_target_ids": [
+        "target_001"
+      ]
+    },
+    {
+      "source_anchor_id": "anchor_001",
+      "record_type": "comparison",
+      "research_object": "Sample A",
+      "conditions": [
+        {
+          "name": "cycle_count",
+          "value_text": "200",
+          "unit": "cycles",
+          "status": "reported"
+        },
+        {
+          "name": "rate",
+          "value_text": "1",
+          "unit": "C",
+          "status": "reported"
+        }
+      ],
+      "result": {
+        "statement": "Compared with Sample B at 78%, Sample A retained 91% capacity after 200 cycles at 1 C.",
+        "mechanism": null,
+        "comparison": {
+          "subject": "Sample A",
+          "baseline": "Sample B",
+          "dimension": "capacity retention",
+          "relation": "higher",
+          "condition_text": [
+            "200 cycles",
+            "1 C"
+          ]
+        },
+        "values": [
+          {
+            "name": "Sample B capacity retention",
+            "value_text": "78",
+            "unit": "%"
+          },
+          {
+            "name": "Sample A capacity retention",
+            "value_text": "91",
+            "unit": "%"
+          }
+        ]
+      },
+      "information_identity": "direct_source_fact",
+      "assertion_mode": "direct_observation",
+      "source_quote": "Compared with Sample B, which retained 78%, Sample A retained 91% capacity after 200 cycles at 1 C.",
+      "qualifiers": [],
+      "uncertainty": null,
+      "unknown_fields": [],
+      "relevant_target_ids": []
+    },
+    {
+      "source_anchor_id": "anchor_002",
+      "record_type": "mechanism_statement",
+      "research_object": "fluorinated interphase",
+      "conditions": [],
+      "result": {
+        "statement": "The authors suggest that the fluorinated interphase may suppress continuous electrolyte decomposition and could reduce impedance growth.",
+        "mechanism": {
+          "cause": "fluorinated interphase may suppress continuous electrolyte decomposition",
+          "effect": "reduce impedance growth"
+        },
+        "comparison": null,
+        "values": []
+      },
+      "information_identity": "author_interpretation",
+      "assertion_mode": "author_interpretation",
+      "source_quote": "The authors suggest that the fluorinated interphase may suppress continuous electrolyte decomposition, which could reduce impedance growth.",
+      "qualifiers": [
+        "authors suggest",
+        "may",
+        "could"
+      ],
+      "uncertainty": "Mechanism is author interpretation, not direct observation.",
+      "unknown_fields": [],
+      "relevant_target_ids": [
+        "target_002"
+      ]
+    }
+  ]
+}

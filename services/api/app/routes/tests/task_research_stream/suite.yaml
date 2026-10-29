@@ -1,0 +1,16 @@
+suite_id: component.routes.task-research-stream
+protected_outcome: The research SSE route replays after a valid cursor, resets an expired cursor before replay, and always closes its listener when the stream ends or is cancelled.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: task_research_stream_cursor_replay_or_listener_lifecycle_violation
+minimum_owner: 单个组件行为
+production_targets: [services/api/app/routes/tasks.py]
+test_responsibility: route-level proof of research stream cursor handling, replay order, and listener cleanup
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result, asserted_sse_sequence, asserted_listener_closed]
+verdict_rule: PASS only when a valid cursor resumes without reset, an expired cursor emits reset before replay, and both streams close their listener; FAIL on a valid violation; otherwise NO_VALID_EVIDENCE.
+triggers: [research event route changes, SSE cursor or listener lifecycle changes]

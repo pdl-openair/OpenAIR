@@ -1,0 +1,75 @@
+# research_type_overrides.yaml (OPE pack)
+# Required and optional substages per research type (M/D/C/H).
+# M=方法研究, D=发现研究, C=工具研究, H=混合研究
+
+M:
+  label: 方法研究
+  required_substages:
+    - info_retrieval
+    - literature_filter
+    - gap_analysis
+    - question_formulation
+    - hypothesis_construction
+    - experiment_design
+    - task_planning
+    - code_implementation
+    - experiment_execution
+    - data_validation
+    - data_visualization
+    - paper_writing
+  optional_substages:
+    - paper_revision
+
+D:
+  label: 发现研究
+  required_substages:
+    - info_retrieval
+    - literature_filter
+    - gap_analysis
+    - question_formulation
+    - experiment_design
+    - task_planning
+    - code_implementation
+    - experiment_execution
+    - data_validation
+    - data_visualization
+    - paper_writing
+  optional_substages:
+    - hypothesis_construction
+    - paper_revision
+
+C:
+  label: 工具研究
+  required_substages:
+    - info_retrieval
+    - literature_filter
+    - question_formulation
+    - experiment_design
+    - task_planning
+    - code_implementation
+    - experiment_execution
+    - data_validation
+    - data_visualization
+    - paper_writing
+  optional_substages:
+    - gap_analysis
+    - hypothesis_construction
+    - paper_revision
+
+H:
+  label: 混合研究
+  required_substages:
+    - info_retrieval
+    - literature_filter
+    - gap_analysis
+    - question_formulation
+    - hypothesis_construction
+    - experiment_design
+    - task_planning
+    - code_implementation
+    - experiment_execution
+    - data_validation
+    - data_visualization
+    - paper_writing
+    - paper_revision
+  optional_substages: []

@@ -1,0 +1,263 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpenTrajectoryProblemFraming",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "intent_understanding",
+    "constraints_criteria"
+  ],
+  "properties": {
+    "intent_understanding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "original_user_query",
+        "research_object",
+        "target_metrics",
+        "boundary_conditions",
+        "comparison_baseline",
+        "output_intent",
+        "requested_source_scope",
+        "ambiguities"
+      ],
+      "properties": {
+        "original_user_query": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "research_object": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "target_metrics": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          }
+        },
+        "boundary_conditions": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 320
+          }
+        },
+        "comparison_baseline": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 320
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "output_intent": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "comparison",
+                "summary",
+                "decision_support",
+                "literature_review",
+                "hypothesis_generation"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requested_source_scope": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 480
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ambiguities": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 320
+          }
+        }
+      }
+    },
+    "constraints_criteria": {
+      "type": "object",
+      "required": [
+        "interpreted_constraints",
+        "missing_information",
+        "research_risks"
+      ],
+      "properties": {
+        "interpreted_constraints": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": [
+              "constraint_name",
+              "original_phrase",
+              "constraint_type",
+              "interpreted_value",
+              "candidate_values",
+              "semantic_state",
+              "domain_rationale",
+              "downstream_search_terms",
+              "evidence_basis"
+            ],
+            "properties": {
+              "constraint_name": {
+                "type": "string",
+                "maxLength": 160
+              },
+              "original_phrase": {
+                "type": "string",
+                "maxLength": 480
+              },
+              "constraint_type": {
+                "type": "string",
+                "maxLength": 120
+              },
+              "interpreted_value": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 320
+              },
+              "candidate_values": {
+                "type": "array",
+                "maxItems": 5,
+                "items": {
+                  "type": "string",
+                  "maxLength": 180
+                }
+              },
+              "semantic_state": {
+                "type": "string",
+                "enum": [
+                  "confirmed",
+                  "unknown",
+                  "unrestricted",
+                  "ambiguous",
+                  "conflicting"
+                ]
+              },
+              "domain_rationale": {
+                "type": "string",
+                "maxLength": 512
+              },
+              "downstream_search_terms": {
+                "type": "array",
+                "maxItems": 6,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                }
+              },
+              "evidence_basis": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 240
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "missing_information": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "information",
+              "why_needed",
+              "affected_constraint_names"
+            ],
+            "properties": {
+              "information": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "why_needed": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 320
+              },
+              "affected_constraint_names": {
+                "type": "array",
+                "maxItems": 6,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                }
+              }
+            }
+          }
+        },
+        "research_risks": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "risk",
+              "downstream_impact",
+              "affected_constraint_names"
+            ],
+            "properties": {
+              "risk": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "downstream_impact": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 320
+              },
+              "affected_constraint_names": {
+                "type": "array",
+                "maxItems": 6,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

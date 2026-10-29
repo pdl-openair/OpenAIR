@@ -1,0 +1,41 @@
+skill_id: execution_readiness_assessment
+claude_name: execution-readiness-assessment
+display_name: 执行准备证据核验
+version: "1.0.0"
+stages: [execution_validation]
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+execution_method_roles:
+  - cs_reproduction_execution_readiness:readiness_closure
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output: {contract_version: 1, guard_version: p06c-v1}
+review_policy: {contract_version: 1, mode: schema_validated_only}
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: research:declared-scientific-facts:v1
+  facts:
+    - fact_key: execution_readiness_status
+      source_field: status
+    - fact_key: execution_plan_resource_relation_status
+      source_field: plan_resource_relation_status
+    - fact_key: execution_readiness_executable_scope
+      source_field: executable_scope
+    - fact_key: execution_readiness_blocking_gaps
+      source_field: blocking_gaps
+    - fact_key: execution_readiness_unknowns
+      source_field: unknowns
+owner: TBD
+fixture_status: missing
+notes: 基于真实代码、资源和环境结果形成有范围的 readiness 结论；不执行实验。
+capability_contract:
+  artifact_types: [execution_readiness_record]
+  judgment_support: {deterministic: false, domain_professional: true}

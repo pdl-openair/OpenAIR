@@ -1,0 +1,153 @@
+{
+  "evidence_schema": {
+    "schema_id": "schema:p07f-cs-example:001",
+    "schema_version": "0.1.0",
+    "task_context": {
+      "research_question": "对比学习方法如何提升视觉检索效果，并在不同数据集与评测协议下保持可比性？",
+      "task_scope": "Identify evidence required to evaluate contrastive-learning methods for visual retrieval under comparable benchmarks.",
+      "domain_hints": [
+        "computer vision",
+        "representation learning",
+        "visual retrieval"
+      ],
+      "design_assumptions": [
+        "Scores must travel with explicit datasets, splits, protocols and metric definitions."
+      ]
+    },
+    "evidence_targets": [
+      {
+        "target_id": "target_001",
+        "target_type": "entity",
+        "scientific_role": "other",
+        "description": "Model architecture and contrastive-learning objective.",
+        "requiredness": "required",
+        "completion_criteria": "Capture the architecture, objective and source-grounded method description.",
+        "allowed_evidence_forms": [
+          "method section",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "architecture",
+          "contrastive objective"
+        ],
+        "comparison_requirements": [],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      },
+      {
+        "target_id": "target_002",
+        "target_type": "experimental_condition",
+        "scientific_role": "condition",
+        "description": "Dataset, split, training regime and retrieval-evaluation protocol.",
+        "requiredness": "required",
+        "completion_criteria": "Capture dataset, split, training regime and retrieval protocol for each reported score.",
+        "allowed_evidence_forms": [
+          "experimental section",
+          "benchmark table",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "dataset",
+          "data split",
+          "training regime",
+          "retrieval protocol"
+        ],
+        "comparison_requirements": [],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      },
+      {
+        "target_id": "target_003",
+        "target_type": "performance_metric",
+        "scientific_role": "metric",
+        "description": "Visual-retrieval metrics such as mAP and Recall@K under explicit evaluation settings.",
+        "requiredness": "required",
+        "completion_criteria": "Capture numeric score, metric definition and evaluation context.",
+        "allowed_evidence_forms": [
+          "benchmark table",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "mAP",
+          "Recall@K",
+          "dataset",
+          "retrieval protocol"
+        ],
+        "comparison_requirements": [
+          "same benchmark",
+          "same metric definition"
+        ],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      },
+      {
+        "target_id": "target_004",
+        "target_type": "comparison_baseline",
+        "scientific_role": "baseline",
+        "description": "Baselines and ablations needed to attribute performance changes.",
+        "requiredness": "required",
+        "completion_criteria": "Capture baseline or ablation setting and the comparable score context.",
+        "allowed_evidence_forms": [
+          "ablation table",
+          "benchmark comparison",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "baseline",
+          "ablation setting"
+        ],
+        "comparison_requirements": [
+          "same benchmark",
+          "same metric definition"
+        ],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      },
+      {
+        "target_id": "target_005",
+        "target_type": "limitation",
+        "scientific_role": "limitation",
+        "description": "Failure modes, sensitivity and generalization limits across datasets or protocols.",
+        "requiredness": "preferred",
+        "completion_criteria": "Capture at least one grounded limitation or sensitivity observation.",
+        "allowed_evidence_forms": [
+          "analysis section",
+          "error analysis",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "dataset shift",
+          "protocol sensitivity"
+        ],
+        "comparison_requirements": [],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      }
+    ],
+    "gap_taxonomy": [
+      "missing_condition",
+      "missing_metric",
+      "missing_baseline",
+      "conflict",
+      "not_comparable"
+    ],
+    "uncertainty_rules": [
+      {
+        "rule_id": "u01",
+        "trigger": "A retrieval score lacks dataset, split, protocol or metric-definition context.",
+        "handling": "Do not treat the score as directly comparable."
+      }
+    ]
+  },
+  "design_warnings": []
+}

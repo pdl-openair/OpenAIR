@@ -1,0 +1,25 @@
+skill_id: ope_code_implementation
+claude_name: ope-code-implementation
+display_name: 代码实现
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - code_implementation
+output_file: execute/code/implementation.md
+pack: ope
+spec: implementation.md
+input_skills:
+  - ope_task_planning
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: code_implementation
+owner: TBD
+fixture_status: missing
+notes: ''

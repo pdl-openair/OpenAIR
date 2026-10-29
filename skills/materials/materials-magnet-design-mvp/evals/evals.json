@@ -1,0 +1,26 @@
+{
+  "skill_name": "materials-magnet-design-mvp",
+  "evals": [
+    {
+      "id": 1,
+      "name": "smoke-one-iter",
+      "prompt": "用 SAGA-MVP 跑一次 1 轮迭代的烟雾测试:从 Materials Project 拉 5 个磁性相关化学式,生成 3 个新候选,跑完整 loop。我只想看到管线能走通,不需要收敛。把每步的成功/失败都报给我。",
+      "expected_output": "Skill runs probe_mcps.py, initializes from MP (or fallback if no key), runs 1 iteration: crossover → DiffCSP → MatterSim relax → ALIGNN magmom+ehull → HHI → reward → top-K. Outputs a per-step status table and a final top-K table.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "default-three-iter",
+      "prompt": "Run the default SAGA-MVP config (init_n=10, batch_size=3, max_iters=3, top_k=5, ehull filter on). I want the Pareto-knee candidate after each iteration and a final report with chemical trends.",
+      "expected_output": "Three iterations executed. After each: top-K table + best reward + which new candidates entered the pool. Final report includes: top-K table, Pareto-knee identification, ≥2 chemical trends observed, recommended next-run config.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "failure-injection-ehull",
+      "prompt": "Run a 2-iter MVP with ehull filter set very tight (0.02 eV/atom) on Fe/Cr/S chemistry. I expect most candidates to be filtered out. Show me how the skill handles that — does it relax the threshold or warn me?",
+      "expected_output": "Skill detects that <2 candidates survive the tight filter, triggers the documented relaxation rule (retry at 0.2 eV/atom), warns the user, and continues the loop. Final report explicitly mentions the filter-relaxation event and explains why tight ehull is hostile to Fe/Cr/S chemistries.",
+      "files": []
+    }
+  ]
+}

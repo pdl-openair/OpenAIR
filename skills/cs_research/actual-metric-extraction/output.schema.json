@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "state",
+    "extraction_status",
+    "execution_record_relative_path",
+    "execution_record_sha256",
+    "result_source",
+    "requested_metric_count",
+    "extracted_metric_count",
+    "metrics"
+  ],
+  "properties": {
+    "schema_version": {"const": "openair-actual-metrics/v1"},
+    "state": {"type": "string", "enum": ["succeeded", "failed"]},
+    "extraction_status": {"type": "string", "enum": ["complete", "incomplete"]},
+    "failure_code": {"type": "string"},
+    "failed_stage": {"type": "string"},
+    "execution_record_relative_path": {"type": ["string", "null"]},
+    "execution_record_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "result_source": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["kind", "format", "sha256"],
+          "properties": {
+            "kind": {"type": "string", "enum": ["execution_stream", "workspace_file"]},
+            "stream": {"type": "string", "enum": ["stdout", "stderr"]},
+            "relative_path": {"type": "string"},
+            "format": {"type": "string", "enum": ["json", "csv", "tsv", "pipe_table"]},
+            "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "requested_metric_count": {"type": "integer", "minimum": 0},
+    "extracted_metric_count": {"type": "integer", "minimum": 0},
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["metric_name", "value_type", "unit", "extraction_status"],
+        "properties": {
+          "metric_name": {"type": "string"},
+          "actual_value": {"type": ["number", "integer", "string", "boolean", "null"]},
+          "value_type": {"type": "string", "enum": ["number", "integer", "string", "boolean"]},
+          "unit": {"type": ["string", "null"]},
+          "extraction_status": {"type": "string", "enum": ["succeeded", "failed"]},
+          "failure_code": {"type": "string"},
+          "source_trace": {"type": "object"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": true
+}

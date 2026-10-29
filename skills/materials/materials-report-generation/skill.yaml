@@ -1,0 +1,32 @@
+skill_id: materials_report_generation
+claude_name: materials-report-generation
+display_name: 报告生成
+version: "0.1.0"
+stages:
+  - insight_generation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - report_generation
+pack: materials
+spec: specs/report-generation.md
+output_file: final_report.md
+input_skills:
+  - database_search
+  - candidate_generation
+  - stability_verification
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: report_generation
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

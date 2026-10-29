@@ -1,0 +1,25 @@
+suite_id: component.skills.deepxiv-progressive-reading-contracts
+protected_outcome: Progressive reading requires the direct evidence schema and rejects outer aliases, closes the original failure root through a mechanism target that drives the first deep read, keeps unresolved required targets unresolved with degradation instead of fake provider failure, drives progressive methods until targets are located, requires comparison dimensions to be located before resolution, and uses the same mechanism across cross-domain evidence schemas.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- progressive_reading_contract_regression
+minimum_owner: 单个组件行为
+production_targets:
+- skills/opentrajectory/deepxiv-progressive-reading-skill/
+test_responsibility: Deterministically pin the progressive-reading pipeline's schema, targeting, degradation, and stopping contracts on fixed inputs.
+execution_profiles:
+- deterministic
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- pytest_exit_code_0
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions
+  prove protected_outcome; FAIL when sufficient valid evidence proves
+  protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- deepxiv_progressive_reading_changed

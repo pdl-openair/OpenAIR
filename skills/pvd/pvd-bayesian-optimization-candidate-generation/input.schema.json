@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/skills/pvd-bayesian-optimization-candidate-generation/input.schema.json",
+  "title": "PVD Bayesian Optimization Candidate Generation Input",
+  "description": "Clean BO input. The Skill consumes the exact canonical PVD ScientificState facts and internally derives same-system numeric observations. No caller-prebuilt project_observations or process_context view exists.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "scientific_state_facts"
+  ],
+  "properties": {
+    "scientific_state_facts": {
+      "$ref": "https://openair.local/schemas/pvd/pvd-scientific-state-facts-v1.schema.json",
+      "description": "Exact canonical PVD ScientificState scientificFacts subtree. The current experimental system and usable real experiment history are resolved inside this Skill."
+    }
+  }
+}

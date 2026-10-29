@@ -1,0 +1,16 @@
+{
+  "status": "completed",
+  "summary": "完成 OPE 领域文献调研，产出文献综述报告。",
+  "artifacts": [
+    {
+      "path": "proposal/literature.md",
+      "type": "literature_review",
+      "title": "OPE 文献调研综述"
+    }
+  ],
+  "capability_calls": [],
+  "next_actions": [
+    "基于研究空白进行问题凝练"
+  ],
+  "error": null
+}

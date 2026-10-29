@@ -1,0 +1,33 @@
+skill_id: opentrajectory_mechanism_explanation
+claude_name: opentrajectory-mechanism-explanation
+display_name: 机制解释
+version: 0.1.0
+stages:
+- execution_validation
+substages:
+- mechanism_explanation
+pack: opentrajectory
+sequence: 90
+enabled: true
+spec: 03-validation/mechanism-explanation.md
+input_skills: []
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-mechanism-explanation
+claude_skill_path: .claude/skills/opentrajectory-mechanism-explanation
+output_file: 03-validation/mechanism-packets.json
+fixture_status: none
+notes: OpenTrajectory v3 conditional responsibility; entered only when mechanism reasoning can materially affect evidence interpretation, conclusions, unknowns, or next-step advice.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: mechanism_explanation
+owner: TBD
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

@@ -1,0 +1,50 @@
+skill_id: pvd_evidence_retrieval_design
+claude_name: pvd-evidence-retrieval-design
+display_name: PVD Evidence Retrieval Design
+description: Designs core and shortage-triggered supplemental PVD evidence retrieval semantics while preserving formal and
+  pending parameter identities.
+version: 1.0.0
+domain: pvd
+stages:
+- solution_design
+substages:
+- research_retrieval_experiment_design
+packs:
+- pvd
+skill_type: atomic
+runtime: llm_structured
+status: ready
+owner: TBD
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+durable_llm_execution_policy:
+  contract_version: 1
+  model_profile: terra
+  reasoning_effort: none
+  max_output_tokens: 3500
+  read_timeout_seconds: 90
+  response_mode: json_object
+  load_references: false
+  structured_output_recovery_attempts: 1
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: provider.schema.json
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+fixture_status: missing
+enabled: true
+notes: PVD evidence-retrieval design owns core retrieval semantics and shortage-triggered supplemental retrieval. Supplemental
+  mode is entered only from formal evidence_shortage_facts plus prior_retrieval_design; deterministic finalization preserves
+  dynamic parameter identity, merge, de-duplication and provenance.

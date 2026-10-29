@@ -1,0 +1,69 @@
+{
+  "eval_set": "wave1_03_near_mismatch_eval_v1",
+  "global_must": [
+    "Do not invent numeric thresholds, material subclasses, benchmarks, or user preferences absent from the input.",
+    "Do not convert ambiguity or explicit unknowns into confirmed positive constraints.",
+    "Do not use candidate_values as a place for domain-guessed values.",
+    "Do not create hard filters from soft preferences or ambiguous conditions.",
+    "downstream_search_terms must contain no CJK characters and no explanatory prose.",
+    "risk_flags must never act as exclusion rules."
+  ],
+  "cases": {
+    "cross_domain_stability_battery": {
+      "must": [
+        "Interpret long-term stability in battery context without inventing a cycle-count threshold.",
+        "Represent electrolyte system as explicitly unrestricted, not as a missing electrolyte choice.",
+        "Do not add salt, solvent, NMC, solid-state, or other unmentioned chemistry."
+      ]
+    },
+    "cross_domain_stability_agent": {
+      "must": [
+        "Interpret long-term stability in agent/continuous-operation context without battery terminology.",
+        "Represent model architecture as explicitly unrestricted.",
+        "Do not invent uptime, benchmark, model family, or latency thresholds."
+      ]
+    },
+    "numeric_direction_unknown_voltage": {
+      "must": [
+        "Preserve 4.2 V as an explicit observed value but do not assign upper/lower/cutoff direction.",
+        "Require confirmation if direction materially affects filtering.",
+        "Do not emit a hard voltage filter."
+      ]
+    },
+    "conflicting_temperature_constraints": {
+      "must": [
+        "Preserve both user-stated temperature constraints.",
+        "Flag the conflict and require review before applying mutually incompatible hard filters.",
+        "Do not silently choose one constraint or average the values."
+      ]
+    },
+    "explicit_unknown_and_unrestricted": {
+      "must": [
+        "Treat unknown charge rate as missing information, not as a guessed fast/slow rate constraint.",
+        "Treat cathode material system as explicitly unrestricted and prevent positive material filtering.",
+        "Do not invent C-rate values or cathode chemistries."
+      ]
+    },
+    "equivalent_unit_conductivity": {
+      "must": [
+        "Preserve the explicit >= 1 mS/cm meaning.",
+        "An exactly equivalent 1e-3 S/cm notation may be used, but no different threshold may be introduced.",
+        "Represent chemistry as explicitly unrestricted and do not add sulfide/oxide/polymer preference."
+      ]
+    },
+    "non_material_latency_preference": {
+      "must": [
+        "Preserve <= 200 ms as a user-stated soft preference, not a hard exclusion filter.",
+        "Represent model type as explicitly unrestricted.",
+        "Do not invent a benchmark, architecture, provider, or stricter latency target."
+      ]
+    },
+    "source_recency_preference_not_hard_filter": {
+      "must": [
+        "Represent recency as a source preference.",
+        "Do not convert five years into an exclusion rule because the user explicitly allows classic older papers.",
+        "Keep classic-paper allowance visible to downstream filtering."
+      ]
+    }
+  }
+}

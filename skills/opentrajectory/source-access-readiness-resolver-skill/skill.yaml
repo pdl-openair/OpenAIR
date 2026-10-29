@@ -1,0 +1,43 @@
+skill_id: source_access_readiness_resolver
+claude_name: source-access-readiness-resolver-skill
+display_name: 文献访问准备状态判定
+stages:
+- execution_validation
+substages:
+- source_acquisition
+skill_type: atomic
+runtime: python_adapter
+status: ready
+enabled: true
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 30
+owner: TBD
+output_file: source_access_readiness.json
+notes: Metadata-only bridge between candidate-dedup-and-provenance and title-abstract-screening-skill.
+  No network fetch, download, or parsing.
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: source_acquisition
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:source_access_readiness_resolver
+  evidence_contract_version: deterministic-output/v1
+input_handoff:
+  contract_version: 1
+  predecessor_skill_id: candidate_dedup_and_provenance
+  predecessor_definition_version: 1
+  context_fields:
+    task_id: task_id
+  constants:
+    skill_id: source-access-readiness-resolver-skill
+  field_mappings:
+    candidates: deduped_candidates
+  normalizers:
+  - source_access_candidate_projection_v1
+  - drop_null_object_fields

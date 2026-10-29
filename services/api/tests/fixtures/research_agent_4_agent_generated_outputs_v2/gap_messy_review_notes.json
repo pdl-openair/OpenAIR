@@ -1,0 +1,70 @@
+{
+  "scenarioName": "gap_messy_review_notes",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "material_coverage": [
+      {
+        "material_id": "M1",
+        "coverage_confidence": "medium",
+        "coverage_denominator": "2 pasted notes, no full source table",
+        "usable_for": "candidate gap only"
+      },
+      {
+        "material_id": "M2",
+        "coverage_confidence": "low",
+        "coverage_denominator": "2 pasted notes, no source diversity check",
+        "usable_for": "candidate gap only"
+      }
+    ],
+    "gap_list": [
+      {
+        "G-ID": "G1",
+        "gap_statement": "Candidate gap: cross-cohort validation may be inconsistently reported in the user's current organoid EGFR inhibitor notes.",
+        "gap_type": "candidate_validation_gap",
+        "linked_material_ids": ["M1", "M2"],
+        "linked_evidence_ids": [],
+        "confidence": "low",
+        "coverage_status": "insufficient_for_publishable_gap",
+        "gap_criterion": "requires source table showing coverage across included studies",
+        "opposing_evidence_check": "not performed; no broader source table supplied"
+      }
+    ],
+    "not_a_gap": [
+      {
+        "statement": "No one studies EGFR inhibitor response in organoids.",
+        "reason": "The pasted notes already imply response assays exist; absence from notes is not field absence."
+      }
+    ],
+    "insufficient_coverage": [
+      "No inclusion/exclusion criteria for the review set.",
+      "No count of papers, cohorts, endpoints, or negative-result records.",
+      "No contradictory or confirming papers outside the pasted notes."
+    ],
+    "needs_source": [
+      "source table with paper IDs",
+      "endpoint definitions",
+      "cohort validation fields",
+      "negative/non-response records"
+    ],
+    "evidence_needed": [
+      "claim-evidence rows for each candidate G-ID",
+      "coverage denominator before upgrading candidate_gap to defensible_gap"
+    ],
+    "advisor_review_questions": [
+      "Should gap status require cross-cohort validation, endpoint standardization, or negative-result reporting?",
+      "Which response endpoint is in scope?"
+    ]
+  },
+  "review": {
+    "rubricScore": 85,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 21, "OEA": 21, "Rig": 19, "Lev": 8, "UX": 7, "Spec": 4, "Eng": 5},
+    "mainReason": "Useful candidate-gap framing, but messy notes remain too thin for defensible novelty."
+  }
+}

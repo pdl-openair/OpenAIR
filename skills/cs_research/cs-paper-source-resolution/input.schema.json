@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CS paper source resolution input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "research_goal",
+    "repository",
+    "revision"
+  ],
+  "properties": {
+    "research_goal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "description": "Research goal text. Normal multiline text is valid."
+    },
+    "repository": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 2048,
+      "pattern": "^(?:https|git)://[^\\s/?#@]+(?:/[^\\s?#]*)?$",
+      "description": "Optional repository URL. When provided, use https:// or git:// without credentials, query, fragment, or surrounding whitespace."
+    },
+    "revision": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$",
+      "description": "Optional non-empty revision text without surrounding whitespace or control characters."
+    }
+  }
+}

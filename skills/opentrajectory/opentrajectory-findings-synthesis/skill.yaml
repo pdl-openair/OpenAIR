@@ -1,0 +1,34 @@
+skill_id: opentrajectory_findings_synthesis
+claude_name: opentrajectory-findings-synthesis
+display_name: 已有结论凝练
+version: 0.1.0
+stages:
+- execution_validation
+substages:
+- findings_synthesis
+pack: opentrajectory
+sequence: 100
+enabled: true
+spec: 03-validation/findings-synthesis.md
+input_skills:
+- opentrajectory_mechanism_explanation
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-findings-synthesis
+claude_skill_path: .claude/skills/opentrajectory-findings-synthesis
+output_file: 03-validation/evidence-supported-conclusions.json
+fixture_status: none
+notes: OpenTrajectory L2 orchestration slot.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: findings_synthesis
+owner: TBD
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

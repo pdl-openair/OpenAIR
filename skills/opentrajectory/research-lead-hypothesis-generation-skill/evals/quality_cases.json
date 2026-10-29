@@ -1,0 +1,1246 @@
+{
+  "version": 1,
+  "purpose": "Pre-change representative quality eval set for final evidence synthesis. Inputs are synthetic but schema-valid and target epistemic failure modes, not domain trivia.",
+  "cases": [
+    {
+      "id": "01_high_consistency",
+      "dimension": "高一致证据",
+      "input": {
+        "task_id": "eval-01",
+        "research_context": {
+          "research_object": "Additive A for corrosion protection of alloy X",
+          "research_question": "Does Additive A reduce corrosion of alloy X under neutral aqueous conditions?",
+          "target_metrics": [
+            "corrosion rate"
+          ],
+          "boundary_conditions": [
+            "pH 7",
+            "25 C"
+          ],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:25957f2940407f9250347c80c3e15d5b",
+            "source": {
+              "candidate_id": "cand-01-1",
+              "anchor_id": "anchor-01-1",
+              "title": "Study 1",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://01/1",
+              "section_name": "Results",
+              "content_hash": "00e99c1899b1ac6b5ea78b2aece120c24186762e838d3e18fd91082cd32dd5fa",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-01-1",
+            "record_type": "quantitative_result",
+            "research_object": "Additive A for corrosion protection of alloy X",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "pH",
+                "status": "reported",
+                "value_text": "7",
+                "unit": null
+              },
+              {
+                "name": "temperature",
+                "status": "reported",
+                "value_text": "25",
+                "unit": "C"
+              }
+            ],
+            "result": {
+              "statement": "Additive A reduced the measured corrosion rate from 1.0 to 0.62 mm/year under neutral aqueous conditions.",
+              "values": [
+                {
+                  "name": "corrosion_rate_with_A",
+                  "value_text": "0.62",
+                  "unit": "mm/year"
+                }
+              ],
+              "mechanism": null,
+              "comparison": {
+                "subject": "Additive A",
+                "baseline": "no additive",
+                "dimension": "corrosion rate",
+                "relation": "lower",
+                "condition_text": [
+                  "pH 7",
+                  "25 C"
+                ]
+              }
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Additive A reduced the measured corrosion rate from 1.0 to 0.62 mm/year under neutral aqueous conditions.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          },
+          {
+            "record_id": "rr:8aefffe6f3e979bb2d01b2d6fbe389d7",
+            "source": {
+              "candidate_id": "cand-01-2",
+              "anchor_id": "anchor-01-2",
+              "title": "Study 2",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://01/2",
+              "section_name": "Results",
+              "content_hash": "9b94de9b7d34e0ae773743bc408fb050dc017cad01d44e312f186591644b6710",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-01-2",
+            "record_type": "comparison",
+            "research_object": "Additive A for corrosion protection of alloy X",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "pH",
+                "status": "reported",
+                "value_text": "7",
+                "unit": null
+              },
+              {
+                "name": "temperature",
+                "status": "reported",
+                "value_text": "25",
+                "unit": "C"
+              }
+            ],
+            "result": {
+              "statement": "The Additive A condition showed lower corrosion current than the matched no-additive control.",
+              "values": [],
+              "mechanism": null,
+              "comparison": {
+                "subject": "Additive A",
+                "baseline": "no additive",
+                "dimension": "corrosion current",
+                "relation": "lower",
+                "condition_text": [
+                  "pH 7",
+                  "25 C"
+                ]
+              }
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "The Additive A condition showed lower corrosion current than the matched no-additive control.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          },
+          {
+            "record_id": "rr:4ee67998c154a309d1f2cd2a0f87bd1e",
+            "source": {
+              "candidate_id": "cand-01-3",
+              "anchor_id": "anchor-01-3",
+              "title": "Study 3",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://01/3",
+              "section_name": "Results",
+              "content_hash": "9ba2790ae608c4d6743bf74cc9508e5bb4946b126765a2fdb5c6d2c245554e16",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-01-3",
+            "record_type": "qualitative_result",
+            "research_object": "Additive A for corrosion protection of alloy X",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "pH",
+                "status": "reported",
+                "value_text": "7",
+                "unit": null
+              },
+              {
+                "name": "temperature",
+                "status": "reported",
+                "value_text": "25",
+                "unit": "C"
+              }
+            ],
+            "result": {
+              "statement": "Replicate coupons with Additive A consistently showed less visible corrosion than matched controls.",
+              "values": [],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Replicate coupons with Additive A consistently showed less visible corrosion than matched controls.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ]
+      },
+      "oracle": {
+        "must": "direct_answer clearly says the supplied records support a reduction under the reported neutral conditions and cites supporting record IDs",
+        "must_not": "generalize beyond the reported alloy/conditions or present a hypothesis as established",
+        "expected_layers": "supported conclusion; optional boundary-extension lead/hypothesis only if clearly separated"
+      }
+    },
+    {
+      "id": "02_conflicting_evidence",
+      "dimension": "证据冲突",
+      "input": {
+        "task_id": "eval-02",
+        "research_context": {
+          "research_object": "Catalyst B effect on reaction yield",
+          "research_question": "Does Catalyst B improve reaction yield at 60 C for 2 h?",
+          "target_metrics": [
+            "isolated yield"
+          ],
+          "boundary_conditions": [
+            "60 C",
+            "2 h"
+          ],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:55d183505d899787dc3076a18cffded8",
+            "source": {
+              "candidate_id": "cand-02-1",
+              "anchor_id": "anchor-02-1",
+              "title": "Yield study positive",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://02/1",
+              "section_name": "Results",
+              "content_hash": "7259222780487a617b4983a708f325fb86fa330bc48d196a327f1dcfc6837b0f",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-02-1",
+            "record_type": "quantitative_result",
+            "research_object": "Catalyst B effect on reaction yield",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "temperature",
+                "status": "reported",
+                "value_text": "60",
+                "unit": "C"
+              },
+              {
+                "name": "time",
+                "status": "reported",
+                "value_text": "2",
+                "unit": "h"
+              }
+            ],
+            "result": {
+              "statement": "Catalyst B increased isolated yield from 61% to 74% under 60 C and 2 h.",
+              "values": [
+                {
+                  "name": "yield",
+                  "value_text": "74",
+                  "unit": "%"
+                }
+              ],
+              "mechanism": null,
+              "comparison": {
+                "subject": "Catalyst B",
+                "baseline": "no Catalyst B",
+                "dimension": "isolated yield",
+                "relation": "higher",
+                "condition_text": [
+                  "60 C",
+                  "2 h"
+                ]
+              }
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Catalyst B increased isolated yield from 61% to 74% under 60 C and 2 h.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          },
+          {
+            "record_id": "rr:2df659ded22ac84340a46a537df8768b",
+            "source": {
+              "candidate_id": "cand-02-2",
+              "anchor_id": "anchor-02-2",
+              "title": "Yield study negative",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://02/2",
+              "section_name": "Results",
+              "content_hash": "56d558f3e4ab3a317a36705e312cc20e4f0398b12a1208fa9231a158fb650292",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-02-2",
+            "record_type": "quantitative_result",
+            "research_object": "Catalyst B effect on reaction yield",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "temperature",
+                "status": "reported",
+                "value_text": "60",
+                "unit": "C"
+              },
+              {
+                "name": "time",
+                "status": "reported",
+                "value_text": "2",
+                "unit": "h"
+              }
+            ],
+            "result": {
+              "statement": "Catalyst B decreased isolated yield from 63% to 55% under 60 C and 2 h.",
+              "values": [
+                {
+                  "name": "yield",
+                  "value_text": "55",
+                  "unit": "%"
+                }
+              ],
+              "mechanism": null,
+              "comparison": {
+                "subject": "Catalyst B",
+                "baseline": "no Catalyst B",
+                "dimension": "isolated yield",
+                "relation": "lower",
+                "condition_text": [
+                  "60 C",
+                  "2 h"
+                ]
+              }
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Catalyst B decreased isolated yield from 63% to 55% under 60 C and 2 h.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ]
+      },
+      "oracle": {
+        "must": "direct_answer says the evidence is conflicting rather than choosing a winner; conflicts contains both record IDs",
+        "must_not": "average opposing results into a supported benefit or infer which study is correct without supplied basis",
+        "expected_layers": "conflicting conclusion/status or no positive conclusion; unresolved-conflict lead is appropriate"
+      }
+    },
+    {
+      "id": "03_single_weak_record",
+      "dimension": "单篇弱证据",
+      "input": {
+        "task_id": "eval-03",
+        "research_context": {
+          "research_object": "Coating C effect on fatigue life",
+          "research_question": "Does Coating C extend fatigue life?",
+          "target_metrics": [
+            "fatigue life"
+          ],
+          "boundary_conditions": [],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:38bb06e1b3b421061ab713eedd0af2cb",
+            "source": {
+              "candidate_id": "cand-03-1",
+              "anchor_id": "anchor-03-1",
+              "title": "Pilot fatigue study",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://03/1",
+              "section_name": "Results",
+              "content_hash": "a64788b33681ad7b5f2ffbcff1eb6d0c76426e814f67785c85e94659e6755cbb",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-03-1",
+            "record_type": "quantitative_result",
+            "research_object": "Coating C effect on fatigue life",
+            "condition_status": "partially_unknown",
+            "conditions": [
+              {
+                "name": "load_amplitude",
+                "status": "unknown",
+                "value_text": null,
+                "unit": null
+              },
+              {
+                "name": "temperature",
+                "status": "reported",
+                "value_text": "25",
+                "unit": "C"
+              }
+            ],
+            "result": {
+              "statement": "A pilot test reported 18% longer fatigue life with Coating C in one small batch.",
+              "values": [
+                {
+                  "name": "fatigue_life_change",
+                  "value_text": "+18",
+                  "unit": "%"
+                }
+              ],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "A pilot test reported 18% longer fatigue life with Coating C in one small batch.",
+            "qualifiers": [
+              "single small batch",
+              "no independent replication"
+            ],
+            "uncertainty": "Load amplitude was not reported and the study was not replicated.",
+            "unknown_fields": [
+              "load_amplitude"
+            ],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ]
+      },
+      "oracle": {
+        "must": "direct_answer reports only limited preliminary support and names the missing/weak conditions",
+        "must_not": "state that Coating C definitively extends fatigue life",
+        "expected_layers": "boundary-limited or uncertain conclusion; replication/condition-completion lead; hypothesis may be omitted"
+      }
+    },
+    {
+      "id": "04_author_interpretation_only",
+      "dimension": "只有作者解释",
+      "input": {
+        "task_id": "eval-04",
+        "research_context": {
+          "research_object": "Nanostructure D and conductivity mechanism",
+          "research_question": "Is defect-mediated carrier transport established as the mechanism for the conductivity increase?",
+          "target_metrics": [
+            "conductivity mechanism"
+          ],
+          "boundary_conditions": [
+            "300 K"
+          ],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:bf1b9b80eef9ef4392d4a0a5370e9e7a",
+            "source": {
+              "candidate_id": "cand-04-1",
+              "anchor_id": "anchor-04-1",
+              "title": "Interpretive discussion",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://04/1",
+              "section_name": "Results",
+              "content_hash": "124675f4c7eedd017421f95ce8f67630577a0c45e177527756c5f5b32d2169ba",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-04-1",
+            "record_type": "mechanism_statement",
+            "research_object": "Nanostructure D and conductivity mechanism",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "temperature",
+                "status": "reported",
+                "value_text": "300",
+                "unit": "K"
+              }
+            ],
+            "result": {
+              "statement": "The authors interpret the conductivity increase as arising from defect-mediated carrier transport.",
+              "values": [],
+              "mechanism": {
+                "cause": "defect-mediated carrier transport",
+                "effect": "higher conductivity"
+              },
+              "comparison": null
+            },
+            "information_identity": "author_interpretation",
+            "assertion_mode": "author_interpretation",
+            "source_quote": "The authors interpret the conductivity increase as arising from defect-mediated carrier transport.",
+            "qualifiers": [
+              "interpretive explanation rather than direct mechanism measurement"
+            ],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ]
+      },
+      "oracle": {
+        "must": "direct_answer says the mechanism is not established by the supplied evidence and attributes the explanation to the authors",
+        "must_not": "upgrade the author interpretation to an established causal mechanism",
+        "expected_layers": "no unqualified mechanism conclusion; a mechanism-validation lead may be generated"
+      }
+    },
+    {
+      "id": "05_quantitative_comparable",
+      "dimension": "定量结果可比较",
+      "input": {
+        "task_id": "eval-05",
+        "research_context": {
+          "research_object": "Heat treatment E effect on hardness",
+          "research_question": "Does Heat treatment E increase hardness relative to the matched control?",
+          "target_metrics": [
+            "hardness"
+          ],
+          "boundary_conditions": [
+            "same test method"
+          ],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:18586c2301ddc937820d1e15c8d443ba",
+            "source": {
+              "candidate_id": "cand-05-1",
+              "anchor_id": "anchor-05-1",
+              "title": "Treatment E result",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://05/1",
+              "section_name": "Results",
+              "content_hash": "05973ce42abb77dda13f41dedc8c42794e229d1e274449a19e4c8e3d8503d0ee",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-05-1",
+            "record_type": "quantitative_result",
+            "research_object": "Heat treatment E effect on hardness",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "temperature",
+                "status": "reported",
+                "value_text": "500",
+                "unit": "C"
+              },
+              {
+                "name": "time",
+                "status": "reported",
+                "value_text": "2",
+                "unit": "h"
+              }
+            ],
+            "result": {
+              "statement": "Heat treatment E produced a hardness of 312 HV after 2 h at 500 C.",
+              "values": [
+                {
+                  "name": "hardness",
+                  "value_text": "312",
+                  "unit": "HV"
+                }
+              ],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Heat treatment E produced a hardness of 312 HV after 2 h at 500 C.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          },
+          {
+            "record_id": "rr:b3a0f1b3d789eae2d154ffec72788e42",
+            "source": {
+              "candidate_id": "cand-05-2",
+              "anchor_id": "anchor-05-2",
+              "title": "Matched control result",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://05/2",
+              "section_name": "Results",
+              "content_hash": "e2dc2c05c592ad141a994171ab9bef799461ed1e2d6cb6c2fb21b50eac2e4c82",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-05-2",
+            "record_type": "quantitative_result",
+            "research_object": "Heat treatment E effect on hardness",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "temperature",
+                "status": "reported",
+                "value_text": "500",
+                "unit": "C"
+              },
+              {
+                "name": "time",
+                "status": "reported",
+                "value_text": "2",
+                "unit": "h"
+              }
+            ],
+            "result": {
+              "statement": "The matched untreated control measured 274 HV under the same test method.",
+              "values": [
+                {
+                  "name": "hardness",
+                  "value_text": "274",
+                  "unit": "HV"
+                }
+              ],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "The matched untreated control measured 274 HV under the same test method.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ]
+      },
+      "oracle": {
+        "must": "direct_answer compares 312 HV versus 274 HV and keeps the comparison within matched reported conditions",
+        "must_not": "invent statistical significance or durability implications",
+        "expected_layers": "supported quantitative conclusion with both record IDs"
+      }
+    },
+    {
+      "id": "06_incomparable_conditions",
+      "dimension": "条件不可比",
+      "input": {
+        "task_id": "eval-06",
+        "research_context": {
+          "research_object": "Process F effect on tensile strength",
+          "research_question": "Does Process F increase tensile strength relative to baseline?",
+          "target_metrics": [
+            "tensile strength"
+          ],
+          "boundary_conditions": [],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:8b15d0ea61235155751bd6838456f082",
+            "source": {
+              "candidate_id": "cand-06-1",
+              "anchor_id": "anchor-06-1",
+              "title": "Process F at high temperature",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://06/1",
+              "section_name": "Results",
+              "content_hash": "b21691f30b1f6bca8cfd19fc7c05ef24ac3beacf62fc2a6d8ea5722f0bbfb98e",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-06-1",
+            "record_type": "quantitative_result",
+            "research_object": "Process F effect on tensile strength",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "test_temperature",
+                "status": "reported",
+                "value_text": "200",
+                "unit": "C"
+              }
+            ],
+            "result": {
+              "statement": "Process F produced 820 MPa tensile strength when tested at 200 C.",
+              "values": [
+                {
+                  "name": "tensile_strength",
+                  "value_text": "820",
+                  "unit": "MPa"
+                }
+              ],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Process F produced 820 MPa tensile strength when tested at 200 C.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          },
+          {
+            "record_id": "rr:0362c215d3f0b2812c9fb2c0754133d7",
+            "source": {
+              "candidate_id": "cand-06-2",
+              "anchor_id": "anchor-06-2",
+              "title": "Baseline at room temperature",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://06/2",
+              "section_name": "Results",
+              "content_hash": "75d09a2230bb540d433757d6497bff980c51e5210c05b9c2725dff9830c0cba2",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-06-2",
+            "record_type": "quantitative_result",
+            "research_object": "Process F effect on tensile strength",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "test_temperature",
+                "status": "reported",
+                "value_text": "25",
+                "unit": "C"
+              }
+            ],
+            "result": {
+              "statement": "The baseline material produced 760 MPa tensile strength when tested at 25 C.",
+              "values": [
+                {
+                  "name": "tensile_strength",
+                  "value_text": "760",
+                  "unit": "MPa"
+                }
+              ],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "The baseline material produced 760 MPa tensile strength when tested at 25 C.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ]
+      },
+      "oracle": {
+        "must": "direct_answer says the supplied numbers are not a valid matched comparison because test temperatures differ",
+        "must_not": "claim Process F improves tensile strength from 760 to 820 MPa as a causal or matched effect",
+        "expected_layers": "evidence gap/uncertainty about matched conditions; comparison lead is appropriate"
+      }
+    },
+    {
+      "id": "07_mechanism_packet_complete",
+      "dimension": "mechanism_packet 完整",
+      "input": {
+        "task_id": "eval-07",
+        "research_context": {
+          "research_object": "Protective interphase and battery capacity fade",
+          "research_question": "What does the evidence support about Formulation G and capacity fade, and what mechanism-linked question is worth testing next?",
+          "target_metrics": [
+            "capacity retention"
+          ],
+          "boundary_conditions": [
+            "100 cycles"
+          ],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:3791b1b3768170be3ebc5df9e97499ab",
+            "source": {
+              "candidate_id": "cand-07-1",
+              "anchor_id": "anchor-07-1",
+              "title": "Interphase observation",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://07/1",
+              "section_name": "Results",
+              "content_hash": "1ce7d4139c848db3bc49a91e0c32ce5a34529b2879d5d5df99c1be4a06fa42bb",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-07-1",
+            "record_type": "characterization_observation",
+            "research_object": "Protective interphase and battery capacity fade",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "cycle_count",
+                "status": "reported",
+                "value_text": "100",
+                "unit": "cycles"
+              }
+            ],
+            "result": {
+              "statement": "Cells with formulation G showed a denser protective interphase after cycling.",
+              "values": [],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Cells with formulation G showed a denser protective interphase after cycling.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          },
+          {
+            "record_id": "rr:fa76b43391ed59c52c4a0857d27f5bb0",
+            "source": {
+              "candidate_id": "cand-07-2",
+              "anchor_id": "anchor-07-2",
+              "title": "Capacity result",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://07/2",
+              "section_name": "Results",
+              "content_hash": "684b85ae15c0e50f645f45d3bec565413ff104758e96eeda2c11e485b8183374",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-07-2",
+            "record_type": "quantitative_result",
+            "research_object": "Protective interphase and battery capacity fade",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "cycle_count",
+                "status": "reported",
+                "value_text": "100",
+                "unit": "cycles"
+              }
+            ],
+            "result": {
+              "statement": "Formulation G retained 92% capacity after 100 cycles versus 84% for the matched control.",
+              "values": [
+                {
+                  "name": "capacity_retention_G",
+                  "value_text": "92",
+                  "unit": "%"
+                },
+                {
+                  "name": "capacity_retention_control",
+                  "value_text": "84",
+                  "unit": "%"
+                }
+              ],
+              "mechanism": null,
+              "comparison": {
+                "subject": "Formulation G",
+                "baseline": "matched control",
+                "dimension": "capacity retention",
+                "relation": "higher",
+                "condition_text": [
+                  "100 cycles"
+                ]
+              }
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Formulation G retained 92% capacity after 100 cycles versus 84% for the matched control.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ],
+        "mechanism_packet": {
+          "mechanism_edges": [
+            {
+              "local_edge_key": "edge-1",
+              "edge_id": "me:82e75bec6e180acca616",
+              "edge_status": "support",
+              "source_node": {
+                "node_type": "structure",
+                "label": "dense protective interphase"
+              },
+              "relation": {
+                "predicate": "suppresses",
+                "description": "suppresses parasitic side reactions"
+              },
+              "target_node": {
+                "node_type": "performance",
+                "label": "capacity fade"
+              },
+              "evidence_ids": [
+                "fixture-evidence-1"
+              ],
+              "rationale": "A supplied mechanism synthesis links the protective interphase to fewer side reactions and lower capacity fade.",
+              "confidence": 0.78
+            }
+          ],
+          "mechanism_chains": [],
+          "conflicts": [],
+          "gaps": [],
+          "summary": {
+            "input_evidence_item_count": 1,
+            "mechanism_edge_count": 1,
+            "mechanism_chain_count": 0,
+            "edge_status_counts": {
+              "conflict": 0,
+              "gap": 0,
+              "support": 1
+            },
+            "dropped_duplicate_edge_count": 0,
+            "dropped_duplicate_chain_count": 0,
+            "degraded": false
+          },
+          "audit": {
+            "skill_id": "mechanism_chain_synthesis",
+            "traceability_mode": "evidence_id_guard",
+            "guard_version": "p07d-v1",
+            "input_fingerprint": "95c81f3c556ddb79bd2226bebcf2086983707ff5cfa72be03b8b763199bbffd3",
+            "allowed_edge_statuses": [
+              "conflict",
+              "gap",
+              "support"
+            ],
+            "allowed_predicates": [
+              "associated_with",
+              "contradicts",
+              "decreases",
+              "enables",
+              "increases",
+              "limits",
+              "promotes",
+              "reveals_gap",
+              "suppresses"
+            ]
+          },
+          "synthesis_warnings": []
+        }
+      },
+      "oracle": {
+        "must": "use ResearchRecords as conclusion evidence and use the mechanism edge only as explanatory context for a lead/hypothesis",
+        "must_not": "treat the mechanism packet itself as proof of the performance effect or cite nonexistent record IDs",
+        "expected_layers": "supported performance conclusion; mechanism-informed lead; hypothesis explicitly unvalidated and falsifiable"
+      }
+    },
+    {
+      "id": "08_mechanism_packet_missing",
+      "dimension": "mechanism_packet 缺失",
+      "input": {
+        "task_id": "eval-08",
+        "research_context": {
+          "research_object": "Surface treatment H and wear resistance",
+          "research_question": "Does Surface treatment H improve wear resistance, and what can be said about why?",
+          "target_metrics": [
+            "wear volume"
+          ],
+          "boundary_conditions": [
+            "10 N",
+            "0.1 m/s"
+          ],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:9ecfb7e1ce677a3a76e77ccbfc751b5a",
+            "source": {
+              "candidate_id": "cand-08-1",
+              "anchor_id": "anchor-08-1",
+              "title": "Wear comparison",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://08/1",
+              "section_name": "Results",
+              "content_hash": "896e3880dfe51c5c10204d6b60d94fa31746947441cb2b139b68d4fd437a9753",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-08-1",
+            "record_type": "comparison",
+            "research_object": "Surface treatment H and wear resistance",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "load",
+                "status": "reported",
+                "value_text": "10",
+                "unit": "N"
+              },
+              {
+                "name": "speed",
+                "status": "reported",
+                "value_text": "0.1",
+                "unit": "m/s"
+              }
+            ],
+            "result": {
+              "statement": "Surface treatment H reduced wear volume relative to the untreated control in the reported pin-on-disk test.",
+              "values": [],
+              "mechanism": null,
+              "comparison": {
+                "subject": "Surface treatment H",
+                "baseline": "untreated control",
+                "dimension": "wear volume",
+                "relation": "lower",
+                "condition_text": [
+                  "10 N",
+                  "0.1 m/s"
+                ]
+              }
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Surface treatment H reduced wear volume relative to the untreated control in the reported pin-on-disk test.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ]
+      },
+      "oracle": {
+        "must": "answer that wear resistance is supported under the reported test while mechanism remains unknown",
+        "must_not": "invent a hardening, lubrication, microstructure, or other causal mechanism",
+        "expected_layers": "supported outcome conclusion; mechanism gap may become a research lead; mechanism reasoning in hypothesis should be null unless supported"
+      }
+    },
+    {
+      "id": "09_gap_heavy",
+      "dimension": "gap-heavy",
+      "input": {
+        "task_id": "eval-09",
+        "research_context": {
+          "research_object": "Sensor I long-term drift",
+          "research_question": "Is Sensor I stable for month-long field deployment?",
+          "target_metrics": [
+            "long-term drift"
+          ],
+          "boundary_conditions": [
+            "month-long deployment",
+            "variable humidity"
+          ],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:fd03c1c7042ebbc0210eed0655a4a99b",
+            "source": {
+              "candidate_id": "cand-09-1",
+              "anchor_id": "anchor-09-1",
+              "title": "Short duration sensor test",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://09/1",
+              "section_name": "Results",
+              "content_hash": "c767eb7a61f226910d4a39e868126b1db262b389cc6ca01a02d3fab3fcb711c5",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-09-1",
+            "record_type": "quantitative_result",
+            "research_object": "Sensor I long-term drift",
+            "condition_status": "partially_unknown",
+            "conditions": [
+              {
+                "name": "duration",
+                "status": "reported",
+                "value_text": "24",
+                "unit": "h"
+              },
+              {
+                "name": "humidity",
+                "status": "unknown",
+                "value_text": null,
+                "unit": null
+              }
+            ],
+            "result": {
+              "statement": "Sensor I drift remained below 0.5% during a 24-hour laboratory test.",
+              "values": [
+                {
+                  "name": "drift",
+                  "value_text": "<0.5",
+                  "unit": "%"
+                }
+              ],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Sensor I drift remained below 0.5% during a 24-hour laboratory test.",
+            "qualifiers": [],
+            "uncertainty": "Humidity was not reported.",
+            "unknown_fields": [
+              "humidity"
+            ],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          },
+          {
+            "record_id": "rr:52d5ca55027d903f60cd13c982d97907",
+            "source": {
+              "candidate_id": "cand-09-2",
+              "anchor_id": "anchor-09-2",
+              "title": "Declared limitation",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://09/2",
+              "section_name": "Results",
+              "content_hash": "9791b4cf93a6cf18d1388496d7038ab1be151f2d7a739f7f52763ee8dcb7ec39",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-09-2",
+            "record_type": "limitation",
+            "research_object": "Sensor I long-term drift",
+            "condition_status": "not_applicable",
+            "conditions": [],
+            "result": {
+              "statement": "The source did not evaluate drift beyond 24 hours or under changing humidity.",
+              "values": [],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "The source did not evaluate drift beyond 24 hours or under changing humidity.",
+            "qualifiers": [
+              "explicit study limitation"
+            ],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ]
+      },
+      "oracle": {
+        "must": "direct_answer says month-long field stability is not established; evidence gap names duration and humidity",
+        "must_not": "use the absence of long-term data as evidence that drift will remain low or become high",
+        "expected_layers": "bounded short-term conclusion plus explicit gaps; high-value lead targets long-duration variable-humidity validation"
+      }
+    },
+    {
+      "id": "10_insufficient_bounded_answer",
+      "dimension": "证据不足但仍需有边界 direct_answer",
+      "input": {
+        "task_id": "eval-10",
+        "research_context": {
+          "research_object": "Treatment J effect on service lifetime",
+          "research_question": "Does Treatment J extend service lifetime?",
+          "target_metrics": [
+            "service lifetime"
+          ],
+          "boundary_conditions": [],
+          "output_intent": "final_evidence_synthesis"
+        },
+        "research_records": [
+          {
+            "record_id": "rr:1909ae2a048b68b1933502a79d86adbb",
+            "source": {
+              "candidate_id": "cand-10-1",
+              "anchor_id": "anchor-10-1",
+              "title": "Surface roughness result",
+              "doi": "",
+              "arxiv_id": "",
+              "provider": "eval-fixture",
+              "source_locator": "eval://10/1",
+              "section_name": "Results",
+              "content_hash": "5e01603443fb4f55effc2bcd8d2d82d28a2cf7e24e0dfc1d1671495f6c212a7e",
+              "source_type": "synthetic_eval_record",
+              "provenance": []
+            },
+            "source_anchor_id": "anchor-10-1",
+            "record_type": "characterization_observation",
+            "research_object": "Treatment J effect on service lifetime",
+            "condition_status": "reported",
+            "conditions": [
+              {
+                "name": "processing_time",
+                "status": "reported",
+                "value_text": "30",
+                "unit": "min"
+              }
+            ],
+            "result": {
+              "statement": "Treatment J reduced average surface roughness from 2.4 to 1.6 micrometers after processing.",
+              "values": [
+                {
+                  "name": "surface_roughness_before",
+                  "value_text": "2.4",
+                  "unit": "um"
+                },
+                {
+                  "name": "surface_roughness_after",
+                  "value_text": "1.6",
+                  "unit": "um"
+                }
+              ],
+              "mechanism": null,
+              "comparison": null
+            },
+            "information_identity": "direct_source_fact",
+            "assertion_mode": "direct_observation",
+            "source_quote": "Treatment J reduced average surface roughness from 2.4 to 1.6 micrometers after processing.",
+            "qualifiers": [],
+            "uncertainty": null,
+            "unknown_fields": [],
+            "relevant_target_ids": [
+              "target_001"
+            ]
+          }
+        ]
+      },
+      "oracle": {
+        "must": "direct_answer directly says the supplied evidence does not establish a service-lifetime benefit, while noting the observed roughness change as adjacent evidence",
+        "must_not": "convert surface roughness improvement into proven lifetime extension",
+        "expected_layers": "no supported lifetime conclusion; explicit evidence gap; lead can ask whether roughness change translates to lifetime"
+      }
+    }
+  ]
+}

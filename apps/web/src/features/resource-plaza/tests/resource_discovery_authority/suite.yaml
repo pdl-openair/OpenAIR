@@ -1,0 +1,15 @@
+suite_id: component.web.resource-discovery-authority
+protected_outcome: Resource facts preserve provenance and content; unknown or blocked capabilities cannot authorize execution.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: resource_execution_authority_or_content_loss
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/features/resource-plaza/adapter.ts
+  - apps/web/src/features/resource-plaza/detailProjection.ts
+test_responsibility: Execute production adaptation and detail projection; verify execution restrictions and complete original content.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS only when blocked and view-only resources cannot start and critical facts are retained.
+triggers: [resource_adaptation_or_detail_projection_changed]

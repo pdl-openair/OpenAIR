@@ -1,0 +1,382 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": [
+        "anode material",
+        "cycle stability",
+        "fast charging",
+        "lithium-ion battery",
+        "capacity retention"
+      ],
+      "must_include_terms": [
+        "anode material",
+        "fast charging"
+      ],
+      "optional_terms": [
+        "cycle stability",
+        "capacity retention",
+        "lithium-ion battery"
+      ],
+      "exclude_terms": [],
+      "expected_paper_type": "experimental",
+      "target_database": null,
+      "source_constraints": [
+        "user_query",
+        "capacity_retention_metric",
+        "fast_charging_condition"
+      ],
+      "rationale": "Core recall entry for anode fast-charging cycling stability.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": [
+        "fast charging",
+        "cutoff voltage 4.2 V",
+        "voltage window",
+        "capacity retention"
+      ],
+      "must_include_terms": [
+        "fast charging",
+        "capacity retention"
+      ],
+      "optional_terms": [
+        "cutoff voltage 4.2 V",
+        "voltage window"
+      ],
+      "exclude_terms": [],
+      "expected_paper_type": "experimental",
+      "target_database": null,
+      "source_constraints": [
+        "voltage_window",
+        "fast_charging_condition",
+        "capacity_retention_metric"
+      ],
+      "rationale": "Uses explicit and soft constraints from Skill 1 without turning uncertain C-rate into a hard filter.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": [
+        "fast charging degradation",
+        "SEI formation",
+        "lithium plating",
+        "interfacial reaction"
+      ],
+      "must_include_terms": [
+        "fast charging",
+        "degradation mechanism"
+      ],
+      "optional_terms": [
+        "SEI formation",
+        "lithium plating",
+        "interfacial reaction"
+      ],
+      "exclude_terms": [],
+      "expected_paper_type": "mechanistic study",
+      "target_database": null,
+      "source_constraints": [
+        "fast_charging_condition"
+      ],
+      "rationale": "Adds conservative mechanism terms related to fast-charging degradation.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": [
+        "anode design",
+        "surface modification",
+        "coating",
+        "composite anode",
+        "electrode engineering"
+      ],
+      "must_include_terms": [
+        "anode material",
+        "fast charging"
+      ],
+      "optional_terms": [
+        "surface modification",
+        "coating",
+        "composite anode",
+        "electrode engineering"
+      ],
+      "exclude_terms": [],
+      "expected_paper_type": "materials design",
+      "target_database": null,
+      "source_constraints": [
+        "user_query"
+      ],
+      "rationale": "Expands toward common material design strategies while keeping the anode fast-charging scope.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": [
+        "capacity retention",
+        "cycle life",
+        "cycling stability",
+        "rate capability"
+      ],
+      "must_include_terms": [
+        "capacity retention"
+      ],
+      "optional_terms": [
+        "cycle life",
+        "cycling stability",
+        "rate capability"
+      ],
+      "exclude_terms": [],
+      "expected_paper_type": "performance benchmark",
+      "target_database": null,
+      "source_constraints": [
+        "capacity_retention_metric",
+        "research_context.target_metrics"
+      ],
+      "rationale": "Focuses on performance metrics needed for later comparison.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": [
+        "graphite anode",
+        "silicon anode",
+        "Si-C composite",
+        "hard carbon anode"
+      ],
+      "must_include_terms": [
+        "anode material",
+        "fast charging"
+      ],
+      "optional_terms": [
+        "graphite anode",
+        "silicon anode",
+        "Si-C composite",
+        "hard carbon anode"
+      ],
+      "exclude_terms": [],
+      "expected_paper_type": "experimental",
+      "target_database": null,
+      "source_constraints": [
+        "user_query"
+      ],
+      "rationale": "Covers adjacent anode systems without inventing a single required material.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": [],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope terms were provided upstream, so exclusion remains empty.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"anode material\" AND \"fast charging\"",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": [
+        "user_query"
+      ],
+      "rationale": "Core strict query for anode fast charging.",
+      "priority": 1
+    },
+    {
+      "query": "\"anode material\" AND \"fast charging\" AND (\"cycle stability\" OR \"capacity retention\" OR \"lithium-ion battery\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": [
+        "user_query",
+        "capacity_retention_metric"
+      ],
+      "rationale": "Core broad query with performance synonyms.",
+      "priority": 1
+    },
+    {
+      "query": "\"fast charging\" AND \"capacity retention\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": [
+        "fast_charging_condition",
+        "capacity_retention_metric"
+      ],
+      "rationale": "Constraint-focused strict query without hard C-rate assumption.",
+      "priority": 1
+    },
+    {
+      "query": "\"fast charging\" AND \"capacity retention\" AND (\"cutoff voltage 4.2 V\" OR \"voltage window\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": [
+        "voltage_window",
+        "fast_charging_condition",
+        "capacity_retention_metric"
+      ],
+      "rationale": "Constraint-focused broad query including voltage terms.",
+      "priority": 1
+    },
+    {
+      "query": "\"fast charging\" AND \"degradation mechanism\" AND (\"SEI formation\" OR \"lithium plating\" OR \"interfacial reaction\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": [
+        "fast_charging_condition"
+      ],
+      "rationale": "Mechanism-oriented query for fast charging degradation.",
+      "priority": 2
+    },
+    {
+      "query": "\"capacity retention\" AND (\"cycle life\" OR \"cycling stability\" OR \"rate capability\")",
+      "variant_type": "broad",
+      "search_intent": "metric_or_performance",
+      "source_constraints": [
+        "capacity_retention_metric"
+      ],
+      "rationale": "Performance query for quantitative comparison.",
+      "priority": 2
+    },
+    {
+      "query": "\"anode material\" AND \"fast charging\" AND (\"graphite anode\" OR \"silicon anode\" OR \"Si-C composite\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": [
+        "user_query"
+      ],
+      "rationale": "Adjacent anode systems query.",
+      "priority": 3
+    },
+    {
+      "query": "\"anode material\" AND (\"cycle stability\" OR \"capacity retention\")",
+      "variant_type": "fallback",
+      "search_intent": "core_topic",
+      "source_constraints": [
+        "user_query"
+      ],
+      "rationale": "Fallback query without exclusion terms when out-of-scope constraints are absent.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 8,
+    "search_intent_coverage": [
+      "core_topic",
+      "constraint_focused",
+      "mechanism_focused",
+      "method_or_strategy",
+      "metric_or_performance",
+      "adjacent_but_relevant",
+      "noise_exclusion"
+    ],
+    "constraints_utilized": [
+      "voltage_window",
+      "fast_charging_condition",
+      "capacity_retention_metric"
+    ],
+    "fallback_used": false,
+    "validation_flags": [
+      "risk_flags_not_used_as_exclude_terms",
+      "generic_boolean_only"
+    ]
+  },
+  "assembled_facets": {
+    "core_entities": [
+      "anode material",
+      "lithium-ion battery"
+    ],
+    "research_object_en": [
+      "anode material for fast charging"
+    ],
+    "mechanisms": [
+      "SEI formation",
+      "lithium plating",
+      "interfacial reaction"
+    ],
+    "target_metrics_en": [
+      "capacity retention",
+      "cycle stability",
+      "cycle life",
+      "rate capability"
+    ],
+    "task_context": [
+      "fast charging",
+      "cutoff voltage 4.2 V",
+      "voltage window"
+    ],
+    "must_have_terms": [
+      "anode material",
+      "fast charging",
+      "capacity retention"
+    ],
+    "nice_to_have_terms": [
+      "surface modification",
+      "coating",
+      "composite anode",
+      "electrode engineering",
+      "graphite anode",
+      "silicon anode",
+      "Si-C composite",
+      "hard carbon anode"
+    ],
+    "negative_contexts": [
+      "cathode material",
+      "fuel cell",
+      "supercapacitor"
+    ],
+    "query_facets": {
+      "object": [
+        "anode material",
+        "lithium-ion battery"
+      ],
+      "mechanism": [
+        "SEI formation",
+        "lithium plating",
+        "interfacial reaction",
+        "degradation mechanism"
+      ],
+      "metric": [
+        "capacity retention",
+        "cycle stability",
+        "cycle life",
+        "rate capability"
+      ],
+      "context": [
+        "fast charging",
+        "cutoff voltage 4.2 V",
+        "voltage window"
+      ],
+      "evaluation": [
+        "performance benchmark",
+        "cycling stability"
+      ]
+    }
+  },
+  "result_protocol": {
+    "status": "ok",
+    "accepted_items": [
+      {
+        "path": "search_matrix",
+        "count": 7
+      },
+      {
+        "path": "expanded_query_variants",
+        "count": 8
+      }
+    ],
+    "quarantined_items": [],
+    "repaired_items": [],
+    "warnings": [],
+    "coverage": {
+      "search_intent_count": 7,
+      "search_intent_total": 7,
+      "accepted_query_count": 8,
+      "quarantined_item_count": 0
+    }
+  }
+}

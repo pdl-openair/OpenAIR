@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "retrieval_design",
+    "evidence_schema",
+    "coverage_target",
+    "pending_parameter_evidence_identities",
+    "user_query",
+    "task_id"
+  ],
+  "properties": {
+    "retrieval_design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract",
+        "mode",
+        "query_variants",
+        "design_rationale"
+      ],
+      "properties": {
+        "contract": {
+          "const": "pvd-evidence-retrieval-design/v1"
+        },
+        "mode": {
+          "enum": [
+            "core",
+            "core_plus_supplemental"
+          ]
+        },
+        "query_variants": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "query_id",
+              "query",
+              "priority"
+            ],
+            "properties": {
+              "query_id": {
+                "type": "string"
+              },
+              "query": {
+                "type": "string",
+                "minLength": 1
+              },
+              "priority": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3
+              }
+            }
+          }
+        },
+        "design_rationale": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "evidence_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract",
+        "evidence_targets",
+        "gap_taxonomy",
+        "uncertainty_rules"
+      ],
+      "properties": {
+        "contract": {
+          "const": "pvd-evidence-schema/v1"
+        },
+        "evidence_targets": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 40,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "target_id",
+              "target_type",
+              "scientific_role",
+              "description",
+              "requiredness",
+              "completion_criteria",
+              "covered_parameter_keys",
+              "comparison_dimensions",
+              "provenance_requirements"
+            ],
+            "properties": {
+              "target_id": {
+                "type": "string",
+                "pattern": "^target_[0-9]{3}$"
+              },
+              "requiredness": {
+                "enum": [
+                  "required",
+                  "preferred",
+                  "optional"
+                ]
+              },
+              "covered_parameter_keys": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "gap_taxonomy": {
+          "type": "array"
+        },
+        "uncertainty_rules": {
+          "type": "array"
+        }
+      }
+    },
+    "coverage_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "formal_parameter_keys",
+        "pending_parameter_keys",
+        "all_parameter_keys"
+      ],
+      "properties": {
+        "formal_parameter_keys": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "pending_parameter_keys": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "all_parameter_keys": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pending_parameter_evidence_identities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "user_query": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retrieval_config": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

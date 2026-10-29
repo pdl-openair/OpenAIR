@@ -1,0 +1,145 @@
+{
+  "scientific_state_facts": {
+    "experimental_system_contexts": [
+      {
+        "experimental_system_context_ref": "SYS-A",
+        "experimental_system_context": {
+          "contract": "pvd-experimental-system-context/v1",
+          "context_status": "complete",
+          "target_material": "40%AlSc",
+          "substrate": "Si",
+          "target_substrate_distance_mm": 110,
+          "power_supply_temperature": 200,
+          "target_angle": "内偏30度",
+          "field_metadata": {
+            "target_material": {
+              "status": "known",
+              "provenance": [
+                {
+                  "source_id": "artifact:node1:context:1",
+                  "raw_expression": "explicit experimental-system fact"
+                }
+              ]
+            },
+            "substrate": {
+              "status": "known",
+              "provenance": [
+                {
+                  "source_id": "artifact:node1:context:1",
+                  "raw_expression": "explicit experimental-system fact"
+                }
+              ]
+            },
+            "target_substrate_distance_mm": {
+              "status": "known",
+              "provenance": [
+                {
+                  "source_id": "artifact:node1:context:1",
+                  "raw_expression": "explicit experimental-system fact"
+                }
+              ]
+            },
+            "power_supply_temperature": {
+              "status": "known",
+              "provenance": [
+                {
+                  "source_id": "artifact:node1:context:1",
+                  "raw_expression": "explicit experimental-system fact"
+                }
+              ]
+            },
+            "target_angle": {
+              "status": "known",
+              "provenance": [
+                {
+                  "source_id": "artifact:node1:context:1",
+                  "raw_expression": "explicit experimental-system fact"
+                }
+              ]
+            }
+          },
+          "additional_facts": []
+        }
+      }
+    ],
+    "current_experimental_system_context_ref": "SYS-A",
+    "experiment_history": [
+      {
+        "experiment_ref": "EXP-R1",
+        "round_ref": "R1",
+        "experimental_system_context_ref": "SYS-A",
+        "system_recommendation": null,
+        "planned_execution": null,
+        "actual_execution": {
+          "execution_ref": "EXEC-EXP-R1",
+          "status": "executed",
+          "validity": "valid",
+          "parameters": {
+            "power": {
+              "status": "known",
+              "value": 200,
+              "unit": "W",
+              "provenance": {
+                "origin": "user",
+                "source_ref": "record:EXP-R1"
+              }
+            },
+            "n2_flow": {
+              "status": "known",
+              "value": 17,
+              "unit": "sccm",
+              "provenance": {
+                "origin": "user",
+                "source_ref": "record:EXP-R1"
+              }
+            },
+            "ar_flow": {
+              "status": "known",
+              "value": 39,
+              "unit": "sccm",
+              "provenance": {
+                "origin": "user",
+                "source_ref": "record:EXP-R1"
+              }
+            },
+            "deposition_time": {
+              "status": "known",
+              "value": 2300,
+              "unit": "s",
+              "provenance": {
+                "origin": "user",
+                "source_ref": "record:EXP-R1"
+              }
+            }
+          },
+          "other_process_conditions": [],
+          "provenance": {
+            "origin": "user",
+            "source_ref": "record:EXP-R1"
+          }
+        },
+        "measurements": [
+          {
+            "measurement_ref": "MEAS-EXP-R1",
+            "metric_key": "d33",
+            "value": -15.2,
+            "unit": "pC/N",
+            "status": "final",
+            "validity": "valid",
+            "method": null,
+            "measurement_condition": null,
+            "evaluation_basis_ref": null,
+            "repeat_group_ref": null,
+            "uncertainty": null,
+            "reported_anomaly": null,
+            "provenance": {
+              "origin": "user",
+              "source_ref": "record:EXP-R1"
+            }
+          }
+        ],
+        "process_events": []
+      }
+    ]
+  }
+}

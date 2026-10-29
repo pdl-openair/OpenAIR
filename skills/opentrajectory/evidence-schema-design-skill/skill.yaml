@@ -1,0 +1,70 @@
+skill_id: evidence_schema_design
+claude_name: evidence-schema-design-skill
+display_name: 动态证据模型设计
+stages:
+- solution_design
+substages:
+- evidence_schema_design
+skill_type: atomic
+runtime: llm_structured
+status: ready
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: evidence_schema.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+  max_completion_tokens: 5000
+  reasoning_effort: minimal
+  structured_output_max_attempts: 2
+  provider_input_projection:
+    omit_fields:
+    - task_id
+    object_fields:
+      retrieval_strategy_design:
+        fields:
+        - search_matrix
+        - quality_report
+        - assembled_facets
+notes: P0.7f narrow slice. Stable shell plus task-specific dynamic targets. No evidence
+  extraction, GapMap, acquisition actions, or hypothesis generation.
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: evidence_schema_design
+durable_model_profile: terra
+durable_llm_execution_policy:
+  contract_version: 1
+  reasoning_effort: low
+  max_output_tokens: 5000
+  read_timeout_seconds: 90
+  task_budget_seconds: 135
+  response_mode: json_object
+  load_references: false
+  structured_output_recovery_attempts: 1
+capability_contract:
+  artifact_types:
+  - opentrajectory.evidence_schema_design
+  - opentrajectory.evidence_schema_design.planned_output
+  judgment_support:
+    deterministic: false
+    domain_professional: false
+execution_method_roles:
+- opentrajectory_research_record_establishment_v1:evidence_schema
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: model_output.schema.json
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only

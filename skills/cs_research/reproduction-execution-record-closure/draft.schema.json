@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "unknowns": {
+      "description": "Scientific string fragments are retained individually by finalization; malformed fragments are preserved as diagnostics, never as scientific judgments."
+    }
+  },
+  "additionalProperties": true
+}

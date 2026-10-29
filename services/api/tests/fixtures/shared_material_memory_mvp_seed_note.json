@@ -1,0 +1,28 @@
+{
+  "name": "materials_probe_seed_note_upload_mvp",
+  "description": "A user-uploaded materials seed note should become a shared material, produce typed memory records, and stay bound to the current/recent materials task instead of an unrelated legacy OPE task.",
+  "upload": {
+    "filename": "materials_probe_seed_note_20260714.md",
+    "contentType": "text/markdown",
+    "kind": "materials_probe_seed_note",
+    "content": "# Seed Notes: sulfide SSE / Li metal interface\n\nUser intent:\n- Compare interface stability against lithium metal.\n- Separate computational predictions from real experimental evidence.\n- Build an XPS/EIS/SEM evidence table.\n- Do not invent DOI or unsupported seed papers.\n\nMissing inputs:\n- Seed review papers.\n- Raw EIS spectra or fitted equivalent-circuit parameters.\n- XPS peak assignments and acquisition conditions.\n"
+  },
+  "expected": {
+    "materialKind": "materials_probe_seed_note",
+    "memoryKinds": [
+      "user_fact",
+      "agent_inference",
+      "artifact_summary"
+    ],
+    "artifactFields": [
+      "sourceTaskId",
+      "linkedMaterialIds",
+      "materialManifest",
+      "memoryRefs"
+    ],
+    "confirmationRequiredWhen": [
+      "targetTaskId differs from currentTaskId",
+      "source/current task domain differs from target task domain"
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+skill_id: candidate_dedup_and_provenance
+claude_name: candidate-dedup-and-provenance
+display_name: 候选文献去重与来源标记
+stages:
+- execution_validation
+substages:
+- source_acquisition
+skill_type: atomic
+runtime: python_adapter
+status: ready
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 20
+owner: TBD
+output_file: deduped_candidates.json
+notes: Migrated from OpenTrajectory literature_merge_filter.py merge_candidates()
+  function. No LLM, no scoring, no tiering.
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: source_acquisition
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:candidate_dedup_and_provenance
+  evidence_contract_version: deterministic-output/v1
+input_handoff:
+  contract_version: 1
+  predecessor_skill_id: academic_source_retrieval_skill
+  predecessor_definition_version: 1
+  context_fields: {}
+  field_mappings:
+    metadata_candidates: metadata_candidates

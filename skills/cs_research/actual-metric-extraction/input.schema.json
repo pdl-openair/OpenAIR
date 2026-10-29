@@ -1,0 +1,193 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "execution_record_relative_path",
+    "result_source",
+    "metrics"
+  ],
+  "properties": {
+    "execution_record_relative_path": {
+      "type": "string",
+      "pattern": "^execution/(?!.*(?:^|/)\\.\\.?(?:/|$))[^\\\\:\\u0000-\\u001F\\u007F]+/execution-record\\.json$",
+      "maxLength": 1024
+    },
+    "result_source": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/executionStreamSource"
+        },
+        {
+          "$ref": "#/definitions/workspaceFileSource"
+        }
+      ]
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/definitions/metricRequest"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "format": {
+      "type": "string",
+      "enum": [
+        "json",
+        "csv",
+        "tsv",
+        "pipe_table"
+      ]
+    },
+    "table": {
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "header": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        },
+        "row_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      },
+      "additionalProperties": false
+    },
+    "executionStreamSource": {
+      "type": "object",
+      "required": [
+        "kind",
+        "stream",
+        "format"
+      ],
+      "properties": {
+        "kind": {
+          "const": "execution_stream"
+        },
+        "stream": {
+          "type": "string",
+          "enum": [
+            "stdout",
+            "stderr"
+          ]
+        },
+        "format": {
+          "$ref": "#/definitions/format"
+        },
+        "table": {
+          "$ref": "#/definitions/table"
+        }
+      },
+      "additionalProperties": false
+    },
+    "workspaceFileSource": {
+      "type": "object",
+      "required": [
+        "kind",
+        "relative_path",
+        "format"
+      ],
+      "properties": {
+        "kind": {
+          "const": "workspace_file"
+        },
+        "relative_path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^(?!/)(?!.*(?:^|/)(?:\\.\\.?)(?:/|$))(?!.*:)(?!.*\\\\)[^\\u0000-\\u001F\\u007F]+$"
+        },
+        "expected_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "format": {
+          "$ref": "#/definitions/format"
+        },
+        "table": {
+          "$ref": "#/definitions/table"
+        }
+      },
+      "additionalProperties": false
+    },
+    "metricRequest": {
+      "type": "object",
+      "required": [
+        "metric_name",
+        "value_type"
+      ],
+      "properties": {
+        "metric_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+        },
+        "value_type": {
+          "type": "string",
+          "enum": [
+            "number",
+            "integer",
+            "string",
+            "boolean"
+          ]
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+        },
+        "selector": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "json_pointer"
+              ],
+              "properties": {
+                "json_pointer": {
+                  "type": "string",
+                  "maxLength": 2048,
+                  "pattern": "^(?:$|/.*)$"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "column"
+              ],
+              "properties": {
+                "column": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

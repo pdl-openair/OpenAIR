@@ -1,0 +1,27 @@
+skill_id: reproduction_conclusion_synthesis_v2
+claude_name: reproduction-conclusion-synthesis-v2
+display_name: 复现结论专业综合草稿
+version: "1.0.0"
+stages: [insight_generation]
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+execution_method_roles:
+  - cs_reproduction_conclusion_closure:conclusion_synthesis
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output: {contract_version: 1, guard_version: p06c-v1}
+review_policy: {contract_version: 1, mode: schema_validated_only}
+owner: TBD
+fixture_status: missing
+notes: 只形成范围、解释、限制、未知与下一步草稿；不输出最终三态或执行状态。
+capability_contract:
+  artifact_types: [reproduction_conclusion_draft]
+  judgment_support: {deterministic: false, domain_professional: true}

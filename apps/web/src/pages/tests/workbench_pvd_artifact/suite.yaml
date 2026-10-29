@@ -1,0 +1,19 @@
+suite_id: component.web.pages.workbench-pvd-artifact
+protected_outcome: The Workbench center selects and loads canonical PVD research records, displays reported values in one explicit unit with original values and source links, and omits charts naturally when evidence is insufficient.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/task_specs/2026-10-09-pvd-reported-values-chart.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: workbench_pvd_artifact_selection_hydration_or_center_rendering_failure
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/pages/WorkbenchPage.tsx
+  - apps/web/src/components/workbench/WorkbenchResearchDelivery.tsx
+  - apps/web/src/components/artifacts/ScientificArtifactPresentation.tsx
+  - apps/web/src/components/artifacts/PvdExperimentTrends.tsx
+test_responsibility: deterministic Workbench page selection, external body hydration and middle artifact presentation
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS only when all assertions pass under the declared conditions; this deterministic suite does not establish live research or browser acceptance.
+triggers: [pvd_artifact_presentation_or_workbench_loading_changes]

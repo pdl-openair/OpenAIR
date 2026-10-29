@@ -1,0 +1,21 @@
+skill_id: fixture_recorded_run_creation
+claude_name: fixture-recorded-run-creation
+display_name: Fixture Recorded Run 创建
+domain: general
+stages:
+  - problem_modeling
+  - solution_design
+  - execution_validation
+skill_type: atomic
+runtime: claude_code
+status: draft
+owner: TBD
+description: >
+  将用户的实际科研流程记录转化为符合 fixtures/fixture_rules.md 规范的 recorded run 样例。
+source: manual
+skill_path: skills/general/fixture-recorded-run-creation
+claude_skill_path: .claude/skills/fixture-recorded-run-creation
+fixture_status: missing
+notes: ""
+packs:
+  - sdr

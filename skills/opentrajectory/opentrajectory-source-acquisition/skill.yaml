@@ -1,0 +1,51 @@
+skill_id: opentrajectory_source_acquisition
+claude_name: opentrajectory-source-acquisition
+display_name: 文献获取
+version: 1.0.0
+stages:
+- execution_validation
+substages:
+- source_acquisition
+packs:
+- opentrajectory
+sequence: 50
+enabled: true
+spec: 03-validation/source-acquisition.md
+input_skills:
+- opentrajectory_retrieval_strategy_design
+skill_type: atomic
+runtime: python_adapter
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:opentrajectory_source_acquisition
+  evidence_contract_version: external-action-evidence/v1
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+status: ready
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-source-acquisition
+claude_skill_path: .claude/skills/opentrajectory-source-acquisition
+output_file: 03-validation/source-acquisition.json
+fixture_status: example_only
+notes: One OT source-acquisition work unit. External retrieval is bounded and parallel; deterministic deduplication and access-readiness resolution run inside the Skill.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: source_acquisition
+owner: TBD
+
+capability_contract:
+  artifact_types:
+  - opentrajectory.source_acquisition
+  - opentrajectory.source_acquisition.planned_output
+  judgment_support:
+    deterministic: false
+    domain_professional: false
+execution_method_roles:
+- opentrajectory_research_record_establishment_v1:source_acquisition

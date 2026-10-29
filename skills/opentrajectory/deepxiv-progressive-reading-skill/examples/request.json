@@ -1,0 +1,55 @@
+{
+  "topk_selection": {
+    "selected_for_p03": [
+      {
+        "candidate_id": "arxiv:2409.05591",
+        "dedupe_key": "arxiv:2409.05591",
+        "arxiv_id": "2409.05591",
+        "title": "Example paper"
+      }
+    ]
+  },
+  "evidence_schema": {
+    "schema_id": "example-progressive-reading",
+    "schema_version": "0.1.0",
+    "task_context": {
+      "research_question": "What controlled conditions are reported in the selected source?",
+      "task_scope": "example progressive reading",
+      "domain_hints": [],
+      "design_assumptions": []
+    },
+    "evidence_targets": [
+      {
+        "target_id": "target_001",
+        "target_type": "experimental_condition",
+        "scientific_role": "condition",
+        "description": "controlled conditions",
+        "requiredness": "required",
+        "completion_criteria": "Locate the controlled conditions in source content with a source anchor.",
+        "allowed_evidence_forms": [
+          "text"
+        ],
+        "condition_dimensions": [],
+        "comparison_requirements": [],
+        "provenance_requirements": [
+          "source anchor"
+        ]
+      }
+    ],
+    "gap_taxonomy": [
+      "missing_condition"
+    ],
+    "uncertainty_rules": [
+      {
+        "rule_id": "u1",
+        "trigger": "Controlled conditions are not located in read material",
+        "handling": "Keep target_001 unresolved"
+      }
+    ]
+  },
+  "reading_config": {
+    "max_papers": 1,
+    "max_sections_per_paper": 3,
+    "allow_raw_fallback": false
+  }
+}

@@ -1,0 +1,34 @@
+suite_id: verification.test-asset-architecture
+protected_outcome: >-
+  Formal Suite Contracts keep a single identity and evidence-mode identity;
+  newly added formal test assets are owned only by Git-effective Suite Contracts
+  and placed under contracted test locations.
+authority_refs:
+  - spec/testing/OpenAIR 测试架构.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: test_asset_identity_evidence_mode_or_placement_violation
+minimum_owner: 确定性合同与不变量
+production_targets:
+  - verification
+  - evals
+  - services/api/app
+  - apps/web/src
+  - skills
+  - scripts
+test_responsibility: >-
+  deterministic repository verification for Suite Contract identity,
+  evidence-mode identity, Git-effective asset ownership, and prospective
+  test-asset placement
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+  - repository_scan_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - test asset path changes
+  - Suite Contract changes
+  - evidence mode changes

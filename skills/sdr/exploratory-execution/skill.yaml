@@ -1,0 +1,25 @@
+skill_id: exploratory_execution
+claude_name: exploratory-execution
+display_name: 探索执行
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - exploratory_execution
+output_file: 03-experiment/execution-exploratory.md
+pack: sdr
+spec: 03-experiment/execution-exploratory.md
+input_skills:
+  - task_breakdown
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: exploratory_execution
+owner: TBD
+fixture_status: missing
+notes: ''

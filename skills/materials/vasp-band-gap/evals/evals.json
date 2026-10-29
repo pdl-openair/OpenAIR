@@ -1,0 +1,26 @@
+{
+  "skill_name": "vasp-band-gap",
+  "evals": [
+    {
+      "id": 0,
+      "name": "mos2-band-gap-skip-relax",
+      "prompt": "Calculate the PBE band gap of MoS2 from ./materials/MoS2-mp-2815.cif using DFT. The structure is from Materials Project so it's already relaxed — just do the static SCF and report the gap in eV (and whether it's direct or indirect).",
+      "expected_output": "band_gap.json with gap_eV in [1.0, 1.4] eV and direct=false (literature PBE MoS2 bulk ≈ 1.23 eV indirect).",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "silicon-band-gap",
+      "prompt": "Compute the band gap of crystalline silicon from this CIF: /tmp/eval_cifs/Si-mp-149.cif. Run the VASP calculation on the cloud cluster and tell me the gap value in eV.",
+      "expected_output": "band_gap.json with gap_eV in [0.4, 0.8] eV and direct=false (PBE Si gap ≈ 0.6 eV indirect; experimental 1.17 eV).",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "aluminum-metal-detection",
+      "prompt": "Is /tmp/eval_cifs/Al-mp-134.cif a metal or a semiconductor? Calculate the band gap to find out.",
+      "expected_output": "band_gap.json with gap_eV = 0 (or very close to 0) and the conclusion that Al is metallic.",
+      "files": []
+    }
+  ]
+}

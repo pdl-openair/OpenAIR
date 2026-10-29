@@ -1,0 +1,84 @@
+# OpenAIR API — Zeabur / cloud Docker entrypoint (repo root).
+# Zeabur service name should be "api", or set ZBPACK_DOCKERFILE_NAME=api /
+# ZBPACK_DOCKERFILE_PATH=Dockerfile.api.
+#
+# This file is the production Zeabur image. Do not confuse with
+# services/api/Dockerfile (compose / local API image without Claude CLI stage).
+#
+# Build (from repo root):
+#   docker build -f Dockerfile.api -t openair-api:zeabur .
+
+FROM node:20-bookworm-slim AS claude-cli
+
+RUN npm install -g @anthropic-ai/claude-code \
+    && claude --version
+
+FROM python:3.12-slim-bookworm
+
+WORKDIR /app
+
+# 镜像内置的「静态」默认值（与 docker-compose.yml 生产 profile 对齐）。
+# 依赖运行环境的变量（PG 连接 / JWT / CORS / ANTHROPIC 凭证 / 生产密钥）必须
+# 在 Zeabur 服务的 Variables 里配置，不能写死进镜像——详见 README_zeabur.md。
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app/services/api \
+    OPENAIR_ENV=production \
+    OPENAIR_DEV_SEED_FIXTURES=0 \
+    OPENAIR_RUNTIME_TYPE=inline \
+    OPENAIR_PERSISTENCE_BACKEND=postgres \
+    SKILL_EXEC_MODE=live \
+    OPENAIR_CLAUDE_PERMISSION_MODE=bypassPermissions \
+    OPENAIR_LOG_LEVEL=INFO \
+    OPENAIR_LOG_FORMAT=json \
+    DISABLE_AUTOUPDATER=1 \
+    HOME=/root \
+    OPENAIR_CLAUDE_CLI_PATH=/usr/local/bin/claude
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates curl git bash ripgrep grep \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=claude-cli /usr/local/bin/claude /usr/local/bin/claude
+RUN claude --version
+
+# Shared LLM core must install as a normal package (not editable): editable
+# .pth paths break when Zeabur/runtime layout differs from the build tree.
+COPY packages/llm_core/ ./packages/llm_core/
+COPY services/api/requirements.txt ./services/api/requirements.txt
+RUN pip install --no-cache-dir -r services/api/requirements.txt \
+    && pip install --no-cache-dir ./packages/llm_core \
+    && python -c "import llm_core; print('llm_core_ok', llm_core.__file__); import mp_api; print('mp_api_ok', mp_api.__file__)"
+
+COPY services/api/ ./services/api/
+COPY skills/ ./skills/
+COPY schemas/ ./schemas/
+COPY fixtures/ ./fixtures/
+COPY scripts/sync_claude_skills.py ./scripts/sync_claude_skills.py
+COPY scripts/start_zeabur_api.sh /usr/local/bin/start_zeabur_api.sh
+COPY scripts/openair_healthcheck.sh /usr/local/bin/openair_healthcheck.sh
+
+# .claude/skills/ 为本地生成态（.gitignore），构建时从 skills/ 同步
+RUN python scripts/sync_claude_skills.py
+
+# Claude Code CLI 内部调用 git ls-files 索引项目文件；
+# Docker COPY 不带 .git，缺失会导致 exit 128 崩溃。
+RUN cd /app && git init \
+    && git config user.email "build@openair" && git config user.name "build" \
+    && git add -A && git commit -m "docker snapshot"
+
+RUN mkdir -p /app/data/tasks /app/workspace
+
+RUN chmod +x /usr/local/bin/start_zeabur_api.sh /usr/local/bin/openair_healthcheck.sh
+
+WORKDIR /app/services/api
+
+EXPOSE 8080
+
+# api：探 /health。durable-worker：探 worker.entrypoint 进程（无 HTTP）。
+# start-period 留足启动 + PG / CLI 首检时间。
+HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
+    CMD ["/usr/local/bin/openair_healthcheck.sh"]
+
+CMD ["/usr/local/bin/start_zeabur_api.sh"]

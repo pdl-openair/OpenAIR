@@ -1,0 +1,18 @@
+suite_id: component.web.workbench.substage-artifact-footer
+protected_outcome: The fixed Substage footer presents every canonical user-visible Artifact by its formal user-facing title, keeps each result selectable and deep-linkable, and never loses an earlier result when later results appear. Interruption notices retain status information without duplicating the footer selectors.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: substage_artifact_footer_collection_selection_or_visibility_regression
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/components/workbench/ResearchInterruptionPanel.tsx
+  - apps/web/src/components/workbench/SubstageArtifactFooter.tsx
+  - apps/web/src/components/workbench/substageArtifactFooterCore.mjs
+test_responsibility: deterministic Substage Artifact collection, user-facing naming, visibility, selection persistence, and deep-link projection
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the assertions prove the complete user-visible Substage Artifact set and stable selection/deep-link behavior; FAIL when sufficient valid evidence proves the protected outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [substage_artifact_footer_behavior_changes]

@@ -1,0 +1,27 @@
+{
+  "task_id": "task_ot_eval_001",
+  "run_id": "run_ot_eval_001",
+  "stage": "solution_design",
+  "user_goal": "比较两条 MD 采样轨迹，选出更满足能量稳定与构象覆盖要求的方案",
+  "candidates": [
+    {
+      "id": "traj_a",
+      "description": "较短步长、较高温度扰动，强调构象多样性",
+      "metadata": { "steps": 500000, "temperature_k": 350 }
+    },
+    {
+      "id": "traj_b",
+      "description": "中等步长、恒温约束更严，强调能量稳定性",
+      "metadata": { "steps": 400000, "temperature_k": 300 }
+    }
+  ],
+  "constraints": [
+    "总模拟时长不超过 2 周机时",
+    "优先满足能量漂移阈值",
+    "需覆盖关键活性位点构象"
+  ],
+  "context": {
+    "system_type": "protein-ligand",
+    "evaluation_focus": ["energy_stability", "conformational_coverage"]
+  }
+}

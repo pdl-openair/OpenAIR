@@ -1,0 +1,33 @@
+skill_id: opentrajectory_problem_framing
+claude_name: opentrajectory-problem-framing
+display_name: 研究问题建模
+version: 1.0.0
+stages:
+- problem_modeling
+substages:
+- problem_framing
+pack: opentrajectory
+sequence: 10
+enabled: true
+spec: 01-problem/problem-framing.md
+input_skills: []
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-problem-framing
+claude_skill_path: .claude/skills/opentrajectory-problem-framing
+output_file: 01-problem/problem-framing.json
+fixture_status: none
+notes: OpenTrajectory unified problem-framing slot. Intent, constraints, unknowns and ambiguities are one formal research judgment; retrieval planning remains downstream.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: problem_framing
+owner: TBD
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

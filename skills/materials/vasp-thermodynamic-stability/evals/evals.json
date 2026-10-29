@@ -1,0 +1,23 @@
+{
+  "skill_name": "vasp-thermodynamic-stability",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我刚预测了一个新化合物 Cu2GeSe4，想验证它的热力学稳定性。我有一个 POSCAR 文件在 ./materials/Cu2GeSe4/POSCAR。请帮我设置完整的竞争相计算流程。",
+      "expected_output": "应该触发 skill，查询 MP 获取 Cu-Ge-Se 体系的竞争相，生成 VASP 输入文件，设置 relax 和 static 目录",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我的 AlInSe3 竞争相弛豫计算都跑完了，结果在 competing_phases/results/ 目录下。帮我提取能量然后构建相图分析 ehull。",
+      "expected_output": "应该触发 skill，从 OUTCAR 提取 energy(sigma->0)，生成 energies.json，用 pymatgen PhaseDiagram 分析稳定性",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "HPC 上的 VASP 弛豫任务报了 exit 137，32 原子的体系内存不够。怎么解决？",
+      "expected_output": "应该触发 skill 的常见问题部分，建议 LREAL=A, KPAR=1, 或增加 nodes",
+      "files": []
+    }
+  ]
+}

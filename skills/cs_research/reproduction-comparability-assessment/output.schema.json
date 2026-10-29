@@ -1,0 +1,282 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "conditions",
+    "condition_mismatches",
+    "evidence_refs",
+    "unknowns"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "comparable",
+        "not_comparable",
+        "indeterminate"
+      ]
+    },
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_scope",
+        "implementation",
+        "data_split",
+        "preprocessing",
+        "evaluation_protocol",
+        "metric_definition",
+        "randomness",
+        "hardware_environment"
+      ],
+      "properties": {
+        "task_scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "evidence_refs"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "compatible",
+                "mismatch",
+                "unknown"
+              ]
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "implementation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "evidence_refs"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "compatible",
+                "mismatch",
+                "unknown"
+              ]
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "data_split": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "evidence_refs"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "compatible",
+                "mismatch",
+                "unknown"
+              ]
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "preprocessing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "evidence_refs"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "compatible",
+                "mismatch",
+                "unknown"
+              ]
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "evaluation_protocol": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "evidence_refs"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "compatible",
+                "mismatch",
+                "unknown"
+              ]
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "metric_definition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "evidence_refs"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "compatible",
+                "mismatch",
+                "unknown"
+              ]
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "randomness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "evidence_refs"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "compatible",
+                "mismatch",
+                "unknown"
+              ]
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "hardware_environment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "evidence_refs"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "compatible",
+                "mismatch",
+                "unknown"
+              ]
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "condition_mismatches": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

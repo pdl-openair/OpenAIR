@@ -1,0 +1,35 @@
+suite_id: verification.research-action-readiness
+protected_outcome: >-
+  Confirmed structural dependencies release research preparation despite scientific
+  readiness gaps. Deterministic input closure and the existing experiment runner
+  still reject missing or mismatched real execution dependencies before action.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+failure_class:
+  - stage_readiness_prevents_preparation
+  - structural_readiness_misrepresented_as_execution_authority
+minimum_owner: 跨组件行为
+production_targets:
+  - services/api/app/modules/research_execution_decision_service.py
+  - skills/cs_research/reproduction-execution-input-closure/adapter/reproduction_execution_input_closure_adapter.py
+  - skills/cs_research/exploratory-run/adapter/exploratory_run_adapter.py
+test_responsibility: >-
+  Pair canonical dependency promotion and continuation with the actual deterministic
+  consumer rejection. READY is not evidence of execution or complete recovery.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - scientific_gap_retention_and_preparation_release
+  - failed_input_closure_produces_no_executable_input
+  - real_runner_dependency_rejection_and_valid_control
+verdict_rule: >-
+  PASS when preparation can be selected and all action guards remain effective.
+  Missing imports or dependencies yield NO_VALID_EVIDENCE. This Suite does not
+  prove corrective tools, durable successor ownership, or a real research run.
+triggers:
+  - canonical dependency or stage readiness changes
+  - real execution input closure or runner dependency changes

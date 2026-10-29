@@ -1,0 +1,70 @@
+{
+  "task_id": "task-s1-08",
+  "skill_id": "title-abstract-screening-skill",
+  "run_id": "run-demo-001",
+  "screened_candidates": [
+    {
+      "candidate_id": "cand-001",
+      "title": "Structure-guided molecular trajectory planning with adaptive sampling",
+      "screening_decision": "include",
+      "screening_reason": "Has title+abstract and access is ready without acquisition.",
+      "relevance_signals": ["has_title", "has_abstract", "access_ready"],
+      "access_status": "structured_fulltext_ready",
+      "provenance": [
+        {
+          "stage": "source_access_readiness",
+          "skill_id": "source-access-readiness-resolver-skill",
+          "timestamp": "2026-05-27T12:00:00Z"
+        },
+        {
+          "stage": "title_abstract_screening",
+          "skill_id": "title-abstract-screening-skill",
+          "timestamp": "2026-05-27T12:01:00Z",
+          "operation": "deterministic_metadata_screening",
+          "decision": "include"
+        }
+      ]
+    },
+    {
+      "candidate_id": "cand-002",
+      "title": "General chemistry education outcomes in undergraduate labs",
+      "screening_decision": "exclude",
+      "screening_reason": "Insufficient metadata signal for minimal screening.",
+      "relevance_signals": ["has_title", "missing_abstract", "metadata_only_access"],
+      "access_status": "metadata_only",
+      "provenance": [
+        {
+          "stage": "source_access_readiness",
+          "skill_id": "source-access-readiness-resolver-skill",
+          "timestamp": "2026-05-27T12:00:00Z"
+        },
+        {
+          "stage": "title_abstract_screening",
+          "skill_id": "title-abstract-screening-skill",
+          "timestamp": "2026-05-27T12:01:00Z",
+          "operation": "deterministic_metadata_screening",
+          "decision": "exclude"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_candidates": 2,
+    "include_count": 1,
+    "maybe_count": 0,
+    "exclude_count": 1
+  },
+  "warnings": [
+    {
+      "candidate_id": "cand-002",
+      "code": "MISSING_ABSTRACT",
+      "message": "Candidate has no abstract; decision confidence is reduced."
+    },
+    {
+      "candidate_id": "cand-002",
+      "code": "METADATA_ONLY_DECISION",
+      "message": "Decision made in metadata-only mode without network/fulltext checks."
+    }
+  ],
+  "errors": []
+}

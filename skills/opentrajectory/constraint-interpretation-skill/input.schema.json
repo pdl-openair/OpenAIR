@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "user_query"
+  ],
+  "properties": {
+    "user_query": {
+      "type": "string"
+    },
+    "research_domain": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "material_system": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "research_context": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "task_schema": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "raw_constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "phrase": {
+            "type": "string",
+            "minLength": 1
+          },
+          "original_phrase": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "constraint_type_hint": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "priority": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "source_path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "phrase"
+            ]
+          },
+          {
+            "required": [
+              "original_phrase"
+            ]
+          }
+        ],
+        "additionalProperties": true
+      },
+      "default": []
+    },
+    "available_documents_summary": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

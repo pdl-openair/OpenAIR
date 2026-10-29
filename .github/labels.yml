@@ -1,0 +1,91 @@
+- name: type/feature
+  color: "0E8A16"
+  description: 功能、页面、接口、Mock 或能力开发任务
+
+- name: type/bug
+  color: "D73A4A"
+  description: 缺陷、异常、联调失败或构建问题
+
+- name: type/docs
+  color: "0075CA"
+  description: 文档、说明、规范或验收材料
+
+- name: type/chore
+  color: "C5DEF5"
+  description: 配置、目录、依赖、脚本等非业务改动
+
+- name: priority/P0
+  color: "B60205"
+  description: 阻塞主链路，必须优先处理
+
+- name: priority/P1
+  color: "D93F0B"
+  description: 影响核心功能，需要尽快处理
+
+- name: priority/P2
+  color: "FBCA04"
+  description: 普通优先级，可按排期处理
+
+- name: status/ready
+  color: "0E8A16"
+  description: 信息清楚，可以开始处理
+
+- name: status/in-progress
+  color: "FBCA04"
+  description: 已开始处理，尚未进入评审
+
+- name: status/blocked
+  color: "D73A4A"
+  description: 存在阻塞，暂不能继续
+
+- name: status/review
+  color: "5319E7"
+  description: 等待评审、验收或确认
+
+- name: status/done
+  color: "6A737D"
+  description: 已完成，用于发布归档或后续关闭
+
+- name: area/frontend
+  color: "1D76DB"
+  description: 前端工作台、看板、页面交互
+
+- name: area/backend
+  color: "0052CC"
+  description: 后端 API、任务状态、数据读写
+
+- name: area/agent
+  color: "5319E7"
+  description: Agent、Skill、MCP 或能力调用
+
+- name: area/mock
+  color: "BFDADC"
+  description: Mock 数据、样例返回、联调占位
+
+- name: area/docs
+  color: "0075CA"
+  description: 文档、说明、规范、验收材料
+
+- name: area/integration
+  color: "C2E0C6"
+  description: 外部能力、接口联调、集成边界
+
+- name: area/release
+  color: "BFD4F2"
+  description: Release、CHANGELOG、STATUS、tag、milestone、发布说明
+
+- name: type/regression
+  color: "B60205"
+  description: 原本正常的行为被改坏，需要回归修复
+
+- name: type/known-issue
+  color: "D876E3"
+  description: 已知问题，需要写入发布说明或后续计划
+
+- name: release/blocker
+  color: "B60205"
+  description: 阻塞当前发布，发布前必须解决或明确降级
+
+- name: release/follow-up
+  color: "C5DEF5"
+  description: 当前发布不阻塞，后续继续处理

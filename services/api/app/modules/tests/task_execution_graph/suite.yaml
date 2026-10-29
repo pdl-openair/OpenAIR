@@ -1,0 +1,26 @@
+suite_id: component.modules.task-execution-graph
+protected_outcome: Task execution graph stages deterministically consume formal registered Skill substage metadata, preserve authorized planner metadata, and fail closed when required Skill substage metadata is absent.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- task_execution_graph_invents_stage_metadata
+- task_execution_graph_missing_metadata_continues
+- task_execution_graph_drops_planner_metadata
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/modules/task_execution_graph.py
+test_responsibility: Distinguish deterministic graph construction from formal Skill metadata from continuation with missing required metadata while preserving planner-provided rationale and artifact requirements.
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- pytest_exit_code_0
+- known_good_registered_skill_metadata_builds_graph
+- known_bad_missing_required_metadata_fails_closed
+verdict_rule: >-
+  PASS only when the existing Suite proves graph stages come from registered Skill metadata, planner metadata survives, and missing required metadata raises ExecutionGraphError; FAIL when the graph invents or proceeds without required metadata; otherwise NO_VALID_EVIDENCE.
+triggers:
+- app.modules.task_execution_graph behavior or contract changes

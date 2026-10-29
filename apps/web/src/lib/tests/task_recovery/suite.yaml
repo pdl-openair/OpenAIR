@@ -1,0 +1,17 @@
+suite_id: component.web.lib.task-recovery
+protected_outcome: Recovery context remains task, revision, and source-run scoped; unavailable recovery stays disabled and cannot drift across task generations.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: task_recovery_context_fence_or_availability_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/lib/taskRecovery.ts
+test_responsibility: deterministic component behavior for deferred recovery context, fences, and user-action availability
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [task_recovery_or_controller_context_changes]

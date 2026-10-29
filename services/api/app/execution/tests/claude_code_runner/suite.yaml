@@ -1,0 +1,27 @@
+suite_id: component.execution.claude-code-runner
+protected_outcome: Claude Code streaming preserves emitted progress and, after timeout cancellation, produces one truthful terminal event so callers never observe a silently abandoned producer or a false successful completion.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+- docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- claude_code_stream_terminal_event_missing
+- claude_code_timeout_reported_as_success
+- claude_code_producer_not_cancelled_before_terminal_event
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/execution/claude_code_runner.py
+test_responsibility: Distinguish a progress-producing stream that times out and terminates truthfully from cancellation that silently ends or reports success.
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- pytest_exit_code_0
+- known_good_progress_preserved_before_timeout
+- known_bad_silent_or_successful_timeout_rejected
+verdict_rule: >-
+  PASS only when the existing Suite observes progress followed by the timeout terminal event after producer cancellation, with no false session or usage result; FAIL when timeout can end without that terminal truth; otherwise NO_VALID_EVIDENCE.
+triggers:
+- app.execution.claude_code_runner behavior or contract changes

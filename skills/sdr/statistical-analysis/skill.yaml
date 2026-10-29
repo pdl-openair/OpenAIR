@@ -1,0 +1,26 @@
+skill_id: statistical_analysis
+claude_name: statistical-analysis
+display_name: 统计分析
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - statistical_analysis
+output_file: 03-experiment/statistical-analysis.md
+pack: sdr
+spec: 03-experiment/statistical-analysis.md
+input_skills:
+  - analysis_planning
+  - evidence_extraction
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: statistical_analysis
+owner: TBD
+fixture_status: missing
+notes: ''

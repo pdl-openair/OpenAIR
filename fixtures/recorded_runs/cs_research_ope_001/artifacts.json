@@ -1,0 +1,53 @@
+[
+  {
+    "artifact_id": "art-001",
+    "type": "research_note",
+    "title": "OPE 文献调研综述",
+    "format": "markdown",
+    "path": "literature.md",
+    "created_by": "claude_agent_sdk",
+    "related_stage": "problem_modeling",
+    "related_skill_id": "literature_review",
+    "evidence_refs": [
+      {
+        "id": "evidence-scope-rl-ope-protocols",
+        "claim": "该文献表明 SCOPE-RL 强调 OPE 模块，并提供多类估计器与较完整的评估协议。",
+        "source_title": "SCOPE-RL: A Python Library for Offline Reinforcement Learning and Off-Policy Evaluation",
+        "source_url": "https://arxiv.org/abs/2311.18206",
+        "source_identifier": "arXiv:2311.18206",
+        "locator": "Abstract",
+        "excerpt": "SCOPE-RL put particular emphasis on its OPE modules, offering a range of OPE estimators and robust evaluation-of-OPE protocols."
+      }
+    ]
+  },
+  {
+    "artifact_id": "art-002",
+    "type": "research_note",
+    "title": "研究提案 v3：OPE 方法在训练动态中的可靠性研究",
+    "format": "markdown",
+    "path": "proposal-v3.md",
+    "created_by": "claude_agent_sdk",
+    "related_stage": "problem_modeling",
+    "related_skill_id": "hypothesis_construction"
+  },
+  {
+    "artifact_id": "art-003",
+    "type": "stage_summary",
+    "title": "实验设计方案 v2",
+    "format": "markdown",
+    "path": "experiment_design-v2.md",
+    "created_by": "claude_agent_sdk",
+    "related_stage": "solution_design",
+    "related_skill_id": "experiment_design"
+  },
+  {
+    "artifact_id": "art-004",
+    "type": "stage_summary",
+    "title": "任务拆解与计划（54 任务 / 14 Task Set）",
+    "format": "markdown",
+    "path": "task_plan.md",
+    "created_by": "claude_agent_sdk",
+    "related_stage": "solution_design",
+    "related_skill_id": "task_planning"
+  }
+]

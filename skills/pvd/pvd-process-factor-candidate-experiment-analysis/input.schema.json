@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-process-factor-candidate-experiment-analysis/input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["current_context"],
+  "properties": {
+    "current_context": {
+      "type": "object",
+      "required": ["structured_context", "recommendation_parameter_set", "run_preferences"],
+      "properties": {
+        "structured_context": {"type": "object"},
+        "recommendation_parameter_set": {
+          "type": "object",
+          "required": ["parameters"],
+          "properties": {
+            "parameters": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "parameter_key",
+                  "display_name",
+                  "value_type",
+                  "unit",
+                  "allowed_values",
+                  "rationale",
+                  "basis_refs"
+                ],
+                "properties": {
+                  "parameter_key": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+                  "display_name": {"type": "string", "minLength": 1},
+                  "value_type": {"enum": ["continuous", "integer", "categorical", "boolean"]},
+                  "unit": {"type": ["string", "null"]},
+                  "unit_identity": {"type": ["string", "null"]},
+                  "unit_dimension": {"type": ["string", "null"]},
+                  "allowed_values": {
+                    "type": "array",
+                    "items": {"type": ["number", "string", "boolean"]}
+                  },
+                  "rationale": {"type": "string", "minLength": 1},
+                  "basis_refs": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {"type": "string", "minLength": 1},
+                    "uniqueItems": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "run_preferences": {"type": "object"}
+      }
+    },
+    "evidence_applicability": {"type": ["object", "null"]},
+    "feedback_analysis": {"type": ["object", "null"]}
+  },
+  "$comment": "recommendation_parameter_set.parameters is the formal dynamic scope. Exact cross-array identity/cardinality is enforced deterministically by finalization."
+}

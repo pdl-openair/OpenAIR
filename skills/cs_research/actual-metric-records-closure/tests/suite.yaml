@@ -1,0 +1,25 @@
+suite_id: component.skills.actual-metric-records-closure-finalization
+protected_outcome: >
+  Official actual metric extraction facts remain authoritative when a model omits
+  or contradicts them, while scientific unknowns remain readable.
+authority_refs:
+- docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+- docs/task_specs/2026-10-09-cs-deterministic-records.md
+failure_class: actual_metric_authority_regression
+minimum_owner: 单个组件行为
+production_targets:
+- skills/cs_research/actual-metric-records-closure/
+test_responsibility: >
+  Pin registered finalizer restoration, partial metric preservation, reference
+  non-synthesis, and the minimal Provider-visible input projection.
+execution_profiles:
+- deterministic
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- pytest_exit_code_0
+verdict_rule: >
+  PASS only when the registered finalizer and its frozen contract preserve the
+  source facts; otherwise FAIL. Without runnable dependency evidence, NO_VALID_EVIDENCE.
+triggers:
+- actual_metric_records_closure_changed

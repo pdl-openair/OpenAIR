@@ -1,0 +1,43 @@
+skill_id: reproduction_execution_input_repair_reasoning
+claude_name: reproduction-execution-input-repair-reasoning
+display_name: 复现准备输入纠错判断
+version: 0.1.0
+stages:
+- solution_design
+- execution_validation
+substages:
+- real_execution_result_acquisition
+packs:
+- cs_reproduction
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: real_execution_result_acquisition
+owner: TBD
+fixture_status: missing
+notes: 同职责工具选择与失败反馈，不重新规划研究任务，不生成真实身份或许可。
+capability_contract:
+  artifact_types:
+  - reproduction_input_repair_proposal
+  judgment_support:
+    deterministic: false
+    domain_professional: true

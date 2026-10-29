@@ -1,0 +1,11 @@
+{
+  "status": "running",
+  "summary": "管理实验任务池调度，维护跨 session 状态。当前 Set 10-11 已完成，Set 12 运行中，Set 13-14 待执行。",
+  "artifacts": [],
+  "capability_calls": [],
+  "next_actions": [
+    "等待 Set 12 完成后调度 Set 13",
+    "全部完成后调度 Set 14 验证"
+  ],
+  "error": null
+}

@@ -1,0 +1,16 @@
+suite_id: component.modules.research-design-service
+protected_outcome: Planning attempts, confirmed ResearchDesign versions, revisions, and confirmation identities remain durable, idempotent, scoped, and atomically activated without replaying transport-unknown work.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: research_design_service_lifecycle_transaction_violation
+minimum_owner: 单个组件行为
+production_targets: [services/api/app/modules/research_design_service.py]
+test_responsibility: component proof of ResearchDesign planning and confirmation lifecycle semantics over its repository boundary
+execution_profiles: [postgres]
+required_dependencies: [isolated PostgreSQL test database]
+evidence_required: [pytest_result, database_identity, transaction_state]
+verdict_rule: PASS only when real PostgreSQL evidence proves durable planning, atomic confirmation CAS, revision non-activation, and bounded design payload behavior; FAIL on a valid lifecycle violation; otherwise NO_VALID_EVIDENCE.
+triggers: [ResearchDesign planning changes, confirmation or revision transaction changes]

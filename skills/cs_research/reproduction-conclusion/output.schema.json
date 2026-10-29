@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["verdict", "answer", "scope", "execution_status", "evidence_sufficiency", "evidence_refs", "limitations", "unknowns", "next_steps"],
+  "properties": {
+    "verdict": {"type": "string", "enum": ["reproduced", "not_reproduced", "indeterminate"]},
+    "answer": {"type": "string", "minLength": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "execution_status": {"type": "string", "enum": ["succeeded", "failed", "partial", "unknown"]},
+    "evidence_sufficiency": {"type": "string", "enum": ["sufficient", "insufficient", "partial"]},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "object"}}
+  }
+}

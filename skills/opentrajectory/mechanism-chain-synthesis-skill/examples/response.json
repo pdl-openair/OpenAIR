@@ -1,0 +1,129 @@
+{
+  "mechanism_edges": [
+    {
+      "local_edge_key": "edge-1",
+      "edge_id": "me:f244f93c0dc34618780e",
+      "edge_status": "support",
+      "source_node": {
+        "node_type": "composition",
+        "label": "2 M LiFSI in fluorinated ether FDEE"
+      },
+      "relation": {
+        "predicate": "promotes",
+        "description": "supports an anion-rich solvation structure"
+      },
+      "target_node": {
+        "node_type": "structure",
+        "label": "anion-rich solvation structure"
+      },
+      "evidence_ids": [
+        "rr:11111111111111111111111111111111",
+        "rr:33333333333333333333333333333333"
+      ],
+      "rationale": "The composition evidence identifies the concentrated LiFSI/FDEE electrolyte and the mechanism evidence explicitly links anion-rich solvation to downstream interphase formation.",
+      "confidence": 0.9
+    },
+    {
+      "local_edge_key": "edge-2",
+      "edge_id": "me:50f56ea8fdd11807a23b",
+      "edge_status": "support",
+      "source_node": {
+        "node_type": "structure",
+        "label": "anion-rich solvation structure"
+      },
+      "relation": {
+        "predicate": "promotes",
+        "description": "promotes formation of a LiF-rich interphase and suppresses parasitic reactions"
+      },
+      "target_node": {
+        "node_type": "interphase",
+        "label": "LiF-rich interphase with suppressed parasitic reactions"
+      },
+      "evidence_ids": [
+        "rr:33333333333333333333333333333333"
+      ],
+      "rationale": "The cited mechanism evidence explicitly states the cause-effect relationship.",
+      "confidence": 0.97
+    },
+    {
+      "local_edge_key": "edge-3",
+      "edge_id": "me:9e76affb9d696623ce52",
+      "edge_status": "support",
+      "source_node": {
+        "node_type": "interphase",
+        "label": "LiF-rich interphase with suppressed parasitic reactions"
+      },
+      "relation": {
+        "predicate": "associated_with",
+        "description": "is associated with high lithium plating/stripping Coulombic efficiency under the reported condition"
+      },
+      "target_node": {
+        "node_type": "performance",
+        "label": "99.5% Coulombic efficiency at 1 mA cm−2 and 1 mAh cm−2"
+      },
+      "evidence_ids": [
+        "rr:22222222222222222222222222222222",
+        "rr:33333333333333333333333333333333"
+      ],
+      "rationale": "The mechanism evidence reports suppressed parasitic reactions and the quantitative evidence reports the corresponding Coulombic efficiency under a defined test condition.",
+      "confidence": 0.82
+    }
+  ],
+  "mechanism_chains": [
+    {
+      "local_chain_key": "chain-1",
+      "chain_id": "mc:5f62a89cd522922366d6",
+      "title": "Concentrated fluorinated electrolyte to interphase-controlled lithium efficiency",
+      "local_edge_keys": [
+        "edge-1",
+        "edge-2",
+        "edge-3"
+      ],
+      "edge_ids": [
+        "me:f244f93c0dc34618780e",
+        "me:50f56ea8fdd11807a23b",
+        "me:9e76affb9d696623ce52"
+      ],
+      "chain_summary": "A concentrated LiFSI/FDEE electrolyte supports an anion-rich solvation structure, which promotes a LiF-rich interphase and is associated with high lithium plating/stripping Coulombic efficiency under the reported condition.",
+      "confidence": 0.86
+    }
+  ],
+  "conflicts": [],
+  "gaps": [],
+  "summary": {
+    "input_evidence_item_count": 3,
+    "mechanism_edge_count": 3,
+    "mechanism_chain_count": 1,
+    "edge_status_counts": {
+      "conflict": 0,
+      "gap": 0,
+      "support": 3
+    },
+    "dropped_duplicate_edge_count": 0,
+    "dropped_duplicate_chain_count": 0,
+    "degraded": false
+  },
+  "audit": {
+    "skill_id": "mechanism_chain_synthesis",
+    "traceability_mode": "evidence_id_guard",
+    "guard_version": "p07d-v1",
+    "input_fingerprint": "a7e911e73611f7b2467847a972b5c742c3d9ae9852512c8a34a8b095793cde3d",
+    "allowed_edge_statuses": [
+      "conflict",
+      "gap",
+      "support"
+    ],
+    "allowed_predicates": [
+      "associated_with",
+      "contradicts",
+      "decreases",
+      "enables",
+      "increases",
+      "limits",
+      "promotes",
+      "reveals_gap",
+      "suppresses"
+    ]
+  },
+  "synthesis_warnings": []
+}

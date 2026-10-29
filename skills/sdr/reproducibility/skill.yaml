@@ -1,0 +1,25 @@
+skill_id: reproducibility
+claude_name: reproducibility
+display_name: 可复现性
+version: "0.1.0"
+stages:
+  - solution_design
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - reproducibility
+output_file: 02-method/reproducibility.md
+pack: sdr
+spec: 02-method/reproducibility.md
+input_skills:
+  - method_selection
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: reproducibility
+owner: TBD
+fixture_status: missing
+notes: ''

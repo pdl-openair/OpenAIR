@@ -1,0 +1,97 @@
+# OpenAIR gitleaks configuration.
+# Extends the built-in default rules; adds a content-only allowlist of the
+# obviously-fake test credentials that actually occur in this repository's
+# tests/fixtures/verification paths (surveyed 2026-09-24, see campaign ledger).
+#
+# Design note (deliberate narrowing, see ledger/b1.md): the allowlist is
+# content-only and NOT path-scoped. Every regex below anchors on values that
+# cannot be real credentials (reserved TLDs, localhost, sequential alphabet,
+# famous dummy literals), so allowing them anywhere is safe - while a blanket
+# path allow for test directories could hide a genuinely leaked secret that
+# lands in fixtures/. 宁少勿多: only add a regex when a finding actually fires.
+
+title = "OpenAIR gitleaks configuration"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "obviously fake test credentials (surveyed 2026-09-24)"
+regexTarget = "line"
+regexes = [
+    # postgres URLs with throwaway credentials on localhost
+    '''(?i)postgres(ql)?://[a-z0-9_]{1,4}:[a-z0-9_]{1,4}@localhost[:/]''',
+    # any scheme URL whose host uses a reserved/fake TLD (.invalid/.test/.example.com)
+    '''(?i)://[A-Za-z0-9_]+:[A-Za-z0-9_-]+@[A-Za-z0-9.-]+\.(?:invalid|test|example\.com)(?:[:/]|$)''',
+    # provider test keys with an explicit fake marker prefix
+    '''(?i)\bsk-(?:test|fake|dummy|example|placeholder|not)-[A-Za-z0-9]{1,16}\b''',
+    # famous dummy passwords
+    '''(?i)(?:password|passwd|bootstrap_admin_password)["']?\s*[:=]\s*["'](?:secret123|admin123456|test123|changeme|strong-pass-1|rotated-secret|new-secret-should-not-apply)["']''',
+    # worker auth tokens built from hyphenated test words
+    '''["'](?:test|valid|wrong|fake|dummy|offline|isolated|ib01[a-z0-9.]*-)[a-z0-9-]*token["']''',
+    # LLM provider api-key placeholders
+    '''["'](?:test|offline|isolated|fake|dummy)-[a-z0-9-]*key["']''',
+    '''["'](?:LLM_PROVIDER_API_KEY|not_configured_optional|test-only-not-a-live-key|isolated-c1-token)["']''',
+    # literal Bearer canaries: sequential alphabet / placeholder name
+    '''Bearer (?:abcdefghijklmnop|PROVIDER_SECRET_VALUE)''',
+    # sentinel / canary secret values used by leak-prevention tests
+    '''["'](?:DO_NOT_LEAK|SENTINEL_SECRET|fictional-sensitive-canary|openair-(?:super|argv)-secret-value|minio-test-secret)["']''',
+    # web test token doubles
+    '''["'](?:stored-login-token|env-injected-token|explicit-env-token)["']''',
+]
+
+# Increment 2 (B5 secret-scan triage, 2026-09-24, ruling D-14): the 93 false
+# positives from the first full-history CI scan of the batch branch. All are
+# machine-generated research-design IDs / domain paths / test fixture keys,
+# none can be a credential value. Evidence per regex in the comments; the 21
+# genuine/suspected-real findings from the same scan are NOT allowlisted -
+# they are pinned in .gitleaks-baseline.json with human-rotation follow-ups
+# (see docs/dev_plans/2026-09-ai4se-harness/ledger/b5.md).
+[[allowlists]]
+description = "generated research-design IDs and test fixture dedupe keys (B5 triage 2026-09-24)"
+regexTarget = "line"
+regexes = [
+    # 84 findings (68 criterionKey + 16 dependencyKey lines) in the 4
+    # verification/WIP1_Planner_Content_Validation_20260920_r2/{01_PVD,02_CS,03_OT,04_Free_Planner}/
+    # 05_materialized_research_design.json blobs @b7d1c576: every value is a
+    # deterministic materialization ID, prefix + 16 lowercase hex (UUID-derived).
+    '''^\s*"(?:criterionKey|dependencyKey)":\s*"(?:criterion|dependency)_[0-9a-f]{16}",?\s*$''',
+    # 1 finding @01d450ba in
+    # skills/pvd/pvd-evidence-comparability/examples/mechanism-only.response.json
+    # L211: dotted lowercase domain path into the measurement model.
+    '''^\s*"condition_key":\s*"[a-z0-9_.]+",?\s*$''',
+    # 8 findings @ab72a1c0/@152cb7b5 in
+    # skills/opentrajectory/tests/p08b_1c/test_p08b_1e_c_contract_aware_selection.py
+    # L49: hand-written test fixture literals ("dedup_material_NN" style).
+    '''^\s*"dedupe_key":\s*"dedup_[a-z0-9_]+",?\s*$''',
+]
+
+[[allowlists]]
+description = "gitleaks config self-scan (contains the allowlist literals above)"
+paths = ['''\.gitleaks\.toml$''']
+
+# Increment 3 (public export v0.1 triage, 2026-10-29): 5 findings from the
+# first public-repo CI scan, all fired by rule generic-api-key. The 2 REAL
+# credential hits (cloud-lab X-Api-Key, twice in
+# skills/materials/flux-experiment/README.md) are NOT allowlisted - they are
+# sanitized at export (scripts/oss/publish_manifest.yaml) and the key rotated.
+# The 5 remaining are placeholders / constants, evidence per regex below.
+# NOTE: must be a rule-level allowlist - global [[allowlists]] do not apply to
+# rules inherited via [extend] useDefault (verified with gitleaks 8.24.3).
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "public-export v0.1 doc placeholders and UI constants (2026-10-29)"
+regexTarget = "line"
+regexes = [
+    # 3 findings (jcc reference/{para,step}/login.md, quickstart.md): truncated
+    # JWT *example* - base64 header prefix + literal "..." ellipsis, no
+    # signature or claims, cannot be a real token.
+    '''^\s*"token":\s*"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.\.\.",?\s*$''',
+    # 1 finding (apps/web/src/components/workbench/PvdFeedbackPanel.tsx L299):
+    # metric-key literals compared in a UI filter, not credentials.
+    '''key === "(?:rocking_curve_fwhm_002|deposition_rate)"''',
+    # 1 finding (skills/materials/jcc/reference/step/cloud.md L315): Alibaba
+    # Cloud ECS flavor SKU assigned to $sourceKey, not a credential.
+    '''\$sourceKey = "ecs\.t5-lc2m1\.nano"''',
+]

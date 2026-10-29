@@ -1,0 +1,49 @@
+{
+  "scenarioName": "evidence_topic_only",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "status": "requires_existing_inputs",
+    "material_readiness": {
+      "usable": [],
+      "unusable": ["topic-only request", "mechanism proof request without source packet"]
+    },
+    "claim_evidence_table": [],
+    "missing_materials": [
+      "source packet",
+      "readable excerpts",
+      "claim target",
+      "paper ID",
+      "source locator"
+    ],
+    "minimum_usable_input": [
+      "one excerpt with paper ID and locator",
+      "the claim to evaluate",
+      "figure/table/result paragraph text"
+    ],
+    "unsupported_or_missing": [
+      "no evidence rows can be produced from topic-only input",
+      "no main mechanism can be proven without source evidence"
+    ],
+    "forbidden_output": [
+      "evidence rows",
+      "mechanism proof",
+      "paper claims",
+      "field consensus"
+    ],
+    "safe_next_step": [
+      "Start with Key Literature Positioning to find source candidates, or paste one paper excerpt for extraction."
+    ]
+  },
+  "review": {
+    "rubricScore": 92,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 22, "OEA": 22, "Rig": 20, "Lev": 9, "UX": 9, "Spec": 5, "Eng": 5},
+    "mainReason": "Clean fail-closed handling prevents fabricated evidence from topic-only input."
+  }
+}

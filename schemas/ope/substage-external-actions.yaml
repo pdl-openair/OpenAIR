@@ -1,0 +1,55 @@
+schemaVersion: definition-external-actions.v1
+definitions:
+- substageKey: gap_analysis
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: hypothesis_construction
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: info_retrieval
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_read
+- substageKey: literature_filter
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_read
+- substageKey: question_formulation
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: experiment_design
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: task_planning
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: code_implementation
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_write
+- substageKey: data_validation
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: experiment_execution
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_compute
+- substageKey: evidence_review
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_read
+- substageKey: result_validation_analysis
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: data_visualization
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: paper_revision
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: paper_writing
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: research_conclusion_recommendation
+  definitionVersion: 1
+  requiredExternalActions: []

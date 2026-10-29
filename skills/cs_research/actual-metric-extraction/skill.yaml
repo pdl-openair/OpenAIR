@@ -1,0 +1,37 @@
+skill_id: actual_metric_extraction
+claude_name: actual-metric-extraction
+display_name: 实际指标确定性提取
+version: "0.2.0"
+stages:
+  - execution_validation
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+substages:
+  - evidence_extraction
+packs:
+  - sdr
+input_schema: input.schema.json
+output_schema: output.schema.json
+execution_method_roles:
+  - cs_reproduction_real_execution:metric_extraction
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:actual_metric_extraction
+  evidence_contract_version: deterministic-output/v1
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: evidence_extraction
+owner: TBD
+fixture_status: missing
+notes: 作为 SDR“执行验证→证据抽取”的确定性 actual metric 能力；只从成功 execution record 关联的已明确真实结果来源中提取实际测量值，不选择指标、不读论文参考值、不比较、不做科研解释。
+capability_contract:
+  artifact_types:
+    - raw_actual_metric_records
+  judgment_support:
+    deterministic: true
+    domain_professional: false

@@ -1,0 +1,32 @@
+suite_id: verification.durable-skill-artifact-acceptance
+protected_outcome: Usable Skill results persist once with intact quality, content, version and source identity; invalid content or invocation authority cannot produce an artifact.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: durable_skill_artifact_acceptance_or_persistence_violation
+minimum_owner: 跨组件与基础设施
+production_targets:
+  - services/api/app/modules/durable_execution.py
+  - services/api/app/modules/durable_artifact_presentation.py
+  - services/api/app/modules/artifact_repository.py
+  - services/api/app/modules/artifact_write.py
+test_responsibility: Real PostgreSQL acceptance, quality preservation, local content readback, idempotent persistence and prewrite content/authority rejection; no live Provider claim.
+execution_profiles: [service-integration-postgres]
+required_dependencies:
+  [
+    isolated PostgreSQL 17 supplied by testkit.postgres_harness,
+    temporary local artifact storage,
+  ]
+evidence_required:
+  [
+    pytest_result,
+    database_identity,
+    artifact_content,
+    artifact_metadata,
+    invocation_identity,
+  ]
+verdict_rule: PASS only when an identified disposable PostgreSQL instance is used and all persistence and rejection assertions pass; FAIL on a valid counterexample; otherwise NO_VALID_EVIDENCE.
+triggers:
+  [Skill artifact receiver changes, durable artifact persistence changes]

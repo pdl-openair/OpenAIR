@@ -1,0 +1,31 @@
+skill_id: intent_understanding
+claude_name: intent-understanding
+display_name: 意图理解
+version: "0.1.0"
+stages:
+  - problem_modeling
+skill_type: orchestration
+runtime: claude_code
+durable_execution:
+  adapter: huiyan_chat_completions
+status: ready
+source: manual
+substages:
+  - intent_understanding
+output_file: research-config.yaml
+pack: sdr
+spec: research-config.yaml
+input_skills: []
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: intent_understanding
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

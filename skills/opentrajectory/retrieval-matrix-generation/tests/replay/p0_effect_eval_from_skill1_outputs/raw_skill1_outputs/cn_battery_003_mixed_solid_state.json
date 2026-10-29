@@ -1,0 +1,91 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "battery_system",
+      "original_phrase": "固态锂电池",
+      "constraint_type": "material_property",
+      "interpreted_value": "solid-state lithium battery",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies solid-state lithium battery as the target system.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["solid-state lithium battery", "all-solid-state battery", "solid electrolyte lithium"],
+      "downstream_filter_rules": [
+        {"type": "hard_filter", "field": "battery_type", "condition": "solid-state"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "electrolyte_type",
+      "original_phrase": "硫化物电解质",
+      "constraint_type": "material_property",
+      "interpreted_value": "sulfide electrolyte",
+      "candidate_values": ["Li6PS5Cl", "Li10GeP2S12", "Li3PS4", "LGPS", "argyrodite"],
+      "domain_rationale": "User explicitly specifies sulfide-type solid electrolyte. Sulfide electrolytes are a major class of solid electrolytes known for high ionic conductivity.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["sulfide electrolyte", "sulfide solid electrolyte", "thiophosphate electrolyte", "Li-S-P electrolyte"],
+      "downstream_filter_rules": [
+        {"type": "hard_filter", "field": "electrolyte_class", "condition": "sulfide"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "ionic_conductivity_threshold",
+      "original_phrase": "室温离子电导率最好能到 10^-3 S/cm 以上",
+      "constraint_type": "numerical_range",
+      "interpreted_value": ">= 1e-3 S/cm",
+      "candidate_values": [],
+      "domain_rationale": "User states a target ionic conductivity of at least 10^-3 S/cm at room temperature. This is a well-established benchmark in solid electrolyte literature. The phrase '最好能到' indicates a target/preference rather than a strict cutoff.",
+      "confidence": 0.85,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["ionic conductivity 10-3 S/cm", "room temperature ionic conductivity", "high ionic conductivity sulfide", "mS/cm solid electrolyte"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers reporting room-temperature ionic conductivity >= 1e-3 S/cm; treat as target not hard cutoff due to '最好能到' phrasing"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["explicit_value_from_user_input_only", "threshold_is_target_not_strict_cutoff: user said '最好能到' indicating preference"]
+    },
+    {
+      "constraint_name": "interface_quality",
+      "original_phrase": "界面别太差",
+      "constraint_type": "boundary_condition",
+      "interpreted_value": null,
+      "candidate_values": ["low interfacial resistance", "good electrochemical compatibility", "stable SEI"],
+      "domain_rationale": "User wants acceptable interface quality but does not specify a quantitative threshold. '别太差' is a vague negative constraint meaning 'not too poor'.",
+      "confidence": 0.40,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["interfacial resistance", "interface compatibility", "electrolyte-electrode interface", "interfacial stability solid electrolyte"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "avoid_strong_filter_on_low_confidence: interface quality is vague; no quantitative threshold given"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["interface_quality_undefined: no quantitative threshold for interface quality"]
+    },
+    {
+      "constraint_name": "anode_compatibility",
+      "original_phrase": "和锂金属负极匹配比较好的材料或界面调控方法",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": "lithium metal anode compatibility",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly wants materials or interface engineering methods that are compatible with lithium metal anodes. This is a key research direction in solid-state battery development.",
+      "confidence": 0.82,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["lithium metal anode compatibility", "Li metal interface", "anode-electrolyte interface", "interface engineering lithium metal"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying Li metal anode compatibility or interface modification methods"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.77,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": ["interface_quality_undefined"],
+    "needs_manual_review": false
+  }
+}

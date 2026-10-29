@@ -1,0 +1,25 @@
+{
+  "original_user_query": "以 P25 TiO2 为基线，评估 Fe 掺杂 TiO2 在可见光降解有机污染物方面的提升幅度，只看 2020 年后可复现实验论文，最后输出可直接用于立项汇报的三点结论。",
+  "research_object": "Fe 掺杂 TiO2 相对 P25 TiO2 的可见光有机污染物降解性能提升",
+  "target_metrics": [
+    "可见光降解效率",
+    "性能提升幅度",
+    "降解动力学",
+    "实验可复现性"
+  ],
+  "boundary_conditions": [
+    "P25 TiO2 为基线",
+    "Fe 掺杂 TiO2",
+    "可见光条件",
+    "有机污染物降解"
+  ],
+  "comparison_baseline": "P25 TiO2",
+  "output_intent": "decision_support",
+  "requested_source_scope": "2020 年后可复现实验论文",
+  "ambiguities": [
+    "有机污染物类型未指定",
+    "Fe 掺杂比例范围未指定",
+    "目标汇报场景的判断标准未指定"
+  ],
+  "requirement_confidence": 0.82
+}

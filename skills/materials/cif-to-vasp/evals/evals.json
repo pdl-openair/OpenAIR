@@ -1,0 +1,23 @@
+{
+  "skill_name": "cif-to-vasp",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我有一个 AlInSe3.cif 文件在 /home/george/code/materials/computation/AlInSe3_Stability/AlInSe3.cif，请帮我生成 VASP 结构弛豫所需的四个输入文件，保存到 /tmp/eval-alinse3/ 目录",
+      "expected_output": "Four VASP input files (POSCAR, INCAR, KPOINTS, POTCAR) with correct structure. POSCAR must have min interatomic distance > 1.5 A. INCAR should use PREC=Normal, appropriate ENCUT based on POTCAR ENMAX. KPOINTS should be 3x3x1 for this hexagonal cell with a~7.07 c~18.84.",
+      "files": ["/home/george/code/materials/computation/AlInSe3_Stability/AlInSe3.cif"]
+    },
+    {
+      "id": 2,
+      "prompt": "帮我从 /home/george/code/materials/computation/AlInSe3_Stability/AlInSe3.cif 生成 VASP 计算文件，输出目录 /tmp/eval-alinse3-v2/，这是一个半导体材料，我打算在 HPC 上用 32 核跑结构优化",
+      "expected_output": "Four VASP input files. INCAR should include NCORE/KPAR settings appropriate for 32 cores. POSCAR validated with distance check. KPOINTS appropriate for cell size. Summary printed showing validation results.",
+      "files": ["/home/george/code/materials/computation/AlInSe3_Stability/AlInSe3.cif"]
+    },
+    {
+      "id": 3,
+      "prompt": "用 pymatgen 从 CIF 生成 POSCAR 并验证原子间距，CIF 文件在 /home/george/code/materials/computation/AlInSe3_Stability/AlInSe3.cif，只要 POSCAR 和 KPOINTS",
+      "expected_output": "POSCAR generated from CIF via pymatgen with cleaned coordinate lines (no species labels). Minimum distance validation printed and > 1.5 A. KPOINTS with appropriate mesh density for the cell. No INCAR or POTCAR generated (user only asked for two files).",
+      "files": ["/home/george/code/materials/computation/AlInSe3_Stability/AlInSe3.cif"]
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "call_id": "call_001",
+    "skill_id": "mp_constraint_search",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "stage_key": "problem_modeling",
+    "sub_stage_instance_id": "sub_problem_modeling_0_mp_constraint_search",
+    "started_at": "2026-07-03T10:00:00Z",
+    "ended_at": "2026-07-03T14:30:00Z",
+    "input_ref": "skill_io/materials_mp_constraint_search/request.json",
+    "output_ref": "skill_io/materials_mp_constraint_search/response.json",
+    "artifact_refs": ["art-001"],
+    "error": null
+  },
+  {
+    "call_id": "call_002",
+    "skill_id": "crystal_generation",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "stage_key": "problem_modeling",
+    "sub_stage_instance_id": "sub_problem_modeling_1_crystal_generation",
+    "started_at": "2026-07-03T15:30:00Z",
+    "ended_at": "2026-07-03T15:45:00Z",
+    "input_ref": "skill_io/materials_new_crystal_generation/request.json",
+    "output_ref": "skill_io/materials_new_crystal_generation/response.json",
+    "artifact_refs": ["art-002", "art-006", "art-007"],
+    "error": null
+  },
+  {
+    "call_id": "call_003",
+    "skill_id": "flux_parameter_recommendation",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "stage_key": "solution_design",
+    "sub_stage_instance_id": "sub_solution_design_0_flux_parameter_recommendation",
+    "started_at": "2026-07-04T09:00:00Z",
+    "ended_at": "2026-07-04T13:00:00Z",
+    "input_ref": "skill_io/materials_parameter_recommend_flux/request.json",
+    "output_ref": "skill_io/materials_parameter_recommend_flux/response.json",
+    "artifact_refs": ["art-003"],
+    "error": null
+  },
+  {
+    "call_id": "call_004",
+    "skill_id": "flux_synthesis_execution",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "stage_key": "execution_validation",
+    "sub_stage_instance_id": "sub_execution_validation_0_flux_synthesis_execution",
+    "started_at": "2026-07-05T08:00:00Z",
+    "ended_at": "2026-07-07T18:00:00Z",
+    "input_ref": null,
+    "output_ref": null,
+    "artifact_refs": ["art-004"],
+    "error": "L3 atomic skill materials-flux-synthesis-execution 待落地;本次为 stub"
+  },
+  {
+    "call_id": "call_005",
+    "skill_id": "xrd_characterization",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "stage_key": "insight_generation",
+    "sub_stage_instance_id": "sub_insight_generation_0_xrd_characterization",
+    "started_at": "2026-07-07T15:00:00Z",
+    "ended_at": "2026-07-07T17:30:00Z",
+    "input_ref": "skill_io/materials_auto_xrd/request.json",
+    "output_ref": "skill_io/materials_auto_xrd/response.json",
+    "artifact_refs": ["art-005"],
+    "error": null
+  }
+]

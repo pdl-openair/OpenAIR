@@ -1,0 +1,26 @@
+# Canonical, Router-admitted Materials full-discovery workflow only.
+#
+# The deterministic chain (S2->S3->S7->S8->S9) freezes one L3 skill per
+# planned substage, mirroring the PVD pattern: executionComposition semantics
+# is ordered_required, so every listed skill is executed in order — a list of
+# alternatives would be executed serially, not selected among. Chain nodes
+# therefore carry exactly one skill; dormant optional nodes keep their catalog
+# (they stay dormant under the deterministic brief).
+literature_review:
+  - research_lit
+database_search:
+  - materials_mp_constraint_search
+candidate_generation:
+  - crystal_design_structure_crossover_agent
+synthesis_assessment:
+  - crystal_synthesis_advisor
+parameter_recommendation:
+  - materials_parameter_recommend_flux
+band_gap_calculation:
+  - vasp_band_gap
+stability_verification:
+  - vasp_stability_durable
+synthesis_execution:
+  - flux_experiment
+report_generation:
+  - analysis_report_durable

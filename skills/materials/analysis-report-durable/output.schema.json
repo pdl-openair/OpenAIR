@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["state", "report_path"],
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": ["succeeded", "partial_failure"]
+    },
+    "report_path": {
+      "type": "string",
+      "description": "analysis_report.md 的绝对路径"
+    },
+    "figures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string"},
+          "path": {"type": "string"},
+          "type": {"type": "string", "enum": ["svg", "png"]}
+        }
+      },
+      "description": "生成的图表文件列表"
+    },
+    "failure_reason": {
+      "type": "string",
+      "description": "partial_failure 时的失败原因"
+    }
+  }
+}

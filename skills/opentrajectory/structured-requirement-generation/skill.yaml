@@ -1,0 +1,48 @@
+skill_id: structured_requirement_generation
+claude_name: structured-requirement-generation
+display_name: 结构化需求生成
+stages:
+- problem_modeling
+substages:
+- intent_understanding
+skill_type: atomic
+runtime: claude_code
+status: deprecated
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: structured_requirement.json
+llm:
+  model: gpt-5-mini
+  temperature: 0
+  max_completion_tokens: 700
+  reasoning_effort: minimal
+notes: ''
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: intent_understanding
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+input_handoff:
+  contract_version: 1
+  predecessor_skill_id: null
+  predecessor_definition_version: null
+  dependency_skill_id: null
+  dependency_definition_version: null
+  context_fields:
+    user_query: canonical_user_query
+  field_mappings: {}
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1

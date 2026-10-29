@@ -1,0 +1,29 @@
+skill_id: opentrajectory_report_generation
+claude_name: opentrajectory-report-generation
+display_name: 科研结果包组装
+version: 0.1.0
+stages:
+- insight_generation
+substages:
+- report_generation
+pack: opentrajectory
+sequence: 140
+enabled: false
+spec: 04-insight/report-generation.md
+input_skills:
+- opentrajectory_hypothesis_update
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-report-generation
+claude_skill_path: .claude/skills/opentrajectory-report-generation
+output_file: 04-insight/research-result-package.json
+fixture_status: none
+notes: OpenTrajectory L2 orchestration slot. Reserved and disabled until the matching L3 capability is implemented.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: report_generation
+owner: TBD

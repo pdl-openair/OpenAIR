@@ -1,0 +1,42 @@
+suite_id: component.execution.structured-output-correction-lifecycle
+protected_outcome: >-
+  One structured Skill execution may make at most one model correction request
+  after a correctable output-contract or registered-finalizer rejection; runtime
+  and Provider infrastructure failures never create another model attempt.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - structured_correction_budget_exceeded
+  - infrastructure_failure_triggers_model_retry
+  - correction_attempt_loses_execution_identity
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/durable_skill_runtime.py
+test_responsibility: >-
+  Prove the primary and single correction request lifecycle, including parse and
+  finalizer rejection, exhaustion without a third send, and no retry after
+  finalizer-runtime or Provider HTTP failure. This suite does not own deterministic
+  structural normalization policy or post-response failure classification.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - primary_plus_single_correction_request_count
+  - shared_capability_call_identity
+  - no_third_provider_send
+  - infrastructure_failure_single_send
+verdict_rule: >-
+  PASS only when every lifecycle assertion proves no execution sends more than
+  one correction request and infrastructure failures send none. FAIL when valid
+  evidence shows a third send, a correction after infrastructure failure, or
+  lost execution identity. Return NO_VALID_EVIDENCE when required execution
+  evidence is absent.
+triggers:
+  - structured correction attempt lifecycle changes
+  - registered finalizer recovery eligibility changes
+  - durable Provider request lifecycle changes

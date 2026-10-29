@@ -1,0 +1,18 @@
+# CODING stage output template
+# Source: nanoresearch/agents/coding.py → CodingAgent.run() return dict
+
+code_plan:                         # LLM-generated code plan
+  entry_file: ""
+  train_command: ""
+  dependencies: []
+  environment: {}
+  notes: ""
+generated_files: []                # List of generated file paths
+code_dir: ""                       # Path to experiment code directory
+slurm_script: ""                   # Path to SLURM submission script
+train_command: ""                   # Resolved train command
+entry_train_command: ""             # Original entry train command from setup
+runner_script: ""                   # Path to project runner script
+runner_config: ""                   # Path to runner config
+requirements_path: ""               # Path to requirements.txt
+environment_file: ""                # Path to environment.yml

@@ -1,0 +1,61 @@
+suite_id: verification.research-output-preservation
+protected_outcome: >-
+  JSON fallback delivery retains the body, all records and limitations without
+  truncation or invented repairs. Real actions reject invalid final parameters
+  against their frozen input Schema before execution, while pure research keeps
+  incomplete or wrong-type material available to its Agent. Known parse failures
+  retain the received research body through dispatch and storage without projecting
+  quarantined structures as facts or validated source identities.
+  Local finalizer execution and output failures retain an unfinalized draft,
+  while frozen finalizer code and path identity errors stay protected.
+  Frozen scientific source fields may be incomplete without blocking research;
+  runtime fields, source Binding identity and final action parameters stay protected.
+  Entire absent required scientific sources remain explicit unknowns without
+  fabricating artifacts or using defaults to claim readiness.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+failure_class:
+  - json_fallback_discards_scientific_fields
+  - json_fallback_truncation_breaks_payload
+  - preserved_invalid_payload_reaches_machine_consumer
+minimum_owner: 跨组件行为
+production_targets:
+  - services/api/app/execution/skill_contract_policy.py
+  - services/api/app/execution/research_input_contract_gate.py
+  - services/api/app/execution/research_source_document.py
+  - services/api/app/execution/research_dispatch_skill_provider.py
+  - services/api/app/execution/durable_skill_runtime.py
+  - services/api/app/models/result_protocol.py
+  - services/api/app/execution/external_source_identity.py
+  - services/api/app/modules/scientific_state_fact_projection.py
+  - services/api/app/modules/research_dispatch_service.py
+test_responsibility: >-
+  Verify preservation at the fallback producer, observe the existing registered
+  composition behavior, and exercise the real action submit boundary before its
+  execution callback. A warning or raw body does not authorize invalid action
+  parameters; pure research does not acquire a universal content gate.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - complete_json_content_assertions
+  - real_action_parameter_rejection_and_valid_control
+  - pure_research_incomplete_content_control
+  - non_json_and_redaction_regression_assertions
+  - known_parse_failure_dispatch_and_blob_preservation
+  - whole_structure_isolation_and_partial_valid_projection_controls
+  - finalizer_failure_draft_retention_and_frozen_authority_controls
+  - partial_source_composition_and_frozen_scientific_input_controls
+  - runtime_field_priority_and_multi_output_call_identity_controls
+  - absent_required_source_unknown_and_optional_default_controls
+verdict_rule: >-
+  PASS only when every assertion passes. FAIL when output loses content or a
+  invalid real action parameter reaches execution. Missing imports or execution dependencies
+  yield NO_VALID_EVIDENCE. Candidate selection is recorded separately and does
+  not prove the production source or live service has loaded the patch.
+triggers:
+  - JSON semantic fallback materialization changes
+  - machine artifact source composition or schema validation changes

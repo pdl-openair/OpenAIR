@@ -1,0 +1,40 @@
+suite_id: component.modules.research-start-task-lifecycle
+protected_outcome: >-
+  A durable Research Start fact produces one deterministic canonical Task
+  conclusion, preserves a confirmed or running Task against late planning
+  events, and records the Task row plus its progress projection atomically.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - spec/collaboration/01_产品第一原则.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - research_start_fact_directly_overwrites_canonical_task_state
+  - research_start_task_state_and_progress_revision_diverge
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/research_task_lifecycle.py
+  - services/api/app/modules/research_task_lifecycle_repository.py
+test_responsibility: >-
+  Deterministically prove pre-Design planning failure, external-result-unknown,
+  and proven-not-submitted retry transitions; prove that irrelevant facts are
+  no-ops and a persisted conclusion advances row and projection together.
+execution_profiles:
+  - deterministic
+  - postgres
+required_dependencies:
+  - project_python_dependencies
+  - isolated PostgreSQL test database for transaction integration evidence
+evidence_required:
+  - deterministic transition assertions
+  - row revision and projection revision assertions
+  - PostgreSQL transaction assertion when the integration profile is available
+verdict_rule: >-
+  PASS when deterministic tests prove the exact allowed state transitions and
+  no-op boundaries, and when the available transaction profile proves one CAS
+  revision commits the Task status and progress projection together. FAIL on a
+  valid contrary observation; otherwise NO_VALID_EVIDENCE.
+triggers:
+  - Research Start terminal or recovery fact changes
+  - Task lifecycle persistence changes
+  - Task progress projection revision changes

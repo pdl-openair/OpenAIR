@@ -1,0 +1,23 @@
+suite_id: component.modules.research-start-display-context
+protected_outcome: >-
+  Optional automatic naming preserves submitted input and existing names, isolates
+  provider and persistence failures, and never delays public research acceptance.
+authority_refs:
+  - spec/collaboration/01_产品第一原则.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/task_specs/2026-10-09-fresh-workbench-ui-context-and-stream.md
+failure_class: optional_title_corrupts_or_blocks_research_start
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/research_start_title.py
+  - services/api/app/modules/research_start_display_context.py
+  - services/api/app/routes/research_start.py
+test_responsibility: >-
+  Deterministic title failure policy, accepted-response/background dispatch and
+  scoped context endpoint, SQL concurrency, early/late results, rename precedence and
+  missing-migration fallback against an opt-in disposable PostgreSQL database.
+execution_profiles: [deterministic, isolated_postgres]
+required_dependencies: [postgres:17-alpine (isolated_postgres only)]
+evidence_required: [pytest_result]
+verdict_rule: PASS only if declared tests pass; absent valid execution evidence is NO_VALID_EVIDENCE.
+triggers: [research_start_display_context_changes]

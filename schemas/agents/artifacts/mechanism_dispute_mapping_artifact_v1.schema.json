@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/agents/artifacts/mechanism_dispute_mapping_artifact_v1.schema.json",
+  "title": "mechanism_dispute_mapping_artifact_v1",
+  "contractId": "mechanism_dispute_mapping_artifact_v1",
+  "semanticVersion": "1.0.0",
+  "type": "object",
+  "required": ["material_coverage", "mechanism_nodes", "evidence_edges", "inference_edges", "conflict_edges", "unresolved_gaps", "validation_needs", "handoff"],
+  "properties": {
+    "material_coverage": {},
+    "mechanism_nodes": {},
+    "evidence_edges": {},
+    "inference_edges": {},
+    "conflict_edges": {},
+    "unresolved_gaps": {},
+    "validation_needs": {},
+    "handoff": {}
+  },
+  "additionalProperties": true
+}

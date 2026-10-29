@@ -1,0 +1,20 @@
+# REVIEW stage output template
+# Source: nanoresearch/schemas/review.py → ReviewOutput
+
+overall_score: 0.0                 # Average quality score [0.0, 10.0]
+section_reviews:                   # Per-section reviews
+  - section: ""                    # Section heading (e.g. "Introduction")
+    score: 0                       # Quality score [1, 10]
+    issues: []                     # Identified issues
+    suggestions: []                # Improvement suggestions
+    strengths: []                  # Strengths to preserve during revision
+    score_justification: ""        # Brief justification for the score
+consistency_issues:                # Cross-section consistency issues
+  - issue_type: ""                 # ref_mismatch | cite_missing | symbol_inconsistency | env_mismatch
+    description: ""                # Human-readable description
+    locations: []                  # Where in the paper this occurs
+    severity: "medium"             # low | medium | high
+major_revisions: []                # Required major changes
+minor_revisions: []                # Suggested minor changes
+revised_sections: {}               # heading → revised LaTeX content
+revision_rounds: 0                 # Number of revision rounds performed

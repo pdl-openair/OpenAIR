@@ -1,0 +1,17 @@
+suite_id: component.web.pages.workbench-state-organization
+protected_outcome: Workbench task layout preferences remain isolated during task switching and initialize before persistence.
+authority_refs:
+  - docs/02_产品与Workflow/OpenAIR/OpenAIR 工作台状态与信息结构.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: workbench_layout_cross_task_contamination
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/pages/WorkbenchPage.tsx
+  - apps/web/src/hooks/useWorkbenchPanelWidths.ts
+  - apps/web/src/hooks/useWorkbenchSessionState.ts
+test_responsibility: Real task-keyed layout preferences retain per-task widths, defaults, drag and viewport clamping.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS only with runtime evidence for all protected outcomes; otherwise FAIL or NO_VALID_EVIDENCE.
+triggers: [workbench_session_state_changes]

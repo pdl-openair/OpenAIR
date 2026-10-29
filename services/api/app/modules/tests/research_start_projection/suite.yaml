@@ -1,0 +1,21 @@
+suite_id: component.modules.research-start-projection
+protected_outcome: Unknown preparation results retain thoughts without inviting unsafe replay.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class:
+  - research_start_unknown_message_invites_unsafe_retry
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/research_start_projection.py
+test_responsibility: Prove one safe unknown message overrides historical hints only at projection.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - unknown_message_and_thought_preservation_assertions
+verdict_rule: PASS if unknown hints are safe and thoughts preserved; FAIL on contrary evidence; otherwise NO_VALID_EVIDENCE.
+triggers:
+  - ResearchStart public projection changes

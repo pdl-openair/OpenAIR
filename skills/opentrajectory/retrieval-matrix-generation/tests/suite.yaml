@@ -1,0 +1,25 @@
+suite_id: component.skills.retrieval-matrix-generation-contracts
+protected_outcome: Retrieval matrix generation keeps the model schema to semantic draft fields only, finalizes full semantic drafts without rewriting science, preserves supplied strategies and queries, and derives formal counts without scientific content rejection.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- retrieval_matrix_generation_contract_regression
+minimum_owner: 单个组件行为
+production_targets:
+- skills/opentrajectory/retrieval-matrix-generation/
+test_responsibility: Deterministically pin draft field ownership, finalization, supplied-content preservation, and formal count assembly.
+execution_profiles:
+- deterministic
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- pytest_exit_code_0
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions
+  prove protected_outcome; FAIL when sufficient valid evidence proves
+  protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- retrieval_matrix_generation_changed

@@ -1,0 +1,113 @@
+{
+  "version": "p0_1_realistic_cn_eval_v1",
+  "cases": [
+    {
+      "case_id": "cn_battery_001_precise_li_metal",
+      "domain_group": "battery_materials",
+      "input_style": "precise",
+      "expected_difficulty": "medium",
+      "input": {
+        "user_query": "我想检索锂金属电池在 4.5V 以上高电压、2C 以上快充条件下的醚类电解液设计文献，重点看库伦效率、循环寿命和界面稳定性。"
+      }
+    },
+    {
+      "case_id": "cn_battery_002_fuzzy_fast_charge",
+      "domain_group": "battery_materials",
+      "input_style": "fuzzy",
+      "expected_difficulty": "hard",
+      "input": {
+        "user_query": "锂电池快充的时候电解液不稳定，有没有一些比较新的添加剂或者溶剂化结构设计思路？最好别太偏工程应用，想看机理比较清楚的论文。"
+      }
+    },
+    {
+      "case_id": "cn_battery_003_mixed_solid_state",
+      "domain_group": "battery_materials",
+      "input_style": "mixed",
+      "expected_difficulty": "medium",
+      "input": {
+        "user_query": "固态锂电池里，硫化物电解质室温离子电导率最好能到 10^-3 S/cm 以上，同时界面别太差。想看看有没有和锂金属负极匹配比较好的材料或界面调控方法。"
+      }
+    },
+    {
+      "case_id": "cn_battery_004_vague_sodium_low_temp",
+      "domain_group": "battery_materials",
+      "input_style": "vague",
+      "expected_difficulty": "hard",
+      "input": {
+        "user_query": "钠电正极低温性能差，想找一些能改善倍率和结构稳定性的思路，不限定具体材料，但最好能覆盖层状氧化物和一些改性策略。"
+      }
+    },
+    {
+      "case_id": "cn_agent_001_precise_long_task",
+      "domain_group": "agent_systems",
+      "input_style": "precise",
+      "expected_difficulty": "medium",
+      "input": {
+        "user_query": "请帮我检索面向长任务软件开发的 AI Agent 文献，重点关注记忆管理、工具调用、反思机制对任务成功率和稳定性的影响，最好有 benchmark 或可复现实验。"
+      }
+    },
+    {
+      "case_id": "cn_agent_002_fuzzy_research_agent",
+      "domain_group": "agent_systems",
+      "input_style": "fuzzy",
+      "expected_difficulty": "hard",
+      "input": {
+        "user_query": "现在科研智能体到底是不是一个真问题？我想找一些不是简单套壳聊天机器人的研究，最好能说明它怎么真的参与文献分析、假设生成和验证。"
+      }
+    },
+    {
+      "case_id": "cn_agent_003_mixed_materials_multi_agent",
+      "domain_group": "agent_systems",
+      "input_style": "mixed",
+      "expected_difficulty": "hard",
+      "input": {
+        "user_query": "面向材料科研任务的多智能体系统，怎么把文献检索、证据整理、候选假说、计算工具调用和实验反馈串起来？我想看持续演化或闭环优化相关工作。"
+      }
+    },
+    {
+      "case_id": "cn_agent_004_precise_rag_evidence_graph",
+      "domain_group": "agent_systems",
+      "input_style": "precise_tricky",
+      "expected_difficulty": "medium",
+      "input": {
+        "user_query": "科研发现智能体中，RAG、证据图谱和反向校验机制如何提升假说生成可信度？请重点检索来源可追溯、证据链完整、能处理失败案例或负结果的研究。"
+      }
+    },
+    {
+      "case_id": "cn_theory_001_precise_perovskite_dft",
+      "domain_group": "theoretical_materials",
+      "input_style": "precise",
+      "expected_difficulty": "medium",
+      "input": {
+        "user_query": "我想检索卤化物钙钛矿缺陷容忍性的理论研究，重点关注 DFT 计算、非辐射复合、带边态和载流子复合机制之间的关系。"
+      }
+    },
+    {
+      "case_id": "cn_theory_002_mixed_high_entropy",
+      "domain_group": "theoretical_materials",
+      "input_style": "mixed",
+      "expected_difficulty": "medium",
+      "input": {
+        "user_query": "高熵合金相稳定性预测方面，想找 CALPHAD 和 DFT 结合的工作，最好围绕 Al-Co-Cr-Fe-Ni 体系，看形成焓、混合熵和相分解风险。"
+      }
+    },
+    {
+      "case_id": "cn_theory_003_fuzzy_topological",
+      "domain_group": "theoretical_materials",
+      "input_style": "fuzzy",
+      "expected_difficulty": "hard",
+      "input": {
+        "user_query": "拓扑材料里自旋轨道耦合到底怎么影响能带反转？我想找一些理论计算和实验验证能对应上的文章，不要只讲概念。"
+      }
+    },
+    {
+      "case_id": "cn_theory_004_underspecified_mechanism",
+      "domain_group": "theoretical_materials",
+      "input_style": "underspecified",
+      "expected_difficulty": "hard",
+      "input": {
+        "user_query": "有没有材料里机制解释比较清楚、又能被计算验证的研究？我想学习它们怎么从结构变化推到性能提升。"
+      }
+    }
+  ]
+}

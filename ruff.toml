@@ -1,0 +1,54 @@
+# OpenAIR lint gate configuration (design-frozen thresholds - do not change).
+# Existing code never goes red: scripts/gates/diff_gate.py reports only
+# violations on lines ADDED relative to --base (incremental line-level
+# filtering), so this config can be strict while the legacy codebase passes.
+
+line-length = 100
+target-version = "py312"
+extend-exclude = [
+    ".venv",
+    "node_modules",
+    "dist",
+    "__pycache__",
+    ".claude",
+    ".cursor",
+    ".trae",
+    ".qoder",
+    "personal",
+]
+
+[lint]
+select = [
+    "E",       # pycodestyle errors
+    "F",       # pyflakes
+    "W",       # pycodestyle warnings
+    "I",       # isort
+    "B",       # flake8-bugbear
+    "UP",      # pyupgrade
+    "S101",    # assert in product code (tests are exempt below)
+    "S110",    # try-except-pass (silent exception swallowing)
+    "S112",    # try-except-continue (silent exception swallowing)
+    "BLE001",  # blind `except Exception`
+    "C901",    # mccabe complexity
+    "PLR0912", # too many branches
+    "PLR0915", # too many statements
+]
+
+[lint.mccabe]
+max-complexity = 15
+
+[lint.pylint]
+max-branches = 20
+max-statements = 100
+
+[lint.per-file-ignores]
+# NOTE (design deviation, see ledger/b1.md): ruff cannot express per-file
+# thresholds, so "PLR0915 relaxed to 200 for tests" is approximated by
+# ignoring PLR0915 there. Product code stays enforced at 100 statements via
+# diff_gate line-level filtering.
+"**/tests/**" = ["S101", "PLR0915"]
+"scripts/**" = ["PLR0915"]
+# D-20 (sync batch): verification suite layout keeps test files next to the
+# guarded assets (no tests/ directory level), so the **/tests/** pattern above
+# misses them; same S101 exemption intent applies.
+"verification/suites/**/test_*.py" = ["S101"]

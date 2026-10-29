@@ -1,0 +1,145 @@
+{
+  "user_query": "比较不同负极材料在快充条件下循环稳定性，关注容量保持率，电压窗口≤4.2V，温度范围25-45°C。",
+  "research_domain": "lithium-ion batteries",
+  "material_system": "anode materials",
+  "research_context": {
+    "target_metrics": [
+      "capacity retention",
+      "cycle life"
+    ],
+    "out_of_scope": [
+      "cathode material",
+      "fuel cell",
+      "supercapacitor"
+    ]
+  },
+  "interpreted_constraints": [
+    {
+      "constraint_name": "voltage_window",
+      "original_phrase": "电压窗口≤4.2V",
+      "constraint_type": "numerical_range",
+      "interpreted_value": "≤4.2V",
+      "candidate_values": [
+        "cutoff voltage <= 4.2 V"
+      ],
+      "domain_rationale": "The user provides an explicit upper voltage limit.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": [
+        "cutoff voltage 4.2 V",
+        "voltage window",
+        "charging voltage limit"
+      ],
+      "evidence_basis": "explicit numerical constraint in user_query",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "fast_charging_condition",
+      "original_phrase": "快充条件",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "fast charging",
+        "high-rate charging"
+      ],
+      "domain_rationale": "Fast charging is stated but the C-rate is not specified, so it should remain a soft constraint.",
+      "confidence": 0.45,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "fast charging",
+        "high-rate charging",
+        "C-rate"
+      ],
+      "evidence_basis": "qualitative condition in user_query",
+      "risk_flags": [
+        "fast_charging_rate_undefined"
+      ]
+    },
+    {
+      "constraint_name": "capacity_retention_metric",
+      "original_phrase": "容量保持率",
+      "constraint_type": "material_property",
+      "interpreted_value": null,
+      "candidate_values": [
+        "capacity retention",
+        "cycle life"
+      ],
+      "domain_rationale": "The user specifies a performance metric for comparison.",
+      "confidence": 0.65,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": [
+        "capacity retention",
+        "cycle life",
+        "cycling stability"
+      ],
+      "evidence_basis": "explicit metric in user_query",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "recency_window",
+      "original_phrase": "近五年",
+      "constraint_type": "time_window",
+      "interpreted_value": "last 5 years",
+      "candidate_values": [
+        "from_year >= current_year-5"
+      ],
+      "domain_rationale": "The user prefers recent studies.",
+      "confidence": 0.86,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": [
+        "recent studies"
+      ],
+      "evidence_basis": "explicit recency preference in user_query",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "language_preference",
+      "original_phrase": "英文",
+      "constraint_type": "language",
+      "interpreted_value": "English",
+      "candidate_values": [
+        "english"
+      ],
+      "domain_rationale": "The user explicitly requests English literature.",
+      "confidence": 0.92,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": [
+        "English-language literature"
+      ],
+      "evidence_basis": "explicit language preference in user_query",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "source_quality_preference",
+      "original_phrase": "高质量期刊",
+      "constraint_type": "source_quality",
+      "interpreted_value": "high-quality journal",
+      "candidate_values": [
+        "peer-reviewed high-quality journals"
+      ],
+      "domain_rationale": "The user prefers high-quality journal sources.",
+      "confidence": 0.84,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": [
+        "high-quality journal",
+        "peer-reviewed"
+      ],
+      "evidence_basis": "explicit source-quality preference in user_query",
+      "risk_flags": []
+    }
+  ],
+  "constraint_quality_report": {
+    "confidence": 0.66,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [
+      "fast_charging_rate_undefined"
+    ],
+    "needs_manual_review": true
+  },
+  "seed_terms": [
+    "anode material",
+    "cycle stability"
+  ],
+  "known_seed_papers": []
+}

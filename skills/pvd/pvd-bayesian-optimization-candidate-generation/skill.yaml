@@ -1,0 +1,35 @@
+skill_id: pvd_bayesian_optimization_candidate_generation
+claude_name: pvd-bayesian-optimization-candidate-generation
+display_name: PVD Bayesian Optimization Candidate Generation
+domain: pvd
+stages:
+- execution_validation
+substages: []
+packs:
+- pvd
+skill_type: atomic
+runtime: python_adapter
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:pvd_bayesian_optimization_candidate_generation
+  evidence_contract_version: deterministic-output/v1
+status: ready
+source: manual
+skill_path: skills/pvd/pvd-bayesian-optimization-candidate-generation
+claude_skill_path: .claude/skills/pvd-bayesian-optimization-candidate-generation
+review_policy:
+  contract_version: 2
+  mode: schema_validated_only
+input_schema: input.schema.json
+output_schema: output.schema.json
+enabled: true
+fixture_status: missing
+notes: Optional deterministic PVD candidate method. It may supply candidate settings when applicable, does not define the Workflow parameter scope, and does not replace feasibility or final recommendation authority.
+conditional_binding:
+  policy_version: conditional_capability_binding_v1
+  evaluator_ref: python:pvd_bo.applicability:evaluate_capability_applicability
+  required_runtime_fact_refs:
+  - runtime:research-task:v1
+  - runtime:execution-instance:v1
+  - runtime:scientific-state:v1

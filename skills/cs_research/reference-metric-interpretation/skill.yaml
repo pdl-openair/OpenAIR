@@ -1,0 +1,44 @@
+skill_id: reference_metric_interpretation
+claude_name: reference-metric-interpretation
+display_name: 参考指标语义判断
+version: "0.1.0"
+stages:
+- execution_validation
+substages:
+- reference_metric_acquisition
+packs:
+- cs_reproduction
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+capability_contract:
+  artifact_types:
+  - reference_metric_interpretation
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+execution_method_roles:
+- cs_reproduction_baseline_grounding:reference_interpretation
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: reference_metric_acquisition
+owner: TBD
+fixture_status: missing
+notes: 只做 reference 相关性、实验条件对应、指标语义和比较规则依据判断；不读取 actual metrics，不负责来源身份和引用的确定性核验。

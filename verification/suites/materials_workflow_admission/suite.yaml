@@ -1,0 +1,42 @@
+suite_id: materials-workflow-admission
+protected_outcome: >-
+  The Materials candidate-discovery Workflow has its formal identity and required
+  nodes, and every required node resolves to the declared enabled atomic Skill
+  through a declared Binding.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+  - schemas/workflows/materials_candidate_discovery_workflow.yaml
+  - schemas/materials/candidate-discovery-workflow-skill-map.yaml
+  - skills/registry.yaml
+  - skills/skill-bindings.yaml
+failure_class:
+  - materials_workflow_admission_identity_definition_capability_or_binding_drift
+minimum_owner: 确定性合同与不变量
+production_targets:
+  - schemas/workflows/materials_candidate_discovery_workflow.yaml
+  - schemas/materials/candidate-discovery-workflow-skill-map.yaml
+  - skills/registry.yaml
+  - skills/skill-bindings.yaml
+  - services/api/app/modules/research_orchestration_resolver.py
+test_responsibility: >-
+  Deterministically verifies the formal Workflow identity, required Definition
+  references, declared Skill mapping, enabled Registry capability, Binding
+  identity, and canonical snapshot resolution. It does not verify durable runtime
+  registration, Provider availability, external execution, or research quality.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+  - repository Materials Workflow, Registry, and Binding assets
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when each required node resolves to one enabled Registry Skill and one
+  matching Binding in the canonical snapshot; FAIL on identity, Definition,
+  mapping, Registry capability, or Binding drift; otherwise NO_VALID_EVIDENCE.
+triggers:
+  - Materials candidate-discovery Workflow changes
+  - Materials candidate-discovery Skill mapping changes
+  - required Materials Registry capability changes
+  - required Materials Binding changes

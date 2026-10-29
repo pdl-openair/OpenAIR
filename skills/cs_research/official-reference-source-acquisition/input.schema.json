@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "code_source"
+  ],
+  "properties": {
+    "code_source": {
+      "type": "object",
+      "required": [
+        "state",
+        "repository",
+        "requested_revision",
+        "resolved_commit_sha",
+        "verified_head",
+        "workspace_relative_path"
+      ],
+      "properties": {
+        "state": {
+          "const": "succeeded"
+        },
+        "repository": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "requested_revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "resolved_commit_sha": {
+          "type": "string",
+          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+        },
+        "verified_head": {
+          "type": "string",
+          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+        },
+        "workspace_relative_path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

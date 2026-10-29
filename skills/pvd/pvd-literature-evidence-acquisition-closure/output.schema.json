@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "skill_id",
+    "evidence_packet",
+    "research_records",
+    "source_provenance",
+    "coverage",
+    "unresolved_gaps",
+    "prior_retrieval_design",
+    "evidence_shortage_facts",
+    "conditional_evidence_linkage",
+    "retrieval_report",
+    "selection",
+    "reading_evidence",
+    "warnings"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "skill_id": {
+      "const": "pvd_literature_evidence_acquisition_closure"
+    },
+    "evidence_packet": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "research_records": {
+      "type": "array"
+    },
+    "source_provenance": {
+      "type": "array"
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "decision_coverage_sufficient",
+        "required_target_ids",
+        "missing_required_target_ids",
+        "covered_parameter_keys",
+        "missing_parameter_keys",
+        "usable_evidence_count",
+        "waves_completed",
+        "papers_read",
+        "early_stop_reason"
+      ],
+      "additionalProperties": true
+    },
+    "unresolved_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "target_id",
+          "covered_parameter_keys",
+          "description"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "conditional_evidence_linkage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "parameter_key",
+          "target_ids",
+          "evidence_refs"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "parameter_key": {
+            "type": "string"
+          },
+          "target_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "retrieval_report": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "selection": {
+      "type": "object",
+      "required": [
+        "mode",
+        "selected_candidate_ids",
+        "degraded"
+      ],
+      "additionalProperties": true
+    },
+    "reading_evidence": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_shortage_facts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidenceShortageFact"
+      },
+      "description": "Deterministic projection of real downstream evidence-coverage shortages. Empty when decision coverage is sufficient."
+    },
+    "prior_retrieval_design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract",
+        "mode",
+        "query_variants",
+        "design_rationale"
+      ],
+      "properties": {
+        "contract": {
+          "const": "pvd-evidence-retrieval-design/v1"
+        },
+        "mode": {
+          "enum": [
+            "core",
+            "core_plus_supplemental"
+          ]
+        },
+        "query_variants": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "query_id",
+              "query",
+              "priority"
+            ],
+            "properties": {
+              "query_id": {
+                "type": "string"
+              },
+              "query": {
+                "type": "string",
+                "minLength": 1
+              },
+              "priority": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3
+              }
+            }
+          }
+        },
+        "design_rationale": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "description": "The exact retrieval design consumed by this literature-evidence closure. It is echoed unchanged so shortage-triggered supplemental retrieval can re-enter Capability 2 without self-reference or a translation layer."
+    }
+  },
+  "$defs": {
+    "evidenceShortageFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shortage_id",
+        "source_artifact_type",
+        "source_artifact_ref",
+        "reason_code",
+        "description",
+        "affected_parameter_keys",
+        "affected_target_ids"
+      ],
+      "properties": {
+        "shortage_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "source_artifact_type": {
+          "enum": [
+            "literature_selection",
+            "coverage_report",
+            "evidence_acquisition"
+          ]
+        },
+        "source_artifact_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "reason_code": {
+          "enum": [
+            "insufficient_candidates",
+            "missing_condition",
+            "missing_metric",
+            "missing_mechanism",
+            "missing_baseline",
+            "conflict",
+            "not_comparable",
+            "coverage_gap",
+            "other"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "affected_parameter_keys": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          }
+        },
+        "affected_target_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

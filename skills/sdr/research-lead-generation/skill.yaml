@@ -1,0 +1,30 @@
+skill_id: research_lead_generation
+claude_name: research-lead-generation
+display_name: 研究线索生成
+version: "0.1.0"
+stages:
+  - insight_generation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - research_lead_generation
+output_file: 04-report/research-leads.md
+pack: sdr
+spec: 04-report/research-leads.md
+input_skills:
+  - result_acceptance
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: research_lead_generation
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

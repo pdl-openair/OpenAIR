@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "evidence_refs"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1},
+        "evidence_refs": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "answer_segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "evidence_refs"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1},
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "next_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step_id",
+        "action",
+        "reason",
+        "expected_judgment_effect",
+        "target_definition_id",
+        "requires_design_change"
+      ],
+      "properties": {
+        "step_id": {"type": "string", "minLength": 1},
+        "action": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 1},
+        "expected_judgment_effect": {"type": "string", "minLength": 1},
+        "target_definition_id": {
+          "type": "string",
+          "enum": [
+            "cs_reproduction:reproduction_baseline_criteria",
+            "cs_reproduction:reproduction_experiment_design",
+            "cs_reproduction:execution_readiness_validation",
+            "cs_reproduction:real_execution_result_acquisition",
+            "cs_reproduction:result_comparability_judgment"
+          ]
+        },
+        "requires_design_change": {"type": "boolean"},
+        "source_validation_id": {
+          "type": ["string", "null"],
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["answer", "scope", "limitations", "unknowns", "next_steps"],
+  "properties": {
+    "answer": {"$ref": "#/$defs/answer_segment"},
+    "scope": {"$ref": "#/$defs/segment"},
+    "limitations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/segment"}
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/segment"}
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/next_step"}
+    }
+  }
+}

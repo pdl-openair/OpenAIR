@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_status",
+    "first_run_ranking_status",
+    "experiment_count",
+    "experiments",
+    "blocked_experiments",
+    "limited_resource_first_to_run_experiment_ids",
+    "direction_change_signals",
+    "next_step",
+    "shared_conditions",
+    "shared_risks",
+    "important_unknowns",
+    "portfolio_note",
+    "global_optimum_claimed",
+    "audit"
+  ],
+  "properties": {
+    "decision_status": {
+      "enum": ["recommendation", "no_recommendation"]
+    },
+    "first_run_ranking_status": {
+      "enum": ["not_applicable", "pending", "ranked"]
+    },
+    "experiment_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "experiments": {
+      "type": "array"
+    },
+    "blocked_experiments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["experiment_id", "reason_codes"],
+        "properties": {
+          "experiment_id": {
+            "type": ["string", "null"],
+            "minLength": 1
+          },
+          "reason_codes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "limited_resource_first_to_run_experiment_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "direction_change_signals": {
+      "type": "array"
+    },
+    "next_step": {
+      "type": "string"
+    },
+    "shared_conditions": {
+      "type": "array"
+    },
+    "shared_risks": {
+      "type": "array"
+    },
+    "important_unknowns": {
+      "type": "array"
+    },
+    "portfolio_note": {
+      "type": "string"
+    },
+    "global_optimum_claimed": {
+      "const": false
+    },
+    "audit": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision_status": {"const": "no_recommendation"}
+        }
+      },
+      "then": {
+        "properties": {
+          "experiment_count": {"const": 0},
+          "experiments": {"maxItems": 0},
+          "first_run_ranking_status": {"const": "not_applicable"},
+          "limited_resource_first_to_run_experiment_ids": {"maxItems": 0}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision_status": {"const": "recommendation"}
+        }
+      },
+      "then": {
+        "properties": {
+          "experiment_count": {"minimum": 1},
+          "experiments": {"minItems": 1},
+          "first_run_ranking_status": {"enum": ["pending", "ranked"]}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "first_run_ranking_status": {"const": "pending"}
+        }
+      },
+      "then": {
+        "properties": {
+          "limited_resource_first_to_run_experiment_ids": {"maxItems": 0}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "first_run_ranking_status": {"const": "ranked"}
+        }
+      },
+      "then": {
+        "properties": {
+          "limited_resource_first_to_run_experiment_ids": {"minItems": 1}
+        }
+      }
+    }
+  ]
+}

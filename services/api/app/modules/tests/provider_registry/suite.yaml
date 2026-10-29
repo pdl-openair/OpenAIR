@@ -1,0 +1,46 @@
+suite_id: component.modules.provider-registry
+protected_outcome: >-
+  Provider registry and runtime binding preserve declared Provider, model, and
+  environment authority; do not fabricate submission or recovery capability;
+  fail closed on invalid configuration and deterministic model rejection; and
+  keep transient-error classification narrow and explicit.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - provider_registry_authority_or_environment_changed
+  - unsupported_submission_capability_fabricated
+  - invalid_model_or_configuration_not_rejected
+  - deterministic_provider_error_misclassified_as_transient
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/provider_registry.py
+test_responsibility: >-
+  Deterministically prove the declared Huiyan adapter and environment mapping,
+  conservative submission-safety capability, role-scoped model binding,
+  fail-closed configuration and model validation, and the asserted transient
+  versus deterministic Provider error classifications.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+  - provider_registry_declaration
+  - provider_registry_schema
+evidence_required:
+  - pytest_exit_code_0
+  - registry_and_schema_assertions
+  - runtime_binding_and_rejection_assertions
+  - transient_classification_assertions
+verdict_rule: >-
+  PASS only when all required evidence is obtained and the existing assertions
+  prove registry declarations, schema requirements, runtime environment and
+  role bindings, conservative submission safety, fail-closed invalid
+  configuration and deterministic model rejection, and narrow transient
+  classification; FAIL when valid evidence contradicts any asserted registry or
+  binding boundary or fabricates unsupported recovery capability; otherwise
+  NO_VALID_EVIDENCE.
+triggers:
+  - provider registry declaration or schema changes
+  - provider runtime configuration or model binding changes
+  - submission safety or transient-error classification changes

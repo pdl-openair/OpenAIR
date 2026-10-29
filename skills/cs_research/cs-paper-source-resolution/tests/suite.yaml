@@ -1,0 +1,29 @@
+suite_id: component.skill.cs-research.paper-source-resolution
+protected_outcome: >-
+  CS paper source resolution stays fail-closed outside its declared
+  identity grammar: user-provided code identity is preserved verbatim, a
+  unique author-declared or model-card code link resolves to one official
+  source, ambiguity never picks a winner, and formal-contract violations
+  (protocol, metadata representation, landing-page vs PDF handling) are
+  reported instead of guessed.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - skills/cs_research/cs-paper-source-resolution/SKILL.md
+  - skills/cs_research/cs-paper-source-resolution/skill.yaml
+failure_class: cs_paper_source_resolution_identity_or_formal_contract_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/cs_research/cs-paper-source-resolution/adapter
+test_responsibility: >-
+  Deterministic adapter verification of source-identity resolution rules,
+  request representation, and fail-closed ambiguity handling against
+  monkeypatched upstream responses.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - source identity grammar or resolution policy changes
+  - adapter request/metadata handling changes

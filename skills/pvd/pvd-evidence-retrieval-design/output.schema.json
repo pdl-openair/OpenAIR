@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-evidence-retrieval-design/output.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "retrieval_design",
+    "coverage_target",
+    "pending_parameter_evidence_identities"
+  ],
+  "properties": {
+    "retrieval_design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract",
+        "mode",
+        "query_variants",
+        "design_rationale"
+      ],
+      "properties": {
+        "contract": {
+          "const": "pvd-evidence-retrieval-design/v1"
+        },
+        "mode": {
+          "enum": [
+            "core",
+            "core_plus_supplemental"
+          ]
+        },
+        "query_variants": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "query_id",
+              "search_intent",
+              "query",
+              "covered_parameter_keys",
+              "rationale",
+              "priority"
+            ],
+            "properties": {
+              "query_id": {
+                "type": "string",
+                "pattern": "^query_[0-9]{3}$"
+              },
+              "search_intent": {
+                "enum": [
+                  "core_topic",
+                  "constraint_focused",
+                  "mechanism_focused",
+                  "method_or_strategy",
+                  "metric_or_performance",
+                  "adjacent_but_relevant",
+                  "noise_exclusion"
+                ]
+              },
+              "query": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "covered_parameter_keys": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*$"
+                }
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 600
+              },
+              "priority": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3
+              }
+            }
+          }
+        },
+        "design_rationale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1200
+        },
+        "supplemental_trace": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "shortage_fact_ids",
+            "source_artifact_refs",
+            "supplemental_query_ids"
+          ],
+          "properties": {
+            "shortage_fact_ids": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "source_artifact_refs": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "supplemental_query_ids": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^query_[0-9]{3}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "coverage_target": {
+      "$ref": "#/$defs/coverageTarget"
+    },
+    "pending_parameter_evidence_identities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      }
+    }
+  },
+  "$defs": {
+    "coverageTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "formal_parameter_keys",
+        "pending_parameter_keys",
+        "all_parameter_keys"
+      ],
+      "properties": {
+        "formal_parameter_keys": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "pending_parameter_keys": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "all_parameter_keys": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "skill_name": "crystal-synthesis-advisor",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "评估 mattergen-results/mattergen-base/evolve_sun_rmsd_run/pareto/01_Tb6Pr3In2.cif 的可制备性并推荐制备参数",
+      "expected_output": "可制备性评估报告（含 ML 预测 ehull/CLscore、MP 预检、文献检索结果证据链、A-D 等级）+ 3-5 个满足设备/沸点/时长约束的制备方案 JSON。新相无文献先例，等级应诚实反映不确定性。",
+      "files": ["mattergen-results/mattergen-base/evolve_sun_rmsd_run/pareto/01_Tb6Pr3In2.cif"],
+      "assertions": [
+        "存在 assessment_report.md 评估报告，且给出明确的 A/B/C/D 可制备性等级",
+        "报告包含至少一项 ML 预测数值证据（ehull、formation_energy 或 CLscore，带单位和判读）",
+        "报告包含文献检索证据：列出检索到的相关文献，或明确如实说明未找到直接先例",
+        "recommend_output.json 为合法 JSON 且包含至少 3 个完整方案",
+        "所有推荐方案的最高温度 ≤1000℃ 且各段时间累加 ≤200h（默认设备约束）",
+        "无虚构文献：报告引用的每条 DOI/URL 都能在 extracted_recipes.jsonl 或报告附录中溯源到检索记录"
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "我想生长 CrSiTe3 单晶，帮我评估可制备性并给出 CVT 或助熔剂法的制备参数",
+      "expected_output": "评估报告应确认 CrSiTe3 已有文献报道（等级 A/B），给出 CVT 路线（含输运剂、热端/冷端温度、梯度）和/或助熔剂路线方案，Se/Te 挥发性约束（封管、温度上限）被显式处理。",
+      "files": [],
+      "assertions": [
+        "评估等级为 A 或 B（CrSiTe3 是文献已知的可合成材料）",
+        "至少包含一个 CVT 方案，且含输运剂种类与用量、热端/冷端温度（或梯度）",
+        "Se/Te 挥发性约束被显式处理（真空封管、温度上限余量等表述）",
+        "所有推荐方案满足默认约束（≤1000℃、≤200h、相邻温段差 ≥50℃ 的多段程序）",
+        "引用至少 2 篇可溯源的真实文献（DOI 或 URL）"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "LiNbO3 怎么合成？评估一下可行性并给制备参数建议",
+      "expected_output": "纯化学式输入（无 CIF，ML 结构预测跳过或降权注明）。LiNbO3 为经典已知相，评估应识别其成熟合成路线（固相反应 + 提拉法单晶），给出粉体固相反应方案；如推荐助熔剂需说明为何适用。",
+      "files": [],
+      "assertions": [
+        "报告注明无 CIF 输入，结构相关 ML 预测被跳过或降权并说明原因",
+        "识别 LiNbO3 为成熟合成体系，评估等级 A 或 B",
+        "推荐路线包含固相反应（粉体）方案，含煅烧温度与重复研磨-压片流程",
+        "单晶路线（如提拉法/助熔剂）至少被讨论，即便因设备限制不作为首选",
+        "所有推荐方案满足默认约束（≤1000℃、≤200h）"
+      ]
+    }
+  ]
+}

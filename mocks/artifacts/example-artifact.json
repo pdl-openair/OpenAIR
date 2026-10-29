@@ -1,0 +1,7 @@
+{
+  "id": "art-standalone-001",
+  "kind": "note",
+  "title": "独立产物示例",
+  "summary": "可与任务 JSON 内嵌产物并存；用于列表类接口占位。",
+  "createdAt": "2026-05-03T08:00:00Z"
+}

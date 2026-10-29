@@ -1,0 +1,28 @@
+{
+  "status": "completed",
+  "summary": "traj_b 在能量稳定性上更优；traj_a 构象覆盖更广。综合约束建议以 traj_b 为主、对 traj_a 做补充短跑验证。",
+  "ranking": [
+    {
+      "candidate_id": "traj_b",
+      "score": 0.82,
+      "notes": "能量漂移更低，满足稳定性约束"
+    },
+    {
+      "candidate_id": "traj_a",
+      "score": 0.74,
+      "notes": "构象多样性更好，但能量波动略高"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "openair/trajectory-eval/ot_eval_001/comparison.md",
+      "type": "research_note",
+      "title": "轨迹规划评估对比表"
+    }
+  ],
+  "next_actions": [
+    "采用 traj_b 作为主生产轨迹",
+    "对 traj_a 做 50ns 补充采样验证活性位点覆盖"
+  ],
+  "error": null
+}

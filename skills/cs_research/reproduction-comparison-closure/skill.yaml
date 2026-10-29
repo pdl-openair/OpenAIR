@@ -1,0 +1,48 @@
+skill_id: reproduction_comparison_closure
+claude_name: reproduction-comparison-closure
+display_name: 复现比较三态确定性收口
+version: "1.0.0"
+stages: [execution_validation]
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+substages: [result_acceptance]
+input_schema: input.schema.json
+output_schema: output.schema.json
+execution_method_roles:
+  - cs_reproduction_result_comparison:comparison_judgment_closure
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:reproduction_comparison_closure
+  evidence_contract_version: deterministic-output/v1
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: research:declared-scientific-facts:v1
+  facts:
+  - fact_key: reproduction_comparison_verdict
+    source_field: overall_verdict
+  - fact_key: reproduction_comparability
+    source_field: comparability
+  - fact_key: reproduction_metric_judgments
+    source_field: metric_judgments
+  - fact_key: reproduction_condition_mismatches
+    source_field: condition_mismatches
+  - fact_key: reproduction_rule_application
+    source_field: rule_application
+  - fact_key: reproduction_comparison_evidence_refs
+    source_field: evidence_refs
+  - fact_key: reproduction_comparison_unknowns
+    source_field: unknowns
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: result_acceptance
+owner: TBD
+fixture_status: missing
+notes: 最终三态由代码收口；只有可比性完整成立且确定性比较完整时才允许达标/未达标，否则 indeterminate。
+capability_contract:
+  artifact_types: [reproduction_comparison_judgment]
+  judgment_support: {deterministic: true, domain_professional: false}

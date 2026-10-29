@@ -1,0 +1,16 @@
+{
+  "task_id": "task_cs_ope_001",
+  "run_id": "run_cs_ope_001",
+  "stage": "solution_design",
+  "user_goal": "将实验方案拆解为可执行任务清单，制定研究计划与里程碑",
+  "context": {
+    "experiment_design_ref": "openair/ope-benchmark/design/experiment_design-v2.md",
+    "modules": ["M1-M11"],
+    "max_session_hours": 6
+  },
+  "constraints": [
+    "单集合工时不超过 6h",
+    "同模块任务优先聚合",
+    "尊重任务依赖关系"
+  ]
+}

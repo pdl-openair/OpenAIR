@@ -1,0 +1,259 @@
+{
+  "task_id": "task-lmb-demo",
+  "research_context": {
+    "research_object": "High-voltage fast-charging lithium metal battery electrolyte design",
+    "target_metrics": [
+      "Coulombic efficiency",
+      "cycle life",
+      "fast charging stability"
+    ],
+    "boundary_conditions": [
+      "lithium metal anode",
+      "high voltage",
+      "fast charging"
+    ],
+    "output_intent": "hypothesis_update"
+  },
+  "mechanism_packet": {
+    "mechanism_edges": [
+      {
+        "local_edge_key": "edge-1",
+        "edge_id": "me:06cdaf84e920d43c3996",
+        "edge_status": "support",
+        "source_node": {
+          "node_type": "composition",
+          "label": "2 M LiFSI in fluorinated ether FDEE"
+        },
+        "relation": {
+          "predicate": "promotes",
+          "description": "supports an anion-rich solvation structure"
+        },
+        "target_node": {
+          "node_type": "structure",
+          "label": "anion-rich solvation structure"
+        },
+        "evidence_ids": [
+          "ev:3e88da7bb098191e16cf",
+          "ev:880f2f98084d75d04768"
+        ],
+        "rationale": "The composition evidence identifies the concentrated LiFSI/FDEE electrolyte and the mechanism evidence explicitly links anion-rich solvation to downstream interphase formation.",
+        "confidence": 0.9
+      },
+      {
+        "local_edge_key": "edge-2",
+        "edge_id": "me:8289dcf192477eece18b",
+        "edge_status": "support",
+        "source_node": {
+          "node_type": "structure",
+          "label": "anion-rich solvation structure"
+        },
+        "relation": {
+          "predicate": "promotes",
+          "description": "promotes formation of a LiF-rich interphase and suppresses parasitic reactions"
+        },
+        "target_node": {
+          "node_type": "interphase",
+          "label": "LiF-rich interphase with suppressed parasitic reactions"
+        },
+        "evidence_ids": [
+          "ev:880f2f98084d75d04768"
+        ],
+        "rationale": "The cited mechanism evidence explicitly states the cause-effect relationship.",
+        "confidence": 0.97
+      },
+      {
+        "local_edge_key": "edge-3",
+        "edge_id": "me:9a2ef66af0a8aa3b941d",
+        "edge_status": "support",
+        "source_node": {
+          "node_type": "interphase",
+          "label": "LiF-rich interphase with suppressed parasitic reactions"
+        },
+        "relation": {
+          "predicate": "associated_with",
+          "description": "is associated with high lithium plating/stripping Coulombic efficiency under the reported condition"
+        },
+        "target_node": {
+          "node_type": "performance",
+          "label": "99.5% Coulombic efficiency at 1 mA cm−2 and 1 mAh cm−2"
+        },
+        "evidence_ids": [
+          "ev:851a9927a5a502895bae",
+          "ev:880f2f98084d75d04768"
+        ],
+        "rationale": "The mechanism evidence reports suppressed parasitic reactions and the quantitative evidence reports the corresponding Coulombic efficiency under a defined test condition.",
+        "confidence": 0.82
+      }
+    ],
+    "mechanism_chains": [
+      {
+        "local_chain_key": "chain-1",
+        "chain_id": "mc:e8ccaebf7294d5c88f9d",
+        "title": "Concentrated fluorinated electrolyte to interphase-controlled lithium efficiency",
+        "local_edge_keys": [
+          "edge-1",
+          "edge-2",
+          "edge-3"
+        ],
+        "edge_ids": [
+          "me:06cdaf84e920d43c3996",
+          "me:8289dcf192477eece18b",
+          "me:9a2ef66af0a8aa3b941d"
+        ],
+        "chain_summary": "A concentrated LiFSI/FDEE electrolyte supports an anion-rich solvation structure, which promotes a LiF-rich interphase and is associated with high lithium plating/stripping Coulombic efficiency under the reported condition.",
+        "confidence": 0.86
+      }
+    ],
+    "conflicts": [],
+    "gaps": [],
+    "summary": {
+      "input_evidence_item_count": 3,
+      "mechanism_edge_count": 3,
+      "mechanism_chain_count": 1,
+      "edge_status_counts": {
+        "conflict": 0,
+        "gap": 0,
+        "support": 3
+      },
+      "dropped_duplicate_edge_count": 0,
+      "dropped_duplicate_chain_count": 0,
+      "degraded": false
+    },
+    "audit": {
+      "skill_id": "mechanism_chain_synthesis",
+      "traceability_mode": "evidence_id_guard",
+      "guard_version": "p07d-v1",
+      "input_fingerprint": "28326385181e6bc0aee54d9ac9a7939e2b6531e72dce11d86cf489fc39a19fe0",
+      "allowed_edge_statuses": [
+        "conflict",
+        "gap",
+        "support"
+      ],
+      "allowed_predicates": [
+        "associated_with",
+        "contradicts",
+        "decreases",
+        "enables",
+        "increases",
+        "limits",
+        "promotes",
+        "reveals_gap",
+        "suppresses"
+      ]
+    },
+    "synthesis_warnings": []
+  },
+  "findings_packet": {
+    "findings": [
+      {
+        "statement": "The supplied evidence supports that an anion-rich solvation structure promotes formation of a LiF-rich interphase and suppresses parasitic reactions.",
+        "epistemic_status": "boundary_limited",
+        "provenance_evidence_ids": [
+          "ev:880f2f98084d75d04768"
+        ],
+        "basis_mechanism_edge_ids": [
+          "me:8289dcf192477eece18b"
+        ],
+        "gap_mechanism_edge_ids": [],
+        "scope_boundary": "This finding is limited to the reported electrolyte system and does not establish that every route to stronger anion coordination improves fast-charging performance.",
+        "uncertainties": [
+          "Transferability beyond the reported electrolyte chemistry and matched test conditions is not established."
+        ],
+        "confidence": 0.91,
+        "finding_id": "fd:d32982b130d9825f8327",
+        "claim_type": "evidence_supported_finding",
+        "local_finding_key": "finding-1"
+      }
+    ],
+    "summary": {
+      "input_mechanism_edge_count": 3,
+      "finding_count": 1,
+      "status_counts": {
+        "supported": 0,
+        "uncertain": 0,
+        "conflicting": 0,
+        "boundary_limited": 1
+      },
+      "dropped_duplicate_finding_count": 0,
+      "dropped_over_limit_finding_count": 0,
+      "max_findings": 4,
+      "degraded": false
+    },
+    "audit": {
+      "skill_id": "ot_evidence_supported_findings_synthesis",
+      "task_id": "task-lmb-demo",
+      "traceability_mode": "basis_edge_evidence_provenance_guard",
+      "guard_version": "s1-findings-v2",
+      "input_fingerprint": "01077fce0258a29dccf0a1d02d96c76580c86ec8fb67441287ddc485ffc0595b",
+      "claim_layer": "evidence_supported_finding"
+    },
+    "generation_warnings": []
+  },
+  "research_lead_packet": {
+    "research_leads": [
+      {
+        "lead_kind": "transferability_question",
+        "title": "Test whether anion coordination is a transferable interphase-design variable",
+        "research_question": "Across matched high-voltage lithium-metal electrolyte variants, how does changing anion coordination strength relate to interphase chemistry and fast-charging stability beyond the reported LiFSI/FDEE formulation?",
+        "investigation_target": "Transferability of the anion-rich-solvation to LiF-rich-interphase relationship across controlled electrolyte variants.",
+        "rationale": "The current finding is boundary-limited to the reported concentrated LiFSI/FDEE condition, while the mechanism chain identifies anion-rich solvation and LiF-rich interphase formation as linked steps. This creates a well-grounded transferability question without establishing what direction an alternative formulation will produce.",
+        "source_finding_ids": [
+          "fd:d32982b130d9825f8327"
+        ],
+        "mechanism_basis_edge_ids": [
+          "me:06cdaf84e920d43c3996",
+          "me:8289dcf192477eece18b",
+          "me:9a2ef66af0a8aa3b941d"
+        ],
+        "gap_edge_ids": [],
+        "provenance_evidence_ids": [
+          "ev:3e88da7bb098191e16cf",
+          "ev:851a9927a5a502895bae",
+          "ev:880f2f98084d75d04768"
+        ],
+        "boundary_conditions": [
+          "lithium metal anode",
+          "high voltage",
+          "fast charging",
+          "matched electrolyte variants with controlled confounders"
+        ],
+        "scientific_significance": "Determining transferability would show whether anion coordination is a reusable research variable rather than a property specific to one reported formulation.",
+        "uncertainties": [
+          "The supplied packet does not establish transferability across electrolyte families.",
+          "The relative contribution of salt concentration, fluorinated solvent chemistry, and anion coordination is not isolated."
+        ],
+        "confidence": 0.72,
+        "semantic_boundary_judgment": "within_research_lead_boundary",
+        "research_lead_id": "rl:760522e7bcdd6aac52de",
+        "claim_type": "research_lead",
+        "novelty_boundary": "research_direction_not_hypothesis_or_novelty_claim",
+        "local_lead_key": "lead-1"
+      }
+    ],
+    "summary": {
+      "input_finding_count": 1,
+      "input_gap_edge_count": 0,
+      "research_lead_count": 1,
+      "dropped_duplicate_lead_count": 0,
+      "dropped_over_limit_lead_count": 0,
+      "max_research_leads": 4,
+      "degraded": false
+    },
+    "audit": {
+      "skill_id": "ot_research_lead_generation",
+      "task_id": "task-lmb-demo",
+      "traceability_mode": "finding_mechanism_gap_provenance_guard",
+      "guard_version": "s1-lead-v3",
+      "input_fingerprint": "43c1b6654a57102a6e473bf522745d284d30a81bfe57c1d3a2cd44084d649df5",
+      "claim_layer": "research_lead",
+      "novelty_boundary": "research_direction_not_hypothesis_or_novelty_claim"
+    },
+    "generation_warnings": []
+  },
+  "generation_config": {
+    "max_hypotheses": 4,
+    "focus_questions": [
+      "Turn the accepted transferability lead into a bounded, falsifiable hypothesis without presenting it as established."
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+suite_id: component.skill-registry.contracts
+protected_outcome: >-
+  The skill registry tooling keeps deterministic contract behavior:
+  scanning, normalization, registry payload building, workflow/pack
+  validation, and migration reporting under scripts/skill_registry/
+  are proven by unit tests that pin their decision logic against explicit
+  fixtures without relying on live repository state.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/foundations/coding-standards.md
+failure_class: skill_registry_contract_regression
+minimum_owner: 单个组件行为
+production_targets:
+  - scripts/skill_registry/
+test_responsibility: deterministic unit verification of skill registry contract logic
+execution_profiles: [deterministic]
+required_dependencies: [project_python_dependencies]
+evidence_required: [pytest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [skill_registry_decision_logic_changes]

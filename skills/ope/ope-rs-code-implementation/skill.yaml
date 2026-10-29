@@ -1,0 +1,22 @@
+skill_id: code_implementation_l3
+claude_name: ope-rs-code-implementation
+display_name: 代码实现
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - code_implementation
+packs:
+  - ope
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: code_implementation
+owner: TBD
+fixture_status: missing
+notes: OPE L3

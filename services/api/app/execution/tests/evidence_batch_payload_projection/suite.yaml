@@ -1,0 +1,43 @@
+suite_id: component.execution.evidence-batch-payload-projection
+protected_outcome: >-
+  Each scientific-minimal evidence batch sends one already projected paper
+  packet without exposing the machine Schema, while preserving canonical paper
+  packets and the narrowed local validation Schema for later finalization.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - canonical_paper_packet_leaks_into_evidence_batch_provider_payload
+  - evidence_batch_exposes_machine_schema
+  - scientific_minimal_evidence_batch_restores_retired_wrapper_fields
+  - evidence_batch_projection_mutates_canonical_input
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/durable_skill_runtime.py
+test_responsibility: >-
+  Deterministically prove per-paper scientific-minimal payload assembly uses the
+  corresponding Provider-projected packet without exposing machine Schema or
+  retired wrappers and without changing canonical parameters.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - exact_scientific_minimal_payload_assertions
+  - provider_packet_selection_assertion
+  - canonical_input_preservation_assertion
+verdict_rule: >-
+  PASS only when all required evidence is obtained and the existing assertions
+  prove the batch caller selects the Provider-projected packet, the assembled
+  payload contains only instructions and scientificInput, machine Schema,
+  hidden canonical packet fields, and retired wrappers are absent,
+  and canonical input remains unchanged; FAIL when valid evidence contradicts
+  any boundary; otherwise NO_VALID_EVIDENCE.
+triggers:
+  - per-paper evidence batch payload assembly changes
+  - scientific-minimal envelope handling changes
+  - evidence batch Provider packet selection changes

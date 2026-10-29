@@ -1,0 +1,10 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,
+  "required":["current_context","direction_analysis"],
+  "properties":{
+    "current_context":{"type":"object","required":["recommendation_parameter_set"],"properties":{"recommendation_parameter_set":{"type":"object","required":["parameters"],"properties":{"parameters":{"type":"array","minItems":1,"items":{"type":"object","required":["parameter_key","display_name","value_type","unit"],"properties":{"parameter_key":{"type":"string"},"display_name":{"type":"string"},"value_type":{"enum":["continuous","integer","categorical","boolean"]},"unit":{"type":["string","null"]},"allowed_values":{"type":"array"},"minimum":{"type":"number"},"maximum":{"type":"number"}}}}}},"device_hard_boundaries":{"type":"array"},"run_preferences":{"type":"object"}}},
+    "direction_analysis":{"type":"object","required":["factor_assessments"],"properties":{"factor_assessments":{"type":"array","minItems":1,"items":{"type":"object","required":["candidate_ref","factor","display_name","candidate_direction"],"properties":{"candidate_ref":{"type":"string"},"factor":{"type":"string"},"display_name":{"type":"string"},"candidate_direction":{"enum":["increase","decrease","hold","change","uncertain"]}}}}}},
+    "candidate_exploration":{"type":["object","null"]}
+  },
+  "$comment":"Consumes the Cap5 Direction Artifact directly; no renamed direction object or concrete candidate is required."
+}

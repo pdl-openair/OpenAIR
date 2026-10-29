@@ -1,0 +1,19 @@
+suite_id: component.modules.target-output-contributions
+protected_outcome: Every necessary current or reused contribution must satisfy the single completion authority; partial acceptance never implies success.
+authority_refs:
+  - docs/task_specs/2026-10-09-ctrl-gap-contract-extension.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+failure_class: combined_target_ignores_necessary_contribution
+minimum_owner: 跨组件与基础设施
+test_responsibility: Existing completion and reuse projection consumers plus formal shared contract; explicitly controlled software state is not execution evidence.
+production_targets:
+  - services/api/app/modules/research_completion_decision.py
+  - services/api/app/modules/target_output_completion.py
+  - services/api/app/models/project_completion_targets.py
+  - packages/shared/src/projectCompletionTargets.ts
+execution_profiles: [deterministic]
+required_dependencies: [current Python runtime, current TypeScript runtime]
+evidence_required: [candidate source fingerprint, pytest output and JUnit, shared decoding result, adjacent regression result]
+verdict_rule: PASS only if each scoped assertion passes; missing execution evidence is NO_VALID_EVIDENCE. No Fresh claim.
+triggers: [target contribution or reuse acceptance contract changes]
+approval_basis: User explicitly approved both CTRL contract extensions and confirmed implementation may continue.

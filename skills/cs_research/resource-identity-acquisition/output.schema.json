@@ -1,0 +1,256 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/singleSuccess"
+    },
+    {
+      "type": "object",
+      "required": [
+        "state",
+        "resources",
+        "summary"
+      ],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "succeeded",
+            "partial_failure"
+          ]
+        },
+        "resources": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "required": [
+              "usage",
+              "result"
+            ],
+            "properties": {
+              "usage": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "result": {
+                "oneOf": [
+                  {
+                    "$ref": "#/definitions/singleSuccess"
+                  },
+                  {
+                    "$ref": "#/definitions/failure"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "summary": {
+          "type": "object",
+          "required": [
+            "total",
+            "succeeded",
+            "failed"
+          ],
+          "properties": {
+            "total": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16
+            },
+            "succeeded": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16
+            },
+            "failed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "singleSuccess": {
+      "type": "object",
+      "required": [
+        "state",
+        "resource_kind",
+        "repo_id",
+        "repo_type",
+        "requested_revision",
+        "resolved_commit_sha",
+        "actual_identity",
+        "expected_identity_verification",
+        "workspace_relative_path",
+        "execution_evidence"
+      ],
+      "properties": {
+        "state": {
+          "const": "succeeded"
+        },
+        "resource_kind": {
+          "type": "string",
+          "enum": [
+            "huggingface_snapshot",
+            "huggingface_file"
+          ]
+        },
+        "repo_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repo_type": {
+          "type": "string",
+          "enum": [
+            "model",
+            "dataset"
+          ]
+        },
+        "requested_revision": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "resolved_commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "actual_identity": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "kind",
+                "commit_sha"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "huggingface_commit"
+                },
+                "commit_sha": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{40}$"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "kind",
+                "commit_sha",
+                "filename",
+                "sha256"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "huggingface_file_at_commit"
+                },
+                "commit_sha": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{40}$"
+                },
+                "filename": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "expected_identity_verification": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "not_requested"
+          ]
+        },
+        "workspace_relative_path": {
+          "type": "string",
+          "pattern": "^resource(?:/.*)?$"
+        },
+        "execution_evidence": {
+          "type": "object",
+          "required": [
+            "provider_client",
+            "operation",
+            "materialized"
+          ],
+          "properties": {
+            "provider_client": {
+              "type": "string",
+              "minLength": 1
+            },
+            "operation": {
+              "type": "string",
+              "enum": [
+                "snapshot_download",
+                "hf_hub_download"
+              ]
+            },
+            "materialized": {
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "failure": {
+      "type": "object",
+      "required": [
+        "state",
+        "failure_code",
+        "failed_stage"
+      ],
+      "properties": {
+        "state": {
+          "const": "failed"
+        },
+        "failure_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "failed_stage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cleanup_triggered_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider_client": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider_client_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,30 @@
+skill_id: title_abstract_screening
+claude_name: title-abstract-screening-skill
+display_name: 标题摘要筛选
+stages:
+- execution_validation
+substages:
+- literature_experiment_record_verification
+skill_type: atomic
+runtime: python_adapter
+status: ready
+packs:
+- opentrajectory
+- pvd
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: title_abstract_screening.json
+notes: Deterministic screening bridge before candidate-source-scoring. No network fetch, fulltext parsing, scoring, tiering,
+  or Top-K selection.
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: source_screening_selection
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:title_abstract_screening
+  evidence_contract_version: deterministic-output/v1

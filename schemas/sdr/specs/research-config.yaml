@@ -1,0 +1,47 @@
+# SDR (Spec-Driven Research) Project Configuration
+# This file defines the research project context and rules.
+
+project: "<project-name>"
+schema: "sdr-driven"
+
+# Research type determines method and experiment stage content.
+# M = Method/Model: performance-driven, needs baselines + ablation + statistical significance
+# D = Discovery/Data-analysis: story-driven, needs analysis breadth + mechanism exploration
+# C = Computational-tool: utility-driven, needs correctness + performance + scalability + comparison
+# H = Hybrid: dual-track, needs M+D approach
+research_type: "M"
+
+# AI participation mode.
+# copilot: AI drafts, human decides and approves
+# autopilot: AI auto-completes, human only reviews at checkpoint
+ai_mode: "copilot"
+
+# Research domain
+domain: ""                    # e.g., "machine-learning", "bioinformatics"
+subdomain: ""                 # e.g., "few-shot-learning", "single-cell-genomics"
+
+# Target venue
+target_venue:
+  primary: ""                 # e.g., "NeurIPS 2026"
+  tier: ""                    # A / B / C
+
+# Resources
+resources:
+  compute: ""                 # e.g., "4x A100", "single RTX 3090"
+  data_status: ""             # e.g., "user-provided", "public benchmarks", "needs collection"
+
+# Which stages require human checkpoint approval.
+checkpoint_stages:
+  - problem
+  - method
+
+# Minimum success criteria (declared before execution)
+minimum_success_criteria:
+  min_baselines: 2            # Minimum number of baselines measured (Type M/H)
+  min_ablation_runs: 2        # Minimum ablation variants (Type M/H)
+  require_proposed: true      # Must include proposed method run (Type M/H)
+  required_metrics: []        # Primary metrics that must be reported
+
+# Modification log — track all changes to this file
+modification_log: []
+  # Each entry: { date: "", field: "", old: "", new: "", reason: "" }

@@ -1,0 +1,26 @@
+suite_id: component.execution.durable-orchestrator-bridge
+protected_outcome: The durable orchestration bridge compiles only the frozen registered capability plan, rejects unregistered planned capabilities, ignores later task messages or router choices, and preserves each registered artifact contract before execution.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- durable_bridge_unregistered_capability_execution
+- durable_bridge_frozen_plan_rewrite
+- durable_bridge_artifact_contract_loss
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/execution/durable_orchestrator_bridge.py
+test_responsibility: Distinguish compilation of registered frozen work with complete artifact contracts from unregistered capability execution or post-freeze plan rewriting.
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- pytest_exit_code_0
+- known_good_registered_frozen_plan_compiled
+- known_bad_unregistered_or_changed_after_plan_blocked
+verdict_rule: >-
+  PASS only when the existing Suite proves registered frozen plans retain their artifact contracts and unregistered or changed-after inputs cannot alter compiled work; FAIL when the bridge expands capability or rewrites frozen authority; otherwise NO_VALID_EVIDENCE.
+triggers:
+- app.execution.durable_orchestrator_bridge behavior or contract changes

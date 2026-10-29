@@ -1,0 +1,23 @@
+suite_id: component.modules.research-design-workflow-planner
+protected_outcome: The ResearchDesign Planner adapts frozen Workflow responsibilities into project work without dropping core responsibilities, forcing conditional work, or representing validated reuse as re-execution, and records adopted, not-adopted, and revalidation planning-source provenance as formal PlanningSourceUsage facts without replacing Workflow Definition authority.
+authority_refs:
+- docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+- docs/02_产品与Workflow/CS论文复现/OpenAIR_CS论文复现_Workflow设计合同.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class: research_design_workflow_adaptation_violation
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/modules/research_design_planner_assembly.py
+- services/api/app/modules/research_design_workflow_semantic_provider.py
+test_responsibility: deterministic Planner component proof for required, conditional, dependency, explicit-result-reuse, and planning-source provenance semantics after a Workflow has been frozen
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- adaptive Workflow Planner assembly changes
+- CS Workflow responsibility or dependency changes

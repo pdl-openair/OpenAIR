@@ -1,0 +1,27 @@
+skill_id: reproduction_comparability_assessment
+claude_name: reproduction-comparability-assessment
+display_name: 复现结果可比性判断
+version: "1.0.0"
+stages: [execution_validation]
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+execution_method_roles:
+  - cs_reproduction_result_comparison:comparability_assessment
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output: {contract_version: 1, guard_version: p06c-v1}
+review_policy: {contract_version: 1, mode: schema_validated_only}
+owner: TBD
+fixture_status: missing
+notes: 只负责判断参考结果与本次真实结果是否具有比较资格；不得形成达标/未达标结论。
+capability_contract:
+  artifact_types: [reproduction_comparability_assessment]
+  judgment_support: {deterministic: false, domain_professional: true}

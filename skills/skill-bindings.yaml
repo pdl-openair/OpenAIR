@@ -1,0 +1,4540 @@
+version: 2
+bindings:
+- bindingId: bind:materials:candidate_generation:skill:crystal_design_formula_crossover_agent
+  bindingVersion: 1
+  definitionId: materials:candidate_generation
+  definitionVersion: 1
+  skillId: crystal_design_formula_crossover_agent
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:candidate_generation:skill:crystal_design_formula_crossover_py
+  bindingVersion: 1
+  definitionId: materials:candidate_generation
+  definitionVersion: 1
+  skillId: crystal_design_formula_crossover_py
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:candidate_generation:skill:crystal_design_structure_crossover_agent
+  bindingVersion: 1
+  definitionId: materials:candidate_generation
+  definitionVersion: 1
+  skillId: crystal_design_structure_crossover_agent
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: candidates
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:materials:database_search:skill:materials_mp_constraint_search
+        bindingVersion: 1
+        field: candidates
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: task_instruction
+      source:
+        kind: literal
+        # 演化负载按演示节奏收紧：pop 4（MCP 变异+适应度评估每子代约 2-3 min，
+        # pop 8 时 init 阶段即可超桥的 900s 子进程超时——task_974b 15 分钟即此因）
+        value: {"pop_size": 4}
+- bindingId: bind:materials:candidate_generation:skill:crystal_design_structure_crossover_py
+  bindingVersion: 1
+  definitionId: materials:candidate_generation
+  definitionVersion: 1
+  skillId: crystal_design_structure_crossover_py
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: candidates
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:materials:database_search:skill:materials_mp_constraint_search
+        bindingVersion: 1
+        field: candidates
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: task_instruction
+      source:
+        kind: literal
+        value: {}
+- bindingId: bind:materials:candidate_generation:skill:materials_magnet_design_mvp
+  bindingVersion: 1
+  definitionId: materials:candidate_generation
+  definitionVersion: 1
+  skillId: materials_magnet_design_mvp
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:candidate_generation:skill:materials_new_crystal_generation
+  bindingVersion: 1
+  definitionId: materials:candidate_generation
+  definitionVersion: 1
+  skillId: materials_new_crystal_generation
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:database_search:skill:materials_mp_constraint_search
+  bindingVersion: 1
+  definitionId: materials:database_search
+  definitionVersion: 1
+  skillId: materials_mp_constraint_search
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: task_instruction
+      source:
+        kind: literal
+        value: {}
+- bindingId: bind:materials:parameter_recommendation:skill:materials_parameter_recommend_flux
+  bindingVersion: 1
+  definitionId: materials:parameter_recommendation
+  definitionVersion: 1
+  skillId: materials_parameter_recommend_flux
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:stability_verification:skill:vasp_thermodynamic_stability
+  bindingVersion: 1
+  definitionId: materials:stability_verification
+  definitionVersion: 1
+  skillId: vasp_thermodynamic_stability
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: candidate_summary
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:candidate_generation:skill:crystal_design_structure_crossover_agent
+        bindingVersion: 1
+        field: top_k_table
+    - targetField: pareto_cif_paths
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:candidate_generation:skill:crystal_design_structure_crossover_agent
+        bindingVersion: 1
+        field: pareto_cif_paths
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: task_instruction
+      source:
+        kind: literal
+        value: {}
+- bindingId: bind:ope:code_implementation:skill:code_implementation_l3
+  bindingVersion: 1
+  definitionId: ope:code_implementation
+  definitionVersion: 1
+  skillId: code_implementation_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:data_validation:skill:data_validation_l3
+  bindingVersion: 1
+  definitionId: ope:data_validation
+  definitionVersion: 1
+  skillId: data_validation_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:data_visualization:skill:data_visualization_l3
+  bindingVersion: 1
+  definitionId: ope:data_visualization
+  definitionVersion: 1
+  skillId: data_visualization_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:experiment_design:skill:experiment_design_l3
+  bindingVersion: 1
+  definitionId: ope:experiment_design
+  definitionVersion: 1
+  skillId: experiment_design_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:experiment_execution:skill:experiment_execution_l3
+  bindingVersion: 1
+  definitionId: ope:experiment_execution
+  definitionVersion: 1
+  skillId: experiment_execution_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:gap_analysis:skill:gap_analysis_l3
+  bindingVersion: 1
+  definitionId: ope:gap_analysis
+  definitionVersion: 1
+  skillId: gap_analysis_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:hypothesis_construction:skill:hypothesis_construction_l3
+  bindingVersion: 1
+  definitionId: ope:hypothesis_construction
+  definitionVersion: 1
+  skillId: hypothesis_construction_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:info_retrieval:skill:info_retrieval_l3
+  bindingVersion: 1
+  definitionId: ope:info_retrieval
+  definitionVersion: 1
+  skillId: info_retrieval_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:literature_filter:skill:literature_filter_l3
+  bindingVersion: 1
+  definitionId: ope:literature_filter
+  definitionVersion: 1
+  skillId: literature_filter_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:paper_revision:skill:paper_revision_l3
+  bindingVersion: 1
+  definitionId: ope:paper_revision
+  definitionVersion: 1
+  skillId: paper_revision_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:paper_writing:skill:paper_writing_l3
+  bindingVersion: 1
+  definitionId: ope:paper_writing
+  definitionVersion: 1
+  skillId: paper_writing_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:question_formulation:skill:question_formulation_l3
+  bindingVersion: 1
+  definitionId: ope:question_formulation
+  definitionVersion: 1
+  skillId: question_formulation_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:task_planning:skill:task_planning_l3
+  bindingVersion: 1
+  definitionId: ope:task_planning
+  definitionVersion: 1
+  skillId: task_planning_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+  bindingVersion: 1
+  definitionId: opentrajectory:problem_framing
+  definitionVersion: 1
+  skillId: problem_framing_generation
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: user_query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:opentrajectory:evidence_extraction:skill:evidence_node_extraction
+  bindingVersion: 1
+  definitionId: opentrajectory:evidence_extraction
+  definitionVersion: 1
+  skillId: evidence_node_extraction
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: paper_packets
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:progressive_reading:skill:deepxiv_progressive_reading
+        bindingVersion: 1
+        field: paper_packets
+    - targetField: evidence_schema
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_schema_design:skill:evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:opentrajectory:evidence_schema_design:skill:evidence_schema_design
+  bindingVersion: 1
+  definitionId: opentrajectory:evidence_schema_design
+  definitionVersion: 1
+  skillId: evidence_schema_design
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: intent_understanding
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: constraints_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: constraints_criteria
+    - targetField: retrieval_strategy_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:retrieval_strategy_design:skill:retrieval_matrix_generation
+        bindingVersion: 1
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:opentrajectory:findings_synthesis:skill:research_lead_hypothesis_generation
+  bindingVersion: 1
+  definitionId: opentrajectory:findings_synthesis
+  definitionVersion: 1
+  skillId: research_lead_hypothesis_generation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: research_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: research_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_extraction:skill:evidence_node_extraction
+        bindingVersion: 1
+        field: research_records
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:opentrajectory:evidence_assessment_synthesis:skill:ot_v3_evidence_assessment_synthesis
+  bindingVersion: 1
+  definitionId: opentrajectory:evidence_assessment_synthesis
+  definitionVersion: 1
+  skillId: ot_v3_evidence_assessment_synthesis
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: research_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        cardinality: many
+        bindingId: bind:opentrajectory:research_record_establishment:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: research_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        cardinality: many
+        bindingId: bind:opentrajectory:research_record_establishment:skill:evidence_node_extraction
+        bindingVersion: 1
+        field: research_records
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:opentrajectory:progressive_reading:skill:deepxiv_progressive_reading
+  bindingVersion: 1
+  definitionId: opentrajectory:progressive_reading
+  definitionVersion: 1
+  skillId: deepxiv_progressive_reading
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: topk_selection
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:source_screening_selection:skill:opentrajectory_source_screening_selection
+        bindingVersion: 1
+        field: topk_selection
+    - targetField: evidence_schema
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_schema_design:skill:evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+- bindingId: bind:opentrajectory:retrieval_strategy_design:skill:retrieval_matrix_generation
+  bindingVersion: 1
+  definitionId: opentrajectory:retrieval_strategy_design
+  definitionVersion: 1
+  skillId: retrieval_matrix_generation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: intent_understanding
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: constraints_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: constraints_criteria
+- bindingId: bind:opentrajectory:source_acquisition:skill:opentrajectory_source_acquisition
+  bindingVersion: 1
+  definitionId: opentrajectory:source_acquisition
+  definitionVersion: 1
+  skillId: opentrajectory_source_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: search_matrix
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:retrieval_strategy_design:skill:retrieval_matrix_generation
+        bindingVersion: 1
+        field: search_matrix
+    - targetField: expanded_query_variants
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:retrieval_strategy_design:skill:retrieval_matrix_generation
+        bindingVersion: 1
+        field: expanded_query_variants
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: user_query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:opentrajectory:source_screening_selection:skill:opentrajectory_source_screening_selection
+  bindingVersion: 1
+  definitionId: opentrajectory:source_screening_selection
+  definitionVersion: 1
+  skillId: opentrajectory_source_screening_selection
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: candidates
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:source_acquisition:skill:opentrajectory_source_acquisition
+        bindingVersion: 1
+        field: candidates
+    - targetField: research_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: evidence_schema
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_schema_design:skill:evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+    - targetField: user_query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:opentrajectory:research_record_establishment:skill:problem_framing_generation
+  bindingVersion: 1
+  definitionId: opentrajectory:research_record_establishment
+  definitionVersion: 1
+  skillId: problem_framing_generation
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: user_query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:opentrajectory:research_record_establishment:skill:retrieval_matrix_generation
+  bindingVersion: 1
+  definitionId: opentrajectory:research_record_establishment
+  definitionVersion: 1
+  skillId: retrieval_matrix_generation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: intent_understanding
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: constraints_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:problem_framing_generation
+        bindingVersion: 1
+        field: constraints_criteria
+- bindingId: bind:opentrajectory:research_record_establishment:skill:evidence_schema_design
+  bindingVersion: 1
+  definitionId: opentrajectory:research_record_establishment
+  definitionVersion: 1
+  skillId: evidence_schema_design
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: intent_understanding
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: constraints_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:problem_framing_generation
+        bindingVersion: 1
+        field: constraints_criteria
+    - targetField: retrieval_strategy_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:retrieval_matrix_generation
+        bindingVersion: 1
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:opentrajectory:research_record_establishment:skill:opentrajectory_source_acquisition
+  bindingVersion: 1
+  definitionId: opentrajectory:research_record_establishment
+  definitionVersion: 1
+  skillId: opentrajectory_source_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: search_matrix
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:retrieval_matrix_generation
+        bindingVersion: 1
+        field: search_matrix
+    - targetField: expanded_query_variants
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:retrieval_matrix_generation
+        bindingVersion: 1
+        field: expanded_query_variants
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: user_query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:opentrajectory:research_record_establishment:skill:opentrajectory_source_screening_selection
+  bindingVersion: 1
+  definitionId: opentrajectory:research_record_establishment
+  definitionVersion: 1
+  skillId: opentrajectory_source_screening_selection
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: candidates
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:opentrajectory_source_acquisition
+        bindingVersion: 1
+        field: candidates
+    - targetField: research_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: evidence_schema
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+    - targetField: user_query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:opentrajectory:research_record_establishment:skill:deepxiv_progressive_reading
+  bindingVersion: 1
+  definitionId: opentrajectory:research_record_establishment
+  definitionVersion: 1
+  skillId: deepxiv_progressive_reading
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: topk_selection
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:opentrajectory_source_screening_selection
+        bindingVersion: 1
+        field: topk_selection
+    - targetField: evidence_schema
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+- bindingId: bind:opentrajectory:research_record_establishment:skill:evidence_node_extraction
+  bindingVersion: 1
+  definitionId: opentrajectory:research_record_establishment
+  definitionVersion: 1
+  skillId: evidence_node_extraction
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: paper_packets
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:deepxiv_progressive_reading
+        bindingVersion: 1
+        field: paper_packets
+    - targetField: evidence_schema
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:research_record_establishment:skill:evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:pvd:research_goal_equipment_constraints:skill:pvd_research_request_understanding
+  bindingVersion: 1
+  definitionId: pvd:research_goal_equipment_constraints
+  definitionVersion: 1
+  skillId: pvd_research_request_understanding
+  skillDefinitionVersion: 1
+  # Only the S1 (research_goal_equipment_constraints) binding carries the
+  # scientific_state_projection: writing experiment history into ScientificState
+  # is S1-entry authority only. S2/S5/S6 reuse this skill for context-rebuild
+  # and must NOT re-materialize (would deterministically raise
+  # pvd_research_request_history_conflict against S1's already-written rows).
+  scientificStateProjection:
+    contract_version: 2
+    materializer_ref: pvd:research-request-understanding:v1
+    facts:
+    - fact_key: pvd_research_request_context
+      source_field: structured_context
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_research_request_understanding
+  bindingVersion: 1
+  definitionId: pvd:research_retrieval_experiment_design
+  definitionVersion: 1
+  skillId: pvd_research_request_understanding
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_evidence_retrieval_design
+  bindingVersion: 1
+  definitionId: pvd:research_retrieval_experiment_design
+  definitionVersion: 1
+  skillId: pvd_evidence_retrieval_design
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: structured_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: structured_context
+    - targetField: recommendation_parameter_set
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: recommendation_parameter_set
+    - targetField: parameter_admission_judgments
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: structured_context.parameter_admission_judgments
+    - targetField: prior_retrieval_design
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:pvd:literature_experiment_record_verification:skill:pvd_literature_evidence_acquisition_closure
+        bindingVersion: 1
+        field: prior_retrieval_design
+    - targetField: evidence_shortage_facts
+      sourcePresence: optional
+      defaultValue: []
+      source:
+        kind: artifact
+        bindingId: bind:pvd:literature_experiment_record_verification:skill:pvd_literature_evidence_acquisition_closure
+        bindingVersion: 1
+        field: evidence_shortage_facts
+- bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_evidence_schema_design
+  bindingVersion: 1
+  definitionId: pvd:research_retrieval_experiment_design
+  definitionVersion: 1
+  skillId: pvd_evidence_schema_design
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: structured_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: structured_context
+    - targetField: recommendation_parameter_set
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: recommendation_parameter_set
+    - targetField: parameter_admission_judgments
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: structured_context.parameter_admission_judgments
+    - targetField: retrieval_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_evidence_retrieval_design
+        bindingVersion: 1
+        field: retrieval_design
+- bindingId: bind:pvd:evidence_applicability_comparability_analysis:skill:pvd_evidence_applicability_comparability_analysis
+  bindingVersion: 1
+  definitionId: pvd:evidence_applicability_comparability_analysis
+  definitionVersion: 1
+  skillId: pvd_evidence_applicability_comparability_analysis
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: pvd_project_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_goal_equipment_constraints:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: $
+    - targetField: research_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:literature_experiment_record_verification:skill:pvd_literature_evidence_acquisition_closure
+        bindingVersion: 1
+        field: research_records
+    - targetField: evidence_packet
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:literature_experiment_record_verification:skill:pvd_literature_evidence_acquisition_closure
+        bindingVersion: 1
+        field: evidence_packet
+    - targetField: source_provenance
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:literature_experiment_record_verification:skill:pvd_literature_evidence_acquisition_closure
+        bindingVersion: 1
+        field: source_provenance
+    - targetField: coverage
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:literature_experiment_record_verification:skill:pvd_literature_evidence_acquisition_closure
+        bindingVersion: 1
+        field: coverage
+    - targetField: unresolved_gaps
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:literature_experiment_record_verification:skill:pvd_literature_evidence_acquisition_closure
+        bindingVersion: 1
+        field: unresolved_gaps
+    - targetField: conditional_evidence_linkage
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:literature_experiment_record_verification:skill:pvd_literature_evidence_acquisition_closure
+        bindingVersion: 1
+        field: conditional_evidence_linkage
+    - targetField: support_target
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+- bindingId: bind:pvd:experimental_feedback_round_analysis:skill:pvd_research_request_understanding
+  bindingVersion: 1
+  definitionId: pvd:experimental_feedback_round_analysis
+  definitionVersion: 1
+  skillId: pvd_research_request_understanding
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:pvd:experimental_feedback_round_analysis:skill:pvd_experimental_feedback_round_analysis
+  bindingVersion: 1
+  definitionId: pvd:experimental_feedback_round_analysis
+  definitionVersion: 1
+  skillId: pvd_experimental_feedback_round_analysis
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: scientific_state_facts
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: $
+    - targetField: evidence_comparability
+      sourcePresence: optional
+      defaultValue: null
+      source:
+        kind: artifact
+        bindingId: bind:pvd:evidence_applicability_comparability_analysis:skill:pvd_evidence_applicability_comparability_analysis
+        bindingVersion: 1
+        field: $
+    - targetField: factor_analysis
+      sourcePresence: optional
+      defaultValue: null
+      source:
+        kind: artifact
+        bindingId: bind:pvd:process_factor_candidate_experiment_analysis:skill:pvd_process_factor_candidate_experiment_analysis
+        bindingVersion: 1
+        field: $
+    - targetField: recommendation
+      sourcePresence: optional
+      defaultValue: null
+      source:
+        kind: artifact
+        bindingId: bind:pvd:round_experiment_plan_parameter_recommendation:skill:pvd_round_experiment_plan_parameter_recommendation
+        bindingVersion: 1
+        field: $
+    - targetField: current_project_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:experimental_feedback_round_analysis:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: structured_context
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: user_query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: experiment_ref
+      source:
+        kind: invocationContext
+        field: experiment_ref
+- bindingId: bind:pvd:process_factor_candidate_experiment_analysis:skill:pvd_research_request_understanding
+  bindingVersion: 1
+  definitionId: pvd:process_factor_candidate_experiment_analysis
+  definitionVersion: 1
+  skillId: pvd_research_request_understanding
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:pvd:process_factor_candidate_experiment_analysis:skill:pvd_process_factor_candidate_experiment_analysis
+  bindingVersion: 1
+  definitionId: pvd:process_factor_candidate_experiment_analysis
+  definitionVersion: 1
+  skillId: pvd_process_factor_candidate_experiment_analysis
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: current_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:process_factor_candidate_experiment_analysis:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: $
+    - targetField: evidence_applicability
+      sourcePresence: optional
+      defaultValue: null
+      source:
+        kind: artifact
+        bindingId: bind:pvd:evidence_applicability_comparability_analysis:skill:pvd_evidence_applicability_comparability_analysis
+        bindingVersion: 1
+        field: $
+    - targetField: feedback_analysis
+      sourcePresence: optional
+      defaultValue: null
+      source:
+        kind: artifact
+        bindingId: bind:pvd:experimental_feedback_round_analysis:skill:pvd_experimental_feedback_round_analysis
+        bindingVersion: 1
+        field: $
+- bindingId: bind:pvd:parameter_experiment_plan_feasibility_validation:skill:pvd_parameter_experiment_plan_feasibility_validation
+  bindingVersion: 1
+  definitionId: pvd:parameter_experiment_plan_feasibility_validation
+  definitionVersion: 1
+  skillId: pvd_parameter_experiment_plan_feasibility_validation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: current_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:process_factor_candidate_experiment_analysis:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: $
+    - targetField: direction_analysis
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:process_factor_candidate_experiment_analysis:skill:pvd_process_factor_candidate_experiment_analysis
+        bindingVersion: 1
+        field: $
+- bindingId: bind:pvd:round_experiment_plan_parameter_recommendation:skill:pvd_round_experiment_plan_parameter_recommendation
+  bindingVersion: 1
+  definitionId: pvd:round_experiment_plan_parameter_recommendation
+  definitionVersion: 1
+  skillId: pvd_round_experiment_plan_parameter_recommendation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: current_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:process_factor_candidate_experiment_analysis:skill:pvd_research_request_understanding
+        bindingVersion: 1
+        field: $
+    - targetField: direction_analysis
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:process_factor_candidate_experiment_analysis:skill:pvd_process_factor_candidate_experiment_analysis
+        bindingVersion: 1
+        field: $
+    - targetField: feasibility_validation
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:parameter_experiment_plan_feasibility_validation:skill:pvd_parameter_experiment_plan_feasibility_validation
+        bindingVersion: 1
+        field: $
+- bindingId: bind:sdr:ablation_design:skill:ablation_planning
+  bindingVersion: 1
+  definitionId: sdr:ablation_design
+  definitionVersion: 1
+  skillId: ablation_planning
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:analysis_planning:skill:analysis_plan_design
+  bindingVersion: 1
+  definitionId: sdr:analysis_planning
+  definitionVersion: 1
+  skillId: analysis_plan_design
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:argument_blueprint:skill:argument_structuring
+  bindingVersion: 1
+  definitionId: sdr:argument_blueprint
+  definitionVersion: 1
+  skillId: argument_structuring
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:baseline_selection:skill:baseline_comparison
+  bindingVersion: 1
+  definitionId: sdr:baseline_selection
+  definitionVersion: 1
+  skillId: baseline_comparison
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:constraints_criteria:skill:constraint_definition
+  bindingVersion: 1
+  definitionId: sdr:constraints_criteria
+  definitionVersion: 1
+  skillId: constraint_definition
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:data_strategy:skill:data_acquisition
+  bindingVersion: 1
+  definitionId: sdr:data_strategy
+  definitionVersion: 1
+  skillId: data_acquisition
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:evidence_extraction:skill:evidence_mining
+  bindingVersion: 1
+  definitionId: sdr:evidence_extraction
+  definitionVersion: 1
+  skillId: evidence_mining
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:findings_synthesis:skill:finding_integration
+  bindingVersion: 1
+  definitionId: sdr:findings_synthesis
+  definitionVersion: 1
+  skillId: finding_integration
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:full_execution:skill:code_implementation
+  bindingVersion: 1
+  definitionId: sdr:full_execution
+  definitionVersion: 1
+  skillId: code_implementation
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:full_execution:skill:mmp_deploy_app
+  bindingVersion: 1
+  definitionId: sdr:full_execution
+  definitionVersion: 1
+  skillId: mmp_deploy_app
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:full_execution:skill:mmp_resources
+  bindingVersion: 1
+  definitionId: sdr:full_execution
+  definitionVersion: 1
+  skillId: mmp_resources
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:full_execution:skill:mmp_training_workflow
+  bindingVersion: 1
+  definitionId: sdr:full_execution
+  definitionVersion: 1
+  skillId: mmp_training_workflow
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:gap_identification:skill:gap_analysis
+  bindingVersion: 1
+  definitionId: sdr:gap_identification
+  definitionVersion: 1
+  skillId: gap_analysis
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:hypothesis_formation:skill:hypothesis_construction
+  bindingVersion: 1
+  definitionId: sdr:hypothesis_formation
+  definitionVersion: 1
+  skillId: hypothesis_construction
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:hypothesis_update:skill:hypothesis_revision
+  bindingVersion: 1
+  definitionId: sdr:hypothesis_update
+  definitionVersion: 1
+  skillId: hypothesis_revision
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:hypothesis_validation:skill:hypothesis_testing
+  bindingVersion: 1
+  definitionId: sdr:hypothesis_validation
+  definitionVersion: 1
+  skillId: hypothesis_testing
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:intent_understanding:skill:intent_extraction
+  bindingVersion: 1
+  definitionId: sdr:intent_understanding
+  definitionVersion: 1
+  skillId: intent_extraction
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:literature_search:skill:literature_review
+  bindingVersion: 1
+  definitionId: sdr:literature_search
+  definitionVersion: 1
+  skillId: literature_review
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:mechanism_explanation:skill:causal_reasoning
+  bindingVersion: 1
+  definitionId: sdr:mechanism_explanation
+  definitionVersion: 1
+  skillId: causal_reasoning
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:method_selection:skill:method_evaluation
+  bindingVersion: 1
+  definitionId: sdr:method_selection
+  definitionVersion: 1
+  skillId: method_evaluation
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:negative_result_recording:skill:failure_documentation
+  bindingVersion: 1
+  definitionId: sdr:negative_result_recording
+  definitionVersion: 1
+  skillId: failure_documentation
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:question_refinement:skill:question_formulation
+  bindingVersion: 1
+  definitionId: sdr:question_refinement
+  definitionVersion: 1
+  skillId: question_formulation
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:report_generation:skill:report_writing
+  bindingVersion: 1
+  definitionId: sdr:report_generation
+  definitionVersion: 1
+  skillId: report_writing
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:reproducibility:skill:environment_setup
+  bindingVersion: 1
+  definitionId: sdr:reproducibility
+  definitionVersion: 1
+  skillId: environment_setup
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: python_version
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: python_version
+    - targetField: requirements
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: requirements
+    - targetField: verify_imports
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: verify_imports
+    - targetField: dependency_install_timeout_seconds
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: dependency_install_timeout_seconds
+    - targetField: find_links
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: find_links
+- bindingId: bind:sdr:reproducibility:skill:repository_revision_acquisition
+  bindingVersion: 1
+  definitionId: sdr:reproducibility
+  definitionVersion: 1
+  skillId: repository_revision_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: repository
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: repository
+    - targetField: revision
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: revision
+- bindingId: bind:sdr:reproducibility:skill:resource_identity_acquisition
+  bindingVersion: 1
+  definitionId: sdr:reproducibility
+  definitionVersion: 1
+  skillId: resource_identity_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: resource_kind
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: resource_kind
+    - targetField: repo_id
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: resource_repo_id
+    - targetField: repo_type
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: resource_repo_type
+    - targetField: revision
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: resource_revision
+    - targetField: filename
+      sourcePresence: optional
+      source:
+        kind: scientificState
+        field: resource_filename
+    - targetField: expected_commit_sha
+      sourcePresence: optional
+      source:
+        kind: scientificState
+        field: expected_resource_commit_sha
+    - targetField: expected_sha256
+      sourcePresence: optional
+      source:
+        kind: scientificState
+        field: expected_resource_sha256
+- bindingId: bind:sdr:research_lead_generation:skill:lead_discovery
+  bindingVersion: 1
+  definitionId: sdr:research_lead_generation
+  definitionVersion: 1
+  skillId: lead_discovery
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:result_acceptance:skill:quality_audit
+  bindingVersion: 1
+  definitionId: sdr:result_acceptance
+  definitionVersion: 1
+  skillId: quality_audit
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:statistical_analysis:skill:statistical_testing
+  bindingVersion: 1
+  definitionId: sdr:statistical_analysis
+  definitionVersion: 1
+  skillId: statistical_testing
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:task_breakdown:skill:task_decomposition
+  bindingVersion: 1
+  definitionId: sdr:task_breakdown
+  definitionVersion: 1
+  skillId: task_decomposition
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:variable_definition:skill:variable_identification
+  bindingVersion: 1
+  definitionId: sdr:variable_definition
+  definitionVersion: 1
+  skillId: variable_identification
+  skillDefinitionVersion: 1
+- bindingId: bind:cs_reproduction:reproduction_input_structuring:skill:cs_reproduction_input_structuring
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_input_structuring
+  definitionVersion: 1
+  skillId: cs_reproduction_input_structuring
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:code_identity_acquisition:skill:repository_revision_acquisition
+  bindingVersion: 1
+  definitionId: cs_reproduction:code_identity_acquisition
+  definitionVersion: 1
+  skillId: repository_revision_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: repository
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: reproduction_repository
+    - targetField: revision
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: reproduction_revision
+- bindingId: bind:cs_reproduction:reference_metric_acquisition:skill:official_reference_source_acquisition
+  bindingVersion: 1
+  definitionId: cs_reproduction:reference_metric_acquisition
+  definitionVersion: 1
+  skillId: official_reference_source_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: code_source
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:code_identity_acquisition:skill:repository_revision_acquisition
+        bindingVersion: 1
+        field: $
+- bindingId: bind:cs_reproduction:reference_metric_acquisition:skill:reference_metric_interpretation
+  bindingVersion: 1
+  definitionId: cs_reproduction:reference_metric_acquisition
+  definitionVersion: 1
+  skillId: reference_metric_interpretation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reference_metric_acquisition:skill:official_reference_source_acquisition
+        bindingVersion: 1
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reference_metric_acquisition:skill:reference_metric_fact_assembly
+  bindingVersion: 1
+  definitionId: cs_reproduction:reference_metric_acquisition
+  definitionVersion: 1
+  skillId: reference_metric_fact_assembly
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reference_metric_acquisition:skill:official_reference_source_acquisition
+        bindingVersion: 1
+        field: $
+    - targetField: interpretation
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reference_metric_acquisition:skill:reference_metric_interpretation
+        bindingVersion: 1
+        field: $
+- bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_interpretation
+  bindingVersion: 1
+  definitionId: cs_reproduction:execution_plan_acquisition
+  definitionVersion: 1
+  skillId: execution_plan_interpretation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reference_metric_acquisition:skill:official_reference_source_acquisition
+        bindingVersion: 1
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: reference_metric_records
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+  bindingVersion: 1
+  definitionId: cs_reproduction:execution_plan_acquisition
+  definitionVersion: 1
+  skillId: execution_plan_fact_assembly
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reference_metric_acquisition:skill:official_reference_source_acquisition
+        bindingVersion: 1
+        field: $
+    - targetField: interpretation
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_interpretation
+        bindingVersion: 1
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: reference_metric_records
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_reproduction_input_structuring
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 1
+  skillId: cs_reproduction_input_structuring
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:repository_revision_acquisition
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 1
+  skillId: repository_revision_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: repository
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_reproduction_input_structuring
+        bindingVersion: 1
+        field: repository
+    - targetField: revision
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_reproduction_input_structuring
+        bindingVersion: 1
+        field: revision
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 1
+  skillId: official_reference_source_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: code_source
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:repository_revision_acquisition
+        bindingVersion: 1
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_interpretation
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 1
+  skillId: reference_metric_interpretation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 1
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 1
+  skillId: reference_metric_fact_assembly
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 1
+        field: $
+    - targetField: interpretation
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_interpretation
+        bindingVersion: 1
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 1
+  skillId: reproduction_baseline_and_criteria
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reference_facts
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+        bindingVersion: 1
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_interpretation
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_experiment_design
+  definitionVersion: 1
+  skillId: execution_plan_interpretation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 1
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+        bindingVersion: 1
+        field: reference_metric_records
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_experiment_design
+  definitionVersion: 1
+  skillId: execution_plan_fact_assembly
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 1
+        field: $
+    - targetField: interpretation
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_interpretation
+        bindingVersion: 1
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+        bindingVersion: 1
+        field: reference_metric_records
+- bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_experiment_design
+  definitionVersion: 1
+  skillId: reproduction_experiment_design
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 1
+        field: $
+    - targetField: execution_plan_facts
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:repository_revision_acquisition
+  bindingVersion: 1
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 1
+  skillId: repository_revision_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: repository
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: source_identity.repository
+    - targetField: revision
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: source_identity.resolved_commit_sha
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:resource_identity_acquisition
+  bindingVersion: 1
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 1
+  skillId: resource_identity_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: resources
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: resource_acquisition_requests
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:environment_setup
+  bindingVersion: 1
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 1
+  skillId: environment_setup
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: python_version
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: python_version
+    - targetField: requirements
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: requirements
+    - targetField: verify_imports
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: verify_imports
+    - targetField: runtime_readiness_probe
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: runtime_readiness_probe
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+  bindingVersion: 1
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 1
+  skillId: execution_readiness_assessment
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: $
+    - targetField: execution_plan_facts
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: $
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 1
+        field: $
+    - targetField: code_identity
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:repository_revision_acquisition
+        bindingVersion: 1
+        field: $
+    - targetField: resource_identities
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:resource_identity_acquisition
+        bindingVersion: 1
+        field: $
+    - targetField: environment_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:environment_setup
+        bindingVersion: 1
+        field: $
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+  bindingVersion: 1
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 1
+  skillId: exploratory_run
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: executable
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: executable
+    - targetField: argv
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: argv
+    - targetField: working_directory
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: working_directory
+    - targetField: timeout_seconds
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: timeout_seconds
+    - targetField: environment_variables
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: environment_variables
+    - targetField: resource_bindings
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: execution_resource_binding_plan
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_extraction
+  bindingVersion: 1
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 1
+  skillId: actual_metric_extraction
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: execution_record_relative_path
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+        bindingVersion: 1
+        field: execution_record_relative_path
+    - targetField: result_source
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: actual_metric_result_source
+    - targetField: metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: actual_metric_requests
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+  bindingVersion: 1
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 1
+  skillId: reproduction_execution_record_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: $
+    - targetField: execution_readiness_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+        bindingVersion: 1
+        field: $
+    - targetField: raw_execution_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+        bindingVersion: 1
+        field: $
+    - targetField: raw_actual_metrics
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_extraction
+        bindingVersion: 1
+        field: $
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+  bindingVersion: 1
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 1
+  skillId: actual_metric_records_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: $
+    - targetField: execution_readiness_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+        bindingVersion: 1
+        field: $
+    - targetField: raw_execution_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+        bindingVersion: 1
+        field: $
+    - targetField: raw_actual_metrics
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_extraction
+        bindingVersion: 1
+        field: $
+- bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reference_metric_comparison
+  bindingVersion: 1
+  definitionId: cs_reproduction:result_comparability_judgment
+  definitionVersion: 1
+  skillId: reference_metric_comparison
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: actual_metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_extraction
+        bindingVersion: 1
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 1
+        field: reference_metric_comparison_requests
+- bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_judgment
+  bindingVersion: 1
+  definitionId: cs_reproduction:result_comparability_judgment
+  definitionVersion: 1
+  skillId: reproduction_comparison_judgment
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 1
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 1
+        field: $
+    - targetField: actual_metric_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+        bindingVersion: 1
+        field: $
+    - targetField: deterministic_comparison
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reference_metric_comparison
+        bindingVersion: 1
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_conclusion_recommendation:skill:reproduction_conclusion
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_conclusion_recommendation
+  definitionVersion: 1
+  skillId: reproduction_conclusion
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_comparison_judgment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_judgment
+        bindingVersion: 1
+        field: $
+- bindingId: bind:cs_reproduction:deviation_diagnosis_validation:skill:reproduction_deviation_diagnosis
+  bindingVersion: 1
+  definitionId: cs_reproduction:deviation_diagnosis_validation
+  definitionVersion: 1
+  skillId: reproduction_deviation_diagnosis
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_comparison_judgment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_judgment
+        bindingVersion: 1
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 1
+        field: $
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 1
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_reproduction_input_structuring
+  bindingVersion: 2
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 2
+  skillId: cs_reproduction_input_structuring
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:repository_revision_acquisition
+  bindingVersion: 2
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 2
+  skillId: repository_revision_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: repository
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_reproduction_input_structuring
+        bindingVersion: 2
+        field: repository
+    - targetField: revision
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_reproduction_input_structuring
+        bindingVersion: 2
+        field: revision
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+  bindingVersion: 2
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 2
+  skillId: official_reference_source_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: code_source
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:repository_revision_acquisition
+        bindingVersion: 2
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_interpretation
+  bindingVersion: 2
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 2
+  skillId: reference_metric_interpretation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 2
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+  bindingVersion: 2
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 2
+  skillId: reference_metric_fact_assembly
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 2
+        field: $
+    - targetField: interpretation
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_interpretation
+        bindingVersion: 2
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+  bindingVersion: 2
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 2
+  skillId: reproduction_baseline_and_criteria
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reference_facts
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+        bindingVersion: 2
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_interpretation
+  bindingVersion: 2
+  definitionId: cs_reproduction:reproduction_experiment_design
+  definitionVersion: 2
+  skillId: execution_plan_interpretation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 2
+        field: $
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 2
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+        bindingVersion: 2
+        field: reference_metric_records
+- bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+  bindingVersion: 2
+  definitionId: cs_reproduction:reproduction_experiment_design
+  definitionVersion: 2
+  skillId: execution_plan_fact_assembly
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 2
+        field: $
+    - targetField: interpretation
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_interpretation
+        bindingVersion: 2
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+        bindingVersion: 2
+        field: reference_metric_records
+- bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+  bindingVersion: 2
+  definitionId: cs_reproduction:reproduction_experiment_design
+  definitionVersion: 2
+  skillId: reproduction_experiment_design
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 2
+        field: $
+    - targetField: execution_plan_facts
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 2
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:repository_revision_acquisition
+  bindingVersion: 2
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 2
+  skillId: repository_revision_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: repository
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 2
+        field: source_identity.repository
+    - targetField: revision
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 2
+        field: source_identity.resolved_commit_sha
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:resource_identity_acquisition
+  bindingVersion: 2
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 2
+  skillId: resource_identity_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: resources
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 2
+        field: resource_acquisition_requests
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:environment_setup
+  bindingVersion: 2
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 2
+  skillId: environment_setup
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: python_version
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: python_version
+    - targetField: requirements
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: requirements
+    - targetField: verify_imports
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: verify_imports
+    - targetField: runtime_readiness_probe
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: runtime_readiness_probe
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+  bindingVersion: 2
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 2
+  skillId: execution_readiness_assessment
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: $
+    - targetField: execution_plan_facts
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 2
+        field: $
+    - targetField: code_identity
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:repository_revision_acquisition
+        bindingVersion: 2
+        field: $
+    - targetField: resource_identities
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:resource_identity_acquisition
+        bindingVersion: 2
+        field: $
+    - targetField: environment_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:environment_setup
+        bindingVersion: 2
+        field: $
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+  bindingVersion: 2
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 2
+  skillId: reproduction_execution_input_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: $
+        admission:
+          kind: json_field_equals
+          path: [status]
+          equals: ready
+    - targetField: execution_plan_facts
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 2
+        field: $
+        admission:
+        - kind: json_field_equals
+          path: [plan_status]
+          equals: complete
+        - kind: json_field_not_null
+          path: [working_directory]
+        - kind: json_field_not_null
+          path: [timeout_seconds]
+        - kind: json_field_not_null
+          path: [actual_metric_result_source]
+    - targetField: execution_readiness_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+        bindingVersion: 2
+        field: $
+        admission:
+          kind: json_field_equals
+          path: [status]
+          equals: ready
+    - targetField: code_identity
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:repository_revision_acquisition
+        bindingVersion: 2
+        field: $
+    - targetField: resource_identities
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:resource_identity_acquisition
+        bindingVersion: 2
+        field: $
+    - targetField: environment_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:environment_setup
+        bindingVersion: 2
+        field: $
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+  bindingVersion: 2
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 2
+  skillId: exploratory_run
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: executable
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 2
+        field: executable
+    - targetField: argv
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 2
+        field: argv
+    - targetField: working_directory
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 2
+        field: working_directory
+    - targetField: timeout_seconds
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 2
+        field: timeout_seconds
+    - targetField: environment_variables
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 2
+        field: environment_variables
+    - targetField: resource_bindings
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 2
+        field: resource_bindings
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_extraction
+  bindingVersion: 2
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 2
+  skillId: actual_metric_extraction
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: execution_record_relative_path
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+        bindingVersion: 2
+        field: execution_record_relative_path
+    - targetField: result_source
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 2
+        field: actual_metric_result_source
+    - targetField: metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 2
+        field: actual_metric_requests
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+  bindingVersion: 2
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 2
+  skillId: reproduction_execution_record_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: $
+    - targetField: execution_readiness_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+        bindingVersion: 2
+        field: $
+    - targetField: frozen_execution_input
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 2
+        field: $
+    - targetField: raw_execution_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+        bindingVersion: 2
+        field: $
+    - targetField: raw_actual_metrics
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_extraction
+        bindingVersion: 2
+        field: $
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+  bindingVersion: 2
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 2
+  skillId: actual_metric_records_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: $
+    - targetField: execution_readiness_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+        bindingVersion: 2
+        field: $
+    - targetField: frozen_execution_input
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 2
+        field: $
+    - targetField: raw_execution_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+        bindingVersion: 2
+        field: $
+    - targetField: raw_actual_metrics
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_extraction
+        bindingVersion: 2
+        field: $
+- bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reference_metric_comparison
+  bindingVersion: 2
+  definitionId: cs_reproduction:result_comparability_judgment
+  definitionVersion: 2
+  skillId: reference_metric_comparison
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: actual_metric_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+        bindingVersion: 2
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 2
+        field: reference_metric_comparison_requests
+    - targetField: reproduction_comparability_assessment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparability_assessment
+        bindingVersion: 2
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_conclusion_recommendation:skill:reproduction_conclusion
+  bindingVersion: 2
+  definitionId: cs_reproduction:reproduction_conclusion_recommendation
+  definitionVersion: 2
+  skillId: reproduction_conclusion
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_comparison_judgment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_closure
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_deviation_diagnosis
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:deviation_diagnosis_validation:skill:reproduction_deviation_diagnosis_v2
+        bindingVersion: 2
+        field: $
+- bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparability_assessment
+  bindingVersion: 2
+  definitionId: cs_reproduction:result_comparability_judgment
+  definitionVersion: 2
+  skillId: reproduction_comparability_assessment
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 2
+        field: $
+    - targetField: actual_metric_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+        bindingVersion: 2
+        field: $
+- bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_closure
+  bindingVersion: 2
+  definitionId: cs_reproduction:result_comparability_judgment
+  definitionVersion: 2
+  skillId: reproduction_comparison_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_comparability_assessment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparability_assessment
+        bindingVersion: 2
+        field: $
+    - targetField: deterministic_comparison
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reference_metric_comparison
+        bindingVersion: 2
+        field: $
+- bindingId: bind:pvd:literature_experiment_record_verification:skill:pvd_literature_evidence_acquisition_closure
+  bindingVersion: 1
+  definitionId: pvd:literature_experiment_record_verification
+  definitionVersion: 1
+  skillId: pvd_literature_evidence_acquisition_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: retrieval_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_evidence_retrieval_design
+        bindingVersion: 1
+        field: retrieval_design
+    - targetField: evidence_schema
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+    - targetField: coverage_target
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_evidence_schema_design
+        bindingVersion: 1
+        field: coverage_target
+    - targetField: pending_parameter_evidence_identities
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:pvd:research_retrieval_experiment_design:skill:pvd_evidence_schema_design
+        bindingVersion: 1
+        field: pending_parameter_evidence_identities
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: user_query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:cs_reproduction:deviation_diagnosis_validation:skill:reproduction_deviation_diagnosis_v2
+  bindingVersion: 2
+  definitionId: cs_reproduction:deviation_diagnosis_validation
+  definitionVersion: 2
+  skillId: reproduction_deviation_diagnosis_v2
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_comparison_judgment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_closure
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: $
+- bindingId: bind:opentrajectory:evidence_acquisition_design:skill:evidence_schema_design
+  bindingVersion: 1
+  definitionId: opentrajectory:evidence_acquisition_design
+  definitionVersion: 1
+  skillId: evidence_schema_design
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: intent_understanding
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: constraints_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: constraints_criteria
+    - targetField: retrieval_strategy_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_acquisition_design:skill:retrieval_matrix_generation
+        bindingVersion: 1
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:opentrajectory:evidence_acquisition_design:skill:retrieval_matrix_generation
+  bindingVersion: 1
+  definitionId: opentrajectory:evidence_acquisition_design
+  definitionVersion: 1
+  skillId: retrieval_matrix_generation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: intent_understanding
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: constraints_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: constraints_criteria
+- bindingId: bind:opentrajectory:evidence_acquisition:skill:evidence_node_extraction
+  bindingVersion: 1
+  definitionId: opentrajectory:evidence_acquisition
+  definitionVersion: 1
+  skillId: evidence_node_extraction
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: paper_packets
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_acquisition:skill:deepxiv_progressive_reading
+        bindingVersion: 1
+        field: paper_packets
+    - targetField: evidence_schema
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_schema_design:skill:evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:opentrajectory:evidence_acquisition:skill:deepxiv_progressive_reading
+  bindingVersion: 1
+  definitionId: opentrajectory:evidence_acquisition
+  definitionVersion: 1
+  skillId: deepxiv_progressive_reading
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: topk_selection
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_acquisition:skill:opentrajectory_source_screening_selection
+        bindingVersion: 1
+        field: topk_selection
+    - targetField: evidence_schema
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_schema_design:skill:evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+- bindingId: bind:opentrajectory:evidence_acquisition:skill:opentrajectory_source_acquisition
+  bindingVersion: 1
+  definitionId: opentrajectory:evidence_acquisition
+  definitionVersion: 1
+  skillId: opentrajectory_source_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: search_matrix
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:retrieval_strategy_design:skill:retrieval_matrix_generation
+        bindingVersion: 1
+        field: search_matrix
+    - targetField: expanded_query_variants
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:retrieval_strategy_design:skill:retrieval_matrix_generation
+        bindingVersion: 1
+        field: expanded_query_variants
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: user_query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+- bindingId: bind:opentrajectory:evidence_acquisition:skill:opentrajectory_source_screening_selection
+  bindingVersion: 1
+  definitionId: opentrajectory:evidence_acquisition
+  definitionVersion: 1
+  skillId: opentrajectory_source_screening_selection
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: candidates
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_acquisition:skill:opentrajectory_source_acquisition
+        bindingVersion: 1
+        field: candidates
+    - targetField: research_context
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:problem_framing:skill:problem_framing_generation
+        bindingVersion: 1
+        field: intent_understanding
+    - targetField: evidence_schema
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:opentrajectory:evidence_schema_design:skill:evidence_schema_design
+        bindingVersion: 1
+        field: evidence_schema
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: task_id
+      source:
+        kind: executionIdentity
+        field: task_id
+    - targetField: user_query
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:materials:candidate_discovery:skill:crystal_design_formula_crossover_py
+  bindingVersion: 1
+  definitionId: materials:candidate_discovery
+  definitionVersion: 1
+  skillId: crystal_design_formula_crossover_py
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:candidate_discovery:skill:crystal_design_structure_crossover_py
+  bindingVersion: 1
+  definitionId: materials:candidate_discovery
+  definitionVersion: 1
+  skillId: crystal_design_structure_crossover_py
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: candidates
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:materials:candidate_discovery:skill:materials_mp_constraint_search
+        bindingVersion: 1
+        field: candidates
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: task_instruction
+      source:
+        kind: literal
+        value: {}
+- bindingId: bind:materials:candidate_discovery:skill:materials_magnet_design_mvp
+  bindingVersion: 1
+  definitionId: materials:candidate_discovery
+  definitionVersion: 1
+  skillId: materials_magnet_design_mvp
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:candidate_discovery:skill:materials_mp_constraint_search
+  bindingVersion: 1
+  definitionId: materials:candidate_discovery
+  definitionVersion: 1
+  skillId: materials_mp_constraint_search
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+    - targetField: task_instruction
+      source:
+        kind: literal
+        value: {}
+- bindingId: bind:materials:literature_review:skill:research_lit
+  bindingVersion: 1
+  definitionId: materials:literature_review
+  definitionVersion: 1
+  skillId: research_lit
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:database_search:skill:mp_search
+  bindingVersion: 1
+  definitionId: materials:database_search
+  definitionVersion: 1
+  skillId: mp_search
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:materials:database_search:skill:pymatgen
+  bindingVersion: 1
+  definitionId: materials:database_search
+  definitionVersion: 1
+  skillId: pymatgen
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:candidate_generation:skill:pymatgen
+  bindingVersion: 1
+  definitionId: materials:candidate_generation
+  definitionVersion: 1
+  skillId: pymatgen
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:synthesis_assessment:skill:crystal_synthesis_advisor
+  bindingVersion: 1
+  definitionId: materials:synthesis_assessment
+  definitionVersion: 1
+  skillId: crystal_synthesis_advisor
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:band_gap_calculation:skill:cif_to_vasp
+  bindingVersion: 1
+  definitionId: materials:band_gap_calculation
+  definitionVersion: 1
+  skillId: cif_to_vasp
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:stability_verification:skill:cif_to_vasp
+  bindingVersion: 1
+  definitionId: materials:stability_verification
+  definitionVersion: 1
+  skillId: cif_to_vasp
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:band_gap_calculation:skill:vasp_band_gap
+  bindingVersion: 1
+  definitionId: materials:band_gap_calculation
+  definitionVersion: 1
+  skillId: vasp_band_gap
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:band_gap_calculation:skill:jcc
+  bindingVersion: 1
+  definitionId: materials:band_gap_calculation
+  definitionVersion: 1
+  skillId: jcc
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:stability_verification:skill:jcc
+  bindingVersion: 1
+  definitionId: materials:stability_verification
+  definitionVersion: 1
+  skillId: jcc
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:synthesis_execution:skill:flux_experiment
+  bindingVersion: 1
+  definitionId: materials:synthesis_execution
+  definitionVersion: 1
+  skillId: flux_experiment
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: candidate_summary
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:candidate_generation:skill:crystal_design_structure_crossover_agent
+        bindingVersion: 1
+        field: top_k_table
+    - targetField: pareto_cif_paths
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:candidate_generation:skill:crystal_design_structure_crossover_agent
+        bindingVersion: 1
+        field: pareto_cif_paths
+    - targetField: stability_handoff
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:stability_verification:skill:vasp_stability_durable
+        bindingVersion: 1
+        field: handoff_summary
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:materials:report_generation:skill:experiment_report
+  bindingVersion: 1
+  definitionId: materials:report_generation
+  definitionVersion: 1
+  skillId: experiment_report
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: mp_search_report
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:database_search:skill:materials_mp_constraint_search
+        bindingVersion: 1
+        field: report_markdown
+    - targetField: candidate_summary
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:candidate_generation:skill:crystal_design_structure_crossover_agent
+        bindingVersion: 1
+        field: top_k_table
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:materials:report_generation:skill:paper_figure
+  bindingVersion: 1
+  definitionId: materials:report_generation
+  definitionVersion: 1
+  skillId: paper_figure
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:report_generation:skill:figure_spec
+  bindingVersion: 1
+  definitionId: materials:report_generation
+  definitionVersion: 1
+  skillId: figure_spec
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:database_search:skill:deploy_mcp_service
+  bindingVersion: 1
+  definitionId: materials:database_search
+  definitionVersion: 1
+  skillId: deploy_mcp_service
+  skillDefinitionVersion: 1
+- bindingId: bind:ope:research_conclusion_recommendation:skill:question_formulation_l3
+  bindingVersion: 1
+  definitionId: ope:research_conclusion_recommendation
+  definitionVersion: 1
+  skillId: question_formulation_l3
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_problem_framing:skill:constraint_definition
+  bindingVersion: 1
+  definitionId: sdr:research_problem_framing
+  definitionVersion: 1
+  skillId: constraint_definition
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_problem_framing:skill:hypothesis_construction
+  bindingVersion: 1
+  definitionId: sdr:research_problem_framing
+  definitionVersion: 1
+  skillId: hypothesis_construction
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_problem_framing:skill:intent_extraction
+  bindingVersion: 1
+  definitionId: sdr:research_problem_framing
+  definitionVersion: 1
+  skillId: intent_extraction
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_problem_framing:skill:question_formulation
+  bindingVersion: 1
+  definitionId: sdr:research_problem_framing
+  definitionVersion: 1
+  skillId: question_formulation
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_method_validation_design:skill:ablation_planning
+  bindingVersion: 1
+  definitionId: sdr:research_method_validation_design
+  definitionVersion: 1
+  skillId: ablation_planning
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_method_validation_design:skill:analysis_plan_design
+  bindingVersion: 1
+  definitionId: sdr:research_method_validation_design
+  definitionVersion: 1
+  skillId: analysis_plan_design
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_method_validation_design:skill:baseline_comparison
+  bindingVersion: 1
+  definitionId: sdr:research_method_validation_design
+  definitionVersion: 1
+  skillId: baseline_comparison
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_method_validation_design:skill:data_acquisition
+  bindingVersion: 1
+  definitionId: sdr:research_method_validation_design
+  definitionVersion: 1
+  skillId: data_acquisition
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_method_validation_design:skill:method_evaluation
+  bindingVersion: 1
+  definitionId: sdr:research_method_validation_design
+  definitionVersion: 1
+  skillId: method_evaluation
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_method_validation_design:skill:environment_setup
+  bindingVersion: 1
+  definitionId: sdr:research_method_validation_design
+  definitionVersion: 1
+  skillId: environment_setup
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: python_version
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: python_version
+    - targetField: requirements
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: requirements
+    - targetField: verify_imports
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: verify_imports
+    - targetField: dependency_install_timeout_seconds
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: dependency_install_timeout_seconds
+    - targetField: find_links
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_plan_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 1
+        field: find_links
+- bindingId: bind:sdr:research_method_validation_design:skill:repository_revision_acquisition
+  bindingVersion: 1
+  definitionId: sdr:research_method_validation_design
+  definitionVersion: 1
+  skillId: repository_revision_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: repository
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: repository
+    - targetField: revision
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: revision
+- bindingId: bind:sdr:research_method_validation_design:skill:resource_identity_acquisition
+  bindingVersion: 1
+  definitionId: sdr:research_method_validation_design
+  definitionVersion: 1
+  skillId: resource_identity_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: resource_kind
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: resource_kind
+    - targetField: repo_id
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: resource_repo_id
+    - targetField: repo_type
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: resource_repo_type
+    - targetField: revision
+      sourcePresence: required
+      source:
+        kind: scientificState
+        field: resource_revision
+    - targetField: filename
+      sourcePresence: optional
+      source:
+        kind: scientificState
+        field: resource_filename
+    - targetField: expected_commit_sha
+      sourcePresence: optional
+      source:
+        kind: scientificState
+        field: expected_resource_commit_sha
+    - targetField: expected_sha256
+      sourcePresence: optional
+      source:
+        kind: scientificState
+        field: expected_resource_sha256
+- bindingId: bind:sdr:research_method_validation_design:skill:variable_identification
+  bindingVersion: 1
+  definitionId: sdr:research_method_validation_design
+  definitionVersion: 1
+  skillId: variable_identification
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:evidence_review:skill:gap_analysis
+  bindingVersion: 1
+  definitionId: sdr:evidence_review
+  definitionVersion: 1
+  skillId: gap_analysis
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:evidence_review:skill:literature_review
+  bindingVersion: 1
+  definitionId: sdr:evidence_review
+  definitionVersion: 1
+  skillId: literature_review
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:result_analysis:skill:evidence_mining
+  bindingVersion: 1
+  definitionId: sdr:result_analysis
+  definitionVersion: 1
+  skillId: evidence_mining
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:result_reliability_audit:skill:quality_audit
+  bindingVersion: 1
+  definitionId: sdr:result_reliability_audit
+  definitionVersion: 1
+  skillId: quality_audit
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:research_conclusion:skill:finding_integration
+  bindingVersion: 1
+  definitionId: sdr:research_conclusion
+  definitionVersion: 1
+  skillId: finding_integration
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:next_research_decision:skill:hypothesis_revision
+  bindingVersion: 1
+  definitionId: sdr:next_research_decision
+  definitionVersion: 1
+  skillId: hypothesis_revision
+  skillDefinitionVersion: 1
+- bindingId: bind:sdr:next_research_decision:skill:lead_discovery
+  bindingVersion: 1
+  definitionId: sdr:next_research_decision
+  definitionVersion: 1
+  skillId: lead_discovery
+  skillDefinitionVersion: 1
+- bindingId: bind:cs_reproduction:reproduction_conclusion_recommendation:skill:reproduction_conclusion_synthesis_v2
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_conclusion_recommendation
+  definitionVersion: 3
+  skillId: reproduction_conclusion_synthesis_v2
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 2
+        field: $
+    - targetField: actual_metric_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_comparison_judgment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_closure
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_deviation_diagnosis
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:deviation_diagnosis_validation:skill:reproduction_deviation_diagnosis_v2
+        bindingVersion: 2
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_conclusion_recommendation:skill:reproduction_conclusion_closure
+  bindingVersion: 1
+  definitionId: cs_reproduction:reproduction_conclusion_recommendation
+  definitionVersion: 3
+  skillId: reproduction_conclusion_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 2
+        field: $
+    - targetField: actual_metric_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_comparison_judgment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_closure
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_deviation_diagnosis
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:deviation_diagnosis_validation:skill:reproduction_deviation_diagnosis_v2
+        bindingVersion: 2
+        field: $
+    - targetField: reproduction_conclusion_draft
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_conclusion_recommendation:skill:reproduction_conclusion_synthesis_v2
+        bindingVersion: 1
+        field: $
+
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_reproduction_input_structuring
+  bindingVersion: 3
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 3
+  skillId: cs_reproduction_input_structuring
+  skillDefinitionVersion: 1
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_paper_source_resolution
+  bindingVersion: 3
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 3
+  skillId: cs_paper_source_resolution
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: repository
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_reproduction_input_structuring
+        bindingVersion: 3
+        field: repository
+    - targetField: revision
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_reproduction_input_structuring
+        bindingVersion: 3
+        field: revision
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:repository_revision_acquisition
+  bindingVersion: 3
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 3
+  skillId: repository_revision_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: repository
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_paper_source_resolution
+        bindingVersion: 3
+        field: repository
+    - targetField: revision
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_paper_source_resolution
+        bindingVersion: 3
+        field: requested_revision
+    - targetField: source_evidence
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_paper_source_resolution
+        bindingVersion: 3
+        field: source_evidence
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+  bindingVersion: 3
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 3
+  skillId: official_reference_source_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: code_source
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:repository_revision_acquisition
+        bindingVersion: 3
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_interpretation
+  bindingVersion: 3
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 3
+  skillId: reference_metric_interpretation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 3
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+  bindingVersion: 3
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 3
+  skillId: reference_metric_fact_assembly
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 3
+        field: $
+    - targetField: interpretation
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_interpretation
+        bindingVersion: 3
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+  bindingVersion: 3
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 3
+  skillId: reproduction_baseline_and_criteria
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reference_facts
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+        bindingVersion: 3
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_interpretation
+  bindingVersion: 3
+  definitionId: cs_reproduction:reproduction_experiment_design
+  definitionVersion: 3
+  skillId: execution_plan_interpretation
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 3
+        field: $
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 3
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+        bindingVersion: 3
+        field: reference_metric_records
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+  bindingVersion: 3
+  definitionId: cs_reproduction:reproduction_experiment_design
+  definitionVersion: 3
+  skillId: execution_plan_fact_assembly
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: source_package
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:official_reference_source_acquisition
+        bindingVersion: 3
+        field: $
+    - targetField: interpretation
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_interpretation
+        bindingVersion: 3
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reference_metric_fact_assembly
+        bindingVersion: 3
+        field: reference_metric_records
+- bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+  bindingVersion: 3
+  definitionId: cs_reproduction:reproduction_experiment_design
+  definitionVersion: 3
+  skillId: reproduction_experiment_design
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 3
+        field: $
+    - targetField: execution_plan_facts
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 3
+        field: $
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: research_goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:repository_revision_acquisition
+  bindingVersion: 3
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 3
+  skillId: repository_revision_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: repository
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 3
+        field: source_identity.repository
+    - targetField: revision
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 3
+        field: source_identity.resolved_commit_sha
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:resource_identity_acquisition
+  bindingVersion: 3
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 3
+  skillId: resource_identity_acquisition
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: resources
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 3
+        field: resource_acquisition_requests
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:environment_setup
+  bindingVersion: 3
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 3
+  skillId: environment_setup
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: python_version
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: python_version
+    - targetField: requirements
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: requirements
+    - targetField: verify_imports
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: verify_imports
+    - targetField: runtime_readiness_probe
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: runtime_readiness_probe
+- bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+  bindingVersion: 3
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 3
+  skillId: execution_readiness_assessment
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: $
+    - targetField: execution_plan_facts
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 3
+        field: $
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 3
+        field: $
+    - targetField: code_identity
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:repository_revision_acquisition
+        bindingVersion: 3
+        field: $
+    - targetField: resource_identities
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:resource_identity_acquisition
+        bindingVersion: 3
+        field: $
+    - targetField: environment_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:environment_setup
+        bindingVersion: 3
+        field: $
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: reproduction_execution_input_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: $
+    - targetField: execution_plan_facts
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:execution_plan_fact_assembly
+        bindingVersion: 3
+        field: $
+    - targetField: execution_readiness_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+        bindingVersion: 3
+        field: $
+    - targetField: code_identity
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:repository_revision_acquisition
+        bindingVersion: 3
+        field: $
+    - targetField: resource_identities
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:resource_identity_acquisition
+        bindingVersion: 3
+        field: $
+    - targetField: environment_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:environment_setup
+        bindingVersion: 3
+        field: $
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: exploratory_run
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: executable
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 4
+        field: executable
+    - targetField: argv
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 4
+        field: argv
+    - targetField: working_directory
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 4
+        field: working_directory
+    - targetField: timeout_seconds
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 4
+        field: timeout_seconds
+    - targetField: environment_variables
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 4
+        field: environment_variables
+    - targetField: resource_bindings
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 4
+        field: resource_bindings
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_extraction
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: actual_metric_extraction
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: execution_record_relative_path
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+        bindingVersion: 4
+        field: execution_record_relative_path
+    - targetField: result_source
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 4
+        field: actual_metric_result_source
+    - targetField: metrics
+      sourcePresence: conditional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 4
+        field: actual_metric_requests
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: reproduction_execution_record_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: $
+    - targetField: execution_readiness_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+        bindingVersion: 3
+        field: $
+    - targetField: frozen_execution_input
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 4
+        field: $
+    - targetField: raw_execution_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+        bindingVersion: 4
+        field: $
+    - targetField: raw_actual_metrics
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_extraction
+        bindingVersion: 4
+        field: $
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: actual_metric_records_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: $
+    - targetField: execution_readiness_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:execution_readiness_validation:skill:execution_readiness_assessment
+        bindingVersion: 3
+        field: $
+    - targetField: frozen_execution_input
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_closure
+        bindingVersion: 4
+        field: $
+    - targetField: raw_execution_record
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:exploratory_run
+        bindingVersion: 4
+        field: $
+    - targetField: raw_actual_metrics
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_extraction
+        bindingVersion: 4
+        field: $
+- bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reference_metric_comparison
+  bindingVersion: 4
+  definitionId: cs_reproduction:result_comparability_judgment
+  definitionVersion: 3
+  skillId: reference_metric_comparison
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: actual_metric_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+        bindingVersion: 4
+        field: $
+    - targetField: reference_metrics
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 3
+        field: reference_metric_comparison_requests
+    - targetField: reproduction_comparability_assessment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparability_assessment
+        bindingVersion: 4
+        field: $
+- bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparability_assessment
+  bindingVersion: 4
+  definitionId: cs_reproduction:result_comparability_judgment
+  definitionVersion: 3
+  skillId: reproduction_comparability_assessment
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 3
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 4
+        field: $
+    - targetField: actual_metric_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+        bindingVersion: 4
+        field: $
+- bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_closure
+  bindingVersion: 4
+  definitionId: cs_reproduction:result_comparability_judgment
+  definitionVersion: 3
+  skillId: reproduction_comparison_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_comparability_assessment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparability_assessment
+        bindingVersion: 4
+        field: $
+    - targetField: deterministic_comparison
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reference_metric_comparison
+        bindingVersion: 4
+        field: $
+- bindingId: bind:cs_reproduction:deviation_diagnosis_validation:skill:reproduction_deviation_diagnosis_v2
+  bindingVersion: 5
+  definitionId: cs_reproduction:deviation_diagnosis_validation
+  definitionVersion: 3
+  skillId: reproduction_deviation_diagnosis_v2
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 3
+        field: $
+    - targetField: reproduction_comparison_judgment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_closure
+        bindingVersion: 4
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 4
+        field: $
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: $
+- bindingId: bind:cs_reproduction:deviation_diagnosis_validation:skill:reproduction_deviation_diagnosis_v2
+  bindingVersion: 6
+  definitionId: cs_reproduction:deviation_diagnosis_validation
+  definitionVersion: 4
+  skillId: reproduction_deviation_diagnosis_v2
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 3
+        field: $
+    - targetField: reproduction_comparison_judgment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_closure
+        bindingVersion: 4
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 4
+        field: $
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_conclusion_recommendation:skill:reproduction_conclusion_synthesis_v2
+  bindingVersion: 5
+  definitionId: cs_reproduction:reproduction_conclusion_recommendation
+  definitionVersion: 4
+  skillId: reproduction_conclusion_synthesis_v2
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 3
+        field: $
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 4
+        field: $
+    - targetField: actual_metric_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+        bindingVersion: 4
+        field: $
+    - targetField: reproduction_comparison_judgment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_closure
+        bindingVersion: 4
+        field: $
+    - targetField: reproduction_deviation_diagnosis
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:deviation_diagnosis_validation:skill:reproduction_deviation_diagnosis_v2
+        bindingVersion: 5
+        field: $
+- bindingId: bind:cs_reproduction:reproduction_conclusion_recommendation:skill:reproduction_conclusion_closure
+  bindingVersion: 5
+  definitionId: cs_reproduction:reproduction_conclusion_recommendation
+  definitionVersion: 4
+  skillId: reproduction_conclusion_closure
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: reproduction_baseline_and_criteria
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_baseline_criteria:skill:reproduction_baseline_and_criteria
+        bindingVersion: 3
+        field: $
+    - targetField: reproduction_experiment_design
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_experiment_design:skill:reproduction_experiment_design
+        bindingVersion: 3
+        field: $
+    - targetField: reproduction_execution_record
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_record_closure
+        bindingVersion: 4
+        field: $
+    - targetField: actual_metric_records
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:actual_metric_records_closure
+        bindingVersion: 4
+        field: $
+    - targetField: reproduction_comparison_judgment
+      sourcePresence: required
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:result_comparability_judgment:skill:reproduction_comparison_closure
+        bindingVersion: 4
+        field: $
+    - targetField: reproduction_deviation_diagnosis
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:deviation_diagnosis_validation:skill:reproduction_deviation_diagnosis_v2
+        bindingVersion: 5
+        field: $
+    - targetField: reproduction_conclusion_draft
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:cs_reproduction:reproduction_conclusion_recommendation:skill:reproduction_conclusion_synthesis_v2
+        bindingVersion: 5
+        field: $
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_repair_reasoning
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: reproduction_execution_input_repair_reasoning
+  skillDefinitionVersion: 1
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:execution_readiness_assessment
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: execution_readiness_assessment
+  skillDefinitionVersion: 1
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_validation
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: reproduction_execution_input_validation
+  skillDefinitionVersion: 1
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:repository_revision_acquisition
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: repository_revision_acquisition
+  skillDefinitionVersion: 1
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:resource_identity_acquisition
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: resource_identity_acquisition
+  skillDefinitionVersion: 1
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:environment_setup
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: environment_setup
+  skillDefinitionVersion: 1
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:official_reference_source_acquisition
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: official_reference_source_acquisition
+  skillDefinitionVersion: 1
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:execution_plan_interpretation
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: execution_plan_interpretation
+  skillDefinitionVersion: 1
+- bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:execution_plan_fact_assembly
+  bindingVersion: 4
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  skillId: execution_plan_fact_assembly
+  skillDefinitionVersion: 1
+- bindingId: bind:materials:stability_verification:skill:vasp_stability_durable
+  bindingVersion: 1
+  definitionId: materials:stability_verification
+  definitionVersion: 1
+  skillId: vasp_stability_durable
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: pareto_cif_paths
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:candidate_generation:skill:crystal_design_structure_crossover_agent
+        bindingVersion: 1
+        field: pareto_cif_paths
+    - targetField: candidate_summary
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:candidate_generation:skill:crystal_design_structure_crossover_agent
+        bindingVersion: 1
+        field: top_k_table
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query
+- bindingId: bind:materials:report_generation:skill:analysis_report_durable
+  bindingVersion: 1
+  definitionId: materials:report_generation
+  definitionVersion: 1
+  skillId: analysis_report_durable
+  skillDefinitionVersion: 1
+  inputSources:
+    contractVersion: 2
+    fields:
+    - targetField: mp_search_report
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:database_search:skill:materials_mp_constraint_search
+        bindingVersion: 1
+        field: report_markdown
+    - targetField: candidate_summary
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:candidate_generation:skill:crystal_design_structure_crossover_agent
+        bindingVersion: 1
+        field: top_k_table
+    - targetField: stability_handoff
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:stability_verification:skill:vasp_stability_durable
+        bindingVersion: 1
+        field: handoff_summary
+    - targetField: experiment_handoff
+      sourcePresence: optional
+      source:
+        kind: artifact
+        bindingId: bind:materials:synthesis_execution:skill:flux_experiment
+        bindingVersion: 1
+        field: handoff_summary
+  runtimeInputs:
+    contractVersion: 2
+    fields:
+    - targetField: goal
+      source:
+        kind: invocationContext
+        field: canonical_user_query

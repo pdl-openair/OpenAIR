@@ -1,0 +1,16 @@
+{
+  "status": "completed",
+  "summary": "从研究空白中凝练核心研究问题：OPE 方法在 RL 训练过程中的可靠性如何随策略演化而变化？能否从可观测信号预测何时应该切换方法？",
+  "artifacts": [
+    {
+      "path": "openair/ope-benchmark/proposal/question-v2.md",
+      "type": "research_note",
+      "title": "研究问题 v2"
+    }
+  ],
+  "capability_calls": [],
+  "next_actions": [
+    "将研究问题转化为可验证假说"
+  ],
+  "error": null
+}

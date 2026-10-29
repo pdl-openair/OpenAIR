@@ -1,0 +1,11 @@
+{
+  "evaluatorRef": "python:pvd_bo.applicability:evaluate_capability_applicability",
+  "requiredRuntimeFactRefs": [
+    "runtime:research-task:v1",
+    "runtime:execution-instance:v1",
+    "runtime:scientific-state:v1"
+  ],
+  "scientificStateFactPath": "scientificFacts",
+  "scientificStateFactSchema": "applicability_runtime_fact.schema.json",
+  "modelProfileId": "al40sc_mo_110mm_v1"
+}

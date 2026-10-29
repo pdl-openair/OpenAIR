@@ -1,0 +1,17 @@
+# CODEOWNERS — AI4SE Harness 重构战役 B5 引入（handle 冻结，见设计方案 §6）
+# 规则自上而下，后写的更具体规则优先生效。
+#
+# 与 scripts/gates/classify_change_risk.py HIGH_PATTERNS 的对应关系：
+#   - "schemas 目录段"、"skills 注册表/绑定表"、"spec 强制配置" → 下方目录锚定规则可表达
+#   - "auth 子串"、"token 子串" 为路径子串匹配，CODEOWNERS 无法表达，
+#     仍由 classify_change_risk L2/L4（PR 评审策略 + 风险分级报告）承接
+
+# 默认：全仓双评审
+* @Lynn-1221 @Maxine-1520
+
+# 高风险路径：双人且必含人工（auth/schema/registry 域，SPEC-PROC-04）
+/spec/enforcement/ @Maxine-1520 @nipeone
+/schemas/ @Maxine-1520 @nipeone
+/services/api/app/execution/schemas/ @Maxine-1520 @nipeone
+/skills/registry.yaml @Maxine-1520 @nipeone
+/skills/skill-bindings.yaml @Maxine-1520 @nipeone

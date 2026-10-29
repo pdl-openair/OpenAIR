@@ -1,0 +1,172 @@
+{
+  "direct_answer": {
+    "answer": "The supplied records support that Formulation G showed a denser protective interphase and higher capacity retention after 100 cycles (92% versus 84% for the matched control). They do not by themselves establish that the denser interphase caused the retention benefit; the supplied mechanism packet provides a mechanism-consistent explanation that remains to be tested.",
+    "supporting_record_ids": [
+      "rr:3791b1b3768170be3ebc5df9e97499ab",
+      "rr:fa76b43391ed59c52c4a0857d27f5bb0"
+    ],
+    "caveats": [
+      "The reported performance comparison is limited to 100 cycles.",
+      "The causal link between interphase density, parasitic reactions, and capacity retention is not directly established by the ResearchRecords."
+    ],
+    "confidence": 0.88
+  },
+  "evidence_supported_conclusions": [
+    {
+      "local_conclusion_key": "conclusion-1",
+      "conclusion_id": "fc:c2e4bec2a804d57ead22",
+      "claim_type": "evidence_supported_conclusion",
+      "statement": "Formulation G retained 92% capacity after 100 cycles versus 84% for the matched control.",
+      "epistemic_status": "supported",
+      "supporting_record_ids": [
+        "rr:fa76b43391ed59c52c4a0857d27f5bb0"
+      ],
+      "supporting_mechanism_edge_ids": [],
+      "evidence_basis": "A quantitative ResearchRecord reports 92% capacity retention for Formulation G and 84% for the matched control after 100 cycles.",
+      "scope_boundary": "Limited to the reported 100-cycle matched comparison; no longer-duration performance is established.",
+      "uncertainties": [
+        "The supplied record does not establish whether the retention advantage persists beyond 100 cycles."
+      ],
+      "confidence": 0.96
+    },
+    {
+      "local_conclusion_key": "conclusion-2",
+      "conclusion_id": "fc:c2c8e49057ab5b23547a",
+      "claim_type": "evidence_supported_conclusion",
+      "statement": "Formulation G showed a denser protective interphase after 100 cycles.",
+      "epistemic_status": "boundary_limited",
+      "supporting_record_ids": [
+        "rr:3791b1b3768170be3ebc5df9e97499ab"
+      ],
+      "supporting_mechanism_edge_ids": [],
+      "evidence_basis": "A characterization ResearchRecord reports a denser protective interphase after cycling.",
+      "scope_boundary": "The observation is limited to the reported formulation and 100-cycle condition and does not establish causal mediation of capacity retention.",
+      "uncertainties": [
+        "The ResearchRecord does not directly test whether interphase density causes lower capacity fade."
+      ],
+      "confidence": 0.9
+    }
+  ],
+  "conflicts": [],
+  "uncertainties": [
+    "The causal role of the denser interphase in the observed retention difference is unresolved.",
+    "Transfer of the 100-cycle result to longer cycling is unknown."
+  ],
+  "evidence_gaps": [
+    {
+      "gap": "No supplied ResearchRecord directly tests whether the denser protective interphase mediates the capacity-retention advantage.",
+      "related_record_ids": [
+        "rr:3791b1b3768170be3ebc5df9e97499ab",
+        "rr:fa76b43391ed59c52c4a0857d27f5bb0"
+      ],
+      "mechanism_context_edge_ids": [
+        "me:20baecb7a8fd0ef7fec1"
+      ],
+      "impact": "The mechanism can inform a research direction but cannot be stated as the established cause of the performance difference."
+    }
+  ],
+  "research_leads": [
+    {
+      "local_lead_key": "lead-1",
+      "research_lead_id": "rl:e0e4fc39f367b361ef15",
+      "claim_type": "research_lead",
+      "lead_kind": "mechanism_gap",
+      "title": "Test whether the protective interphase mediates the retention advantage",
+      "research_question": "Does the denser protective interphase observed with Formulation G reduce parasitic reactions enough to account for its higher capacity retention under matched cycling conditions?",
+      "investigation_target": "The causal relationship among protective-interphase density, parasitic-reaction activity, and capacity retention.",
+      "rationale": "The records jointly establish the interphase observation and the retention advantage, while the mechanism packet supplies a plausible link that the records do not directly verify.",
+      "supporting_record_ids": [
+        "rr:3791b1b3768170be3ebc5df9e97499ab",
+        "rr:fa76b43391ed59c52c4a0857d27f5bb0"
+      ],
+      "mechanism_context_edge_ids": [
+        "me:20baecb7a8fd0ef7fec1"
+      ],
+      "boundary_conditions": [
+        "matched cell configuration",
+        "matched cycling protocol",
+        "conditions comparable to the reported 100-cycle result"
+      ],
+      "scientific_significance": "Resolving this link would distinguish a transferable mechanism from two correlated observations in the current evidence.",
+      "uncertainties": [
+        "The interphase may correlate with, rather than cause, the retention advantage."
+      ],
+      "confidence": 0.78,
+      "novelty_boundary": "research_direction_not_hypothesis_or_novelty_claim"
+    }
+  ],
+  "hypotheses": [
+    {
+      "local_hypothesis_key": "hypothesis-1",
+      "hypothesis_id": "hy:1a453d19b35f0fda1106",
+      "claim_type": "unvalidated_hypothesis",
+      "source_local_lead_key": "lead-1",
+      "research_lead_id": "rl:e0e4fc39f367b361ef15",
+      "title": "A denser protective interphase will reduce capacity fade under matched cycling",
+      "statement": "Under matched cycling conditions, a condition that produces a denser protective interphase will show lower parasitic-reaction activity and higher capacity retention than a lower-interphase-density control.",
+      "independent_variable": "protective-interphase density under an otherwise matched comparison",
+      "dependent_variable": "parasitic-reaction activity and capacity retention",
+      "expected_direction": "greater protective-interphase density is associated with lower parasitic-reaction activity and higher capacity retention",
+      "boundary_conditions": [
+        "matched cell configuration",
+        "matched cycling protocol",
+        "comparable cycling duration"
+      ],
+      "supporting_record_ids": [
+        "rr:3791b1b3768170be3ebc5df9e97499ab",
+        "rr:fa76b43391ed59c52c4a0857d27f5bb0"
+      ],
+      "mechanism_context_edge_ids": [
+        "me:20baecb7a8fd0ef7fec1"
+      ],
+      "evidence_basis": "The records report a denser interphase for Formulation G and higher 100-cycle capacity retention than the matched control.",
+      "mechanism_reasoning": "The supplied mechanism edge proposes that a dense protective interphase suppresses parasitic side reactions associated with capacity fade; this is explanatory context rather than proof.",
+      "falsifiable_prediction": "The hypothesis is refuted if a controlled higher-interphase-density condition does not reduce parasitic-reaction activity or does not improve capacity retention relative to the lower-density control under matched cycling.",
+      "validation_conditions": [
+        "use a matched control differing in the factor used to change interphase density",
+        "measure interphase density, parasitic-reaction activity, and capacity retention under the same cycling protocol"
+      ],
+      "falsification_conditions": [
+        "higher interphase density occurs without lower parasitic-reaction activity",
+        "higher interphase density occurs without higher capacity retention under the matched comparison"
+      ],
+      "scientific_significance": "A positive result would support a transferable interphase-mediated design principle rather than a formulation-specific association.",
+      "uncertainties": [
+        "Changing interphase density may also change other cell properties that affect retention."
+      ],
+      "confidence": 0.68,
+      "novelty_boundary": "derived_from_evidence_not_established_by_sources"
+    }
+  ],
+  "summary": {
+    "input_record_count": 3,
+    "mechanism_available": true,
+    "mechanism_edge_count": 1,
+    "conclusion_count": 2,
+    "conflict_count": 0,
+    "evidence_gap_count": 1,
+    "research_lead_count": 1,
+    "hypothesis_count": 1,
+    "dropped_duplicate_conclusion_count": 0,
+    "dropped_duplicate_lead_count": 0,
+    "dropped_duplicate_hypothesis_count": 0,
+    "dropped_over_limit_conclusion_count": 0,
+    "dropped_over_limit_lead_count": 0,
+    "dropped_over_limit_hypothesis_count": 0,
+    "degraded": false
+  },
+  "audit": {
+    "skill_id": "research_lead_hypothesis_generation",
+    "task_id": "example-final-synthesis",
+    "traceability_mode": "research_record_direct_grounding",
+    "guard_version": "lane-a-p0-final-v1",
+    "input_fingerprint": "ea0a6fffc9a59c122fdf935da976831b297682716ea500f3c8c4125b9a8704d5",
+    "claim_layers": [
+      "evidence_supported_conclusion",
+      "research_lead",
+      "unvalidated_hypothesis"
+    ],
+    "mechanism_role": "optional_enhancement"
+  },
+  "generation_warnings": []
+}

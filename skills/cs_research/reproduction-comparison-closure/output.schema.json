@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["overall_verdict", "comparability", "metric_judgments", "condition_mismatches", "rule_application", "evidence_refs", "unknowns"],
+  "properties": {
+    "overall_verdict": {"type": "string", "enum": ["meets_standard", "does_not_meet_standard", "indeterminate"]},
+    "comparability": {"type": "object"},
+    "metric_judgments": {"type": "array", "items": {"type": "object"}},
+    "condition_mismatches": {"type": "array", "items": {"type": "object"}},
+    "rule_application": {"type": "object"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}}
+  }
+}

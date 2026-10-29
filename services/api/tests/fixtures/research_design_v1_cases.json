@@ -1,0 +1,191 @@
+{
+  "simple": {
+    "planningMode": "lightweight",
+    "planningComplexity": {
+      "problemClarity": "high",
+      "expectedStageSpan": "one",
+      "dependencyComplexity": "low",
+      "evidenceBurden": "low",
+      "externalActionRisk": "low",
+      "researchUncertainty": "low",
+      "rationale": "One bounded output can be independently accepted."
+    },
+    "goal": "Produce a bounded evidence summary.",
+    "understanding": {
+      "researchType": "evidence_synthesis",
+      "userIntent": "Summarize the supplied evidence.",
+      "materialSummary": "One bounded source packet is supplied.",
+      "primaryResearchQuestions": ["What does the supplied evidence support within the stated scope?"],
+      "auxiliaryResearchDimensions": [],
+      "targetOutputs": ["evidence_summary"],
+      "evidenceBoundaries": [],
+      "missingInputs": [],
+      "riskNotes": [],
+      "planningRationale": "The requested output is explicit."
+    },
+    "constraints": [],
+    "scopeBoundary": {
+      "allowedObjectiveKinds": ["evidence_synthesis"],
+      "excludedActions": ["external_publish"],
+      "allowedMaterialRefs": ["material:one"],
+      "maxSubstageInstances": 4
+    },
+    "budgetBoundary": {
+      "maxModelCalls": 2,
+      "maxToolCalls": 1,
+      "maxWallTimeSec": 120,
+      "maxCostAmount": null,
+      "currency": null
+    },
+    "externalActionBoundary": {
+      "allowedActionKinds": [],
+      "confirmationRequiredKinds": [],
+      "allowedDestinations": []
+    },
+    "riskBoundary": {
+      "maxRiskClass": "low",
+      "prohibitedActions": [],
+      "humanGateTriggers": []
+    },
+    "instances": [
+      {
+        "instanceKey": "summarize",
+        "definitionId": "sdr:evidence_synthesis",
+        "objective": "Create the bounded evidence summary.",
+        "inputRefs": ["material:one"],
+        "expectedArtifactTypes": ["evidence_summary"],
+        "acceptanceCriteria": [
+          {
+            "criterionKey": "output",
+            "description": "The requested evidence summary is produced.",
+            "criterionKind": "target_output",
+            "coverageSourcePaths": ["understanding.targetOutputs[0]"],
+            "requiredArtifactType": "evidence_summary",
+            "judgmentRequirement": "deterministic",
+            "evaluatorType": "deterministic",
+            "evaluatorRef": null
+          }
+        ],
+        "dependencies": [],
+        "sequenceHint": 0
+      }
+    ],
+    "coverageClaimCandidates": [
+      {
+        "sourcePath": "understanding.targetOutputs[0]",
+        "instanceKeys": ["summarize"],
+        "acceptanceCriterionKeys": ["summarize:output"],
+        "rationale": "The instance emits the required artifact."
+      }
+    ]
+  },
+  "sdr": {
+    "planningMode": "sdr",
+    "planningComplexity": {
+      "problemClarity": "medium",
+      "expectedStageSpan": "multiple",
+      "dependencyComplexity": "high",
+      "evidenceBurden": "high",
+      "externalActionRisk": "low",
+      "researchUncertainty": "medium",
+      "rationale": "Collection and synthesis have separate outputs and acceptance."
+    },
+    "goal": "Collect and synthesize a traceable evidence set.",
+    "understanding": {
+      "researchType": "structured_deep_research",
+      "userIntent": "Build a traceable synthesis from multiple sources.",
+      "materialSummary": "Named seed sources are available.",
+      "primaryResearchQuestions": ["What synthesis is supported across the named sources?"],
+      "auxiliaryResearchDimensions": [],
+      "targetOutputs": ["research_synthesis"],
+      "evidenceBoundaries": [],
+      "missingInputs": [],
+      "riskNotes": [],
+      "planningRationale": "The request needs an explicit dependency."
+    },
+    "constraints": [],
+    "scopeBoundary": {
+      "allowedObjectiveKinds": ["source_collection", "evidence_synthesis"],
+      "excludedActions": ["external_publish"],
+      "allowedMaterialRefs": ["material:seed"],
+      "maxSubstageInstances": 8
+    },
+    "budgetBoundary": {
+      "maxModelCalls": 4,
+      "maxToolCalls": 4,
+      "maxWallTimeSec": 600,
+      "maxCostAmount": null,
+      "currency": null
+    },
+    "externalActionBoundary": {
+      "allowedActionKinds": [],
+      "confirmationRequiredKinds": [],
+      "allowedDestinations": []
+    },
+    "riskBoundary": {
+      "maxRiskClass": "medium",
+      "prohibitedActions": [],
+      "humanGateTriggers": []
+    },
+    "instances": [
+      {
+        "instanceKey": "synthesize",
+        "definitionId": "sdr:evidence_synthesis",
+        "objective": "Synthesize the collected evidence.",
+        "inputRefs": [],
+        "expectedArtifactTypes": ["research_synthesis"],
+        "acceptanceCriteria": [
+          {
+            "criterionKey": "output",
+            "description": "The synthesis is traceable to collected evidence.",
+            "criterionKind": "target_output",
+            "coverageSourcePaths": ["understanding.targetOutputs[0]"],
+            "requiredArtifactType": "research_synthesis",
+            "judgmentRequirement": "deterministic",
+            "evaluatorType": "deterministic",
+            "evaluatorRef": null
+          }
+        ],
+        "dependencies": [
+          {
+            "dependencyKey": "collected",
+            "upstreamInstanceKey": "collect",
+            "conditionType": "artifact_usable",
+            "requiredArtifactTypes": ["evidence_set"],
+            "confirmationTargetRef": null
+          }
+        ],
+        "sequenceHint": 1
+      },
+      {
+        "instanceKey": "collect",
+        "definitionId": "sdr:source_collection",
+        "objective": "Collect a bounded traceable evidence set.",
+        "inputRefs": ["material:seed"],
+        "expectedArtifactTypes": ["evidence_set"],
+        "acceptanceCriteria": [
+          {
+            "criterionKey": "traceability",
+            "description": "Each collected item retains a source reference.",
+            "criterionKind": "artifact_quality",
+            "coverageSourcePaths": [],
+            "requiredArtifactType": "evidence_set",
+            "judgmentRequirement": "deterministic",
+            "evaluatorType": "deterministic",
+            "evaluatorRef": null
+          }
+        ],
+        "dependencies": [],
+        "sequenceHint": 0
+      }
+    ],
+    "coverageClaimCandidates": [
+      {
+        "sourcePath": "understanding.targetOutputs[0]",
+        "instanceKeys": ["synthesize"],
+        "acceptanceCriterionKeys": ["synthesize:output"],
+        "rationale": "The downstream synthesis emits and validates the target output."
+      }
+    ]
+  }
+}

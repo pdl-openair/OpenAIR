@@ -1,0 +1,17 @@
+suite_id: component.web.model.workbench-collaboration-layout
+protected_outcome: Workbench collaboration regions appear only from ready canonical materialized collaboration truth and next-step presentation reflects the actual confirmation/action state.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: workbench_collaboration_layout_or_next_step_truth_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/model/workbenchCollaborationLayoutCore.mjs
+test_responsibility: deterministic component behavior for collaboration layout eligibility and next-step presentation
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [workbench_collaboration_layout_changes]

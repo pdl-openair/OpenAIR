@@ -1,0 +1,30 @@
+skill_id: ope_hypothesis_construction
+claude_name: ope-hypothesis-construction
+display_name: 假设构建
+version: "0.1.0"
+stages:
+  - problem_modeling
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - hypothesis_construction
+output_file: proposal/proposal.md
+pack: ope
+spec: proposal.md
+input_skills:
+  - ope_question_formulation
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: hypothesis_construction
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

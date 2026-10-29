@@ -1,0 +1,37 @@
+skill_id: reference_metric_comparison
+claude_name: reference-metric-comparison
+display_name: 参考指标确定性比较
+version: "0.2.0"
+stages:
+  - execution_validation
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+substages:
+  - result_acceptance
+packs:
+  - sdr
+input_schema: input.schema.json
+output_schema: output.schema.json
+execution_method_roles:
+  - cs_reproduction_result_comparison:deterministic_comparison
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:reference_metric_comparison
+  evidence_contract_version: deterministic-output/v1
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: result_acceptance
+owner: TBD
+fixture_status: missing
+notes: 对显式 actual/reference 与冻结规则做确定性比较；CS 使用 B04 actual_metric_records 与 reproduction_comparability_assessment 门控，只有可比性完整成立时才计算；SDR 原有 actual_metrics 输入保持兼容。
+capability_contract:
+  artifact_types:
+    - deterministic_metric_comparison
+  judgment_support:
+    deterministic: true
+    domain_professional: false

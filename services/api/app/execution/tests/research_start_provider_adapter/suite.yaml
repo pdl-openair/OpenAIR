@@ -1,0 +1,49 @@
+suite_id: component.execution.research-start-provider-adapter
+protected_outcome: >-
+  ResearchStart Provider transport preserves safe, bounded route and failure
+  evidence without leaking secrets, consumes the formal Provider Schema
+  transport when a schema is present, and does not invent that protocol when a
+  schema is absent.
+  Streaming responses retain request identity and complete response evidence,
+  publish incremental thinking, and never hide a second Provider submission.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - research_start_provider_diagnostic_leaks_secret_or_unbounded_data
+  - research_start_route_evidence_lost_or_inconsistent
+  - research_start_provider_schema_transport_not_consumed_as_declared
+  - research_start_stream_identity_lost_or_hidden_resubmission
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/research_start_provider_adapter.py
+  - services/api/app/modules/research_start_thinking.py
+test_responsibility: >-
+  Deterministically prove ResearchStart success and known-failure route
+  diagnostics remain compact and secret-safe, and that prepared attempts add
+  the shared Provider Schema transport exactly when provider_schema is present.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - safe_success_and_failure_route_assertions
+  - provider_schema_present_and_absent_transport_assertions
+  - stream_identity_incremental_thoughts_and_single_submission_assertions
+verdict_rule: >-
+  PASS only when all required evidence is obtained and the existing assertions
+  prove the asserted 504, success, and client-rejection diagnostics are bounded
+  and secret-safe, a present Provider Schema enters the formal shared transport
+  without changing scientific-message order, and an absent Provider Schema adds
+  no schema protocol, streaming identity and completed response evidence survive,
+  thoughts publish before later chunks, and each physical attempt sends at most
+  one request; FAIL when valid evidence shows diagnostic leakage or loss,
+  failure to consume a supplied schema, or invention of schema transport without
+  one; otherwise NO_VALID_EVIDENCE.
+triggers:
+  - ResearchStart Provider request execution or diagnostic changes
+  - ResearchStart Provider Schema transport integration changes

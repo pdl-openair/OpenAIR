@@ -1,0 +1,40 @@
+skill_id: pvd_evidence_applicability_comparability_analysis
+claude_name: pvd-evidence-applicability-comparability-analysis
+display_name: PVD Evidence Applicability & Comparability Analysis
+description: Determine what external or cross-system PVD evidence can support for
+  the current experiment, under which conditions, and with what transfer limits.
+version: 1.0.0
+domain: pvd
+stages:
+- execution_validation
+substages:
+- evidence_applicability_comparability_analysis
+packs:
+- pvd
+skill_type: atomic
+runtime: python_adapter
+status: ready
+owner: TBD
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+capability_contract:
+  artifact_types:
+  - evidence_applicability
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+runtime_contract:
+  kind: reasoning_adapter
+  requires_external_action: false
+  adapter_id: python_adapter:pvd_evidence_applicability_comparability_analysis
+  evidence_contract_version: none
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+fixture_status: missing
+enabled: true
+notes: 'Production T05 capability: Python orchestration owns deterministic identity/provenance joins and invokes registered
+  durable LLM child Skills for Global Planning, record-level Deep Verification, and Final Synthesis. Scientific authorization
+  remains model-owned; no external action.'

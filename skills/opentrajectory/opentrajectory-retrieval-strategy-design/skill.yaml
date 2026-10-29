@@ -1,0 +1,34 @@
+skill_id: opentrajectory_retrieval_strategy_design
+claude_name: opentrajectory-retrieval-strategy-design
+display_name: 检索策略设计
+version: 0.1.0
+stages:
+- solution_design
+substages:
+- retrieval_strategy_design
+pack: opentrajectory
+sequence: 30
+enabled: true
+spec: 02-design/retrieval-strategy-design.md
+input_skills:
+- opentrajectory_problem_framing
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-retrieval-strategy-design
+claude_skill_path: .claude/skills/opentrajectory-retrieval-strategy-design
+output_file: 02-design/retrieval-matrix.json
+fixture_status: none
+notes: OpenTrajectory L2 orchestration slot.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: retrieval_strategy_design
+owner: TBD
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

@@ -1,0 +1,110 @@
+skill_id: crystal_design_structure_crossover_agent
+claude_name: crystal-design-structure-crossover-agent
+display_name: Crystal design structure crossover
+version: "0.1.0"
+stages:
+  - problem_modeling
+  - solution_design
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - candidate_generation
+packs:
+  - materials
+input_schema:
+  type: object
+  additionalProperties: false
+  required: [goal, seed_cif_paths, task_instruction]
+  properties:
+    goal:
+      type: string
+    seed_cif_paths:
+      type: array
+      minItems: 1
+      items:
+        type: string
+    task_instruction:
+      type: object
+      additionalProperties: false
+      properties:
+        pop_size:
+          type: integer
+          minimum: 2
+          maximum: 20
+        max_generations:
+          type: integer
+          minimum: 0
+          maximum: 3
+        crossover_rate:
+          type: number
+          minimum: 0
+          maximum: 1
+output_schema:
+  type: object
+  additionalProperties: false
+  required: [state, run_dir, objectives, constraints, top_k_table, iterations, run_summary, pareto_cif_paths, partial_failure, execution_evidence]
+  properties:
+    state:
+      type: string
+      enum: [succeeded, partial_failure]
+    run_dir:
+      type: string
+    objectives:
+      type: object
+    constraints:
+      type: object
+    top_k_table:
+      type: string
+    iterations:
+      type: array
+    run_summary:
+      type: object
+    pareto_cif_paths:
+      type: array
+      items:
+        type: string
+    partial_failure:
+      oneOf:
+        - type: array
+          items:
+            type: string
+        - type: 'null'
+    execution_evidence:
+      type: array
+      minItems: 1
+      items:
+        type: object
+owner: TBD
+fixture_status: missing
+notes: Agent-guided evolutionary loop. Claude translates the NL goal into objectives/constraints, drives the deterministic evolve_driver (bash) one generation at a time, and adaptively steers (ban elements, tighten constraints, raise mutation strength, flip crossover). Mutation = diffusion-mutate MCP (noise+denoise); crossover = same MCP two-parent blend; fitness = alignn-predict; relax = mattersim-relax; final novelty = mattergen-evaluate. Replaces the deprecated flux-evolution-mcp service.
+runtime_contract:
+  kind: skill_script
+  requires_external_action: true
+  adapter_id: skill_runtime:crystal_design_structure_crossover_agent
+  evidence_contract_version: skill-execution-evidence/v1
+  artifact_files:
+    - structure-crossover/leaderboard.csv
+    - structure-crossover/pareto/*.png
+    - structure-crossover/pareto/*.cif
+input_handoff:
+  contract_version: 1
+  predecessor_skill_id: null
+  predecessor_definition_version: null
+  dependency_skill_id: materials_mp_constraint_search
+  dependency_definition_version: 1
+  context_fields:
+    goal: canonical_user_query
+  constants:
+    task_instruction:
+      pop_size: 8
+      max_generations: 1
+      crossover_rate: 0.5
+  field_mappings:
+    source_document: $
+  normalizers:
+  - materials_seed_cif_projection_v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only

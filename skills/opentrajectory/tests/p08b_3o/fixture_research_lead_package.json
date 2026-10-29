@@ -1,0 +1,218 @@
+{
+  "package_id": "p08b-3o-minimal-real-research-lead-package",
+  "package_mode": "minimal_real_object_path_fixture",
+  "source_fixture_mode": "locked_suite_no_search",
+  "scientific_effect_validated": false,
+  "research_question": "Locked three-case OpenTrajectory research-lead gap-to-action diagnostic.",
+  "decision_evidence_contract": {
+    "contract_version": "decision_evidence_v1",
+    "decision_level_ready": false,
+    "performance_claim_blocked": true,
+    "missing_critical_items": [
+      "paper_task_artifact_source",
+      "boundary_source_anchor",
+      "rubric_review_rule",
+      "protocol",
+      "control_expectation",
+      "interlab_validation_source_lock",
+      "domain_boundary_contract",
+      "fast_charge_protocol",
+      "explicit_threshold",
+      "executable_decision_rule",
+      "reproduced_validation",
+      "negative_boundary_contract"
+    ],
+    "gap_reason": "Visible gaps remain action-planning inputs only."
+  },
+  "evidence_packet": {
+    "evidence_items": []
+  },
+  "paper_packets": [],
+  "slot_coverage_table": [
+    {
+      "research_lead_id": "lead_paperbench",
+      "slot_id": "paper_task_artifact_source",
+      "slot_label": "paper task artifact source",
+      "status": "missing",
+      "current_status": "MISSING_TASK_ARTIFACT_SOURCE"
+    },
+    {
+      "research_lead_id": "lead_paperbench",
+      "slot_id": "boundary_source_anchor",
+      "slot_label": "bounded subcase boundary source anchor",
+      "status": "missing",
+      "current_status": "BOUNDARY_SOURCE_UNLOCKED"
+    },
+    {
+      "research_lead_id": "lead_paperbench",
+      "slot_id": "rubric_review_rule",
+      "slot_label": "rubric review rule",
+      "status": "partial",
+      "current_status": "RUBRIC_REVIEW_RULE_PLANNED_ONLY"
+    },
+    {
+      "research_lead_id": "lead_assb",
+      "slot_id": "protocol",
+      "slot_label": "ASSB protocol variables",
+      "status": "partial",
+      "current_status": "PROTOCOL_VARIABLES_PARTIAL"
+    },
+    {
+      "research_lead_id": "lead_assb",
+      "slot_id": "control_expectation",
+      "slot_label": "ASSB control expectation",
+      "status": "partial",
+      "current_status": "CONTROL_EXPECTATION_PARTIAL"
+    },
+    {
+      "research_lead_id": "lead_assb",
+      "slot_id": "interlab_validation_source_lock",
+      "slot_label": "ASSB interlaboratory validation source lock",
+      "status": "partial",
+      "current_status": "INTERLAB_VALIDATION_SOURCE_LOCK_PARTIAL"
+    },
+    {
+      "research_lead_id": "lead_assb",
+      "slot_id": "domain_boundary_contract",
+      "slot_label": "ASSB domain boundary contract",
+      "status": "partial",
+      "current_status": "DOMAIN_BOUNDARY_CONTRACT_PARTIAL"
+    },
+    {
+      "research_lead_id": "lead_bfe",
+      "slot_id": "fast_charge_protocol",
+      "slot_label": "BFE/F2DEM fast-charge protocol",
+      "status": "partial",
+      "current_status": "PARTIAL"
+    },
+    {
+      "research_lead_id": "lead_bfe",
+      "slot_id": "explicit_threshold",
+      "slot_label": "BFE/F2DEM explicit threshold",
+      "status": "partial",
+      "current_status": "PARTIAL"
+    },
+    {
+      "research_lead_id": "lead_bfe",
+      "slot_id": "executable_decision_rule",
+      "slot_label": "BFE/F2DEM executable decision rule",
+      "status": "gap",
+      "current_status": "PLANNED_TEMPLATE_ONLY / GAP"
+    },
+    {
+      "research_lead_id": "lead_bfe",
+      "slot_id": "reproduced_validation",
+      "slot_label": "BFE/F2DEM reproduced validation",
+      "status": "missing",
+      "current_status": "NOT_FOUND"
+    },
+    {
+      "research_lead_id": "lead_bfe",
+      "slot_id": "negative_boundary_contract",
+      "slot_label": "BFE/F2DEM negative boundary contract",
+      "status": "gap",
+      "current_status": "NEGATIVE_ONLY_BOUNDARY"
+    }
+  ],
+  "research_leads": [
+    {
+      "research_lead_id": "lead_paperbench",
+      "case": "PaperBench bounded subcase",
+      "title": "PaperBench bounded subcase",
+      "role": "CS_AI_WORKFLOW_REPRODUCTION",
+      "boundary": "bounded research-reproduction workflow action only",
+      "status_fields": {
+        "workflow_role": "REPRODUCTION_WORKFLOW_ONLY",
+        "benchmark_grade_role": "ARTIFACT_REVIEW_SUPPORT_ONLY"
+      },
+      "decision_level_ready": false,
+      "actionability_status": "evidence_gap",
+      "missing_decision_slots": [
+        "paper_task_artifact_source",
+        "boundary_source_anchor",
+        "rubric_review_rule"
+      ],
+      "decision_evidence_contract": {
+        "decision_level_ready": false,
+        "missing_critical_items": [
+          "paper_task_artifact_source",
+          "boundary_source_anchor",
+          "rubric_review_rule"
+        ],
+        "performance_claim_blocked": true
+      }
+    },
+    {
+      "research_lead_id": "lead_assb",
+      "case": "ASSB interlaboratory reproducibility",
+      "title": "ASSB interlaboratory reproducibility",
+      "role": "MATERIALS_ENERGY_REPRODUCIBILITY_LEAD",
+      "boundary": "specific lab-scale material-system reproducibility action only",
+      "status_fields": {
+        "lead_role": "REPRODUCIBILITY_GROUNDED_VALIDATION",
+        "material_scope": "SPECIFIC_LAB_SCALE_SYSTEM"
+      },
+      "decision_level_ready": false,
+      "actionability_status": "evidence_gap",
+      "missing_decision_slots": [
+        "protocol",
+        "control_expectation",
+        "interlab_validation_source_lock",
+        "domain_boundary_contract"
+      ],
+      "decision_evidence_contract": {
+        "decision_level_ready": false,
+        "missing_critical_items": [
+          "protocol",
+          "control_expectation",
+          "interlab_validation_source_lock",
+          "domain_boundary_contract"
+        ],
+        "performance_claim_blocked": true
+      }
+    },
+    {
+      "research_lead_id": "lead_bfe",
+      "case": "BFE/F2DEM / Li||NCM811",
+      "title": "BFE/F2DEM / Li||NCM811",
+      "role": "NEGATIVE_ONLY",
+      "boundary": "negative/frontier anti-overclaim and gap-to-action control only",
+      "status_fields": {
+        "role": "NEGATIVE_ONLY",
+        "fast_charge_protocol": "PARTIAL",
+        "explicit threshold": "PARTIAL",
+        "executable decision rule": "PLANNED_TEMPLATE_ONLY / GAP",
+        "reproduced_validation": "NOT_FOUND",
+        "decision_level_ready": false,
+        "scientific_effect_validated": false
+      },
+      "decision_level_ready": false,
+      "actionability_status": "evidence_gap",
+      "missing_decision_slots": [
+        "fast_charge_protocol",
+        "explicit_threshold",
+        "executable_decision_rule",
+        "reproduced_validation",
+        "negative_boundary_contract"
+      ],
+      "decision_evidence_contract": {
+        "decision_level_ready": false,
+        "missing_critical_items": [
+          "fast_charge_protocol",
+          "explicit_threshold",
+          "executable_decision_rule",
+          "reproduced_validation",
+          "negative_boundary_contract"
+        ],
+        "performance_claim_blocked": true
+      }
+    }
+  ],
+  "traceability_summary": {
+    "research_lead_count": 3,
+    "evidence_item_count": 0,
+    "paper_packet_count": 0,
+    "slot_coverage_missing_count": 12,
+    "slot_coverage_found_count": 0
+  }
+}

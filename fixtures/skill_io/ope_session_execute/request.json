@@ -1,0 +1,16 @@
+{
+  "task_id": "task_cs_ope_001",
+  "run_id": "run_cs_ope_001",
+  "stage": "execution_validation",
+  "user_goal": "执行 Task Set 1-9：项目初始化、数据层、工具层、估计器实现、评估框架",
+  "context": {
+    "task_sets": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "meta_config_ref": "openair/ope-benchmark/new_execute/.meta_config.json",
+    "task_sets_state_ref": "openair/ope-benchmark/new_execute/.task_sets_state.json"
+  },
+  "constraints": [
+    "按依赖顺序执行",
+    "每个 Set 完成后更新状态文件",
+    "完成后自动调用 meta-execute 检查进度"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "openair-product-harness",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OpenAIR product-level browser evidence harness (P2.1 minimal skeleton)",
+  "scripts": {
+    "eval:baseline": "powershell.exe -ExecutionPolicy Bypass -NoProfile -File .\\scripts\\run-baseline.ps1",
+    "eval:baseline:skip-install": "powershell.exe -ExecutionPolicy Bypass -NoProfile -File .\\scripts\\run-baseline.ps1 -SkipInstall",
+    "eval:production-stack": "powershell.exe -ExecutionPolicy Bypass -NoProfile -File .\\scripts\\run-production-stack.ps1",
+    "eval:baseline:unix": "bash scripts/run-baseline.sh",
+    "eval:baseline:unix:skip-install": "bash scripts/run-baseline.sh --skip-install",
+    "eval:playwright": "playwright test --project=chromium-desktop",
+    "eval:list": "playwright test --list",
+    "test:harness": "powershell.exe -ExecutionPolicy Bypass -NoProfile -File .\\tests\\runtime-copy.unit.ps1",
+    "report:open": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.60.0"
+  }
+}

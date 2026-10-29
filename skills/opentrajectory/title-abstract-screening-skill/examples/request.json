@@ -1,0 +1,39 @@
+{
+  "task_id": "task-s1-08",
+  "skill_id": "title-abstract-screening-skill",
+  "run_id": "run-demo-001",
+  "candidates": [
+    {
+      "candidate_id": "cand-001",
+      "title": "Structure-guided molecular trajectory planning with adaptive sampling",
+      "abstract": "We propose an adaptive trajectory planning method with metadata-grounded screening and constrained search.",
+      "access_status": "structured_fulltext_ready",
+      "needs_acquisition": false,
+      "preferred_access_type": "xml",
+      "available_access_types": ["xml", "pdf"],
+      "provenance": [
+        {
+          "stage": "source_access_readiness",
+          "skill_id": "source-access-readiness-resolver-skill",
+          "timestamp": "2026-05-27T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "candidate_id": "cand-002",
+      "title": "General chemistry education outcomes in undergraduate labs",
+      "abstract": null,
+      "access_status": "metadata_only",
+      "needs_acquisition": true,
+      "preferred_access_type": "metadata_only",
+      "available_access_types": ["metadata_only"],
+      "provenance": [
+        {
+          "stage": "source_access_readiness",
+          "skill_id": "source-access-readiness-resolver-skill",
+          "timestamp": "2026-05-27T12:00:00Z"
+        }
+      ]
+    }
+  ]
+}

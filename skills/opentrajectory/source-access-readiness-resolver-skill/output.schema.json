@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SourceAccessReadinessResolverOutput",
+  "type": "object",
+  "required": ["task_id", "skill_id", "candidates", "summary", "warnings", "errors"],
+  "additionalProperties": false,
+  "properties": {
+    "task_id": { "type": "string" },
+    "skill_id": {
+      "type": "string",
+      "const": "source-access-readiness-resolver-skill"
+    },
+    "run_id": { "type": "string" },
+    "candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/CandidateWithAccessStatus" }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "total_candidates",
+        "structured_fulltext_available_count",
+        "pdf_available_count",
+        "landing_page_only_count",
+        "metadata_only_count",
+        "access_blocked_count",
+        "needs_acquisition_count"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "total_candidates": { "type": "integer", "minimum": 0 },
+        "structured_fulltext_available_count": { "type": "integer", "minimum": 0 },
+        "pdf_available_count": { "type": "integer", "minimum": 0 },
+        "landing_page_only_count": { "type": "integer", "minimum": 0 },
+        "metadata_only_count": { "type": "integer", "minimum": 0 },
+        "access_blocked_count": { "type": "integer", "minimum": 0 },
+        "needs_acquisition_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/AccessWarning" }
+    },
+    "errors": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/AccessError" }
+    }
+  },
+  "$defs": {
+    "CandidateWithAccessStatus": {
+      "type": "object",
+      "required": [
+        "candidate_id",
+        "title",
+        "access_status",
+        "available_access_types",
+        "preferred_access_type",
+        "access_routes",
+        "needs_acquisition",
+        "provenance"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "canonical_source_id": { "type": "string" },
+        "title": { "type": "string" },
+        "normalized_title": { "type": "string" },
+        "doi": { "type": "string" },
+        "external_ids": { "type": "object", "additionalProperties": true },
+        "access_status": {
+          "type": "string",
+          "enum": [
+            "structured_fulltext_ready",
+            "pdf_ready",
+            "landing_page_only",
+            "metadata_only",
+            "blocked",
+            "unknown"
+          ]
+        },
+        "available_access_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["html", "xml", "tei", "pdf", "landing_page", "metadata_only"]
+          }
+        },
+        "preferred_access_type": {
+          "type": ["string", "null"],
+          "enum": ["html", "xml", "tei", "pdf", "landing_page", "metadata_only", null]
+        },
+        "access_routes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AccessRoute" }
+        },
+        "needs_acquisition": { "type": "boolean" },
+        "acquisition_hint": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "recommended_next_action": {
+              "type": "string",
+              "enum": [
+                "use_structured_fulltext",
+                "try_pdf_acquisition",
+                "try_landing_page_resolution",
+                "metadata_only_screening",
+                "manual_check",
+                "skip_for_access"
+              ]
+            },
+            "reason": { "type": "string" }
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AccessWarning" }
+        },
+        "retry": { "$ref": "#/$defs/RetryPolicy" },
+        "provenance": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ProvenanceRecord" }
+        }
+      }
+    },
+    "AccessRoute": {
+      "type": "object",
+      "required": ["access_type", "status", "confidence"],
+      "additionalProperties": false,
+      "properties": {
+        "access_type": {
+          "type": "string",
+          "enum": ["html", "xml", "tei", "pdf", "landing_page", "metadata_only"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["available", "candidate", "unavailable", "unknown"]
+        },
+        "url": { "type": "string" },
+        "source": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "notes": { "type": "string" }
+      }
+    },
+    "RetryPolicy": {
+      "type": "object",
+      "required": ["retryable", "retry_reason"],
+      "additionalProperties": false,
+      "properties": {
+        "retryable": { "type": "boolean" },
+        "retry_reason": {
+          "type": "string",
+          "enum": [
+            "missing_identifier",
+            "temporary_network_unchecked",
+            "rate_limited_unchecked",
+            "publisher_route_unknown",
+            "no_retry_needed",
+            "not_retryable"
+          ]
+        },
+        "recommended_retry_after_seconds": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        }
+      }
+    },
+    "AccessWarning": {
+      "type": "object",
+      "required": ["candidate_id", "code", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "code": {
+          "type": "string",
+          "enum": [
+            "MISSING_DOI",
+            "MISSING_FULLTEXT_ROUTE",
+            "PDF_ONLY",
+            "LANDING_PAGE_ONLY",
+            "METADATA_ONLY",
+            "LOW_CONFIDENCE_ROUTE",
+            "CONFLICTING_URLS",
+            "UNVERIFIED_ACCESS"
+          ]
+        },
+        "message": { "type": "string" }
+      }
+    },
+    "AccessError": {
+      "type": "object",
+      "required": ["candidate_id", "code", "message", "retryable"],
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "code": {
+          "type": "string",
+          "enum": [
+            "INVALID_CANDIDATE",
+            "MISSING_REQUIRED_FIELDS",
+            "ACCESS_RESOLUTION_FAILED",
+            "UNSUPPORTED_IDENTIFIER"
+          ]
+        },
+        "message": { "type": "string" },
+        "retryable": { "type": "boolean" }
+      }
+    },
+    "ProvenanceRecord": {
+      "type": "object",
+      "required": ["stage", "skill_id", "timestamp"],
+      "additionalProperties": true,
+      "properties": {
+        "stage": { "type": "string" },
+        "skill_id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "operation": { "type": "string" },
+        "input_candidate_id": { "type": "string" },
+        "decision": { "type": "string" },
+        "evidence_fields": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+schemaVersion: 1
+description: "OpenAIR provider registry. Agent policies reference providerId, never a concrete model."
+defaultProviderId: openai_primary
+
+providers:
+  - providerId: openai_primary
+    adapter: huiyan_chat_completions
+    maxOutputChars: 50000
+    submissionSafety:
+      submissionMode: single_attempt_no_replay
+      acceptsIdempotencyKey: false
+      returnsReceiptOrRemoteRunId: false
+      queryByIdempotencyKey: false
+      queryByReceiptOrRemoteRunId: false
+    environment:
+      model: LLM_PROVIDER_MODEL
+      baseUrl: LLM_PROVIDER_BASE_URL
+      apiKey: LLM_PROVIDER_API_KEY

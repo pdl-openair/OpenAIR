@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-process-factor-candidate-experiment-analysis/output.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_status",
+    "analysis_basis",
+    "factor_assessments",
+    "recommended_next_experiment_focus",
+    "limitations",
+    "audit"
+  ],
+  "properties": {
+    "analysis_status": {"enum": ["complete", "degraded"]},
+    "factor_assessments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_ref",
+          "factor",
+          "display_name",
+          "is_recommendation_parameter",
+          "candidate_direction",
+          "priority_role",
+          "evidence_refs",
+          "diagnosis_refs",
+          "rationale",
+          "uncertainty"
+        ],
+        "properties": {
+          "factor": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "candidate_direction": {"enum": ["increase", "decrease", "hold", "change", "uncertain"]},
+          "priority_role": {"enum": ["primary_lever", "secondary_lever", "hold_constant", "uncertain"]},
+          "evidence_refs": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1},
+            "uniqueItems": true
+          },
+          "diagnosis_refs": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1},
+            "uniqueItems": true
+          },
+          "rationale": {"type": "string", "minLength": 1},
+          "uncertainty": {"enum": ["low", "medium", "high"]},
+          "candidate_ref": {
+            "type": "string",
+            "pattern": "^node6:factor_assessment:[a-z][a-z0-9_]*$"
+          },
+          "display_name": {"type": "string", "minLength": 1},
+          "is_recommendation_parameter": {"const": true}
+        }
+      }
+    },
+    "recommended_next_experiment_focus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["factor_refs", "rationale"],
+      "properties": {
+        "factor_refs": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "uniqueItems": true
+        },
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "analysis_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parameter_scope", "history_mode", "diagnosis_status"],
+      "properties": {
+        "parameter_scope": {"const": "current_context.recommendation_parameter_set"},
+        "history_mode": {"enum": ["R0", "feedback"]},
+        "diagnosis_status": {"enum": ["absent", "present"]}
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parameter_keys", "scope_exact"],
+      "properties": {
+        "parameter_keys": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "uniqueItems": true
+        },
+        "scope_exact": {"const": true}
+      }
+    }
+  }
+}

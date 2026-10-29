@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-experimental-feedback-round-analysis/input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["user_query", "experiment_ref", "scientific_state_facts"],
+  "properties": {
+    "user_query": {"type": "string", "minLength": 1},
+    "experiment_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable experiment identity to diagnose. The Skill must not substitute the latest experiment."
+    },
+    "scientific_state_facts": {
+      "type": "object",
+      "required": ["experiment_history"],
+      "properties": {
+        "experiment_history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["experiment_ref", "planned_execution", "actual_execution", "measurements", "process_events"],
+            "properties": {
+              "experiment_ref": {"type": "string", "minLength": 1},
+              "round_ref": {"type": ["string", "null"]},
+              "system_recommendation": {},
+              "planned_execution": {},
+              "actual_execution": {},
+              "measurements": {"type": "array"},
+              "process_events": {"type": "array"}
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true,
+      "description": "Canonical PVD ScientificState fact slice; integration should pass the formal PVD scientific facts object without textual reconstruction."
+    },
+    "evidence_comparability": {
+      "type": ["object", "null"],
+      "description": "Current finalized Cap4 pvd_evidence_applicability_comparability_analysis Artifact. Consume support_conclusions[].allowed_uses directly; do not reconstruct or infer authorization."
+    },
+    "factor_analysis": {
+      "type": ["object", "null"],
+      "description": "Finalized factor/direction Artifact, consumed as context and provenance only."
+    },
+    "recommendation": {
+      "type": ["object", "null"],
+      "description": "Finalized recommendation Artifact, consumed as prior decision context only."
+    },
+    "current_project_context": {
+      "type": ["object", "null"]
+    }
+  }
+}

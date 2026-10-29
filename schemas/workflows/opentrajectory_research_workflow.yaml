@@ -1,0 +1,94 @@
+schemaVersion: workflow-definition.v1
+workflowId: opentrajectory_research_workflow
+workflowVersion: 1
+nameZh: OpenTrajectory 证据研究流程
+nameEn: OpenTrajectory Evidence Research Workflow
+description: 以可追溯证据为基础，完成问题界定、检索设计、证据获取、机制分析和研究洞察。
+skillPack: opentrajectory
+nodes:
+- nodeKey: intent_understanding
+  definitionId: opentrajectory:intent_understanding
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 10
+- nodeKey: constraints_criteria
+  definitionId: opentrajectory:constraints_criteria
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 20
+- nodeKey: retrieval_strategy_design
+  definitionId: opentrajectory:retrieval_strategy_design
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 30
+- nodeKey: evidence_schema_design
+  definitionId: opentrajectory:evidence_schema_design
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 40
+- nodeKey: source_acquisition
+  definitionId: opentrajectory:source_acquisition
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 50
+- nodeKey: source_screening_selection
+  definitionId: opentrajectory:source_screening_selection
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 60
+- nodeKey: progressive_reading
+  definitionId: opentrajectory:progressive_reading
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 70
+- nodeKey: evidence_extraction
+  definitionId: opentrajectory:evidence_extraction
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 80
+- nodeKey: mechanism_explanation
+  definitionId: opentrajectory:mechanism_explanation
+  definitionVersion: 1
+  requirement: optional
+  displayOrder: 90
+- nodeKey: findings_synthesis
+  definitionId: opentrajectory:findings_synthesis
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 100
+dependencies:
+- upstreamNodeKey: intent_understanding
+  downstreamNodeKey: constraints_criteria
+  dependencyType: scientific_dependency
+- upstreamNodeKey: constraints_criteria
+  downstreamNodeKey: retrieval_strategy_design
+  dependencyType: scientific_dependency
+- upstreamNodeKey: retrieval_strategy_design
+  downstreamNodeKey: evidence_schema_design
+  dependencyType: scientific_dependency
+- upstreamNodeKey: evidence_schema_design
+  downstreamNodeKey: source_acquisition
+  dependencyType: scientific_dependency
+- upstreamNodeKey: source_acquisition
+  downstreamNodeKey: source_screening_selection
+  dependencyType: scientific_dependency
+- upstreamNodeKey: source_screening_selection
+  downstreamNodeKey: progressive_reading
+  dependencyType: scientific_dependency
+- upstreamNodeKey: progressive_reading
+  downstreamNodeKey: evidence_extraction
+  dependencyType: scientific_dependency
+- upstreamNodeKey: evidence_extraction
+  downstreamNodeKey: mechanism_explanation
+  dependencyType: scientific_dependency
+- upstreamNodeKey: evidence_extraction
+  downstreamNodeKey: findings_synthesis
+  dependencyType: scientific_dependency
+boundaryPolicy:
+  allowedExternalActions:
+  - external_read
+  - external_compute
+  confirmationRequiredActions: []
+  prohibitedActions:
+  - external_write
+  - physical_action

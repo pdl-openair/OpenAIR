@@ -1,0 +1,29 @@
+skill_id: topk_source_selection
+claude_name: topk-source-selection
+display_name: 候选文献 Top-K 选择
+stages:
+- execution_validation
+substages:
+- literature_experiment_record_verification
+skill_type: atomic
+runtime: python_adapter
+status: ready
+packs:
+- opentrajectory
+- pvd
+source: opentrajectory
+sequence: 40
+owner: TBD
+output_file: topk_selection.json
+notes: Migrated from OpenTrajectory p025_topk_selector top-k selection logic only. No scoring, no tiering, no persistence.
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: source_screening_selection
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:topk_source_selection
+  evidence_contract_version: deterministic-output/v1

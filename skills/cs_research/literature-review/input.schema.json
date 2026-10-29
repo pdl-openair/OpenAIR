@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["user_goal"],
+  "properties": {
+    "task_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "stage": { "type": "string" },
+    "user_goal": {
+      "type": "string",
+      "description": "调研目标，如调研某领域研究现状、识别关键工作与研究空白"
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "research_topic": { "type": "string" },
+        "scope": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "include_papers": { "type": "boolean" },
+            "include_code": { "type": "boolean" },
+            "year_range": { "type": "string" }
+          }
+        }
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

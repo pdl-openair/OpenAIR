@@ -1,0 +1,403 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "falsifiable-hypothesis-generation final output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "hypotheses",
+    "summary",
+    "audit",
+    "generation_warnings"
+  ],
+  "properties": {
+    "hypotheses": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "local_hypothesis_key",
+          "hypothesis_id",
+          "claim_type",
+          "source_research_lead_ids",
+          "source_finding_ids",
+          "title",
+          "statement",
+          "independent_variable",
+          "dependent_variable",
+          "expected_relation",
+          "boundary_conditions",
+          "provenance_evidence_ids",
+          "provenance_mechanism_edge_ids",
+          "scientific_significance",
+          "mechanism_reasoning",
+          "falsifiable_prediction",
+          "falsification_condition",
+          "known_evidence_boundary",
+          "evidence_context_status",
+          "uncertainties",
+          "confidence",
+          "semantic_hypothesis_judgment",
+          "novelty_boundary",
+          "provenance_basis"
+        ],
+        "properties": {
+          "source_research_lead_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^rl:[0-9a-f]{20}$"
+            }
+          },
+          "source_finding_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^fd:[0-9a-f]{20}$"
+            }
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "independent_variable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "manipulation_or_contrast"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              },
+              "manipulation_or_contrast": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              }
+            }
+          },
+          "dependent_variable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "measurement_or_observation"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              },
+              "measurement_or_observation": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              }
+            }
+          },
+          "expected_relation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "direction",
+              "detail"
+            ],
+            "properties": {
+              "direction": {
+                "enum": [
+                  "increase",
+                  "decrease",
+                  "positive_association",
+                  "negative_association",
+                  "non_monotonic",
+                  "threshold",
+                  "difference",
+                  "no_difference",
+                  "other"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              }
+            }
+          },
+          "boundary_conditions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": ".*\\S.*"
+            }
+          },
+          "provenance_evidence_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": ".*\\S.*"
+            }
+          },
+          "provenance_mechanism_edge_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^me:[0-9a-f]{20}$"
+            }
+          },
+          "scientific_significance": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "mechanism_reasoning": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "falsifiable_prediction": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "falsification_condition": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "known_evidence_boundary": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "evidence_context_status": {
+            "enum": [
+              "supported",
+              "uncertain",
+              "conflicting",
+              "boundary_limited",
+              "gap_limited"
+            ],
+            "description": "Model scientific judgment of the evidence context relative to this hypothesis. This is semantic content, not computed by the guard."
+          },
+          "uncertainties": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": ".*\\S.*"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "semantic_hypothesis_judgment": {
+            "const": "valid_unvalidated_falsifiable_hypothesis"
+          },
+          "local_hypothesis_key": {
+            "type": "string",
+            "pattern": "^hypothesis-[1-9][0-9]*$"
+          },
+          "hypothesis_id": {
+            "type": "string",
+            "pattern": "^hy:[0-9a-f]{20}$"
+          },
+          "claim_type": {
+            "const": "unvalidated_falsifiable_hypothesis"
+          },
+          "novelty_boundary": {
+            "const": "derived_from_research_lead_not_established_by_sources"
+          },
+          "provenance_basis": {
+            "enum": [
+              "support_derived",
+              "conflict_derived",
+              "gap_derived",
+              "mixed",
+              "finding_only"
+            ]
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_research_lead_count",
+        "hypothesis_count",
+        "provenance_basis_counts",
+        "evidence_context_counts",
+        "dropped_duplicate_hypothesis_count",
+        "dropped_over_limit_hypothesis_count",
+        "max_hypotheses",
+        "degraded"
+      ],
+      "properties": {
+        "input_research_lead_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hypothesis_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "provenance_basis_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "support_derived",
+            "conflict_derived",
+            "gap_derived",
+            "mixed",
+            "finding_only"
+          ],
+          "properties": {
+            "support_derived": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "conflict_derived": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "gap_derived": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "mixed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "finding_only": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "evidence_context_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "supported",
+            "uncertain",
+            "conflicting",
+            "boundary_limited",
+            "gap_limited"
+          ],
+          "properties": {
+            "supported": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "uncertain": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "conflicting": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "boundary_limited": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "gap_limited": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "dropped_duplicate_hypothesis_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dropped_over_limit_hypothesis_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_hypotheses": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "degraded": {
+          "type": "boolean"
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "skill_id",
+        "task_id",
+        "traceability_mode",
+        "guard_version",
+        "input_fingerprint",
+        "claim_layer",
+        "novelty_boundary"
+      ],
+      "properties": {
+        "skill_id": {
+          "const": "ot_falsifiable_hypothesis_generation"
+        },
+        "task_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": ".*\\S.*"
+        },
+        "traceability_mode": {
+          "const": "research_lead_containment_and_grounded_provenance"
+        },
+        "guard_version": {
+          "const": "s1-hypothesis-v2"
+        },
+        "input_fingerprint": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "claim_layer": {
+          "const": "unvalidated_falsifiable_hypothesis"
+        },
+        "novelty_boundary": {
+          "const": "derived_from_research_lead_not_established_by_sources"
+        }
+      }
+    },
+    "generation_warnings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": ".*\\S.*"
+      }
+    }
+  }
+}

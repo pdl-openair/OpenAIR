@@ -1,0 +1,65 @@
+{
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "partial_failure"
+      ]
+    },
+    "run_dir": {
+      "type": "string"
+    },
+    "objectives": {
+      "type": "object"
+    },
+    "constraints": {
+      "type": "object"
+    },
+    "top_k_table": {
+      "type": "string",
+      "description": "CSV from leaderboard.csv"
+    },
+    "iterations": {
+      "type": "array"
+    },
+    "run_summary": {
+      "type": "object"
+    },
+    "pareto_cif_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evaluate_report_path": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "partial_failure": {
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "state",
+    "run_dir",
+    "objectives",
+    "top_k_table",
+    "iterations",
+    "run_summary"
+  ]
+}

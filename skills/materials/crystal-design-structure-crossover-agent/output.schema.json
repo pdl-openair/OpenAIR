@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["state", "run_dir", "objectives", "constraints", "top_k_table", "iterations", "run_summary", "pareto_cif_paths", "partial_failure", "execution_evidence"],
+  "properties": {
+    "state": {"type": "string", "enum": ["succeeded", "partial_failure"]},
+    "run_dir": {"type": "string"},
+    "objectives": {"type": "object"},
+    "constraints": {"type": "object"},
+    "top_k_table": {"type": "string"},
+    "iterations": {"type": "array"},
+    "run_summary": {"type": "object"},
+    "pareto_cif_paths": {"type": "array", "items": {"type": "string"}},
+    "partial_failure": {"type": ["array", "null"], "items": {"type": "string"}},
+    "execution_evidence": {"type": "array", "minItems": 1, "items": {"type": "object"}}
+  }
+}

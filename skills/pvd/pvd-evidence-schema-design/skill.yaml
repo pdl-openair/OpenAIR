@@ -1,0 +1,47 @@
+skill_id: pvd_evidence_schema_design
+claude_name: pvd-evidence-schema-design
+display_name: PVD Evidence Schema Design
+description: Designs the evidence targets and coverage contract required to judge the current PVD decision, using canonical M1 facts and the formal retrieval design.
+version: 1.0.0
+domain: pvd
+stages:
+- solution_design
+substages:
+- research_retrieval_experiment_design
+packs:
+- pvd
+skill_type: atomic
+runtime: llm_structured
+status: ready
+owner: TBD
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+durable_llm_execution_policy:
+  contract_version: 1
+  model_profile: terra
+  reasoning_effort: none
+  max_output_tokens: 4500
+  read_timeout_seconds: 90
+  response_mode: json_object
+  load_references: false
+  structured_output_recovery_attempts: 1
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: provider.schema.json
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+fixture_status: missing
+enabled: true
+notes: PVD CALL_03 migrated from validated 407b behavior. Model owns scientific evidence targets; deterministic finalization owns stable target identity, exact dynamic coverage and pending/non-formal separation.

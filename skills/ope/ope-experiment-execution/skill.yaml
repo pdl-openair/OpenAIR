@@ -1,0 +1,25 @@
+skill_id: ope_experiment_execution
+claude_name: ope-experiment-execution
+display_name: 实验执行
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - experiment_execution
+output_file: execute/experiments/execution_log.md
+pack: ope
+spec: execution_log.md
+input_skills:
+  - ope_code_implementation
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: experiment_execution
+owner: TBD
+fixture_status: missing
+notes: ''

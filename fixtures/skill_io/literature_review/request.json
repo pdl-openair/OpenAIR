@@ -1,0 +1,19 @@
+{
+  "task_id": "task_cs_ope_001",
+  "run_id": "run_cs_ope_001",
+  "stage": "problem_modeling",
+  "user_goal": "调研离线策略评估（OPE）领域的研究现状，识别关键工作和研究空白",
+  "context": {
+    "research_topic": "Off-Policy Evaluation for Reinforcement Learning",
+    "scope": {
+      "include_papers": true,
+      "include_code": true,
+      "year_range": "2020-2026"
+    }
+  },
+  "constraints": [
+    "文献覆盖 2020-2026 年",
+    "重点关注离散和连续动作空间",
+    "识别研究空白而非仅罗列文献"
+  ]
+}

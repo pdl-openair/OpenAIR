@@ -1,0 +1,152 @@
+{
+  "task_id": "task-lmb-demo",
+  "research_context": {
+    "research_object": "High-voltage fast-charging lithium metal battery electrolyte design",
+    "target_metrics": [
+      "Coulombic efficiency",
+      "cycle life",
+      "fast charging stability"
+    ],
+    "boundary_conditions": [
+      "lithium metal anode",
+      "high voltage",
+      "fast charging"
+    ],
+    "output_intent": "findings_synthesis"
+  },
+  "mechanism_packet": {
+    "mechanism_edges": [
+      {
+        "local_edge_key": "edge-1",
+        "edge_id": "me:06cdaf84e920d43c3996",
+        "edge_status": "support",
+        "source_node": {
+          "node_type": "composition",
+          "label": "2 M LiFSI in fluorinated ether FDEE"
+        },
+        "relation": {
+          "predicate": "promotes",
+          "description": "supports an anion-rich solvation structure"
+        },
+        "target_node": {
+          "node_type": "structure",
+          "label": "anion-rich solvation structure"
+        },
+        "evidence_ids": [
+          "ev:3e88da7bb098191e16cf",
+          "ev:880f2f98084d75d04768"
+        ],
+        "rationale": "The composition evidence identifies the concentrated LiFSI/FDEE electrolyte and the mechanism evidence explicitly links anion-rich solvation to downstream interphase formation.",
+        "confidence": 0.9
+      },
+      {
+        "local_edge_key": "edge-2",
+        "edge_id": "me:8289dcf192477eece18b",
+        "edge_status": "support",
+        "source_node": {
+          "node_type": "structure",
+          "label": "anion-rich solvation structure"
+        },
+        "relation": {
+          "predicate": "promotes",
+          "description": "promotes formation of a LiF-rich interphase and suppresses parasitic reactions"
+        },
+        "target_node": {
+          "node_type": "interphase",
+          "label": "LiF-rich interphase with suppressed parasitic reactions"
+        },
+        "evidence_ids": [
+          "ev:880f2f98084d75d04768"
+        ],
+        "rationale": "The cited mechanism evidence explicitly states the cause-effect relationship.",
+        "confidence": 0.97
+      },
+      {
+        "local_edge_key": "edge-3",
+        "edge_id": "me:9a2ef66af0a8aa3b941d",
+        "edge_status": "support",
+        "source_node": {
+          "node_type": "interphase",
+          "label": "LiF-rich interphase with suppressed parasitic reactions"
+        },
+        "relation": {
+          "predicate": "associated_with",
+          "description": "is associated with high lithium plating/stripping Coulombic efficiency under the reported condition"
+        },
+        "target_node": {
+          "node_type": "performance",
+          "label": "99.5% Coulombic efficiency at 1 mA cm−2 and 1 mAh cm−2"
+        },
+        "evidence_ids": [
+          "ev:851a9927a5a502895bae",
+          "ev:880f2f98084d75d04768"
+        ],
+        "rationale": "The mechanism evidence reports suppressed parasitic reactions and the quantitative evidence reports the corresponding Coulombic efficiency under a defined test condition.",
+        "confidence": 0.82
+      }
+    ],
+    "mechanism_chains": [
+      {
+        "local_chain_key": "chain-1",
+        "chain_id": "mc:e8ccaebf7294d5c88f9d",
+        "title": "Concentrated fluorinated electrolyte to interphase-controlled lithium efficiency",
+        "local_edge_keys": [
+          "edge-1",
+          "edge-2",
+          "edge-3"
+        ],
+        "edge_ids": [
+          "me:06cdaf84e920d43c3996",
+          "me:8289dcf192477eece18b",
+          "me:9a2ef66af0a8aa3b941d"
+        ],
+        "chain_summary": "A concentrated LiFSI/FDEE electrolyte supports an anion-rich solvation structure, which promotes a LiF-rich interphase and is associated with high lithium plating/stripping Coulombic efficiency under the reported condition.",
+        "confidence": 0.86
+      }
+    ],
+    "conflicts": [],
+    "gaps": [],
+    "summary": {
+      "input_evidence_item_count": 3,
+      "mechanism_edge_count": 3,
+      "mechanism_chain_count": 1,
+      "edge_status_counts": {
+        "conflict": 0,
+        "gap": 0,
+        "support": 3
+      },
+      "dropped_duplicate_edge_count": 0,
+      "dropped_duplicate_chain_count": 0,
+      "degraded": false
+    },
+    "audit": {
+      "skill_id": "mechanism_chain_synthesis",
+      "traceability_mode": "evidence_id_guard",
+      "guard_version": "p07d-v1",
+      "input_fingerprint": "28326385181e6bc0aee54d9ac9a7939e2b6531e72dce11d86cf489fc39a19fe0",
+      "allowed_edge_statuses": [
+        "conflict",
+        "gap",
+        "support"
+      ],
+      "allowed_predicates": [
+        "associated_with",
+        "contradicts",
+        "decreases",
+        "enables",
+        "increases",
+        "limits",
+        "promotes",
+        "reveals_gap",
+        "suppresses"
+      ]
+    },
+    "synthesis_warnings": []
+  },
+  "generation_config": {
+    "max_findings": 4,
+    "focus_questions": [
+      "Which controllable electrolyte variable could strengthen interphase stability without treating the reported formulation as an untested novelty?"
+    ]
+  }
+}

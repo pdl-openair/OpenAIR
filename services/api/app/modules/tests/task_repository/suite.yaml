@@ -1,0 +1,16 @@
+suite_id: component.modules.task-repository
+protected_outcome: Task plan updates use task-scoped revision CAS, reject stale snapshots and validation failures before commit, and expose revision conflict without partial persistence.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: task_repository_plan_revision_or_atomicity_violation
+minimum_owner: 单个组件行为
+production_targets: [services/api/app/modules/task_repository.py]
+test_responsibility: real PostgreSQL component proof of task-plan persistence, scoped revision CAS, and rollback at the repository boundary
+execution_profiles: [postgres]
+required_dependencies: [isolated PostgreSQL test database]
+evidence_required: [pytest_result, database_identity, persisted_row_state, transaction_state]
+verdict_rule: PASS only when real PostgreSQL assertions prove a scoped revision write persists, a losing CAS cannot overwrite the committed value, and final validation failure leaves no partial persistence; FAIL on a valid violation; otherwise NO_VALID_EVIDENCE.
+triggers: [task plan persistence changes, task revision CAS changes]

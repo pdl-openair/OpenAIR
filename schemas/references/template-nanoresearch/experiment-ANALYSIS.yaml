@@ -1,0 +1,21 @@
+# ANALYSIS stage output template
+# Source: nanoresearch/agents/analysis/__init__.py → AnalysisAgent return dict
+
+analysis: {}                       # LLM-generated analysis of results
+  # main_findings: ""
+  # metric_interpretations: {}
+  # comparison_to_baselines: ""
+  # ablation_insights: ""
+  # limitations: ""
+computational_analysis: {}         # Computational cost analysis
+  # total_gpu_hours: 0.0
+  # peak_memory_gb: 0.0
+  # training_time_hours: 0.0
+figures: {}                        # ANALYSIS-generated figures (key → figure data)
+  # figure_id:
+  #   path: ""
+  #   chart_type: ""
+  #   description: ""
+execution_output: {}               # Passthrough of execution_output for downstream stages
+experiment_summary: ""             # Markdown summary of experiment results
+experiment_summary_path: ""        # Path to drafts/experiment_summary.md

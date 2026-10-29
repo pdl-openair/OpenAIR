@@ -1,0 +1,31 @@
+skill_id: mechanism_explanation
+claude_name: mechanism-explanation
+display_name: 机制解释
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - mechanism_explanation
+output_file: 03-experiment/mechanism-explanation.md
+pack: sdr
+spec: 03-experiment/mechanism-explanation.md
+input_skills:
+  - findings_synthesis
+  - literature_search
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: mechanism_explanation
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

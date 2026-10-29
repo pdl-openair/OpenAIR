@@ -1,0 +1,455 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "evidence-node-extraction model semantic output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "research_records"
+  ],
+  "properties": {
+    "research_records": {
+      "type": "array",
+      "maxItems": 80,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_anchor_id",
+          "record_type",
+          "research_object",
+          "conditions",
+          "result",
+          "information_identity",
+          "assertion_mode",
+          "source_quote",
+          "qualifiers",
+          "uncertainty",
+          "unknown_fields",
+          "relevant_target_ids"
+        ],
+        "properties": {
+          "source_anchor_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "record_type": {
+            "type": "string",
+            "enum": [
+              "material_composition",
+              "experimental_condition",
+              "quantitative_result",
+              "characterization_observation",
+              "computation_result",
+              "comparison",
+              "mechanism_statement",
+              "limitation",
+              "qualitative_result"
+            ]
+          },
+          "research_object": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "conditions": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "status",
+                "value_text",
+                "unit"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "reported",
+                    "unknown"
+                  ]
+                },
+                "value_text": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "unit": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "status": {
+                        "const": "reported"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "value_text": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "status": {
+                        "const": "unknown"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "value_text": {
+                        "type": "null"
+                      },
+                      "unit": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "result": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "statement",
+              "values",
+              "mechanism",
+              "comparison"
+            ],
+            "properties": {
+              "statement": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1200
+              },
+              "values": {
+                "type": "array",
+                "maxItems": 12,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "name",
+                    "value_text",
+                    "unit"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "value_text": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "unit": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                }
+              },
+              "mechanism": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "cause",
+                      "effect"
+                    ],
+                    "properties": {
+                      "cause": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "effect": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              "comparison": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "subject",
+                      "baseline",
+                      "dimension",
+                      "relation",
+                      "condition_text"
+                    ],
+                    "properties": {
+                      "subject": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "baseline": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "dimension": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "relation": {
+                        "type": "string",
+                        "enum": [
+                          "higher",
+                          "lower",
+                          "equal",
+                          "different",
+                          "better",
+                          "worse",
+                          "increase",
+                          "decrease",
+                          "other"
+                        ]
+                      },
+                      "condition_text": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "maxItems": 12
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "information_identity": {
+            "type": "string",
+            "enum": [
+              "direct_source_fact",
+              "author_interpretation",
+              "other_source_information"
+            ]
+          },
+          "assertion_mode": {
+            "type": "string",
+            "enum": [
+              "direct_observation",
+              "association",
+              "causal_claim",
+              "author_interpretation",
+              "source_statement"
+            ]
+          },
+          "source_quote": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 1800
+          },
+          "qualifiers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "maxItems": 16
+          },
+          "uncertainty": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 800
+          },
+          "unknown_fields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "maxItems": 16
+          },
+          "relevant_target_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^target_[0-9]{3}$"
+            },
+            "uniqueItems": true,
+            "maxItems": 40
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "record_type": {
+                  "const": "material_composition"
+                }
+              }
+            },
+            "then": {}
+          },
+          {
+            "if": {
+              "properties": {
+                "record_type": {
+                  "const": "experimental_condition"
+                }
+              }
+            },
+            "then": {}
+          },
+          {
+            "if": {
+              "properties": {
+                "record_type": {
+                  "const": "quantitative_result"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "result": {
+                  "properties": {
+                    "values": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "record_type": {
+                  "const": "characterization_observation"
+                }
+              }
+            },
+            "then": {}
+          },
+          {
+            "if": {
+              "properties": {
+                "record_type": {
+                  "const": "computation_result"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "result": {
+                  "properties": {
+                    "values": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "record_type": {
+                  "const": "comparison"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "result": {
+                  "properties": {
+                    "comparison": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "record_type": {
+                  "const": "mechanism_statement"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "result": {
+                  "properties": {
+                    "mechanism": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "assertion_mode": {
+                  "enum": [
+                    "causal_claim",
+                    "author_interpretation"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "record_type": {
+                  "const": "limitation"
+                }
+              }
+            },
+            "then": {}
+          },
+          {
+            "if": {
+              "properties": {
+                "record_type": {
+                  "const": "qualitative_result"
+                }
+              }
+            },
+            "then": {}
+          }
+        ]
+      }
+    }
+  }
+}

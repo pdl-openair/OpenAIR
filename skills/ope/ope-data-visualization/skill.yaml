@@ -1,0 +1,25 @@
+skill_id: ope_data_visualization
+claude_name: ope-data-visualization
+display_name: 数据可视化
+version: "0.1.0"
+stages:
+  - insight_generation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - data_visualization
+output_file: report/visualization.md
+pack: ope
+spec: visualization.md
+input_skills:
+  - ope_data_validation
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: data_visualization
+owner: TBD
+fixture_status: missing
+notes: ''

@@ -1,0 +1,16 @@
+suite_id: component.modules.research-orchestration-repository
+protected_outcome: Research orchestration aggregate CAS and pending dispatch persistence are atomic under concurrency, preserve domain payload identity, and retain safe migration behavior.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: research_orchestration_repository_cas_outbox_or_migration_violation
+minimum_owner: 单个组件行为
+production_targets: [services/api/app/modules/research_orchestration_repository.py]
+test_responsibility: repository-owned PostgreSQL proof of aggregate CAS, pending outbox atomicity, concurrency, and schema migration safety
+execution_profiles: [postgres]
+required_dependencies: [isolated PostgreSQL server with database creation privileges]
+evidence_required: [pytest_result, database_identity, transaction_state, migration_state]
+verdict_rule: PASS only when the isolated PostgreSQL run proves aggregate/outbox atomicity, one-winner CAS, rollback, and safe up/down migration behavior; FAIL on a valid violation; otherwise NO_VALID_EVIDENCE.
+triggers: [research orchestration repository changes, orchestration schema migration changes]

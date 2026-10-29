@@ -1,0 +1,24 @@
+suite_id: component.modules.skill-binding-source
+protected_outcome: Canonical Binding v2 declarations preserve exact Definition-to-Skill usage identity and formal input lineage, keeping scientific sources separate from runtime inputs and preventing legacy mapping or fallback fields from becoming execution authority.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- docs/02_产品与Workflow/OpenTrajectory/OpenTrajectory_Workflow设计合同.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class: skill_binding_source_contract_or_handoff_violation
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/modules/skill_binding_source.py
+- skills/skill-bindings.yaml
+test_responsibility: deterministic component proof for Binding v2 source identity, source-kind separation, canonical handoff evidence, and OpenTrajectory declared input lineage
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- Binding source loader or schema changes
+- skills/skill-bindings.yaml changes
+- OpenTrajectory Definition or formal input-lineage changes

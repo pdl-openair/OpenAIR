@@ -1,0 +1,66 @@
+packs:
+- key: sdr
+  planning_scope: general
+  label: SDR (Spec-Driven Research)
+  description: 通用科研流程，覆盖问题→方法→实验→报告四阶段，27 个细粒度 substage
+  when_to_use: '- 用户描述的是通用科研任务（未指定特定范式）
+
+    - 涉及材料、计算机、生物等学科的具体研究
+
+    - 需要 27 个细粒度 substage 编排
+
+    - 默认选择
+
+    '
+- key: ope
+  planning_scope: specialized
+  label: OPE (Off-Policy Evaluation)
+  description: 离线策略评估研究流程，专注强化学习/决策智能的 OPE 范式，13 个 substage
+  when_to_use: '- 用户提到 OPE / Off-Policy Evaluation / 离线策略评估
+
+    - 涉及强化学习、稀疏奖励、泛化性能评估
+
+    - 数据源是离线轨迹数据集
+
+    '
+- key: opentrajectory
+  planning_scope: specialized
+  label: OpenTrajectory（综合证据研究）
+  description: 面向需要综合多项研究结果、比较条件差异、处理冲突与不确定性的科研问题，形成当前判断、判断依据、关键未知和下一步建议。
+  when_to_use: '- 用户明确要求使用 OpenTrajectory
+
+    - 需要综合论文、实验、计算、数据库或代码运行结果形成有依据的当前判断
+
+    - 需要比较条件差异、处理冲突或不确定性，并决定下一步最值得补什么证据或推进什么研究
+
+    '
+- key: materials
+  planning_scope: specialized
+  label: Materials（多目标约束新晶体发现 MCP）
+  description: 多目标约束下的新晶体发现/制备/表征端到端流程，通过 MCP 串联 Materials Project 检索、DEMO 演化生成、Flux
+    制备参数推荐、Auto-XRD 物相表征，对应 OpenAIR 四阶段。
+  when_to_use: '- 用户要在多目标性能约束（带隙/形成能/ehull/剥离能等）下发现新晶体
+
+    - 任务涉及 MP 检索 + DEMO 演化生成 + Flux 制备参数推荐 + Auto-XRD 表征中的任意一环或多环
+
+    - 用户希望走完「候选生成 → 制备方案 → 合成执行 → 物相表征」的完整材料发现流水线
+
+    '
+- key: pvd
+  planning_scope: specialized
+  label: PVD（薄膜工艺参数研究）
+  description: 面向 PVD 下一轮实验决策的专业研究包；正式 Workflow 固定证据适用性与可比性、实验反馈与轮次分析、候选实验分析、可行性核验和本轮实验推荐五项职责，检索阅读等材料准备按需使用。
+  when_to_use: '- 用户研究 PVD / sputtering / 薄膜沉积工艺参数
+
+    - 需要结合当前设备约束、有效证据与真实实验历史形成下一轮实验决策
+
+    - 需要在真实实验反馈后更新受影响的判断并继续形成候选→可行性→推荐决策
+
+    '
+- key: cs_reproduction
+  planning_scope: specialized
+  label: 计算机领域论文复现
+  description: 面向计算机科学论文的真实代码、资源、环境、实验、指标比较与复现记录流程。
+  when_to_use: |-
+    - 用户明确选择计算机领域论文复现 Workflow
+    - 需要形成可执行、可诊断、可比较、可追溯的论文复现项目

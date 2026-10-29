@@ -1,0 +1,2 @@
+DROP INDEX IF EXISTS idx_openair_external_execution_checkpoint_recovery;
+DROP TABLE IF EXISTS openair_external_execution_checkpoints;

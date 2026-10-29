@@ -1,0 +1,34 @@
+skill_id: opentrajectory_hypothesis_update
+claude_name: opentrajectory-hypothesis-update
+display_name: 待验证假说生成与更新
+version: 0.1.0
+stages:
+- insight_generation
+substages:
+- hypothesis_update
+pack: opentrajectory
+sequence: 120
+enabled: true
+spec: 04-insight/hypothesis-update.md
+input_skills:
+- opentrajectory_research_lead_generation
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-hypothesis-update
+claude_skill_path: .claude/skills/opentrajectory-hypothesis-update
+output_file: 04-insight/hypothesis-drafts.json
+fixture_status: none
+notes: OpenTrajectory L2 orchestration slot.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: hypothesis_update
+owner: TBD
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

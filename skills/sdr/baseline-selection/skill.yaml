@@ -1,0 +1,25 @@
+skill_id: baseline_selection
+claude_name: baseline-selection
+display_name: 基线/竞品选择
+version: "0.1.0"
+stages:
+  - solution_design
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - baseline_selection
+output_file: 02-method/baselines.md
+pack: sdr
+spec: 02-method/baselines.md
+input_skills:
+  - method_selection
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: baseline_selection
+owner: TBD
+fixture_status: missing
+notes: ''

@@ -1,0 +1,27 @@
+suite_id: component.execution.research-dispatch-api-executor
+protected_outcome: Research dispatch execution mode is explicit and fail-safe, and API versus Worker participation remains role-scoped so neither role executes work assigned to the other; fallback applies only after its declared pending-age gate.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- research_dispatch_invalid_mode_not_fail_safe
+- research_dispatch_role_scope_drift
+- research_dispatch_fallback_age_gate_bypass
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/config.py
+- services/api/app/execution/research_dispatch_api_executor.py
+- services/api/worker/entrypoint.py
+test_responsibility: Distinguish each explicit execution mode and permitted role from invalid-mode fallback, cross-role execution, and premature API fallback.
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- pytest_exit_code_0
+- known_good_explicit_mode_and_role_enabled
+- known_bad_invalid_or_cross_role_execution_disabled
+verdict_rule: >-
+  PASS only when the existing Suite proves valid modes enable only their declared role, invalid modes fall back to Worker ownership, and fallback respects pending age; FAIL when mode or role scope can drift; otherwise NO_VALID_EVIDENCE.
+triggers:
+- app.execution.research_dispatch_api_executor behavior or contract changes

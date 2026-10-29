@@ -1,0 +1,27 @@
+skill_id: experiment_report
+claude_name: experiment-report
+display_name: 实验报告生成（L3）
+version: "0.1.0"
+stages:
+  - insight_generation
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - report_generation
+packs:
+  - materials
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: report_generation
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

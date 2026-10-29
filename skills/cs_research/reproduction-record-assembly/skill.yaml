@@ -1,0 +1,29 @@
+skill_id: reproduction_record_assembly
+claude_name: reproduction-record-assembly
+display_name: 完整复现记录确定性组装
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+substages:
+  - result_acceptance
+packs:
+  - sdr
+input_schema: input.schema.json
+output_schema: output.schema.json
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:reproduction_record_assembly
+  evidence_contract_version: deterministic-output/v1
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: result_acceptance
+owner: TBD
+fixture_status: missing
+notes: 只验证并组装已形成的代码、资源、资源实际使用、环境、执行、实际指标和参考比较正式记录；资源使用关系完全确定性核验，不重新执行上游职责，不建设 Artifact/provenance 或输出文件采集平台。

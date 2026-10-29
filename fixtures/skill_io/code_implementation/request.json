@@ -1,0 +1,18 @@
+{
+  "task_id": "task_cs_ope_001",
+  "run_id": "run_cs_ope_001",
+  "stage": "execution_validation",
+  "user_goal": "实现 sb3_ope 主库全部模块：数据层、8 种 OPE 估计器、评估框架、训练回调",
+  "context": {
+    "experiment_design_ref": "openair/ope-benchmark/design/experiment_design-v2.md",
+    "project_root": "S:\\research\\OpenAIR\\sb3_ope",
+    "modules": ["data", "estimators", "evaluation", "callbacks", "utils"],
+    "ope_methods": ["IS", "PDIS", "WIS", "WPDIS", "DM", "DR", "SNDR", "FQE"]
+  },
+  "constraints": [
+    "基于 Stable-Baselines3 框架",
+    "严格对照 experiment_design.md 设计文档实现",
+    "禁止使用合成数据替代真实数据做测试",
+    "禁止操作数据或选择性报告结果"
+  ]
+}

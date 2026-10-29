@@ -1,0 +1,342 @@
+/**
+ * Global Ant Design component overrides.
+ * Use design tokens from index.css; avoid hardcoded colors here when possible.
+ */
+
+/* ---- Layout ---- */
+.ant-layout {
+  background: var(--wb-bg);
+}
+
+.ant-layout-sider {
+  background: var(--wb-surface) !important;
+}
+
+.ant-layout-sider-children {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  background: var(--wb-surface);
+}
+
+.app-shell-sider.ant-layout-sider {
+  background: var(--wb-surface) !important;
+  border-right: 1px solid var(--wb-shell-border);
+}
+
+/* Hide app shell sider on mobile; override Ant Design inline width. */
+@media (max-width: 560px) {
+  .app-shell-sider.ant-layout-sider {
+    display: none !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    flex: 0 0 0px !important;
+    border-right: none !important;
+  }
+}
+
+.app-shell-sider .ant-layout-sider-children {
+  background: var(--wb-surface);
+}
+
+.app-shell-sider .ant-layout-sider-trigger {
+  border-top: 1px solid var(--wb-shell-border);
+  background: var(--wb-surface) !important;
+  color: var(--wb-shell-trigger-text);
+}
+
+/* ---- App shell sider menu ---- */
+.app-shell-sider .ant-menu {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  color: var(--wb-shell-text) !important;
+  background: var(--wb-surface) !important;
+}
+
+.app-shell-sider .ant-menu-item {
+  width: 100% !important;
+  margin: 4px 0 !important;
+  height: 48px !important;
+  border-radius: 8px !important;
+  padding: 8px !important;
+  color: var(--wb-shell-text) !important;
+}
+
+.app-shell-sider .ant-menu-item,
+.app-shell-sider .ant-menu-submenu-title {
+  color: var(--wb-shell-text) !important;
+}
+
+.app-shell-sider .ant-menu-item .ant-menu-item-icon,
+.app-shell-sider .ant-menu-item .anticon,
+.app-shell-sider .ant-menu-submenu-title .anticon {
+  color: var(--wb-shell-text) !important;
+}
+
+.app-shell-sider .ant-menu-item:hover,
+.app-shell-sider .ant-menu-submenu-title:hover {
+  color: var(--wb-brand) !important;
+  background: var(--wb-shell-bg) !important;
+}
+
+.app-shell-sider .ant-menu-item:hover .ant-menu-item-icon,
+.app-shell-sider .ant-menu-item:hover .anticon,
+.app-shell-sider .ant-menu-submenu-title:hover .anticon {
+  color: var(--wb-shell-text) !important;
+}
+
+.app-shell-sider .ant-menu-item-selected {
+  color: var(--wb-brand) !important;
+  background: var(--wb-shell-bg) !important;
+}
+
+.app-shell-sider .ant-menu-item-selected .ant-menu-item-icon,
+.app-shell-sider .ant-menu-item-selected .anticon {
+  color: var(--wb-brand) !important;
+}
+
+.app-shell-sider .ant-menu-item-disabled,
+.app-shell-sider .ant-menu-item-disabled .anticon {
+  color: var(--wb-text-muted) !important;
+  opacity: 0.45;
+}
+
+.app-shell-sider .ant-menu-title-content {
+  margin-left: 8px;
+}
+
+.ant-layout-sider-collapsed.app-shell-sider .ant-menu-title-content {
+  display: none !important;
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .app-shell-sider .ant-menu-title-content {
+    display: none !important;
+  }
+}
+
+/* ---- Card ---- */
+.ant-card {
+  color: var(--wb-text);
+  background: var(--wb-surface);
+  border-color: var(--wb-border);
+}
+
+.ant-card-head {
+  color: var(--wb-text);
+  border-bottom-color: var(--wb-border);
+}
+
+.ant-card-head-title {
+  color: var(--wb-text);
+}
+
+/* ---- Table ---- */
+.ant-table {
+  color: var(--wb-text);
+  background: var(--wb-surface);
+}
+
+.ant-table-thead > tr > th {
+  color: var(--wb-text-secondary);
+  background: var(--wb-surface-soft) !important;
+  border-bottom-color: var(--wb-border) !important;
+}
+
+.ant-table-tbody > tr > td {
+  border-bottom-color: var(--wb-border);
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: var(--wb-surface-soft) !important;
+}
+
+/* ---- Typography ---- */
+.ant-typography {
+  color: inherit;
+}
+
+.ant-typography-secondary {
+  color: var(--wb-text-secondary) !important;
+}
+
+/* ---- Form / Input ---- */
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-select-selector,
+.ant-picker {
+  color: var(--wb-text);
+  background: var(--wb-surface);
+  border-color: var(--wb-border);
+}
+
+.ant-input::placeholder {
+  color: var(--wb-text-muted);
+}
+
+/* ---- Button link ---- */
+.ant-btn-link {
+  color: var(--wb-accent-strong);
+}
+
+/* ---- Steps ---- */
+.ant-steps-item-title {
+  color: var(--wb-text) !important;
+}
+
+.ant-steps-item-description {
+  color: var(--wb-text-muted) !important;
+}
+
+/* ---- Tag ---- */
+.ant-tag {
+  border-color: var(--wb-border);
+}
+
+/* ---- Alert ---- */
+.ant-alert {
+  border-radius: 8px;
+}
+
+/* ---- Drawer / Modal ---- */
+.ant-drawer-content,
+.ant-modal-content {
+  color: var(--wb-text);
+  background: var(--wb-surface);
+}
+
+.ant-drawer-header,
+.ant-modal-header {
+  color: var(--wb-text);
+  background: var(--wb-surface);
+  border-bottom-color: var(--wb-border);
+}
+
+/* ---- Collapse ---- */
+.ant-collapse {
+  color: var(--wb-text);
+  background: transparent;
+  border-color: var(--wb-border);
+}
+
+.ant-collapse-header {
+  color: var(--wb-text) !important;
+}
+
+/* ---- Scrollbar (WebKit) ---- */
+.ant-layout-content::-webkit-scrollbar,
+.app-shell-sider .ant-menu::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.ant-layout-content::-webkit-scrollbar-thumb,
+.app-shell-sider .ant-menu::-webkit-scrollbar-thumb {
+  background: var(--wb-border);
+  border-radius: 3px;
+}
+
+.ant-layout-content::-webkit-scrollbar-track,
+.app-shell-sider .ant-menu::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.workbench-center-scroll {
+  scrollbar-color: var(--wb-text-muted) var(--wb-surface-soft);
+  scrollbar-gutter: stable;
+}
+
+.workbench-center-scroll::-webkit-scrollbar {
+  width: 12px;
+}
+
+.workbench-center-scroll::-webkit-scrollbar-track {
+  background: var(--wb-surface-soft);
+}
+
+.workbench-center-scroll::-webkit-scrollbar-thumb {
+  background: var(--wb-text-muted);
+  border: 2px solid var(--wb-surface-soft);
+  border-radius: 999px;
+}
+
+/* 公共资源列表：浅色细滚动条 */
+.resource-catalog-scroll {
+  scrollbar-color: var(--wb-border) transparent;
+  scrollbar-width: thin;
+}
+
+.resource-catalog-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.resource-catalog-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.resource-catalog-scroll::-webkit-scrollbar-thumb {
+  background: var(--wb-border);
+  border-radius: 999px;
+}
+
+.resource-catalog-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--wb-border-strong);
+}
+
+/* 智能体会话产物区：浅色细滚动条 */
+.agent-session-scroll {
+  scrollbar-color: var(--wb-border) transparent;
+  scrollbar-width: thin;
+}
+
+.agent-session-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.agent-session-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.agent-session-scroll::-webkit-scrollbar-thumb {
+  background: var(--wb-border);
+  border-radius: 999px;
+}
+
+.agent-session-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--wb-border-strong);
+}
+
+.vertical-scroll-table {
+  height: 100%;
+  min-height: 0;
+}
+
+.vertical-scroll-table .ant-table-wrapper {
+  height: 100%;
+}
+
+.vertical-scroll-table .ant-spin {
+  height: 100%;
+}
+
+.vertical-scroll-table .ant-spin-nested-loading {
+  height: 100%;
+}
+
+.vertical-scroll-table .ant-spin-container {
+  height: 100%;
+}
+
+.vertical-scroll-table .ant-table {
+  height: calc(100% - 64px); /* 分页控件的高度 */
+}
+
+.vertical-scroll-table .ant-table-container {
+  height: 100%;
+}
+
+.vertical-scroll-table .ant-table-body {
+  overflow-y: auto !important;
+}

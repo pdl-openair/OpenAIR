@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_value",
+    "decision_summary",
+    "key_matches",
+    "important_differences",
+    "measurement_compatibility",
+    "transfer_limits",
+    "uncertainty",
+    "support_findings",
+    "verified_relations",
+    "conflicts"
+  ],
+  "properties": {
+    "decision_value": {
+      "enum": [
+        "decision_relevant",
+        "context_only",
+        "no_material_value",
+        "uncertain_value"
+      ]
+    },
+    "decision_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "key_matches": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "important_differences": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "measurement_compatibility": {
+      "enum": [
+        "compatible",
+        "partially_compatible",
+        "incompatible",
+        "unknown"
+      ]
+    },
+    "transfer_limits": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "reasons"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "low",
+            "moderate",
+            "high",
+            "unknown"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "support_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "support_level",
+          "support_basis",
+          "conditions",
+          "key_matches",
+          "important_differences",
+          "measurement_compatibility",
+          "transfer_limits",
+          "uncertainty",
+          "evidence_refs_used"
+        ],
+        "properties": {
+          "support_level": {
+            "enum": [
+              "direct",
+              "directional",
+              "mechanism_only",
+              "background_only",
+              "not_transferable",
+              "insufficient"
+            ]
+          },
+          "support_basis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "key_matches": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "important_differences": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "measurement_compatibility": {
+            "enum": [
+              "compatible",
+              "partially_compatible",
+              "incompatible",
+              "unknown"
+            ]
+          },
+          "transfer_limits": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "uncertainty": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "level",
+              "reasons"
+            ],
+            "properties": {
+              "level": {
+                "enum": [
+                  "low",
+                  "moderate",
+                  "high",
+                  "unknown"
+                ]
+              },
+              "reasons": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "evidence_refs_used": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "verified_relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "relation_type",
+          "factor",
+          "factor_change",
+          "response",
+          "response_change",
+          "objective_alignment",
+          "conditions",
+          "context_factors",
+          "confounders",
+          "evidence_refs_used"
+        ],
+        "properties": {
+          "relation_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "factor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "factor_change": {
+            "type": "string",
+            "minLength": 1
+          },
+          "response": {
+            "type": "string",
+            "minLength": 1
+          },
+          "response_change": {
+            "type": "string",
+            "minLength": 1
+          },
+          "objective_alignment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "context_factors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "confounders": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence_refs_used": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

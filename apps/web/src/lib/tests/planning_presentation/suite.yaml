@@ -1,0 +1,13 @@
+suite_id: component.web.planning-presentation
+protected_outcome: Draft structure and partial content reflect authoritative planning snapshots, and elapsed display uses one server time authority without synthetic history.
+authority_refs:
+  [docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md]
+failure_class: stale_or_fabricated_planning_presentation
+minimum_owner: 单个组件行为
+production_targets: [apps/web/src/lib/planningCollaboration.ts]
+test_responsibility: Deterministic projection and history invariants; no database or browser networking claims.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS only when protected assertions pass; absent execution evidence is NO_VALID_EVIDENCE.
+triggers: [planning_history_changes]

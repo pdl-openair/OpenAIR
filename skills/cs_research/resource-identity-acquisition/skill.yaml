@@ -1,0 +1,42 @@
+skill_id: resource_identity_acquisition
+claude_name: resource-identity-acquisition
+display_name: 复现资源获取与身份固定
+version: "0.3.0"
+stages:
+  - solution_design
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+substages:
+  - reproducibility
+packs:
+  - sdr
+input_schema: input.schema.json
+output_schema: output.schema.json
+execution_method_roles:
+  - cs_reproduction_execution_readiness:resource_identity_acquisition
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:resource_identity_acquisition
+  evidence_contract_version: external-action-evidence/v1
+conditional_binding:
+  policy_version: conditional_capability_binding_v1
+  evaluator_ref: python:resource_identity_acquisition.applicability:evaluate_capability_applicability
+  required_runtime_fact_refs:
+    - runtime:research-task:v1
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: reproducibility
+owner: TBD
+fixture_status: missing
+notes: 只负责使用上游已明确的一份或多份 Hugging Face resource 定位，在当前任务受控工作区逐份真实获取并固定实际 commit / 内容身份；批量输入不形成复合资源身份，资源版本事实与代码 revision 分离，不做资源选择、环境、实验、指标或科研意图解释。
+capability_contract:
+  artifact_types:
+    - resource_identity_acquisition_result
+  judgment_support:
+    deterministic: true
+    domain_professional: false

@@ -1,0 +1,80 @@
+skill_id: crystal_design_formula_crossover_agent
+claude_name: crystal-design-formula-crossover-agent
+display_name: 晶体设计 · 公式交叉演化（agent 交互版）
+version: "0.1.0"
+stages:
+  - problem_modeling
+  - solution_design
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - candidate_generation
+packs:
+  - materials
+
+# Agent-driven: Claude orchestrates each iteration in-conversation by
+# reading snapshot_latest.json, proposing crossover formulas (Claude IS
+# the crossover LLM), calling `bash scripts/run.sh step --new-formulas`,
+# and optionally `steer`. Deterministic engine lives in scripts/formula_driver.py.
+
+config:
+  init_n: 10
+  batch_size: 3
+  max_iters: 3
+  top_k: 5
+  run_mattergen_eval: true
+  seed: 0
+
+input_schema:
+  type: object
+  properties:
+    goal:
+      type: string
+      description: User natural-language goal (e.g. "find stable lead-free wide-bandgap oxide semiconductors" or "evolve high-Tc superconductors").
+    task_instruction:
+      description: Optional overrides for skill defaults. JSON-decoded if string. Allows overriding init_n/batch_size/max_iters/top_k/run_mattergen_eval/init_elements/fallback_formulas/seed at init time.
+      oneOf:
+        - type: string
+        - type: object
+        - type: "null"
+  required: [goal]
+  additionalProperties: false
+
+output_schema:
+  type: object
+  properties:
+    state:
+      type: string
+      enum: [succeeded, partial_failure]
+    run_dir:
+      type: string
+      description: Host-side run directory holding runplan.json, population.json, per-iter snapshots, pareto/ and leaderboard.csv.
+    objectives:
+      type: object
+      description: "The objectives (e.g. {bandgap: max, hhi: min}) fixed at init."
+    constraints:
+      type: object
+    top_k_table:
+      type: string
+    iterations:
+      type: array
+    run_summary:
+      type: object
+    pareto_cif_paths:
+      type: array
+      items:
+        type: string
+    evaluate_report_path:
+      oneOf:
+        - type: string
+        - type: "null"
+    partial_failure:
+      oneOf:
+        - type: array
+        - type: "null"
+  required: [state, run_dir, objectives, top_k_table, iterations, run_summary]
+owner: TBD
+fixture_status: missing
+notes: ''

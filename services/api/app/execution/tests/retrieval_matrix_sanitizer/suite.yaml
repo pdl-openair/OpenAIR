@@ -1,0 +1,25 @@
+suite_id: retrieval-matrix-sanitizer
+protected_outcome: >-
+  retrieval_matrix_sanitizer is a retired compatibility shim that returns an
+  unchanged deep copy and never reinterprets, deletes, or rewrites research
+  semantics from legacy input content.
+authority_refs:
+  - spec/testing/OpenAIR 测试代码架构.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: retired_semantic_sanitizer_regression
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/retrieval_matrix_sanitizer.py
+test_responsibility: >-
+  deterministic proof that sanitize_retrieval_matrix_output remains a
+  content-independent passthrough with an explicit retirement warning
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - retrieval_matrix_sanitizer changes
+  - sanitizer component test ownership changes

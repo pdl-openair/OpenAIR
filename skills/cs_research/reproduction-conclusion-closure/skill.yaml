@@ -1,0 +1,61 @@
+skill_id: reproduction_conclusion_closure
+claude_name: reproduction-conclusion-closure
+display_name: 复现结论确定性收口
+version: "1.0.0"
+stages: [insight_generation]
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+execution_method_roles:
+  - cs_reproduction_conclusion_closure:conclusion_closure
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:reproduction_conclusion_closure
+  evidence_contract_version: deterministic-output/v1
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: research:declared-scientific-facts:v1
+  facts:
+  - fact_key: reproduction_verdict
+    source_field: verdict
+  - fact_key: reproduction_comparison
+    source_field: comparison
+  - fact_key: reproduction_comparison_source
+    source_field: comparison_source
+  - fact_key: reproduction_conclusion_answer
+    source_field: answer
+  - fact_key: reproduction_scope
+    source_field: scope
+  - fact_key: reproduction_execution_status
+    source_field: execution_status
+  - fact_key: reproduction_evidence_sufficiency
+    source_field: evidence_sufficiency
+  - fact_key: reproduction_conclusion_evidence_refs
+    source_field: evidence_refs
+  - fact_key: reproduction_limitations
+    source_field: limitations
+  - fact_key: reproduction_unknowns
+    source_field: unknowns
+  - fact_key: reproduction_upstream_unknowns
+    source_field: upstream_unknowns
+  - fact_key: reproduction_next_steps
+    source_field: next_steps
+  - fact_key: reproduction_synthesis_gaps
+    source_field: synthesis_gaps
+  - fact_key: reproduction_isolated_synthesis_segments
+    source_field: isolated_synthesis_segments
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: result_acceptance
+owner: TBD
+fixture_status: missing
+notes: 最终三态、正式比较、执行状态和类型化证据引用由代码闭合；综合草稿按片段接受或隔离。
+capability_contract:
+  artifact_types: [reproduction_conclusion]
+  judgment_support: {deterministic: true, domain_professional: false}

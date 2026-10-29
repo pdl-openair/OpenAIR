@@ -1,0 +1,43 @@
+# EXECUTION stage output template
+# Source: nanoresearch/agents/execution/__init__.py → ExecutionAgent return dict
+
+job_id: ""                         # SLURM job ID (empty for local)
+execution_backend: ""              # "local" | "cluster"
+runtime_env:
+  kind: ""                         # "local" | "cluster"
+  profile: ""                      # Execution profile name
+  partition: ""                    # SLURM partition (if cluster)
+final_status: ""                   # "COMPLETED" | "FAILED" | "TIMEOUT"
+code_dir: ""                       # Path to experiment code directory
+debug_rounds: 0                    # Number of debug/retry rounds
+execution_status: ""               # "success" | "partial" | "failed"
+quick_eval_status: ""              # "success" | "partial" | "skipped"
+experiment_status: ""              # "success" | "partial" | "failed"
+experiment_results: {}             # ExperimentResults as dict (see experiment.py)
+  # main_results:
+  #   - method_name: ""
+  #     dataset: ""
+  #     is_proposed: false
+  #     metrics:
+  #       - metric_name: ""
+  #         value: 0.0
+  #         std: null
+  #         num_runs: 1
+  # ablation_results:
+  #   - variant_name: ""
+  #     metrics: []
+  # training_log:
+  #   - epoch: 0
+  #     train_loss: null
+  #     val_loss: null
+  #     metrics: {}
+result_contract:                   # Contract validation results
+  satisfied: true
+  missing_signals: []
+  failure_signals: []
+remediation_ledger: []             # List of remediation actions taken
+remediation_ledger_path: ""        # Path to persisted ledger
+repair_snapshot_journal_path: ""   # Path to repair snapshot journal
+metrics: {}                        # Raw metrics dict
+parsed_metrics: {}                 # Parsed metrics from output
+stdout_log: ""                     # Last N chars of stdout

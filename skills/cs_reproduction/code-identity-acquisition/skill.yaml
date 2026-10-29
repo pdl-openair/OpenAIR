@@ -1,0 +1,30 @@
+skill_id: code_identity_acquisition
+claude_name: code-identity-acquisition
+display_name: 代码版本固定
+version: 0.1.0
+stages:
+- solution_design
+substages:
+- code_identity_acquisition
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: manual
+output_file: code-identity-acquisition.md
+pack: cs_reproduction
+spec: 02-solution/cs-code-identity-acquisition.md
+input_skills:
+- reproduction_input_structuring
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: code_identity_acquisition
+owner: TBD
+fixture_status: missing
+notes: CS 论文复现 Workflow 第二节点；复用既有 repository_revision_acquisition，不复制代码身份能力。
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

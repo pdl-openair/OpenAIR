@@ -1,0 +1,51 @@
+skill_id: pvd_process_factor_candidate_experiment_analysis
+claude_name: pvd-process-factor-candidate-experiment-analysis
+display_name: PVD Process Factors & Candidate Experiment Analysis
+description: Determine the next scientific exploration direction for every task-defined
+  PVD parameter using valid evidence and feedback, without generating concrete values,
+  recipes, or experiment portfolios.
+version: 1.0.0
+domain: pvd
+stages:
+- execution_validation
+substages:
+- process_factor_candidate_experiment_analysis
+packs:
+- pvd
+skill_type: atomic
+runtime: llm_structured
+status: ready
+owner: TBD
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+durable_llm_execution_policy:
+  contract_version: 1
+  model_profile: terra
+  reasoning_effort: none
+  max_output_tokens: 6000
+  read_timeout_seconds: 120
+  response_mode: json_object
+  load_references: false
+  structured_output_recovery_attempts: 1
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: draft.schema.json
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+fixture_status: missing
+enabled: true
+notes: Finalized Workflow core responsibility. Reuses 407b factor reasoning, but correctly
+  moves concrete candidate settings into candidate analysis before feasibility; deterministic
+  finalization preserves exact task-defined parameter scope.

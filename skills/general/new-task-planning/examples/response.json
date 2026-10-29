@@ -1,0 +1,45 @@
+{
+  "goalSummary": "评估离线强化学习在稀疏奖励环境下的泛化性能并形成可复现实验基线",
+  "domain": "cs_research",
+  "skillPack": "ope",
+  "researchType": "H",
+  "clarifications": [
+    "确认目标环境列表与任务难度分层",
+    "确认可用数据集及许可范围",
+    "确认评估指标优先级（成功率、样本效率、方差）"
+  ],
+  "stages": [
+    {
+      "stageKey": "problem_modeling",
+      "substages": [
+        { "substage": "info_retrieval", "skills": ["ope-rs-info-retrieval"] },
+        { "substage": "literature_filter", "skills": ["ope-rs-literature-filter"] },
+        { "substage": "gap_analysis", "skills": ["ope-rs-gap-analysis"] },
+        { "substage": "hypothesis_construction", "skills": ["ope-rs-hypothesis-construction"] }
+      ]
+    },
+    {
+      "stageKey": "solution_design",
+      "substages": [
+        { "substage": "experiment_design", "skills": ["ope-rs-experiment-design"] },
+        { "substage": "task_planning", "skills": ["ope-rs-task-planning"] }
+      ]
+    },
+    {
+      "stageKey": "execution_validation",
+      "substages": [
+        { "substage": "code_implementation", "skills": ["ope-rs-code-implementation"] },
+        { "substage": "experiment_execution", "skills": ["ope-rs-experiment-execution"] },
+        { "substage": "data_validation", "skills": ["ope-rs-data-validation"] }
+      ]
+    },
+    {
+      "stageKey": "insight_generation",
+      "substages": [
+        { "substage": "data_visualization", "skills": ["ope-rs-data-visualization"] },
+        { "substage": "paper_writing", "skills": ["ope-rs-paper-writing"] }
+      ]
+    }
+  ],
+  "readyToConfirm": true
+}

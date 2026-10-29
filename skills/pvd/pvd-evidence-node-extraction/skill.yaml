@@ -1,0 +1,49 @@
+skill_id: pvd_evidence_node_extraction
+claude_name: pvd-evidence-node-extraction
+display_name: PVD Evidence Node Extraction
+domain: pvd
+stages:
+- execution_validation
+substages:
+- literature_experiment_record_verification
+packs:
+- pvd
+skill_type: atomic
+runtime: llm_structured
+status: ready
+enabled: true
+input_schema: input.schema.json
+output_schema: output.schema.json
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: provider.schema.json
+output_file: result.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+  provider_input_projection:
+    array_fields:
+      paper_packets:
+        fields:
+        - candidate_id
+        - title
+        - doi
+        - arxiv_id
+        - anchored_sections
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+durable_model_profile: terra
+capability_contract:
+  artifact_types:
+  - pvd.evidence_packet
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+notes: PVD Evidence-first extraction migrated from validated 407b behavior. Shared durable runtime executes bounded per-paper Provider subtasks in parallel; deterministic finalization enforces source-anchor grounding and isolates invalid sibling Evidence items.

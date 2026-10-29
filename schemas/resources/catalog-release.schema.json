@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CatalogRelease",
+  "type": "object",
+  "required": ["catalogReleases"],
+  "additionalProperties": false,
+  "properties": {
+    "catalogReleases": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/catalogRelease" }
+    }
+  },
+  "$defs": {
+    "nonBlankString": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "catalogRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resourceId", "resourceType", "releaseVersion", "catalogReleased", "discoverable",
+        "visibleOnHome", "visibleInCatalog", "visibleInDetail", "source", "maintainer",
+        "usagePolicy", "licenseSummary", "evidenceStatus", "evidenceConflictDisposition",
+        "availability", "executionBlocked", "primaryAction", "configurationRequirements",
+        "permissionRequirements", "executionEntry", "safetyRisk", "domains", "scenarios"
+      ],
+      "properties": {
+        "resourceId": { "$ref": "#/$defs/nonBlankString" },
+        "resourceType": { "enum": ["skill", "agent", "workflow"] },
+        "releaseVersion": { "$ref": "#/$defs/nonBlankString" },
+        "catalogReleased": { "type": "boolean" },
+        "discoverable": { "type": "boolean" },
+        "visibleOnHome": { "type": "boolean" },
+        "visibleInCatalog": { "type": "boolean" },
+        "visibleInDetail": { "type": "boolean" },
+        "source": { "$ref": "#/$defs/nonBlankString" },
+        "maintainer": { "$ref": "#/$defs/nonBlankString" },
+        "usagePolicy": { "$ref": "#/$defs/nonBlankString" },
+        "licenseSummary": { "$ref": "#/$defs/nonBlankString" },
+        "evidenceStatus": { "$ref": "#/$defs/nonBlankString" },
+        "evidenceConflictDisposition": { "$ref": "#/$defs/nonBlankString" },
+        "availability": { "enum": ["tryable", "configuration_required", "view_only", "unavailable"] },
+        "executionBlocked": { "type": "boolean" },
+        "primaryAction": { "enum": ["try", "configure", "view", "none"] },
+        "configurationRequirements": {
+          "type": "array", "items": { "$ref": "#/$defs/nonBlankString" }
+        },
+        "permissionRequirements": {
+          "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonBlankString" }
+        },
+        "executionEntry": { "type": ["string", "null"] },
+        "safetyRisk": { "type": ["string", "null"] },
+        "domains": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["cs_research", "general", "materials", "ope", "opentrajectory", "sdr"]
+          }
+        },
+        "scenarios": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["problem_modeling", "solution_design", "execution_validation", "insight_generation"]
+          }
+        }
+      }
+    }
+  }
+}

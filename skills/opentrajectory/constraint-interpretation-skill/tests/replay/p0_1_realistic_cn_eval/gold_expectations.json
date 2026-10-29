@@ -1,0 +1,204 @@
+{
+  "version": "p0_1_realistic_cn_eval_v1",
+  "purpose": "Realistic Chinese user-query stress evaluation for constraint-interpretation-skill after P0.1 patch.",
+  "important_note": "These are not friendly gold-answer cases. Some queries are intentionally vague or underspecified. The goal is to expose weaknesses, not to manufacture a pass.",
+  "global_critical_failures": [
+    "downstream_search_terms contain Chinese or CJK characters",
+    "the entire user_query is converted into a single pseudo-constraint",
+    "ambiguous or subjective conditions become hard filters",
+    "methods/mechanisms are treated as material-system hard filters",
+    "output is not valid JSON or fails output.schema.json",
+    "specific materials, benchmarks, compounds, or databases are invented when the user did not provide them"
+  ],
+  "global_scoring": {
+    "single_case_pass_for_regression": 80,
+    "recommended_average_for_realistic_stress": 82,
+    "p0_1_regression_pass": "No critical failure, no obvious regression against P0 behavior. Average >= 82 is acceptable for this realistic stress set; failures should be used for targeted improvement."
+  },
+  "case_expectations": {
+    "cn_battery_001_precise_li_metal": {
+      "must_detect": [
+        "lithium metal battery",
+        "high voltage above 4.5 V",
+        "fast charge above 2C",
+        "ether-based electrolyte",
+        "Coulombic efficiency",
+        "cycle life",
+        "interfacial stability"
+      ],
+      "confidence_expectation": "4.5V and 2C should be high confidence numerical constraints; electrolyte and metrics should be qualitative constraints.",
+      "must_not": [
+        "turn SEI or lithium plating into hard filters unless generated only as soft mechanism terms",
+        "include Chinese search terms"
+      ]
+    },
+    "cn_battery_002_fuzzy_fast_charge": {
+      "must_detect": [
+        "battery fast charging problem",
+        "electrolyte instability",
+        "additive or solvation structure design",
+        "mechanistic clarity preference",
+        "recent literature preference if inferred softly"
+      ],
+      "confidence_expectation": "Most constraints are qualitative or vague; confidence should not be over-calibrated.",
+      "must_not": [
+        "invent voltage/rate thresholds",
+        "create hard filters for 'new' or 'mechanism clear'",
+        "force lithium metal battery if not stated"
+      ]
+    },
+    "cn_battery_003_mixed_solid_state": {
+      "must_detect": [
+        "solid-state lithium battery",
+        "sulfide electrolyte",
+        "room-temperature ionic conductivity around/above 10^-3 S/cm",
+        "interface compatibility",
+        "lithium metal anode matching"
+      ],
+      "confidence_expectation": "10^-3 S/cm should be high confidence numerical; room temperature should be lower confidence unless normalized as soft.",
+      "must_not": [
+        "assume exact room temperature",
+        "turn interface quality into a numerical hard filter"
+      ]
+    },
+    "cn_battery_004_vague_sodium_low_temp": {
+      "must_detect": [
+        "sodium-ion cathode",
+        "low-temperature performance",
+        "rate capability",
+        "structural stability",
+        "layered oxide as covered scope",
+        "modification strategies"
+      ],
+      "confidence_expectation": "Low temperature and material scope are vague; should be soft/hint-level.",
+      "must_not": [
+        "invent -20°C",
+        "invent P2/O3 phase",
+        "limit to one specific layered oxide composition"
+      ]
+    },
+    "cn_agent_001_precise_long_task": {
+      "must_detect": [
+        "long-horizon software development agents",
+        "memory management",
+        "tool use",
+        "reflection mechanism",
+        "task success rate",
+        "stability",
+        "benchmark or reproducible experiments"
+      ],
+      "confidence_expectation": "method/mechanism constraints should use method/mechanism type where appropriate.",
+      "must_not": [
+        "force materials domain",
+        "treat memory/tool/reflection as hard filters"
+      ]
+    },
+    "cn_agent_002_fuzzy_research_agent": {
+      "must_detect": [
+        "scientific research agents",
+        "non-chatbot/simple wrapper distinction",
+        "literature analysis",
+        "hypothesis generation",
+        "validation involvement"
+      ],
+      "confidence_expectation": "This is vague and evaluative; confidence should be moderate-low and needs_user_confirmation should likely be true.",
+      "must_not": [
+        "turn '真问题' into search term literally",
+        "invent a specific benchmark",
+        "overfit to RAG only"
+      ]
+    },
+    "cn_agent_003_mixed_materials_multi_agent": {
+      "must_detect": [
+        "multi-agent systems for materials research",
+        "literature retrieval",
+        "evidence organization",
+        "candidate hypothesis generation",
+        "computational tool invocation",
+        "experimental feedback",
+        "continuous evolution or closed-loop optimization"
+      ],
+      "confidence_expectation": "workflow scope is broad; soft constraints are expected.",
+      "must_not": [
+        "invent a material system",
+        "collapse the whole workflow into one constraint"
+      ]
+    },
+    "cn_agent_004_precise_rag_evidence_graph": {
+      "must_detect": [
+        "scientific discovery agents",
+        "RAG",
+        "evidence graph",
+        "reverse validation",
+        "hypothesis credibility",
+        "traceability",
+        "evidence chain",
+        "failure cases or negative results"
+      ],
+      "confidence_expectation": "RAG/evidence graph/reverse validation may be method or mechanism; credibility is ambiguous and should not be hard filter.",
+      "must_not": [
+        "turn trustworthy/credible into hard filter",
+        "drift to generic enterprise RAG QA"
+      ]
+    },
+    "cn_theory_001_precise_perovskite_dft": {
+      "must_detect": [
+        "halide perovskite",
+        "defect tolerance",
+        "DFT",
+        "nonradiative recombination",
+        "band-edge states",
+        "carrier recombination mechanism"
+      ],
+      "confidence_expectation": "DFT should be method; recombination mechanism should be mechanism.",
+      "must_not": [
+        "invent specific perovskite composition",
+        "treat DFT as material filter"
+      ]
+    },
+    "cn_theory_002_mixed_high_entropy": {
+      "must_detect": [
+        "high-entropy alloys",
+        "phase stability prediction",
+        "CALPHAD",
+        "DFT",
+        "Al-Co-Cr-Fe-Ni",
+        "formation enthalpy",
+        "mixing entropy",
+        "phase decomposition risk"
+      ],
+      "confidence_expectation": "Al-Co-Cr-Fe-Ni is explicit material system; CALPHAD/DFT are methods.",
+      "must_not": [
+        "add unmentioned elements",
+        "assume experimental validation"
+      ]
+    },
+    "cn_theory_003_fuzzy_topological": {
+      "must_detect": [
+        "topological materials",
+        "spin-orbit coupling",
+        "band inversion",
+        "theoretical calculation",
+        "experimental validation alignment"
+      ],
+      "confidence_expectation": "Material class is broad; should not invent specific compounds.",
+      "must_not": [
+        "invent TaAs/WTe2/Bi2Se3",
+        "treat ARPES as required unless inferred only as possible experimental validation term"
+      ]
+    },
+    "cn_theory_004_underspecified_mechanism": {
+      "must_detect": [
+        "materials mechanism explanation",
+        "computational validation",
+        "structure-property relationship"
+      ],
+      "confidence_expectation": "Highly underspecified; should flag missing material system, method, metric, and property target.",
+      "must_not": [
+        "invent material domain",
+        "invent specific method such as DFT as a hard requirement",
+        "produce overconfident constraints"
+      ]
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/skills/pvd-bayesian-optimization-candidate-generation/applicability_runtime_fact.schema.json",
+  "$ref": "https://openair.local/schemas/pvd/pvd-scientific-state-facts-v1.schema.json"
+}

@@ -1,0 +1,27 @@
+suite_id: component.execution.research-input-contract-gate
+protected_outcome: The research input-contract gate assembles execution input only from the exact authorized artifact, scientific-state, invocation-context, and reviewer-material lineage, and fails closed on missing, mismatched, ambiguous, or invalid authorized material.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+- docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- research_input_unauthorized_lineage_consumed
+- research_input_ambiguous_artifact_accepted
+- research_input_missing_or_invalid_authorized_material_accepted
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/execution/research_input_contract_gate.py
+- services/api/app/execution/research_source_document.py
+test_responsibility: Distinguish exact authorized input assembly from wrong-lineage, ambiguous, absent, invalid, or reviewer-material substitution without taking ownership of Provider or schema semantics.
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- pytest_exit_code_0
+- known_good_exact_authorized_lineage_assembled
+- known_bad_wrong_or_ambiguous_lineage_rejected
+verdict_rule: >-
+  PASS only when the existing Suite proves exact authorized lineage is assembled and missing, mismatched, ambiguous, invalid, or substituted material fails closed; FAIL when unauthorized lineage can reach execution input; otherwise NO_VALID_EVIDENCE.
+triggers:
+- app.execution.research_input_contract_gate behavior or contract changes

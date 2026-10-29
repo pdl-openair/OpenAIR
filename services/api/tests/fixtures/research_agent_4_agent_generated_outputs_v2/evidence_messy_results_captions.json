@@ -1,0 +1,103 @@
+{
+  "scenarioName": "evidence_messy_results_captions",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "material_readiness": {
+      "usable": ["provided results paragraph", "provided figure caption 2", "provided figure caption 3"],
+      "boundary": "Only pasted excerpts were used; no full paper, methods, raw data, statistics, or external source retrieval was inspected."
+    },
+    "claim_inventory": [
+      {
+        "claim_id": "C1",
+        "claim_text": "The additive condition retained more capacity than the control after 100 cycles.",
+        "source_type": "results_excerpt",
+        "source_locator": "provided results paragraph",
+        "material_id": "R1"
+      },
+      {
+        "claim_id": "C2",
+        "claim_text": "The additive condition has stronger LiF signal after cycling.",
+        "source_type": "figure_caption",
+        "source_locator": "provided figure caption 2",
+        "material_id": "F2"
+      },
+      {
+        "claim_id": "C3",
+        "claim_text": "The additive cell shows lower interfacial resistance after 50 cycles.",
+        "source_type": "figure_caption",
+        "source_locator": "provided figure caption 3",
+        "material_id": "F3"
+      },
+      {
+        "claim_id": "C4",
+        "claim_text": "The additive improves cycling by changing SEI composition.",
+        "source_type": "user_or_author_inference",
+        "source_locator": "not directly supported by the pasted material",
+        "material_id": null
+      }
+    ],
+    "claim_evidence_table": [
+      {
+        "evidence_id": "E1",
+        "claim_id": "C1",
+        "support_tier": "direct_observation_from_excerpt",
+        "evidence_quote_or_observation": "After 100 cycles, additive retained 82% capacity while control retained 68%.",
+        "source_locator": "provided results paragraph",
+        "uncertainty": "No sample size, variance, statistical test, cell protocol, or replicate count is available.",
+        "missing_context": ["sample count", "variance", "statistical test", "cycling protocol"],
+        "conflict_or_gap": "The retention difference is extractable, but reliability cannot be judged from this excerpt."
+      },
+      {
+        "evidence_id": "E2",
+        "claim_id": "C2",
+        "support_tier": "direct_caption_observation",
+        "evidence_quote_or_observation": "XPS spectra show stronger LiF signal in the additive condition than in the control after cycling.",
+        "source_locator": "provided figure caption 2",
+        "uncertainty": "Caption does not provide peak fitting method, normalization, replicate count, or raw spectra.",
+        "missing_context": ["XPS fitting method", "normalization", "raw spectra", "replicates"],
+        "conflict_or_gap": "Supports a composition difference, not a causal SEI mechanism by itself."
+      },
+      {
+        "evidence_id": "E3",
+        "claim_id": "C3",
+        "support_tier": "direct_caption_observation",
+        "evidence_quote_or_observation": "EIS Nyquist plots show lower interfacial resistance for the additive cell after 50 cycles.",
+        "source_locator": "provided figure caption 3",
+        "uncertainty": "Acquisition details and equivalent-circuit fitting are absent.",
+        "missing_context": ["EIS acquisition details", "fit model", "error bars", "sample count"],
+        "conflict_or_gap": "Supports a resistance observation, not a complete mechanism."
+      }
+    ],
+    "unsupported_or_missing": [
+      {
+        "claim_id": "C4",
+        "reason": "Causal mechanism is not directly tested in the pasted results/captions.",
+        "needed_material": "mechanistic experiment, perturbation, time series, or mediation evidence"
+      },
+      {
+        "claim": "statistical reliability",
+        "reason": "No n, variance, or test is provided.",
+        "needed_material": "methods, raw data, statistics table"
+      }
+    ],
+    "author_inference_or_model_inference": [
+      "LiF-rich SEI may be a candidate mediator, but the pasted materials only show association-level observations."
+    ],
+    "handoff": [
+      "Send E1-E3 to Result Reliability Audit before using them as firm evidence.",
+      "Send C4 to Validation Design as a hypothesis, not as extracted evidence."
+    ]
+  },
+  "review": {
+    "rubricScore": 90,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 23, "OEA": 24, "Rig": 20, "Lev": 9, "UX": 9, "Spec": 3, "Eng": 2},
+    "mainReason": "Rows are traceable and distinguish observation from inference; still not a live Agent run."
+  }
+}

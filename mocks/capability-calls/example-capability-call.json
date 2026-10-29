@@ -1,0 +1,8 @@
+{
+  "id": "cap-standalone-001",
+  "taskId": "demo-task-001",
+  "kind": "external_platform",
+  "name": "外部协同占位调用",
+  "status": "not_started",
+  "requestedAt": "2026-05-04T12:00:00Z"
+}

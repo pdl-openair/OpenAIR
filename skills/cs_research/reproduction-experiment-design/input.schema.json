@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["research_goal", "reproduction_baseline_and_criteria"],
+  "properties": {
+    "research_goal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000
+    },
+    "reproduction_baseline_and_criteria": {"type": "object"},
+    "execution_plan_facts": {
+      "type": "object",
+      "required": [
+        "schema_version", "state", "plan_status", "execution_plan_id",
+        "source_identity", "execution_plan_provenance",
+        "execution_plan_unresolved", "execution_plan_runtime_pending"
+      ],
+      "properties": {
+        "schema_version": {"const": "openair-execution-plan/v1"},
+        "state": {"const": "succeeded"},
+        "plan_status": {"type": "string", "enum": ["complete", "incomplete"]},
+        "execution_plan_id": {"type": "string", "pattern": "^execplan:[0-9a-f]{64}$"},
+        "source_identity": {"type": "object"},
+        "execution_plan_provenance": {"type": "array"},
+        "execution_plan_unresolved": {"type": "array"},
+        "execution_plan_runtime_pending": {"type": "array"}
+      },
+      "additionalProperties": true
+    }
+  }
+}

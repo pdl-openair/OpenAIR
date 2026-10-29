@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["state", "target_formula", "ehull_eV", "formation_energy_eV_per_atom", "stability_verdict", "evidence"],
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": ["succeeded", "partial_failure"]
+    },
+    "target_formula": {
+      "type": "string",
+      "description": "目标材料化学式，如 Er2TiO5"
+    },
+    "ehull_eV": {
+      "type": ["number", "null"],
+      "description": "能量凸包距离 (eV/atom)，null 表示计算未完成"
+    },
+    "formation_energy_eV_per_atom": {
+      "type": ["number", "null"],
+      "description": "形成能 (eV/atom)，null 表示计算未完成"
+    },
+    "stability_verdict": {
+      "type": "string",
+      "description": "稳定性判断：stable / metastable / unstable / calculation_incomplete"
+    },
+    "jcc_task_name": {
+      "type": "string",
+      "description": "提交到 jcc 的作业名称，便于追溯"
+    },
+    "work_dir": {
+      "type": "string",
+      "description": "本次计算的工作目录绝对路径"
+    },
+    "failure_reason": {
+      "type": "string",
+      "description": "partial_failure 时的失败原因"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {"type": "object"},
+      "description": "外部动作证据列表"
+    },
+    "handoff_summary": {
+      "type": "string",
+      "description": "供 S9 analysis_report_durable 消费的自然语言摘要，包含材料名、ehull、稳定性判断"
+    }
+  }
+}

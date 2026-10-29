@@ -1,0 +1,26 @@
+suite_id: component.web.final-result.node-product-first-presentation
+protected_outcome: Current accepted CS/OT/PVD workflow node products are rendered directly by exact formal identity, including v3 accepted content matched to its durable source artifact; legacy answers remain readable, unresolved identities stay hidden, and presentation omissions never become flow gates.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - schemas/cs_reproduction/specs/04-insight/cs-reproduction-conclusion-recommendation-v4.md
+  - schemas/opentrajectory/specs/04-insight/current-research-conclusion.md
+  - schemas/opentrajectory/specs/04-insight/key-unknowns-candidate-explanations.md
+  - schemas/opentrajectory/specs/04-insight/next-research-recommendation.md
+  - schemas/pvd/specs/04-insight/round-experiment-plan-parameter-recommendation.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: node_product_presentation_or_public_identity_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/components/artifacts/ScientificArtifactPresentation.tsx
+  - apps/web/src/components/artifacts/WorkflowNodeResultPresentation.tsx
+  - apps/web/src/components/finalResult/FinalResultPanel.tsx
+  - apps/web/src/components/finalResult/acceptedFinalResultArtifacts.ts
+test_responsibility: deterministic node-product rendering, accepted-content source identity matching, nested scientific content and boundaries retained, public identity omission, and prevention of a second research narrative
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when exact workflow-node identities select schema-specific renderers, node content is not reinterpreted across responsibilities, internal identities are absent from default UI, and no presentation condition changes execution/readiness/completion/recovery authority.
+triggers: [workflow_node_result_presentation_or_final_result_changes]

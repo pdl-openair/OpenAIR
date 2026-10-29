@@ -1,0 +1,25 @@
+skill_id: ope_data_validation
+claude_name: ope-data-validation
+display_name: 数据验证
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - data_validation
+output_file: execute/data/data_validation.md
+pack: ope
+spec: data_validation.md
+input_skills:
+  - ope_experiment_execution
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: data_validation
+owner: TBD
+fixture_status: missing
+notes: ''

@@ -1,0 +1,24 @@
+suite_id: component.gates.canaries
+protected_outcome: >-
+  Incremental CI gates keep their red-green canary semantics: each canary
+  proves the gate actually fires on an offending ADDED line and stays silent
+  when the same finding sits only on base-existing lines.
+authority_refs:
+  - spec/foundations/coding-standards.md
+  - spec/foundations/testing-gates.md
+failure_class: incremental_gate_blind_or_overfiring
+minimum_owner: 单个组件行为
+production_targets:
+  - scripts/gates/diff_gate.py
+  - scripts/gates/mypy_gate.py
+  - scripts/gates/placement_guard.py
+test_responsibility: red-green canary verification of incremental gate verdict logic
+execution_profiles: [deterministic]
+required_dependencies: [project_python_dependencies]
+evidence_required: [pytest_result]
+verdict_rule: >-
+  PASS only when every canary shows the gate failing (non-zero exit) on the
+  offending added line and passing (exit zero) with the finding confined to
+  base lines; FAIL when a canary gate stays green on an offending added line
+  or fires on base-only findings; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [incremental_gate_verdict_logic_changes]

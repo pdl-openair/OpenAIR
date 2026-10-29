@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/agents/artifacts/research_gap_identification_artifact_v1.schema.json",
+  "title": "research_gap_identification_artifact_v1",
+  "contractId": "research_gap_identification_artifact_v1",
+  "semanticVersion": "1.0.0",
+  "type": "object",
+  "required": ["material_coverage", "gap_list", "not_a_gap", "needs_source", "evidence_needed", "evidence_upgrade_queue", "advisor_review_questions"],
+  "properties": {
+    "material_coverage": {},
+    "gap_list": {},
+    "not_a_gap": {},
+    "needs_source": {},
+    "evidence_needed": {},
+    "evidence_upgrade_queue": {},
+    "advisor_review_questions": {}
+  },
+  "additionalProperties": true
+}

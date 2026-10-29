@@ -1,0 +1,5 @@
+# Canonical, Router-admitted Materials candidate-discovery workflow only.
+database_search:
+  - materials_mp_constraint_search
+candidate_generation:
+  - crystal_design_structure_crossover_py

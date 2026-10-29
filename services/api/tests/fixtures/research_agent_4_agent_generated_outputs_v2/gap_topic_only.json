@@ -1,0 +1,47 @@
+{
+  "scenarioName": "gap_topic_only",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "status": "requires_existing_inputs",
+    "gap_list": [],
+    "material_coverage": [],
+    "missing_materials": [
+      "review notes",
+      "source table",
+      "evidence table",
+      "gap criteria",
+      "coverage denominator"
+    ],
+    "needs_source": [
+      "candidate papers",
+      "benchmark reports",
+      "negative findings",
+      "competing approaches"
+    ],
+    "evidence_needed": [
+      "source/evidence rows before assigning G-IDs",
+      "criteria for novelty vs implementation detail"
+    ],
+    "forbidden_output": [
+      "publishable gaps",
+      "novelty claims",
+      "field has not studied statements",
+      "paper list"
+    ],
+    "safe_next_step": [
+      "Use Key Literature Positioning or paste a source table before gap identification."
+    ]
+  },
+  "review": {
+    "rubricScore": 90,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 22, "OEA": 22, "Rig": 20, "Lev": 8, "UX": 8, "Spec": 5, "Eng": 5},
+    "mainReason": "Correctly refuses topic-only gap and novelty generation."
+  }
+}

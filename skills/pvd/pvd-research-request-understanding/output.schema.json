@@ -1,0 +1,1963 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-research-request-understanding/output.schema.json",
+  "title": "PVD Research Request Understanding Canonical Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "structured_context",
+    "recommendation_parameter_set",
+    "run_preferences"
+  ],
+  "properties": {
+    "structured_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract",
+        "sources",
+        "research_context",
+        "materials",
+        "equipment",
+        "experimental_system_context",
+        "rounds",
+        "hard_constraints",
+        "derived_values",
+        "unknowns",
+        "assumptions",
+        "quality",
+        "parameter_admission_judgments",
+        "parameter_observations"
+      ],
+      "properties": {
+        "contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "version"
+          ],
+          "properties": {
+            "kind": {
+              "const": "pvd_research_request_understanding"
+            },
+            "version": {
+              "const": "1.0.0"
+            }
+          }
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source"
+          }
+        },
+        "research_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "objectives",
+            "process_methods",
+            "target_metrics",
+            "current_problems",
+            "baseline",
+            "existing_result_summaries",
+            "judgment_criteria"
+          ],
+          "properties": {
+            "objectives": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "target_metrics": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "current_problems": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "baseline": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "existing_result_summaries": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "judgment_criteria": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "process_methods": {
+              "$ref": "#/$defs/assertionArray"
+            }
+          }
+        },
+        "materials": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "film",
+            "substrate",
+            "layers"
+          ],
+          "properties": {
+            "target": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "descriptions",
+                "composition"
+              ],
+              "properties": {
+                "descriptions": {
+                  "$ref": "#/$defs/assertionArray"
+                },
+                "composition": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/compositionAssertion"
+                  }
+                }
+              }
+            },
+            "film": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "descriptions",
+                "measured_composition_result_refs"
+              ],
+              "properties": {
+                "descriptions": {
+                  "$ref": "#/$defs/assertionArray"
+                },
+                "measured_composition_result_refs": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            },
+            "substrate": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "layers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "role",
+                  "assertions"
+                ],
+                "properties": {
+                  "role": {
+                    "enum": [
+                      "electrode",
+                      "buffer",
+                      "seed",
+                      "adhesion",
+                      "capping",
+                      "other"
+                    ]
+                  },
+                  "assertions": {
+                    "$ref": "#/$defs/assertionArray"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "equipment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "deposition_method",
+            "sputtering_mode",
+            "target_substrate_distance",
+            "chamber",
+            "target_size",
+            "substrate_temperature",
+            "gas_and_pressure",
+            "other_conditions",
+            "core_parameters",
+            "parameter_operability"
+          ],
+          "properties": {
+            "deposition_method": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "sputtering_mode": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "target_substrate_distance": {
+              "$ref": "#/$defs/quantityAssertionArray"
+            },
+            "chamber": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "target_size": {
+              "$ref": "#/$defs/quantityAssertionArray"
+            },
+            "substrate_temperature": {
+              "$ref": "#/$defs/quantityAssertionArray"
+            },
+            "gas_and_pressure": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "n2_ar_ratio",
+                "total_flow",
+                "chamber_pressure",
+                "partial_pressures"
+              ],
+              "properties": {
+                "n2_ar_ratio": {
+                  "$ref": "#/$defs/assertionArray"
+                },
+                "total_flow": {
+                  "$ref": "#/$defs/quantityAssertionArray"
+                },
+                "chamber_pressure": {
+                  "$ref": "#/$defs/quantityAssertionArray"
+                },
+                "partial_pressures": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "gas",
+                      "assertion"
+                    ],
+                    "properties": {
+                      "gas": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "assertion": {
+                        "$ref": "#/$defs/quantityAssertion"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "other_conditions": {
+              "$ref": "#/$defs/assertionArray"
+            },
+            "core_parameters": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "description": "Compatibility projection of the current task-defined active recommendation parameter keys. Not an independent scope authority."
+            },
+            "parameter_operability": {
+              "type": "object",
+              "minProperties": 1,
+              "propertyNames": {
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "additionalProperties": {
+                "$ref": "#/$defs/parameterOperability"
+              },
+              "description": "Compatibility operability view keyed only by current task-defined active recommendation parameters."
+            }
+          }
+        },
+        "experimental_system_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Canonical current experimental-system identity facts. This object is the sole structured authority for same-system/capability applicability decisions. Detailed materials/equipment sections remain evidence-rich descriptive context, not an alternate identity authority. Canonical scalar values are null when missing or conflicting; field_metadata carries status and source provenance.",
+          "required": [
+            "contract",
+            "context_status",
+            "target_material",
+            "substrate",
+            "target_substrate_distance_mm",
+            "power_supply_temperature",
+            "target_angle",
+            "field_metadata",
+            "additional_facts"
+          ],
+          "properties": {
+            "contract": {
+              "const": "pvd-experimental-system-context/v1"
+            },
+            "context_status": {
+              "enum": [
+                "complete",
+                "partial",
+                "conflicted"
+              ],
+              "description": "complete: all five core system-identity fields are known; partial: at least one is missing and none conflict; conflicted: at least one core field has conflicting explicit source facts."
+            },
+            "target_material": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "substrate": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
+            },
+            "target_substrate_distance_mm": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Canonical target-to-substrate distance in millimetres when an explicit source fact supports a deterministic unit normalization; otherwise null."
+            },
+            "power_supply_temperature": {
+              "type": [
+                "string",
+                "number",
+                "null"
+              ],
+              "description": "Explicit power-supply temperature/setting identity only. Never substitute substrate_temperature. Preserve a directly supported scalar representation; use null if absent or ambiguous."
+            },
+            "target_angle": {
+              "type": [
+                "string",
+                "number",
+                "null"
+              ],
+              "description": "Explicit target orientation/angle identity. Null when not explicitly supplied or when conflicting."
+            },
+            "field_metadata": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "target_material",
+                "substrate",
+                "target_substrate_distance_mm",
+                "power_supply_temperature",
+                "target_angle"
+              ],
+              "properties": {
+                "target_material": {
+                  "$ref": "#/$defs/systemContextFieldMetadata"
+                },
+                "substrate": {
+                  "$ref": "#/$defs/systemContextFieldMetadata"
+                },
+                "target_substrate_distance_mm": {
+                  "$ref": "#/$defs/systemContextFieldMetadata"
+                },
+                "power_supply_temperature": {
+                  "$ref": "#/$defs/systemContextFieldMetadata"
+                },
+                "target_angle": {
+                  "$ref": "#/$defs/systemContextFieldMetadata"
+                }
+              }
+            },
+            "additional_facts": {
+              "type": "array",
+              "description": "Additional stable experimental-system identity facts not covered by the core fields. Do not place run-varying recommendation knobs here merely because they exist elsewhere in the context.",
+              "items": {
+                "$ref": "#/$defs/systemContextAdditionalFact"
+              }
+            }
+          }
+        },
+        "rounds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/round"
+          }
+        },
+        "hard_constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hardConstraint"
+          }
+        },
+        "derived_values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/derivedValue"
+          }
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/unknown"
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/assumption"
+          }
+        },
+        "quality": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "non_blocking",
+            "warnings",
+            "identity_conflicts"
+          ],
+          "properties": {
+            "non_blocking": {
+              "const": true
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "identity_conflicts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "field",
+                  "reason"
+                ],
+                "properties": {
+                  "field": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "source_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameter_admission_judgments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/parameterAdmissionJudgment"
+          }
+        },
+        "parameter_observations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/typedParameterValue"
+          }
+        }
+      }
+    },
+    "recommendation_parameter_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parameters"
+      ],
+      "properties": {
+        "parameters": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/recommendationParameterSpec"
+          }
+        }
+      }
+    },
+    "run_preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "initial_experiment_set_count",
+        "source",
+        "requested_count",
+        "capped_to_maximum"
+      ],
+      "properties": {
+        "initial_experiment_set_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 10
+        },
+        "source": {
+          "enum": [
+            "user_query",
+            "default"
+          ]
+        },
+        "requested_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "capped_to_maximum": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_type",
+        "raw_text"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_type": {
+          "enum": [
+            "query",
+            "user_feedback",
+            "project_context",
+            "previous_recommendation",
+            "experiment_history"
+          ]
+        },
+        "raw_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "external_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact preservation of input source_ref for this source fragment."
+        },
+        "round_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact preservation of input round_ref for this source fragment."
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Exact preservation of input recorded_at for this source fragment; validated as date-time."
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "raw_expression"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "raw_expression": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact contiguous substring copied verbatim from the referenced source.raw_text. Enforced by scripts/semantic_validate.py."
+        },
+        "source_location": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "assertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "identity",
+        "statement",
+        "provenance"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "enum": [
+            "user_fact",
+            "previous_system_recommendation",
+            "actual_execution",
+            "measured_result",
+            "literature_fact",
+            "assumption",
+            "model_inference",
+            "system_derived"
+          ]
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "round_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "assertionArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/assertion"
+      }
+    },
+    "quantity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value_raw"
+      ],
+      "properties": {
+        "value_raw": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value_numeric": {
+          "type": "number"
+        },
+        "unit_raw": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approximate": {
+          "type": "boolean"
+        },
+        "normalized_value": {
+          "type": "number"
+        },
+        "normalized_unit": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "quantityAssertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "identity",
+        "quantity",
+        "provenance"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "enum": [
+            "user_fact",
+            "previous_system_recommendation",
+            "actual_execution",
+            "measured_result",
+            "literature_fact",
+            "assumption",
+            "model_inference",
+            "system_derived"
+          ]
+        },
+        "quantity": {
+          "$ref": "#/$defs/quantity"
+        },
+        "round_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "quantityAssertionArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/quantityAssertion"
+      }
+    },
+    "compositionAssertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "identity",
+        "composition_raw",
+        "provenance"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "enum": [
+            "user_fact",
+            "previous_system_recommendation",
+            "actual_execution",
+            "measured_result",
+            "literature_fact",
+            "assumption",
+            "model_inference",
+            "system_derived"
+          ]
+        },
+        "composition_raw": {
+          "type": "string",
+          "minLength": 1
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "species",
+              "amount_raw"
+            ],
+            "properties": {
+              "species": {
+                "type": "string",
+                "minLength": 1
+              },
+              "amount_raw": {
+                "type": "string",
+                "minLength": 1
+              },
+              "amount_numeric": {
+                "type": "number"
+              },
+              "basis_or_unit": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "round_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "coreParamSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "power",
+        "n2_flow",
+        "ar_flow",
+        "deposition_time"
+      ],
+      "properties": {
+        "power": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quantityAssertion"
+          }
+        },
+        "n2_flow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quantityAssertion"
+          }
+        },
+        "ar_flow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quantityAssertion"
+          }
+        },
+        "deposition_time": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/quantityAssertion"
+          }
+        }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result_id",
+        "identity",
+        "metric",
+        "provenance"
+      ],
+      "properties": {
+        "result_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "const": "measured_result"
+        },
+        "metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quantity": {
+          "$ref": "#/$defs/quantity"
+        },
+        "qualitative_result": {
+          "type": "string",
+          "minLength": 1
+        },
+        "measurement_method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "measurement_condition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repetitions": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "repeatability": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uncertainty": {
+          "type": "string",
+          "minLength": 1
+        },
+        "anomaly": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "quantity"
+          ]
+        },
+        {
+          "required": [
+            "qualitative_result"
+          ]
+        }
+      ]
+    },
+    "round": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "round_id",
+        "round_ref",
+        "source_record_ref",
+        "status",
+        "recommendation",
+        "planned_execution",
+        "actual_execution",
+        "unresolved_execution",
+        "fixed_conditions",
+        "other_process_conditions",
+        "measurements",
+        "notes"
+      ],
+      "properties": {
+        "round_id": {
+          "type": "string",
+          "pattern": "^local-[1-9][0-9]*$",
+          "description": "Output-local logical grouping key only. Never a formal experiment-history identity and never generated as R0/R1/R2."
+        },
+        "status": {
+          "enum": [
+            "recommendation_only",
+            "planned",
+            "executed",
+            "measured",
+            "mixed_or_incomplete",
+            "unknown"
+          ]
+        },
+        "recommendation": {
+          "$ref": "#/$defs/typedParameterValues"
+        },
+        "planned_execution": {
+          "$ref": "#/$defs/typedParameterValues"
+        },
+        "actual_execution": {
+          "$ref": "#/$defs/typedParameterValues"
+        },
+        "unresolved_execution": {
+          "$ref": "#/$defs/typedParameterValues"
+        },
+        "fixed_conditions": {
+          "$ref": "#/$defs/assertionArray"
+        },
+        "other_process_conditions": {
+          "$ref": "#/$defs/quantityAssertionArray"
+        },
+        "measurements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/measurement"
+          }
+        },
+        "notes": {
+          "$ref": "#/$defs/assertionArray"
+        },
+        "round_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "description": "Formal/caller-provided experiment round reference. Null when no authoritative round association is available."
+        },
+        "source_record_ref": {
+          "type": "string",
+          "pattern": "^pvd-query-source-record:sha256:[0-9a-f]{24}$",
+          "description": "Stable identity of the exact source-query occurrence represented by this round. It is provenance only and is never the formal experiment_ref."
+        }
+      }
+    },
+    "hardConstraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "constraint_id",
+        "identity",
+        "kind",
+        "field",
+        "operator",
+        "raw_expression",
+        "source_id"
+      ],
+      "properties": {
+        "constraint_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "const": "user_fact"
+        },
+        "kind": {
+          "enum": [
+            "equipment",
+            "safety",
+            "process",
+            "material",
+            "resource",
+            "other"
+          ]
+        },
+        "field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operator": {
+          "enum": [
+            "min",
+            "max",
+            "range",
+            "exact",
+            "allowed",
+            "forbidden",
+            "other"
+          ]
+        },
+        "lower": {
+          "$ref": "#/$defs/quantity"
+        },
+        "upper": {
+          "$ref": "#/$defs/quantity"
+        },
+        "exact": {
+          "$ref": "#/$defs/quantity"
+        },
+        "raw_expression": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact contiguous substring copied verbatim from the referenced source.raw_text. Enforced by scripts/semantic_validate.py."
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "allowed_values": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          }
+        },
+        "forbidden_values": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "derivedValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derived_id",
+        "identity",
+        "field",
+        "value",
+        "input_assertion_ids",
+        "derivation"
+      ],
+      "properties": {
+        "derived_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "const": "system_derived"
+        },
+        "field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "$ref": "#/$defs/quantity"
+        },
+        "input_assertion_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "derivation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "unknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unknown_id",
+        "identity",
+        "field",
+        "reason",
+        "blocking"
+      ],
+      "properties": {
+        "unknown_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "const": "unknown"
+        },
+        "field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "round_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocking": {
+          "const": false
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "identity",
+        "statement",
+        "provenance"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "enum": [
+            "assumption",
+            "model_inference"
+          ]
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "round_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "recommendationQuantityAssertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "identity",
+        "quantity",
+        "provenance"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "const": "previous_system_recommendation"
+        },
+        "quantity": {
+          "$ref": "#/$defs/quantity"
+        },
+        "round_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "plannedQuantityAssertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "identity",
+        "quantity",
+        "provenance"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "const": "user_fact"
+        },
+        "quantity": {
+          "$ref": "#/$defs/quantity"
+        },
+        "round_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "actualQuantityAssertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "identity",
+        "quantity",
+        "provenance"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "const": "actual_execution"
+        },
+        "quantity": {
+          "$ref": "#/$defs/quantity"
+        },
+        "round_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "recommendationParamSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "power",
+        "n2_flow",
+        "ar_flow",
+        "deposition_time"
+      ],
+      "properties": {
+        "power": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/recommendationQuantityAssertion"
+          }
+        },
+        "n2_flow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/recommendationQuantityAssertion"
+          }
+        },
+        "ar_flow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/recommendationQuantityAssertion"
+          }
+        },
+        "deposition_time": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/recommendationQuantityAssertion"
+          }
+        }
+      }
+    },
+    "plannedParamSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "power",
+        "n2_flow",
+        "ar_flow",
+        "deposition_time"
+      ],
+      "properties": {
+        "power": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/plannedQuantityAssertion"
+          }
+        },
+        "n2_flow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/plannedQuantityAssertion"
+          }
+        },
+        "ar_flow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/plannedQuantityAssertion"
+          }
+        },
+        "deposition_time": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/plannedQuantityAssertion"
+          }
+        }
+      }
+    },
+    "actualParamSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "power",
+        "n2_flow",
+        "ar_flow",
+        "deposition_time"
+      ],
+      "properties": {
+        "power": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/actualQuantityAssertion"
+          }
+        },
+        "n2_flow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/actualQuantityAssertion"
+          }
+        },
+        "ar_flow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/actualQuantityAssertion"
+          }
+        },
+        "deposition_time": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/actualQuantityAssertion"
+          }
+        }
+      }
+    },
+    "parameterOperability": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "const": "unknown"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "assertion_id",
+            "identity",
+            "status",
+            "provenance"
+          ],
+          "properties": {
+            "assertion_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "identity": {
+              "const": "user_fact"
+            },
+            "status": {
+              "enum": [
+                "tunable",
+                "fixed",
+                "constrained"
+              ]
+            },
+            "provenance": {
+              "$ref": "#/$defs/provenance"
+            }
+          }
+        }
+      ]
+    },
+    "unresolvedExecutionQuantityAssertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id",
+        "identity",
+        "execution_identity",
+        "quantity",
+        "provenance"
+      ],
+      "properties": {
+        "assertion_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity": {
+          "const": "user_fact"
+        },
+        "quantity": {
+          "$ref": "#/$defs/quantity"
+        },
+        "round_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        },
+        "execution_identity": {
+          "const": "unresolved"
+        }
+      }
+    },
+    "unresolvedParamSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "power",
+        "n2_flow",
+        "ar_flow",
+        "deposition_time"
+      ],
+      "properties": {
+        "power": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/unresolvedExecutionQuantityAssertion"
+          }
+        },
+        "n2_flow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/unresolvedExecutionQuantityAssertion"
+          }
+        },
+        "ar_flow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/unresolvedExecutionQuantityAssertion"
+          }
+        },
+        "deposition_time": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/unresolvedExecutionQuantityAssertion"
+          }
+        }
+      }
+    },
+    "systemContextFieldMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "known",
+            "missing",
+            "conflict"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provenance": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/provenance"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "known"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "missing"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "provenance": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "conflict"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "provenance": {
+                "minItems": 2
+              }
+            }
+          }
+        }
+      ]
+    },
+    "systemContextAdditionalFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field",
+        "value",
+        "metadata"
+      ],
+      "properties": {
+        "field": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "Capability-neutral canonical field name for an additional stable system identity fact."
+        },
+        "value": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        },
+        "metadata": {
+          "$ref": "#/$defs/systemContextFieldMetadata"
+        }
+      }
+    },
+    "typedParameterValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parameter_key",
+        "value_type",
+        "value",
+        "unit",
+        "unit_identity",
+        "unit_dimension",
+        "identity",
+        "provenance"
+      ],
+      "properties": {
+        "parameter_key": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "Stable scientific identity of the exact physical quantity: preserve the user-stated physical object and property across scope, constraints, planned execution, actual execution, and history. Equal units or dimensions and other schema field names do not make different physical quantities interchangeable."
+        },
+        "value_type": {
+          "enum": [
+            "continuous",
+            "integer",
+            "categorical",
+            "boolean"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit_identity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit_dimension": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "identity": {
+          "enum": [
+            "user_fact",
+            "previous_system_recommendation",
+            "actual_execution"
+          ]
+        },
+        "execution_identity": {
+          "enum": [
+            "planned",
+            "actual",
+            "unresolved"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value_type": {
+                "const": "continuous"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_type": {
+                "const": "integer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_type": {
+                "const": "categorical"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_type": {
+                "const": "boolean"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "typedParameterValues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/typedParameterValue"
+      }
+    },
+    "recommendationParameterSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parameter_key",
+        "display_name",
+        "value_type",
+        "unit",
+        "allowed_values",
+        "rationale",
+        "basis_refs"
+      ],
+      "properties": {
+        "parameter_key": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "Stable scientific identity of the exact physical quantity: preserve the user-stated physical object and property across scope, constraints, planned execution, actual execution, and history. Equal units or dimensions and other schema field names do not make different physical quantities interchangeable."
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value_type": {
+          "enum": [
+            "continuous",
+            "integer",
+            "categorical",
+            "boolean"
+          ]
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "allowed_values": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "basis_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unit_identity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit_dimension": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value_type": {
+                "const": "categorical"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "allowed_values": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "allowed_values": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "parameterAdmissionJudgment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "judgment_id",
+        "status",
+        "user_intent",
+        "parameter_key",
+        "display_name",
+        "value_type",
+        "unit",
+        "allowed_values",
+        "condition",
+        "statement",
+        "provenance"
+      ],
+      "properties": {
+        "judgment_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "const": "pending_evidence"
+        },
+        "user_intent": {
+          "const": "evaluate_for_admission"
+        },
+        "parameter_key": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "Stable scientific identity of the exact physical quantity: preserve the user-stated physical object and property across scope, constraints, planned execution, actual execution, and history. Equal units or dimensions and other schema field names do not make different physical quantities interchangeable."
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value_type": {
+          "enum": [
+            "continuous",
+            "integer",
+            "categorical",
+            "boolean"
+          ]
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit_identity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit_dimension": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "allowed_values": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "condition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value_type": {
+                "const": "categorical"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "allowed_values": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "allowed_values": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

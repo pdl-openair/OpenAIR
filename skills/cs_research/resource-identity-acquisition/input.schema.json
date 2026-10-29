@@ -1,0 +1,229 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/snapshotRequest"
+    },
+    {
+      "$ref": "#/definitions/fileRequest"
+    },
+    {
+      "type": "object",
+      "required": [
+        "resources"
+      ],
+      "properties": {
+        "resources": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "usage",
+                  "resource_kind",
+                  "repo_id",
+                  "repo_type",
+                  "revision"
+                ],
+                "properties": {
+                  "resource_kind": {
+                    "const": "huggingface_snapshot"
+                  },
+                  "repo_id": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 256,
+                    "pattern": "^(?!https?://)(?!\\.\\.?/)[^/\\s]+/[^/\\s]+$"
+                  },
+                  "repo_type": {
+                    "type": "string",
+                    "enum": [
+                      "model",
+                      "dataset"
+                    ]
+                  },
+                  "revision": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 512,
+                    "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+                  },
+                  "expected_commit_sha": {
+                    "type": "string",
+                    "pattern": "^[0-9A-Fa-f]{40}$"
+                  },
+                  "usage": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "usage",
+                  "resource_kind",
+                  "repo_id",
+                  "repo_type",
+                  "revision",
+                  "filename"
+                ],
+                "properties": {
+                  "resource_kind": {
+                    "const": "huggingface_file"
+                  },
+                  "repo_id": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 256,
+                    "pattern": "^(?!https?://)(?!\\.\\.?/)[^/\\s]+/[^/\\s]+$"
+                  },
+                  "repo_type": {
+                    "type": "string",
+                    "enum": [
+                      "model",
+                      "dataset"
+                    ]
+                  },
+                  "revision": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 512,
+                    "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+                  },
+                  "filename": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024,
+                    "pattern": "^(?!/)(?!.*(?:^|/)(?:\\.\\.?)(?:/|$))(?!.*:)(?!.*\\\\)[^\\u0000-\\u001F\\u007F]+$"
+                  },
+                  "expected_commit_sha": {
+                    "type": "string",
+                    "pattern": "^[0-9A-Fa-f]{40}$"
+                  },
+                  "expected_sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9A-Fa-f]{64}$"
+                  },
+                  "usage": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "snapshotRequest": {
+      "type": "object",
+      "required": [
+        "resource_kind",
+        "repo_id",
+        "repo_type",
+        "revision"
+      ],
+      "properties": {
+        "resource_kind": {
+          "const": "huggingface_snapshot"
+        },
+        "repo_id": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 256,
+          "pattern": "^(?!https?://)(?!\\.\\.?/)[^/\\s]+/[^/\\s]+$"
+        },
+        "repo_type": {
+          "type": "string",
+          "enum": [
+            "model",
+            "dataset"
+          ]
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+        },
+        "expected_commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9A-Fa-f]{40}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "fileRequest": {
+      "type": "object",
+      "required": [
+        "resource_kind",
+        "repo_id",
+        "repo_type",
+        "revision",
+        "filename"
+      ],
+      "properties": {
+        "resource_kind": {
+          "const": "huggingface_file"
+        },
+        "repo_id": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 256,
+          "pattern": "^(?!https?://)(?!\\.\\.?/)[^/\\s]+/[^/\\s]+$"
+        },
+        "repo_type": {
+          "type": "string",
+          "enum": [
+            "model",
+            "dataset"
+          ]
+        },
+        "revision": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+        },
+        "filename": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^(?!/)(?!.*(?:^|/)(?:\\.\\.?)(?:/|$))(?!.*:)(?!.*\\\\)[^\\u0000-\\u001F\\u007F]+$"
+        },
+        "expected_commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9A-Fa-f]{40}$"
+        },
+        "expected_sha256": {
+          "type": "string",
+          "pattern": "^[0-9A-Fa-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

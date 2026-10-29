@@ -1,0 +1,385 @@
+{
+  "version": "p0_effect_eval_v1",
+  "notes": [
+    "Gold expectations are not exact-output templates. They define must-detect constraints, confidence bands, forbidden behaviors, and scoring anchors.",
+    "Skill output should remain JSON-valid and follow output.schema.json."
+  ],
+  "global_rules": {
+    "downstream_search_terms": {
+      "must_be_english": true,
+      "must_not_contain_cjk": true,
+      "should_not_include_original_chinese_phrase": true
+    },
+    "confidence_bands": {
+      "explicit_numerical_with_unit": [
+        0.85,
+        0.92
+      ],
+      "qualitative_domain_consensus": [
+        0.55,
+        0.7
+      ],
+      "ambiguous_or_subjective": [
+        0.3,
+        0.5
+      ]
+    },
+    "filter_rules": {
+      "ambiguous_conditions_must_not_be_hard_filters": true,
+      "methods_or_mechanisms_must_not_be_treated_as_material_filters": true,
+      "full_user_query_must_not_be_converted_to_one_constraint": true
+    }
+  },
+  "case_expectations": {
+    "battery_001_li_metal_high_voltage_fast_charge": {
+      "must_detect": [
+        {
+          "name_hint": "high voltage",
+          "type_hint": "numerical_range",
+          "confidence_band": "explicit_numerical_with_unit",
+          "must_include_terms": [
+            "high voltage",
+            "4.5 V"
+          ]
+        },
+        {
+          "name_hint": "fast charging rate",
+          "type_hint": "numerical_range",
+          "confidence_band": "explicit_numerical_with_unit",
+          "must_include_terms": [
+            "fast charging",
+            "2C"
+          ]
+        },
+        {
+          "name_hint": "ether-based electrolyte",
+          "type_hint": "material_system",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "ether electrolyte",
+            "ether-based electrolyte"
+          ]
+        }
+      ],
+      "must_not": [
+        "convert SEI, lithium plating, or interphase formation into hard filters unless explicitly stated",
+        "include Chinese phrases in downstream_search_terms"
+      ],
+      "expected_risk_flags": [
+        "fast_charging_definition_may_vary",
+        "high_voltage_cutoff_context_needed"
+      ]
+    },
+    "battery_002_solid_state_room_temperature": {
+      "must_detect": [
+        {
+          "name_hint": "sulfide solid electrolyte",
+          "type_hint": "material_system",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "sulfide solid electrolyte"
+          ]
+        },
+        {
+          "name_hint": "room temperature",
+          "type_hint": "condition",
+          "confidence_band": "ambiguous_or_subjective",
+          "must_include_terms": [
+            "room temperature",
+            "ambient temperature"
+          ]
+        },
+        {
+          "name_hint": "ionic conductivity threshold",
+          "type_hint": "numerical_range",
+          "confidence_band": "explicit_numerical_with_unit",
+          "must_include_terms": [
+            "ionic conductivity",
+            "10^-3 S/cm"
+          ]
+        }
+      ],
+      "must_not": [
+        "assume exact room temperature value if not specified",
+        "turn interfacial stability into a numerical hard filter"
+      ],
+      "expected_risk_flags": [
+        "room_temperature_value_unspecified",
+        "interfacial_stability_metric_ambiguous"
+      ]
+    },
+    "battery_003_sodium_cathode_low_temperature": {
+      "must_detect": [
+        {
+          "name_hint": "sodium-ion layered oxide cathode",
+          "type_hint": "material_system",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "sodium-ion layered oxide cathode",
+            "layered oxide cathode"
+          ]
+        },
+        {
+          "name_hint": "low temperature",
+          "type_hint": "condition",
+          "confidence_band": "ambiguous_or_subjective",
+          "must_include_terms": [
+            "low temperature"
+          ]
+        },
+        {
+          "name_hint": "-20°C testing",
+          "type_hint": "numerical_range",
+          "confidence_band": "explicit_numerical_with_unit",
+          "must_include_terms": [
+            "-20°C",
+            "low-temperature testing"
+          ]
+        }
+      ],
+      "must_not": [
+        "convert doping/coating strategies into hard material filters",
+        "assume a specific layered oxide composition such as P2 or O3 unless stated"
+      ],
+      "expected_risk_flags": [
+        "low_temperature_range_approximate",
+        "strategy_scope_broad"
+      ]
+    },
+    "agent_001_long_horizon_software_agent": {
+      "must_detect": [
+        {
+          "name_hint": "long-horizon software engineering agents",
+          "type_hint": "task_context",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "long-horizon agents",
+            "software engineering agents"
+          ]
+        },
+        {
+          "name_hint": "benchmark-based reproducible evaluation",
+          "type_hint": "evidence_requirement",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "benchmark",
+            "reproducibility"
+          ]
+        },
+        {
+          "name_hint": "memory tool reflection mechanisms",
+          "type_hint": "method_or_mechanism",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "memory management",
+            "tool use",
+            "reflection"
+          ]
+        }
+      ],
+      "must_not": [
+        "treat memory management, tool use, or reflection as hard filters",
+        "force a materials-domain interpretation"
+      ],
+      "expected_risk_flags": [
+        "benchmark_scope_unspecified",
+        "stability_metric_ambiguous"
+      ]
+    },
+    "agent_002_multi_agent_materials_research": {
+      "must_detect": [
+        {
+          "name_hint": "multi-agent systems",
+          "type_hint": "system_type",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "multi-agent systems"
+          ]
+        },
+        {
+          "name_hint": "materials research tasks",
+          "type_hint": "application_domain",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "materials research"
+          ]
+        },
+        {
+          "name_hint": "literature to validation workflow",
+          "type_hint": "workflow_scope",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "literature retrieval",
+            "evidence synthesis",
+            "hypothesis generation",
+            "tool use",
+            "experimental feedback"
+          ]
+        }
+      ],
+      "must_not": [
+        "invent a specific material system",
+        "convert the full workflow into a single hard constraint"
+      ],
+      "expected_risk_flags": [
+        "research_gap_query_is_broad",
+        "workflow_scope_multi_component"
+      ]
+    },
+    "agent_003_rag_evidence_graph_scientific_discovery": {
+      "must_detect": [
+        {
+          "name_hint": "RAG evidence graph reverse validation",
+          "type_hint": "method_or_mechanism",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "retrieval-augmented generation",
+            "evidence graph",
+            "reverse validation"
+          ]
+        },
+        {
+          "name_hint": "traceability evidence chain",
+          "type_hint": "evidence_requirement",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "traceability",
+            "evidence chain"
+          ]
+        },
+        {
+          "name_hint": "failure case analysis",
+          "type_hint": "evidence_requirement",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "failure analysis",
+            "negative results"
+          ]
+        }
+      ],
+      "must_not": [
+        "turn trustworthy into a hard filter",
+        "over-expand to generic RAG QA systems without scientific discovery context"
+      ],
+      "expected_risk_flags": [
+        "trustworthiness_metric_ambiguous",
+        "failure_case_availability_uncertain"
+      ]
+    },
+    "theory_001_perovskite_defect_tolerance_dft": {
+      "must_detect": [
+        {
+          "name_hint": "halide perovskites",
+          "type_hint": "material_system",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "halide perovskite"
+          ]
+        },
+        {
+          "name_hint": "DFT calculations",
+          "type_hint": "method",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "DFT",
+            "density functional theory"
+          ]
+        },
+        {
+          "name_hint": "nonradiative recombination band-edge states",
+          "type_hint": "mechanism_or_metric",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "nonradiative recombination",
+            "band-edge states"
+          ]
+        }
+      ],
+      "must_not": [
+        "treat DFT as material-system filter",
+        "invent specific perovskite compositions"
+      ],
+      "expected_risk_flags": [
+        "composition_unspecified",
+        "mechanism_scope_broad"
+      ]
+    },
+    "theory_002_high_entropy_alloy_phase_stability": {
+      "must_detect": [
+        {
+          "name_hint": "Al-Co-Cr-Fe-Ni high-entropy alloy",
+          "type_hint": "material_system",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "Al-Co-Cr-Fe-Ni",
+            "high-entropy alloy"
+          ]
+        },
+        {
+          "name_hint": "CALPHAD DFT combined method",
+          "type_hint": "method",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "CALPHAD",
+            "DFT"
+          ]
+        },
+        {
+          "name_hint": "phase stability metrics",
+          "type_hint": "metric_or_risk",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "formation enthalpy",
+            "mixing entropy",
+            "phase decomposition"
+          ]
+        }
+      ],
+      "must_not": [
+        "add unmentioned alloying elements",
+        "assume experimental validation is required"
+      ],
+      "expected_risk_flags": [
+        "composition_space_broad",
+        "phase_stability_metric_multi_factor"
+      ]
+    },
+    "theory_003_topological_materials_spin_orbit": {
+      "must_detect": [
+        {
+          "name_hint": "topological semimetals",
+          "type_hint": "material_system",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "topological semimetal"
+          ]
+        },
+        {
+          "name_hint": "spin-orbit coupling",
+          "type_hint": "mechanism",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "spin-orbit coupling"
+          ]
+        },
+        {
+          "name_hint": "first-principles ARPES evidence",
+          "type_hint": "method_or_evidence",
+          "confidence_band": "qualitative_domain_consensus",
+          "must_include_terms": [
+            "first-principles calculations",
+            "ARPES"
+          ]
+        }
+      ],
+      "must_not": [
+        "invent specific compounds such as TaAs or WTe2 unless provided",
+        "treat ARPES as a computational method"
+      ],
+      "expected_risk_flags": [
+        "specific_material_unspecified",
+        "combined_theory_experiment_scope"
+      ]
+    }
+  }
+}

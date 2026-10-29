@@ -1,0 +1,60 @@
+skill_id: research_lead_hypothesis_generation
+claude_name: research-lead-hypothesis-generation-skill
+display_name: 最终证据综合
+stages:
+- execution_validation
+- insight_generation
+substages:
+- findings_synthesis
+skill_type: atomic
+runtime: llm_structured
+status: ready
+enabled: true
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: final_synthesis.json
+llm:
+  temperature: 0
+  max_completion_tokens: 6500
+  reasoning_effort: minimal
+  structured_output_max_attempts: 2
+notes: Single-call OpenTrajectory final synthesis. ResearchRecords are the direct conclusion evidence source; mechanism_packet is optional enhancement. Separates supported conclusions, research leads, and unvalidated falsifiable hypotheses without hidden extra model calls.
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: findings_synthesis
+durable_model_profile: terra
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: research:declared-scientific-facts:v1
+  facts:
+  - fact_key: direct_answer
+    source_field: direct_answer
+  - fact_key: evidence_supported_conclusions
+    source_field: evidence_supported_conclusions
+  - fact_key: evidence_conflicts
+    source_field: conflicts
+  - fact_key: uncertainties
+    source_field: uncertainties
+  - fact_key: evidence_gaps
+    source_field: evidence_gaps
+  - fact_key: research_leads
+    source_field: research_leads
+  - fact_key: hypotheses
+    source_field: hypotheses

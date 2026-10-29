@@ -1,0 +1,29 @@
+skill_id: opentrajectory_validation_plan_generation
+claude_name: opentrajectory-validation-plan-generation
+display_name: 最小验证方案生成
+version: 0.1.0
+stages:
+- insight_generation
+substages:
+- validation_plan_generation
+pack: opentrajectory
+sequence: 130
+enabled: false
+spec: 04-insight/validation-plan-generation.md
+input_skills:
+- opentrajectory_hypothesis_update
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-validation-plan-generation
+claude_skill_path: .claude/skills/opentrajectory-validation-plan-generation
+output_file: 04-insight/validation-plans.json
+fixture_status: none
+notes: OpenTrajectory L2 orchestration slot. Reserved and disabled until the matching L3 capability is implemented.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: validation_plan_generation
+owner: TBD

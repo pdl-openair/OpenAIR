@@ -1,0 +1,134 @@
+# mypy exemption scope - files EXEMPT from the mypy gate (ratchet:
+# entries may only be removed, never added).
+# Exception channel: files imported by test-branch drift may be appended with
+# an inline attribution comment (sync/mini-sync protocol; test branch has no
+# mypy gate, cf. refactor-ledger D-20-3).
+# Generated: 2026-09-24
+# Baseline commit: 7d55693537d609650655b8afc61f0689b9033264 (base ref: origin/test)
+# Command: python scripts/gates/mypy_gate.py --freeze --base origin/test --python <interpreter>
+
+packages/llm_core/llm_core/claude_turn.py
+services/api/app/config.py
+services/api/app/execution/agent_service.py
+services/api/app/execution/durable_multiagent_orchestrator.py
+services/api/app/execution/durable_orchestrator_bridge.py
+services/api/app/execution/durable_orchestrator_runtime.py
+services/api/app/execution/durable_skill_runtime.py
+services/api/app/execution/huiyan_skill_runner.py
+services/api/app/execution/llm_structured_runner.py
+services/api/app/execution/materials_skill_script_runtime.py
+services/api/app/execution/model_job_worker.py
+services/api/app/execution/openai_responses_provider.py
+services/api/app/execution/opentrajectory_structured_runtime_guard.py
+services/api/app/execution/provider_schema_bounded_lowering.py  # sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge, cf. D-20-3)
+services/api/app/execution/provider_visible_skill_input.py
+services/api/app/execution/research_dispatch_huiyan_provider.py
+services/api/app/execution/research_dispatch_provider.py
+services/api/app/execution/research_dispatch_skill_provider.py
+services/api/app/execution/research_dispatch_worker.py
+services/api/app/execution/research_input_contract_gate.py
+services/api/app/modules/research_execution_start_status.py  # mini-sync-3 drift import (test branch has no mypy gate; owner fix tracked post-merge, cf. D-20-3)
+services/api/app/execution/research_start_processing.py
+services/api/app/execution/research_start_provider_adapter.py
+services/api/app/execution/research_start_worker_runtime.py
+services/api/app/execution/retrieval_matrix_sanitizer.py
+services/api/app/execution/runtime_boundary.py
+services/api/app/execution/skill_contract_policy.py
+services/api/app/execution/structured_skill_schema_runtime.py
+services/api/app/execution/test_agent_artifact_registration.py
+services/api/app/execution/tests/opentrajectory_structured_runtime_guard/test_opentrajectory_structured_runtime_guard.py
+services/api/app/execution/tests/evidence_batch_payload_projection/test_evidence_batch_payload_projection.py  # sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge, cf. D-20-3)
+services/api/app/execution/tests/finalizer_subprocess_bridge/test_finalizer_subprocess_bridge.py
+services/api/app/execution/tests/node6_provider_projection/test_node6_provider_projection.py  # sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge, cf. D-20-3)
+services/api/app/execution/tests/provider_schema_bounded_lowering/test_provider_schema_bounded_lowering.py  # sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge, cf. D-20-3)
+services/api/app/execution/tests/research_start_provider_adapter/test_research_start_provider_observability.py  # sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge, cf. D-20-3)
+services/api/app/execution/tests/structured_output_provider_adapter/test_structured_output_provider_adapter.py  # sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge, cf. D-20-3)
+services/api/app/execution/worker_tokens.py
+services/api/app/execution/workspace_isolation.py
+services/api/app/models/account_schemas.py
+services/api/app/models/research_orchestration.py
+services/api/app/models/workflow_definition.py
+services/api/app/modules/agent_session_artifact_markdown.py
+services/api/app/modules/agent_session_executor.py
+services/api/app/modules/agent_session_repository.py
+services/api/app/modules/agent_session_service.py
+services/api/app/modules/artifact_catalog.py
+services/api/app/modules/artifact_content.py
+services/api/app/modules/artifact_repository.py
+services/api/app/modules/binding_input_runtime_projection.py
+services/api/app/modules/canonical_collaboration.py
+services/api/app/modules/canonical_progress_reducer.py
+services/api/app/modules/capability_applicability_producer.py
+services/api/app/modules/collaboration_lifecycle.py
+services/api/app/modules/collaboration_repository.py
+services/api/app/modules/contribution_repository.py
+services/api/app/modules/durable_execution.py
+services/api/app/modules/materials_workflow_admission.py
+services/api/app/modules/mcp_client.py
+services/api/app/modules/ot_v3_scientific_state_materialization.py  # sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge, cf. D-20-3)
+services/api/app/modules/production_definition_source.py
+services/api/app/modules/production_workflow_source.py
+services/api/app/modules/provider_transport_evidence.py
+services/api/app/modules/pvd_scientific_state_materialization.py
+services/api/app/modules/quota_adjustment_repository.py
+services/api/app/modules/recovery_repository.py
+services/api/app/modules/registry_snapshot_repository.py
+services/api/app/modules/repeatable_definition_reentry.py
+services/api/app/modules/research_design_activation.py
+services/api/app/modules/research_design_agent_revision.py
+services/api/app/modules/research_design_compiler.py
+services/api/app/modules/research_design_planner_assembly.py
+services/api/app/modules/research_design_recovery.py
+services/api/app/modules/research_design_service.py
+services/api/app/modules/research_design_workflow_semantic_provider.py
+services/api/app/modules/research_design_workflow_semantics.py
+services/api/app/modules/research_dispatch_service.py
+services/api/app/modules/research_execution_decision_service.py
+services/api/app/modules/research_external_evidence_repository.py
+services/api/app/modules/research_external_recovery_backfill.py
+services/api/app/modules/research_orchestration_repository.py
+services/api/app/modules/research_orchestration_resolver.py
+services/api/app/modules/research_planning_sources.py
+services/api/app/modules/research_start_planner.py
+services/api/app/modules/research_start_repository.py
+services/api/app/modules/research_start_task.py
+services/api/app/modules/research_user_input.py
+services/api/app/modules/resource_catalog.py
+services/api/app/modules/scientific_completion_integrity.py
+services/api/app/modules/scientific_completion_legacy.py
+services/api/app/modules/specialist_runtime_gateway.py
+services/api/app/modules/task_draft_builder.py
+services/api/app/modules/task_events.py
+services/api/app/modules/task_message_repository.py
+services/api/app/modules/task_public_projection.py
+services/api/app/modules/task_repository.py
+services/api/app/modules/task_store.py
+services/api/app/modules/test_artifact_integrity.py
+services/api/app/modules/test_task_result_source.py
+services/api/app/modules/tests/artifact_cleanup/test_artifact_cleanup_postgres_minio.py  # mini-sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge)
+services/api/app/modules/tests/controller_command_repository/test_controller_command_canonical_transactions.py  # mini-sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge)
+services/api/app/modules/tests/production_definition_source/test_workflow_identity_authority.py  # mini-sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge)
+services/api/app/modules/tests/production_workflow_source/test_production_workflow_source.py  # mini-sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge)
+services/api/app/modules/tests/provider_transport_evidence/test_provider_transport_evidence.py  # sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge, cf. D-20-3)
+services/api/app/modules/tests/registry_snapshot_repository/test_registry_snapshot_transactions.py  # mini-sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge)
+services/api/app/modules/tests/research_design_service/test_research_design_lifecycle_transactions.py  # mini-sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge)
+services/api/app/modules/tests/research_execution_decision/test_research_execution_decision_transactions.py  # mini-sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge)
+services/api/app/modules/tests/research_execution_method_runtime_control/test_execution_method_runtime_control.py
+services/api/app/modules/tests/research_orchestration_repository/test_research_orchestration_repository_transactions.py  # mini-sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge)
+services/api/app/modules/token_ledger_repository.py
+services/api/app/modules/user_repository.py
+services/api/app/modules/workbench_user_actions.py
+services/api/app/modules/workflow_planning.py
+services/api/app/routes/admin_quota.py
+services/api/app/routes/agent.py
+services/api/app/routes/artifacts.py
+services/api/app/routes/health.py
+services/api/app/routes/internal.py
+services/api/app/routes/model_jobs.py
+services/api/app/routes/quota.py
+services/api/app/routes/recovery.py
+services/api/app/routes/research_start.py
+services/api/app/routes/skills.py
+services/api/app/routes/starters.py
+services/api/app/routes/tasks.py
+services/api/app/routes/tests/task_research_stream/test_task_research_stream.py  # mini-sync-2 drift import (test branch has no mypy gate; owner fix tracked post-merge)

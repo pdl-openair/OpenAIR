@@ -1,0 +1,30 @@
+skill_id: negative_result_recording
+claude_name: negative-result-recording
+display_name: 负面结果记录
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - negative_result_recording
+output_file: 03-experiment/negative-results.md
+pack: sdr
+spec: 03-experiment/negative-results.md
+input_skills:
+  - full_execution
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: negative_result_recording
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

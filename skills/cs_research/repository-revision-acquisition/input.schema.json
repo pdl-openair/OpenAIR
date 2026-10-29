@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "repository",
+    "revision"
+  ],
+  "properties": {
+    "repository": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096,
+      "description": "Git repository URL. The adapter accepts credential-free https:// and git:// URLs.",
+      "pattern": "^(?:https|git)://[^\\s/?#@]+(?:/[^\\s?#]*)?$"
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "description": "Requested Git revision to resolve deterministically to a commit.",
+      "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+    },
+    "source_evidence": {
+      "type": "object",
+      "required": [
+        "kind",
+        "source_url",
+        "repository_url",
+        "selection_basis"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+        },
+        "source_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096,
+          "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+        },
+        "repository_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^(?:https|git)://[^\\s/?#@]+(?:/[^\\s?#]*)?$"
+        },
+        "selection_basis": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+        },
+        "model_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^(?!\\s)(?!.*\\s$)[^\\u0000-\\u001F\\u007F]+$"
+        },
+        "content_form": {
+          "type": "string",
+          "enum": [
+            "metadata_only",
+            "landing_page",
+            "html",
+            "pdf",
+            "xml",
+            "tei"
+          ]
+        },
+        "paper_identity": {
+          "$ref": "#/definitions/paperIdentity"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "paperIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "arxiv_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "doi": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "openalex_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    }
+  }
+}

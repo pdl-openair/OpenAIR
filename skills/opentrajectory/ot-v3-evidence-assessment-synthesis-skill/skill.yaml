@@ -1,0 +1,54 @@
+skill_id: ot_v3_evidence_assessment_synthesis
+claude_name: ot-v3-evidence-assessment-synthesis-skill
+display_name: v3 证据评估与综合
+stages:
+- execution_validation
+substages:
+- evidence_assessment_synthesis
+skill_type: atomic
+runtime: llm_structured
+status: ready
+enabled: true
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: evidence_assessment_and_research_synthesis.json
+llm:
+  temperature: 0
+  max_completion_tokens: 5000
+  reasoning_effort: minimal
+  structured_output_max_attempts: 2
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+durable_model_profile: terra
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+capability_contract:
+  artifact_types:
+  - evidence_assessment_and_research_synthesis
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+execution_method_roles:
+- opentrajectory_evidence_assessment_synthesis_v1:evidence_assessment
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: research:declared-scientific-facts:v1
+  facts:
+  - fact_key: ot_v3_evidence_assessment
+    source_field: evidence_assessment_and_research_synthesis
+finalization:
+  contract_version: 1
+  entrypoint: scripts.runtime_guard:finalize
+  draft_schema: draft.schema.json
+notes: Formal v3 evidence assessment over supplied ResearchRecords. The skill does not retrieve evidence; it preserves record membership, support/refutation/limitation distinctions, conflicts, and gaps for the required v3 responsibility.

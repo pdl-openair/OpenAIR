@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pvd_project_context",
+    "support_target",
+    "planning",
+    "verified_record_analyses",
+    "failed_record_verifications",
+    "unverified_selected_record_ids",
+    "raw_evidence_items",
+    "source_provenance",
+    "coverage",
+    "unresolved_gaps",
+    "conditional_evidence_linkage"
+  ],
+  "properties": {
+    "pvd_project_context": {
+      "type": "object"
+    },
+    "support_target": {
+      "type": "object"
+    },
+    "planning": {
+      "type": "object"
+    },
+    "verified_record_analyses": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "failed_record_verifications": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "unverified_selected_record_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "raw_evidence_items": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "source_provenance": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "coverage": {
+      "type": "object"
+    },
+    "unresolved_gaps": {
+      "type": "array"
+    },
+    "conditional_evidence_linkage": {
+      "type": "array"
+    }
+  }
+}

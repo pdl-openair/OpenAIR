@@ -1,0 +1,57 @@
+{
+  "scenarioName": "audit_figure_only",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "status": "insufficient_materials",
+    "audit_scope": {
+      "inspected": ["figure", "conclusion paragraph"],
+      "not_inspected": ["raw data", "analysis script", "run log", "statistics method"]
+    },
+    "traceability_matrix": [
+      {
+        "claim_id": "C1",
+        "trace_status": "broken",
+        "linked_material_ids": [],
+        "break_reason": "Figure and conclusion do not provide raw data, script, or recomputation path."
+      }
+    ],
+    "missing_records": [
+      "raw data",
+      "analysis script",
+      "run log",
+      "statistics method",
+      "sample/filter rule"
+    ],
+    "minimum_usable_input": [
+      "result claim",
+      "figure/table locator",
+      "raw data or experiment record",
+      "analysis method"
+    ],
+    "reproducibility_checklist": {
+      "data_version": "missing",
+      "script": "missing",
+      "run_log": "missing",
+      "statistics": "missing"
+    },
+    "verdict": "insufficient_materials",
+    "next_record_to_inspect": "raw data underlying the figure",
+    "forbidden_output": [
+      "pass/fail verdict",
+      "reproducibility conclusion",
+      "effect-size endorsement"
+    ]
+  },
+  "review": {
+    "rubricScore": 91,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 22, "OEA": 23, "Rig": 20, "Lev": 9, "UX": 9, "Spec": 4, "Eng": 4},
+    "mainReason": "Strong insufficient-materials verdict with a concrete next record to inspect."
+  }
+}

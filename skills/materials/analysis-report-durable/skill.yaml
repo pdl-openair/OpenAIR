@@ -1,0 +1,74 @@
+skill_id: analysis_report_durable
+claude_name: analysis-report-durable
+display_name: 新材料发现分析报告
+version: "0.1.0"
+stages:
+  - insight_generation
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - report_generation
+packs:
+  - materials
+input_schema:
+  type: object
+  additionalProperties: false
+  required: [goal]
+  properties:
+    goal:
+      type: string
+    mp_search_report:
+      type: string
+    candidate_summary:
+      type: string
+    stability_handoff:
+      type: string
+    experiment_handoff:
+      type: string
+    work_dir:
+      type: string
+output_schema:
+  type: object
+  additionalProperties: false
+  required: [state, report_path]
+  properties:
+    state:
+      type: string
+      enum: [succeeded, partial_failure]
+    report_path:
+      type: string
+    figures:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          path:
+            type: string
+          type:
+            type: string
+            enum: [svg, png]
+    failure_reason:
+      type: string
+owner: TBD
+fixture_status: missing
+notes: >
+  durable_agent 实现：LLM agent 读取前序产物，自主规划图表，
+  内联调用 figure_renderer.py 生成流程 SVG，用 matplotlib 生成
+  数据分析图，产出 analysis_report.md（结论先行、证据支撑、用户友好）。
+  替换 experiment_report（llm_reasoning）。
+runtime_contract:
+  kind: skill_script
+  requires_external_action: true
+  adapter_id: skill_runtime:analysis_report_durable
+  evidence_contract_version: skill-execution-evidence/v1
+  artifact_files:
+    - analysis-report/figures/*.svg
+    - analysis-report/figures/*.png
+    - analysis-report/analysis_report.md
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only

@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "research-lead-generation final output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["research_leads", "summary", "audit", "generation_warnings"],
+  "properties": {
+    "research_leads": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "lead_kind",
+          "title",
+          "research_question",
+          "investigation_target",
+          "rationale",
+          "source_finding_ids",
+          "mechanism_basis_edge_ids",
+          "gap_edge_ids",
+          "provenance_evidence_ids",
+          "boundary_conditions",
+          "scientific_significance",
+          "uncertainties",
+          "confidence",
+          "semantic_boundary_judgment",
+          "research_lead_id",
+          "claim_type",
+          "novelty_boundary",
+          "local_lead_key"
+        ],
+        "properties": {
+          "lead_kind": {
+            "enum": [
+              "mechanism_gap",
+              "unresolved_conflict",
+              "boundary_extension",
+              "underexplored_relationship",
+              "measurement_gap",
+              "transferability_question",
+              "other"
+            ]
+          },
+          "title": {"type": "string", "minLength": 1},
+          "research_question": {"type": "string", "minLength": 2, "pattern": ".*\\?\\s*$"},
+          "investigation_target": {"type": "string", "minLength": 1},
+          "rationale": {"type": "string", "minLength": 1},
+          "source_finding_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^fd:[0-9a-f]{20}$"}
+          },
+          "mechanism_basis_edge_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^me:[0-9a-f]{20}$"}
+          },
+          "gap_edge_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^me:[0-9a-f]{20}$"}
+          },
+          "provenance_evidence_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "boundary_conditions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "scientific_significance": {"type": "string", "minLength": 1},
+          "uncertainties": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "semantic_boundary_judgment": {"const": "within_research_lead_boundary"},
+          "research_lead_id": {"type": "string", "pattern": "^rl:[0-9a-f]{20}$"},
+          "claim_type": {"const": "research_lead"},
+          "novelty_boundary": {"const": "research_direction_not_hypothesis_or_novelty_claim"},
+          "local_lead_key": {"type": "string", "pattern": "^lead-[1-8]$"}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_finding_count",
+        "input_gap_edge_count",
+        "research_lead_count",
+        "dropped_duplicate_lead_count",
+        "dropped_over_limit_lead_count",
+        "max_research_leads",
+        "degraded"
+      ],
+      "properties": {
+        "input_finding_count": {"type": "integer", "minimum": 0},
+        "input_gap_edge_count": {"type": "integer", "minimum": 0},
+        "research_lead_count": {"type": "integer", "minimum": 0, "maximum": 8},
+        "dropped_duplicate_lead_count": {"type": "integer", "minimum": 0},
+        "dropped_over_limit_lead_count": {"type": "integer", "minimum": 0},
+        "max_research_leads": {"type": "integer", "minimum": 0, "maximum": 8},
+        "degraded": {"type": "boolean"}
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "skill_id",
+        "task_id",
+        "traceability_mode",
+        "guard_version",
+        "input_fingerprint",
+        "claim_layer",
+        "novelty_boundary"
+      ],
+      "properties": {
+        "skill_id": {"const": "ot_research_lead_generation"},
+        "task_id": {"type": "string", "minLength": 1},
+        "traceability_mode": {"const": "finding_mechanism_gap_provenance_guard"},
+        "guard_version": {"const": "s1-lead-v4"},
+        "input_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "claim_layer": {"const": "research_lead"},
+        "novelty_boundary": {"const": "research_direction_not_hypothesis_or_novelty_claim"}
+      }
+    },
+    "generation_warnings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}

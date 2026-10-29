@@ -1,0 +1,105 @@
+problem_modeling:
+  label: 问题建模
+  description: 形成当前 PVD 研究请求的正式科研理解、动态参数范围、关键未知项和已有实验事实。
+  substages:
+  - key: research_goal_equipment_constraints
+    enabled: true
+    label: 研究请求理解
+    description: 一次形成研究目标、材料/系统事实、动态推荐参数范围、条件参数准入、关键未知项和已有实验事实。
+solution_design:
+  label: 方案设计
+  description: 设计 Evidence 获取目标与检索策略。
+  substages:
+  - key: research_retrieval_experiment_design
+    enabled: true
+    label: 证据获取设计
+    description: 决定检索什么、需要什么 Evidence，以及正式参数与 pending 参数需要覆盖哪些证据；不形成具体推荐值。
+execution_validation:
+  label: 执行验证
+  description: 获取并闭合真实证据，完成可比性授权、方向判断、可行性准入，并在真实反馈后形成诊断。
+  substages:
+  - key: literature_experiment_record_verification
+    enabled: true
+    label: 文献证据获取与闭环
+    description: 执行真实检索、科研初筛、渐进阅读、证据抽取和 ResearchRecord 闭环，并以正式 Evidence coverage 决定是否继续阅读。
+  - key: process_result_comparability_analysis
+    label: 证据可比性与科研用途授权
+    description: 判断外部证据与当前实验体系的可比性、迁移限制和 allowed_uses，作为后续科研使用授权。
+    enabled: false
+  - key: process_factor_candidate_direction_analysis
+    label: 候选方向分析
+    description: 对正式动态参数逐项判断下一步方向与不确定性，不生成具体推荐值；反馈轮次复用同一能力。
+    instancePolicy:
+      mode: repeatable
+      executionReentry:
+        policyVersion: repeatable_definition_reentry_v1
+        triggerDefinitionIds:
+        - pvd:experimental_feedback_round_comparison
+    enabled: false
+  - key: parameter_feasibility_experiment_plan_validation
+    label: 参数可行性与实验准入
+    description: 判断方向或可选候选是否可执行、需要哪些条件、风险或阻断；unavailable 不等同于 infeasible。
+    instancePolicy:
+      mode: repeatable
+      executionReentry:
+        policyVersion: repeatable_definition_reentry_v1
+        triggerDefinitionIds:
+        - pvd:process_factor_candidate_direction_analysis
+    enabled: false
+  - key: experimental_feedback_round_comparison
+    label: 实验结果诊断
+    description: 在真实反馈事实已正式写入 ScientificState 后进行科学解释、异常诊断和下一轮就绪判断。
+    enabled: false
+  - key: evidence_applicability_comparability_analysis
+    enabled: true
+    label: 证据适用性与可比性分析
+    description: 判断外部文献、不同实验体系或历史条件下结果对当前具体判断的适用范围、迁移限制、冲突和重要未知。
+  - key: experimental_feedback_round_analysis
+    enabled: true
+    label: 实验反馈与轮次分析
+    description: 解释真实执行与测量信息，识别计划与实际差异、结果变化、异常、混杂因素和需要重新评估的判断。
+  - key: process_factor_candidate_experiment_analysis
+    enabled: true
+    label: 工艺因素与候选实验方向分析
+    description: 基于当前目标、实验体系、参数范围、资源约束和有效依据形成候选方向，并为进入可行性核验的候选给出具体实验设置。
+    instancePolicy:
+      mode: repeatable
+      executionReentry:
+        policyVersion: repeatable_definition_reentry_v1
+        triggerDefinitionIds:
+        - pvd:evidence_applicability_comparability_analysis
+        - pvd:experimental_feedback_round_analysis
+  - key: parameter_experiment_plan_feasibility_validation
+    enabled: true
+    label: 参数与实验方案可行性核验
+    description: 针对具体候选核验当前设备、参数定义、硬约束和资源限制下的可执行性、采用条件、风险与重要未知。
+    instancePolicy:
+      mode: repeatable
+      executionReentry:
+        policyVersion: repeatable_definition_reentry_v1
+        triggerDefinitionIds:
+        - pvd:process_factor_candidate_experiment_analysis
+insight_generation:
+  label: 洞察生成
+  description: 在已核验边界内形成当前动态参数集合的实验推荐与方案组合。
+  substages:
+  - key: four_parameter_recommendation
+    label: 实验推荐与方案组合
+    description: 对当前正式动态参数集合给出具体可执行值，并形成主方案和必要的探索组合；最终值必须经过确定性硬边界校验。
+    instancePolicy:
+      mode: repeatable
+      executionReentry:
+        policyVersion: repeatable_definition_reentry_v1
+        triggerDefinitionIds:
+        - pvd:parameter_feasibility_experiment_plan_validation
+    enabled: false
+  - key: round_experiment_plan_parameter_recommendation
+    enabled: true
+    label: 本轮实验方案与参数推荐
+    description: 选择、组织和排序已通过有效可行性核验的候选，形成实验组、完整参数、优先级、依据、验证目标和后续判断安排。
+    instancePolicy:
+      mode: repeatable
+      executionReentry:
+        policyVersion: repeatable_definition_reentry_v1
+        triggerDefinitionIds:
+        - pvd:parameter_experiment_plan_feasibility_validation

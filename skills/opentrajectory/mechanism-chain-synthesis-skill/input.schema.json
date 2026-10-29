@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "mechanism-chain-synthesis input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "research_context",
+    "research_records"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "research_context": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "research_object"
+      ],
+      "properties": {
+        "research_object": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_metrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "boundary_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "output_intent": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "research_records": {
+      "type": "array",
+      "maxItems": 60,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "record_id",
+          "record_type",
+          "research_object",
+          "result",
+          "information_identity",
+          "assertion_mode",
+          "source_quote"
+        ],
+        "properties": {
+          "record_id": {
+            "type": "string",
+            "pattern": "^rr:[0-9a-f]{32}$"
+          },
+          "record_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "research_object": {
+            "type": "object"
+          },
+          "result": {
+            "type": "object",
+            "required": [
+              "statement"
+            ],
+            "additionalProperties": true,
+            "properties": {
+              "statement": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "information_identity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "assertion_mode": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_quote": {
+            "type": "string",
+            "minLength": 1
+          },
+          "relevant_target_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "synthesis_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_mechanism_edges": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 60
+        },
+        "max_mechanism_chains": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "focus_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 20
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+suite_id: component.web.hooks.task-board-cache
+protected_outcome: Cached board pages are scoped and bounded, refresh failures preserve visible data, permission failures clear it, and cancelled or timed-out requests cannot replace current data.
+authority_refs:
+  - docs/task_specs/20261010-task-board-cache.md
+failure_class: stale_or_cross_scope_task_board_cache
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/hooks/useTaskBoardList.ts
+  - apps/web/src/lib/taskBoardCache.ts
+test_responsibility: cache isolation and request lifecycle
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when every assertion succeeds; FAIL on any violated outcome; missing runtime evidence is NO_VALID_EVIDENCE.
+triggers: [task_board_cache_changes]

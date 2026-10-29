@@ -1,0 +1,26 @@
+# SETUP stage output template
+# Source: nanoresearch/agents/setup.py → SetupAgent.run() return dict
+
+search_plan: []                    # Planned resource search strategy
+cloned_repos:                      # Repositories cloned for reference
+  - repo_url: ""
+    local_path: ""
+    status: ""
+code_analysis: []                  # Analysis of cloned code structures
+  - repo_path: ""
+    language: ""
+    entry_points: []
+    dependencies: []
+downloaded_resources:              # Verified/downloaded resources
+  - name: ""
+    type: ""                       # dataset | model | code
+    status: ""                     # downloaded | not_downloaded | existing
+    path: ""
+    error: ""
+datasets_dir: ""                   # Path to datasets directory
+data_dir: ""                       # Path to data directory
+models_dir: ""                     # Path to models directory
+cache_data_dir: ""                 # Global cache data dir (for repair.py)
+cache_models_dir: ""               # Global cache models dir (for repair.py)
+workspace_resource_aliases: {}     # name → workspace path mapping
+resource_download_enabled: false   # Whether auto-download was enabled

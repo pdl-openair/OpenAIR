@@ -1,0 +1,30 @@
+skill_id: reference_metric_acquisition
+claude_name: reference-metric-acquisition
+display_name: 参考结果获取与结构化
+version: 0.1.0
+stages:
+- execution_validation
+substages:
+- reference_metric_acquisition
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: manual
+output_file: reference-metric-acquisition.md
+pack: cs_reproduction
+spec: 03-validation/cs-reference-metric-acquisition.md
+input_skills:
+- code_identity_acquisition
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: reference_metric_acquisition
+owner: TBD
+fixture_status: missing
+notes: CS 论文复现 W2 正式研究工作；复用已固定代码来源形成可信 reference facts，不读取 actual metrics。
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

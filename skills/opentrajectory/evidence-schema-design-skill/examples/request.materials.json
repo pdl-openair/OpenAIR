@@ -1,0 +1,55 @@
+{
+  "task_id": "p07f-materials-example",
+  "research_question": "高电压和快充条件下，如何为锂金属电池设计更有潜力的电解液组合？",
+  "constraints_criteria": {
+    "must_track_formulation_components": [
+      "solvent",
+      "salt",
+      "additive",
+      "concentration or ratio"
+    ],
+    "operating_conditions": [
+      "high voltage",
+      "fast charging"
+    ],
+    "must_track_cell_conditions": [
+      "voltage range",
+      "charge and discharge protocol",
+      "cathode loading",
+      "lithium foil thickness",
+      "temperature"
+    ],
+    "must_track_performance_metrics": [
+      "reversible capacity",
+      "cycle life",
+      "coulombic efficiency"
+    ],
+    "must_explain": [
+      "solvation structure",
+      "interphase chemistry and morphology",
+      "why the formulation forms the proposed structure"
+    ],
+    "preferred_theoretical_descriptors": [
+      "binding energy",
+      "electrostatic potential"
+    ],
+    "comparison_requirement": "Compare formulations only under sufficiently comparable cell configuration and protocol.",
+    "output_intent": "evidence-grounded research leads"
+  },
+  "sample_scan": {
+    "signals": [
+      "electrolyte formulation: solvent, salt, additive",
+      "cycling protocol",
+      "cathode loading",
+      "lithium foil thickness",
+      "reversible capacity",
+      "cycle life",
+      "coulombic efficiency",
+      "solvation structure",
+      "SEI or CEI interphase characterization",
+      "binding energy",
+      "electrostatic potential",
+      "baseline formulation and comparability"
+    ]
+  }
+}

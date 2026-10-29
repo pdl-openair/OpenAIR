@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpenTrajectory v3 evidence assessment output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["evidence_assessment_and_research_synthesis", "summary", "audit", "synthesis_warnings"],
+  "properties": {
+    "evidence_assessment_and_research_synthesis": {"type": "object"},
+    "summary": {"type": "object", "additionalProperties": false, "required": ["input_research_record_count", "judgment_count", "conflict_count", "gap_count", "degraded"], "properties": {"input_research_record_count": {"type": "integer", "minimum": 1}, "judgment_count": {"type": "integer", "minimum": 0}, "conflict_count": {"type": "integer", "minimum": 0}, "gap_count": {"type": "integer", "minimum": 0}, "degraded": {"type": "boolean"}}},
+    "audit": {"type": "object", "additionalProperties": false, "required": ["skill_id", "task_id", "traceability_mode", "guard_version"], "properties": {"skill_id": {"const": "ot_v3_evidence_assessment_synthesis"}, "task_id": {"type": "string", "minLength": 1}, "traceability_mode": {"const": "research_record_membership_guard"}, "guard_version": {"const": "ot-v3-evidence-assessment-v1"}}},
+    "synthesis_warnings": {"type": "array", "items": {"type": "string"}}
+  }
+}

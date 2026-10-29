@@ -1,0 +1,45 @@
+skill_id: problem_framing_generation
+claude_name: problem-framing-generation
+display_name: 研究问题建模生成
+stages:
+- problem_modeling
+substages:
+- problem_framing
+skill_type: atomic
+runtime: llm_structured
+status: ready
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: problem_framing.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: problem_framing
+durable_model_profile: terra
+capability_contract:
+  artifact_types:
+  - opentrajectory.problem_framing
+  - opentrajectory.problem_framing.planned_output
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+execution_method_roles:
+- opentrajectory_research_record_establishment_v1:research_context_modeling
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1

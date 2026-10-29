@@ -1,0 +1,76 @@
+{
+  "scenarioName": "gap_source_and_evidence_table",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "material_coverage": [
+      {
+        "material_id": "S3",
+        "coverage_confidence": "medium",
+        "covered_subtopic": "single-cohort response assay",
+        "coverage_denominator": "source table claims 12 papers, but only S3/S5/E7 are pasted"
+      },
+      {
+        "material_id": "S5",
+        "coverage_confidence": "medium",
+        "covered_subtopic": "two concentrations with different assay protocol",
+        "coverage_denominator": "source table claims 12 papers, but only S3/S5/E7 are pasted"
+      },
+      {
+        "material_id": "E7",
+        "coverage_confidence": "medium",
+        "covered_subtopic": "heterogeneous endpoints and inconsistent validation availability",
+        "coverage_denominator": "evidence row supports a scoped gap candidate"
+      }
+    ],
+    "gap_list": [
+      {
+        "G-ID": "G1",
+        "gap_statement": "Across the supplied S3/S5/E7 rows, response endpoint heterogeneity and inconsistent cross-cohort validation appear to limit comparability.",
+        "gap_type": "validation_and_comparability_gap",
+        "linked_material_ids": ["S3", "S5"],
+        "linked_evidence_ids": ["E7"],
+        "confidence": "medium",
+        "coverage_status": "defensible_within_supplied_materials_only",
+        "gap_criterion": "multiple source rows show endpoint/protocol mismatch and missing independent cohort validation",
+        "opposing_evidence_check": "requires the remaining 10 source rows before field-level claim"
+      }
+    ],
+    "not_a_gap": [
+      {
+        "statement": "Assay choice itself is a gap.",
+        "reason": "Assay choice is already represented; the issue is comparability and validation coverage."
+      },
+      {
+        "statement": "No negative response records exist.",
+        "reason": "S5 reports responders and non-responders; the unresolved issue is consistency and availability."
+      }
+    ],
+    "needs_source": [
+      "remaining source table rows",
+      "independent cohort validation details",
+      "negative-result reporting fields",
+      "endpoint harmonization criteria"
+    ],
+    "evidence_needed": [
+      "coverage count for all 12 papers",
+      "opposing examples with standardized endpoints",
+      "advisor-approved threshold for calling a true research gap"
+    ],
+    "advisor_review_questions": [
+      "Is translational validation in scope or only assay comparability?",
+      "Should a gap require absence across all 12 papers or inconsistent reporting across a subset?"
+    ]
+  },
+  "review": {
+    "rubricScore": 89,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 22, "OEA": 23, "Rig": 19, "Lev": 9, "UX": 8, "Spec": 4, "Eng": 4},
+    "mainReason": "Traceable and useful for advisor discussion, but field-level novelty is still gated on the full table."
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "purpose": "T01 unified problem-framing contract coverage. These are contract cases, not fabricated provider outputs.",
+  "cases": [
+    {
+      "case_id": "materials_explicit_constraints",
+      "category": "materials",
+      "user_query": "我想检索锂金属电池在 4.5V 以上高电压、2C 以上快充条件下的醚类电解液设计文献，重点看库伦效率、循环寿命和界面稳定性。",
+      "must_preserve": [
+        "锂金属电池",
+        "4.5V 以上",
+        "2C 以上",
+        "醚类电解液",
+        "库伦效率",
+        "循环寿命",
+        "界面稳定性"
+      ],
+      "must_not_invent": [
+        "具体锂盐",
+        "具体溶剂",
+        "测试温度"
+      ]
+    },
+    {
+      "case_id": "cs_long_task_agent",
+      "category": "cs",
+      "user_query": "请帮我检索面向长任务软件开发的 AI Agent 文献，重点关注记忆管理、工具调用、反思机制对任务成功率和稳定性的影响，最好有 benchmark 或可复现实验。",
+      "must_preserve": [
+        "长任务软件开发",
+        "AI Agent",
+        "记忆管理",
+        "工具调用",
+        "反思机制",
+        "任务成功率",
+        "稳定性",
+        "benchmark 或可复现实验"
+      ],
+      "must_not_invent": [
+        "具体模型架构",
+        "具体 benchmark 名称"
+      ]
+    },
+    {
+      "case_id": "explicit_conflict",
+      "category": "explicit_constraints",
+      "user_query": "筛选测试温度不超过 25°C 的研究；但同一批结果又要求测试温度至少 60°C。先保留冲突，不要替我选一个。",
+      "must_preserve": [
+        "不超过 25°C",
+        "至少 60°C",
+        "冲突"
+      ],
+      "must_not_resolve_conflict": true
+    },
+    {
+      "case_id": "unknown_vs_unrestricted",
+      "category": "ambiguity_unknown",
+      "user_query": "倍率现在未知，不要假设；正极材料体系不限。",
+      "must_preserve": [
+        "倍率未知",
+        "正极材料体系不限"
+      ],
+      "must_distinguish": [
+        "unknown",
+        "unrestricted"
+      ],
+      "must_not_invent": [
+        "倍率数值",
+        "正极材料体系"
+      ]
+    },
+    {
+      "case_id": "numeric_direction_unknown",
+      "category": "ambiguity_unknown",
+      "user_query": "锂离子电池测试里我只记得 4.2 V，但现在不能确认它是上限、下限还是截止电压。",
+      "must_preserve": [
+        "4.2 V",
+        "方向未知"
+      ],
+      "must_not_infer": [
+        "上限",
+        "下限",
+        "截止电压"
+      ]
+    }
+  ]
+}

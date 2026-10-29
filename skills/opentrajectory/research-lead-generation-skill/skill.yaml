@@ -1,0 +1,29 @@
+skill_id: ot_research_lead_generation
+claude_name: research-lead-generation-skill
+display_name: 科研线索生成
+stages:
+- insight_generation
+substages:
+- research_lead_generation
+skill_type: atomic
+runtime: llm_structured
+status: draft
+enabled: false
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: research_leads.json
+llm:
+  temperature: 0
+  max_completion_tokens: 3600
+  reasoning_effort: minimal
+  structured_output_max_attempts: 2
+notes: Single-responsibility research lead generation. The LLM emits draft.schema.json and explicitly owns semantic boundary judgment; Skill-local finalization validates that declared judgment plus deterministic provenance, computes identity/summary/audit, applies max_research_leads, and validates output.schema.json. Code does not infer scientific semantics from text.
+fixture_status: example_only
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

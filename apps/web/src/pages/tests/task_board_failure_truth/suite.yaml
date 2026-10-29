@@ -1,0 +1,16 @@
+suite_id: component.web.pages.task-board-failure-truth
+protected_outcome: Task-list load failures remain explicit failures with safe user-facing presentation and are never misrepresented as an empty list or fixture-backed project data.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: task_board_load_failure_false_empty_or_fixture_substitution
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/pages/TaskBoardPage.tsx
+test_responsibility: deterministic page behavior for truthful task-list failure presentation
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [task_board_loading_or_failure_presentation_changes]

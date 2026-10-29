@@ -1,0 +1,454 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "state",
+    "candidate_generation_status",
+    "applicability",
+    "objective",
+    "candidates",
+    "training_summary",
+    "run_diagnostics",
+    "provenance"
+  ],
+  "properties": {
+    "state": {
+      "const": "succeeded"
+    },
+    "candidate_generation_status": {
+      "type": "string",
+      "enum": [
+        "generated",
+        "not_applicable"
+      ]
+    },
+    "applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "profile_id",
+        "profile_version",
+        "issues"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "eligible",
+            "ineligible",
+            "indeterminate"
+          ]
+        },
+        "profile_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "profile_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "objective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_metric",
+        "transform",
+        "direction"
+      ],
+      "properties": {
+        "target_metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transform": {
+          "type": "string",
+          "enum": [
+            "identity",
+            "absolute_value"
+          ]
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "maximize",
+            "minimize"
+          ]
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "maxItems": 100,
+      "description": "BO-generated candidate points. These are model outputs, not executed experiments and not final PVD recommendations.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_rank",
+          "parameters",
+          "units",
+          "predicted_target",
+          "predictive_std",
+          "acquisition_score",
+          "selection_purpose"
+        ],
+        "properties": {
+          "candidate_rank": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Greedy batch-selection order after UCB pool construction and diversity rules."
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "power",
+              "n2_flow",
+              "ar_flow",
+              "deposition_time"
+            ],
+            "properties": {
+              "power": {
+                "type": "number",
+                "minimum": 0
+              },
+              "n2_flow": {
+                "type": "number",
+                "minimum": 0
+              },
+              "ar_flow": {
+                "type": "number",
+                "minimum": 0
+              },
+              "deposition_time": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "description": "Canonical public PVD four-parameter vector. Internal BO feature names are not exposed in the public candidate contract."
+          },
+          "predicted_target": {
+            "type": "number",
+            "description": "GPR predictive mean for the profile-defined transformed target. Model prediction, not observed fact. For the included profile this is predicted |d33|."
+          },
+          "predictive_std": {
+            "type": "number",
+            "minimum": 0,
+            "description": "GPR predictive standard deviation in the same unit as the transformed target. Model uncertainty, not experimental repeatability."
+          },
+          "acquisition_score": {
+            "type": "number",
+            "description": "Raw UCB utility score before greedy diversity penalties. For a maximize profile it equals predicted_target + kappa * predictive_std."
+          },
+          "selection_purpose": {
+            "const": "exploration_exploitation_tradeoff_with_diversity",
+            "description": "Deterministic statement of why this algorithm selected the point: UCB exploration/exploitation tradeoff plus batch diversity."
+          },
+          "units": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "power",
+              "n2_flow",
+              "ar_flow",
+              "deposition_time"
+            ],
+            "properties": {
+              "power": {
+                "const": "W"
+              },
+              "n2_flow": {
+                "const": "sccm"
+              },
+              "ar_flow": {
+                "const": "sccm"
+              },
+              "deposition_time": {
+                "const": "s"
+              }
+            },
+            "description": "Explicit standard units for the canonical public PVD candidate vector."
+          }
+        }
+      }
+    },
+    "training_summary": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "base_count",
+            "project_count",
+            "total_count",
+            "unique_parameter_count",
+            "repeated_parameter_observation_count"
+          ],
+          "properties": {
+            "base_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "project_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "total_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "unique_parameter_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "repeated_parameter_observation_count": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "run_diagnostics": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "training_count",
+            "raw_grid_count",
+            "constrained_grid_count",
+            "excluded_by_constraints",
+            "excluded_observed_count",
+            "candidate_count_before_distance_filter",
+            "distance_eligible_count",
+            "distance_filter_applied",
+            "fitted_kernel",
+            "fit_warning_count",
+            "fit_warning_messages",
+            "target_mean",
+            "target_std",
+            "high_ucb_pool_size",
+            "kappa",
+            "top_n",
+            "diversity_min_distance",
+            "diversity_penalty_weight",
+            "diversity_group_by",
+            "max_per_group"
+          ],
+          "properties": {
+            "training_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "raw_grid_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "constrained_grid_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "excluded_by_constraints": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "excluded_observed_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "candidate_count_before_distance_filter": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "distance_eligible_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "distance_filter_applied": {
+              "type": "boolean"
+            },
+            "fitted_kernel": {
+              "type": "string"
+            },
+            "fit_warning_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "fit_warning_messages": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "target_mean": {
+              "type": "number"
+            },
+            "target_std": {
+              "type": "number"
+            },
+            "high_ucb_pool_size": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "kappa": {
+              "type": "number",
+              "minimum": 0
+            },
+            "top_n": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "diversity_min_distance": {
+              "type": "number",
+              "minimum": 0
+            },
+            "diversity_penalty_weight": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "diversity_group_by": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "max_per_group": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm_id",
+        "profile_id",
+        "profile_version",
+        "model_profile_sha256",
+        "base_dataset_id",
+        "base_dataset_sha256",
+        "input_sha256",
+        "random_seed"
+      ],
+      "properties": {
+        "algorithm_id": {
+          "const": "gpr_ucb_matern25_v1"
+        },
+        "profile_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "profile_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "model_profile_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "base_dataset_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "base_dataset_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "input_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "random_seed": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "candidate_generation_status": {
+            "const": "generated"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "applicability": {
+            "properties": {
+              "status": {
+                "const": "eligible"
+              }
+            }
+          },
+          "candidates": {
+            "minItems": 1
+          },
+          "training_summary": {
+            "type": "object"
+          },
+          "run_diagnostics": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate_generation_status": {
+            "const": "not_applicable"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "candidates": {
+            "maxItems": 0
+          },
+          "training_summary": {
+            "type": "null"
+          },
+          "run_diagnostics": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$id": "https://openair.local/schemas/pvd-bayesian-optimization-candidate-generation/output.schema.json"
+}

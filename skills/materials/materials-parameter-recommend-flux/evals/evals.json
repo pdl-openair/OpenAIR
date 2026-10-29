@@ -1,0 +1,69 @@
+{
+  "_schema_note": "Schema extends skills/materials/vasp-thermodynamic-stability/evals/evals.json (id/prompt/expected_output/files) with two audit-anchored extension fields: 'expected_behavior' (machine-checkable guardrails, suitable for an automated scorer) and 'audit_ref' (citation into docs/audits/2026-07-10-materials-l3-quality-audit.md). These extras are consumed by the materials-pack eval runner and ignored by the base vasp-style runner.",
+  "skill_name": "materials-parameter-recommend-flux",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "用助熔剂法制备 CrSiTe3, top-k=5",
+      "expected_output": "应该触发 skill,执行 Step 1 intent → Step 2 similar_retrieval(top_k=5) → Step 3 statistic_window → Step 4 特征提取 → Step 5 生成 5 个助熔剂法配方方案",
+      "expected_behavior": {
+        "scheme_count": 5,
+        "guardrails": [
+          "5 个方案中 0 个使用氧化性助熔剂(不允许出现 Bi2O3、PbO、B2O3 等 O 含助熔剂)",
+          "每个方案的 T_max(最高温段保温温度)≤ 1000 °C(实验室约束) 且 ≤ 988 °C(Te 沸点)",
+          "每个方案的主降温速率 ∈ [0.5, 300] °C/h",
+          "每个方案的总时长 ≤ 200 h"
+        ],
+        "audit_ref": "§3.3 E1 — 本轮 final.md 5 方案对 Cr-Si-Te 化学合理(无氧化性助熔剂、温度低于 Te 沸点、时长合规)"
+      },
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "用助熔剂法制备 Bi2Se3, top-k=3",
+      "expected_output": "应该触发 skill,生成 3 个 Bi2Se3 助熔剂法配方方案;氧化性助熔剂护栏应当同样适用于 Bi-Se 硫属化物体系(测试护栏的可推广性)",
+      "expected_behavior": {
+        "scheme_count": 3,
+        "guardrails": [
+          "3 个方案中 0 个使用氧化性助熔剂(不允许出现 Bi2O3、PbO、B2O3 等 O 含助熔剂) — 用于检验 anti-oxidative-flux 护栏是否从 Cr-Si-Te 推广到 Bi-Se",
+          "每个方案的 T_max ≤ 1000 °C 且 ≤ Se 沸点 685 °C",
+          "每个方案的主降温速率 ∈ [0.5, 300] °C/h",
+          "每个方案的总时长 ≤ 200 h"
+        ],
+        "audit_ref": "§3.4 problem 1 — D1 HIGH:本轮 CrSiTe3 配方无氧化性助熔剂靠运气,SKILL.md/meta-rule.md 无化学护栏;此 eval 把同一护栏推广到 Bi2Se3 检查是否真正具备"
+      },
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "用助熔剂法制备 CrGeTe3, top-k=5",
+      "expected_output": "应该触发 skill;KB 中 CrGeTe3(mat_580)只有一条 'Chemical cation exchange method' 配方,会被 '只看助熔剂法' 过滤掉,skill 应当发出 warning 或降级说明,告知用户 KB 无 CrGeTe3 助熔剂配方,而非静默返回 0 方案或回退到非助熔剂配方",
+      "expected_behavior": {
+        "scheme_count": "variable",
+        "guardrails": [
+          "若 top-5 为空/降级,必须在 final.md 或 warning 中显式说明 'KB 无 CrGeTe3 flux 配方,仅存在 cation-exchange 配方'",
+          "不允许静默返回 0 方案",
+          "不允许把 cation-exchange 配方改头换面当作 flux 配方返回"
+        ],
+        "audit_ref": "§3.5 attribution 7 — KB 缺 CrGeTe3 flux 配方,最相似同族体被硬过滤剔除"
+      },
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "从新 venv 运行 install.py 后,执行 Step 2 similar_retrieval",
+      "expected_output": "应该触发 skill 的环境自举流程(install.py),然后在新 venv 内运行 Step 2;install.py 应当让新 venv 能成功 import numpy 并执行 similar_retrieval",
+      "expected_behavior": {
+        "scheme_count": "n/a",
+        "guardrails": [
+          "新 venv 内 `python -c 'import numpy'` 成功返回(exit 0)",
+          "similar_retrieval 能正常加载 knowledge_base_processed.jsonl 而不抛 ImportError",
+          "install.py 不得在缺少 numpy 的情况下打印 'successfully installed'"
+        ],
+        "xfail": "audit §3.5 problem 2 标记此项 xfail — install.py 漏装 requirements.txt 导致开箱即坏",
+        "audit_ref": "§3.5 problem 2 — install.py 不复制 requirements.txt,新 venv 运行后 numpy 缺失,Step 2 启动即崩"
+      },
+      "files": []
+    }
+  ]
+}

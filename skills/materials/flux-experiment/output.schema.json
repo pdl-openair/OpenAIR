@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["state", "dispatch_report_path"],
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": ["succeeded", "partial_failure"]
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "task_code": {
+      "type": "string"
+    },
+    "task_name": {
+      "type": "string"
+    },
+    "recipe_count": {
+      "type": ["number", "null"]
+    },
+    "dispatch_report_path": {
+      "type": "string"
+    },
+    "failure_reason": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "handoff_summary": {
+      "type": "string"
+    }
+  }
+}

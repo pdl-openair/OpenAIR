@@ -1,0 +1,111 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "battery_system",
+      "original_phrase": "钠电正极",
+      "constraint_type": "material_property",
+      "interpreted_value": "sodium-ion cathode",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies sodium-ion battery cathode as the target system.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["sodium-ion cathode", "Na-ion cathode", "sodium battery cathode material"],
+      "downstream_filter_rules": [
+        {"type": "hard_filter", "field": "battery_type", "condition": "sodium-ion"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "low_temperature_performance",
+      "original_phrase": "低温性能差",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": null,
+      "candidate_values": ["-20°C", "-40°C", "0°C", "sub-zero temperature"],
+      "domain_rationale": "User identifies poor low-temperature performance as the problem. No specific temperature is given. Low temperature in battery context typically refers to below 0°C, but the exact threshold is undefined.",
+      "confidence": 0.45,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["low temperature performance", "low temperature sodium battery", "cold temperature cathode", "sub-zero electrochemistry"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "avoid_strong_filter_on_low_confidence: no specific temperature threshold given"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["temperature_threshold_undefined: no specific low-temperature value given by user"]
+    },
+    {
+      "constraint_name": "rate_capability",
+      "original_phrase": "倍率",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": null,
+      "candidate_values": [],
+      "domain_rationale": "User mentions rate capability as a performance target to improve. No specific C-rate threshold is given.",
+      "confidence": 0.55,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["rate capability", "rate performance sodium cathode", "high rate sodium-ion"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers reporting rate capability data for sodium cathodes"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["rate_threshold_undefined: no specific C-rate target given"]
+    },
+    {
+      "constraint_name": "structural_stability",
+      "original_phrase": "结构稳定性",
+      "constraint_type": "material_property",
+      "interpreted_value": null,
+      "candidate_values": [],
+      "domain_rationale": "User wants structural stability as a performance criterion. This is a qualitative property without a specific quantitative threshold.",
+      "confidence": 0.60,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["structural stability sodium cathode", "phase stability Na-ion", "structural degradation cathode"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying structural stability of sodium cathode materials"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "material_scope_layered_oxide",
+      "original_phrase": "最好能覆盖层状氧化物",
+      "constraint_type": "boundary_condition",
+      "interpreted_value": null,
+      "candidate_values": ["P2-type layered oxide", "O3-type layered oxide", "layered transition metal oxide"],
+      "domain_rationale": "User prefers coverage of layered oxide cathodes but does not restrict to a specific composition or phase. '最好能覆盖' indicates a preference, not a hard requirement.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["layered oxide sodium cathode", "layered transition metal oxide Na-ion", "P2 O3 sodium cathode"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers covering layered oxide cathodes; do not restrict to specific P2/O3 phase"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["material_scope_broad: layered oxide covers many compositions; specific phase not specified"]
+    },
+    {
+      "constraint_name": "modification_strategies",
+      "original_phrase": "改性策略",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": ["doping", "coating", "structural engineering", "electrolyte optimization"],
+      "domain_rationale": "User wants modification strategies without specifying which type. This is a broad research direction covering doping, coating, structural design, etc.",
+      "confidence": 0.45,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["modification strategy sodium cathode", "doping sodium cathode", "surface coating Na-ion", "structural engineering cathode"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers proposing modification strategies for sodium cathode improvement"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["modification_type_undefined: doping/coating/structural engineering not specified"]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.55,
+    "coverage_level": "moderate",
+    "missing_inputs": ["specific_temperature_threshold", "specific_material_composition"],
+    "risk_flags": [
+      "temperature_threshold_undefined",
+      "rate_threshold_undefined",
+      "material_scope_broad"
+    ],
+    "needs_manual_review": true
+  }
+}

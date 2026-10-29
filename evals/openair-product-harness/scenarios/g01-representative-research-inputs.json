@@ -1,0 +1,35 @@
+[
+  {
+    "id": "computer-science-mapreduce-spark",
+    "role": "计算机科学科研人员",
+    "expectedTaskType": "comparative_literature_analysis",
+    "expectedCapability": "comparative_literature_analysis",
+    "requiredArtifactTypes": ["comparison_table", "evidence_matrix", "source_boundary_notes", "scenario_recommendations"],
+    "expectedDraftOutput": "structured comparison table",
+    "expectedMissingInputs": [],
+    "expectedArtifact": "故障恢复、数据复用、调度语义和适用工作负载的可追溯对比矩阵",
+    "input": "我在做分布式数据处理系统的比较研究。\n研究问题：基于两篇原始论文，比较 MapReduce 与 Spark RDD 在故障恢复、数据复用、调度语义和适用工作负载上的差异，并明确哪些判断来自论文原文，哪些只是我的推断。\n已有材料：\n1. Dean, J.; Ghemawat, S. MapReduce: Simplified Data Processing on Large Clusters. OSDI 2004. https://www.usenix.org/conference/osdi04/technical-sessions/presentation/dean\n2. Zaharia, M. et al. Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing. NSDI 2012. https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/zaharia\n约束：本轮只使用上述论文及其明确引用的版本信息；不要把未阅读的实现细节写成事实。\n希望得到：可逐项回到来源的对比矩阵、仍需补证的维度，以及下一轮 benchmark 设计建议。"
+  },
+  {
+    "id": "theoretical-materials-llzo-defect",
+    "role": "理论材料科研人员",
+    "expectedTaskType": "validation_design",
+    "expectedCapability": "validation_design_planning",
+    "requiredArtifactTypes": ["validation_plan", "variable_table", "baseline_plan", "analysis_plan"],
+    "expectedDraftOutput": "验证方案草案",
+    "expectedMissingInputs": [],
+    "expectedArtifact": "LLZO 锂空位缺陷计算的可执行输入清单、比较假设和收敛验证计划",
+    "input": "我需要规划一个固态电解质的第一性原理计算任务。\n研究问题：比较立方石榴石 Li7La3Zr2O12 (LLZO) 中锂空位在不同局部配位环境下的形成能，判断哪些计算设置会影响相对稳定性。\n已有材料：\n1. Murugan, R.; Thangadurai, V.; Weppner, W. Fast Lithium Ion Conduction in Garnet-Type Li7La3Zr2O12. Angew. Chem. Int. Ed. 2007, 46, 7778-7781. DOI: 10.1002/anie.200701144。\n2. 研究者提供的目标相：立方 LLZO；拟比较锂位空位、电荷补偿背景、PBE 与 PBEsol 的结构弛豫差异。\n3. 可用资源：平面波 DFT，需记录赝势版本、k 点、截断能、超胞尺寸、自旋和收敛阈值。\n约束：当前没有已完成的总能或 NEB 结果；不要把计算假设写成材料机制结论。\n希望得到：可确认的缺陷计算矩阵、最低收敛检查、结果记录格式和后续验证路径。"
+  },
+  {
+    "id": "experimental-materials-nmc811-coating",
+    "role": "实验材料科研人员",
+    "expectedTaskType": "validation_design",
+    "expectedCapability": "validation_design_planning",
+    "requiredArtifactTypes": ["validation_plan", "variable_table", "baseline_plan", "analysis_plan"],
+    "expectedDraftOutput": "验证方案草案",
+    "expectedMissingInputs": [],
+    "expectedArtifact": "NMC811 表面涂层实验的配方-工艺-表征-电化学可比性矩阵",
+    "input": "我在规划高镍正极表面涂层的实验。\n研究问题：评估 Al2O3 表面涂层是否能改善 LiNi0.8Mn0.1Co0.1O2 (NMC811) 在 4.3 V 上限电压下的循环稳定性，并区分涂层效应与批次、载量和电解液差异。\n已有材料：\n1. 三个待处理粉体批次：NMC811-A、NMC811-B、未涂层对照；计划用溶胶-凝胶路线制备 0.5 wt%、1.0 wt%、2.0 wt% Al2O3 涂层。\n2. 拟定工艺：乙醇分散，铝前驱体浸渍，80 C 干燥，450 C 退火；每批次至少三片电极。\n3. 拟定测试：XRD、SEM/EDS、XPS；CR2032 半电池，锂片对电极，1 M LiPF6 EC/EMC，25 C，0.1 C 化成后 0.5 C 循环，记录首圈库仑效率、100 圈容量保持率和 EIS。\n约束：以上是实验计划和样品台账，不是已获得的性能结果；所有样品必须记录面载量、压实密度、电解液批次和测试截止条件。\n希望得到：最小可比性矩阵、缺失控制变量、表征与电化学证据如何关联，以及开始前需要人工确认的风险。"
+  }
+]

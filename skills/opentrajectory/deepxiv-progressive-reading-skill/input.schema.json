@@ -1,0 +1,364 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "deepxiv-progressive-reading input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "topk_selection",
+    "evidence_schema"
+  ],
+  "properties": {
+    "topk_selection": {
+      "type": "object",
+      "required": [
+        "selected_for_p03"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "selected_for_p03": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "candidate_id",
+              "title"
+            ],
+            "properties": {
+              "candidate_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "title": {
+                "type": "string"
+              },
+              "dedupe_key": {
+                "type": "string"
+              },
+              "arxiv_id": {
+                "type": ["string", "null"],
+                "minLength": 1
+              },
+              "doi": {
+                "type": ["string", "null"],
+                "minLength": 1
+              },
+              "pmcid": {
+                "type": ["string", "null"],
+                "minLength": 1
+              },
+              "openalex_id": {
+                "type": ["string", "null"],
+                "minLength": 1
+              },
+              "external_ids": {
+                "type": ["object", "null"],
+                "additionalProperties": true,
+                "properties": {
+                  "doi": {
+                    "type": ["string", "null"],
+                    "minLength": 1
+                  },
+                  "arxiv_id": {
+                    "type": ["string", "null"],
+                    "minLength": 1
+                  },
+                  "pmcid": {
+                    "type": ["string", "null"],
+                    "minLength": 1
+                  },
+                  "openalex_id": {
+                    "type": ["string", "null"],
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "$comment": "candidate_id is the stable identity used to build downstream packet and source-anchor identities. Callers must not intentionally alias different source candidates to the same candidate_id."
+        }
+      }
+    },
+    "evidence_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "task_context",
+        "evidence_targets",
+        "gap_taxonomy",
+        "uncertainty_rules"
+      ],
+      "properties": {
+        "schema_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "\\S"
+        },
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "task_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "research_question",
+            "task_scope",
+            "domain_hints",
+            "design_assumptions"
+          ],
+          "properties": {
+            "research_question": {
+              "type": "string",
+              "minLength": 3,
+              "pattern": "\\S"
+            },
+            "task_scope": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "domain_hints": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "uniqueItems": true
+            },
+            "design_assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "evidence_targets": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 40,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "target_id",
+              "target_type",
+              "scientific_role",
+              "description",
+              "requiredness",
+              "completion_criteria",
+              "allowed_evidence_forms",
+              "condition_dimensions",
+              "comparison_requirements",
+              "provenance_requirements"
+            ],
+            "properties": {
+              "target_id": {
+                "type": "string",
+                "pattern": "^target_[0-9]{3}$"
+              },
+              "target_type": {
+                "type": "string",
+                "enum": [
+                  "entity",
+                  "relation",
+                  "attribute",
+                  "experimental_condition",
+                  "performance_metric",
+                  "mechanism_evidence",
+                  "characterization_observation",
+                  "theoretical_calculation",
+                  "comparison_baseline",
+                  "limitation",
+                  "provenance",
+                  "other"
+                ]
+              },
+              "scientific_role": {
+                "type": "string",
+                "enum": [
+                  "composition",
+                  "condition",
+                  "metric",
+                  "mechanism",
+                  "characterization",
+                  "theoretical_explanation",
+                  "baseline",
+                  "comparability",
+                  "limitation",
+                  "provenance",
+                  "other"
+                ]
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 800,
+                "pattern": "\\S"
+              },
+              "requiredness": {
+                "type": "string",
+                "enum": [
+                  "required",
+                  "preferred",
+                  "optional"
+                ]
+              },
+              "completion_criteria": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 800,
+                "pattern": "\\S"
+              },
+              "allowed_evidence_forms": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "uniqueItems": true
+              },
+              "condition_dimensions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "uniqueItems": true
+              },
+              "comparison_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "uniqueItems": true
+              },
+              "provenance_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "uniqueItems": true
+              }
+            }
+          },
+          "$comment": "target_id values must be unique within one EvidenceSchema. JSON Schema cannot express uniqueness by one object property, so runtime performs this deterministic identity check."
+        },
+        "gap_taxonomy": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missing_mechanism",
+              "missing_condition",
+              "missing_metric",
+              "missing_baseline",
+              "conflict",
+              "not_comparable"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "uncertainty_rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "rule_id",
+              "trigger",
+              "handling"
+            ],
+            "properties": {
+              "rule_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "trigger": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "handling": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      }
+    },
+    "reading_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_papers": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "max_sections_per_paper": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "allow_raw_fallback": {
+          "type": "boolean",
+          "default": false
+        },
+        "section_priority": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "enable_non_arxiv_fulltext": {
+          "type": "boolean",
+          "default": false
+        },
+        "allow_pdf_fulltext": {
+          "type": "boolean",
+          "default": true
+        },
+        "network_timeout_seconds": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 60,
+          "default": 20
+        },
+        "max_provider_retries": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2,
+          "default": 1
+        },
+        "max_total_chars": {
+          "type": "integer",
+          "minimum": 10000,
+          "maximum": 2000000,
+          "default": 300000
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/agents/artifacts/result_reliability_audit_artifact_v1.schema.json",
+  "title": "result_reliability_audit_artifact_v1",
+  "contractId": "result_reliability_audit_artifact_v1",
+  "semanticVersion": "1.0.0",
+  "type": "object",
+  "required": ["audit_scope", "traceability_matrix", "missing_records", "reproducibility_checklist", "verdict", "next_record_to_inspect"],
+  "properties": {
+    "audit_scope": {},
+    "traceability_matrix": {},
+    "missing_records": {},
+    "reproducibility_checklist": {},
+    "verdict": {},
+    "next_record_to_inspect": {}
+  },
+  "additionalProperties": true
+}

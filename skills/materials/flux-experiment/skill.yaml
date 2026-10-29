@@ -1,0 +1,77 @@
+skill_id: flux_experiment
+claude_name: flux-experiment
+display_name: 云实验平台试验任务下发
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - synthesis_execution
+packs:
+  - materials
+input_schema:
+  type: object
+  additionalProperties: false
+  required: [goal]
+  properties:
+    goal:
+      type: string
+    candidate_summary:
+      type: string
+    stability_handoff:
+      type: string
+    pareto_cif_paths:
+      type: array
+      items:
+        type: string
+    work_dir:
+      type: string
+output_schema:
+  type: object
+  additionalProperties: false
+  required: [state, dispatch_report_path]
+  properties:
+    state:
+      type: string
+      enum: [succeeded, partial_failure]
+    task_id:
+      type: string
+    task_code:
+      type: string
+    task_name:
+      type: string
+    recipe_count:
+      type:
+        - number
+        - "null"
+    dispatch_report_path:
+      type: string
+    failure_reason:
+      type: string
+    evidence:
+      type: array
+      items:
+        type: object
+    handoff_summary:
+      type: string
+owner: TBD
+fixture_status: missing
+notes: >
+  durable_agent 实现：LLM agent 读取 S3 候选与 S7 DFT 结论，为 top 候选
+  生成助熔剂法实验推荐方案（recipes JSON），经 flux_api.py validate 离线
+  校验后调用云实验平台（CrystalFlux）开放 API 创建并启动试验任务，
+  产出 dispatch_report.md（taskId/taskCode/方案-候选映射）。仅完成下发，
+  不做任务处理与结果回收。
+runtime_contract:
+  kind: skill_script
+  requires_external_action: true
+  adapter_id: skill_runtime:flux_experiment
+  evidence_contract_version: skill-execution-evidence/v1
+  artifact_files:
+    - flux-experiment/dispatch_report.md
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only

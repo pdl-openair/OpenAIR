@@ -1,0 +1,94 @@
+spec_version: "2"
+id: ag4ge3s5-recorded-chain-engineering
+name: Ag4Ge3S5 记录链工程复用起点
+version: "0.2.0"
+summary: 用于验证 Research Package 通用资产往返；来源是仓库内记录链，包含 Stub 与 Fixture，不作为真实实验产品验收。
+
+sources:
+  - id: source-task
+    name: Ag4Ge3S5 recorded-run task
+    ref: repo://fixtures/recorded_runs/materials_chain_ag4ge3s5/task.json
+  - id: source-stages
+    name: Ag4Ge3S5 recorded-run stage summary
+    ref: repo://fixtures/recorded_runs/materials_chain_ag4ge3s5/stages.json
+  - id: source-novel
+    name: Ag4Ge3S5 candidate record
+    ref: repo://fixtures/recorded_runs/materials_chain_ag4ge3s5/novel_candidates.md
+  - id: source-flux
+    name: Ag4Ge3S5 flux parameter record
+    ref: repo://fixtures/recorded_runs/materials_chain_ag4ge3s5/flux_parameters.md
+  - id: source-xrd
+    name: Ag4Ge3S5 XRD fixture report
+    ref: repo://fixtures/recorded_runs/materials_chain_ag4ge3s5/xrd_report.md
+
+method:
+  goal: 从候选晶体记录继续到制备参数设计和后续表征判断。
+  inputs:
+    - 已有候选晶体及结构记录
+    - 当前制备条件和可用表征能力
+  logic:
+    - 保留候选来源与结构身份，再判断制备路线。
+    - 制备参数与后续表征结论分别保留来源和限制。
+  outputs:
+    - 可追溯的候选研究起点
+    - 制备参数参考与后续表征判断依据
+  validation_criteria:
+    - 本 Package 只验证资产结构和往返保真，不把 recorded-run 的 Stub 或 Fixture 升级成真实实验验证。
+  source_refs:
+    - source-task
+    - source-stages
+    - source-novel
+    - source-flux
+    - source-xrd
+
+reference_cases:
+  - id: recorded-run-main
+    source_refs:
+      - source-task
+      - source-stages
+      - source-novel
+      - source-flux
+      - source-xrd
+    target: 验证同一记录链中的候选、参数、资源和限制能作为一个研究起点被完整保存和迁移。
+    conditions:
+      - 候选来自仓库内 recorded-run。
+      - synthesis_log 明确为 Stub，XRD 报告明确为 Fixture 回放。
+    results:
+      - description: recorded-run 中保留了 Ag4Ge3S5 候选、flux 参数和 XRD fixture 结果及其限制说明。
+        ref: repo://fixtures/recorded_runs/materials_chain_ag4ge3s5/stages.json
+    resource_refs:
+      - cif-main
+      - chain-readme
+
+resources:
+  - id: cif-main
+    name: Ag4Ge3S5 candidate CIF
+    role: data
+    ref: repo://fixtures/recorded_runs/materials_chain_ag4ge3s5/cifs/gen002_ind_001_Ag4Ge3S5.cif
+    note: recorded-run 中的候选结构资源。
+  - id: chain-readme
+    name: Materials chain fixture description
+    role: document
+    ref: repo://skills/materials/README.md
+    note: 用于说明 recorded-run 的工程演示性质。
+
+applicability:
+  use_when:
+    - 需要验证 Research Package 能否保留跨文件研究起点和来源关系时。
+  preserve:
+    - Stub 与 Fixture 的限制必须原样保留，不能解释成真实实验完成。
+    - 候选、参数和表征记录的来源关系必须保持可追溯。
+  adaptable:
+    - 新项目可重新选择制备参数和表征方案。
+  limits:
+    - 该案例只用于 R2 通用资产工程验证。
+    - PVD 完成后再使用真实 PVD 成果进行正式科研迁移与产品验收。
+  source_refs:
+    - source-task
+    - source-stages
+    - source-xrd
+
+capabilities:
+  - 读取和比较研究记录
+  - 解析晶体结构资源
+  - 形成制备与表征研究方案

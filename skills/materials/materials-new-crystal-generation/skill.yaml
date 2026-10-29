@@ -1,0 +1,23 @@
+skill_id: materials_new_crystal_generation
+claude_name: materials-new-crystal-generation
+display_name: 新晶体演化生成（L3）
+version: "0.1.0"
+stages:
+  - problem_modeling
+  - solution_design
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - candidate_generation
+packs:
+  - materials
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: candidate_generation
+owner: TBD
+fixture_status: missing
+notes: ''

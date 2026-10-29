@@ -1,0 +1,22 @@
+skill_id: data_visualization_l3
+claude_name: ope-rs-data-visualization
+display_name: 数据可视化
+version: "0.1.0"
+stages:
+  - insight_generation
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - data_visualization
+packs:
+  - ope
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: data_visualization
+owner: TBD
+fixture_status: missing
+notes: OPE L3

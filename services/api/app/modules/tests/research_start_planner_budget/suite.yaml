@@ -1,0 +1,21 @@
+suite_id: component.modules.research-start-planner-budget
+protected_outcome: ResearchStart Planner uses one capability-owned task budget, accepts valid deployment authority, and falls
+  back deterministically without hidden provider caps.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class: research_start_planner_budget_authority_violation
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/modules/research_start_planner_budget.py
+test_responsibility: deterministic component behavior for the protected production responsibility
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- app.modules.research_start_planner_budget behavior or contract changes

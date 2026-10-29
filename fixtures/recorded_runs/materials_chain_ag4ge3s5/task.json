@@ -1,0 +1,10 @@
+{
+  "task_id": "task_materials_ag4ge3s5_001",
+  "title": "Ag4Ge3S5 新晶体合成与表征(mattergen → flux → XRD 全链路)",
+  "user_goal": "以 Ag2GeS3 (mp-9900) 为种子,经 mattergen 多目标演化生成新颖 Ag-Ge-S 候选,推荐 flux 法制备参数,执行合成并做 XRD 物相鉴定,验证可合成性。",
+  "domain": "materials",
+  "current_stage": "insight_generation",
+  "status": "completed",
+  "created_at": "2026-07-03T15:30:00Z",
+  "updated_at": "2026-07-07T18:00:00Z"
+}

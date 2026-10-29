@@ -1,0 +1,37 @@
+suite_id: verification.research-continuity
+protected_outcome: >-
+  Pure research preserves incomplete source material and finishes an honest round;
+  failed or unknown actions cannot become successful goal evidence. Internal pending
+  outcomes retain their original owner and do not create a final result.
+authority_refs:
+  - docs/task_specs/20261010_research_continuity_architecture_SPEC.md
+  - docs/task_specs/20261011_research_continuity_INTEGRATION_SPEC.md
+failure_class:
+  - scientific_content_blocks_research_delivery
+  - failed_action_becomes_goal_evidence
+  - unresolved_goal_is_reported_complete
+minimum_owner: 跨组件行为
+production_targets:
+  - services/api/app/execution/research_input_contract_gate.py
+  - services/api/app/execution/research_dispatch_worker.py
+  - services/api/app/modules/research_round_end.py
+  - services/api/app/modules/target_output_evidence.py
+  - services/api/app/modules/research_completion_decision.py
+test_responsibility: >-
+  Exercise canonical composition, dispatch, finalization and public GET using explicit
+  software substitutes. These tests do not prove real SQL, Worker action or UI acceptance.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - real_action_parameter_refusal_and_valid_control
+  - original_goal_and_unknown_preservation
+  - honest_round_end_and_public_readback
+verdict_rule: >-
+  PASS requires every software assertion. Missing dependencies give NO_VALID_EVIDENCE.
+  Real PostgreSQL and original CS recovery remain separate acceptance requirements.
+triggers:
+  - research input composition or round completion changes
+  - target evidence scope or worker pending outcome changes

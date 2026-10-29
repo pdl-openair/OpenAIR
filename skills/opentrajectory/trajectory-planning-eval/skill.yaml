@@ -1,0 +1,20 @@
+skill_id: trajectory_planning_eval
+claude_name: trajectory-planning-eval
+display_name: 轨迹规划评估
+stages:
+- problem_modeling
+- solution_design
+skill_type: atomic
+runtime: claude_code
+status: deprecated
+packs:
+- opentrajectory
+source: opentrajectory
+owner: Lynn-1221
+notes: Sprint01 占位实现，满足 check 与 skill_io 回放
+fixture_status: example_only
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

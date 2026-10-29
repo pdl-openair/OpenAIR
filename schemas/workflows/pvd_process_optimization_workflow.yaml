@@ -1,0 +1,79 @@
+schemaVersion: workflow-definition.v1
+workflowId: pvd_process_optimization_workflow
+workflowVersion: 1
+nameZh: PVD 工艺参数优化
+nameEn: PVD Process Parameter Optimization
+description: 以 PVD 407b 验证过的八个科研 capability
+  为正式研究骨架；参数集合动态确定，真实实验反馈进入独立诊断并复用方向→可行性→推荐能力。
+skillPack: pvd
+nodes:
+- nodeKey: research_goal_equipment_constraints
+  definitionId: pvd:research_goal_equipment_constraints
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 10
+- nodeKey: research_retrieval_experiment_design
+  definitionId: pvd:research_retrieval_experiment_design
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 20
+- nodeKey: literature_experiment_record_verification
+  definitionId: pvd:literature_experiment_record_verification
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 30
+- nodeKey: process_result_comparability_analysis
+  definitionId: pvd:process_result_comparability_analysis
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 40
+- nodeKey: process_factor_candidate_direction_analysis
+  definitionId: pvd:process_factor_candidate_direction_analysis
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 50
+- nodeKey: parameter_feasibility_experiment_plan_validation
+  definitionId: pvd:parameter_feasibility_experiment_plan_validation
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 60
+- nodeKey: experimental_feedback_round_comparison
+  definitionId: pvd:experimental_feedback_round_comparison
+  definitionVersion: 1
+  requirement: optional
+  displayOrder: 70
+- nodeKey: four_parameter_recommendation
+  definitionId: pvd:four_parameter_recommendation
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 80
+dependencies:
+- upstreamNodeKey: research_goal_equipment_constraints
+  downstreamNodeKey: research_retrieval_experiment_design
+  dependencyType: scientific_dependency
+- upstreamNodeKey: research_retrieval_experiment_design
+  downstreamNodeKey: literature_experiment_record_verification
+  dependencyType: scientific_dependency
+- upstreamNodeKey: literature_experiment_record_verification
+  downstreamNodeKey: process_result_comparability_analysis
+  dependencyType: scientific_dependency
+- upstreamNodeKey: process_result_comparability_analysis
+  downstreamNodeKey: process_factor_candidate_direction_analysis
+  dependencyType: scientific_dependency
+- upstreamNodeKey: experimental_feedback_round_comparison
+  downstreamNodeKey: process_factor_candidate_direction_analysis
+  dependencyType: scientific_dependency
+- upstreamNodeKey: process_factor_candidate_direction_analysis
+  downstreamNodeKey: parameter_feasibility_experiment_plan_validation
+  dependencyType: scientific_dependency
+- upstreamNodeKey: parameter_feasibility_experiment_plan_validation
+  downstreamNodeKey: four_parameter_recommendation
+  dependencyType: scientific_dependency
+boundaryPolicy:
+  allowedExternalActions:
+  - external_read
+  - external_compute
+  confirmationRequiredActions: []
+  prohibitedActions:
+  - external_write
+  - physical_action

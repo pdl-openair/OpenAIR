@@ -1,0 +1,30 @@
+skill_id: execution_plan_acquisition
+claude_name: execution-plan-acquisition
+display_name: 复现执行方案获取
+version: 0.1.0
+stages:
+- execution_validation
+substages:
+- execution_plan_acquisition
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: manual
+output_file: execution-plan-acquisition.md
+pack: cs_reproduction
+spec: 03-validation/cs-execution-plan-acquisition.md
+input_skills:
+- reference_metric_acquisition
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: execution_plan_acquisition
+owner: TBD
+fixture_status: missing
+notes: 形成后半链真实执行所需的最小正式计划事实；不替代资源身份、环境记录、执行记录或实际指标事实。
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

@@ -1,0 +1,139 @@
+{
+  "suite_id": "p08b-3n-locked-three-case-suite-v1",
+  "cases": [
+    {
+      "case": "PaperBench bounded subcase",
+      "role": "CS_AI_WORKFLOW_REPRODUCTION",
+      "boundary": "bounded research-reproduction workflow action only",
+      "status_fields": {
+        "workflow_role": "REPRODUCTION_WORKFLOW_ONLY",
+        "benchmark_grade_role": "ARTIFACT_REVIEW_SUPPORT_ONLY"
+      },
+      "gaps": [
+        {
+          "gap_type": "retrieval_gap",
+          "current_status": "MISSING_TASK_ARTIFACT_SOURCE",
+          "required_input": "paper task packet, code path, artifact list, and rubric source pointer",
+          "expected_output": "source-target list for the missing task and artifact records",
+          "stop_condition": "stop at not-found if task, code, artifact, or rubric record cannot be source-locked",
+          "hard_fail": "treating a missing task artifact as retrieved or reviewed"
+        },
+        {
+          "gap_type": "source_lock_gap",
+          "current_status": "BOUNDARY_SOURCE_UNLOCKED",
+          "required_input": "stable source anchor for bounded subcase limits and review criteria",
+          "expected_output": "source anchor or explicit boundary gap",
+          "stop_condition": "stop when the bounded-subcase source pointer is recorded or downgraded to gap",
+          "hard_fail": "using an unlocked boundary as source-backed"
+        },
+        {
+          "gap_type": "decision_rule_gap",
+          "current_status": "RUBRIC_REVIEW_RULE_PLANNED_ONLY",
+          "required_input": "artifact review fields, execution checks, and rubric pass/fail mapping",
+          "expected_output": "planned artifact-review rule template that remains non-executable until source-locked",
+          "stop_condition": "stop after a planned rule template is emitted with missing source fields visible",
+          "hard_fail": "treating rubric review as a completed workflow result"
+        }
+      ]
+    },
+    {
+      "case": "ASSB interlaboratory reproducibility",
+      "role": "MATERIALS_ENERGY_REPRODUCIBILITY_LEAD",
+      "boundary": "specific lab-scale material-system reproducibility action only",
+      "status_fields": {
+        "lead_role": "REPRODUCIBILITY_GROUNDED_VALIDATION",
+        "material_scope": "SPECIFIC_LAB_SCALE_SYSTEM"
+      },
+      "gaps": [
+        {
+          "gap_type": "protocol_gap",
+          "current_status": "PROTOCOL_VARIABLES_PARTIAL",
+          "required_input": "material system, assembly variables, pressure, cycling protocol, and reporting gate source fields",
+          "expected_output": "protocol completion request tied to the specific reproducibility case",
+          "stop_condition": "stop with partial protocol visible if required variables are absent",
+          "hard_fail": "describing partial protocol variables as complete"
+        },
+        {
+          "gap_type": "baseline_control_gap",
+          "current_status": "CONTROL_EXPECTATION_PARTIAL",
+          "required_input": "comparator cells, local assembly variation, and expected control behavior",
+          "expected_output": "baseline/control completion request for the reproducibility lead",
+          "stop_condition": "stop when the missing comparator or control state is recorded",
+          "hard_fail": "claiming controlled comparative support without the comparator"
+        },
+        {
+          "gap_type": "independent_validation_gap",
+          "current_status": "INTERLAB_VALIDATION_SOURCE_LOCK_PARTIAL",
+          "required_input": "independent group evidence, interlaboratory status, and reporting recommendation source anchors",
+          "expected_output": "validation-status check that preserves partial or not-found outcomes",
+          "stop_condition": "stop after interlaboratory source status is recorded without changing evidence state",
+          "hard_fail": "writing planned or partial validation as reproduced validation"
+        },
+        {
+          "gap_type": "domain_evidence_contract_gap",
+          "current_status": "DOMAIN_BOUNDARY_CONTRACT_PARTIAL",
+          "required_input": "required evidence objects and forbidden inference paths for ASSB reproducibility",
+          "expected_output": "domain contract update for protocol, observables, reporting gates, and blocked inferences",
+          "stop_condition": "stop when domain-specific required fields and blocked inferences are enumerated",
+          "hard_fail": "reframing reproducibility action as a non-reproducibility claim"
+        }
+      ]
+    },
+    {
+      "case": "BFE/F2DEM / Li||NCM811",
+      "role": "NEGATIVE_ONLY",
+      "boundary": "negative/frontier anti-overclaim and gap-to-action control only",
+      "status_fields": {
+        "role": "NEGATIVE_ONLY",
+        "fast_charge_protocol": "PARTIAL",
+        "explicit threshold": "PARTIAL",
+        "executable decision rule": "PLANNED_TEMPLATE_ONLY / GAP",
+        "reproduced_validation": "NOT_FOUND",
+        "decision_level_ready": false,
+        "scientific_effect_validated": false
+      },
+      "gaps": [
+        {
+          "gap_type": "protocol_gap",
+          "current_status": "PARTIAL",
+          "required_input": "fast-charge protocol details, C-rate or current density, voltage window, cell configuration, and source anchor",
+          "expected_output": "protocol completion request; fast_charge_protocol remains PARTIAL",
+          "stop_condition": "stop when missing protocol variables are listed for later source-backed completion",
+          "hard_fail": "implying the fast-charge protocol is complete"
+        },
+        {
+          "gap_type": "threshold_gap",
+          "current_status": "PARTIAL",
+          "required_input": "source-backed metric threshold for pass/fail evaluation",
+          "expected_output": "threshold completion request; explicit threshold remains PARTIAL",
+          "stop_condition": "stop when metric and missing threshold evidence are listed",
+          "hard_fail": "inferring pass/fail readiness from a planned threshold"
+        },
+        {
+          "gap_type": "decision_rule_gap",
+          "current_status": "PLANNED_TEMPLATE_ONLY / GAP",
+          "required_input": "observable, threshold status, baseline/control status, and rule-enabling evidence",
+          "expected_output": "planned decision-rule template; executable decision rule remains PLANNED_TEMPLATE_ONLY / GAP",
+          "stop_condition": "stop before executable status until all enabling evidence is source-backed",
+          "hard_fail": "claiming readiness from a planned decision rule"
+        },
+        {
+          "gap_type": "independent_validation_gap",
+          "current_status": "NOT_FOUND",
+          "required_input": "independent reproduction or external validation source evidence for the BFE/F2DEM lead",
+          "expected_output": "independent validation check; reproduced_validation remains NOT_FOUND if absent",
+          "stop_condition": "stop at NOT_FOUND when independent validation evidence is absent",
+          "hard_fail": "planned validation becomes reproduced validation"
+        },
+        {
+          "gap_type": "domain_evidence_contract_gap",
+          "current_status": "NEGATIVE_ONLY_BOUNDARY",
+          "required_input": "negative-control fixed fields and blocked positive-claim inference paths",
+          "expected_output": "domain contract update preserving role, readiness false, and effect validation false",
+          "stop_condition": "stop after fixed fields and blocked inference paths are recorded",
+          "hard_fail": "converting the negative-control case into an upgraded closure case"
+        }
+      ]
+    }
+  ]
+}

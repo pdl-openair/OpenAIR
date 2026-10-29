@@ -1,0 +1,31 @@
+skill_id: pvd_recommendation_mode_resolution
+claude_name: pvd-recommendation-mode-resolution
+display_name: PVD Recommendation Mode Resolution
+version: 1.0.0
+domain: pvd
+stages:
+- insight_generation
+substages:
+- four_parameter_recommendation
+packs:
+- pvd
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+description: Deterministically resolves initial versus next-round recommendation mode from canonical PVD ScientificState without inferring round identity.
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: pvd_recommendation_mode.json
+side_effects: none
+external_actions: []
+capability_kind: deterministic_transform
+review_required: false
+risk_level: low
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:pvd_recommendation_mode_resolution
+  evidence_contract_version: deterministic-output/v1
+enabled: true
+notes: PVD deterministic projection of formal ScientificState into recommendation execution mode. It is an auxiliary method and not a fixed Workflow responsibility.

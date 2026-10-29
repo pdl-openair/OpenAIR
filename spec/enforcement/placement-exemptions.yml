@@ -1,0 +1,18 @@
+# Oversized-module (>800 lines) exemptions for scripts/gates/placement_guard.py.
+#
+# Format (restricted subset, parsed by hand - no PyYAML):
+#   exemptions:
+#     - path: <repo-relative path>
+#       reason: <why this module is exempt from the placement guard>
+#       review-date: <YYYY-MM-DD by which the exemption must be re-reviewed>
+#       added-by: <who added the exemption>
+#
+# Discipline:
+# - Every entry carries a review date; stale entries are flagged by the
+#   pointer integrity check (batch B2) so exemptions cannot silently rot.
+# - The standard path for fixing a bug inside an oversized module is to first
+#   extract a piece into a new module (a net-negative change that the guard
+#   lets through); exemptions are the emergency exit, not the routine.
+#
+# First round ships ZERO exemptions.
+exemptions: []

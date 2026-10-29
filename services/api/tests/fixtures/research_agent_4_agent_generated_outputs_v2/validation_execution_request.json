@@ -1,0 +1,45 @@
+{
+  "scenarioName": "validation_execution_request",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "status": "design_only",
+    "execution_status": "not_started",
+    "clarification_questions": [
+      "What claim should be tested?",
+      "What material/system is additive X used in?",
+      "What outcome metric defines works?",
+      "What baseline/control is acceptable?",
+      "What resources and safety approvals exist?"
+    ],
+    "minimum_viable_validation_inputs": [
+      "hypothesis",
+      "metric",
+      "baseline/control",
+      "protocol or dataset",
+      "resource and safety confirmation"
+    ],
+    "forbidden_output": [
+      "experiment result",
+      "effectiveness conclusion",
+      "resource launch",
+      "pass/fail conclusion"
+    ],
+    "safe_design_stub": {
+      "testable_hypothesis": "Cannot be specified until system, metric, and baseline are supplied.",
+      "controls_and_baselines": ["not defined yet"],
+      "analysis_plan": ["define metric and baseline before any execution"]
+    }
+  },
+  "review": {
+    "rubricScore": 89,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 21, "OEA": 22, "Rig": 20, "Lev": 8, "UX": 8, "Spec": 5, "Eng": 5},
+    "mainReason": "Correctly refuses to run or conclude; useful clarification path but no experiment design until inputs exist."
+  }
+}

@@ -1,0 +1,333 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenTrajectorySourceScreeningSelectionOutput",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "topk_selection",
+    "screening_decisions",
+    "summary",
+    "audit"
+  ],
+  "properties": {
+    "topk_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_for_p03",
+        "extended_selected",
+        "supporting_papers",
+        "method_inspiration_papers",
+        "deferred_candidates",
+        "excluded_examples",
+        "selection_stats",
+        "p03_acquisition_plan",
+        "risk_summary",
+        "degraded",
+        "degradation_reasons"
+      ],
+      "properties": {
+        "selected_for_p03": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SelectionItem"
+          }
+        },
+        "extended_selected": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SelectionItem"
+          }
+        },
+        "supporting_papers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SelectionItem"
+          }
+        },
+        "method_inspiration_papers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SelectionItem"
+          }
+        },
+        "deferred_candidates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SelectionItem"
+          }
+        },
+        "excluded_examples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SelectionItem"
+          }
+        },
+        "selection_stats": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "candidate_count",
+            "model_judgment_count",
+            "selected_total",
+            "priority_count",
+            "supporting_count",
+            "deferred_count",
+            "excluded_count",
+            "unreviewed_count"
+          ],
+          "properties": {
+            "candidate_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "model_judgment_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "selected_total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "priority_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "supporting_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "deferred_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "excluded_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "unreviewed_count": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "p03_acquisition_plan": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "total_selected",
+            "selected_candidate_ids"
+          ],
+          "properties": {
+            "total_selected": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "selected_candidate_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "risk_summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "risk_flags",
+            "unreviewed_candidates_present"
+          ],
+          "properties": {
+            "risk_flags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "unreviewed_candidates_present": {
+              "type": "boolean"
+            }
+          }
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "degradation_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "screening_decisions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Decision"
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_count",
+        "unreviewed_count"
+      ],
+      "properties": {
+        "selected_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unreviewed_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "skill_id",
+        "task_id",
+        "traceability_mode",
+        "candidate_count",
+        "model_judgment_count"
+      ],
+      "properties": {
+        "skill_id": {
+          "const": "opentrajectory_source_screening_selection"
+        },
+        "task_id": {
+          "type": "string"
+        },
+        "traceability_mode": {
+          "const": "model_judgment_candidate_identity_finalizer"
+        },
+        "candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "model_judgment_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$defs": {
+    "SelectionItem": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "candidate_id",
+        "title",
+        "selection_decision",
+        "selection_reason",
+        "priority_rank",
+        "evidence_roles",
+        "relevant_target_ids",
+        "provenance"
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selection_decision": {
+          "type": "string",
+          "enum": [
+            "priority",
+            "supporting",
+            "defer",
+            "exclude",
+            "unreviewed"
+          ]
+        },
+        "selection_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority_rank": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "evidence_roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relevant_target_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "provenance": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "Decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "decision",
+        "priority_rank",
+        "evidence_roles",
+        "relevant_target_ids",
+        "reason"
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string"
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "priority",
+            "supporting",
+            "defer",
+            "exclude",
+            "unreviewed"
+          ]
+        },
+        "priority_rank": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "evidence_roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relevant_target_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

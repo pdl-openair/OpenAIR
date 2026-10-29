@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/providers/provider-registry.schema.json",
+  "title": "OpenAIR Provider Registry",
+  "type": "object",
+  "required": ["schemaVersion", "defaultProviderId", "providers"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "defaultProviderId": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "providers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/provider"}
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "provider": {
+      "type": "object",
+      "required": ["providerId", "adapter", "maxOutputChars", "submissionSafety", "environment"],
+      "properties": {
+        "providerId": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "adapter": {"const": "huiyan_chat_completions"},
+        "maxOutputChars": {"type": "integer", "minimum": 1},
+        "submissionSafety": {
+          "type": "object",
+          "required": [
+            "submissionMode",
+            "acceptsIdempotencyKey",
+            "returnsReceiptOrRemoteRunId",
+            "queryByIdempotencyKey",
+            "queryByReceiptOrRemoteRunId"
+          ],
+          "properties": {
+            "submissionMode": {"const": "single_attempt_no_replay"},
+            "acceptsIdempotencyKey": {"const": false},
+            "returnsReceiptOrRemoteRunId": {"const": false},
+            "queryByIdempotencyKey": {"const": false},
+            "queryByReceiptOrRemoteRunId": {"const": false}
+          },
+          "additionalProperties": false
+        },
+        "environment": {
+          "type": "object",
+          "required": ["model", "baseUrl", "apiKey"],
+          "properties": {
+            "model": {"const": "LLM_PROVIDER_MODEL"},
+            "baseUrl": {"const": "LLM_PROVIDER_BASE_URL"},
+            "apiKey": {"const": "LLM_PROVIDER_API_KEY"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,58 @@
+skill_id: actual_metric_records_closure
+claude_name: actual-metric-records-closure
+display_name: 实测指标记录闭合
+version: "1.0.0"
+stages: [execution_validation]
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+execution_method_roles:
+  - cs_reproduction_real_execution:actual_metric_records_closure
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+llm:
+  provider_message_contract: scientific_minimal_v1
+  provider_input_projection:
+    omit_fields: [raw_execution_record, raw_actual_metrics]
+    object_fields:
+      reproduction_experiment_design:
+        fields: [status, target_experiments, protocol, intentional_deviations, unknowns]
+      execution_readiness_record:
+        fields: [status, plan_resource_relation_status, blocking_gaps, unknowns]
+      frozen_execution_input:
+        fields: [execution_plan_id, readiness_status, frozen_input_sha256]
+structured_output: {contract_version: 1, guard_version: p06c-v1}
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: draft.schema.json
+review_policy: {contract_version: 1, mode: schema_validated_only}
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: research:declared-scientific-facts:v1
+  facts:
+  - fact_key: actual_metric_status
+    source_field: status
+  - fact_key: actual_metric_execution_record_ref
+    source_field: execution_record_ref
+  - fact_key: actual_metric_records
+    source_field: metrics
+  - fact_key: actual_metric_reference_values_used
+    source_field: reference_values_used
+  - fact_key: actual_metric_partial_failures
+    source_field: partial_failures
+  - fact_key: actual_metric_unknowns
+    source_field: unknowns
+owner: TBD
+fixture_status: missing
+notes: 将确定性提取结果闭合为正式实测指标记录；不读取参考值，不改写实测值。
+capability_contract:
+  artifact_types: [actual_metric_records]
+  judgment_support: {deterministic: false, domain_professional: true}

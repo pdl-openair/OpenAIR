@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpenTrajectory v3 evidence assessment input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "research_context",
+    "research_records"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "research_context": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "research_object"
+          ],
+          "properties": {
+            "research_object": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "research_object"
+            ],
+            "properties": {
+              "research_object": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "research_records": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 80,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "record_id"
+        ],
+        "properties": {
+          "record_id": {
+            "type": "string",
+            "pattern": "^rr:[0-9a-f]{32}$"
+          }
+        }
+      }
+    }
+  }
+}

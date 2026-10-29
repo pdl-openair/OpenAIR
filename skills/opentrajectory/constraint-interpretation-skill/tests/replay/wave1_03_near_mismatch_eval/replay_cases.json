@@ -1,0 +1,112 @@
+{
+  "eval_set": "wave1_03_near_mismatch_eval_v1",
+  "purpose": "Boundary cases fixed before prompt changes for constraint interpretation quality governance.",
+  "cases": [
+    {
+      "case_id": "cross_domain_stability_battery",
+      "risk": "same_phrase_cross_domain",
+      "input": {
+        "user_query": "想看锂金属电池长期稳定性，电解液体系不限，不要替我限定具体盐或溶剂。",
+        "research_domain": "battery materials",
+        "material_system": "lithium metal battery",
+        "research_context": {"target": "long-term stability of lithium metal batteries"},
+        "raw_constraints": [
+          {"phrase": "长期稳定性", "source": "user_query"},
+          {"phrase": "电解液体系不限", "source": "user_query"}
+        ]
+      }
+    },
+    {
+      "case_id": "cross_domain_stability_agent",
+      "risk": "same_phrase_cross_domain",
+      "input": {
+        "user_query": "想看长任务软件智能体的长期稳定性，模型架构不限，重点是连续运行时不要频繁失效。",
+        "research_domain": "AI agents",
+        "material_system": null,
+        "research_context": {"target": "long-horizon software agents"},
+        "raw_constraints": [
+          {"phrase": "长期稳定性", "source": "user_query"},
+          {"phrase": "模型架构不限", "source": "user_query"}
+        ]
+      }
+    },
+    {
+      "case_id": "numeric_direction_unknown_voltage",
+      "risk": "explicit_number_direction_unknown",
+      "input": {
+        "user_query": "锂离子电池测试里我只记得 4.2 V，但现在不能确认它是上限、下限还是截止电压。",
+        "research_domain": "battery materials",
+        "material_system": "lithium-ion battery",
+        "raw_constraints": [
+          {"phrase": "4.2 V", "source": "user_query", "constraint_type_hint": "numerical_range"}
+        ]
+      }
+    },
+    {
+      "case_id": "conflicting_temperature_constraints",
+      "risk": "explicit_constraints_conflict",
+      "input": {
+        "user_query": "筛选测试温度不超过 25°C 的研究；但同一批结果又要求测试温度至少 60°C。先保留冲突，不要替我选一个。",
+        "research_domain": "materials testing",
+        "material_system": null,
+        "raw_constraints": [
+          {"phrase": "测试温度不超过 25°C", "source": "user_query"},
+          {"phrase": "测试温度至少 60°C", "source": "user_query"}
+        ]
+      }
+    },
+    {
+      "case_id": "explicit_unknown_and_unrestricted",
+      "risk": "unknown_vs_unrestricted",
+      "input": {
+        "user_query": "倍率现在未知，不要假设；正极材料体系不限。",
+        "research_domain": "battery materials",
+        "material_system": null,
+        "raw_constraints": [
+          {"phrase": "倍率现在未知", "source": "user_query"},
+          {"phrase": "正极材料体系不限", "source": "user_query"}
+        ]
+      }
+    },
+    {
+      "case_id": "equivalent_unit_conductivity",
+      "risk": "unit_equivalence_without_new_threshold",
+      "input": {
+        "user_query": "固态电解质离子电导率至少 1 mS/cm，除此之外不限定具体化学体系。",
+        "research_domain": "solid-state batteries",
+        "material_system": null,
+        "raw_constraints": [
+          {"phrase": "离子电导率至少 1 mS/cm", "source": "user_query"},
+          {"phrase": "不限定具体化学体系", "source": "user_query"}
+        ]
+      }
+    },
+    {
+      "case_id": "non_material_latency_preference",
+      "risk": "non_material_numeric_soft_preference",
+      "input": {
+        "user_query": "做文献检索智能体，最好单次检索响应在 200 ms 以内，但这是偏好，不是淘汰条件；模型类型不限。",
+        "research_domain": "AI agents",
+        "material_system": null,
+        "raw_constraints": [
+          {"phrase": "最好单次检索响应在 200 ms 以内", "source": "user_query"},
+          {"phrase": "这是偏好，不是淘汰条件", "source": "user_query"},
+          {"phrase": "模型类型不限", "source": "user_query"}
+        ]
+      }
+    },
+    {
+      "case_id": "source_recency_preference_not_hard_filter",
+      "risk": "source_preference_vs_hard_constraint",
+      "input": {
+        "user_query": "近五年的论文优先，但经典早期论文也可以，不要因为年份直接排除。",
+        "research_domain": "scientific literature review",
+        "material_system": null,
+        "raw_constraints": [
+          {"phrase": "近五年的论文优先", "source": "user_query", "constraint_type_hint": "source_preference"},
+          {"phrase": "经典早期论文也可以，不要因为年份直接排除", "source": "user_query"}
+        ]
+      }
+    }
+  ]
+}

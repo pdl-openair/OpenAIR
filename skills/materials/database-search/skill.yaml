@@ -1,0 +1,29 @@
+skill_id: database_search
+claude_name: database-search
+display_name: 数据库候选检索
+version: "0.1.0"
+stages:
+  - problem_modeling
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - database_search
+pack: materials
+spec: specs/database-search.md
+output_file: mp_seeds.md
+input_skills: []
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: database_search
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

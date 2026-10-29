@@ -1,0 +1,23 @@
+suite_id: component.web.pages.artifact-library-action-authority
+protected_outcome: >-
+  Artifact review controls expose only server-authorized user actions and send
+  the selected formal action through the production client without inventing
+  unsupported review or scope-expansion choices.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: artifact_library_unauthorized_or_fabricated_user_action
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/pages/ArtifactLibraryPage.tsx
+  - apps/web/src/api/client.ts
+test_responsibility: deterministic page verification of server-authorized artifact review and scope-expansion actions
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions
+  prove protected_outcome; FAIL when sufficient valid evidence proves
+  protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [artifact_review_action_or_human_gate_projection_changes]

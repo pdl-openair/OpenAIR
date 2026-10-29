@@ -1,0 +1,27 @@
+skill_id: full_execution
+claude_name: full-execution
+display_name: 全规模执行
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - full_execution
+output_file: 03-experiment/execution-full.md
+pack: sdr
+spec: 03-experiment/execution-full.md
+input_skills:
+  - task_breakdown
+  - reproducibility
+  - exploratory_execution
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: full_execution
+owner: TBD
+fixture_status: missing
+notes: ''

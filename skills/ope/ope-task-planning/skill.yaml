@@ -1,0 +1,30 @@
+skill_id: ope_task_planning
+claude_name: ope-task-planning
+display_name: 任务规划
+version: "0.1.0"
+stages:
+  - solution_design
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - task_planning
+output_file: plan/task_plan.md
+pack: ope
+spec: task_plan.md
+input_skills:
+  - ope_experiment_design
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: task_planning
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

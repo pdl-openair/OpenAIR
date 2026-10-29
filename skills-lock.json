@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "pymatgen": {
+      "source": "k-dense-ai/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/pymatgen/SKILL.md",
+      "computedHash": "fcf7891c70532592ad06d746374536857a582708c0d803498654f2fae1224cce"
+    }
+  }
+}

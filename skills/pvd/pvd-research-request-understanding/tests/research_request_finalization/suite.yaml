@@ -1,0 +1,34 @@
+suite_id: component.skill.pvd.research-request-understanding
+protected_outcome: >-
+  PVD request-understanding finalization preserves dynamic parameter identity and
+  user-supplied experiment facts, keeps pending and unknown information explicit
+  without guessing, isolates malformed individual constraints, and mechanically
+  enforces product run-count boundaries.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - docs/02_产品与Workflow/PVD/PVD Skill 合同.md
+  - docs/02_产品与Workflow/PVD/OpenAIR PVD Workflow 设计合同.md
+  - skills/pvd/pvd-research-request-understanding/skill.yaml
+failure_class: pvd_request_parameter_identity_existing_fact_unknown_constraint_or_count_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/pvd/pvd-research-request-understanding/scripts
+test_responsibility: >-
+  deterministic component proof for dynamic scope, pending/unknown admission,
+  stable parameter identity, existing-experiment fact boundaries, local constraint
+  isolation, provider contract, and run-count capping
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions prove
+  protected_outcome; FAIL when sufficient valid evidence proves protected_outcome
+  is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - Skill implementation changes
+  - Skill input/output or finalization contract changes

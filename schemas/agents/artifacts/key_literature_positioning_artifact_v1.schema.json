@@ -1,0 +1,398 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/agents/artifacts/key_literature_positioning_artifact_v1.schema.json",
+  "title": "key_literature_positioning_artifact_v1",
+  "contractId": "key_literature_positioning_artifact_v1",
+  "semanticVersion": "1.0.0",
+  "description": "Authoritative body schema for key_literature_positioning_artifact_v1. Validates artifact.body only; envelope identity is contractId + semanticVersion 1.0.0. Strategy-only and retrieval-unknown modes forbid invented candidates.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "search_boundary",
+    "keyword_families",
+    "source_scope",
+    "candidate_literature",
+    "reading_priority",
+    "coverage_limitations",
+    "handoff"
+  ],
+  "properties": {
+    "search_boundary": { "$ref": "#/$defs/searchBoundary" },
+    "keyword_families": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": { "$ref": "#/$defs/keywordFamily" }
+    },
+    "source_scope": { "$ref": "#/$defs/sourceScope" },
+    "candidate_literature": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 20,
+      "items": { "$ref": "#/$defs/candidateLiterature" }
+    },
+    "reading_priority": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 20,
+      "items": { "$ref": "#/$defs/readingPriorityRow" }
+    },
+    "coverage_limitations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": { "$ref": "#/$defs/coverageLimitation" }
+    },
+    "handoff": { "$ref": "#/$defs/handoff" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "search_boundary": {
+            "properties": { "authorization_status": { "const": "strategy_only" } },
+            "required": ["authorization_status"]
+          }
+        },
+        "required": ["search_boundary"]
+      },
+      "then": {
+        "properties": {
+          "search_boundary": {
+            "properties": { "retrieval_outcome": { "const": "not_attempted" } },
+            "required": ["retrieval_outcome"]
+          },
+          "candidate_literature": { "maxItems": 0 },
+          "reading_priority": { "maxItems": 0 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "search_boundary": {
+            "properties": { "retrieval_outcome": { "const": "unknown" } },
+            "required": ["retrieval_outcome"]
+          }
+        },
+        "required": ["search_boundary"]
+      },
+      "then": {
+        "properties": {
+          "candidate_literature": { "maxItems": 0 },
+          "reading_priority": { "maxItems": 0 },
+          "coverage_limitations": {
+            "contains": {
+              "type": "object",
+              "properties": { "limitation_kind": { "const": "retrieval_uncertainty" } },
+              "required": ["limitation_kind"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "candidate_literature": { "type": "array", "minItems": 1 }
+        },
+        "required": ["candidate_literature"]
+      },
+      "then": {
+        "properties": {
+          "search_boundary": {
+            "properties": {
+              "authorization_status": { "const": "retrieval_authorized" },
+              "retrieval_outcome": { "const": "attempted" }
+            },
+            "required": ["authorization_status", "retrieval_outcome"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "handoff": {
+            "properties": { "handoff_status": { "const": "needs_user_clarification" } },
+            "required": ["handoff_status"]
+          }
+        },
+        "required": ["handoff"]
+      },
+      "then": {
+        "properties": {
+          "handoff": {
+            "properties": { "next_consumer": { "const": "user_clarification" } },
+            "required": ["next_consumer"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "handoff": {
+            "properties": { "handoff_status": { "const": "blocked_on_retrieval_unknown" } },
+            "required": ["handoff_status"]
+          }
+        },
+        "required": ["handoff"]
+      },
+      "then": {
+        "properties": {
+          "candidate_literature": { "maxItems": 0 },
+          "reading_priority": { "maxItems": 0 },
+          "handoff": {
+            "properties": {
+              "next_consumer": {
+                "type": "string",
+                "enum": ["user_clarification", "controller_planning"]
+              }
+            },
+            "required": ["next_consumer"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "localIdentifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "searchBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization_status",
+        "retrieval_outcome",
+        "target_question",
+        "included_scope",
+        "excluded_scope",
+        "constraints"
+      ],
+      "properties": {
+        "authorization_status": {
+          "type": "string",
+          "enum": ["strategy_only", "retrieval_authorized"]
+        },
+        "retrieval_outcome": {
+          "type": "string",
+          "enum": ["not_attempted", "unknown", "attempted"]
+        },
+        "target_question": { "type": "string", "minLength": 10, "maxLength": 500 },
+        "included_scope": { "type": "string", "minLength": 5, "maxLength": 500 },
+        "excluded_scope": { "type": "string", "minLength": 5, "maxLength": 500 },
+        "constraints": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 12,
+          "items": { "type": "string", "minLength": 3, "maxLength": 200 }
+        }
+      }
+    },
+    "keywordFamily": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family_id", "label", "keywords"],
+      "properties": {
+        "family_id": { "$ref": "#/$defs/localIdentifier" },
+        "label": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "keywords": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": { "type": "string", "minLength": 1, "maxLength": 80 }
+        }
+      }
+    },
+    "sourceScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_kinds", "languages", "collections"],
+      "properties": {
+        "source_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "peer_reviewed",
+              "preprint",
+              "thesis",
+              "user_provided",
+              "dataset_or_benchmark",
+              "other_scholarly"
+            ]
+          }
+        },
+        "languages": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": { "type": "string", "minLength": 2, "maxLength": 32 }
+        },
+        "collections": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 12,
+          "items": { "type": "string", "minLength": 2, "maxLength": 120 }
+        }
+      }
+    },
+    "candidateLiterature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "source_identifier",
+        "title",
+        "screening_status",
+        "screening_rationale",
+        "role_hint"
+      ],
+      "properties": {
+        "candidate_id": { "$ref": "#/$defs/localIdentifier" },
+        "source_identifier": { "type": "string", "minLength": 3, "maxLength": 500 },
+        "title": { "type": "string", "minLength": 3, "maxLength": 500 },
+        "screening_status": {
+          "type": "string",
+          "enum": ["seed", "screened_in", "screened_out", "deferred"]
+        },
+        "screening_rationale": { "type": "string", "minLength": 10, "maxLength": 800 },
+        "role_hint": {
+          "type": "string",
+          "enum": [
+            "entry_review",
+            "method_basis",
+            "benchmark",
+            "baseline",
+            "negative_or_dispute",
+            "empirical_case",
+            "other"
+          ]
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Agent-reported confidence in this candidate's scientific screening judgment."
+        }
+      }
+    },
+    "readingPriorityRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rank", "candidate_id", "reason"],
+      "properties": {
+        "rank": { "type": "integer", "minimum": 1, "maximum": 20 },
+        "candidate_id": { "$ref": "#/$defs/localIdentifier" },
+        "reason": { "type": "string", "minLength": 10, "maxLength": 500 }
+      }
+    },
+    "coverageLimitation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["limitation_id", "limitation_kind", "statement"],
+      "properties": {
+        "limitation_id": { "$ref": "#/$defs/localIdentifier" },
+        "limitation_kind": {
+          "type": "string",
+          "enum": [
+            "coverage",
+            "access",
+            "language",
+            "recency",
+            "method",
+            "retrieval_uncertainty"
+          ]
+        },
+        "statement": { "type": "string", "minLength": 10, "maxLength": 500 }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "handoff_status",
+        "next_consumer",
+        "candidate_ids",
+        "instruction",
+        "requires_user_confirmation_before_external_execution"
+      ],
+      "properties": {
+        "handoff_status": {
+          "type": "string",
+          "enum": [
+            "ready_for_next_consumer",
+            "needs_user_clarification",
+            "blocked_on_retrieval_unknown"
+          ]
+        },
+        "next_consumer": {
+          "type": "string",
+          "enum": [
+            "paper_evidence_extraction",
+            "research_gap_identification",
+            "user_clarification",
+            "controller_planning"
+          ]
+        },
+        "candidate_ids": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/localIdentifier" }
+        },
+        "instruction": { "type": "string", "minLength": 20, "maxLength": 800 },
+        "requires_user_confirmation_before_external_execution": { "const": true }
+      }
+    },
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "semanticVersion",
+        "producerId",
+        "failureCode",
+        "fieldPaths",
+        "safeSummary"
+      ],
+      "properties": {
+        "contractId": { "const": "key_literature_positioning_artifact_v1" },
+        "semanticVersion": { "const": "1.0.0" },
+        "producerId": { "const": "key_literature_positioning" },
+        "failureCode": {
+          "type": "string",
+          "enum": [
+            "contract_id_unsupported",
+            "semantic_version_unsupported",
+            "required_field_missing",
+            "type_invalid",
+            "empty_value",
+            "unknown_field",
+            "identifier_invalid",
+            "authorization_retrieval_incompatible",
+            "candidate_invented_under_unknown",
+            "retrieval_overclaim",
+            "coverage_limit_missing"
+          ]
+        },
+        "fieldPaths": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": { "type": "string", "minLength": 1, "maxLength": 512 }
+        },
+        "safeSummary": { "type": "string", "minLength": 1, "maxLength": 300 }
+      }
+    }
+  }
+}

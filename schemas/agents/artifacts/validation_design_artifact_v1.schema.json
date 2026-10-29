@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/agents/artifacts/validation_design_artifact_v1.schema.json",
+  "title": "validation_design_artifact_v1",
+  "contractId": "validation_design_artifact_v1",
+  "semanticVersion": "1.0.0",
+  "type": "object",
+  "required": ["testable_hypothesis", "variable_table", "controls_and_baselines", "ablation_or_comparison_matrix", "analysis_plan", "stop_conditions", "confirmation_gates", "execution_status"],
+  "properties": {
+    "testable_hypothesis": {},
+    "variable_table": {},
+    "controls_and_baselines": {},
+    "ablation_or_comparison_matrix": {},
+    "analysis_plan": {},
+    "stop_conditions": {},
+    "confirmation_gates": {},
+    "execution_status": {}
+  },
+  "additionalProperties": true
+}

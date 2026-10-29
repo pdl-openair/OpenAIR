@@ -1,0 +1,36 @@
+skill_id: pvd_literature_evidence_acquisition_closure
+claude_name: pvd-literature-evidence-acquisition-closure
+display_name: PVD Literature Evidence Acquisition & Closure
+domain: pvd
+stages:
+- execution_validation
+substages:
+- literature_experiment_record_verification
+packs:
+- pvd
+skill_type: atomic
+runtime: python_adapter
+status: ready
+enabled: true
+input_schema: input.schema.json
+output_schema: output.schema.json
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:pvd_literature_evidence_acquisition_closure
+  evidence_contract_version: external-action-evidence/v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+capability_contract:
+  artifact_types:
+  - pvd.evidence_packet
+  - pvd.research_records
+  - pvd.evidence_coverage
+  - pvd.evidence_shortage_facts
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+notes: One formal PVD literature-evidence closure capability. It closes EvidencePacket, ResearchRecords, provenance and coverage,
+  then deterministically projects real coverage gaps into evidence_shortage_facts for shortage-triggered supplemental retrieval.
+  No shortage means no supplemental trigger.

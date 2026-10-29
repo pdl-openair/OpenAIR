@@ -1,0 +1,30 @@
+suite_id: component.pvd-skill.evidence-schema-design
+protected_outcome: >-
+  PVD evidence-schema finalization covers every formal and pending parameter
+  identity without promoting pending parameters, assigns stable target identity,
+  and fails closed on incomplete or unknown coverage.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - docs/02_产品与Workflow/PVD/OpenAIR PVD Workflow 设计合同.md
+  - skills/pvd/pvd-evidence-schema-design/skill.yaml
+failure_class: pvd_evidence_schema_parameter_coverage_pending_promotion_or_target_identity_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/pvd/pvd-evidence-schema-design/scripts
+test_responsibility: >-
+  deterministic component behavior for evidence-target identity, exact
+  formal/pending coverage, output schema, and fail-closed coverage validation
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions prove
+  protected_outcome; FAIL when sufficient valid evidence proves protected_outcome
+  is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - PVD evidence schema design changes
+  - evidence-target or parameter-coverage contract changes

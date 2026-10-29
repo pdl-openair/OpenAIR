@@ -1,0 +1,31 @@
+skill_id: hypothesis_validation
+claude_name: hypothesis-validation
+display_name: 假设验证
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - hypothesis_validation
+output_file: 03-experiment/hypothesis-validation.md
+pack: sdr
+spec: 03-experiment/hypothesis-validation.md
+input_skills:
+  - hypothesis_formation
+  - statistical_analysis
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: hypothesis_validation
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

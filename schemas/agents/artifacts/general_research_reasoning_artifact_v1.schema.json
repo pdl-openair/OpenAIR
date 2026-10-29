@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/agents/artifacts/general_research_reasoning_artifact_v1.schema.json",
+  "title": "general_research_reasoning_artifact_v1",
+  "contractId": "general_research_reasoning_artifact_v1",
+  "semanticVersion": "1.1.0",
+  "type": "object",
+  "required": [
+    "scope",
+    "reasoning_summary",
+    "assumptions",
+    "uncertainty",
+    "next_action"
+  ],
+  "properties": {
+    "scope": {},
+    "reasoning_summary": {},
+    "assumptions": {},
+    "uncertainty": {},
+    "next_action": {},
+    "targetOutputReuseJudgments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "targetOutputRef",
+          "responsibilityKey",
+          "reusedResultRefs",
+          "verdict",
+          "rationale"
+        ],
+        "properties": {
+          "targetOutputRef": {
+            "type": "string",
+            "minLength": 1
+          },
+          "responsibilityKey": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reusedResultRefs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "verdict": {
+            "const": "accepted"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

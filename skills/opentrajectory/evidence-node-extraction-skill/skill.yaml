@@ -1,0 +1,51 @@
+skill_id: evidence_node_extraction
+claude_name: evidence-node-extraction-skill
+display_name: 研究记录提取
+stages:
+- execution_validation
+substages:
+- evidence_extraction
+skill_type: atomic
+runtime: llm_structured
+status: ready
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: research_records.json
+llm:
+  temperature: 0
+  max_completion_tokens: 6000
+notes: >-
+  ResearchRecord-first Skill-local implementation. The model emits only semantic
+  ResearchRecord fields defined by model_output.schema.json. scripts/finalize.py owns
+  deterministic condition-status aggregation, source identity, grounding, stable IDs,
+  deduplication, summary, audit, and final-schema validation. ResearchRecords are not
+  Evidence at this substage.
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: medium
+stage: execution_validation
+substage: evidence_extraction
+durable_model_profile: terra
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+
+capability_contract:
+  artifact_types:
+  - opentrajectory.evidence_extraction.planned_output
+  - research_records
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+execution_method_roles:
+- opentrajectory_research_record_establishment_v1:research_record_extraction
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: model_output.schema.json

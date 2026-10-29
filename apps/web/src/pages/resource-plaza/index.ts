@@ -1,0 +1,12 @@
+export { default as ResourcePlazaLayout } from "./ResourcePlazaLayout";
+export { default as ResourcePlazaHomePage } from "./ResourcePlazaHomePage";
+export { default as ResourcePlazaCatalogPage } from "./ResourcePlazaCatalogPage";
+export { default as ResourcePlazaDetailHandoffPage } from "./ResourcePlazaDetailHandoffPage";
+export { default as ResourcePlazaMyResourcesPage } from "./ResourcePlazaMyResourcesPage";
+export { default as ResourcePlazaFeaturedPreviewPage } from "./ResourcePlazaFeaturedPreviewPage";
+export { default as ResourcePlazaCatalogBPreviewPage } from "./ResourcePlazaCatalogBPreviewPage";
+export { default as ResourcePlazaMyResourcesSectionsPreviewPage } from "./ResourcePlazaMyResourcesSectionsPreviewPage";
+export { default as ResourceSubnav } from "./ResourceSubnav";
+export { default as EquipmentResourcesPage } from "./EquipmentResourcesPage";
+export { default as ComputeResourcesPage } from "./ComputeResourcesPage";
+export { default as EquipmentComputePlatformPage } from "./equipment-compute/PlatformDetailPage";

@@ -1,0 +1,14 @@
+suite_id: eval.opentrajectory.structural-evidence-boundary
+protected_outcome: Structural checks never claim scientific quality or baseline eligibility; missing judge evidence fails closed.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: false_scientific_verdict_or_invalid_judge_evidence
+minimum_owner: 科研 / Agent 能力评测
+production_targets:
+  - evals/opentrajectory/harness/strategy_phase1_3/
+test_responsibility: Validate schema and evidence integrity, persisted evidence prerequisites, and CLI verdict routing; does not establish scientific quality.
+execution_profiles: [deterministic, replay]
+required_dependencies: []
+evidence_required: [pytest_result, structural_contract_result]
+verdict_rule: PASS means harness boundaries hold; scientific quality remains not_evaluated without genuine judge evidence.
+triggers: [phase3_harness_or_evidence_contract_changed]

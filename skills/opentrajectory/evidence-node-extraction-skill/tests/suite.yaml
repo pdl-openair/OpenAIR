@@ -1,0 +1,25 @@
+suite_id: component.skills.evidence-node-extraction-contracts
+protected_outcome: Research record finalization preserves model scientific content, binds supplied source metadata without fabrication, assigns stable identities, deduplicates identical records, and retains only existing required-key checks.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- evidence_node_extraction_contract_regression
+minimum_owner: 单个组件行为
+production_targets:
+- skills/opentrajectory/evidence-node-extraction-skill/
+test_responsibility: Deterministically pin the extraction adapter's authority boundaries, truth table, merge, and schema contracts on fixed drafts.
+execution_profiles:
+- deterministic
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- pytest_exit_code_0
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions
+  prove protected_outcome; FAIL when sufficient valid evidence proves
+  protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- evidence_node_extraction_changed

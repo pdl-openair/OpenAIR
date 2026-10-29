@@ -1,0 +1,14 @@
+suite_id: component.web.agent-collaboration-identity
+protected_outcome: Collaboration content belongs to the current task and revision; stale responses cannot expose another task's artifact actions.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: collaboration_cross_task_or_revision_contamination
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/components/workbench/AgentCollaborationOverview.tsx
+test_responsibility: Render the production component using a controlled canonical API projection parsed by the production model builder; exercise task/revision/trust transitions and artifact clicks.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when only current canonical content offers actions and stale content disappears; otherwise FAIL or NO_VALID_EVIDENCE.
+triggers: [agent_collaboration_identity_changed]

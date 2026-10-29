@@ -1,0 +1,30 @@
+schemaVersion: workflow-definition.v1
+workflowId: materials_candidate_discovery_workflow
+workflowVersion: 1
+nameZh: 材料候选发现流程
+nameEn: Materials Candidate Discovery Workflow
+description: 在已确认约束内检索材料数据库，并生成可供后续验证的候选结构。
+skillPack: materials
+nodes:
+- nodeKey: database_search
+  definitionId: materials:database_search
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 10
+- nodeKey: candidate_generation
+  definitionId: materials:candidate_generation
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 20
+dependencies:
+- upstreamNodeKey: database_search
+  downstreamNodeKey: candidate_generation
+  dependencyType: execution_prerequisite
+boundaryPolicy:
+  allowedExternalActions:
+  - external_read
+  - external_compute
+  confirmationRequiredActions: []
+  prohibitedActions:
+  - external_write
+  - physical_action

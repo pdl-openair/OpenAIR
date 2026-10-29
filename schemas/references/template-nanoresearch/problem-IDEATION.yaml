@@ -1,0 +1,63 @@
+# IDEATION stage output template
+# Source: nanoresearch/schemas/ideation.py → IdeationOutput
+
+topic: ""                          # Original user-provided research topic
+search_queries: []                 # Actual search queries used
+papers:                            # Retrieved papers (target >= 20)
+  - paper_id: ""                   # arXiv ID or Semantic Scholar ID
+    title: ""
+    authors: []
+    year: null
+    abstract: ""
+    venue: ""
+    citation_count: 0
+    url: ""
+    bibtex: ""
+    method_text: ""                # Method section text from full PDF reading
+    experiment_text: ""            # Experiment section text from full PDF reading
+    relevance_score: 0.0           # LLM-assessed relevance [0.0, 1.0]
+survey_summary: ""                 # Narrative literature survey
+gaps:                              # Identified research gaps
+  - gap_id: "GAP-001"
+    description: ""               # What is missing or underexplored
+    supporting_refs: []           # paper_id list that supports this gap
+    severity: "medium"            # low | medium | high
+    quantitative_evidence: ""     # e.g. "Only 2/15 papers address X"
+    future_work_mention: ""       # Which paper(s) mention this as future work
+hypotheses:                        # Generated hypotheses
+  - hypothesis_id: "HYP-001"
+    statement: ""                 # Concise hypothesis statement
+    gap_refs: []                  # gap_id list this hypothesis addresses
+    novelty_justification: ""
+    feasibility_notes: ""
+    closest_existing_work: ""     # Most similar published paper and how this differs
+selected_hypothesis: ""            # hypothesis_id of the chosen hypothesis
+rationale: ""                      # Why this hypothesis was selected
+evidence:                          # Quantitative evidence from literature
+  extracted_metrics:
+    - paper_id: ""
+      paper_title: ""
+      dataset: ""                 # e.g. "QM9", "ImageNet"
+      metric_name: ""             # e.g. "MAE", "Top-1 Accuracy"
+      value: 0.0                  # Numeric value or string if range/qualifier
+      unit: ""
+      context: ""                 # Exact quote from abstract
+      method_name: ""
+      higher_is_better: null
+  extraction_notes: ""
+  coverage_warnings: []
+reference_repos:                   # GitHub reference repos
+  - full_name: ""
+    file_tree: []
+    readme_excerpt: ""
+    stars: 0
+must_cites: []                     # Must-cite paper titles from surveys
+must_cite_matches: []              # Must-cite titles matched to paper indices
+  # - title: ""
+  #   paper_index: 0
+  #   matched: true
+
+# Survey-specific fields (only used when paper_mode is survey_*)
+theme_clusters: []                 # Topic categories/themes (for surveys)
+key_challenges: []                 # Open problems (replaces hypotheses for surveys)
+future_directions: []              # Future research directions (for surveys)

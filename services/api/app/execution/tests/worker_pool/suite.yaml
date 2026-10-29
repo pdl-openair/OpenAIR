@@ -1,0 +1,27 @@
+suite_id: component.execution.worker-pool-skill-refresh
+protected_outcome: A long-lived Worker reuses only its owner's current Skill generation; successful Skill mutation invalidates that owner's idle generation, a busy Worker is not killed mid-turn but is refused once idle, and failed mutation does not invalidate current state.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- worker_pool_stale_skill_generation_reused
+- worker_pool_cross_owner_skill_invalidation
+- worker_pool_failed_mutation_invalidates_generation
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/execution/worker_pool.py
+- services/api/app/routes/skills.py
+test_responsibility: Distinguish same-generation reuse and owner-scoped successful refresh from stale reuse, cross-owner invalidation, mid-turn termination, or failed-mutation refresh.
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- pytest_exit_code_0
+- known_good_current_generation_reused
+- known_bad_stale_generation_refused_after_mutation
+verdict_rule: >-
+  PASS only when the existing Suite proves current generations remain reusable and stale owner generations are refused only after successful mutation without affecting other owners or in-flight work; FAIL when stale Skill state can be reused; otherwise NO_VALID_EVIDENCE.
+triggers:
+- app.execution.worker_pool behavior or contract changes

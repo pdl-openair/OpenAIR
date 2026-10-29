@@ -1,0 +1,20 @@
+suite_id: component.modules.artifact-cleanup
+protected_outcome: Expired artifact cleanup claims recover safely, delete only unreferenced objects, preserve shared objects until their final owner is removed, and roll back partial metadata changes.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: artifact_cleanup_identity_reference_or_transaction_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/artifact_cleanup.py
+  - services/api/app/modules/artifact_repository.py
+test_responsibility: component proof of PostgreSQL artifact metadata and object-storage cleanup behavior
+execution_profiles: [postgres, minio]
+required_dependencies:
+  - isolated PostgreSQL test database
+  - isolated S3-compatible object-storage namespace
+evidence_required: [pytest_result, database_identity, object_storage_identity, transaction_state]
+verdict_rule: PASS only when both real dependencies are identified and all assertions pass; FAIL when valid evidence proves an ownership, cleanup, or rollback violation; otherwise NO_VALID_EVIDENCE.
+triggers: [artifact cleanup changes, artifact reference persistence changes]

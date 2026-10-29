@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidence_items"
+  ],
+  "properties": {
+    "evidence_items": {
+      "type": "array",
+      "maxItems": 60,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_anchor_id",
+          "evidence_type",
+          "assertion_mode",
+          "claim",
+          "evidence_quote",
+          "conditions",
+          "metric",
+          "mechanism",
+          "comparison",
+          "qualifiers",
+          "confidence",
+          "matched_target_ids"
+        ],
+        "properties": {
+          "source_anchor_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_type": {
+            "type": "string",
+            "enum": [
+              "material_composition",
+              "experimental_condition",
+              "quantitative_result",
+              "mechanism_claim",
+              "characterization_observation",
+              "computation_result",
+              "comparison",
+              "limitation"
+            ]
+          },
+          "assertion_mode": {
+            "type": "string",
+            "enum": [
+              "direct_observation",
+              "association",
+              "causal_claim",
+              "author_interpretation"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "evidence_quote": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 1200
+          },
+          "conditions": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "value_text",
+                "unit"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "value_text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "unit": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          },
+          "metric": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "value_text",
+                  "unit"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "value_text": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "unit": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "mechanism": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "cause",
+                  "effect"
+                ],
+                "properties": {
+                  "cause": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "effect": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          },
+          "comparison": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "subject",
+                  "baseline",
+                  "dimension",
+                  "relation",
+                  "condition_text"
+                ],
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "baseline": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "dimension": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "relation": {
+                    "type": "string",
+                    "enum": [
+                      "higher",
+                      "lower",
+                      "equal",
+                      "different",
+                      "better",
+                      "worse",
+                      "increase",
+                      "decrease",
+                      "other"
+                    ]
+                  },
+                  "condition_text": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "maxItems": 12
+                  }
+                }
+              }
+            ]
+          },
+          "qualifiers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "maxItems": 12
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "matched_target_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^target_[0-9]{3}$"
+            },
+            "uniqueItems": true,
+            "maxItems": 40
+          },
+          "target_match_status": {
+            "type": "string",
+            "enum": [
+              "matched",
+              "partial",
+              "conflict",
+              "not_comparable"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "evidence_type": {
+                  "const": "quantitative_result"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "metric": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "evidence_type": {
+                  "const": "mechanism_claim"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "mechanism": {
+                  "type": "object"
+                },
+                "assertion_mode": {
+                  "enum": [
+                    "causal_claim",
+                    "author_interpretation"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "evidence_type": {
+                  "const": "comparison"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "comparison": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "matched_target_ids": {
+                  "minItems": 1
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "target_match_status"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

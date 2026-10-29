@@ -1,0 +1,35 @@
+suite_id: component.skill.pvd.research-record-structuring
+protected_outcome: >-
+  Finalized PVD Evidence Nodes are structured into exact, provenance-traceable
+  Research Records (evidence_records and source_provenance) that downstream PVD
+  research can consume without record or provenance reshaping; when grouping is
+  unavailable, singleton degradation preserves every Evidence Node without
+  inventing facts or judging comparability.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - docs/02_产品与Workflow/PVD/OpenAIR PVD Workflow 设计合同.md
+  - skills/pvd/pvd-research-record-structuring/SKILL.md
+  - skills/pvd/pvd-research-record-structuring/skill.yaml
+failure_class: pvd_research_record_grounding_provenance_or_singleton_degradation_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/pvd/pvd-research-record-structuring/scripts
+test_responsibility: >-
+  deterministic component proof for exact research-record finalization, full
+  evidence provenance closure, singleton degradation when grouping is
+  unavailable, and Skill-declared model-visible projection boundaries
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions prove
+  protected_outcome; FAIL when sufficient valid evidence proves protected_outcome
+  is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - Skill implementation changes
+  - Skill input/output or finalization contract changes

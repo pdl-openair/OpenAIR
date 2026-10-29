@@ -1,0 +1,47 @@
+suite_id: component.execution.skill-semantic-output-handoff
+protected_outcome: >-
+  Registered Huiyan messages for the confirmed Skill handoffs carry the
+  scientific output names the current draft receiver reads, keep the caller's
+  query verbatim inside the scientific-minimal payload, and do not attach a
+  Formal or draft Schema.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - spec/collaboration/05_Skill与模型任务设计.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - model_message_claims_unsupplied_schema
+  - scientific_minimal_query_not_verbatim
+  - draft_receiver_field_absent_from_instructions
+  - huiyan_message_contains_formal_schema
+  - child_skill_not_on_registered_reasoning_runtime
+  - instruction_adds_required_output_or_default_authorization
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/durable_skill_runtime.py
+  - services/api/app/execution/provider_visible_skill_input.py
+  - services/api/app/execution/structured_output_provider_adapter.py
+test_responsibility: >-
+  Prove, from the registered durable entry and the production message builder,
+  that confirmed Skill instructions name the current draft fields, scientific-minimal
+  inputs stay limited to the projected science, Huiyan transport stays json_object
+  without a Schema body, and empty-unknown or empty-authorization wording is preserved.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - captured_registered_huiyan_message
+  - draft_required_names_in_instruction_body
+  - verbatim_query_assertion
+  - schema_body_absent_assertion
+verdict_rule: >-
+  PASS only when the captured registered messages and instruction bodies satisfy
+  every assertion in this suite; FAIL when valid evidence contradicts a boundary;
+  otherwise NO_VALID_EVIDENCE. Offline message capture is not a Fresh model-compliance result.
+triggers:
+  - Skill instruction output wording changes
+  - scientific-minimal payload construction changes
+  - Huiyan schema transport changes
+  - PVD child registered runtime entry changes

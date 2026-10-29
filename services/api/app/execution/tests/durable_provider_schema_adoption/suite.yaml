@@ -1,0 +1,47 @@
+suite_id: component.execution.durable-provider-schema-adoption
+protected_outcome: >-
+  The canonical durable structured runtime uses Huiyan JSON object mode without
+  exposing the frozen machine Schema in Provider messages, while preserving the
+  physical-send evidence lifecycle and local final-result validation.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - durable_runtime_exposes_machine_schema_to_huiyan
+  - durable_runtime_changes_scientific_messages_during_json_mode_adoption
+  - durable_runtime_json_mode_changes_physical_send_lifecycle
+  - durable_batch_exposes_machine_schema_to_huiyan
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/durable_skill_runtime.py
+test_responsibility: >-
+  Deterministically capture final HTTP payloads from direct and nested durable
+  structured execution and batch sub-calls and prove all use JSON object mode,
+  omit outputSchema and frozenOutputSchema from Provider-visible messages,
+  perform marked and completed physical sends, and retain local result validation.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - final_http_payload_json_mode_assertions
+  - machine_schema_absence_assertions
+  - single_physical_send_lifecycle_assertions
+  - local_result_validation_assertions
+verdict_rule: >-
+  PASS only when the captured final HTTP payload proves the canonical durable
+  runtime uses Huiyan JSON object mode without serializing the Formal Schema in
+  either the response format or model messages; direct, nested, and batch calls
+  consume the same adapter; exactly one physical send occurs after mark_io_started;
+  and an invalid returned result remains rejected by OpenAIR's local contract.
+  FAIL when valid evidence proves any protected boundary is violated; otherwise
+  NO_VALID_EVIDENCE.
+triggers:
+  - canonical durable Provider request construction changes
+  - durable structured output transport changes
+  - durable Provider physical-send lifecycle changes near JSON mode adaptation
+  - durable batch payload construction changes

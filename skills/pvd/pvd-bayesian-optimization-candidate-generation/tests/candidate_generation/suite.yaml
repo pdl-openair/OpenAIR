@@ -1,0 +1,37 @@
+suite_id: component.skill.pvd.bayesian-optimization-candidate-generation
+protected_outcome: >-
+  PVD BO reads canonical observations and preserves deterministic
+  profile-driven optimization/output behavior without scientific-content
+  eligibility or data-value validation gates.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - docs/02_产品与Workflow/PVD/PVD Skill 合同.md
+  - docs/02_产品与Workflow/PVD/OpenAIR PVD Workflow 设计合同.md
+  - skills/pvd/pvd-bayesian-optimization-candidate-generation/SKILL.md
+  - skills/pvd/pvd-bayesian-optimization-candidate-generation/skill.yaml
+failure_class: pvd_bo_applicability_dataset_identity_training_or_candidate_contract_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/pvd/pvd-bayesian-optimization-candidate-generation/src/pvd_bo
+  - skills/pvd/pvd-bayesian-optimization-candidate-generation/model_profiles
+test_responsibility: >-
+  Deterministic component proof for runtime fact identity, canonical observation
+  extraction, profile-driven optimizer semantics,
+  and public output shape and side-effect boundaries.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - numpy
+  - scikit-learn
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions prove
+  protected_outcome; FAIL when sufficient valid evidence proves protected_outcome
+  is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - BO applicability or observation-extraction changes
+  - BO model profile, baseline dataset, optimizer, schema, or output changes

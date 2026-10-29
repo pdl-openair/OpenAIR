@@ -1,0 +1,39 @@
+{
+  "research_leads": [
+    {
+      "lead_kind": "transferability_question",
+      "title": "Test whether anion coordination is a transferable interphase-design variable",
+      "research_question": "Across matched high-voltage lithium-metal electrolyte variants, how does changing anion coordination strength relate to interphase chemistry and fast-charging stability beyond the reported LiFSI/FDEE formulation?",
+      "investigation_target": "Transferability of the anion-rich-solvation to LiF-rich-interphase relationship across controlled electrolyte variants.",
+      "rationale": "The current finding is boundary-limited to the reported concentrated LiFSI/FDEE condition, while the mechanism chain identifies anion-rich solvation and LiF-rich interphase formation as linked steps. This creates a well-grounded transferability question without establishing what direction an alternative formulation will produce.",
+      "source_finding_ids": [
+        "fd:d32982b130d9825f8327"
+      ],
+      "mechanism_basis_edge_ids": [
+        "me:06cdaf84e920d43c3996",
+        "me:8289dcf192477eece18b",
+        "me:9a2ef66af0a8aa3b941d"
+      ],
+      "gap_edge_ids": [],
+      "provenance_evidence_ids": [
+        "ev:3e88da7bb098191e16cf",
+        "ev:851a9927a5a502895bae",
+        "ev:880f2f98084d75d04768"
+      ],
+      "boundary_conditions": [
+        "lithium metal anode",
+        "high voltage",
+        "fast charging",
+        "matched electrolyte variants with controlled confounders"
+      ],
+      "scientific_significance": "Determining transferability would show whether anion coordination is a reusable research variable rather than a property specific to one reported formulation.",
+      "uncertainties": [
+        "The supplied packet does not establish transferability across electrolyte families.",
+        "The relative contribution of salt concentration, fluorinated solvent chemistry, and anion coordination is not isolated."
+      ],
+      "confidence": 0.72,
+      "semantic_boundary_judgment": "within_research_lead_boundary"
+    }
+  ],
+  "generation_warnings": []
+}

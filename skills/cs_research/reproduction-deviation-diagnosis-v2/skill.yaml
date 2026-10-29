@@ -1,0 +1,37 @@
+skill_id: reproduction_deviation_diagnosis_v2
+claude_name: reproduction-deviation-diagnosis-v2
+display_name: 复现偏差诊断与验证路径
+version: "1.0.0"
+stages: [execution_validation]
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output: {contract_version: 1, guard_version: p06c-v1}
+review_policy: {contract_version: 1, mode: schema_validated_only}
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: research:declared-scientific-facts:v1
+  facts:
+  - fact_key: reproduction_evidence_supported_causes
+    source_field: evidence_supported_causes
+  - fact_key: reproduction_deviation_hypotheses
+    source_field: hypotheses
+  - fact_key: reproduction_diagnosis_remaining_unknowns
+    source_field: remaining_unknowns
+owner: TBD
+fixture_status: missing
+notes: 先做正式进入判定；验证要求只路由到已确认 CS Definition，由后续 ExecutionDecision / WorkUnit 执行；假设不得升级为事实。
+capability_contract:
+  artifact_types: [reproduction_deviation_diagnosis]
+  judgment_support: {deterministic: false, domain_professional: true}
+execution_method_roles:
+  - cs_reproduction_deviation_diagnosis:diagnosis_and_validation

@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goal", "task_instruction"],
+  "properties": {
+    "goal": {"type": "string", "minLength": 1},
+    "candidates": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "seed_cif_paths": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "task_instruction": {"type": "object", "additionalProperties": false, "properties": {
+      "pop_size": {"type": "integer", "minimum": 2, "maximum": 20},
+      "max_generations": {"type": "integer", "minimum": 0, "maximum": 3},
+      "crossover_rate": {"type": "number", "minimum": 0, "maximum": 1}
+    }}
+  }
+}

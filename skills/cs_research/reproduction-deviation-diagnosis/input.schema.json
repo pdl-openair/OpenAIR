@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["reproduction_comparison_judgment", "reproduction_execution_record", "reproduction_experiment_design"],
+  "properties": {
+    "reproduction_comparison_judgment": {"type": "object"},
+    "reproduction_execution_record": {"type": "object"},
+    "reproduction_experiment_design": {"type": "object"}
+  }
+}

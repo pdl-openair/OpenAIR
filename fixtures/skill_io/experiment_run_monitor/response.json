@@ -1,0 +1,23 @@
+{
+  "status": "running",
+  "summary": "正在执行 Set 10-13 主实验，当前进度约 75%。支持 JSON 进度文件断点续跑。",
+  "artifacts": [
+    {
+      "path": "openair/ope-benchmark/new_execute/task_set_10.md",
+      "type": "stage_summary",
+      "title": "Set 10 (RQ1) 执行总结"
+    },
+    {
+      "path": "openair/ope-benchmark/new_execute/task_set_11.md",
+      "type": "stage_summary",
+      "title": "Set 11 (RQ3) 执行总结"
+    }
+  ],
+  "capability_calls": [],
+  "next_actions": [
+    "等待 Set 12 (RQ2) 完成",
+    "执行 Set 13 (超参搜索)",
+    "执行 Set 14 (结果验证)"
+  ],
+  "error": null
+}

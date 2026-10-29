@@ -1,0 +1,12 @@
+suite_id: component.api.routes.task-artifact-content-scope
+protected_outcome: Task-scoped artifact reads enforce task and artifact identity and storage integrity without loading or reconstructing the full research payload.
+authority_refs: [spec/testing/OpenAIR 测试设计合同.md]
+failure_class: task_artifact_scope_or_content_integrity_failure
+minimum_owner: 单个组件行为
+production_targets: [services/api/app/modules/task_scope_repository.py, services/api/app/routes/tasks.py]
+test_responsibility: read scope, permissions, deleted tasks, cross-task identity, storage and hash boundaries
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: PASS only when scope and content assertions pass; real HTTP verification is separate.
+triggers: [task_scoped_artifact_read_changes]

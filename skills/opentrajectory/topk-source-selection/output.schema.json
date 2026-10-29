@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "topk-source-selection output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["topk_selection"],
+  "properties": {
+    "topk_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_for_p03", "extended_selected", "supporting_papers", "method_inspiration_papers", "excluded_examples",
+        "selection_stats", "p03_acquisition_plan", "risk_summary", "degraded", "degradation_reasons"
+      ],
+      "properties": {
+        "selected_for_p03": {"type": "array", "items": {"$ref": "#/definitions/selected_item"}},
+        "extended_selected": {"type": "array", "items": {"$ref": "#/definitions/selected_item"}},
+        "supporting_papers": {"type": "array", "items": {"$ref": "#/definitions/selected_item"}},
+        "method_inspiration_papers": {"type": "array", "items": {"$ref": "#/definitions/selected_item"}},
+        "excluded_examples": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["candidate_id", "dedupe_key", "title", "final_score", "tier", "pool", "exclusion_reason"],
+            "properties": {
+              "candidate_id": {"type": "string"},
+              "dedupe_key": {"type": "string"},
+              "title": {"type": "string"},
+              "final_score": {"type": "number", "minimum": 0, "maximum": 1},
+              "tier": {"type": "string"},
+              "pool": {"type": "string"},
+              "exclusion_reason": {"type": ["string", "null"]}
+            },
+            "additionalProperties": true
+          }
+        },
+        "selection_stats": {"type": "object", "additionalProperties": true},
+        "p03_acquisition_plan": {"type": "object", "additionalProperties": true},
+        "risk_summary": {"type": "object", "additionalProperties": true},
+        "degraded": {"type": "boolean"},
+        "degradation_reasons": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  },
+  "definitions": {
+    "selected_item": {
+      "type": "object",
+      "required": ["candidate_id", "dedupe_key", "title", "final_score", "tier", "pool", "selection_reason", "provenance", "score_breakdown", "matched_facets"],
+      "properties": {
+        "candidate_id": {"type": "string"},
+        "dedupe_key": {"type": "string"},
+        "title": {"type": "string"},
+        "final_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "tier": {"type": "string"},
+        "pool": {"type": "string"},
+        "selection_reason": {"type": ["string", "null"]},
+        "provenance": {"type": "array", "items": {"type": "object"}},
+        "score_breakdown": {"type": "object", "additionalProperties": true},
+        "matched_facets": {"type": "object", "additionalProperties": true}
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/agents/artifacts/paper_evidence_extraction_artifact_v1.schema.json",
+  "title": "paper_evidence_extraction_artifact_v1",
+  "contractId": "paper_evidence_extraction_artifact_v1",
+  "semanticVersion": "1.0.0",
+  "type": "object",
+  "required": ["material_readiness", "claim_inventory", "claim_evidence_table", "unsupported_or_missing", "author_inference_or_model_inference", "handoff"],
+  "properties": {
+    "material_readiness": {},
+    "claim_inventory": {},
+    "claim_evidence_table": {},
+    "unsupported_or_missing": {},
+    "author_inference_or_model_inference": {},
+    "handoff": {}
+  },
+  "additionalProperties": true
+}

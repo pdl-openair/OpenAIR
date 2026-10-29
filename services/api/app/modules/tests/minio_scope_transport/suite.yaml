@@ -1,0 +1,15 @@
+suite_id: component.modules.minio-scope-transport
+protected_outcome: Host and Docker processes can read the same persisted MinIO scope through an explicitly configured transport address without changing bucket, TLS, object key or content identity.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/task_specs/2026-10-09-historical-research-design-compatibility.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: persisted_artifact_scope_transport_or_identity_violation
+minimum_owner: 单个组件行为
+production_targets: [services/api/app/modules/minio_client.py]
+test_responsibility: Explicit transport mapping preserves scoped storage identity and cannot silently redirect unmapped scopes or invalid configurations.
+execution_profiles: [deterministic]
+required_dependencies: [Python test dependencies]
+evidence_required: [pytest_result, requested_endpoint, requested_bucket, object_key, returned_bytes]
+verdict_rule: PASS only when an exact scope mapping reads the expected object from its persisted bucket and TLS mode, unconfigured scopes retain their addresses, and invalid mappings fail; FAIL on a violated invariant; otherwise NO_VALID_EVIDENCE.
+triggers: [MinIO scoped transport changes, artifact persistence scope changes]

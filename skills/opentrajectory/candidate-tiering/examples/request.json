@@ -1,0 +1,76 @@
+{
+  "candidate_scores": [
+    {
+      "candidate_id": "cand_core",
+      "dedupe_key": "10.1000/core",
+      "title": "Core battery fast-charge mechanism paper",
+      "final_score": 0.81,
+      "score_breakdown": {
+        "domain_match": 1.0,
+        "object_match": 1.0,
+        "mechanism_match": 0.8,
+        "metric_match": 0.4,
+        "context_match": 0.8,
+        "evaluation_match": 0.2,
+        "evidence_potential": 0.7,
+        "source_accessibility": 0.7,
+        "diversity_bonus": 0.5,
+        "negative_penalty": 0.0
+      },
+      "matched_facets": {"object": ["battery"], "mechanism": ["plating suppression"]},
+      "negative_hits": [],
+      "must_have_hit_count": 1,
+      "metric_only": false,
+      "facets_quality_flags": {"facets_incomplete": false, "missing_facets": [], "degraded_scoring": false},
+      "provenance": [{"source_name": "openalex"}]
+    },
+    {
+      "candidate_id": "cand_eval",
+      "dedupe_key": "10.1000/eval",
+      "title": "Evaluation benchmark paper",
+      "final_score": 0.49,
+      "score_breakdown": {
+        "domain_match": 0.4,
+        "object_match": 0.2,
+        "mechanism_match": 0.2,
+        "metric_match": 0.6,
+        "context_match": 0.2,
+        "evaluation_match": 0.6,
+        "evidence_potential": 0.5,
+        "source_accessibility": 0.7,
+        "diversity_bonus": 0.5,
+        "negative_penalty": 0.0
+      },
+      "matched_facets": {"evaluation": ["benchmark"]},
+      "negative_hits": [],
+      "must_have_hit_count": 0,
+      "metric_only": false,
+      "facets_quality_flags": {"facets_incomplete": true, "missing_facets": ["mechanisms"], "degraded_scoring": true},
+      "provenance": [{"source_name": "semantic_scholar"}]
+    },
+    {
+      "candidate_id": "cand_excluded",
+      "dedupe_key": "10.1000/excluded",
+      "title": "Irrelevant with negative context",
+      "final_score": 0.33,
+      "score_breakdown": {
+        "domain_match": 0.2,
+        "object_match": 0.2,
+        "mechanism_match": 0.0,
+        "metric_match": 0.4,
+        "context_match": 0.0,
+        "evaluation_match": 0.0,
+        "evidence_potential": 0.3,
+        "source_accessibility": 0.3,
+        "diversity_bonus": 0.5,
+        "negative_penalty": 0.9
+      },
+      "matched_facets": {},
+      "negative_hits": ["not battery", "social context"],
+      "must_have_hit_count": 0,
+      "metric_only": true,
+      "facets_quality_flags": {"facets_incomplete": true, "missing_facets": ["target_metrics_en"], "degraded_scoring": true},
+      "provenance": [{"source_name": "arxiv"}]
+    }
+  ]
+}

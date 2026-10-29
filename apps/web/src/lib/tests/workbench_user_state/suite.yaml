@@ -1,0 +1,15 @@
+suite_id: component.web.lib.workbench-user-state
+protected_outcome: Public Workbench state distinguishes planning failure, execution failure, stopped execution, completion and pending user decision using current authoritative inputs.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+failure_class: workbench_user_state_misclassification
+minimum_owner: 确定性合同与不变量
+production_targets:
+  - apps/web/src/lib/workbenchUserState.ts
+test_responsibility: Direct production projection inputs and outputs; no source matching, fixed label counts or API/storage claims.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when authoritative input states produce the correct public state; FAIL on mismatch; missing runtime evidence is NO_VALID_EVIDENCE.
+triggers: [workbench_state_changed]

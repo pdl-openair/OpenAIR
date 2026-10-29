@@ -1,0 +1,26 @@
+suite_id: component.modules.production-definition-source
+protected_outcome: A frozen Registry snapshot exposes the correct current Definition identities and formal planning metadata while preserving exact historical identities for frozen Workflow use, without inventing missing contract truth.
+authority_refs:
+- docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+- docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class: production_definition_source_identity_scope_or_contract_projection_violation
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/modules/production_definition_source.py
+test_responsibility: deterministic component proof of frozen Definition resolution, current-version planner catalog projection, planning scope, contract truth, and Workflow eligibility
+execution_profiles:
+- deterministic
+required_dependencies:
+- repository Definition schemas
+- in-memory Registry snapshot archive
+evidence_required:
+- pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- Definition resolution or version-selection changes
+- planner catalog or planning-scope changes
+- frozen Registry snapshot semantics changes
+- Workflow eligibility projection changes

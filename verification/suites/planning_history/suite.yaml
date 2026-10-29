@@ -1,0 +1,18 @@
+suite_id: verification.planning-history
+protected_outcome: Public planning thoughts retain their identities and first occurrence times across updates, retries and confirmation; refresh and SSE use the same durable transcript.
+authority_refs: [docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md]
+failure_class: lost_or_fabricated_planning_history
+minimum_owner: 跨组件与基础设施
+production_targets:
+  - services/api/app/modules/research_planning_history.py
+  - services/api/app/modules/research_start_thinking_store.py
+  - services/api/app/modules/collaboration_lifecycle.py
+  - services/api/app/modules/task_events.py
+  - services/api/app/modules/task_public_projection.py
+  - services/api/app/modules/task_repository.py
+test_responsibility: Deterministic transcript persistence adapter and public history projection; controlled cursor does not prove real PostgreSQL transactions.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: PASS only when the protected assertions pass; missing execution evidence is NO_VALID_EVIDENCE.
+triggers: [planning_history_changes]

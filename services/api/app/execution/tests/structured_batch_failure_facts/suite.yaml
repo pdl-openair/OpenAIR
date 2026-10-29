@@ -1,0 +1,25 @@
+suite_id: structured-batch-failure-facts
+protected_outcome: 批处理保留 HTTP、传输、预算和输出合同失败的真实分类；保留成功批次；不在 batch 内新增恢复或重发。
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- provider_http_error_misreported_as_schema_error
+- transport_phase_or_submission_uncertainty_lost
+- successful_batches_discarded_or_replayed
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/execution/durable_skill_runtime.py
+test_responsibility: 失败事实在通用批处理及 durable 返回中保持一致，恢复决策不由 batch 擅自接管。
+execution_profiles:
+- 确定性配置
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- exact_saved_http504_offline_before_after
+- no_provider_or_database_io
+- pytest_exit_code_0
+verdict_rule: >-
+  PASS only when the deterministic offline Suite obtains all required evidence and its existing assertions prove HTTP, transport or submission-uncertainty, and completed-response output-contract failures retain their actual classifications, successful batches remain preserved without resubmission, uncertainty is not hidden by another batch's known failure, and soft-budget expiry creates no false failure or recovery action; FAIL when valid evidence contradicts any protected outcome or shows batch execution performing recovery or resubmission; otherwise NO_VALID_EVIDENCE.
+triggers:
+- production_targets_changed

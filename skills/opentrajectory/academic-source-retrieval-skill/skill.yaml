@@ -1,0 +1,41 @@
+skill_id: academic_source_retrieval_skill
+claude_name: academic-source-retrieval-skill
+display_name: 学术文献多源 Metadata 召回
+stages:
+- execution_validation
+substages:
+- source_acquisition
+skill_type: atomic
+runtime: python_adapter
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:academic_source_retrieval_skill
+  evidence_contract_version: external-action-evidence/v1
+status: ready
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: academic_source_retrieval.json
+notes: 'P0.7a self-contained runtime: OpenAlex and arXiv metadata retrieval execute
+  from this Skill package; Semantic Scholar remains optional best-effort. No PDF download,
+  no dedup, no scoring.'
+fixture_status: example_only
+input_handoff:
+  contract_version: 1
+  predecessor_skill_id: null
+  predecessor_definition_version: null
+  dependency_skill_id: null
+  dependency_definition_version: null
+  context_fields:
+    user_query: canonical_user_query
+  field_mappings: {}
+  constants: {}
+  normalizers: []
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: source_acquisition

@@ -1,0 +1,108 @@
+{
+  "topk_selection": {
+    "selected_for_p03": [
+      {
+        "candidate_id": "c1",
+        "dedupe_key": "k1",
+        "title": "Battery fast charge core mechanism",
+        "final_score": 0.91,
+        "tier": "core",
+        "pool": "core_pool",
+        "selection_reason": "strong core relevance",
+        "provenance": [{"source_name": "openalex"}],
+        "score_breakdown": {"object_match": 1.0},
+        "matched_facets": {"object": ["battery"]}
+      },
+      {
+        "candidate_id": "c2",
+        "dedupe_key": "k2",
+        "title": "Battery fast charge core control",
+        "final_score": 0.855,
+        "tier": "core",
+        "pool": "core_pool",
+        "selection_reason": "strong core relevance",
+        "provenance": [{"source_name": "deepxiv"}],
+        "score_breakdown": {"object_match": 0.9},
+        "matched_facets": {"object": ["battery"]}
+      },
+      {
+        "candidate_id": "c3",
+        "dedupe_key": "k3",
+        "title": "Mechanism support with plating insight",
+        "final_score": 0.78,
+        "tier": "mechanism_support",
+        "pool": "support_pool",
+        "selection_reason": "support",
+        "provenance": [{"source_name": "semantic_scholar"}],
+        "score_breakdown": {"mechanism_match": 0.8},
+        "matched_facets": {"mechanism": ["plating"]}
+      },
+      {
+        "candidate_id": "c4",
+        "dedupe_key": "k4",
+        "title": "Evaluation benchmark of charging models",
+        "final_score": 0.66,
+        "tier": "benchmark_or_evaluation",
+        "pool": "benchmark_pool",
+        "selection_reason": "evaluation",
+        "provenance": [{"source_name": "openalex"}],
+        "score_breakdown": {"evaluation_match": 0.7},
+        "matched_facets": {"evaluation": ["benchmark"]}
+      }
+    ],
+    "extended_selected": [],
+    "supporting_papers": [
+      {
+        "candidate_id": "c3",
+        "dedupe_key": "k3",
+        "title": "Mechanism support with plating insight",
+        "final_score": 0.78,
+        "tier": "mechanism_support",
+        "pool": "support_pool",
+        "selection_reason": "support",
+        "provenance": [{"source_name": "semantic_scholar"}],
+        "score_breakdown": {"mechanism_match": 0.8},
+        "matched_facets": {"mechanism": ["plating"]}
+      }
+    ],
+    "method_inspiration_papers": [],
+    "excluded_examples": [
+      {
+        "candidate_id": "c5",
+        "dedupe_key": "k5",
+        "title": "Excluded non-domain paper",
+        "final_score": 0.4,
+        "tier": "excluded",
+        "pool": "excluded_pool",
+        "exclusion_reason": "negative_context_blocked"
+      }
+    ],
+    "selection_stats": {
+      "core_count": 2,
+      "selected_total": 4,
+      "extended_count": 0,
+      "mechanism_support_count": 1,
+      "method_inspiration_count": 0,
+      "benchmark_or_evaluation_count": 1,
+      "excluded_count": 1,
+      "thresholds": {
+        "core_min": 3,
+        "dynamic_target": 4,
+        "dynamic_cap": 5,
+        "score_min": 0.45,
+        "extended_score_min": 0.6
+      }
+    },
+    "p03_acquisition_plan": {
+      "total_selected": 4,
+      "deepxiv_priority": {"count": 1, "dedupe_keys": ["k2"]},
+      "pdf_or_metadata": {"count": 3, "dedupe_keys": ["k1", "k3", "k4"]}
+    },
+    "risk_summary": {
+      "risk_flags": ["low_core_pool_count"],
+      "low_core_pool_count": true
+    },
+    "degraded": false,
+    "degradation_reasons": []
+  }
+}

@@ -1,0 +1,78 @@
+# 实验指派单 {{assignment_id}}
+
+## 0. 元信息
+
+| 字段 | 值 |
+|---|---|
+| assignment_id | {{assignment_id}} |
+| candidate_id | {{candidate_id}} |
+| 化学式 | {{formula}} |
+| recipe_id | {{recipe_id}} |
+| 指派日期 | {{assign_date}} |
+| 负责人 | {{operator}} |
+| 优先级 | {{priority}} |
+
+## 1. 材料背景与目标
+
+{{objectives_summary}}
+
+ML 预测值（来源：pipeline_state.json ← ALIGNN MCP）：
+
+| 性质 | 预测值 | 目标 |
+|---|---|---|
+{{ml_metrics_table}}
+
+## 2. 结构信息
+
+- CIF：`{{cif_path}}`
+- 空间群：{{space_group}}
+- 晶格常数：{{lattice_params}}
+- 原子数：{{natoms}}
+
+## 3. 主推制备方案（{{recipe_id}}）
+
+来源：`{{recipe_ref}}`
+
+| 项 | 内容 |
+|---|---|
+| 原料与配比 | {{precursors}} |
+| 助熔剂/输运剂 | {{flux_agent}} |
+| 容器 | {{container}} |
+| 气氛 | {{atmosphere}} |
+| 分离与后处理 | {{separation}} |
+
+温度程序：
+
+| 阶段 | 温度 (℃) | 速率/时长 |
+|---|---|---|
+{{temperature_program}}
+
+预期结果：{{expected_outcome}}
+
+## 4. 备选方案（来自可制备性评估）
+
+{{alt_options}}
+
+来源：`synthesis-advisor/{{formula}}_{{assess_date}}/assessment_report.md`
+
+## 5. 风险与安全
+
+{{risk_notes}}
+
+## 6. 表征要求
+
+| 表征技术 | 测什么 | 预期值区间（ML{{ml_dft_note}}） | 送样量 |
+|---|---|---|---|
+{{characterization_requirements_table}}
+
+## 7. 交付与回收
+
+- 样品命名：`S{{candidate_id_num}}-<nn>`（如 SC001-01、SC001-02）。
+- 每个样品在 `wetlab/sample_ledger.csv` 记一行；每条表征结果在
+  `wetlab/characterization_results.csv` 记一行（字段见
+  `.claude/skills/wet-lab-workflow/references/field-dictionary.md`）。
+- 建议交付时间：{{due_date}}
+
+## 8. 溯源附录
+
+{{provenance_list}}

@@ -1,0 +1,43 @@
+skill_id: deepxiv_progressive_reading
+claude_name: deepxiv-progressive-reading-skill
+display_name: DeepXiv 渐进式文献深读
+stages:
+- execution_validation
+substages:
+- progressive_reading
+skill_type: atomic
+runtime: python_adapter
+status: ready
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: deepxiv_paper_packets.json
+notes: Canonical dual input is topk_selection + evidence_schema. EvidenceSchema drives section order and bounded deepening; unresolved targets stay explicit in packet diagnostics. Identity/material/source-anchor truth remains unchanged; raw() remains explicit opt-in.
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: progressive_reading
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:deepxiv_progressive_reading
+  evidence_contract_version: external-action-evidence/v1
+external_source_records:
+- record_path: /paper_packets/*
+  identity_fields:
+  - field_path: /arxiv_id
+    identity_type: arxiv_identifier
+
+capability_contract:
+  artifact_types:
+  - opentrajectory.progressive_reading
+  - opentrajectory.progressive_reading.planned_output
+  judgment_support:
+    deterministic: false
+    domain_professional: false
+execution_method_roles:
+- opentrajectory_research_record_establishment_v1:progressive_reading

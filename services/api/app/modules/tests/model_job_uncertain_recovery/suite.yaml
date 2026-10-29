@@ -1,0 +1,15 @@
+suite_id: component.modules.model-job-uncertain-recovery
+protected_outcome: Model-job reconciliation recovers only matching completed durable work and keeps unproven execution unknown without automatic requeue.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: model_job_uncertain_recovery_authority_violation
+minimum_owner: 单个组件行为
+production_targets: [services/api/app/modules/model_job_queue.py]
+test_responsibility: deterministic component proof of durable model-job reconciliation authority
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: PASS only when declared conditions and evidence prove protected_outcome; otherwise FAIL or NO_VALID_EVIDENCE.
+triggers: [model-job reconciliation changes]

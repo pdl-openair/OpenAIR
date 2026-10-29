@@ -1,0 +1,52 @@
+skill_id: pvd_research_request_understanding
+claude_name: pvd-research-request-understanding
+display_name: PVD Research Request Understanding
+description: Understands one PVD research request as one scientific semantic task and emits canonical structured context, dynamic recommendation parameter scope, run preferences, and query-derived experiment facts without retrieval or recommendation.
+version: 1.0.0
+domain: pvd
+stages:
+- problem_modeling
+substages:
+- research_goal_equipment_constraints
+- evidence_applicability_comparability_analysis
+- experimental_feedback_round_analysis
+- process_factor_candidate_experiment_analysis
+packs:
+- pvd
+skill_type: atomic
+runtime: llm_structured
+status: ready
+owner: TBD
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+durable_llm_execution_policy:
+  contract_version: 1
+  model_profile: terra
+  reasoning_effort: none
+  max_output_tokens: 6000
+  read_timeout_seconds: 60
+  response_mode: json_object
+  load_references: false
+  structured_output_recovery_attempts: 1
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: provider.schema.json
+# scientific_state_projection is declared at the binding level (only the
+# research_goal_equipment_constraints / S1 binding carries it). Declaring it
+# here at the skill level would make it fire for every substage that reuses
+# this skill for context-rebuild (S2/S5/S6), re-materializing experiment
+# history and deterministically raising pvd_research_request_history_conflict.
+fixture_status: missing
+notes: PVD request-understanding input-preparation capability migrated from 407b behavior; dynamic task-defined parameter scope, provenance-preserving context, and no recommendation authority.
+enabled: true

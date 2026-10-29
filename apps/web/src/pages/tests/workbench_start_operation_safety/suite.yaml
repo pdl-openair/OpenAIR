@@ -1,0 +1,34 @@
+suite_id: component.web.pages.workbench-start-operation-safety
+protected_outcome: >-
+  Workbench confirms the current research design once, observes backend-owned
+  startup without launching duplicate work, starts confirmed API tasks only
+  when current authority allows it, and sends free text as assistant chat
+  without inventing confirmation, continuation, or retry actions.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: workbench_unauthorized_or_duplicate_start_operation
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/pages/WorkbenchPage.tsx
+  - apps/web/src/hooks/useWorkbenchAuthority.ts
+  - apps/web/src/hooks/useWorkbenchSessionState.ts
+  - apps/web/src/components/workbench/WorkbenchInteractionPanel.tsx
+test_responsibility: >-
+  Render the production page and interaction panel in jsdom, operate their
+  actual controls, and inspect dependency API calls and visible startability.
+  Supplement completion includes void reload, action refresh, applied session navigation,
+  and retaining unsent text on failure. Old receipts, later edits, artifact navigation,
+  and A -> B -> A task revisits cannot clear or inherit a new draft; StrictMode
+  still reconciles a confirmed start.
+  Loading hooks, API responses and external streams are controlled dependencies;
+  this Suite does not prove backend execution idempotency or agent intent quality.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS when user operations produce the expected confirmation/start/chat calls,
+  forbidden operations produce none, and in-flight operations cannot be submitted
+  again; otherwise FAIL. Missing runtime evidence is NO_VALID_EVIDENCE.
+triggers: [workbench_confirmation_start_or_composer_changed]

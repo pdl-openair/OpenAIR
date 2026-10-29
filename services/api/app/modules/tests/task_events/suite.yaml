@@ -1,0 +1,15 @@
+suite_id: component.modules.task-events
+protected_outcome: In-memory task event publication fans out only to the scoped active subscriptions, bounds slow-consumer queues by retaining the newest event, and stops delivery after unsubscribe.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: task_event_fanout_scope_queue_or_subscription_leak
+minimum_owner: 单个组件行为
+production_targets: [services/api/app/modules/task_events.py]
+test_responsibility: deterministic component proof of task-event fanout, bounded queue behavior, and subscription cleanup
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result, asserted_event_scope, asserted_queue_state, asserted_unsubscribe_state]
+verdict_rule: PASS only when known-good scoped fanout succeeds and the overflow/unsubscribe cases prove no stale or post-close delivery; FAIL on a valid violation; otherwise NO_VALID_EVIDENCE.
+triggers: [task event publication changes, subscription or queue lifecycle changes]

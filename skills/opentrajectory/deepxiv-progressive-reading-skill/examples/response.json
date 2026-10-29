@@ -1,0 +1,183 @@
+{
+  "status": "success",
+  "paper_packets": [
+    {
+      "candidate_id": "arxiv:2409.05591",
+      "arxiv_id": "2409.05591",
+      "doi": "",
+      "title": "Example paper",
+      "read_depth": "section",
+      "reading_mode": "section",
+      "brief": {
+        "title": "Example paper",
+        "arxiv_id": "2409.05591",
+        "tldr": "Example"
+      },
+      "head": {
+        "title": "Example paper",
+        "arxiv_id": "2409.05591",
+        "sections": {
+          "Methods": {
+            "token_count": 100
+          }
+        }
+      },
+      "sections": [
+        {
+          "section_name": "Methods",
+          "content": "Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper. Example scientific methods, controlled conditions, measurements, and results for the paper.",
+          "content_hash": "27349814ca5d848d62bb15c03b15183620c6b6b2f4f86e0b2de6b14f71064f2b",
+          "source_type": "deepxiv",
+          "provider": "deepxiv",
+          "source_locator": "deepxiv://arxiv/2409.05591",
+          "paper_identity": {
+            "candidate_id": "arxiv:2409.05591",
+            "doi": "",
+            "arxiv_id": "2409.05591",
+            "arxiv_work_id": "2409.05591",
+            "arxiv_version": "",
+            "pmcid": "",
+            "openalex_id": "",
+            "title": "Example paper"
+          },
+          "material_type": "article_fulltext",
+          "material_status": "MATERIAL_READY"
+        }
+      ],
+      "source_anchors": [
+        {
+          "anchor_id": "anchor:deepxiv:2409.05591:methods:27349814ca5d848d",
+          "candidate_id": "arxiv:2409.05591",
+          "arxiv_id": "2409.05591",
+          "section_name": "Methods",
+          "content_hash": "27349814ca5d848d62bb15c03b15183620c6b6b2f4f86e0b2de6b14f71064f2b",
+          "source_type": "deepxiv",
+          "provider": "deepxiv",
+          "source_locator": "deepxiv://arxiv/2409.05591"
+        }
+      ],
+      "material_status": "MATERIAL_READY",
+      "material_type": "article_fulltext",
+      "requested_identity": {
+        "candidate_id": "arxiv:2409.05591",
+        "doi": "",
+        "arxiv_id": "2409.05591",
+        "arxiv_work_id": "2409.05591",
+        "arxiv_version": "",
+        "pmcid": "",
+        "openalex_id": "",
+        "title": "Example paper"
+      },
+      "provider_observed_identity": {
+        "doi": "",
+        "arxiv_id": "2409.05591",
+        "arxiv_work_id": "2409.05591",
+        "arxiv_version": "",
+        "pmcid": "",
+        "openalex_id": ""
+      },
+      "resolved_identity": {
+        "candidate_id": "arxiv:2409.05591",
+        "doi": "",
+        "arxiv_id": "2409.05591",
+        "arxiv_work_id": "2409.05591",
+        "arxiv_version": "",
+        "pmcid": "",
+        "openalex_id": "",
+        "title": "Example paper"
+      },
+      "paper_identity": {
+        "candidate_id": "arxiv:2409.05591",
+        "doi": "",
+        "arxiv_id": "2409.05591",
+        "arxiv_work_id": "2409.05591",
+        "arxiv_version": "",
+        "pmcid": "",
+        "openalex_id": "",
+        "title": "Example paper"
+      },
+      "provider": "deepxiv",
+      "source_locator": "deepxiv://arxiv/2409.05591",
+      "provider_observed_title": "Example paper",
+      "provenance": [],
+      "tables": [],
+      "diagnostics": {
+        "selected_section_names": [
+          "Methods"
+        ],
+        "evidence_guided_section_order": [
+          "Methods"
+        ],
+        "target_goal_ids": [
+          "target_001"
+        ],
+        "section_errors": [],
+        "raw_fallback_used": false,
+        "identity_basis": "arxiv_match",
+        "extractable_table_count": 0,
+        "table_reference_count": 0,
+        "table_mentioned_but_unavailable": false,
+        "evidence_schema_id": "example-progressive-reading",
+        "evidence_schema_version": "0.1.0",
+        "target_reading": [
+          {
+            "target_id": "target_001",
+            "target_type": "experimental_condition",
+            "scientific_role": "condition",
+            "requiredness": "required",
+            "status": "located_in_read_content",
+            "matched_cues": [
+              "controlled conditions"
+            ],
+            "missing_cues": [],
+            "source_anchor_ids": [
+              "anchor:deepxiv:2409.05591:methods:27349814ca5d848d"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "material_attempts": [],
+  "summary": {
+    "input_candidate_count": 1,
+    "attempted_candidate_count": 1,
+    "truncated_candidate_count": 0,
+    "paper_packet_count": 1,
+    "ready_packet_count": 1,
+    "abstract_only_packet_count": 0,
+    "failed_candidate_count": 0,
+    "material_attempt_count": 0,
+    "section_count": 1,
+    "source_anchor_count": 1,
+    "partial_success": false,
+    "degraded": false
+  },
+  "audit": {
+    "skill_id": "deepxiv_progressive_reading",
+    "reader_mode": "deepxiv_sdk_reader",
+    "raw_default_enabled": false,
+    "raw_call_count": 0,
+    "max_papers": 1,
+    "max_sections_per_paper": 3,
+    "network_timeout_seconds": 20.0,
+    "max_provider_retries": 1,
+    "max_total_chars": 300000,
+    "output_content_chars": 1839,
+    "section_priority": [
+      "method",
+      "methods",
+      "experimental",
+      "experiment",
+      "experiments",
+      "results and discussion",
+      "result",
+      "results",
+      "discussion",
+      "mechanism",
+      "conclusion",
+      "conclusions"
+    ],
+    "input_fingerprint": "91d97c054c83c3bcc0796d945a6b9f3e42b276ee7fe215df8781b6069be056ed"
+  }
+}

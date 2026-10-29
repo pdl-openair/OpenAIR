@@ -1,0 +1,15 @@
+suite_id: component.execution.evidence-batch-identity
+protected_outcome: New paper work in later batches reaches Provider execution while completed work remains protected from replay and bounded retries retain stable identity.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+failure_class: evidence_batch_work_identity_collision
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/evidence_batch_identity.py
+  - services/api/app/execution/durable_skill_runtime.py
+test_responsibility: Exercise the actual batch executor across batches, terminal replay and bounded HTTP retry without real Provider or database I/O.
+execution_profiles: [deterministic]
+required_dependencies: [project_python_dependencies]
+evidence_required: [pytest_exit_code_0]
+verdict_rule: PASS only if distinct frozen paper work executes independently and the same work retains stable identity and terminal replay protection.
+triggers: [evidence_batch_operation_identity_changes]

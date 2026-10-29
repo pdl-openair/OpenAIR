@@ -1,0 +1,23 @@
+suite_id: component.modules.registry-snapshot-scope-integrity
+protected_outcome: Planning Registry snapshots contain only frozen research requirements, execution snapshots remain exact children of the frozen planning contract, and planning authority cannot be silently replaced by execution capability state.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: registry_snapshot_planning_execution_scope_or_parent_integrity_violation
+minimum_owner: 确定性合同与不变量
+production_targets:
+  - services/api/app/modules/registry_snapshot_repository.py
+test_responsibility: deterministic component proof of planning/execution snapshot scope, frozen-parent identity, and mutation rejection
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - Registry snapshot canonicalization changes
+  - planning/execution snapshot scope changes
+  - planningSnapshotRef or snapshot-integrity changes

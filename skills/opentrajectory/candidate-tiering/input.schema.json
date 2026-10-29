@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "candidate-tiering input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["candidate_scores"],
+  "properties": {
+    "candidate_scores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "candidate_id", "dedupe_key", "title", "final_score", "score_breakdown", "matched_facets",
+          "negative_hits", "must_have_hit_count", "metric_only", "facets_quality_flags", "provenance"
+        ],
+        "properties": {
+          "candidate_id": {"type": "string"},
+          "dedupe_key": {"type": "string"},
+          "title": {"type": "string"},
+          "final_score": {"type": "number", "minimum": 0, "maximum": 1},
+          "score_breakdown": {"type": "object", "additionalProperties": true},
+          "matched_facets": {"type": "object", "additionalProperties": true},
+          "negative_hits": {"type": "array", "items": {"type": "string"}},
+          "must_have_hit_count": {"type": "integer", "minimum": 0},
+          "metric_only": {"type": "boolean"},
+          "facets_quality_flags": {
+            "type": "object",
+            "required": ["facets_incomplete", "missing_facets", "degraded_scoring"],
+            "properties": {
+              "facets_incomplete": {"type": "boolean"},
+              "missing_facets": {"type": "array", "items": {"type": "string"}},
+              "degraded_scoring": {"type": "boolean"}
+            },
+            "additionalProperties": true
+          },
+          "provenance": {"type": "array", "items": {"type": "object"}
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}

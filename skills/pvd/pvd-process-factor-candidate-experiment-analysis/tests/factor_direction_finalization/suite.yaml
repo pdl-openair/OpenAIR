@@ -1,0 +1,36 @@
+suite_id: component.skill.pvd.process-factor-candidate-experiment-analysis
+protected_outcome: >-
+  For every task-defined formal PVD parameter, direction finalization covers the
+  exact dynamic scope once, emits only the formal direction vocabulary without
+  concrete values, recipes, or portfolios, preserves supporting evidence and
+  diagnosis references, allows uncertain under weak evidence, and fails closed on
+  scope mismatch.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - docs/02_产品与Workflow/PVD/PVD Skill 合同.md
+  - docs/02_产品与Workflow/PVD/OpenAIR PVD Workflow 设计合同.md
+  - skills/pvd/pvd-process-factor-candidate-experiment-analysis/SKILL.md
+  - skills/pvd/pvd-process-factor-candidate-experiment-analysis/skill.yaml
+failure_class: pvd_direction_scope_vocabulary_traceability_or_fail_closed_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/pvd/pvd-process-factor-candidate-experiment-analysis/scripts
+test_responsibility: >-
+  deterministic component proof for exact dynamic-scope coverage, direction-only
+  vocabulary and schema rejection of concrete values, first/feedback-round shared
+  direction contract, reference preservation, and scope-mismatch fail-closed
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions prove
+  protected_outcome; FAIL when sufficient valid evidence proves protected_outcome
+  is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - Skill implementation changes
+  - Skill input/output or finalization contract changes

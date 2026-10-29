@@ -1,0 +1,122 @@
+{
+  "status": "completed",
+  "summary": "用 XRD-1.1 库对 CrSiTe3 (mp-3779) + AlN (mp-1700) 双相组合完成训练（run_name=crsite3_aln_v1），并对 ./data/CrSiTe3_mixture/ 下 12 张真实谱图做 XRD+PDF 融合推理。12/12 谱图被正确识别为主相 CrSiTe3，其中 4 张检出副相 AlN，2 张检出仪器背景相，整体置信度 0.87。",
+  "artifacts": [
+    {
+      "path": "auto_xrd/soft_link/All_CIFs/crsite3_aln_v1/results/result.csv",
+      "type": "xrd_prediction_result",
+      "title": "预测结果（Predicted/XRD/PDF 三列）"
+    },
+    {
+      "path": "auto_xrd/soft_link/All_CIFs/crsite3_aln_v1/Models",
+      "type": "xrd_trained_models",
+      "title": "训练得到的 CNN 模型权重"
+    },
+    {
+      "path": "auto_xrd/soft_link/All_CIFs/crsite3_aln_v1/References",
+      "type": "xrd_reference_phases",
+      "title": "参考相 CIF 集合"
+    },
+    {
+      "path": "auto_xrd/figure/crsite3_aln_v1",
+      "type": "xrd_spectra_preview",
+      "title": "真实谱图叠加预测峰位预览"
+    }
+  ],
+  "capability_calls": [
+    {
+      "id": "capcall_docker_build_001",
+      "ownerId": "task_materials_xrd_001",
+      "workspaceId": "ws_materials",
+      "createdBy": "claude_code_runner",
+      "kind": "docker",
+      "name": "docker compose up -d --build（LOCAL_UID/GID）",
+      "status": "completed",
+      "requestedAt": "2026-06-23T14:00:00Z",
+      "finishedAt": "2026-06-23T14:02:43Z",
+      "resultSummary": "XRD-1.1 容器启动（PyTorch+pymatgen）",
+      "runtime": "docker",
+      "stageKey": "insight_generation",
+      "subStageInstanceId": "ss_xrd_characterization_001"
+    },
+    {
+      "id": "capcall_mp_download_001",
+      "ownerId": "task_materials_xrd_001",
+      "workspaceId": "ws_materials",
+      "createdBy": "claude_code_runner",
+      "kind": "mp_api",
+      "name": "mp_formula_tool.py candidates + CIF 下载",
+      "status": "completed",
+      "requestedAt": "2026-06-23T14:02:43Z",
+      "finishedAt": "2026-06-23T14:03:11Z",
+      "resultSummary": "CrSiTe3 (R-3, sg=148) / AlN (P63mc, sg=186) 下载完成",
+      "runtime": "python",
+      "stageKey": "insight_generation",
+      "subStageInstanceId": "ss_xrd_characterization_001",
+      "prevCallId": "capcall_docker_build_001"
+    },
+    {
+      "id": "capcall_xrd_pipeline_001",
+      "ownerId": "task_materials_xrd_001",
+      "workspaceId": "ws_materials",
+      "createdBy": "claude_code_runner",
+      "kind": "docker_exec",
+      "name": "run_pipeline.sh --formula-a CrSiTe3 --formula-b AlN",
+      "status": "completed",
+      "requestedAt": "2026-06-23T14:03:11Z",
+      "finishedAt": "2026-06-23T14:24:08Z",
+      "resultSummary": "训练 5 epoch + 12 张谱图推理；result.csv 生成",
+      "runtime": "docker",
+      "stageKey": "insight_generation",
+      "subStageInstanceId": "ss_xrd_characterization_001",
+      "prevCallId": "capcall_mp_download_001",
+      "inputCallRefs": ["capcall_mp_download_001"]
+    }
+  ],
+  "next_actions": [
+    "查看 result.csv 核对 4 张副相检出是否符合预期",
+    "若混淆率高，切换到工作流 2（迭代负样本优化）补一轮训练",
+    "把训练好的 Models 用于后续批次谱图（无需重训）"
+  ],
+  "error": null,
+  "xrd_result": {
+    "run_name": "crsite3_aln_v1",
+    "phases_trained": [
+      {"label": "CrSiTe3", "mp_id": "mp-3779", "sg_number": 148, "role": "primary"},
+      {"label": "AlN", "mp_id": "mp-1700", "sg_number": 186, "role": "secondary"}
+    ],
+    "spectra_count": 12,
+    "predictions": [
+      {
+        "spectrum": "sample_01.txt",
+        "predicted_phases": ["CrSiTe3"],
+        "xrd_predicted_phases": ["CrSiTe3"],
+        "pdf_predicted_phases": ["CrSiTe3"],
+        "confidence": 0.94
+      },
+      {
+        "spectrum": "sample_02.txt",
+        "predicted_phases": ["CrSiTe3", "AlN"],
+        "xrd_predicted_phases": ["CrSiTe3", "AlN"],
+        "pdf_predicted_phases": ["CrSiTe3"],
+        "confidence": 0.88
+      },
+      {
+        "spectrum": "sample_03.txt",
+        "predicted_phases": ["CrSiTe3", "AlN"],
+        "xrd_predicted_phases": ["CrSiTe3"],
+        "pdf_predicted_phases": ["CrSiTe3", "AlN"],
+        "confidence": 0.79
+      },
+      {
+        "spectrum": "sample_04.txt",
+        "predicted_phases": ["CrSiTe3"],
+        "xrd_predicted_phases": ["CrSiTe3"],
+        "pdf_predicted_phases": ["CrSiTe3"],
+        "confidence": 0.91
+      }
+    ],
+    "overall_confidence_mean": 0.87,
+    "confusion_risk": "低（主相识别一致性 12/12）"
+  }
+}

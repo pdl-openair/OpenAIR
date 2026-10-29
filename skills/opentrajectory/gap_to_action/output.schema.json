@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpenTrajectory Gap-to-Action Output",
+  "type": "object",
+  "required": [
+    "pipeline_id",
+    "mode",
+    "evidence_producing_run",
+    "planner_input_suite",
+    "baseline_research_lead_package",
+    "planner_before_after",
+    "treatment_research_lead_package"
+  ],
+  "properties": {
+    "pipeline_id": {"const": "p08b_3o_gap_to_action_pipeline_v1"},
+    "mode": {"type": "string"},
+    "evidence_producing_run": {"const": false},
+    "planner_input_suite": {"type": "object"},
+    "baseline_research_lead_package": {"type": "object"},
+    "planner_before_after": {
+      "type": "object",
+      "required": ["planner_id", "evidence_producing_run", "action_rows", "boundary_checks"],
+      "properties": {
+        "planner_id": {"const": "p08b_3n_gap_to_action_planner_v1"},
+        "evidence_producing_run": {"const": false},
+        "action_rows": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/action"}
+        },
+        "boundary_checks": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "treatment_research_lead_package": {"type": "object"},
+    "upstream_gap_mapping": {
+      "type": "array",
+      "description": "Planning-only structural mapping from proposal.gap_records indexes/types to canonical Track B types; not scientific provenance."
+    },
+    "unsupported_upstream_gaps": {
+      "type": "array",
+      "description": "Visible upstream gap types Track B deliberately does not map to the canonical eight-gap taxonomy."
+    },
+    "normalization_validation": {"type": "object"},
+    "unmapped_or_absent_gap_signals": {"type": "array"}
+  },
+  "definitions": {
+    "action": {
+      "type": "object",
+      "required": [
+        "gap_type",
+        "case",
+        "current_status",
+        "targeted_action",
+        "required_input",
+        "expected_output",
+        "stop_condition",
+        "hard_fail",
+        "post_action_status"
+      ],
+      "properties": {
+        "gap_type": {
+          "enum": [
+            "retrieval_gap",
+            "source_lock_gap",
+            "protocol_gap",
+            "threshold_gap",
+            "baseline_control_gap",
+            "decision_rule_gap",
+            "independent_validation_gap",
+            "domain_evidence_contract_gap"
+          ]
+        },
+        "case": {"type": "string", "minLength": 1},
+        "current_status": {},
+        "targeted_action": {"type": "string", "minLength": 1},
+        "required_input": {},
+        "expected_output": {},
+        "stop_condition": {},
+        "hard_fail": {},
+        "post_action_status": {},
+        "source_gap_pointer": {"type": "string"},
+        "source_gap_id": {},
+        "source_signal": {},
+        "source_value": {},
+        "source_slot_id": {},
+        "trace_id": {},
+        "source_pointer": {},
+        "evidence_pointer": {}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

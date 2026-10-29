@@ -1,0 +1,34 @@
+suite_id: pvd-scientific-screening-diagnostics
+protected_outcome: 筛选失败保留真实状态及具体诊断；既有降级结果保持明确未完成身份。
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+- spec/testing/OpenAIR 测试设计合同.md
+- 'confirmed_engineering_invariant: frozen WorkUnit execution consumes its persisted
+  policy; new child calls use the child registered contract'
+failure_class:
+- screening_failure_flattened
+- screening_input_identity_changed
+minimum_owner: 单个组件行为
+production_targets:
+- skills/pvd/pvd-literature-evidence-acquisition-closure/adapter/literature_evidence_closure.py
+test_responsibility: 筛选失败保留真实状态及具体诊断；既有降级结果保持明确未完成身份。
+execution_profiles:
+- 确定性配置
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- pytest_exit_code_0
+- exact_before_after_regression
+- no_provider_or_database_io
+verdict_rule: >-
+  PASS when the deterministic execution conditions hold, every required evidence
+  item is obtained, and the observed facts show that canonical candidate and
+  pending-target identities reach screening while unavailable screening preserves
+  the original failure diagnostics, retrieval order, and explicit degraded status;
+  FAIL when sufficient valid evidence shows that any of those identities or
+  failure facts are changed, flattened, or presented as completed screening;
+  NO_VALID_EVIDENCE when the declared conditions do not hold or any required
+  evidence item is missing.
+triggers:
+- production_targets_changed
+- child_invocation_contract_changed

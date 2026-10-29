@@ -1,0 +1,38 @@
+skill_id: execution_plan_fact_assembly
+claude_name: execution-plan-fact-assembly
+display_name: 复现执行方案确定性组装
+version: "0.1.0"
+stages:
+- solution_design
+- execution_validation
+substages:
+- execution_plan_acquisition
+packs:
+- cs_reproduction
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:execution_plan_fact_assembly
+  evidence_contract_version: deterministic-output/v1
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: execution_plan_acquisition
+owner: TBD
+fixture_status: missing
+notes: 确定性核验逐字来源、stable ID、正式 reference identity 和机械默认；不固定真实资源、不执行程序、不产生实际测量结果。
+capability_contract:
+  artifact_types:
+  - reproduction_execution_plan_facts
+  judgment_support:
+    deterministic: true
+    domain_professional: false
+execution_method_roles:
+- cs_reproduction_experiment_design_grounding:execution_fact_assembly

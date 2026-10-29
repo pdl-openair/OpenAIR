@@ -1,0 +1,180 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "intent_understanding": {
+      "type": "object",
+      "required": [
+        "original_user_query",
+        "research_object"
+      ],
+      "properties": {
+        "original_user_query": {
+          "type": "string",
+          "minLength": 1
+        },
+        "research_object": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true,
+      "description": "Formal intent view projected from the problem_framing Artifact. The producer output schema remains authoritative for the full shape."
+    },
+    "constraints_criteria": {
+      "type": "object",
+      "required": [
+        "interpreted_constraints",
+        "missing_information",
+        "research_risks"
+      ],
+      "properties": {
+        "interpreted_constraints": {
+          "type": "array"
+        },
+        "missing_information": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "research_risks": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "additionalProperties": true,
+      "description": "Formal constraint view projected from the problem_framing Artifact. The producer output schema remains authoritative for the full shape."
+    },
+    "user_query": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Original user research question. Empty string is invalid and should be rejected before this skill runs."
+    },
+    "research_domain": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "material_system": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "research_context": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "interpreted_constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "constraint_name",
+          "constraint_type",
+          "confidence",
+          "downstream_search_terms",
+          "risk_flags"
+        ],
+        "properties": {
+          "constraint_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "original_phrase": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "constraint_type": {
+            "type": "string"
+          },
+          "interpreted_value": {},
+          "candidate_values": {
+            "type": "array",
+            "items": {}
+          },
+          "domain_rationale": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "needs_user_confirmation": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "downstream_search_terms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence_basis": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "risk_flags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "default": []
+    },
+    "constraint_quality_report": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "seed_terms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "known_seed_papers": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "default": []
+    }
+  },
+  "additionalProperties": false,
+  "anyOf": [
+    {
+      "required": [
+        "intent_understanding",
+        "constraints_criteria"
+      ]
+    },
+    {
+      "required": [
+        "user_query",
+        "interpreted_constraints"
+      ]
+    }
+  ]
+}

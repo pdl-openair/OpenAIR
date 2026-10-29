@@ -1,0 +1,10 @@
+{
+  "task_id": "task_cs_ope_005",
+  "title": "离线 RL 文献结构化整理",
+  "user_goal": "系统研究离线策略评估（OPE）方法在 RL 训练过程中的可靠性变化，建立可解释的决策规则，回答在训练的什么阶段应该信任哪个 OPE 方法以及如何从可观测信号判断何时切换。",
+  "domain": "cs_research",
+  "current_stage": "problem_modeling",
+  "status": "running",
+  "created_at": "2026-04-09T09:00:00Z",
+  "updated_at": "2026-05-14T09:00:00Z"
+}

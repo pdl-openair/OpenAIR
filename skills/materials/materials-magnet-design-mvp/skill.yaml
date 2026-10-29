@@ -1,0 +1,76 @@
+skill_id: materials_magnet_design_mvp
+claude_name: materials-magnet-design-mvp
+display_name: 永磁体设计 MVP（SAGA-Opt）
+version: "0.1.0"
+stages:
+  - problem_modeling
+  - solution_design
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+substages:
+  - candidate_generation
+packs:
+  - materials
+
+# Durable worker executes the full SAGA-Opt MVP loop via the Python
+# adapter at skills/materials/materials-magnet-design-mvp/adapter/magnet_adapter.py.
+# Workbench (sync) path still reads SKILL.md for ad-hoc agent-driven runs.
+durable_execution:
+  adapter: python_adapter
+  entry_function: run_magnet_mvp
+
+config:
+  init_n: 10
+  batch_size: 3
+  max_iters: 3
+  top_k: 5
+  filter_ehull: true
+  ehull_lt: 0.1
+  mag_density_gt: 0.2
+  hhi_lt: 1500
+  run_mattergen_eval: true
+  w_sun: 0.5
+  seed: 0
+
+input_schema:
+  type: object
+  properties:
+    goal:
+      type: string
+      description: User natural-language goal (e.g. "find high-mag-density low-HHI magnets").
+    task_instruction:
+      description: Optional overrides for skill defaults. JSON-decoded if string.
+      oneOf:
+        - type: string
+        - type: object
+        - type: "null"
+  required: [goal]
+  additionalProperties: false
+
+output_schema:
+  type: object
+  properties:
+    state:
+      type: string
+      enum: [succeeded, partial_failure]
+    top_k_table:
+      type: string
+    iterations:
+      type: array
+    run_summary:
+      type: object
+    partial_failure:
+      oneOf:
+        - type: array
+        - type: "null"
+  required: [state, top_k_table, iterations, run_summary]
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:materials_magnet_design_mvp
+  evidence_contract_version: external-action-evidence/v1

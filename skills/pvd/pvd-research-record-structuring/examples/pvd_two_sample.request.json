@@ -1,0 +1,396 @@
+{
+  "evidence_packet": {
+    "evidence_items": [
+      {
+        "source_anchor_id": "anchor:pvd:2608.54321:methods",
+        "evidence_type": "material_composition",
+        "assertion_mode": "direct_observation",
+        "claim": "Sample A used a 40% AlSc target on a Mo substrate.",
+        "evidence_quote": "Sample A used a 40% AlSc target on a Mo substrate.",
+        "conditions": [],
+        "metric": null,
+        "mechanism": null,
+        "comparison": null,
+        "qualifiers": [],
+        "confidence": 0.99,
+        "matched_target_ids": [],
+        "evidence_id": "ev:3921b6bf7676b8fe4731c1a9cf1dd3c3",
+        "candidate_id": "arxiv:2608.54321",
+        "arxiv_id": "2608.54321",
+        "section_name": "Methods",
+        "content_hash": "06cb9e782c081e96bab15bfc9bdfe87dc69e2bab58c396bd470baf859c23d801"
+      },
+      {
+        "source_anchor_id": "anchor:pvd:2608.54321:methods",
+        "evidence_type": "experimental_condition",
+        "assertion_mode": "direct_observation",
+        "claim": "Sample A was deposited at 300 W with N2 flow 20 sccm and Ar flow 30 sccm for 900 s.",
+        "evidence_quote": "Sample A was deposited at 300 W with N2 flow 20 sccm and Ar flow 30 sccm for 900 s.",
+        "conditions": [
+          {
+            "name": "power",
+            "value_text": "300",
+            "unit": "W"
+          },
+          {
+            "name": "n2_flow",
+            "value_text": "20",
+            "unit": "sccm"
+          },
+          {
+            "name": "ar_flow",
+            "value_text": "30",
+            "unit": "sccm"
+          },
+          {
+            "name": "deposition_time",
+            "value_text": "900",
+            "unit": "s"
+          }
+        ],
+        "metric": null,
+        "mechanism": null,
+        "comparison": null,
+        "qualifiers": [],
+        "confidence": 0.99,
+        "matched_target_ids": [],
+        "evidence_id": "ev:224954f1af19ba0fc073f62aaffa9921",
+        "candidate_id": "arxiv:2608.54321",
+        "arxiv_id": "2608.54321",
+        "section_name": "Methods",
+        "content_hash": "06cb9e782c081e96bab15bfc9bdfe87dc69e2bab58c396bd470baf859c23d801"
+      },
+      {
+        "source_anchor_id": "anchor:pvd:2608.54321:results",
+        "evidence_type": "quantitative_result",
+        "assertion_mode": "direct_observation",
+        "claim": "Sample A showed d33 of 17.5 pC/N.",
+        "evidence_quote": "Sample A showed d33 of 17.5 pC/N.",
+        "conditions": [],
+        "metric": {
+          "name": "d33",
+          "value_text": "17.5",
+          "unit": "pC/N"
+        },
+        "mechanism": null,
+        "comparison": null,
+        "qualifiers": [],
+        "confidence": 0.99,
+        "matched_target_ids": [],
+        "evidence_id": "ev:4e9340fcc1b6f1f8685c529642c4b60a",
+        "candidate_id": "arxiv:2608.54321",
+        "arxiv_id": "2608.54321",
+        "section_name": "Results",
+        "content_hash": "52b98280336aa80af4f836ad3fec12dc9ab5e797e91366f9ab0c74b7ebb1e43e"
+      },
+      {
+        "source_anchor_id": "anchor:pvd:2608.54321:methods",
+        "evidence_type": "material_composition",
+        "assertion_mode": "direct_observation",
+        "claim": "Sample B used the same 40% AlSc target on a Mo substrate.",
+        "evidence_quote": "Sample B used the same 40% AlSc target on a Mo substrate.",
+        "conditions": [],
+        "metric": null,
+        "mechanism": null,
+        "comparison": null,
+        "qualifiers": [],
+        "confidence": 0.99,
+        "matched_target_ids": [],
+        "evidence_id": "ev:9a3162a2e031666461f92528049595a4",
+        "candidate_id": "arxiv:2608.54321",
+        "arxiv_id": "2608.54321",
+        "section_name": "Methods",
+        "content_hash": "06cb9e782c081e96bab15bfc9bdfe87dc69e2bab58c396bd470baf859c23d801"
+      },
+      {
+        "source_anchor_id": "anchor:pvd:2608.54321:methods",
+        "evidence_type": "experimental_condition",
+        "assertion_mode": "direct_observation",
+        "claim": "Sample B was deposited at 350 W with N2 flow 22 sccm and Ar flow 30 sccm for 900 s.",
+        "evidence_quote": "Sample B was deposited at 350 W with N2 flow 22 sccm and Ar flow 30 sccm for 900 s.",
+        "conditions": [
+          {
+            "name": "power",
+            "value_text": "350",
+            "unit": "W"
+          },
+          {
+            "name": "n2_flow",
+            "value_text": "22",
+            "unit": "sccm"
+          },
+          {
+            "name": "ar_flow",
+            "value_text": "30",
+            "unit": "sccm"
+          },
+          {
+            "name": "deposition_time",
+            "value_text": "900",
+            "unit": "s"
+          }
+        ],
+        "metric": null,
+        "mechanism": null,
+        "comparison": null,
+        "qualifiers": [],
+        "confidence": 0.99,
+        "matched_target_ids": [],
+        "evidence_id": "ev:caec883dd04ccbae4847f82f7e251506",
+        "candidate_id": "arxiv:2608.54321",
+        "arxiv_id": "2608.54321",
+        "section_name": "Methods",
+        "content_hash": "06cb9e782c081e96bab15bfc9bdfe87dc69e2bab58c396bd470baf859c23d801"
+      },
+      {
+        "source_anchor_id": "anchor:pvd:2608.54321:results",
+        "evidence_type": "quantitative_result",
+        "assertion_mode": "direct_observation",
+        "claim": "Sample B showed d33 of 12.0 pC/N.",
+        "evidence_quote": "Sample B showed d33 of 12.0 pC/N.",
+        "conditions": [],
+        "metric": {
+          "name": "d33",
+          "value_text": "12.0",
+          "unit": "pC/N"
+        },
+        "mechanism": null,
+        "comparison": null,
+        "qualifiers": [],
+        "confidence": 0.99,
+        "matched_target_ids": [],
+        "evidence_id": "ev:065c5e73cdb41459bfca6dbb4cdcfa81",
+        "candidate_id": "arxiv:2608.54321",
+        "arxiv_id": "2608.54321",
+        "section_name": "Results",
+        "content_hash": "52b98280336aa80af4f836ad3fec12dc9ab5e797e91366f9ab0c74b7ebb1e43e"
+      }
+    ],
+    "schema_id": null,
+    "summary": {
+      "status": "succeeded",
+      "input_paper_packet_count": 1,
+      "input_source_anchor_count": 2,
+      "evidence_item_count": 6,
+      "evidence_type_counts": {
+        "experimental_condition": 2,
+        "material_composition": 2,
+        "quantitative_result": 2
+      },
+      "dropped_duplicate_count": 0,
+      "dropped_invalid_count": 0,
+      "uncovered_required_target_ids": [],
+      "degraded": false
+    },
+    "audit": {
+      "skill_id": "pvd_evidence_node_extraction",
+      "traceability_mode": "source_anchor_quote_finalizer",
+      "finalizer_version": "1.0.0",
+      "input_fingerprint": "0a89091f58235a3bb5503d1af29071a361e49a22252a62b017337fb887dba47c",
+      "supported_evidence_types": [
+        "material_composition",
+        "experimental_condition",
+        "quantitative_result",
+        "mechanism_claim",
+        "characterization_observation",
+        "computation_result",
+        "comparison",
+        "limitation"
+      ]
+    },
+    "extraction_warnings": []
+  },
+  "source_material": {
+    "status": "success",
+    "paper_packets": [
+      {
+        "candidate_id": "arxiv:2608.54321",
+        "arxiv_id": "2608.54321",
+        "doi": "10.0000/pvd.001",
+        "title": "Explicit two-sample PVD study",
+        "read_depth": "pdf_fulltext",
+        "reading_mode": "section_priority",
+        "brief": {
+          "title": "Explicit two-sample PVD study",
+          "arxiv_id": "2608.54321",
+          "tldr": "Two explicit PVD sample records."
+        },
+        "head": {
+          "title": "Explicit two-sample PVD study",
+          "arxiv_id": "2608.54321",
+          "sections": {
+            "Methods": {
+              "token_count": 80
+            },
+            "Results": {
+              "token_count": 30
+            }
+          }
+        },
+        "sections": [
+          {
+            "section_name": "Methods",
+            "content": "Sample A used a 40% AlSc target on a Mo substrate. Sample A was deposited at 300 W with N2 flow 20 sccm and Ar flow 30 sccm for 900 s. Sample B used the same 40% AlSc target on a Mo substrate. Sample B was deposited at 350 W with N2 flow 22 sccm and Ar flow 30 sccm for 900 s.",
+            "content_hash": "06cb9e782c081e96bab15bfc9bdfe87dc69e2bab58c396bd470baf859c23d801",
+            "source_type": "deepxiv",
+            "provider": "deepxiv",
+            "source_locator": "deepxiv://arxiv/2608.54321#methods",
+            "paper_identity": {
+              "candidate_id": "arxiv:2608.54321",
+              "doi": "10.0000/pvd.001",
+              "arxiv_id": "2608.54321",
+              "arxiv_work_id": "2608.54321",
+              "arxiv_version": "",
+              "pmcid": "",
+              "openalex_id": "",
+              "title": "Explicit two-sample PVD study"
+            },
+            "material_type": "article_fulltext",
+            "material_status": "MATERIAL_READY"
+          },
+          {
+            "section_name": "Results",
+            "content": "Sample A showed d33 of 17.5 pC/N. Sample B showed d33 of 12.0 pC/N.",
+            "content_hash": "52b98280336aa80af4f836ad3fec12dc9ab5e797e91366f9ab0c74b7ebb1e43e",
+            "source_type": "deepxiv",
+            "provider": "deepxiv",
+            "source_locator": "deepxiv://arxiv/2608.54321#results",
+            "paper_identity": {
+              "candidate_id": "arxiv:2608.54321",
+              "doi": "10.0000/pvd.001",
+              "arxiv_id": "2608.54321",
+              "arxiv_work_id": "2608.54321",
+              "arxiv_version": "",
+              "pmcid": "",
+              "openalex_id": "",
+              "title": "Explicit two-sample PVD study"
+            },
+            "material_type": "article_fulltext",
+            "material_status": "MATERIAL_READY"
+          }
+        ],
+        "source_anchors": [
+          {
+            "anchor_id": "anchor:pvd:2608.54321:methods",
+            "candidate_id": "arxiv:2608.54321",
+            "arxiv_id": "2608.54321",
+            "section_name": "Methods",
+            "content_hash": "06cb9e782c081e96bab15bfc9bdfe87dc69e2bab58c396bd470baf859c23d801",
+            "source_type": "deepxiv",
+            "provider": "deepxiv",
+            "source_locator": "deepxiv://arxiv/2608.54321#methods"
+          },
+          {
+            "anchor_id": "anchor:pvd:2608.54321:results",
+            "candidate_id": "arxiv:2608.54321",
+            "arxiv_id": "2608.54321",
+            "section_name": "Results",
+            "content_hash": "52b98280336aa80af4f836ad3fec12dc9ab5e797e91366f9ab0c74b7ebb1e43e",
+            "source_type": "deepxiv",
+            "provider": "deepxiv",
+            "source_locator": "deepxiv://arxiv/2608.54321#results"
+          }
+        ],
+        "material_status": "MATERIAL_READY",
+        "material_type": "article_fulltext",
+        "requested_identity": {
+          "candidate_id": "arxiv:2608.54321",
+          "doi": "10.0000/pvd.001",
+          "arxiv_id": "2608.54321",
+          "arxiv_work_id": "2608.54321",
+          "arxiv_version": "",
+          "pmcid": "",
+          "openalex_id": "",
+          "title": "Explicit two-sample PVD study"
+        },
+        "provider_observed_identity": {
+          "doi": "10.0000/pvd.001",
+          "arxiv_id": "2608.54321",
+          "arxiv_work_id": "2608.54321",
+          "arxiv_version": "",
+          "pmcid": "",
+          "openalex_id": ""
+        },
+        "resolved_identity": {
+          "candidate_id": "arxiv:2608.54321",
+          "doi": "10.0000/pvd.001",
+          "arxiv_id": "2608.54321",
+          "arxiv_work_id": "2608.54321",
+          "arxiv_version": "",
+          "pmcid": "",
+          "openalex_id": "",
+          "title": "Explicit two-sample PVD study"
+        },
+        "paper_identity": {
+          "candidate_id": "arxiv:2608.54321",
+          "doi": "10.0000/pvd.001",
+          "arxiv_id": "2608.54321",
+          "arxiv_work_id": "2608.54321",
+          "arxiv_version": "",
+          "pmcid": "",
+          "openalex_id": "",
+          "title": "Explicit two-sample PVD study"
+        },
+        "provider": "deepxiv",
+        "source_locator": "deepxiv://arxiv/2608.54321",
+        "provider_observed_title": "Explicit two-sample PVD study",
+        "provenance": [],
+        "tables": [],
+        "diagnostics": {
+          "selected_section_names": [
+            "Methods",
+            "Results"
+          ],
+          "section_errors": [],
+          "raw_fallback_used": false,
+          "identity_basis": "arxiv_match",
+          "extractable_table_count": 0,
+          "table_reference_count": 0,
+          "table_mentioned_but_unavailable": false
+        }
+      }
+    ],
+    "material_attempts": [],
+    "summary": {
+      "input_candidate_count": 1,
+      "attempted_candidate_count": 1,
+      "truncated_candidate_count": 0,
+      "paper_packet_count": 1,
+      "ready_packet_count": 1,
+      "abstract_only_packet_count": 0,
+      "failed_candidate_count": 0,
+      "material_attempt_count": 0,
+      "section_count": 2,
+      "source_anchor_count": 2,
+      "partial_success": false,
+      "degraded": false
+    },
+    "audit": {
+      "skill_id": "deepxiv_progressive_reading",
+      "reader_mode": "deepxiv_sdk_reader",
+      "raw_default_enabled": false,
+      "raw_call_count": 0,
+      "max_papers": 1,
+      "max_sections_per_paper": 3,
+      "network_timeout_seconds": 20.0,
+      "max_provider_retries": 1,
+      "max_total_chars": 300000,
+      "output_content_chars": 343,
+      "section_priority": [
+        "method",
+        "methods",
+        "experimental",
+        "experiment",
+        "experiments",
+        "results and discussion",
+        "result",
+        "results",
+        "discussion",
+        "mechanism",
+        "conclusion",
+        "conclusions"
+      ],
+      "input_fingerprint": "1111111111111111111111111111111111111111111111111111111111111111"
+    }
+  }
+}

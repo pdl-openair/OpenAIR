@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-evidence-applicability-comparability-analysis/input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pvd_project_context",
+    "research_records",
+    "evidence_packet",
+    "source_provenance",
+    "coverage",
+    "unresolved_gaps",
+    "conditional_evidence_linkage",
+    "support_target"
+  ],
+  "properties": {
+    "pvd_project_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structured_context",
+        "recommendation_parameter_set",
+        "run_preferences"
+      ],
+      "properties": {
+        "structured_context": {
+          "type": "object"
+        },
+        "recommendation_parameter_set": {
+          "type": "object"
+        },
+        "run_preferences": {
+          "type": "object"
+        }
+      }
+    },
+    "research_records": {
+      "type": "array"
+    },
+    "evidence_packet": {
+      "type": "object"
+    },
+    "source_provenance": {
+      "type": "array"
+    },
+    "coverage": {
+      "type": "object"
+    },
+    "unresolved_gaps": {
+      "type": "array"
+    },
+    "conditional_evidence_linkage": {
+      "type": "array"
+    },
+    "support_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract",
+        "evidence_targets",
+        "gap_taxonomy",
+        "uncertainty_rules"
+      ],
+      "properties": {
+        "contract": {
+          "const": "pvd-evidence-schema/v1"
+        },
+        "evidence_targets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "target_id",
+              "target_type",
+              "scientific_role",
+              "description",
+              "requiredness",
+              "completion_criteria",
+              "covered_parameter_keys",
+              "comparison_dimensions",
+              "provenance_requirements"
+            ],
+            "properties": {
+              "target_id": {
+                "type": "string",
+                "pattern": "^target_[0-9]{3}$"
+              },
+              "target_type": {
+                "type": "string"
+              },
+              "scientific_role": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1
+              },
+              "requiredness": {
+                "enum": [
+                  "required",
+                  "preferred",
+                  "optional"
+                ]
+              },
+              "completion_criteria": {
+                "type": "string",
+                "minLength": 1
+              },
+              "covered_parameter_keys": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "comparison_dimensions": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "provenance_requirements": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "gap_taxonomy": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "uncertainty_rules": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

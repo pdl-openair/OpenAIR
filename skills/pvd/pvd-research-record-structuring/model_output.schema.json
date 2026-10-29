@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PVD Research Record Structuring Model Semantic Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_groups"
+  ],
+  "properties": {
+    "record_groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "group_id",
+          "grouping_status",
+          "evidence_refs",
+          "grouping_basis_evidence_refs"
+        ],
+        "properties": {
+          "group_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "grouping_status": {
+            "type": "string",
+            "enum": [
+              "explicit_record",
+              "ambiguous_singleton"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "grouping_basis_evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "study_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "series_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sample_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "record_role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "material": {
+            "$ref": "output.schema.json#/$defs/material"
+          },
+          "process": {
+            "$ref": "output.schema.json#/$defs/process"
+          },
+          "outcomes": {
+            "type": "array",
+            "items": {
+              "$ref": "output.schema.json#/$defs/measurement"
+            }
+          },
+          "other_context": {
+            "type": "array",
+            "items": {
+              "$ref": "output.schema.json#/$defs/named_fact"
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "grouping_status": {
+                  "const": "explicit_record"
+                }
+              },
+              "required": [
+                "grouping_status"
+              ]
+            },
+            "then": {
+              "anyOf": [
+                {
+                  "required": [
+                    "study_id"
+                  ]
+                },
+                {
+                  "required": [
+                    "series_id"
+                  ]
+                },
+                {
+                  "required": [
+                    "sample_id"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "grouping_status": {
+                  "const": "ambiguous_singleton"
+                }
+              },
+              "required": [
+                "grouping_status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "evidence_refs": {
+                  "maxItems": 1
+                },
+                "record_role": {
+                  "const": "unresolved_record_identity"
+                }
+              },
+              "required": [
+                "record_role"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "study_id"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "series_id"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "sample_id"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$id": "https://openair.local/schemas/pvd-research-record-structuring/model_output.schema.json"
+}

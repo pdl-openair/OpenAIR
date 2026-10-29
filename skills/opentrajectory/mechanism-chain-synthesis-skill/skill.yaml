@@ -1,0 +1,51 @@
+skill_id: mechanism_chain_synthesis
+claude_name: mechanism-chain-synthesis-skill
+display_name: 机制链合成
+stages:
+- execution_validation
+substages: []
+skill_type: atomic
+runtime: llm_structured
+status: ready
+enabled: true
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: mechanism_packets.json
+llm:
+  temperature: 0
+  max_completion_tokens: 5000
+  reasoning_effort: minimal
+  structured_output_max_attempts: 2
+notes: Legacy narrow mechanism-chain capability retained for traceability. It is not
+  bound to the OpenTrajectory v3 mechanism_explanation Definition because its current
+  input contract does not cover the accepted evidence assessment and candidate-explanation
+  context required by that responsibility.
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+durable_model_profile: terra
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: research:declared-scientific-facts:v1
+  facts:
+  - fact_key: mechanism_edges
+    source_field: mechanism_edges
+  - fact_key: mechanism_chains
+    source_field: mechanism_chains
+  - fact_key: mechanism_conflicts
+    source_field: conflicts
+  - fact_key: mechanism_gaps
+    source_field: gaps

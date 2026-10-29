@@ -1,0 +1,44 @@
+# research_type_overrides.yaml (materials pack)
+# Required and optional substages per research type (M/D/C/H).
+# 注：materials pack 当前为 MCP 串联场景，先建空骨架。
+# L2 skill 落地后按需补 required/optional；初版不强约束 required。
+
+M:
+  label: 方法研究
+  required_substages: []
+  optional_substages:
+    - database_search
+    - candidate_generation
+    - parameter_recommendation
+    - synthesis_execution
+    - characterization
+
+D:
+  label: 发现研究
+  required_substages: []
+  optional_substages:
+    - database_search
+    - candidate_generation
+    - parameter_recommendation
+    - synthesis_execution
+    - characterization
+
+C:
+  label: 计算工具
+  required_substages: []
+  optional_substages:
+    - database_search
+    - candidate_generation
+    - parameter_recommendation
+    - synthesis_execution
+    - characterization
+
+H:
+  label: 混合
+  required_substages: []
+  optional_substages:
+    - database_search
+    - candidate_generation
+    - parameter_recommendation
+    - synthesis_execution
+    - characterization

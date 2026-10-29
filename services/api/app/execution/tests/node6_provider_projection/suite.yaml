@@ -1,0 +1,37 @@
+suite_id: component.execution.node6-provider-projection
+protected_outcome: >-
+  Node6 source-screening sends only its declared scientific candidate fields to
+  the Provider while preserving the complete canonical parameters unchanged.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - skills/opentrajectory/opentrajectory-source-screening-selection/skill.yaml
+failure_class:
+  - node6_internal_candidate_fields_leak_to_provider
+  - node6_declared_candidate_fields_are_lost
+  - node6_projection_mutates_canonical_parameters
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/provider_visible_skill_input.py
+  - skills/opentrajectory/opentrajectory-source-screening-selection/skill.yaml
+test_responsibility: >-
+  Deterministically prove only the Node6-declared candidate view is projected
+  for model visibility and that projection does not alter canonical input.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - exact_provider_visible_candidate_assertions
+  - canonical_input_preservation_assertion
+verdict_rule: >-
+  PASS only when all required evidence is obtained and the existing assertions
+  prove every declared Node6 candidate field reaches the Provider-visible copy,
+  internal technical fields do not, and canonical parameters remain unchanged;
+  FAIL when valid evidence contradicts any of those boundaries; otherwise
+  NO_VALID_EVIDENCE.
+triggers:
+  - Node6 provider_input_projection changes
+  - provider-visible parameter projection changes

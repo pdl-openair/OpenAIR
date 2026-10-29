@@ -1,0 +1,93 @@
+{
+  "evidenceKind": "persisted-real-model-response-offline-software-input",
+  "taskId": "task_dd1f1320cdf545d3b3f65142279c5a64",
+  "attemptId": "rsa_57959a62bee04244a34d15e99e68db0e",
+  "rawSseSha256": "e6d29219b47c70aa394ba7d48caeeba6f32b2141dbe5c5a8f863eb558041948c",
+  "rawSseBytes": 350782,
+  "payload": {
+    "goal": "综合评估关于 LLM 评审器（LLM judge）受回答风格线索影响的研究证据，重点考察回答长度、解释充分性、完成式/自信式表述等因素是否会在任务质量相近时系统性抬高评分；界定该现象最明显的条件、当前可支持的结论、关键未知与最有判别价值的后续验证。",
+    "questions": [
+      "现有研究是否可靠地显示 LLM judge 会将与任务实质质量无关或仅弱相关的回答风格特征误当作更高质量的信号？",
+      "回答长度、详细解释、流畅性、格式、语气、自信或“已完成”式表述等具体特征的证据强度分别如何？",
+      "在何种评测任务、评审模型、提示词、评分协议、候选答案质量差距和答案呈现条件下，此类偏差最明显？",
+      "哪些研究设计能够区分合理地奖励有用解释或覆盖面，与在实质任务质量不变时的纯风格偏好？",
+      "目前能够对 LLM judge 的有效性、偏差风险及其在 agent 评测中的使用边界作出哪些校准结论？",
+      "哪些关键机制、因果关系、模型间差异和缓解措施仍不清楚？",
+      "下一步最值得通过何种对照实验验证这一现象及其可操作的缓解方法？"
+    ],
+    "targetOutputs": [
+      "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+      "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+      "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+      "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+      "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。"
+    ],
+    "constraints": [],
+    "unknowns": [
+      "在任务实质质量严格等价或受控时，长度、解释量和完成式措辞对不同 LLM judge 的独立因果效应大小。",
+      "观察到的长度偏好中，有多少来自合理的信息覆盖或可验证证据增加，多少来自与质量脱钩的表面风格线索。",
+      "该现象在 agent 轨迹、最终答案、工具调用记录、开放式生成和有标准答案任务之间的差异。",
+      "不同评审模型、提示模板、单点评分与成对比较、是否要求引用依据或逐项量表时的稳健性。",
+      "现有缓解策略（长度控制、成对比较、参考答案、分解式评分、盲化或对抗性改写）是否能在不显著损失评测效度的前提下降低偏差。"
+    ],
+    "risks": [
+      "将相关性研究中的“更长答案得分更高”直接解释为纯粹的风格偏差，忽略更长答案可能包含更多有用信息。",
+      "将特定模型、基准或提示设置下的发现泛化到所有 LLM judge 或所有 agent 评测。",
+      "把评审器与人类偏好的一致性误作任务真实性能或实际效用的有效测量。",
+      "混淆回答文本风格偏差、评审提示诱导、位置偏差、模型自偏好和候选质量分布造成的表观效应。"
+    ],
+    "responsibilityDeltas": [
+      {
+        "responsibilityChoice": "responsibility_1",
+        "currentProjectWorkContext": "整理与当前问题直接相关的原始研究材料，优先记录能够通过控制任务实质质量、答案长度、风格或呈现方式来检验 LLM judge 偏好的研究，以及 agent 评测场景中的适用证据。",
+        "targetOutputNumbers": [
+          1
+        ]
+      },
+      {
+        "responsibilityChoice": "responsibility_2",
+        "currentProjectWorkContext": "评估关于长度、冗长、解释性、表面风格与完成式表达影响 LLM judge 评分的证据，重点审查因果识别、真实质量控制、任务和模型异质性，以及对 agent 评测的可迁移性。",
+        "targetOutputNumbers": [
+          2
+        ]
+      },
+      {
+        "responsibilityChoice": "responsibility_3",
+        "currentProjectWorkContext": "在证据足以支持时，解释 LLM judge 可能依赖表面质量线索、信息量代理或提示诱导的机制，并严格区分实证结果、原作者解释与综合推断。",
+        "targetOutputNumbers": [
+          3
+        ]
+      },
+      {
+        "responsibilityChoice": "responsibility_4",
+        "currentProjectWorkContext": "形成关于该现象是否存在、证据可靠程度、最明显条件及 agent 评测使用边界的校准结论。",
+        "targetOutputNumbers": [
+          4
+        ]
+      },
+      {
+        "responsibilityChoice": "responsibility_5",
+        "currentProjectWorkContext": "识别尚未厘清的因果效应、条件异质性、机制和缓解措施，并提出能够区分真实质量增益与风格捷径效应的候选解释。",
+        "targetOutputNumbers": [
+          5
+        ]
+      },
+      {
+        "responsibilityChoice": "responsibility_6",
+        "currentProjectWorkContext": "提出下一步最值得进行的受控验证方向，例如在等价任务质量下系统操纵长度、解释和完成式措辞，并比较评审协议与缓解措施的判别价值。",
+        "targetOutputNumbers": [
+          5
+        ]
+      }
+    ]
+  },
+  "currentParserObservation": {
+    "researchGoalRetained": false,
+    "questionCount": 0,
+    "unknownCount": 0,
+    "riskCount": 0,
+    "contextCount": 0
+  },
+  "freshVerification": false,
+  "note": "原始科学正文未标准化；仅摘出模型最终 JSON，无传输凭证或 reasoning。读取业务数据库使用只读事务，未调用模型。"
+}

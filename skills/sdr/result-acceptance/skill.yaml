@@ -1,0 +1,32 @@
+skill_id: result_acceptance
+claude_name: result-acceptance
+display_name: 结果验收
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - result_acceptance
+output_file: 03-experiment/result-acceptance.md
+pack: sdr
+spec: 03-experiment/result-acceptance.md
+input_skills:
+  - hypothesis_validation
+  - findings_synthesis
+  - argument_blueprint
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: result_acceptance
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

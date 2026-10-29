@@ -1,0 +1,49 @@
+skill_id: reference_metric_fact_assembly
+claude_name: reference-metric-fact-assembly
+display_name: Reference facts 确定性组装
+version: "0.1.0"
+stages:
+- execution_validation
+substages:
+- reference_metric_acquisition
+packs:
+- cs_reproduction
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+capability_contract:
+  artifact_types:
+  - reference_metric_facts
+  judgment_support:
+    deterministic: true
+    domain_professional: false
+execution_method_roles:
+- cs_reproduction_baseline_grounding:reference_fact_assembly
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:reference_metric_fact_assembly
+  evidence_contract_version: deterministic-output/v1
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: research:declared-scientific-facts:v1
+  facts:
+  - fact_key: reference_metric_records
+    source_field: reference_metric_records
+  - fact_key: reference_metric_comparison_requests
+    source_field: reference_metric_comparison_requests
+  - fact_key: reference_metric_source_conflicts
+    source_field: reference_metric_source_conflicts
+  - fact_key: reference_metric_unresolved
+    source_field: reference_metric_unresolved
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: reference_metric_acquisition
+owner: TBD
+fixture_status: missing
+notes: 只做来源引用、类型、规则和冲突的确定性核验与装配；不读取 actual metrics，不做科研取舍。

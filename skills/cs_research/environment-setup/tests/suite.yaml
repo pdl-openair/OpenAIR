@@ -1,0 +1,27 @@
+suite_id: component.skill.cs-research.environment-setup
+protected_outcome: >-
+  Environment setup applicability stays fail-closed outside its declared
+  domain: eligibility requires non-empty requirements/imports with formal
+  HTTPS and probe-path grammar, missing design projections stay eligible
+  for material-unavailable reporting, and ambiguous design projections
+  fail closed instead of being silently resolved.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - skills/cs_research/environment-setup/SKILL.md
+  - skills/cs_research/environment-setup/skill.yaml
+failure_class: environment_setup_applicability_or_grammar_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/cs_research/environment-setup/src
+test_responsibility: >-
+  Deterministic verification of applicability gating rules and input
+  contract alignment for the environment setup capability.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - applicability eligibility or grammar changes
+  - skill input contract changes

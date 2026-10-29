@@ -1,0 +1,34 @@
+skill_id: opentrajectory_evidence_schema_design
+claude_name: opentrajectory-evidence-schema-design
+display_name: 证据模型设计
+version: 0.1.0
+stages:
+- solution_design
+substages:
+- evidence_schema_design
+pack: opentrajectory
+sequence: 40
+enabled: true
+spec: 02-design/evidence-schema-design.md
+input_skills:
+- opentrajectory_retrieval_strategy_design
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-evidence-schema-design
+claude_skill_path: .claude/skills/opentrajectory-evidence-schema-design
+output_file: 02-design/evidence-schema.json
+fixture_status: none
+notes: OpenTrajectory L2 orchestration slot enabled by P0.7f after adding the matching evidence-schema-design-skill L3 capability.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: evidence_schema_design
+owner: TBD
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

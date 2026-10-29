@@ -1,0 +1,65 @@
+# PLANNING stage output template
+# Source: nanoresearch/schemas/experiment.py → ExperimentBlueprint
+
+title: ""                          # Experiment title
+hypothesis_ref: ""                 # hypothesis_id from IdeationOutput
+datasets:                          # Datasets to use
+  - name: ""
+    description: ""
+    source_url: ""
+    size_info: ""
+    preprocessing_notes: ""
+baselines:                         # Baseline methods for comparison
+  - name: ""
+    description: ""
+    reference_paper_id: ""
+    expected_performance: {}       # metric_name → value
+    performance_provenance: {}     # metric_name → source description
+    is_projected: {}               # metric_name → bool (projected vs published)
+proposed_method:                   # Structured description of the proposed method
+  name: ""
+  # Additional method-specific fields as needed
+metrics:                           # Evaluation metrics
+  - name: ""
+    description: ""
+    higher_is_better: true
+    primary: false                 # Whether this is the primary metric
+ablation_groups:                   # Groups of ablation experiments
+  - group_name: ""
+    description: ""
+    variants:                      # Each variant: what is removed/changed
+      - description: ""
+compute_requirements:               # Estimated compute needs
+  gpu_type: ""                     # e.g. "A100", "V100"
+  num_gpus: 1
+  estimated_hours: 0.0
+  memory_gb: 0.0
+  notes: ""
+evidence_summary: ""                # Summary of quantitative evidence used
+data_provenance_note: ""           # Which numbers are published vs projected
+experiment_matrix:                  # Machine-checkable run matrix
+  - run_id: ""
+    role: ""                       # proposed | baseline | ablation | optimization | complexity
+    method: ""
+    dataset: ""
+    metrics: []
+    required: true
+    output_group: "main_results"
+    expected_artifacts:
+      - "results/metrics.json"
+    failure_policy: "debug_then_degrade"
+    config: {}
+required_artifacts:
+  - "configs/experiment_matrix.json"
+  - "results/metrics.json"
+  - "results/run_manifest.json"
+  - "results/final_metrics.json"
+  - "results/optimization_history.csv"
+  - "results/pareto_front.json"
+minimum_success_criteria:           # Contract thresholds
+  min_measured_baselines: 2
+  min_ablation_runs: 2
+  require_proposed: true
+  require_complexity: true
+  require_optimization_history: true
+  required_metrics: []

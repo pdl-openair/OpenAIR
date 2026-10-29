@@ -1,0 +1,15 @@
+suite_id: component.modules.contribution-repository
+protected_outcome: Contribution review status updates preserve nullable review parameters and their PostgreSQL types.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: contribution_repository_typed_transaction_violation
+minimum_owner: 单个组件行为
+production_targets: [services/api/app/modules/contribution_repository.py]
+test_responsibility: component-owned PostgreSQL proof for contribution review persistence
+execution_profiles: [postgres]
+required_dependencies: [isolated PostgreSQL test database]
+evidence_required: [pytest_result, database_identity, transaction_state]
+verdict_rule: PASS only when the real PostgreSQL run proves both nullable and populated typed updates; FAIL on a valid type or persistence violation; otherwise NO_VALID_EVIDENCE.
+triggers: [contribution persistence changes, contribution review schema changes]

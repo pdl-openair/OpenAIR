@@ -1,0 +1,32 @@
+suite_id: durable-child-skill-execution-policy
+protected_outcome: 新 reasoning child 使用自身声明的执行配置；已冻结执行保持原策略；失败在 Provider 前或以原始诊断返回。
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+- spec/testing/OpenAIR 测试设计合同.md
+- 'confirmed_engineering_invariant: frozen WorkUnit execution consumes its persisted
+  policy; new child calls use the child registered contract'
+failure_class:
+- child_policy_not_prepared
+- frozen_policy_drift
+- specialized_contract_overridden
+- runtime_diagnostics_lost
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/execution/durable_skill_runtime.py
+- services/api/app/execution/durable_llm_execution_policy.py
+test_responsibility: 新 reasoning child 使用自身声明的执行配置；已冻结执行保持原策略；失败在 Provider 前或以原始诊断返回。
+execution_profiles:
+- 确定性配置
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- pytest_exit_code_0
+- exact_before_after_regression
+- no_provider_or_database_io
+verdict_rule: >-
+  仅当全部断言通过、before/after 回归逐字一致且全程无 Provider 或数据库 IO 时 PASS（新 reasoning child 使用自身声明配置、冻结执行保持原策略、失败在 Provider 前或以原始诊断返回）；策略漂移、专化合同被覆写或诊断丢失即 FAIL；证据不完整为 NO_VALID_EVIDENCE。
+triggers:
+- production_targets_changed
+- child_invocation_contract_changed
+verdict_rule: >-
+  PASS only when the existing Suite proves both registered child-policy use and frozen-before/changed-after stability, and rejects fallback or ambiguous policy before Provider execution while preserving diagnostics; FAIL when deterministic evidence contradicts any part of protected_outcome; otherwise NO_VALID_EVIDENCE.

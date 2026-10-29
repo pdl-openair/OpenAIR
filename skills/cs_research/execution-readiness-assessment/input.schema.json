@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["reproduction_experiment_design", "reproduction_baseline_and_criteria", "execution_plan_facts"],
+  "properties": {
+    "reproduction_experiment_design": {"type": "object"},
+    "reproduction_baseline_and_criteria": {"type": "object"},
+    "execution_plan_facts": {"type": "object"},
+    "code_identity": {"type": "object"},
+    "resource_identities": {"type": "object"},
+    "environment_record": {"type": "object"}
+  }
+}

@@ -1,0 +1,476 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "search_matrix",
+    "expanded_query_variants",
+    "quality_report",
+    "assembled_facets",
+    "result_protocol"
+  ],
+  "properties": {
+    "search_matrix": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "required": [
+          "search_intent",
+          "query_terms",
+          "must_include_terms",
+          "optional_terms",
+          "exclude_terms",
+          "expected_paper_type",
+          "target_database",
+          "source_constraints",
+          "rationale",
+          "priority"
+        ],
+        "properties": {
+          "search_intent": {
+            "type": "string",
+            "enum": [
+              "core_topic",
+              "constraint_focused",
+              "mechanism_focused",
+              "method_or_strategy",
+              "metric_or_performance",
+              "adjacent_but_relevant",
+              "noise_exclusion"
+            ]
+          },
+          "query_terms": {
+            "type": "array",
+            "maxItems": 5,
+            "items": {
+              "type": "string",
+              "maxLength": 160
+            }
+          },
+          "must_include_terms": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "string",
+              "maxLength": 160
+            }
+          },
+          "optional_terms": {
+            "type": "array",
+            "maxItems": 6,
+            "items": {
+              "type": "string",
+              "maxLength": 160
+            }
+          },
+          "exclude_terms": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 160
+            }
+          },
+          "expected_paper_type": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 240
+          },
+          "target_database": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 240
+          },
+          "source_constraints": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "string",
+              "maxLength": 240
+            }
+          },
+          "rationale": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "priority": {
+            "type": "integer",
+            "enum": [
+              1,
+              2,
+              3
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "expanded_query_variants": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "required": [
+          "query",
+          "variant_type",
+          "search_intent",
+          "source_constraints",
+          "rationale",
+          "priority"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "variant_type": {
+            "type": "string",
+            "enum": [
+              "strict",
+              "broad",
+              "fallback",
+              "exclusion"
+            ]
+          },
+          "search_intent": {
+            "type": "string",
+            "enum": [
+              "core_topic",
+              "constraint_focused",
+              "mechanism_focused",
+              "method_or_strategy",
+              "metric_or_performance",
+              "adjacent_but_relevant",
+              "noise_exclusion"
+            ]
+          },
+          "source_constraints": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "string",
+              "maxLength": 240
+            }
+          },
+          "rationale": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "priority": {
+            "type": "integer",
+            "enum": [
+              1,
+              2,
+              3
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "quality_report": {
+      "type": "object",
+      "required": [
+        "search_matrix_count",
+        "expanded_query_variants_count",
+        "search_intent_coverage",
+        "constraints_utilized",
+        "fallback_used",
+        "validation_flags"
+      ],
+      "properties": {
+        "search_matrix_count": {
+          "type": "integer"
+        },
+        "expanded_query_variants_count": {
+          "type": "integer"
+        },
+        "search_intent_coverage": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "core_topic",
+              "constraint_focused",
+              "mechanism_focused",
+              "method_or_strategy",
+              "metric_or_performance",
+              "adjacent_but_relevant",
+              "noise_exclusion"
+            ]
+          }
+        },
+        "constraints_utilized": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 240
+          }
+        },
+        "fallback_used": {
+          "type": "boolean"
+        },
+        "validation_flags": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "string",
+            "enum": [
+              "input_constraints_empty",
+              "fallback_terms_used",
+              "query_deduplicated",
+              "risk_flags_not_used_as_exclude_terms",
+              "generic_boolean_only",
+              "manual_review_recommended",
+              "partial_result",
+              "deterministic_repair_applied",
+              "deprecated_field_ignored",
+              "canonical_query_fallback"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "assembled_facets": {
+      "type": "object",
+      "required": [
+        "core_entities",
+        "research_object_en",
+        "mechanisms",
+        "target_metrics_en",
+        "task_context",
+        "must_have_terms",
+        "nice_to_have_terms",
+        "negative_contexts",
+        "query_facets"
+      ],
+      "properties": {
+        "core_entities": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 160
+          }
+        },
+        "research_object_en": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 160
+          }
+        },
+        "mechanisms": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 160
+          }
+        },
+        "target_metrics_en": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 160
+          }
+        },
+        "task_context": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 160
+          }
+        },
+        "must_have_terms": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 160
+          }
+        },
+        "nice_to_have_terms": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 160
+          }
+        },
+        "negative_contexts": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 160
+          }
+        },
+        "query_facets": {
+          "type": "object",
+          "required": [
+            "object",
+            "mechanism",
+            "metric",
+            "context",
+            "evaluation"
+          ],
+          "properties": {
+            "object": {
+              "type": "array",
+              "maxItems": 8,
+              "items": {
+                "type": "string",
+                "maxLength": 160
+              }
+            },
+            "mechanism": {
+              "type": "array",
+              "maxItems": 8,
+              "items": {
+                "type": "string",
+                "maxLength": 160
+              }
+            },
+            "metric": {
+              "type": "array",
+              "maxItems": 8,
+              "items": {
+                "type": "string",
+                "maxLength": 160
+              }
+            },
+            "context": {
+              "type": "array",
+              "maxItems": 8,
+              "items": {
+                "type": "string",
+                "maxLength": 160
+              }
+            },
+            "evaluation": {
+              "type": "array",
+              "maxItems": 8,
+              "items": {
+                "type": "string",
+                "maxLength": 160
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "result_protocol": {
+      "type": "object",
+      "required": [
+        "status",
+        "accepted_items",
+        "quarantined_items",
+        "repaired_items",
+        "warnings",
+        "coverage"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "degraded",
+            "fatal",
+            "no_usable_result"
+          ]
+        },
+        "accepted_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "count"
+            ],
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "quarantined_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "reason"
+            ],
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "repaired_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "action"
+            ],
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "integer",
+              "number",
+              "string",
+              "boolean",
+              "null"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

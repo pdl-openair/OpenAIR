@@ -1,0 +1,77 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "research_topic",
+      "original_phrase": "材料里机制解释比较清楚、又能被计算验证的研究",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [],
+      "domain_rationale": "User wants materials research where the mechanism is clearly explained and computationally validated. No specific material, property, or method is given. This is a highly underspecified query about a research quality criterion.",
+      "confidence": 0.32,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["mechanism explanation computational validation materials", "structure-property relationship first-principles", "mechanistic study materials science"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "avoid_strong_filter_on_low_confidence: no material system, method, or property specified"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": [
+        "material_system_missing: no specific material or material class given",
+        "method_missing: computational method not specified",
+        "property_target_missing: no specific property or performance metric given",
+        "query_highly_underspecified: cannot generate meaningful hard filters"
+      ]
+    },
+    {
+      "constraint_name": "structure_property_relationship",
+      "original_phrase": "从结构变化推到性能提升",
+      "constraint_type": "condition",
+      "interpreted_value": "structure-to-property reasoning",
+      "candidate_values": [],
+      "domain_rationale": "User wants to learn how structural changes lead to performance improvements. This is a general research methodology preference, not a specific constraint.",
+      "confidence": 0.35,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["structure-property relationship materials", "structural change performance improvement", "structure-property correlation computational"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers explicitly linking structural changes to performance improvements via computation"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": [
+        "structure_type_undefined: crystal structure, microstructure, or electronic structure not specified",
+        "performance_metric_undefined: no specific performance target given"
+      ]
+    },
+    {
+      "constraint_name": "computational_validation_requirement",
+      "original_phrase": "能被计算验证",
+      "constraint_type": "source_preference",
+      "interpreted_value": null,
+      "candidate_values": ["DFT", "MD simulation", "ML model", "CALPHAD"],
+      "domain_rationale": "User requires computational validation but does not specify the method. This is a soft preference for papers with computational evidence.",
+      "confidence": 0.38,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["computational validation materials", "first-principles validation", "simulation validated mechanism"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers with computational validation of proposed mechanisms; method not specified"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["computational_method_undefined: DFT/MD/ML not specified by user"]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.35,
+    "coverage_level": "partial",
+    "missing_inputs": [
+      "material_system",
+      "computational_method",
+      "property_target",
+      "research_domain"
+    ],
+    "risk_flags": [
+      "material_system_missing",
+      "method_missing",
+      "property_target_missing",
+      "query_highly_underspecified"
+    ],
+    "needs_manual_review": true
+  }
+}

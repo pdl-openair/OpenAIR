@@ -1,0 +1,49 @@
+{
+  "taskId": "demo-task-001",
+  "title": "示例科研任务",
+  "goalSummary": "在受控条件下验证一种分析流程是否可用于后续研究决策（占位描述）。",
+  "currentStage": "execution_validation",
+  "status": "running",
+  "stages": [
+    "problem_modeling",
+    "solution_design",
+    "execution_validation",
+    "insight_generation"
+  ],
+  "artifacts": [
+    {
+      "id": "art-001",
+      "kind": "brief",
+      "title": "问题陈述草稿",
+      "summary": "约束与成功标准初稿。",
+      "createdAt": "2026-05-01T10:00:00Z"
+    }
+  ],
+  "confirmations": [
+    {
+      "id": "cfm-001",
+      "stage": "solution_design",
+      "decision": "approved",
+      "note": "方案方向可行，进入验证。",
+      "createdAt": "2026-05-02T14:00:00Z"
+    }
+  ],
+  "capabilityCalls": [
+    {
+      "id": "cap-001",
+      "kind": "in_app_agent",
+      "name": "文献与假设梳理（占位）",
+      "status": "completed",
+      "requestedAt": "2026-05-01T11:00:00Z",
+      "finishedAt": "2026-05-01T11:02:00Z",
+      "resultSummary": "生成结构化要点列表（示例）。"
+    },
+    {
+      "id": "cap-002",
+      "kind": "simulation",
+      "name": "数值试验占位",
+      "status": "running",
+      "requestedAt": "2026-05-10T09:00:00Z"
+    }
+  ]
+}

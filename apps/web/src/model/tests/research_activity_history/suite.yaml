@@ -1,0 +1,13 @@
+suite_id: component.web.research-activity-history
+protected_outcome: Distinct planning starts, retries, thoughts and plan formation remain historical facts after confirmation; growing thoughts preserve identity and reject stale replay. Historical Workflow focus splits form one goal card while every process fact and artifact remains available; independent goals remain separate.
+authority_refs:
+  [docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md]
+failure_class: stale_or_fabricated_planning_presentation
+minimum_owner: 单个组件行为
+production_targets: [apps/web/src/model/researchActivityStreamCore.mjs]
+test_responsibility: Deterministic projection and history invariants; no database or browser networking claims.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS only when protected assertions pass; absent execution evidence is NO_VALID_EVIDENCE.
+triggers: [planning_history_changes]

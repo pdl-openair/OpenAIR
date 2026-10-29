@@ -1,0 +1,54 @@
+{
+  "user_query": "比较不同负极材料在快充条件下循环稳定性，关注容量保持率，电压窗口≤4.2V",
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["anode material", "fast charging", "cycle stability"],
+      "must_include_terms": ["anode material", "fast charging"],
+      "optional_terms": ["cycle stability", "capacity retention"],
+      "exclude_terms": [],
+      "source_constraints": ["user_query"],
+      "rationale": "Core recall entry.",
+      "priority": 1
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"anode material\" AND \"fast charging\"",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["user_query"],
+      "rationale": "Core strict query.",
+      "priority": 1
+    },
+    {
+      "query": "\"anode material\" AND \"fast charging\" AND (\"cycle stability\" OR \"capacity retention\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["user_query", "capacity_retention_metric"],
+      "rationale": "Core broad query with performance synonyms.",
+      "priority": 1
+    },
+    {
+      "query": "\"fast charging\" AND \"capacity retention\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["fast_charging_condition", "capacity_retention_metric"],
+      "rationale": "Constraint-focused strict query.",
+      "priority": 1
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 9,
+    "fallback_used": false,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms"]
+  },
+  "retrieval_config": {
+    "target_sources": ["openalex", "semantic_scholar", "arxiv"],
+    "max_results_per_query": 10,
+    "max_total_candidates": 100,
+    "timeout_seconds": 45,
+    "allow_partial_success": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "task_id": "task_20260619_034428_4902c752",
+  "status": "completed",
+  "session_id": "evo_20260619_034428_8b6968d7",
+  "is_completed": true,
+  "current_generation": 1,
+  "max_generations": 1,
+  "population_size": 64,
+  "pareto_front_size": 0,
+  "pareto_front": [],
+  "message": "自动进化完成, Pareto 前沿 0 个结构, 最终种群 64 个"
+}

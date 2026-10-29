@@ -1,0 +1,103 @@
+{
+  "scenarioName": "validation_sei_additive",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "testable_hypothesis": "Under fixed cell chemistry and cycling protocol, additive concentration changes retention and impedance, with SEI composition as a candidate mediator rather than a proven mechanism.",
+    "variable_table": [
+      {
+        "variable_id": "V1",
+        "type": "independent_variable",
+        "name": "additive concentration",
+        "measurement_method": "electrolyte recipe record",
+        "unit": "mM or wt%",
+        "levels": ["0", "low", "high"],
+        "lock_before_execution": true
+      },
+      {
+        "variable_id": "V2",
+        "type": "dependent_variable",
+        "name": "capacity retention",
+        "measurement_method": "cycling data at fixed cycle count",
+        "unit": "percent retention",
+        "success_threshold": "pre-register minimum improvement over no-additive control"
+      },
+      {
+        "variable_id": "V3",
+        "type": "dependent_variable",
+        "name": "interfacial resistance",
+        "measurement_method": "EIS with fixed acquisition and fit model",
+        "unit": "ohm",
+        "success_threshold": "direction and uncertainty threshold set before testing"
+      },
+      {
+        "variable_id": "V4",
+        "type": "mediator_candidate",
+        "name": "SEI composition",
+        "measurement_method": "XPS/cryo-TEM protocol",
+        "unit": "predefined compositional signal",
+        "interpretation_boundary": "mediator only if measured under matched conditions"
+      }
+    ],
+    "controls_and_baselines": [
+      "no-additive electrolyte",
+      "same salt/solvent/batch",
+      "same electrode loading",
+      "same cycling protocol",
+      "blank characterization control"
+    ],
+    "baseline_fairness_criteria": [
+      "only additive concentration changes between baseline and treatment",
+      "matched sample preparation and measurement order",
+      "predefined exclusion criteria"
+    ],
+    "confounders": [
+      "electrode batch",
+      "water content",
+      "temperature",
+      "cell assembly variation",
+      "instrument drift"
+    ],
+    "ablation_or_comparison_matrix": [
+      "0 additive vs low additive vs high additive",
+      "retention/EIS only vs retention/EIS plus SEI characterization",
+      "replicate batch A vs replicate batch B if resources allow"
+    ],
+    "analysis_plan": [
+      "lock primary metric and cycle count before running",
+      "separate outcome effect from mediator interpretation",
+      "report uncertainty and failed quality checks",
+      "treat SEI composition as explanatory only after matched-condition evidence"
+    ],
+    "success_failure_thresholds": [
+      "primary success requires retention improvement and no worse safety/stability flag",
+      "mechanism claim requires matched SEI evidence plus outcome link",
+      "otherwise report outcome-only improvement"
+    ],
+    "stop_conditions": [
+      "missing no-additive baseline",
+      "unavailable characterization",
+      "unconfirmed safety/resource gate",
+      "unlocked metric after seeing results"
+    ],
+    "confirmation_gates": [
+      "sample count",
+      "instrument access",
+      "safety approval",
+      "analysis metric lock",
+      "cost/schedule approval"
+    ],
+    "execution_status": "not_started"
+  },
+  "review": {
+    "rubricScore": 91,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 24, "OEA": 24, "Rig": 19, "Lev": 9, "UX": 8, "Spec": 3, "Eng": 4},
+    "mainReason": "Operational variables and gates make this close to design-review ready, but not live-generated."
+  }
+}

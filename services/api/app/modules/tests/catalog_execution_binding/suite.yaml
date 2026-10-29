@@ -1,0 +1,23 @@
+suite_id: component.modules.catalog-execution-binding
+protected_outcome: A Catalog execution binding maps an exact Skill or Agent resource identity only to one enabled Registry capability version and its enabled bound Definitions; unknown or unbound identities never become executable bindings.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - schemas/resources/catalog-release.schema.json
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: catalog_execution_binding_identity_or_registry_scope_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/catalog_execution_binding.py
+test_responsibility: deterministic component proof of Catalog resource identity parsing, canonical Registry candidate resolution, bound Definition projection, and fail-closed unbound capability handling
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - Catalog execution binding identity changes
+  - Registry capability version or bound-Definition projection changes

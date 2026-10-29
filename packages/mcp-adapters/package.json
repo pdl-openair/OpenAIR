@@ -1,0 +1,10 @@
+{
+  "name": "@openair/mcp-adapters",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/adapter.types.ts"
+  },
+  "types": "./src/adapter.types.ts"
+}

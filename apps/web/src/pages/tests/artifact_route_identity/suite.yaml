@@ -1,0 +1,20 @@
+suite_id: component.web.pages.artifact-route-identity
+protected_outcome: >-
+  Artifact deep links remain fenced to their source Task, including when the
+  route changes between Tasks without remounting the Artifact Library page.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: artifact_deep_link_cross_task_identity_leak
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/pages/ArtifactLibraryPage.tsx
+test_responsibility: deterministic Artifact deep-link validation against source Task identity
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when a Task route switch cannot retain or open an Artifact whose
+  sourceTaskId belongs to the previous Task; FAIL on a valid cross-Task preview;
+  otherwise NO_VALID_EVIDENCE.
+triggers: [artifact_library_deep_link_or_task_filter_changes]

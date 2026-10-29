@@ -1,0 +1,56 @@
+{
+  "hypotheses": [
+    {
+      "source_research_lead_ids": [
+        "rl:760522e7bcdd6aac52de"
+      ],
+      "source_finding_ids": [
+        "fd:d32982b130d9825f8327"
+      ],
+      "title": "Higher anion coordination predicts a stronger LiF-rich interphase signature under matched conditions",
+      "statement": "Within matched high-voltage fast-charging lithium-metal electrolyte variants, increasing anion coordination relative to a lower-anion-coordination control will increase the LiF-rich interphase signature.",
+      "independent_variable": {
+        "name": "anion coordination strength",
+        "manipulation_or_contrast": "Higher versus lower anion coordination in otherwise matched electrolyte variants."
+      },
+      "dependent_variable": {
+        "name": "LiF-rich interphase signature",
+        "measurement_or_observation": "A predefined LiF-sensitive interphase metric measured consistently across the compared variants."
+      },
+      "expected_relation": {
+        "direction": "increase",
+        "detail": "The higher-anion-coordination condition is expected to show a stronger predefined LiF-rich interphase signature than the lower-coordination condition."
+      },
+      "boundary_conditions": [
+        "lithium metal anode",
+        "high voltage",
+        "fast charging",
+        "matched electrolyte variants",
+        "consistent interphase characterization criteria"
+      ],
+      "provenance_evidence_ids": [
+        "ev:3e88da7bb098191e16cf",
+        "ev:851a9927a5a502895bae",
+        "ev:880f2f98084d75d04768"
+      ],
+      "provenance_mechanism_edge_ids": [
+        "me:06cdaf84e920d43c3996",
+        "me:8289dcf192477eece18b",
+        "me:9a2ef66af0a8aa3b941d"
+      ],
+      "scientific_significance": "If supported, the hypothesis would show whether anion coordination is a transferable interphase-design variable rather than only a descriptor of one reported formulation.",
+      "mechanism_reasoning": "The supplied evidence links anion-rich solvation to LiF-rich interphase formation and high Coulombic efficiency in the reported system. This motivates testing anion coordination as a variable, but does not establish the proposed cross-formulation relation.",
+      "falsifiable_prediction": "When the intended anion-coordination contrast is present within the stated boundary, the higher-anion-coordination condition will show a reproducibly higher predefined LiF-rich interphase metric than the lower-coordination condition.",
+      "falsification_condition": "The hypothesis is falsified within the stated boundary if the intended anion-coordination contrast is present but the higher-anion-coordination condition does not show a reproducibly higher predefined LiF-rich interphase metric.",
+      "known_evidence_boundary": "Existing evidence supports the anion-rich-solvation to LiF-rich-interphase relationship in the reported LiFSI/FDEE system, but does not establish that increasing anion coordination across matched alternative formulations causes a stronger LiF-rich interphase signature.",
+      "evidence_context_status": "boundary_limited",
+      "uncertainties": [
+        "Anion coordination may covary with solvent chemistry or concentration.",
+        "The interphase signal may not uniquely represent the mechanism responsible for Coulombic-efficiency retention."
+      ],
+      "confidence": 0.66,
+      "semantic_hypothesis_judgment": "valid_unvalidated_falsifiable_hypothesis"
+    }
+  ],
+  "generation_warnings": []
+}

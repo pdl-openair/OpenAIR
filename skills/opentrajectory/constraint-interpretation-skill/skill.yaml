@@ -1,0 +1,54 @@
+skill_id: constraint_interpretation_skill
+claude_name: constraint-interpretation-skill
+display_name: 约束解读
+stages:
+- problem_modeling
+substages:
+- constraints_criteria
+skill_type: atomic
+runtime: claude_code
+status: deprecated
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: constraint_interpretation.json
+llm:
+  model: gpt-5-mini
+  temperature: 0
+  max_completion_tokens: 1600
+  reasoning_effort: minimal
+notes: Migrated from 04_backend/app/skills/constraint_interpretation_adapter.py +
+  app/schemas/constraint_interpretation.py
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: constraints_criteria
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+input_handoff:
+  contract_version: 1
+  predecessor_skill_id: null
+  predecessor_definition_version: null
+  dependency_skill_id: structured_requirement_generation
+  dependency_definition_version: 1
+  context_fields:
+    user_query: canonical_user_query
+  field_mappings:
+    research_context: $
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: model_output.schema.json

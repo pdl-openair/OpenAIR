@@ -1,0 +1,970 @@
+{
+  "researchTask": {
+    "taskId": "task_contract_full",
+    "revision": 4,
+    "status": "running",
+    "executionMode": "stage_confirmation",
+    "pendingExecutionMode": null,
+    "executionPolicyVersion": "execution-policy.v1",
+    "activeResearchDesignRef": {
+      "researchDesignId": "rd_contract_full",
+      "version": 1
+    },
+    "registrySnapshotRef": {
+      "schemaVersion": 1,
+      "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "planningAttempts": [
+      {
+        "planningAttemptId": "planning_contract_full",
+        "taskId": "task_contract_full",
+        "requestId": "request_contract_full",
+        "plannerCallIdempotencyKey": "planner:request_contract_full",
+        "plannerProviderCallRef": "provider_call_contract_full",
+        "additionalActionType": "none",
+        "additionalActionIdempotencyKey": null,
+        "additionalProviderCallRef": null,
+        "status": "completed",
+        "startedAt": "2026-07-28T00:00:00Z",
+        "finishedAt": "2026-07-28T00:00:01Z",
+        "userInputSnapshot": {
+          "sources": [
+            {
+              "sourceKind": "user_request",
+              "sourceRef": "request_contract_full",
+              "content": "Produce a traceable evidence summary."
+            }
+          ],
+          "baseResearchDesignRef": null
+        }
+      }
+    ],
+    "researchDesignVersions": [
+      {
+        "researchDesignId": "rd_contract_full",
+        "taskId": "task_contract_full",
+        "version": 1,
+        "supersedesVersion": null,
+        "status": "confirmed",
+        "planningMode": "lightweight",
+        "planningComplexity": {
+          "problemClarity": "high",
+          "expectedStageSpan": "one",
+          "dependencyComplexity": "low",
+          "evidenceBurden": "low",
+          "externalActionRisk": "low",
+          "researchUncertainty": "low",
+          "rationale": "The target is bounded and structurally testable."
+        },
+        "goal": "Produce a traceable evidence summary.",
+        "understanding": {
+          "researchType": "evidence_synthesis",
+          "userIntent": "Review one bounded body of evidence.",
+          "materialSummary": "The supplied source is available.",
+          "primaryResearchQuestions": ["What does the supplied evidence support within its stated boundary?"],
+          "auxiliaryResearchDimensions": [],
+          "targetOutputs": ["evidence_summary"],
+          "evidenceBoundaries": ["supplied_material_only"],
+          "missingInputs": [],
+          "riskNotes": [],
+          "planningRationale": "One independently verifiable instance is sufficient."
+        },
+        "constraints": ["cite_source_refs"],
+        "scopeBoundary": {
+          "allowedObjectiveKinds": ["evidence_synthesis"],
+          "excludedActions": ["external_publish"],
+          "allowedMaterialRefs": ["material_contract"],
+          "maxSubstageInstances": 4
+        },
+        "budgetBoundary": {
+          "maxModelCalls": 2,
+          "maxToolCalls": 1,
+          "maxWallTimeSec": 120,
+          "maxCostAmount": 2.0,
+          "currency": "USD"
+        },
+        "externalActionBoundary": {
+          "allowedActionKinds": [],
+          "confirmationRequiredKinds": [],
+          "allowedDestinations": []
+        },
+        "riskBoundary": {
+          "maxRiskClass": "low",
+          "prohibitedActions": ["external_publish"],
+          "humanGateTriggers": []
+        },
+        "workflowProvenanceRef": null,
+        "projectCompletionRequirements": [
+          {
+            "completionRequirementId": "completion_contract_full",
+            "targetOutputRef": "understanding.targetOutputs[0]",
+            "description": "evidence_summary"
+          }
+        ],
+        "instances": [
+          {
+            "substageInstanceId": "sub_contract_full",
+            "instanceRevision": 1,
+            "substageDefinitionId": "sdr:evidence_synthesis",
+            "substageDefinitionVersion": 1,
+            "stageKey": "solution_design",
+            "objective": "Create the bounded evidence summary.",
+            "inputRefs": ["material_contract"],
+            "expectedArtifactTypes": ["evidence_summary"],
+            "acceptanceCriteria": [
+              {
+                "criterionId": "criterion_contract_full",
+                "description": "The output is traceable to the supplied source.",
+                "criterionKind": "target_output",
+                "coverageTargetIds": ["target_contract_full"],
+                "requiredArtifactType": "evidence_summary",
+                "judgmentRequirement": "deterministic",
+                "evaluatorType": "deterministic",
+                "evaluatorRef": null
+              }
+            ],
+            "dependencies": [],
+            "sequenceHint": 0,
+            "repeatableReentryAuthority": null
+          }
+        ],
+        "coverageReport": {
+          "coverageReportId": "coverage_contract_full",
+          "designRef": {
+            "researchDesignId": "rd_contract_full",
+            "version": 1
+          },
+          "planningAttemptId": "planning_contract_full",
+          "targets": [
+            {
+              "targetId": "target_contract_full",
+              "sourceType": "target_output",
+              "sourcePath": "understanding.targetOutputs[0]",
+              "description": "Produce an evidence summary.",
+              "requiredArtifactTypes": ["evidence_summary"],
+              "enforcementRef": null,
+              "required": true
+            }
+          ],
+          "claims": [
+            {
+              "targetId": "target_contract_full",
+              "instanceRefs": [
+                {
+                  "substageInstanceId": "sub_contract_full",
+                  "instanceRevision": 1
+                }
+              ],
+              "coverageMode": "full",
+              "acceptanceCriterionRefs": ["criterion_contract_full"],
+              "derivationRuleRefs": ["coverage-policy.v1:target-output"],
+              "rationale": "The instance emits and validates the required artifact."
+            }
+          ],
+          "uncoveredRequiredTargetIds": [],
+          "overloadedInstanceRefs": [],
+          "missingDependencyRefs": [],
+          "status": "passed_structural",
+          "evaluationTier": "lightweight",
+          "evaluationMode": "deterministic",
+          "semanticEvaluationRef": null,
+          "automaticRepairCount": 0,
+          "policyVersion": "coverage-policy.v1",
+          "evaluatedAt": "2026-07-28T00:00:02Z"
+        },
+        "createdAt": "2026-07-28T00:00:01Z",
+        "confirmedAt": "2026-07-28T00:00:03Z",
+        "confirmationRef": "confirmation_design_contract_full"
+      }
+    ],
+    "reentryExecutionInstances": [],
+    "substageRuntimeStates": [
+      {
+        "substageInstanceId": "sub_contract_full",
+        "instanceRevision": 1,
+        "status": "reviewing",
+        "activeExecutionDecisionId": "decision_contract_full",
+        "workUnitIds": ["wu_contract_full"],
+        "artifactRefs": ["artifact_contract_full"],
+        "statusReasonCode": null,
+        "updatedAt": "2026-07-28T00:00:08Z"
+      }
+    ],
+    "executionDecisions": [
+      {
+        "executionDecisionId": "decision_contract_full",
+        "selectionRequestId": "selection_contract_full",
+        "decisionSequence": 1,
+        "supersedesExecutionDecisionId": null,
+        "revisionReasonCode": null,
+        "taskId": "task_contract_full",
+        "researchDesignVersion": 1,
+        "substageInstanceId": "sub_contract_full",
+        "substageInstanceRevision": 1,
+        "registrySnapshotRef": {
+          "schemaVersion": 1,
+          "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "purpose": "completion",
+        "strategy": "direct_skill",
+        "multiAgentRecipeRef": null,
+        "candidateEvaluations": [
+          {
+            "candidateEvaluationId": "candidate_contract_full",
+            "candidateRef": {
+              "skillId": "evidence_synthesis_skill",
+              "definitionVersion": 1
+            },
+            "sourceBindingRefs": [
+              {
+                "bindingId": "bind:sdr:evidence_synthesis:skill:evidence_synthesis_skill",
+                "bindingVersion": 1
+              }
+            ],
+            "supportedRole": "tool",
+            "eligible": true,
+            "rejectionCodes": [],
+            "preference": {
+              "semanticFit": "exact",
+              "semanticFitEvidence": {
+                "objectiveMatch": "exact",
+                "inputContractMatch": "exact",
+                "outputContractMatch": "exact",
+                "professionalJudgmentFit": "not_required",
+                "positiveRuleRefs": ["candidate-policy.v1:exact-contract"],
+                "negativeRuleRefs": [],
+                "adapterRefs": [],
+                "policyVersion": "candidate-policy.v1",
+                "rationale": "The registered Skill contracts match exactly."
+              },
+              "completionCoverage": "completion_capable",
+              "executableNow": true,
+              "executionBlockerCodes": [],
+              "riskClass": "low",
+              "estimatedCostAmount": 0.1,
+              "permissionBreadth": "narrow",
+              "supportsProfessionalJudgment": false,
+              "activeWorkUnitCount": 0,
+              "lastAssignedAt": null
+            },
+            "rationale": "The registered direct Skill closes the deterministic criterion."
+          }
+        ],
+        "fallbackInvoked": false,
+        "fallbackReasonCode": null,
+        "preferredCandidateEvaluationRefs": ["candidate_contract_full"],
+        "assignments": [
+          {
+            "assignmentId": "assignment_contract_full",
+            "recipeTemplateKey": null,
+            "role": "primary",
+            "completionCoverage": "completion_capable",
+            "objective": "Produce the traceable evidence summary.",
+            "sourceBindingRefs": [
+              {
+                "bindingId": "bind:sdr:evidence_synthesis:skill:evidence_synthesis_skill",
+                "bindingVersion": 1
+              }
+            ],
+            "responsibleActorRef": {
+              "actorType": "orchestrator",
+              "actorId": "openair_orchestrator",
+              "definitionVersion": null
+            },
+            "executorRef": {
+              "executorType": "skill",
+              "executorId": "evidence_synthesis_skill",
+              "definitionVersion": 1
+            },
+            "allowedSkillRefs": [],
+            "inputRefs": ["material_contract"],
+            "expectedArtifactTypes": ["evidence_summary"],
+            "acceptanceCriteria": [
+              {
+                "criterionId": "criterion_contract_full",
+                "description": "The output is traceable to the supplied source.",
+                "criterionKind": "target_output",
+                "coverageTargetIds": ["target_contract_full"],
+                "requiredArtifactType": "evidence_summary",
+                "judgmentRequirement": "deterministic",
+                "evaluatorType": "deterministic",
+                "evaluatorRef": null
+              }
+            ],
+            "dependencyAssignmentIds": []
+          }
+        ],
+        "invocationContext": {},
+        "completionPolicy": {
+          "requiredAssignmentIds": ["assignment_contract_full"],
+          "successMode": "all_required",
+          "reviewerAssignmentIds": [],
+          "reviewRequirement": "none",
+          "partialSuccessAllowed": false,
+          "onReviewerReject": "new_revision_decision"
+        },
+        "progressPolicy": null,
+        "resultAssemblyPolicy": {
+          "mode": "primary_output",
+          "assemblerAssignmentId": null,
+          "finalArtifactRequirements": [
+            {
+              "artifactType": "evidence_summary",
+              "minimumCount": 1,
+              "sourceAssignmentIds": ["assignment_contract_full"]
+            }
+          ]
+        },
+        "runtimeReadiness": [
+          {
+            "capabilityRef": {
+              "skillId": "evidence_synthesis_skill",
+              "definitionVersion": 1
+            },
+            "ready": true,
+            "runtimeBindingId": "runtime_binding_contract",
+            "checkedAt": "2026-07-28T00:00:03Z",
+            "expiresAt": "2026-07-28T00:05:03Z",
+            "reason": null
+          }
+        ],
+        "budgetSnapshot": {
+          "boundary": {
+            "maxModelCalls": 2,
+            "maxToolCalls": 1,
+            "maxWallTimeSec": 120,
+            "maxCostAmount": 2.0,
+            "currency": "USD"
+          },
+          "consumedModelCalls": 0,
+          "consumedToolCalls": 0,
+          "consumedCostAmount": 0.0
+        },
+        "policyVersion": "decision-policy.v1",
+        "rationale": "The exact registered Skill is executable.",
+        "status": "dispatched",
+        "outcome": null,
+        "decidedAt": "2026-07-28T00:00:04Z",
+        "closedAt": null
+      }
+    ],
+    "workUnits": [
+      {
+        "workUnitId": "wu_contract_full",
+        "idempotencyKey": "workunit:decision_contract_full:assignment_contract_full",
+        "taskId": "task_contract_full",
+        "executionDecisionId": "decision_contract_full",
+        "assignmentId": "assignment_contract_full",
+        "researchDesignVersion": 1,
+        "substageInstanceId": "sub_contract_full",
+        "substageInstanceRevision": 1,
+        "substageDefinitionId": "sdr:evidence_synthesis",
+        "substageDefinitionVersion": 1,
+        "registrySnapshotRef": {
+          "schemaVersion": 1,
+          "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "responsibleActorRef": {
+          "actorType": "orchestrator",
+          "actorId": "openair_orchestrator",
+          "definitionVersion": null
+        },
+        "executorRef": {
+          "executorType": "skill",
+          "executorId": "evidence_synthesis_skill",
+          "definitionVersion": 1
+        },
+        "instruction": "Produce the traceable evidence summary.",
+        "inputArtifactRefs": [],
+        "inputArtifactSnapshots": [],
+        "inputMemoryRefs": ["material_contract"],
+        "invocationContext": {},
+        "allowedSkillRefs": [],
+        "authorizationSnapshot": {
+          "policyVersion": "authorization.v1",
+          "allowedMemoryScopes": ["task"],
+          "allowedExternalActionKinds": [],
+          "confirmationRefs": ["confirmation_design_contract_full"]
+        },
+        "budgetSnapshot": {
+          "boundary": {
+            "maxModelCalls": 2,
+            "maxToolCalls": 1,
+            "maxWallTimeSec": 120,
+            "maxCostAmount": 2.0,
+            "currency": "USD"
+          },
+          "consumedModelCalls": 0,
+          "consumedToolCalls": 1,
+          "consumedCostAmount": 0.1
+        },
+        "riskSnapshot": {
+          "boundary": {
+            "maxRiskClass": "low",
+            "prohibitedActions": ["external_publish"],
+            "humanGateTriggers": []
+          },
+          "evaluatedRiskClass": "low",
+          "triggeredHumanGates": []
+        },
+        "expectedArtifactTypes": ["evidence_summary"],
+        "acceptanceCriteria": [
+          {
+            "criterionId": "criterion_contract_full",
+            "description": "The output is traceable to the supplied source.",
+            "criterionKind": "target_output",
+            "coverageTargetIds": ["target_contract_full"],
+            "requiredArtifactType": "evidence_summary",
+            "judgmentRequirement": "deterministic",
+            "evaluatorType": "deterministic",
+            "evaluatorRef": null
+          }
+        ],
+        "stopConditions": ["criterion_satisfied"],
+        "dependencyWorkUnitIds": [],
+        "executionGroupId": null,
+        "policyVersion": "decision-policy.v1",
+        "sourceMode": "live",
+        "dispatchable": true,
+        "status": "reviewing",
+        "terminalReasonCode": null,
+        "dispatchedAt": "2026-07-28T00:00:04Z",
+        "frozenAt": "2026-07-28T00:00:04Z",
+        "finishedAt": null
+      }
+    ],
+    "capabilityCalls": [
+      {
+        "capabilityCallId": "call_contract_full",
+        "idempotencyKey": "call:wu_contract_full:1",
+        "attemptNumber": 1,
+        "workUnitId": "wu_contract_full",
+        "substageInstanceId": "sub_contract_full",
+        "requestingActorRef": {
+          "actorType": "orchestrator",
+          "actorId": "openair_orchestrator",
+          "definitionVersion": null
+        },
+        "capabilityType": "skill",
+        "capabilityId": "evidence_synthesis_skill",
+        "runtimeBindingId": "runtime_binding_contract",
+        "status": "succeeded",
+        "inputRefs": ["material_contract"],
+        "outputArtifactRefs": ["artifact_contract_full"],
+        "startedAt": "2026-07-28T00:00:05Z",
+        "finishedAt": "2026-07-28T00:00:07Z"
+      }
+    ],
+    "results": [],
+    "artifacts": [
+      {
+        "artifactId": "artifact_contract_full",
+        "workUnitId": "wu_contract_full",
+        "substageInstanceId": "sub_contract_full",
+        "sourceCapabilityCallId": "call_contract_full",
+        "artifactType": "evidence_summary",
+        "artifactState": "needs_review",
+        "version": 1,
+        "sourceRefs": ["material_contract"],
+        "validatorResult": {
+          "traceable": true,
+          "sourceCount": 1,
+          "notes": null
+        },
+        "lineageKind": "capability_call_output",
+        "sourceResultId": null
+      }
+    ],
+    "confirmations": [
+      {
+        "confirmationId": "confirmation_design_contract_full",
+        "targetType": "research_design",
+        "targetId": "rd_contract_full",
+        "targetVersion": 1,
+        "decision": "approved",
+        "actorId": "owner_contract",
+        "createdAt": "2026-07-28T00:00:03Z"
+      }
+    ],
+    "agentInteractionRecords": [
+      {
+        "interactionId": "interaction_contract_full",
+        "idempotencyKey": "interaction:review:wu_contract_full",
+        "taskId": "task_contract_full",
+        "executionDecisionId": "decision_contract_full",
+        "sourceAssignmentId": "assignment_contract_full",
+        "sourceWorkUnitId": "wu_contract_full",
+        "targetAssignmentId": null,
+        "targetWorkUnitId": null,
+        "interactionType": "review_submitted",
+        "inputArtifactRefs": [],
+        "outputArtifactRefs": ["artifact_contract_full"],
+        "verdict": null,
+        "summary": "The deterministic output was submitted for review.",
+        "createdAt": "2026-07-28T00:00:08Z"
+      }
+    ],
+    "progressProjection": null,
+    "finalResultAuthority": null,
+    "scientificStates": [],
+    "completionDecisions": [],
+    "finalResults": [],
+    "startedAt": "2026-07-28T00:00:04Z",
+    "finishedAt": null
+  },
+  "multiAgentRecipeDefinition": {
+    "recipeId": "recipe_producer_reviewer",
+    "recipeVersion": 1,
+    "substageDefinitionId": "sdr:evidence_synthesis",
+    "substageDefinitionVersion": 1,
+    "applicabilityRuleRefs": ["recipe-policy.v1:review-required"],
+    "assignmentTemplates": [
+      {
+        "templateKey": "producer",
+        "role": "primary",
+        "requiredSupportedRole": "primary",
+        "objectiveTemplate": "Produce the evidence artifact.",
+        "dependencyTemplateKeys": []
+      },
+      {
+        "templateKey": "reviewer",
+        "role": "reviewer",
+        "requiredSupportedRole": "reviewer",
+        "objectiveTemplate": "Review the evidence artifact.",
+        "dependencyTemplateKeys": ["producer"]
+      }
+    ],
+    "completionPolicyTemplate": {
+      "requiredTemplateKeys": ["producer", "reviewer"],
+      "successMode": "all_required",
+      "reviewerTemplateKeys": ["reviewer"],
+      "reviewRequirement": "all_reviewers_approve",
+      "partialSuccessAllowed": false,
+      "onReviewerReject": "new_revision_decision"
+    },
+    "resultAssemblyPolicyTemplate": {
+      "mode": "designated_assembler",
+      "assemblerTemplateKey": "producer",
+      "finalArtifactRequirements": [
+        {
+          "artifactType": "evidence_summary",
+          "minimumCount": 1,
+          "sourceTemplateKeys": ["producer"]
+        }
+      ]
+    },
+    "enabled": true
+  },
+  "dispatchRecord": {
+    "dispatchId": "dispatch_contract_full",
+    "taskId": "task_contract_full",
+    "executionDecisionId": "decision_contract_full",
+    "workUnitId": "wu_contract_full",
+    "idempotencyKey": "workunit:decision_contract_full:assignment_contract_full",
+    "executionNamespace": null,
+    "status": "pending",
+    "attemptCount": 0,
+    "leaseOwner": null,
+    "leaseExpiresAt": null,
+    "authorizationTaskRevision": null,
+    "remoteRunId": null,
+    "nextAttemptAt": null,
+    "lastErrorCode": null,
+    "lastFailureAt": null,
+    "createdAt": "2026-07-28T00:00:04Z",
+    "updatedAt": "2026-07-28T00:00:04Z"
+  },
+  "researchDesignExecutableGaps": {
+    "researchDesignId": "rd_contract_full",
+    "taskId": "task_contract_full",
+    "version": 1,
+    "supersedesVersion": null,
+    "status": "confirmed",
+    "planningMode": "lightweight",
+    "planningComplexity": {
+      "problemClarity": "high",
+      "expectedStageSpan": "one",
+      "dependencyComplexity": "low",
+      "evidenceBurden": "low",
+      "externalActionRisk": "low",
+      "researchUncertainty": "low",
+      "rationale": "The target is bounded and structurally testable."
+    },
+    "goal": "Produce a traceable evidence summary.",
+    "understanding": {
+      "researchType": "evidence_synthesis",
+      "userIntent": "Review one bounded body of evidence.",
+      "materialSummary": "The supplied source is available.",
+      "primaryResearchQuestions": [
+        "What does the supplied evidence support within its stated boundary?"
+      ],
+      "auxiliaryResearchDimensions": [],
+      "targetOutputs": [
+        "evidence_summary",
+        "Unassociated software control"
+      ],
+      "evidenceBoundaries": [
+        "supplied_material_only"
+      ],
+      "missingInputs": [],
+      "riskNotes": [],
+      "planningRationale": "One independently verifiable instance is sufficient."
+    },
+    "constraints": [
+      "cite_source_refs"
+    ],
+    "scopeBoundary": {
+      "allowedObjectiveKinds": [
+        "evidence_synthesis"
+      ],
+      "excludedActions": [
+        "external_publish"
+      ],
+      "allowedMaterialRefs": [
+        "material_contract"
+      ],
+      "maxSubstageInstances": 4
+    },
+    "budgetBoundary": {
+      "maxModelCalls": 2,
+      "maxToolCalls": 1,
+      "maxWallTimeSec": 120,
+      "maxCostAmount": 2.0,
+      "currency": "USD"
+    },
+    "externalActionBoundary": {
+      "allowedActionKinds": [],
+      "confirmationRequiredKinds": [],
+      "allowedDestinations": []
+    },
+    "riskBoundary": {
+      "maxRiskClass": "low",
+      "prohibitedActions": [
+        "external_publish"
+      ],
+      "humanGateTriggers": []
+    },
+    "workflowProvenanceRef": null,
+    "projectCompletionRequirements": [
+      {
+        "completionRequirementId": "completion_contract_full",
+        "targetOutputRef": "understanding.targetOutputs[0]",
+        "description": "evidence_summary"
+      },
+      {
+        "completionRequirementId": "gap",
+        "targetOutputRef": "understanding.targetOutputs[1]",
+        "description": "Unassociated software control"
+      }
+    ],
+    "instances": [
+      {
+        "substageInstanceId": "sub_contract_full",
+        "instanceRevision": 1,
+        "substageDefinitionId": "sdr:evidence_synthesis",
+        "substageDefinitionVersion": 1,
+        "stageKey": "solution_design",
+        "objective": "Create the bounded evidence summary.",
+        "inputRefs": [
+          "material_contract"
+        ],
+        "expectedArtifactTypes": [
+          "evidence_summary"
+        ],
+        "acceptanceCriteria": [
+          {
+            "criterionId": "criterion_contract_full",
+            "description": "The output is traceable to the supplied source.",
+            "criterionKind": "target_output",
+            "coverageTargetIds": [
+              "target_contract_full"
+            ],
+            "requiredArtifactType": "evidence_summary",
+            "judgmentRequirement": "deterministic",
+            "evaluatorType": "deterministic",
+            "evaluatorRef": null
+          }
+        ],
+        "dependencies": [],
+        "sequenceHint": 0,
+        "repeatableReentryAuthority": null
+      }
+    ],
+    "coverageReport": {
+      "coverageReportId": "coverage_contract_full",
+      "designRef": {
+        "researchDesignId": "rd_contract_full",
+        "version": 1
+      },
+      "planningAttemptId": "planning_contract_full",
+      "targets": [
+        {
+          "targetId": "target_contract_full",
+          "sourceType": "target_output",
+          "sourcePath": "understanding.targetOutputs[0]",
+          "description": "Produce an evidence summary.",
+          "requiredArtifactTypes": [
+            "evidence_summary"
+          ],
+          "enforcementRef": null,
+          "required": true
+        },
+        {
+          "targetId": "gap",
+          "sourceType": "target_output",
+          "sourcePath": "understanding.targetOutputs[1]",
+          "description": "Produce an evidence summary.",
+          "requiredArtifactTypes": [
+            "evidence_summary"
+          ],
+          "enforcementRef": null,
+          "required": true
+        }
+      ],
+      "claims": [
+        {
+          "targetId": "target_contract_full",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "sub_contract_full",
+              "instanceRevision": 1
+            }
+          ],
+          "coverageMode": "full",
+          "acceptanceCriterionRefs": [
+            "criterion_contract_full"
+          ],
+          "derivationRuleRefs": [
+            "coverage-policy.v1:target-output"
+          ],
+          "rationale": "The instance emits and validates the required artifact."
+        },
+        {
+          "targetId": "gap",
+          "instanceRefs": [],
+          "coverageMode": "none",
+          "acceptanceCriterionRefs": [],
+          "derivationRuleRefs": [
+            "coverage-policy.v1:target-output"
+          ],
+          "rationale": "The instance emits and validates the required artifact."
+        }
+      ],
+      "uncoveredRequiredTargetIds": [
+        "gap"
+      ],
+      "overloadedInstanceRefs": [],
+      "missingDependencyRefs": [],
+      "status": "executable_with_gaps",
+      "evaluationTier": "lightweight",
+      "evaluationMode": "deterministic",
+      "semanticEvaluationRef": null,
+      "automaticRepairCount": 0,
+      "policyVersion": "coverage-policy.v1",
+      "evaluatedAt": "2026-07-28T00:00:02Z"
+    },
+    "createdAt": "2026-07-28T00:00:01Z",
+    "confirmedAt": "2026-07-28T00:00:03Z",
+    "confirmationRef": "confirmation_design_contract_full"
+  },
+  "researchDesignCompositeContributions": {
+    "researchDesignId": "rd_contract_full",
+    "taskId": "task_contract_full",
+    "version": 1,
+    "supersedesVersion": null,
+    "status": "confirmed",
+    "planningMode": "lightweight",
+    "planningComplexity": {
+      "problemClarity": "high",
+      "expectedStageSpan": "one",
+      "dependencyComplexity": "low",
+      "evidenceBurden": "low",
+      "externalActionRisk": "low",
+      "researchUncertainty": "low",
+      "rationale": "The target is bounded and structurally testable."
+    },
+    "goal": "Produce a traceable evidence summary.",
+    "understanding": {
+      "researchType": "evidence_synthesis",
+      "userIntent": "Review one bounded body of evidence.",
+      "materialSummary": "The supplied source is available.",
+      "primaryResearchQuestions": [
+        "What does the supplied evidence support within its stated boundary?"
+      ],
+      "auxiliaryResearchDimensions": [],
+      "targetOutputs": [
+        "evidence_summary"
+      ],
+      "evidenceBoundaries": [
+        "supplied_material_only"
+      ],
+      "missingInputs": [],
+      "riskNotes": [],
+      "planningRationale": "One independently verifiable instance is sufficient."
+    },
+    "constraints": [
+      "cite_source_refs"
+    ],
+    "scopeBoundary": {
+      "allowedObjectiveKinds": [
+        "evidence_synthesis"
+      ],
+      "excludedActions": [
+        "external_publish"
+      ],
+      "allowedMaterialRefs": [
+        "material_contract"
+      ],
+      "maxSubstageInstances": 4
+    },
+    "budgetBoundary": {
+      "maxModelCalls": 2,
+      "maxToolCalls": 1,
+      "maxWallTimeSec": 120,
+      "maxCostAmount": 2.0,
+      "currency": "USD"
+    },
+    "externalActionBoundary": {
+      "allowedActionKinds": [],
+      "confirmationRequiredKinds": [],
+      "allowedDestinations": []
+    },
+    "riskBoundary": {
+      "maxRiskClass": "low",
+      "prohibitedActions": [
+        "external_publish"
+      ],
+      "humanGateTriggers": []
+    },
+    "workflowProvenanceRef": {
+      "workflowId": "software-control",
+      "workflowVersion": 1,
+      "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "projectCompletionRequirements": [
+      {
+        "completionRequirementId": "completion_contract_full",
+        "targetOutputRef": "understanding.targetOutputs[0]",
+        "description": "evidence_summary",
+        "contributingResponsibilityKeys": [
+          "current",
+          "reuse"
+        ]
+      }
+    ],
+    "instances": [
+      {
+        "substageInstanceId": "sub_contract_full",
+        "instanceRevision": 1,
+        "substageDefinitionId": "sdr:evidence_synthesis",
+        "substageDefinitionVersion": 1,
+        "stageKey": "solution_design",
+        "objective": "Create the bounded evidence summary.",
+        "inputRefs": [
+          "material_contract"
+        ],
+        "expectedArtifactTypes": [
+          "evidence_summary"
+        ],
+        "acceptanceCriteria": [
+          {
+            "criterionId": "criterion_contract_full",
+            "description": "The output is traceable to the supplied source.",
+            "criterionKind": "target_output",
+            "coverageTargetIds": [
+              "target_contract_full"
+            ],
+            "requiredArtifactType": "evidence_summary",
+            "judgmentRequirement": "deterministic",
+            "evaluatorType": "deterministic",
+            "evaluatorRef": null
+          }
+        ],
+        "dependencies": [],
+        "sequenceHint": 0,
+        "repeatableReentryAuthority": null
+      }
+    ],
+    "coverageReport": {
+      "coverageReportId": "coverage_contract_full",
+      "designRef": {
+        "researchDesignId": "rd_contract_full",
+        "version": 1
+      },
+      "planningAttemptId": "planning_contract_full",
+      "targets": [
+        {
+          "targetId": "target_contract_full",
+          "sourceType": "target_output",
+          "sourcePath": "understanding.targetOutputs[0]",
+          "description": "Produce an evidence summary.",
+          "requiredArtifactTypes": [
+            "evidence_summary"
+          ],
+          "enforcementRef": null,
+          "required": true
+        }
+      ],
+      "claims": [
+        {
+          "targetId": "target_contract_full",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "sub_contract_full",
+              "instanceRevision": 1
+            }
+          ],
+          "coverageMode": "full",
+          "acceptanceCriterionRefs": [
+            "criterion_contract_full"
+          ],
+          "derivationRuleRefs": [
+            "coverage-policy.v1:target-output"
+          ],
+          "rationale": "The instance emits and validates the required artifact."
+        }
+      ],
+      "uncoveredRequiredTargetIds": [],
+      "overloadedInstanceRefs": [],
+      "missingDependencyRefs": [],
+      "status": "passed_structural",
+      "evaluationTier": "lightweight",
+      "evaluationMode": "deterministic",
+      "semanticEvaluationRef": null,
+      "automaticRepairCount": 0,
+      "policyVersion": "coverage-policy.v1",
+      "evaluatedAt": "2026-07-28T00:00:02Z"
+    },
+    "createdAt": "2026-07-28T00:00:01Z",
+    "confirmedAt": "2026-07-28T00:00:03Z",
+    "confirmationRef": "confirmation_design_contract_full",
+    "workflowResponsibilityCoverage": [
+      {
+        "responsibilityKey": "current",
+        "definitionId": "sdr:evidence_synthesis",
+        "requirement": "core",
+        "coverageMode": "planned_work",
+        "instanceRefs": [
+          {
+            "substageInstanceId": "sub_contract_full",
+            "instanceRevision": 1
+          }
+        ],
+        "reusedResultRefs": [],
+        "rationale": "Offline software control"
+      },
+      {
+        "responsibilityKey": "reuse",
+        "definitionId": "software:reuse",
+        "requirement": "conditional",
+        "coverageMode": "reused_result",
+        "instanceRefs": [],
+        "reusedResultRefs": [
+          "artifact:control"
+        ],
+        "rationale": "Offline software control"
+      }
+    ]
+  }
+
+}

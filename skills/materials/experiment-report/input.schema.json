@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/experiment-report/input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goal"],
+  "properties": {
+    "goal": {"type": "string", "minLength": 1},
+    "mp_search_report": {"type": "string"},
+    "candidate_summary": {"type": "string"}
+  }
+}

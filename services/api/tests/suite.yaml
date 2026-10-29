@@ -1,0 +1,27 @@
+suite_id: component.api.tests
+protected_outcome: >-
+  The services/api component keeps honoring its declared behavioral
+  contracts: task lifecycle and execution-decision authority, durable
+  dispatch and worker runtime boundaries, artifact authority and version
+  handling, progress/scientific-state projections, and provider request
+  boundaries. A regression against any of these contracts fails this Suite
+  before merge instead of reaching the deployed service.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: api_component_contract_regression
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/
+test_responsibility: >-
+  Deterministic component verification of the FastAPI service modules:
+  unit-level contract tests plus the offline integration boundary under
+  services/api/tests/integration/.
+execution_profiles: [deterministic, offline]
+required_dependencies: [project_python_dependencies]
+evidence_required: [pytest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - services/api/app module behavior changes
+  - services/api/tests contract changes

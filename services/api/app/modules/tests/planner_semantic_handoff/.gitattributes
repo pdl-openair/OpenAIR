@@ -1,0 +1,2 @@
+real-response.json -text whitespace=cr-at-eol
+evidence/** -text whitespace=cr-at-eol

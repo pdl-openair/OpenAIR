@@ -1,0 +1,77 @@
+schemaVersion: 1
+recipes:
+  - recipeId: question_refinement_with_independent_review
+    recipeVersion: 1
+    substageDefinitionId: sdr:question_refinement
+    substageDefinitionVersion: 1
+    applicabilityRuleRefs:
+      - registry-policy.v1:substage-match
+    assignmentTemplates:
+      - templateKey: producer
+        role: primary
+        requiredSupportedRole: primary
+        objectiveTemplate: "Produce the frozen question-refinement artifact for: {objective}"
+        dependencyTemplateKeys: []
+      - templateKey: reviewer
+        role: reviewer
+        requiredSupportedRole: reviewer
+        objectiveTemplate: "Independently review the producer artifact for: {objective}"
+        dependencyTemplateKeys:
+          - producer
+    completionPolicyTemplate:
+      requiredTemplateKeys:
+        - producer
+        - reviewer
+      successMode: all_required
+      reviewerTemplateKeys:
+        - reviewer
+      reviewRequirement: all_reviewers_approve
+      partialSuccessAllowed: false
+      onReviewerReject: new_revision_decision
+    resultAssemblyPolicyTemplate:
+      mode: artifact_set
+      assemblerTemplateKey: null
+      finalArtifactRequirements:
+        - artifactType: research_question_refinement
+          minimumCount: 1
+          sourceTemplateKeys:
+            - producer
+    enabled: true
+
+  - recipeId: parallel_evidence_synthesis
+    recipeVersion: 1
+    substageDefinitionId: sdr:evidence_extraction
+    substageDefinitionVersion: 1
+    applicabilityRuleRefs:
+      - registry-policy.v1:substage-match
+    assignmentTemplates:
+      - templateKey: producer
+        role: primary
+        requiredSupportedRole: primary
+        objectiveTemplate: Produce source-bounded evidence rows.
+        dependencyTemplateKeys: []
+      - templateKey: support
+        role: support
+        requiredSupportedRole: support
+        objectiveTemplate: Produce an independent supporting evidence trace.
+        dependencyTemplateKeys:
+          - producer
+    completionPolicyTemplate:
+      requiredTemplateKeys:
+        - producer
+        - support
+      successMode: all_required
+      reviewerTemplateKeys: []
+      reviewRequirement: none
+      partialSuccessAllowed: false
+      onReviewerReject: new_revision_decision
+    resultAssemblyPolicyTemplate:
+      mode: artifact_set
+      assemblerTemplateKey: null
+      finalArtifactRequirements:
+        - artifactType: evidence_trace
+          minimumCount: 1
+          sourceTemplateKeys:
+            - producer
+            - support
+    enabled: true

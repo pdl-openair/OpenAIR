@@ -1,0 +1,77 @@
+{
+  "scenarioName": "audit_records_available",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "audit_scope": {
+      "inspected": [
+        "provided conclusion text claim C1",
+        "provided figure 2",
+        "provided raw CSV packet D1",
+        "provided notebook N1",
+        "provided run log L1"
+      ],
+      "not_inspected": [
+        "characterization raw data",
+        "full notebook outputs",
+        "software environment lockfile",
+        "original instrument files"
+      ]
+    },
+    "traceability_matrix": [
+      {
+        "claim_id": "C1",
+        "claim_text": "Additive condition improves retention and reduces interfacial resistance relative to control.",
+        "trace_status": "partially_linked",
+        "linked_material_ids": ["C1", "F2", "D1", "N1", "L1"],
+        "claim_to_record_path": "C1 -> F2 -> D1 -> N1 -> L1",
+        "break_reason": "Characterization raw data import is TODO, and notebook lacks explicit exclusion rule."
+      }
+    ],
+    "issues": [
+      {
+        "issue_id": "I1",
+        "severity": "high",
+        "issue_evidence": "L1 says characterization raw data import is TODO.",
+        "severity_reason": "The conclusion combines retention and resistance/SEI-related evidence, but one raw-data path is absent.",
+        "recompute_needed": true,
+        "next_repair_action": "Add raw characterization import and rerun notebook from clean state."
+      },
+      {
+        "issue_id": "I2",
+        "severity": "medium",
+        "issue_evidence": "N1 computes mean retention but does not show fixed seed or exclusion rule.",
+        "severity_reason": "Retention trend may be reproducible, but sample/filter decisions are not auditable.",
+        "recompute_needed": true,
+        "next_repair_action": "Record exclusion criteria and rerun summary from D1."
+      }
+    ],
+    "missing_records": [
+      "characterization raw data",
+      "sample/filter rule",
+      "environment snapshot",
+      "notebook clean-run output"
+    ],
+    "reproducibility_checklist": {
+      "data_version": "partial",
+      "analysis_notebook": "present_but_not_clean_run",
+      "run_log": "partial",
+      "seed": "missing",
+      "exclusion_rule": "missing",
+      "raw_characterization_data": "missing"
+    },
+    "verdict": "needs_fix",
+    "next_record_to_inspect": "characterization raw data and clean-run notebook output"
+  },
+  "review": {
+    "rubricScore": 90,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 23, "OEA": 23, "Rig": 20, "Lev": 9, "UX": 8, "Spec": 3, "Eng": 4},
+    "mainReason": "Traceability and severity reasoning are actionable; live broken-link detection remains unproven."
+  }
+}

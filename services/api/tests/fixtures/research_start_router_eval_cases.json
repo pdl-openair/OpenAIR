@@ -1,0 +1,98 @@
+[
+  {
+    "name": "generic_missing_context",
+    "input": "帮我看看这个",
+    "expectedOutcome": "needs_clarification",
+    "shouldCreateTask": false,
+    "allowImmediateExecution": false,
+    "recommendedKind": null
+  },
+  {
+    "name": "key_literature_positioning_specific_topic",
+    "input": "我刚开始看锂金属负极 SEI，想先定位几篇必须读的综述和代表性论文。",
+    "expectedOutcome": "lightweight_assist",
+    "shouldCreateTask": false,
+    "allowImmediateExecution": false,
+    "recommendedKind": "agent"
+  },
+  {
+    "name": "key_literature_positioning_generic",
+    "input": "find literature",
+    "expectedOutcome": "needs_clarification",
+    "shouldCreateTask": false,
+    "allowImmediateExecution": false,
+    "recommendedKind": null
+  },
+  {
+    "name": "key_literature_positioning_keywords_only",
+    "input": "导师让我先做方向调研，我现在只有几个关键词。",
+    "expectedOutcome": "lightweight_assist",
+    "shouldCreateTask": false,
+    "allowImmediateExecution": false,
+    "recommendedKind": "workflow"
+  },
+  {
+    "name": "evidence_chain_with_existing_papers",
+    "input": "我手里有几篇钠钾矿缺陷钝化论文，想把支持证据、反例和缺口梳理清楚。",
+    "expectedOutcome": "research_task",
+    "shouldCreateTask": true,
+    "allowImmediateExecution": false,
+    "recommendedKind": "planner"
+  },
+  {
+    "name": "validation_plan_design",
+    "input": "我准备验证一种电解液添加剂是否改善循环寿命，想先设计对照条件和观察指标。",
+    "expectedOutcome": "research_task",
+    "shouldCreateTask": true,
+    "allowImmediateExecution": false,
+    "recommendedKind": "planner"
+  },
+  {
+    "name": "abnormal_training_result_triage",
+    "input": "同一套训练配置换 seed 后差很多，我有日志和指标，想先判断从哪里排查。",
+    "expectedOutcome": "lightweight_assist",
+    "shouldCreateTask": false,
+    "allowImmediateExecution": false,
+    "recommendedKind": "agent"
+  },
+  {
+    "name": "abnormal_reproduction_result_triage",
+    "input": "复现代码跑出来的指标和论文差不少，我有命令、配置和输出，想先查可能漏了什么。",
+    "expectedOutcome": "lightweight_assist",
+    "shouldCreateTask": false,
+    "allowImmediateExecution": false,
+    "recommendedKind": "agent"
+  },
+  {
+    "name": "quick_summary_single_step",
+    "input": "总结这段论文摘要的核心结论",
+    "expectedOutcome": "instant_answer",
+    "shouldCreateTask": false,
+    "allowImmediateExecution": true,
+    "recommendedKind": "skill"
+  },
+  {
+    "name": "source_bound_summary_agent",
+    "input": "Summarize this abstract: We introduce a traceable evidence workflow for research reports. The method keeps source boundaries visible and marks uncertainty before downstream synthesis.",
+    "expectedOutcome": "lightweight_assist",
+    "shouldCreateTask": false,
+    "allowImmediateExecution": false,
+    "recommendedKind": "agent"
+  },
+  {
+    "name": "artifact_review_agent_with_records",
+    "input": "Review artifact art-123 and this report: evidence table and records are attached; the review standard is traceability and missing-source detection.",
+    "expectedOutcome": "lightweight_assist",
+    "shouldCreateTask": false,
+    "allowImmediateExecution": false,
+    "recommendedKind": "agent"
+  },
+  {
+    "name": "presentation_guidance_agent_with_material",
+    "input": "Make slides from artifact art-456 and the results table below: validated evidence, limitations, and discussion points for a lab meeting presentation.",
+    "expectedOutcome": "research_task",
+    "shouldCreateTask": true,
+    "allowImmediateExecution": false,
+    "recommendedKind": "agent"
+  }
+]

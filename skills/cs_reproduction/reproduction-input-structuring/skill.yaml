@@ -1,0 +1,29 @@
+skill_id: reproduction_input_structuring
+claude_name: reproduction-input-structuring
+display_name: 复现执行输入结构化
+version: 0.1.0
+stages:
+- problem_modeling
+substages:
+- reproduction_input_structuring
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: manual
+output_file: reproduction-input-structuring.md
+pack: cs_reproduction
+spec: 01-problem/cs-reproduction-input-structuring.md
+input_skills: []
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: reproduction_input_structuring
+owner: TBD
+fixture_status: missing
+notes: CS 论文复现 Workflow 首执行节点；只结构化后续代码身份固定所需的正式输入，不复制 ResearchDesign Authority。
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

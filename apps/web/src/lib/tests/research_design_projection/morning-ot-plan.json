@@ -1,0 +1,77 @@
+{
+  "stages": [
+    {
+      "stageKey": "problem_modeling",
+      "substages": []
+    },
+    {
+      "stageKey": "solution_design",
+      "substages": []
+    },
+    {
+      "stageKey": "execution_validation",
+      "substages": [
+        {
+          "substage": "research_record_establishment",
+          "label": "研究记录建立",
+          "action": "系统收集直接检验 LLM judge 对长度、冗长度、解释密度、格式、权威语气、完成态措辞或其他表面风格线索敏感性的原始研究材料。"
+        },
+        {
+          "substage": "research_record_establishment",
+          "label": "研究记录建立",
+          "action": "优先记录包含内容等价改写、长度控制、配对交换、真实质量锚点、人类比较或外部可验证结果的研究，并保留任务、judge、评分协议与效应测量信息。"
+        },
+        {
+          "substage": "evidence_assessment_synthesis",
+          "label": "证据评估与研究综合",
+          "action": "评估关于风格驱动评分偏差的直接性、因果识别强度、来源质量、跨任务可比性、与人类或可验证质量指标的关系及相互冲突的发现。"
+        },
+        {
+          "substage": "evidence_assessment_synthesis",
+          "label": "证据评估与研究综合",
+          "action": "区分任务实质质量与表面表达质量未被充分控制的相关性证据，和在内容或真实表现固定条件下识别出独立风格效应的证据。"
+        },
+        {
+          "substage": "mechanism_explanation",
+          "label": "机制解释",
+          "action": "按证据需要解释潜在机制：judge 将长度或完成态语言作为真实质量的启发式信号、指令或量表诱发的表达偏好、模型自我偏好，以及 agent 轨迹或结果不可见时的代理信号依赖。"
+        },
+        {
+          "substage": "mechanism_explanation",
+          "label": "机制解释",
+          "action": "明确区分实证观察、原始研究作者提出的机制解释与基于证据的推断。"
+        }
+      ]
+    },
+    {
+      "stageKey": "insight_generation",
+      "substages": [
+        {
+          "substage": "current_research_conclusion",
+          "label": "当前研究结论",
+          "action": "直接回答现有证据是否足以支持 LLM judge 存在风格敏感评分偏差、偏差最明显的条件、适用于 agent 评测的边界，以及当前结论的校准强度。"
+        },
+        {
+          "substage": "key_unknowns_candidate_explanations",
+          "label": "关键未知与候选解释",
+          "action": "识别会改变实践判断的关键未知：独立因果偏差与真实质量信号的区分、跨语言与跨任务稳健性、轨迹及可验证结果的保护作用、以及缓解措施的有效性和代价。"
+        },
+        {
+          "substage": "key_unknowns_candidate_explanations",
+          "label": "关键未知与候选解释",
+          "action": "形成可通过受控风格交换、长度匹配、事实与任务结果核验、轨迹可见性操纵和多 judge 比较加以区分的候选解释。"
+        },
+        {
+          "substage": "next_research_recommendation",
+          "label": "下一步研究建议",
+          "action": "提出最具判别价值的下一步验证：在相同 agent 任务结果下系统操纵答案长度、解释密度和完成态措辞，并与盲化的客观任务核验、轨迹评估、人类评审及多种 judge 协议比较。"
+        },
+        {
+          "substage": "next_research_recommendation",
+          "label": "下一步研究建议",
+          "action": "提出能区分“judge 合理利用质量相关表达信号”与“内容或真实表现固定后仍被表面风格驱动”的预注册分析指标和决策标准。"
+        }
+      ]
+    }
+  ]
+}

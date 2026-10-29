@@ -1,0 +1,27 @@
+skill_id: wet_lab_workflow
+claude_name: wet-lab-workflow
+display_name: 湿实验工作流管理（L3）
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - synthesis_execution
+packs:
+  - materials
+auto_allowed: true
+review_required: true
+risk_level: medium
+stage: execution_validation
+substage: synthesis_execution
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

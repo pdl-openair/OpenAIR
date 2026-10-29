@@ -1,0 +1,46 @@
+skill_id: pvd_evidence_record_deep_verification
+claude_name: pvd-evidence-record-deep-verification
+display_name: PVD Evidence Record Deep Verification
+description: Independently verify one PVD research record for comparability, transfer limits, confounding, measurement compatibility, and target-specific support without authorizing downstream use.
+version: 1.0.0
+domain: pvd
+stages:
+- execution_validation
+substages:
+- evidence_applicability_comparability_analysis
+packs:
+- pvd
+skill_type: atomic
+runtime: llm_structured
+status: ready
+owner: TBD
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+durable_llm_execution_policy:
+  contract_version: 1
+  model_profile: terra
+  reasoning_effort: none
+  max_output_tokens: 5500
+  read_timeout_seconds: 120
+  response_mode: json_object
+  load_references: false
+  structured_output_recovery_attempts: 1
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+fixture_status: missing
+enabled: true
+notes: Internal durable LLM component of T05 reasoning_adapter. It is Registry-executable per record but is not an independent Workflow responsibility or Binding target; it cannot emit allowed_uses.

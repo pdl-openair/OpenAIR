@@ -1,0 +1,354 @@
+services:
+  # ---------------------------------------------------------------------------
+  # Infrastructure services
+  # ---------------------------------------------------------------------------
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "${OPENAIR_MINIO_API_PORT:-9000}:9000"    # S3 API
+      - "${OPENAIR_MINIO_CONSOLE_PORT:-9001}:9001"    # Console UI
+    environment:
+      MINIO_ROOT_USER: ${OPENAIR_MINIO_ROOT_USER:-openair}
+      MINIO_ROOT_PASSWORD: ${OPENAIR_MINIO_ROOT_PASSWORD:?set OPENAIR_MINIO_ROOT_PASSWORD in .env}
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - openair-net
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17-alpine
+    ports:
+      - "${OPENAIR_POSTGRES_PORT:-15432}:5432"
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-openair}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - openair-net
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - openair-net
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # OpenAIR API server
+  # ---------------------------------------------------------------------------
+
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    image: openair-api:latest
+    ports:
+      - "8000:8000"
+    # Docker 内嵌 DNS 转发在本机间歇故障（外部名解析翻脸：IPv6-only 或直接失败，
+    # task_50c4197a S7 竞争相生成的 MP 查询即栽于此）。固定公共 IPv4 DNS 上游，
+    # 并禁用容器 IPv6（无 v6 出路，避免 AAAA 优先导致 Cloudflare 域连不上）。
+    # 容器名（postgres 等）仍由内嵌 DNS 优先应答，不受影响。
+    dns:
+      - 223.5.5.5
+      - 119.29.29.29
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: "1"
+    environment:
+      # --- Core ---
+      OPENAIR_ENV: production
+      OPENAIR_RUNTIME_TYPE: ${OPENAIR_RUNTIME_TYPE:-inline}
+      OPENAIR_WORKUNIT_EXECUTION_MODE: ${OPENAIR_WORKUNIT_EXECUTION_MODE:-worker}
+      OPENAIR_WORKUNIT_FALLBACK_AFTER_SECONDS: ${OPENAIR_WORKUNIT_FALLBACK_AFTER_SECONDS:-30}
+      # Production fail-closed: API + durable-worker both require orchestration v1.
+      OPENAIR_RESEARCH_ORCHESTRATION_V1: ${OPENAIR_RESEARCH_ORCHESTRATION_V1:-true}
+      SKILL_EXEC_MODE: live
+      OPENAIR_CLAUDE_PERMISSION_MODE: bypassPermissions
+      # --- Auth ---
+      OPENAIR_AUTH_REQUIRED: "1"
+      OPENAIR_JWT_SECRET_KEY: ${OPENAIR_JWT_SECRET_KEY:?set OPENAIR_JWT_SECRET_KEY in .env (openssl rand -hex 32)}
+      # Image captcha (off in compose so layer4/harness can register headlessly)
+      OPENAIR_CAPTCHA_ENABLED: ${OPENAIR_CAPTCHA_ENABLED:-0}
+      # --- GitHub OAuth (optional; button hidden when empty) ---
+      # Prefer OPENAIR_GITHUB_OAUTH_*; OAUTH_CLIENT_* remain local aliases.
+      OPENAIR_GITHUB_OAUTH_CLIENT_ID: ${OPENAIR_GITHUB_OAUTH_CLIENT_ID:-}
+      OPENAIR_GITHUB_OAUTH_CLIENT_SECRET: ${OPENAIR_GITHUB_OAUTH_CLIENT_SECRET:-}
+      OPENAIR_GITHUB_OAUTH_REDIRECT_URI: ${OPENAIR_GITHUB_OAUTH_REDIRECT_URI:-http://localhost:8000/api/auth/oauth/github/callback}
+      OPENAIR_GITHUB_OAUTH_SCOPES: ${OPENAIR_GITHUB_OAUTH_SCOPES:-}
+      OPENAIR_OAUTH_SUCCESS_REDIRECT_URL: ${OPENAIR_OAUTH_SUCCESS_REDIRECT_URL:-http://localhost:8080/auth/oauth/callback}
+      # --- OpenI OAuth (optional; independent of GitHub) ---
+      OPENAIR_OPENI_OAUTH_BASE_URL: ${OPENAIR_OPENI_OAUTH_BASE_URL:-https://openi.pcl.ac.cn}
+      OPENAIR_OPENI_OAUTH_CLIENT_ID: ${OPENAIR_OPENI_OAUTH_CLIENT_ID:-}
+      OPENAIR_OPENI_OAUTH_CLIENT_SECRET: ${OPENAIR_OPENI_OAUTH_CLIENT_SECRET:-}
+      OPENAIR_OPENI_OAUTH_REDIRECT_URI: ${OPENAIR_OPENI_OAUTH_REDIRECT_URI:-http://localhost:8000/api/auth/oauth/openi/callback}
+      OPENAIR_OPENI_OAUTH_SCOPES: ${OPENAIR_OPENI_OAUTH_SCOPES:-}
+      # --- GitLink OAuth (optional; independent of GitHub / OpenI) ---
+      OPENAIR_GITLINK_OAUTH_CLIENT_ID: ${OPENAIR_GITLINK_OAUTH_CLIENT_ID:-}
+      OPENAIR_GITLINK_OAUTH_CLIENT_SECRET: ${OPENAIR_GITLINK_OAUTH_CLIENT_SECRET:-}
+      OPENAIR_GITLINK_OAUTH_REDIRECT_URI: ${OPENAIR_GITLINK_OAUTH_REDIRECT_URI:-http://localhost:8000/api/auth/oauth/gitlink/callback}
+      OPENAIR_GITLINK_OAUTH_AUTHORIZE_URL: ${OPENAIR_GITLINK_OAUTH_AUTHORIZE_URL:-}
+      OPENAIR_GITLINK_OAUTH_TOKEN_URL: ${OPENAIR_GITLINK_OAUTH_TOKEN_URL:-}
+      OPENAIR_GITLINK_OAUTH_USERINFO_URL: ${OPENAIR_GITLINK_OAUTH_USERINFO_URL:-}
+      OPENAIR_GITLINK_OAUTH_SCOPES: ${OPENAIR_GITLINK_OAUTH_SCOPES:-}
+      # --- Persistence ---
+      OPENAIR_PERSISTENCE_BACKEND: postgres
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-openair}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DATABASE: openair
+      # --- Artifact Storage ---
+      OPENAIR_ARTIFACT_STORAGE: minio
+      OPENAIR_MINIO_ENDPOINT: minio:9000
+      OPENAIR_MINIO_ACCESS_KEY: ${OPENAIR_MINIO_ROOT_USER:-openair}
+      OPENAIR_MINIO_SECRET_KEY: ${OPENAIR_MINIO_ROOT_PASSWORD:?set OPENAIR_MINIO_ROOT_PASSWORD in .env}
+      OPENAIR_MINIO_BUCKET: openair-artifacts
+      # --- Container Runtime (Plan B+) ---
+      OPENAIR_WORKER_IMAGE: openair-worker:latest
+      OPENAIR_WORKER_CALLBACK_URL: http://api:8000
+      OPENAIR_WORKER_AUTH_TOKEN: ${OPENAIR_WORKER_AUTH_TOKEN:?set OPENAIR_WORKER_AUTH_TOKEN in .env}
+      OPENAIR_WORKER_TIMEOUT_SECONDS: "600"
+      OPENAIR_WORKER_MEMORY_LIMIT: 2g
+      # Worker 容器加入的 compose 命名网络；为空则回退默认 bridge（本地开发场景）
+      OPENAIR_WORKER_NETWORK: ${OPENAIR_WORKER_NETWORK:-openair-net}
+      # API 与 worker 共享的工作区命名卷（worker 挂到 /workspace）。DinD 下 bind mount 路径
+      # 会被 daemon 按"它自己的文件系统"解析，与 API 容器内不是同一目录，worker 产物 API 读不到。
+      # 命名卷按名字共享。OPENAIR_WORKSPACE_ROOT 指向该卷在 API 的挂载点，使二者看到同一目录。
+      OPENAIR_WORKSPACE_ROOT: /data/workspace
+      OPENAIR_WORKER_WORKSPACE_VOLUME: openair_workspace_data
+      # Phase-2 #3: per-task workspace isolation (gid). Default off. Enabling requires
+      # the api container running as root (to chown task dirs root:<gid>) + a rebuilt
+      # worker image (entrypoint skips its recursive /workspace chown under this flag)
+      # + Docker e2e validation. See docs/superpowers/specs/2026-07-02-phase2-execution-isolation-design.md.
+      OPENAIR_WORKER_WORKSPACE_ISOLATION: ${OPENAIR_WORKER_WORKSPACE_ISOLATION:-0}
+      # --- Anthropic SDK / Claude Agent SDK：统一钉到 .env 的 LLM Provider。
+      # 不用 ${ANTHROPIC_*} 直通——compose 变量替换 shell 优先于 .env，宿主机
+      # Claude Code 的 ANTHROPIC_*（bigmodel/glm + 个人 token）会覆盖平台配置
+      # （task_be7ae934 排查结论）。需要换端点时用 OPENAIR_ANTHROPIC_* 覆盖位。 ---
+      ANTHROPIC_API_KEY: ${OPENAIR_ANTHROPIC_API_KEY:-${LLM_PROVIDER_API_KEY:-}}
+      ANTHROPIC_AUTH_TOKEN: ${OPENAIR_ANTHROPIC_AUTH_TOKEN:-${LLM_PROVIDER_API_KEY:-}}
+      ANTHROPIC_BASE_URL: ${OPENAIR_ANTHROPIC_BASE_URL:-${LLM_PROVIDER_BASE_URL:-}}
+      ANTHROPIC_MODEL: ${OPENAIR_ANTHROPIC_MODEL:-${LLM_PROVIDER_MODEL:-}}
+      ANTHROPIC_DEFAULT_HAIKU_MODEL: ${OPENAIR_ANTHROPIC_DEFAULT_HAIKU_MODEL:-${LLM_PROVIDER_MODEL:-}}
+      ANTHROPIC_DEFAULT_SONNET_MODEL: ${OPENAIR_ANTHROPIC_DEFAULT_SONNET_MODEL:-${LLM_PROVIDER_MODEL:-}}
+      # --- LLM Provider (OpenAI-compatible: HUIYAN, opencode, etc.) ---
+      # Reuse the repository .env provider aliases when explicit HUIYAN names
+      # are absent; no credential value is stored in this Compose file.
+      HUIYAN_API_KEY: ${HUIYAN_API_KEY:-${LLM_PROVIDER_API_KEY:-}}
+      HUIYAN_API_BASE_URL: ${HUIYAN_API_BASE_URL:-${LLM_PROVIDER_BASE_URL:-}}
+      HUIYAN_LLM_MODEL: ${HUIYAN_LLM_MODEL:-${LLM_PROVIDER_MODEL:-}}
+      LLM_PROVIDER_API_KEY: ${LLM_PROVIDER_API_KEY:-}
+      LLM_PROVIDER_BASE_URL: ${LLM_PROVIDER_BASE_URL:-}
+      LLM_PROVIDER_MODEL: ${LLM_PROVIDER_MODEL:-}
+      LLM_PROVIDER_MODEL_TERRA: ${LLM_PROVIDER_MODEL_TERRA:-}
+      LLM_PROVIDER_MODEL_SOL: ${LLM_PROVIDER_MODEL_SOL:-}
+      LLM_PROVIDER_SUPPORTED_MODELS: ${LLM_PROVIDER_SUPPORTED_MODELS:-}
+      OPENAIR_CLAUDE_MODEL: ${OPENAIR_CLAUDE_MODEL:-}
+      OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL: ${OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL:-}
+      OPENAIR_RESEARCH_START_PLANNER_LLM_MAX_TOKENS: ${OPENAIR_RESEARCH_START_PLANNER_LLM_MAX_TOKENS:-}
+      OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING: ${OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING:-}
+      OPENAIR_RESEARCH_START_PLANNER_LLM_TIMEOUT_SECONDS: ${OPENAIR_RESEARCH_START_PLANNER_LLM_TIMEOUT_SECONDS:-}
+      OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING: ${OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING:-}
+      OPENAIR_DURABLE_ORCHESTRATE_LLM_MAX_TOKENS: ${OPENAIR_DURABLE_ORCHESTRATE_LLM_MAX_TOKENS:-}
+      OPENTRAJECTORY_LLM_PROVIDER: ${OPENTRAJECTORY_LLM_PROVIDER:-}
+      # --- Materials MCP + Materials Project (materials-magnet-design-mvp) ---
+      MATERIALS_MCP_BASE_URL: ${MATERIALS_MCP_BASE_URL:-}
+      MP_API_KEY: ${MP_API_KEY:-}
+      ANTHROPIC_DEFAULT_OPUS_MODEL: ${OPENAIR_ANTHROPIC_DEFAULT_OPUS_MODEL:-${LLM_PROVIDER_MODEL:-}}
+      CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: ${CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC:-1}
+      API_TIMEOUT_MS: ${API_TIMEOUT_MS:-}
+      # --- External retrieval (literature / DeepXiv skills) ---
+      OT_DEEPXIV_TOKEN: ${OT_DEEPXIV_TOKEN:-}
+      DEEPXIV_TOKEN: ${DEEPXIV_TOKEN:-}
+      DEEPXIV_API_KEY: ${DEEPXIV_API_KEY:-}
+      SEMANTIC_SCHOLAR_API_KEY: ${SEMANTIC_SCHOLAR_API_KEY:-}
+      UNPAYWALL_EMAIL: ${UNPAYWALL_EMAIL:-}
+      # --- Resource plaza platform inventory (flux / JCC) ---
+      FLUX_BASE_URL: ${FLUX_BASE_URL:-}
+      FLUX_API_KEY: ${FLUX_API_KEY:-}
+      FLUX_TIMEOUT: ${FLUX_TIMEOUT:-}
+      JCC_USERNAME: ${JCC_USERNAME:-}
+      JCC_PASSWORD: ${JCC_PASSWORD:-}
+      # 容器内 JCC 采集暂不可用（2026-10-18 实测）：默认路径的 jcc.exe 是 Windows PE
+      # （Linux exec 报 ENOENT，秒败无网络调用）；/usr/local/bin/jcc 是旧版 Linux CLI
+      # （子命令 train ≠ 新版 aitrain，17 项查询全灭）。待平台出同版本 Linux 构建后
+      # 用 JCC_CLI_PATH 指过去即可启用；期间容器内走 seed 快照兜底 + 失败退避。
+      JCC_CLI_PATH: ${JCC_CLI_PATH:-}
+      JCC_INVENTORY_TTL_SECONDS: ${JCC_INVENTORY_TTL_SECONDS:-}
+      # --- CORS ---
+      OPENAIR_CORS_ORIGINS: ${OPENAIR_CORS_ORIGINS:-}
+      # --- Logging ---
+      OPENAIR_LOG_LEVEL: INFO
+      OPENAIR_LOG_FORMAT: json
+      # --- Durable Worker Contract ---
+      OPENAIR_DURABLE_CLAIM_NOT_BEFORE: ${OPENAIR_DURABLE_CLAIM_NOT_BEFORE:-2020-01-01T00:00:00Z}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - workspace_data:/data/workspace
+    networks:
+      - openair-net
+    depends_on:
+      - postgres
+      - minio
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # Durable worker (research-start / durable-run / research-dispatch claim loop)
+  # Submit only reserves a queued request; this process claims and finishes it.
+  # Distinct from the `worker` build profile (skill-execution container image).
+  # ---------------------------------------------------------------------------
+
+  durable-worker:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    image: openair-api:latest
+    # 与 api 同款 DNS 固定 + 禁 IPv6：durable worker 是 materials 链 skill_script 的
+    # 实际执行体，外部域名（MP/jcc 网关）解析必须稳定。
+    dns:
+      - 223.5.5.5
+      - 119.29.29.29
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: "1"
+    depends_on:
+      api:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+    # Image HEALTHCHECK curls :8000; this process is not an HTTP server.
+    healthcheck:
+      disable: true
+    environment:
+      OPENAIR_ENV: production
+      OPENAIR_RUNTIME_TYPE: ${OPENAIR_RUNTIME_TYPE:-inline}
+      OPENAIR_WORKUNIT_EXECUTION_MODE: ${OPENAIR_WORKUNIT_EXECUTION_MODE:-worker}
+      OPENAIR_WORKUNIT_FALLBACK_AFTER_SECONDS: ${OPENAIR_WORKUNIT_FALLBACK_AFTER_SECONDS:-30}
+      # Must match api: production worker refuses to start without orchestration v1.
+      OPENAIR_RESEARCH_ORCHESTRATION_V1: ${OPENAIR_RESEARCH_ORCHESTRATION_V1:-true}
+      SKILL_EXEC_MODE: live
+      OPENAIR_CLAUDE_PERMISSION_MODE: bypassPermissions
+      OPENAIR_AUTH_REQUIRED: "1"
+      OPENAIR_JWT_SECRET_KEY: ${OPENAIR_JWT_SECRET_KEY:?set OPENAIR_JWT_SECRET_KEY in .env (openssl rand -hex 32)}
+      OPENAIR_PERSISTENCE_BACKEND: postgres
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-openair}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DATABASE: openair
+      OPENAIR_ARTIFACT_STORAGE: minio
+      OPENAIR_MINIO_ENDPOINT: minio:9000
+      OPENAIR_MINIO_ACCESS_KEY: ${OPENAIR_MINIO_ROOT_USER:-openair}
+      OPENAIR_MINIO_SECRET_KEY: ${OPENAIR_MINIO_ROOT_PASSWORD:?set OPENAIR_MINIO_ROOT_PASSWORD in .env}
+      OPENAIR_MINIO_BUCKET: openair-artifacts
+      OPENAIR_WORKER_IMAGE: openair-worker:latest
+      OPENAIR_WORKER_CALLBACK_URL: http://api:8000
+      OPENAIR_WORKER_AUTH_TOKEN: ${OPENAIR_WORKER_AUTH_TOKEN:?set OPENAIR_WORKER_AUTH_TOKEN in .env}
+      OPENAIR_WORKER_TIMEOUT_SECONDS: "600"
+      OPENAIR_WORKER_MEMORY_LIMIT: 2g
+      OPENAIR_WORKER_NETWORK: ${OPENAIR_WORKER_NETWORK:-openair-net}
+      OPENAIR_WORKSPACE_ROOT: /data/workspace
+      OPENAIR_WORKER_WORKSPACE_VOLUME: openair_workspace_data
+      OPENAIR_WORKER_WORKSPACE_ISOLATION: ${OPENAIR_WORKER_WORKSPACE_ISOLATION:-0}
+      ANTHROPIC_API_KEY: ${OPENAIR_ANTHROPIC_API_KEY:-${LLM_PROVIDER_API_KEY:-}}
+      ANTHROPIC_AUTH_TOKEN: ${OPENAIR_ANTHROPIC_AUTH_TOKEN:-${LLM_PROVIDER_API_KEY:-}}
+      ANTHROPIC_BASE_URL: ${OPENAIR_ANTHROPIC_BASE_URL:-${LLM_PROVIDER_BASE_URL:-}}
+      ANTHROPIC_MODEL: ${OPENAIR_ANTHROPIC_MODEL:-${LLM_PROVIDER_MODEL:-}}
+      ANTHROPIC_DEFAULT_HAIKU_MODEL: ${OPENAIR_ANTHROPIC_DEFAULT_HAIKU_MODEL:-${LLM_PROVIDER_MODEL:-}}
+      ANTHROPIC_DEFAULT_SONNET_MODEL: ${OPENAIR_ANTHROPIC_DEFAULT_SONNET_MODEL:-${LLM_PROVIDER_MODEL:-}}
+      HUIYAN_API_KEY: ${HUIYAN_API_KEY:-${LLM_PROVIDER_API_KEY:-}}
+      HUIYAN_API_BASE_URL: ${HUIYAN_API_BASE_URL:-${LLM_PROVIDER_BASE_URL:-}}
+      HUIYAN_LLM_MODEL: ${HUIYAN_LLM_MODEL:-${LLM_PROVIDER_MODEL:-}}
+      LLM_PROVIDER_API_KEY: ${LLM_PROVIDER_API_KEY:-}
+      LLM_PROVIDER_BASE_URL: ${LLM_PROVIDER_BASE_URL:-}
+      LLM_PROVIDER_MODEL: ${LLM_PROVIDER_MODEL:-}
+      LLM_PROVIDER_MODEL_TERRA: ${LLM_PROVIDER_MODEL_TERRA:-}
+      LLM_PROVIDER_MODEL_SOL: ${LLM_PROVIDER_MODEL_SOL:-}
+      LLM_PROVIDER_SUPPORTED_MODELS: ${LLM_PROVIDER_SUPPORTED_MODELS:-}
+      OPENAIR_CLAUDE_MODEL: ${OPENAIR_CLAUDE_MODEL:-}
+      OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL: ${OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL:-}
+      OPENAIR_RESEARCH_START_PLANNER_LLM_MAX_TOKENS: ${OPENAIR_RESEARCH_START_PLANNER_LLM_MAX_TOKENS:-}
+      OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING: ${OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING:-}
+      OPENAIR_RESEARCH_START_PLANNER_LLM_TIMEOUT_SECONDS: ${OPENAIR_RESEARCH_START_PLANNER_LLM_TIMEOUT_SECONDS:-}
+      OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING: ${OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING:-}
+      OPENAIR_DURABLE_ORCHESTRATE_LLM_MAX_TOKENS: ${OPENAIR_DURABLE_ORCHESTRATE_LLM_MAX_TOKENS:-}
+      OPENTRAJECTORY_LLM_PROVIDER: ${OPENTRAJECTORY_LLM_PROVIDER:-}
+      # --- Materials MCP + Materials Project (materials-magnet-design-mvp) ---
+      MATERIALS_MCP_BASE_URL: ${MATERIALS_MCP_BASE_URL:-}
+      MP_API_KEY: ${MP_API_KEY:-}
+      ANTHROPIC_DEFAULT_OPUS_MODEL: ${OPENAIR_ANTHROPIC_DEFAULT_OPUS_MODEL:-${LLM_PROVIDER_MODEL:-}}
+      CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: ${CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC:-1}
+      API_TIMEOUT_MS: ${API_TIMEOUT_MS:-}
+      OT_DEEPXIV_TOKEN: ${OT_DEEPXIV_TOKEN:-}
+      DEEPXIV_TOKEN: ${DEEPXIV_TOKEN:-}
+      DEEPXIV_API_KEY: ${DEEPXIV_API_KEY:-}
+      SEMANTIC_SCHOLAR_API_KEY: ${SEMANTIC_SCHOLAR_API_KEY:-}
+      UNPAYWALL_EMAIL: ${UNPAYWALL_EMAIL:-}
+      OPENAIR_LOG_LEVEL: INFO
+      OPENAIR_LOG_FORMAT: json
+      # Claim loop talks to the API service over the compose network.
+      OPENAIR_API_BASE_URL: http://api:8000
+      OPENAIR_DURABLE_WORKER_ID: durable-worker-1
+      OPENAIR_DURABLE_WORKER_EXECUTION_CAPACITY: ${OPENAIR_DURABLE_WORKER_EXECUTION_CAPACITY:-8}
+      # Production claim cutoff (required when OPENAIR_ENV=production). Keep
+      # identical to api default; override via .env for deploys.
+      OPENAIR_DURABLE_CLAIM_NOT_BEFORE: ${OPENAIR_DURABLE_CLAIM_NOT_BEFORE:-2020-01-01T00:00:00Z}
+    command: ["python", "-m", "worker.entrypoint"]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - workspace_data:/data/workspace
+    networks:
+      - openair-net
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # OpenAIR Web frontend (nginx)
+  # 提供前端静态文件，并同源反代 /api → api:8000（见 apps/web/nginx.conf）
+  # ---------------------------------------------------------------------------
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    image: openair-web:latest
+    ports:
+      - "${OPENAIR_WEB_PORT:-8080}:80"
+    networks:
+      - openair-net
+    depends_on:
+      - api
+      - durable-worker
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # Worker image build target (not a running service)
+  # Build only: docker compose build worker
+  # ---------------------------------------------------------------------------
+
+  worker:
+    build:
+      context: .
+      dockerfile: services/worker/Dockerfile
+    image: openair-worker:latest
+    profiles:
+      - build
+
+# 命名网络（显式 name，去掉 compose 项目名前缀）。
+# API 通过 OPENAIR_WORKER_NETWORK 引用，worker 容器运行时加入此网络 →
+# 按服务名解析 api/minio（用户自定义网络自带嵌入式 DNS）。
+networks:
+  openair-net:
+    driver: bridge
+
+volumes:
+  minio_data:
+  pgdata:
+  redis_data:
+  workspace_data:

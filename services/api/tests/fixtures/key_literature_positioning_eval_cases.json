@@ -1,0 +1,26 @@
+[
+  {
+    "name": "cn_specific_research_question",
+    "input": "锂金属电池 SEI 界面稳定性的关键综述和评测基准",
+    "expectedStatuses": ["ready", "partial", "no_reliable_candidates"],
+    "notes": "中文真实科研问题应生成结构化定位结果，或在来源不足时给出明确缺口。"
+  },
+  {
+    "name": "en_specific_research_question",
+    "input": "retrieval augmented generation evaluation benchmark hallucination mitigation",
+    "expectedStatuses": ["ready", "partial", "no_reliable_candidates"],
+    "notes": "英文科研问题应返回关键阅读候选或可复核缺口。"
+  },
+  {
+    "name": "generic_missing_context",
+    "input": "帮我找文献",
+    "expectedStatuses": ["needs_clarification"],
+    "notes": "输入过泛时不做空检索，要求补充研究对象、领域范围或种子论文。"
+  },
+  {
+    "name": "seed_paper_allowed",
+    "input": "GraphRAG hallucination mitigation starting from arXiv:2401.00001",
+    "expectedStatuses": ["ready", "partial", "no_reliable_candidates"],
+    "notes": "带种子论文线索时不应被过泛输入门禁拦截。"
+  }
+]

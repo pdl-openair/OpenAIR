@@ -1,0 +1,100 @@
+skill_id: crystal_design_formula_crossover_py
+claude_name: crystal-design-formula-crossover-py
+display_name: 晶体设计 · 公式交叉演化（python_adapter 批量版）
+version: "0.3.0"
+stages:
+  - problem_modeling
+  - solution_design
+skill_type: atomic
+runtime: python_adapter
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:crystal_design_formula_crossover_py
+  evidence_contract_version: external-action-evidence/v1
+status: ready
+source: manual
+substages:
+  - candidate_generation
+packs:
+  - materials
+
+# Durable worker executes the full SAGA-Opt MVP loop via the Python
+# adapter at skills/materials/crystal-design-formula-crossover-py/adapter/crossover_adapter.py.
+# The adapter is a thin subprocess wrapper around the agent sibling's
+# formula_driver.py (init/step/finalize). Crossover LLM = LLM_PROVIDER_BASE_URL.
+durable_execution:
+  adapter: python_adapter
+  entry_function: run_crossover_mvp
+
+config:
+  init_n: 10
+  batch_size: 3
+  max_iters: 3
+  top_k: 5
+  run_mattergen_eval: true
+  seed: 0
+
+input_schema:
+  type: object
+  properties:
+    goal:
+      type: string
+      description: User natural-language goal (e.g. "find 2D magnetic semiconductors" or "evolve high-bandgap wide-gap materials").
+    task_instruction:
+      description: |
+        Optional overrides for skill defaults. JSON-decoded if string.
+        Supports init_n/batch_size/max_iters/top_k/seed, init_elements/fallback_formulas,
+        objectives/hard_filter/alignn_models/crossover_hints, and skip_runplan_llm.
+        skip_runplan_llm is valid only when an explicit scientific RunPlan and
+        confirmed initial scope (seed_formulas or init_elements) are supplied;
+        planner failure never falls back to keyword/default scientific semantics.
+        Upstream chaining: pass `seed_formulas` (array of pretty formulas like
+        ["AgPO3","Fe2O3"]) to skip the MP init query entirely and use these as
+        the initial population — typically the `candidates[*].formula_pretty`
+        output of materials-mp-constraint-search (stage 1).
+      oneOf:
+        - type: string
+        - type: object
+        - type: "null"
+  required: [goal]
+  additionalProperties: false
+
+output_schema:
+  type: object
+  properties:
+    state:
+      type: string
+      enum: [succeeded, partial_failure]
+    run_plan:
+      type: object
+      description: The RunPlan (objectives, hard_filter, alignn_models, crossover_hints) that drove this run.
+    top_k_table:
+      type: string
+    iterations:
+      type: array
+    run_summary:
+      type: object
+    partial_failure:
+      oneOf:
+        - type: array
+        - type: "null"
+  required: [state, run_plan, top_k_table, iterations, run_summary]
+owner: TBD
+fixture_status: missing
+notes: ''
+input_handoff:
+  contract_version: 1
+  predecessor_skill_id: null
+  predecessor_definition_version: null
+  dependency_skill_id: materials_mp_constraint_search
+  dependency_definition_version: 1
+  context_fields:
+    goal: canonical_user_query
+  field_mappings:
+    task_instruction: candidates
+  normalizers:
+  - materials_seed_formula_projection_v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only

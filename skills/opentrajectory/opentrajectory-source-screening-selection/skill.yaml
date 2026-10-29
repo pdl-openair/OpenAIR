@@ -1,0 +1,88 @@
+skill_id: opentrajectory_source_screening_selection
+claude_name: opentrajectory-source-screening-selection
+display_name: 文献筛选与优选
+version: 1.0.0
+stages:
+- execution_validation
+substages:
+- source_screening_selection
+packs:
+- opentrajectory
+sequence: 60
+enabled: true
+spec: 03-validation/source-screening-selection.md
+input_skills:
+- opentrajectory_source_acquisition
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-source-screening-selection
+claude_skill_path: .claude/skills/opentrajectory-source-screening-selection
+output_file: topk_selection.json
+fixture_status: example_only
+notes: One OT screening work unit. The model owns scientific relevance and reading priority; deterministic finalization preserves
+  source identity. Downstream progressive reading owns the execution budget.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: source_screening_selection
+owner: TBD
+llm:
+  temperature: 0
+  max_completion_tokens: 7000
+  provider_message_contract: scientific_minimal_v1
+  provider_input_projection:
+    omit_fields:
+    - task_id
+    array_fields:
+      candidates:
+        fields:
+        - candidate_id
+        - title
+        - abstract
+        - authors
+        - year
+        - venue
+        - doi
+durable_model_profile: terra
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+durable_llm_execution_policy:
+  contract_version: 1
+  reasoning_effort: none
+  max_output_tokens: 6000
+  read_timeout_seconds: 120
+  task_budget_seconds: 135
+  response_mode: json_object
+  load_references: false
+  structured_output_recovery_attempts: 0
+durable_llm_batch_policy:
+  contract_version: 1
+  input_array_field: candidates
+  output_array_field: judgments
+  identity_field: candidate_id
+  max_items_per_batch: 30
+  max_parallel: 4
+  partial_failure_mode: preserve_successes
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: model_output.schema.json
+
+capability_contract:
+  artifact_types:
+  - opentrajectory.source_screening_selection
+  - opentrajectory.source_screening_selection.planned_output
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+execution_method_roles:
+- opentrajectory_research_record_establishment_v1:source_screening

@@ -1,0 +1,30 @@
+{
+  "task_id": "task_demo_001",
+  "skill_id": "source-access-readiness-resolver-skill",
+  "run_id": "run_demo_001",
+  "resolver_policy": {
+    "prefer_structured_fulltext": true,
+    "allow_network_probe": false,
+    "allowed_access_types": ["html", "xml", "tei", "pdf", "landing_page", "metadata_only"]
+  },
+  "candidates": [
+    {
+      "candidate_id": "cand_001",
+      "canonical_source_id": "src_001",
+      "title": "Example open access battery paper",
+      "normalized_title": "example open access battery paper",
+      "doi": "10.1000/example",
+      "source_url": "https://example.org/articles/001",
+      "external_ids": {
+        "pmcid": "PMC1234567"
+      },
+      "provenance": [
+        {
+          "stage": "candidate_dedup_and_provenance",
+          "skill_id": "candidate-dedup-and-provenance",
+          "timestamp": "2026-05-27T00:00:00Z"
+        }
+      ]
+    }
+  ]
+}

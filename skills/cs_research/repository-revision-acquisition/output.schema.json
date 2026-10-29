@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "state",
+    "repository",
+    "requested_revision",
+    "resolved_commit_sha",
+    "verified_head",
+    "workspace_relative_path",
+    "execution_evidence"
+  ],
+  "properties": {
+    "state": {"const": "succeeded"},
+    "repository": {"type": "string", "minLength": 1},
+    "requested_revision": {"type": "string", "minLength": 1},
+    "resolved_commit_sha": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+    },
+    "verified_head": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+    },
+    "workspace_relative_path": {"const": "repository"},
+    "source_evidence": {
+      "type": "object",
+      "required": ["kind", "source_url", "repository_url", "selection_basis"],
+      "properties": {
+        "kind": {"type": "string", "minLength": 1, "maxLength": 128},
+        "source_url": {"type": "string", "minLength": 1, "maxLength": 4096},
+        "repository_url": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "selection_basis": {"type": "string", "minLength": 1, "maxLength": 256},
+        "model_id": {"type": "string", "minLength": 3, "maxLength": 256},
+        "content_form": {
+          "type": "string",
+          "enum": ["metadata_only", "landing_page", "html", "pdf", "xml", "tei"]
+        },
+        "paper_identity": {"$ref": "#/definitions/paperIdentity"}
+      },
+      "additionalProperties": false
+    },
+    "execution_evidence": {
+      "type": "object",
+      "required": ["git_version", "operations", "head_matches_resolved_commit"],
+      "properties": {
+        "git_version": {"type": "string", "minLength": 1},
+        "operations": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": ["operation", "exit_code"],
+            "properties": {
+              "operation": {
+                "type": "string",
+                "enum": ["clone", "resolve_revision", "checkout", "read_head", "verify_origin", "verify_clean"]
+              },
+              "exit_code": {"const": 0}
+            },
+            "additionalProperties": false
+          }
+        },
+        "head_matches_resolved_commit": {"const": true}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "paperIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "arxiv_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "doi": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "openalex_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    }
+  }
+}

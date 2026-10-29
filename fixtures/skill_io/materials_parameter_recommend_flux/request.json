@@ -1,0 +1,41 @@
+{
+  "task_id": "task_materials_flux_001",
+  "run_id": "run_materials_flux_001",
+  "stage": "solution_design",
+  "substage": "flux_parameter_recommendation",
+  "skill_id": "materials_parameter_recommend_flux",
+  "skill_pack": "materials",
+  "user_goal": "为 CrSiTe3 推荐助熔剂法（Flux）制备参数，给出基线 + 变体方案。统一 materials pack fixture 故事线为 CrSiTe3（与 mp_constraint_search / new_crystal_generation / auto_xrd 对齐）",
+  "context": {
+    "target_material": {
+      "化学式": "CrSiTe3",
+      "结构原型": "层状三元硫族化合物（CrSi3 八面体层 + van der Waals 间隙）",
+      "空间群": "R-3 (#148)",
+      "mp_id": "mp-676",
+      "是否二维": true,
+      "是否半导体": true,
+      "带隙_eV": 0.596,
+      "材料族系": ["三元硫族化合物", "Cr-IV-VI 族磁性半导体"]
+    },
+    "method": "flux",
+    "top_k": 10,
+    "laboratory_constraints": {
+      "最高温度_摄氏": 1050,
+      "降温速率范围_℃每小时": [1, 20],
+      "最长实验时长_h": 240
+    },
+    "upstream_seed": {
+      "source": "fixtures/skill_io/materials_mp_constraint_search/response.json",
+      "mp_id": "mp-676",
+      "cif_path": "cifs/mp-676_CrSiTe3.cif"
+    }
+  },
+  "constraints": [
+    "方案必须满足实验室最高温度 1050℃ 上限",
+    "降温速率位于 1-20 ℃/h 区间",
+    "总实验时长不超过 240h",
+    "助熔剂设计优先安全稳定（避免腐蚀性强的组合）",
+    "温度参数需考虑 Te 沸点约束（次高温预反应段 ≤ 500℃ 以控制 Te 蒸汽压）",
+    "目标相 CrSiTe3（R-3 #148）需作为主相，副产物需给出分离方案"
+  ]
+}

@@ -1,0 +1,27 @@
+# AUTO-GENERATED-compatible CS reproduction pack metadata.
+# 正向索引：substage_key → 有序必需 L3 skill 列表。
+code_identity_acquisition:
+  - skill_id: repository_revision_acquisition
+    display_name: 仓库版本获取
+    description: Resolve an explicit repository revision into a reproducible immutable Git code identity and persist the canonical acquisition record.
+reproduction_input_structuring:
+  - skill_id: cs_reproduction_input_structuring
+    display_name: 论文复现执行输入结构化
+    description: 从与已确认 ResearchDesign 绑定的用户原文及修订中结构化明确 repository、revision 与缺失输入；不复制 ResearchDesign 目标或完成要求。
+reference_metric_acquisition:
+  - skill_id: official_reference_source_acquisition
+    display_name: 官方参考来源获取
+    description: 从已固定的官方 Git repository/revision 真实读取受控文本资料并固定来源身份。
+  - skill_id: reference_metric_interpretation
+    display_name: 参考指标语义判断
+    description: 基于当前复现目标判断实验条件、metric identity、reference value 与 comparison rule 的正式依据。
+  - skill_id: reference_metric_fact_assembly
+    display_name: Reference facts 确定性组装
+    description: 核验来源引用、规则和冲突并形成 ScientificState 与现有 reference-metric-comparison 可直接消费的正式事实。
+execution_plan_acquisition:
+  - skill_id: execution_plan_interpretation
+    display_name: 复现执行方案语义判断
+    description: 从已固定官方来源中理解资源、环境、执行和结果读取语义；未知保持未知。
+  - skill_id: execution_plan_fact_assembly
+    display_name: 复现执行方案确定性组装
+    description: 核验来源、stable ID 与正式 reference identity，并形成现有后半链可消费的最小正式计划事实。

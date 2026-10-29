@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "execution_record_ref", "metrics", "reference_values_used", "partial_failures", "unknowns"],
+  "properties": {
+    "status": {"type": "string", "enum": ["complete", "incomplete", "failed"]},
+    "execution_record_ref": {"type": ["string", "null"]},
+    "metrics": {"type": "array", "items": {"type": "object"}},
+    "reference_values_used": {"const": false},
+    "partial_failures": {"type": "array", "items": {"type": "object"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}}
+  }
+}

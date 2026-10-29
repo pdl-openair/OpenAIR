@@ -1,0 +1,34 @@
+{
+  "head": "b4507407ba373f2568e444b3e8ff13c441f32fcb",
+  "candidateCommitted": false,
+  "sourceStable": true,
+  "commands": [
+    {
+      "command": [
+        "~\\Desktop\\code\\OpenAIR-canonical\\.codex-tmp-three-line-convergence\\local-hot-runtime\\api-venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "services\\api\\app\\modules\\tests\\planner_semantic_handoff",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--tb=short",
+        "--junitxml=~\\Desktop\\code\\OpenAIR-canonical\\services\\api\\app\\modules\\tests\\planner_semantic_handoff\\evidence\\candidate-final\\pv2.xml"
+      ],
+      "exitCode": 1,
+      "output": "pv2.log",
+      "outputSha256": "01d58352a5ce2a0e14eeb97430543710eeb6a6a48a6dde6b85e0b898938949f6"
+    }
+  ],
+  "python": "~\\Desktop\\code\\OpenAIR-canonical\\.codex-tmp-three-line-convergence\\local-hot-runtime\\api-venv\\Scripts\\python.exe",
+  "artifacts": {
+    "blocking-probes.json": "dc4b4a02381162453a7749e22007d44da946c3f3cb834610143bd9e90cdb3936",
+    "candidate-production.patch": "67e278bc8f5163145513548f8f4f4614f04e1d4c58b403434d4a9ace13105e56",
+    "pv2.log": "01d58352a5ce2a0e14eeb97430543710eeb6a6a48a6dde6b85e0b898938949f6",
+    "pv2.xml": "8803710f55a07bd2423b3dd5c6cd9c398902b4785ba9d91eb48661e1b52317d7",
+    "registry-snapshot-ref.json": "43c74a080f1f4b85f41da71ba180607f80d8a9d6bc91636d2a4c1c41f70628fd",
+    "source-after.json": "25668a15fcbdf727238bdca41c1c53462254165a1a11383040977695bd0eaeda",
+    "source-before.json": "25668a15fcbdf727238bdca41c1c53462254165a1a11383040977695bd0eaeda",
+    "stages.jsonl.gz": "fb7fecd73e73f45044d113ca6b1e67c3e9d9e981a00aed4fd87a5d6e6d65e437"
+  }
+}

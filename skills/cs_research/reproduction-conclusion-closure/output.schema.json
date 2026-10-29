@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "evidence_refs"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1},
+        "evidence_refs": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "next_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step_id",
+        "action",
+        "reason",
+        "expected_judgment_effect",
+        "target_definition_id",
+        "requires_design_change"
+      ],
+      "properties": {
+        "step_id": {"type": "string", "minLength": 1},
+        "action": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 1},
+        "expected_judgment_effect": {"type": "string", "minLength": 1},
+        "target_definition_id": {
+          "type": "string",
+          "enum": [
+            "cs_reproduction:reproduction_baseline_criteria",
+            "cs_reproduction:reproduction_experiment_design",
+            "cs_reproduction:execution_readiness_validation",
+            "cs_reproduction:real_execution_result_acquisition",
+            "cs_reproduction:result_comparability_judgment"
+          ]
+        },
+        "requires_design_change": {"type": "boolean"},
+        "source_validation_id": {
+          "type": ["string", "null"],
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "verdict",
+    "comparison",
+    "comparison_source",
+    "answer",
+    "scope",
+    "execution_status",
+    "evidence_sufficiency",
+    "evidence_refs",
+    "limitations",
+    "unknowns",
+    "upstream_unknowns",
+    "next_steps",
+    "synthesis_gaps",
+    "isolated_synthesis_segments"
+  ],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["reproduced", "not_reproduced", "indeterminate"]
+    },
+    "comparison": {"type": "object"},
+    "comparison_source": {"const": "reproduction_comparison_judgment"},
+    "answer": {
+      "oneOf": [
+        {"$ref": "#/$defs/segment"},
+        {"type": "null"}
+      ]
+    },
+    "scope": {
+      "oneOf": [
+        {"$ref": "#/$defs/segment"},
+        {"type": "null"}
+      ]
+    },
+    "execution_status": {
+      "type": "string",
+      "enum": ["succeeded", "failed", "partial"]
+    },
+    "evidence_sufficiency": {
+      "type": "string",
+      "enum": ["sufficient", "insufficient", "partial"]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "limitations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/segment"}
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/segment"}
+    },
+    "upstream_unknowns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["text", "source"],
+        "properties": {
+          "text": {"type": "string", "minLength": 1},
+          "source": {
+            "type": "string",
+            "enum": [
+              "reproduction_comparison_judgment",
+              "reproduction_execution_record",
+              "actual_metric_records",
+              "reproduction_deviation_diagnosis"
+            ]
+          }
+        }
+      }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/next_step"}
+    },
+    "synthesis_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "synthesis_draft_missing_or_invalid",
+          "answer_missing_or_ungrounded",
+          "no_valid_synthesis_segments"
+        ]
+      }
+    },
+    "isolated_synthesis_segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["segment_type", "reason_code"],
+        "properties": {
+          "segment_type": {
+            "type": "string",
+            "enum": ["answer", "scope", "limitation", "unknown", "next_step"]
+          },
+          "index": {"type": "integer", "minimum": 0},
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "segment_shape_invalid",
+              "segment_text_missing",
+              "segment_collection_invalid",
+              "evidence_refs_invalid",
+              "answer_evidence_missing",
+              "evidence_ref_not_in_catalog",
+              "next_step_shape_invalid",
+              "next_step_id_invalid",
+              "next_step_id_duplicate",
+              "next_step_target_invalid",
+              "next_step_design_change_invalid",
+              "next_step_text_invalid",
+              "source_validation_id_invalid"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "definitionId": "sdr:evidence_synthesis",
+  "definitionVersion": 1,
+  "stageKey": "solution_design",
+  "expectedCandidateIds": [
+    "agent:general-research:1",
+    "agent:specialist-a:1",
+    "agent:specialist-b:1",
+    "recipe:producer-support:1",
+    "skill:skill-a:1",
+    "skill:skill-b:1"
+  ],
+  "equivalentCandidates": ["skill:skill-a:1", "skill:skill-b:1"],
+  "completionCandidate": "skill:skill-b:1",
+  "fallbackCandidate": "agent:general-research:1"
+}

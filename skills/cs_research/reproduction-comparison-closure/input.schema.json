@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "reproduction_comparability_assessment",
+    "deterministic_comparison"
+  ],
+  "properties": {
+    "reproduction_comparability_assessment": {
+      "type": "object"
+    },
+    "deterministic_comparison": {
+      "type": "object"
+    }
+  }
+}

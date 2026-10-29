@@ -1,0 +1,24 @@
+skill_id: ope_info_retrieval
+claude_name: ope-info-retrieval
+display_name: 信息检索
+version: "0.1.0"
+stages:
+  - problem_modeling
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - info_retrieval
+output_file: proposal/reference.md
+pack: ope
+spec: reference.md
+input_skills: []
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: info_retrieval
+owner: TBD
+fixture_status: missing
+notes: ''

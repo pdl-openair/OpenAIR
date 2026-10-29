@@ -1,0 +1,30 @@
+skill_id: band_gap_calculation
+claude_name: band-gap-calculation
+display_name: DFT 带隙计算
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - band_gap_calculation
+pack: materials
+spec: specs/band-gap-calculation.md
+output_file: band_gap_summary.md
+input_skills:
+  - candidate_generation
+auto_allowed: true
+review_required: false
+risk_level: medium
+stage: execution_validation
+substage: band_gap_calculation
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

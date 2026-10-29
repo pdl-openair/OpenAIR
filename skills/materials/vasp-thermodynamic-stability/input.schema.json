@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/vasp-thermodynamic-stability/input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goal"],
+  "properties": {
+    "goal": {"type": "string", "minLength": 1},
+    "task_instruction": {"type": "object"},
+    "candidate_summary": {"type": "string"},
+    "pareto_cif_paths": {"type": "array", "items": {"type": "string"}}
+  }
+}

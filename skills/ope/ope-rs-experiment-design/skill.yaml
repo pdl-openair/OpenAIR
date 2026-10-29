@@ -1,0 +1,22 @@
+skill_id: experiment_design_l3
+claude_name: ope-rs-experiment-design
+display_name: 实验设计
+version: "0.1.0"
+stages:
+  - solution_design
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - experiment_design
+packs:
+  - ope
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: experiment_design
+owner: TBD
+fixture_status: missing
+notes: OPE L3

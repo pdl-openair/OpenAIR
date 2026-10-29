@@ -1,0 +1,16 @@
+# WRITING stage output template
+# Source: nanoresearch/schemas/writing.py → WritingOutput
+
+title: ""                          # Paper title
+abstract: ""                       # Paper abstract (LaTeX)
+sections: {}                       # section_name → LaTeX content
+  # introduction: ""
+  # related_work: ""
+  # method: ""
+  # experiments: ""
+  # results: ""
+  # discussion: ""
+  # conclusion: ""
+bibtex: ""                         # Bibliography in BibTeX format
+paper_tex_path: ""                 # Path to compiled paper.tex
+references_bib_path: ""            # Path to references.bib

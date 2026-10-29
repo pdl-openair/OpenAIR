@@ -1,0 +1,30 @@
+skill_id: candidate_source_scoring
+claude_name: candidate-source-scoring
+display_name: 候选文献来源评分
+stages:
+- execution_validation
+substages:
+- literature_experiment_record_verification
+skill_type: atomic
+runtime: python_adapter
+status: ready
+packs:
+- opentrajectory
+- pvd
+source: opentrajectory
+sequence: 20
+owner: TBD
+output_file: candidate_scores.json
+notes: Directly consumes screened_candidates from title-abstract screening plus the research context required for candidate-level
+  scoring. Produces explainable candidate_scores for candidate-tiering only; no screening, tiering, or top-k authority.
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: source_screening_selection
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:candidate_source_scoring
+  evidence_contract_version: deterministic-output/v1

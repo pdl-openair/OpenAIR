@@ -1,0 +1,118 @@
+{
+  "task_id": "task-lmb-demo",
+  "research_context": {
+    "research_object": "High-voltage fast-charging lithium metal battery electrolyte design",
+    "target_metrics": [
+      "Coulombic efficiency",
+      "cycle life",
+      "fast charging stability"
+    ],
+    "boundary_conditions": [
+      "lithium metal anode",
+      "high voltage",
+      "fast charging"
+    ],
+    "output_intent": "mechanism_chain_synthesis"
+  },
+  "synthesis_config": {
+    "max_mechanism_edges": 12,
+    "max_mechanism_chains": 4,
+    "focus_paths": [
+      "electrolyte composition -> solvation structure -> interphase -> electrochemical performance"
+    ]
+  },
+  "research_records": [
+    {
+      "record_id": "rr:11111111111111111111111111111111",
+      "source_anchor_id": "anchor:deepxiv:2500.00001:results-and-discussion:0ef462c2ebc25fd5",
+      "record_type": "material_composition",
+      "research_object": {
+        "name": "LiFSI"
+      },
+      "conditions": [
+        {
+          "name": "LiFSI concentration",
+          "value_text": "2",
+          "unit": "M"
+        }
+      ],
+      "result": {
+        "statement": "The electrolyte contained 2 M LiFSI in fluorinated ether FDEE.",
+        "values": [],
+        "mechanism": null,
+        "comparison": null
+      },
+      "information_identity": "direct_source_fact",
+      "assertion_mode": "direct_observation",
+      "source_quote": "The electrolyte contained 2 M LiFSI in fluorinated ether FDEE.",
+      "relevant_target_ids": [],
+      "uncertainty": {
+        "confidence": 0.99
+      }
+    },
+    {
+      "record_id": "rr:22222222222222222222222222222222",
+      "source_anchor_id": "anchor:deepxiv:2500.00001:results-and-discussion:0ef462c2ebc25fd5",
+      "record_type": "quantitative_result",
+      "research_object": {
+        "name": "Li||Cu cells"
+      },
+      "conditions": [
+        {
+          "name": "current density",
+          "value_text": "1",
+          "unit": "mA cm−2"
+        },
+        {
+          "name": "areal capacity",
+          "value_text": "1",
+          "unit": "mAh cm−2"
+        }
+      ],
+      "result": {
+        "statement": "Li||Cu cells delivered an average Coulombic efficiency of 99.5% at 1 mA cm−2 and 1 mAh cm−2.",
+        "values": [
+          {
+            "name": "Coulombic efficiency",
+            "value_text": "99.5",
+            "unit": "%"
+          }
+        ],
+        "mechanism": null,
+        "comparison": null
+      },
+      "information_identity": "direct_source_fact",
+      "assertion_mode": "direct_observation",
+      "source_quote": "Li||Cu cells delivered an average Coulombic efficiency of 99.5% at 1 mA cm−2 and 1 mAh cm−2.",
+      "relevant_target_ids": [],
+      "uncertainty": {
+        "confidence": 0.99
+      }
+    },
+    {
+      "record_id": "rr:33333333333333333333333333333333",
+      "source_anchor_id": "anchor:deepxiv:2500.00001:results-and-discussion:0ef462c2ebc25fd5",
+      "record_type": "mechanism_statement",
+      "research_object": {
+        "name": "anion-rich solvation structure"
+      },
+      "conditions": [],
+      "result": {
+        "statement": "Anion-rich solvation promotes a LiF-rich interphase and suppresses parasitic reactions.",
+        "values": [],
+        "mechanism": {
+          "cause": "anion-rich solvation structure",
+          "effect": "formation of a LiF-rich interphase and suppression of parasitic reactions"
+        },
+        "comparison": null
+      },
+      "information_identity": "author_interpretation",
+      "assertion_mode": "causal_claim",
+      "source_quote": "The anion-rich solvation structure promotes formation of a LiF-rich interphase and suppresses parasitic reactions.",
+      "relevant_target_ids": [],
+      "uncertainty": {
+        "confidence": 0.97
+      }
+    }
+  ]
+}

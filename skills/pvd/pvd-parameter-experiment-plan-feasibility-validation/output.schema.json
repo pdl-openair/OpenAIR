@@ -1,0 +1,9 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,
+ "required":["availability","validation_status","recommendation_gate","direction_assessments","cross_parameter_assessment","shared_conditions","shared_risks","important_unknowns","limitations","audit"],
+ "properties":{
+  "availability":{"enum":["available","unavailable"]},"validation_status":{"enum":["complete","degraded","partial"]},"recommendation_gate":{"enum":["release","conditional_release","defer","block"]},
+  "direction_assessments":{"type":"array","minItems":1,"items":{"type":"object","additionalProperties":false,"required":["candidate_ref","factor","display_name","candidate_direction","feasibility","decision","rationale","conditions","conflicts","risks","missing_information"],"properties":{"candidate_ref":{"type":"string"},"factor":{"type":"string"},"display_name":{"type":"string"},"candidate_direction":{"enum":["increase","decrease","hold","change","uncertain"]},"feasibility":{"enum":["feasible","feasible_with_conditions","insufficient_information","infeasible"]},"decision":{"enum":["release","conditional_release","defer","block"]},"rationale":{"type":"string"},"conditions":{"type":"array","items":{"type":"string"}},"conflicts":{"type":"array","items":{"type":"string"}},"risks":{"type":"array","items":{"type":"string"}},"missing_information":{"type":"array","items":{"type":"string"}}}}},
+  "cross_parameter_assessment":{"type":"object"},"shared_conditions":{"type":"array","items":{"type":"string"}},"shared_risks":{"type":"array","items":{"type":"string"}},"important_unknowns":{"type":"array","items":{"type":"string"}},"limitations":{"type":"array","items":{"type":"string"}},"audit":{"type":"object"}
+ }
+}

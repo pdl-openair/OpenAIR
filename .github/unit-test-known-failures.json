@@ -1,0 +1,1532 @@
+{
+  "version": 1,
+  "policy": "Ratchet list (D-15 ruling, option B). The unit-test job compares the actually-failing node set against nodes[]: a node failing but absent here fails the job (exit 1); nodes present here that pass produce a non-blocking 'ratchet can move down' notice. Shrinking the list is the expected direction (fix tests, then remove their nodes). GROWING the list is not a routine red-run escape: an addition requires an attributed pre-existing-red justification recorded in docs/dev_plans/2026-09-ai4se-harness/ledger/b5.md and a tracking issue (debt-ledger ci-parity line). Exception recorded 2026-09-27 (orchestrator D-19, sync batch): +2 nodes absorb origin/test drift regressions; per-node reasons in ledger sync.md §3.5; tracking issues to be opened after merge; --allow-growth passed once on the M3 file-list ratchet.",
+  "source": {
+    "run_id": 35957833768,
+    "head_sha": "c7692f903f1942c060177f738198e0d30666c84c",
+    "extracted": "2026-09-24",
+    "note": "pytest -q -rf short-summary lines of run group 44/44 (services/api 255-file green-pool group, one pytest process): 212 FAILED + 13 ERROR. Sampling evidence that these are pre-existing solo-red (not co-run pollution): ledger b5.md 10.3.1."
+  },
+  "nodes": [
+    {
+      "id": "services/api/tests/test_actual_metric_extraction_canonical_integration.py::test_formal_input_freezes_execution_and_plan_artifacts",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_actual_metric_extraction_canonical_integration.py::test_registry_binding_and_adapter_use_existing_evidence_extraction_authority",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_admin_quota_api.py::test_admin_bonus_adjustment_changes_remaining_and_audits",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_admin_quota_api.py::test_admin_can_list_quota_tier_catalog",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_admin_quota_api.py::test_admin_can_list_users_and_view_quota",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_admin_quota_api.py::test_admin_cannot_demote_self",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_admin_quota_api.py::test_invalid_adjustment_inputs_rejected",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_admin_quota_api.py::test_non_admin_is_forbidden",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_admin_quota_api.py::test_tier_change_audits_old_and_new",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_agent_orchestrator_runtime_gateway.py::test_confirmed_json_task_fails_closed_without_durable_backend",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_agent_orchestrator_runtime_gateway.py::test_direct_draft_endpoint_is_idempotent_by_client_request_id",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_agent_orchestrator_runtime_gateway.py::test_legacy_research_start_drafts_are_repaired_by_current_revision_endpoint",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_agent_orchestrator_runtime_gateway.py::test_research_start_advance_rejects_unconfirmed_structured_draft",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_agent_orchestrator_runtime_gateway.py::test_research_start_confirm_plan_rejects_empty_confirmation",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_agent_orchestrator_runtime_gateway.py::test_research_start_decision_keeps_draft_blocked_for_supplement",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_agent_orchestrator_runtime_gateway.py::test_same_task_substage_running_call_queues_new_user_input",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_artifact_versions.py::test_append_version_carries_storage_scope_for_external",
+      "status": "FAILED",
+      "exc": "ImportError"
+    },
+    {
+      "id": "services/api/tests/test_artifact_versions.py::test_edit_content_postgres_propagates_value_error_as_409",
+      "status": "FAILED",
+      "exc": "assert 428 == 409"
+    },
+    {
+      "id": "services/api/tests/test_artifact_versions.py::test_edit_content_postgres_uses_artifact_repository",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_artifact_versions.py::test_restore_version_postgres_uses_artifact_repository",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_artifacts_routes.py::test_blocked_capability_call_regates_existing_artifact",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_artifacts_routes.py::test_validator_result_is_available_on_artifact_detail_and_call_trace",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_controller_commands.py::test_provider_frozen_request_reads_the_applied_work_unit_instruction",
+      "status": "FAILED",
+      "exc": "app.execution.research_dispatch_provider.DispatchProviderKno"
+    },
+    {
+      "id": "services/api/tests/test_cs_reproduction_workflow_admission.py::test_cs_accepted_result_chain_reaches_v3_final_result_without_authority_rewrite",
+      "status": "FAILED",
+      "exc": "ValueError"
+    },
+    {
+      "id": "services/api/tests/test_cs_reproduction_workflow_admission.py::test_cs_current_authority_outputs_publish_explicit_scientific_state_acceptance_chain",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_cs_reproduction_workflow_admission.py::test_cs_v4_execution_plan_remains_artifact_authority_not_scientific_state",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_cs_w2_python_adapter_registration.py::test_cs_w2_skill_assets_match_registry_and_schema_contracts",
+      "status": "FAILED",
+      "exc": "KeyError"
+    },
+    {
+      "id": "services/api/tests/test_definition_external_action.py::test_materials_stability_contract_does_not_force_remote_compute",
+      "status": "FAILED",
+      "exc": "app.modules.definition_external_action_source.DefinitionExte"
+    },
+    {
+      "id": "services/api/tests/test_durable_multiagent_orchestrator.py::test_nonusable_review_verdict_never_handoffs[needs_input]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_multiagent_orchestrator.py::test_nonusable_review_verdict_never_handoffs[needs_revision]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_multiagent_orchestrator.py::test_skill_outputs_require_independent_usable_review_before_success_or_handoff[frozen_skill_route]",
+      "status": "FAILED",
+      "exc": "app.modules.durable_execution.DurableExecutionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_multiagent_orchestrator.py::test_skill_outputs_require_independent_usable_review_before_success_or_handoff[requested_skill]",
+      "status": "FAILED",
+      "exc": "app.modules.durable_execution.DurableExecutionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_orchestrator_provider.py::test_durable_fake_transport_is_unreachable_outside_exact_test_environment[Test]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_orchestrator_provider.py::test_durable_fake_transport_is_unreachable_outside_exact_test_environment[]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_orchestrator_provider.py::test_durable_fake_transport_is_unreachable_outside_exact_test_environment[development]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_orchestrator_provider.py::test_durable_fake_transport_is_unreachable_outside_exact_test_environment[production]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_orchestrator_provider.py::test_durable_fake_transport_requires_explicit_switch_and_returns_memory_artifact",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_constraints_criteria_accepts_partial_but_actionable_research_content",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_constraints_criteria_does_not_keyword_score_semantic_relevance",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_constraints_criteria_normalizes_format_variation_without_optional_metadata",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_constraints_criteria_provider_output_is_canonicalized_into_durable_artifact[bare-json]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_constraints_criteria_provider_output_is_canonicalized_into_durable_artifact[fenced-json]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_constraints_criteria_rejects_truly_unexecutable_content[payload0-minimum_sufficiency_missing_actionable_research_content]",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_constraints_criteria_rejects_truly_unexecutable_content[payload1-minimum_sufficiency_requires_user_confirmation]",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_opentrajectory_structured_contract_mismatch_fails_closed[not json-schema0-10000-json_parse_failed]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_opentrajectory_structured_reasoning_blocks_unsupported_huiyan_schema",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_opentrajectory_structured_reasoning_fails_closed_after_parse_failure_without_retry",
+      "status": "FAILED",
+      "exc": "assert"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_opentrajectory_structured_reasoning_guard_rejects_semantic_drift_after_one_post",
+      "status": "FAILED",
+      "exc": "assert"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_opentrajectory_structured_reasoning_rejects_invalid_input_before_transport",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_registered_claude_code_skill_posts_once_and_returns_durable_artifact_payload",
+      "status": "FAILED",
+      "exc": "DurableExecutionError"
+    },
+    {
+      "id": "services/api/tests/test_durable_skill_runtime.py::test_registry_runtime_metadata_is_explicit_and_fail_closed",
+      "status": "FAILED",
+      "exc": "KeyError"
+    },
+    {
+      "id": "services/api/tests/test_execution_method_preflight_outcomes.py::test_known_failure_after_worker_exit_resumes_same_method_without_provider",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_exploratory_run_canonical_integration.py::test_formal_inputs_are_resolved_exactly_and_missing_required_artifact_fails_closed",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_exploratory_run_canonical_integration.py::test_registry_binding_and_python_adapter_use_the_formal_external_contract",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_final_skill_registry_integration.py::test_single_final_synthesis_is_active_in_registry_and_ot_composition",
+      "status": "FAILED",
+      "exc": "assert [False] == [True]"
+    },
+    {
+      "id": "services/api/tests/test_final_skill_registry_integration.py::test_split_findings_skill_is_preserved_but_disabled_and_unbound",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_final_skill_registry_integration.py::test_split_hypothesis_skill_is_preserved_but_disabled_and_unbound",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_final_skill_registry_integration.py::test_split_research_lead_skill_is_preserved_but_disabled_and_unbound",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_huiyan_skill_runner.py::test_selected_skill_rejects_missing_declared_artifact",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_huiyan_skill_runner.py::test_selected_skill_transport_evidence_distinguishes_submission_certainty[failure0-transport_not_submitted]",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_huiyan_skill_runner.py::test_selected_skill_transport_evidence_distinguishes_submission_certainty[failure1-transport_uncertain]",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_huiyan_skill_runner.py::test_selected_skill_uses_one_provider_turn_without_input_contract",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_huiyan_skill_runner.py::test_selected_skill_writes_declared_output_and_returns_audit",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_huiyan_skill_runner.py::test_selected_skill_writes_raw_declared_artifact_without_json_wrapper",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_json_user_repository.py::test_auth_login_and_me_with_json_persistence",
+      "status": "FAILED",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_json_user_repository.py::test_dev_login_me_uses_jwt_identity_in_open_mode",
+      "status": "FAILED",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_json_user_repository.py::test_expired_jwt_is_rejected",
+      "status": "FAILED",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_json_user_repository.py::test_jwt_for_missing_user_is_rejected",
+      "status": "FAILED",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_json_user_repository.py::test_jwt_workspace_claim_cannot_select_another_users_workspace",
+      "status": "FAILED",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_json_user_repository.py::test_open_mode_invalid_jwt_is_rejected_without_clearing_to_demo_identity",
+      "status": "FAILED",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_json_user_repository.py::test_open_mode_without_jwt_keeps_default_identity_for_legacy_dev_calls",
+      "status": "FAILED",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_key_literature_real_retrieval.py::test_key_literature_snapshot_freezes_existing_real_retrieval_skill",
+      "status": "FAILED",
+      "exc": "KeyError"
+    },
+    {
+      "id": "services/api/tests/test_legacy_final_result_backfill.py::test_completed_authority_matching_projection_repair_is_noop",
+      "status": "FAILED",
+      "exc": "pydantic_core._pydantic_core.ValidationError"
+    },
+    {
+      "id": "services/api/tests/test_legacy_final_result_backfill.py::test_completed_authority_stale_projection_repair_changes_only_projection_and_revision",
+      "status": "FAILED",
+      "exc": "pydantic_core._pydantic_core.ValidationError"
+    },
+    {
+      "id": "services/api/tests/test_legacy_final_result_backfill.py::test_completed_task_with_existing_authority_is_not_modified",
+      "status": "FAILED",
+      "exc": "pydantic_core._pydantic_core.ValidationError"
+    },
+    {
+      "id": "services/api/tests/test_legacy_final_result_backfill.py::test_legacy_backfill_invalid_capability_evidence_becomes_an_honest_gap",
+      "status": "FAILED",
+      "exc": "pydantic_core._pydantic_core.ValidationError"
+    },
+    {
+      "id": "services/api/tests/test_legacy_final_result_backfill.py::test_legacy_backfill_is_exactly_once_and_dry_run_does_not_write",
+      "status": "FAILED",
+      "exc": "pydantic_core._pydantic_core.ValidationError"
+    },
+    {
+      "id": "services/api/tests/test_legacy_final_result_backfill.py::test_legacy_backfill_uses_existing_finalizer_without_new_scientific_claims",
+      "status": "FAILED",
+      "exc": "pydantic_core._pydantic_core.ValidationError"
+    },
+    {
+      "id": "services/api/tests/test_legacy_final_result_backfill.py::test_legacy_completed_missing_or_json_null_authority_is_backfillable[json_null]",
+      "status": "FAILED",
+      "exc": "pydantic_core._pydantic_core.ValidationError"
+    },
+    {
+      "id": "services/api/tests/test_legacy_final_result_backfill.py::test_legacy_completed_missing_or_json_null_authority_is_backfillable[missing]",
+      "status": "FAILED",
+      "exc": "pydantic_core._pydantic_core.ValidationError"
+    },
+    {
+      "id": "services/api/tests/test_legacy_final_result_backfill.py::test_new_completed_task_with_null_authority_remains_invalid",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_a2_abandon_replay_is_idempotent_and_performs_no_external_io",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_a2_completion_abandon_uses_same_blocked_recovery_boundary",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_a2_unknown_abandon_closes_source_and_handoffs_to_real_a1_progression",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_a2_unknown_retry_stays_fail_closed_after_abandon",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_completion_leaf_report_empty_content_materializes_degraded_artifact",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_general_fallback_progress_stops_after_one_bounded_handoff",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_known_rejected_execution_is_recoverable_independent_of_error_code[future_internal_failure_code]",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_known_rejected_execution_is_recoverable_independent_of_error_code[key_literature_grounded_candidates_missing]",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_known_rejected_execution_is_recoverable_independent_of_error_code[key_literature_source_not_grounded]",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_known_rejected_execution_is_recoverable_independent_of_error_code[provider_response_contract_invalid]",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_known_rejected_execution_is_recoverable_independent_of_error_code[skill_input_invalid]",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_passed_execution_result_traces_accepted_pvd_scientific_state",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_pre_fix_revision_completion_recovers_intermediate_skill_result_without_reviewer",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_pre_fix_revision_completion_without_producer_type_still_fails_closed",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_result_recovery_reuses_a_materialized_result_without_duplicate_user_output",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_semantic_material_gap_blocks_without_project_completion",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_a1_progress_lifecycle.py::test_t1_progress_repository_result_persists_capability_artifact_without_completing_substage",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_line_b_b2_3_continuous_intervention.py::test_running_interventions_enter_real_authorized_execution_context_in_order_once",
+      "status": "FAILED",
+      "exc": "RuntimeError"
+    },
+    {
+      "id": "services/api/tests/test_line_d_catalog_execution_binding.py::test_worker_revalidates_exact_resource_version_and_capability_before_planning",
+      "status": "FAILED",
+      "exc": "assert 'get_resource_for_research_start(\\n                ca"
+    },
+    {
+      "id": "services/api/tests/test_materials_mcp_evidence.py::test_adapter_same_run_dir_keeps_receipts_owned_by_each_invocation",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_meter_observed_usage_gaps.py::test_durable_skill_meters_on_artifact_contract_failure",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_method_terminal_continuation.py::test_real_known_failure_callback_settles_fail_closed_reading",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_no_demo_mode.py::test_public_task_api_isolates_scope_and_ignores_legacy_no_demo_flag",
+      "status": "FAILED",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_not_pattern_class_level_closure.py::test_ot_model_semantics_keep_not_pattern_and_fail_closed",
+      "status": "FAILED",
+      "exc": "KeyError"
+    },
+    {
+      "id": "services/api/tests/test_openai_responses_provider.py::test_real_http_transport_without_provider_evidence_submits_zero_requests",
+      "status": "FAILED",
+      "exc": "app.execution.openai_responses_provider.ProviderAttemptEvidenceUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_opentrajectory_optional_node_lifecycle.py::test_ot_node9_external_result_unknown_is_never_faked_as_skip",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_opentrajectory_optional_node_lifecycle.py::test_ot_node9_known_failure_requires_usable_research_records[absent]",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_opentrajectory_optional_node_lifecycle.py::test_ot_node9_known_failure_requires_usable_research_records[not_usable]",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_opentrajectory_optional_node_lifecycle.py::test_ot_node9_known_failure_skips_and_automatic_continuation_starts_final",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_opentrajectory_optional_node_lifecycle.py::test_ot_node9_reconciled_known_failed_skips_with_research_records",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_opentrajectory_workflow_admission.py::test_ot_workflow_becomes_frozen_planner_constraints_not_a_researchdesign",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_ot_lane_a_p0_final_synthesis.py::test_final_synthesis_rejects_missing_research_records_before_fabricating_conclusions",
+      "status": "FAILED",
+      "exc": "Failed"
+    },
+    {
+      "id": "services/api/tests/test_ot_lane_a_p0_final_synthesis.py::test_final_synthesis_rejects_unknown_record_reference",
+      "status": "FAILED",
+      "exc": "Failed"
+    },
+    {
+      "id": "services/api/tests/test_ot_lane_a_p0_final_synthesis.py::test_runtime_dependency_gate_does_not_require_failed_node9_for_final",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_ot_node4_structured_authority.py::test_node4_registry_publishes_structured_output_authority",
+      "status": "FAILED",
+      "exc": "KeyError"
+    },
+    {
+      "id": "services/api/tests/test_ot_node6_provider_projection.py::test_node6_declares_a_minimal_model_visible_candidate_projection",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_ot_problem_framing_contract.py::test_only_problem_framing_is_enabled_as_current_problem_modeling_authority",
+      "status": "FAILED",
+      "exc": "KeyError"
+    },
+    {
+      "id": "services/api/tests/test_ot_retrieval_matrix_finalization_contract.py::test_production_path_quarantines_one_malformed_query_and_returns_degraded_artifact",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_ot_retrieval_matrix_finalization_contract.py::test_production_path_sends_semantic_draft_and_returns_formal_artifact",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_ot_retrieval_matrix_finalization_contract.py::test_retrieval_finalizer_quarantines_duplicate_strategy_without_model_recovery",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_ot_retrieval_matrix_finalization_contract.py::test_retrieval_finalizer_rejection_gets_one_bounded_same_task_recovery",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_ot_retrieval_matrix_finalization_contract.py::test_valid_union_input_is_not_cleared_during_structured_validation",
+      "status": "FAILED",
+      "exc": "ValueError"
+    },
+    {
+      "id": "services/api/tests/test_ot_t02_provider_request_runtime.py::test_retrieval_strategy_real_provider_request_keeps_formal_problem_views_only",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_ot_workflow_v3_registration.py::test_ot_v3_definitions_have_complete_parseable_contracts_and_general_agent_fallback",
+      "status": "FAILED",
+      "exc": "KeyError"
+    },
+    {
+      "id": "services/api/tests/test_plan_registry_authority.py::test_current_user_goal_precompiles_registered_specialist_before_confirmation",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_plan_registry_authority.py::test_planner_only_unknown_agent_is_rejected_before_a_run_exists",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_planner_planning_execution_boundary.py::test_current_execution_capabilities_are_bound_only_after_planning",
+      "status": "FAILED",
+      "exc": "app.modules.research_orchestration_resolver.RegistryAuthorityError"
+    },
+    {
+      "id": "services/api/tests/test_planner_planning_execution_boundary.py::test_execution_snapshot_keeps_only_dependency_closed_skill_bindings",
+      "status": "FAILED",
+      "exc": "app.modules.registry_snapshot_repository.RegistrySnapshotInt"
+    },
+    {
+      "id": "services/api/tests/test_planner_planning_execution_boundary.py::test_production_planning_prepares_without_touching_capability_loaders",
+      "status": "FAILED",
+      "exc": "assert 6 == 4"
+    },
+    {
+      "id": "services/api/tests/test_production_definition_source.py::test_legacy_snapshot_keeps_scope_unknown_without_guessing_and_workflow_excludes_it_unless_frozen",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_production_definition_source.py::test_production_definition_source_archives_and_resolves_canonical_definitions",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_production_definition_source.py::test_workflow_research_design_catalog_uses_frozen_workflow_membership_not_execution_composition",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_production_repo_path_policy.py::test_production_modules_do_not_use_fixed_parent_depth",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_progress_projection_sync.py::test_stamp_recomputes_content_and_aligns_stamp_to_new_revision",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_pvd_backend_composition_contract.py::test_pvd_composition_orders_deterministic_bridges_before_consumers",
+      "status": "FAILED",
+      "exc": "ValueError"
+    },
+    {
+      "id": "services/api/tests/test_pvd_backend_composition_contract.py::test_pvd_evidence_acquisition_design_uses_m1_then_call02_then_call03_without_v2_node",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_pvd_backend_composition_contract.py::test_pvd_recommendation_mode_resolution_matches_frozen_node9_examples",
+      "status": "FAILED",
+      "exc": "assert []"
+    },
+    {
+      "id": "services/api/tests/test_pvd_optional_artifact_contracts.py::test_node6_optional_diagnosis_absent_passes_and_null_fails",
+      "status": "FAILED",
+      "exc": "FileNotFoundError"
+    },
+    {
+      "id": "services/api/tests/test_pvd_optional_artifact_contracts.py::test_node7_optional_bo_absent_passes_and_null_fails",
+      "status": "FAILED",
+      "exc": "FileNotFoundError"
+    },
+    {
+      "id": "services/api/tests/test_pvd_optional_artifact_contracts.py::test_node8_three_optional_artifacts_absent_and_non_nullable",
+      "status": "FAILED",
+      "exc": "FileNotFoundError"
+    },
+    {
+      "id": "services/api/tests/test_pvd_optional_artifact_contracts.py::test_required_node8_inputs_remain_required",
+      "status": "FAILED",
+      "exc": "FileNotFoundError"
+    },
+    {
+      "id": "services/api/tests/test_pvd_workflow_admission.py::test_pvd_workflow_becomes_frozen_planner_constraints",
+      "status": "FAILED",
+      "exc": "app.modules.production_workflow_source.WorkflowDefinitionSou"
+    },
+    {
+      "id": "services/api/tests/test_pvd_workflow_v2_core_chain_contract.py::test_core_chain_preserves_concrete_candidate_settings_until_final_recommendation",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_register_captcha.py::test_captcha_endpoint_returns_image",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_register_captcha.py::test_failed_captcha_does_not_create_user",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_register_captcha.py::test_register_with_valid_captcha_succeeds",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_register_captcha.py::test_register_without_captcha_is_rejected",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_register_pending_activation.py::test_admin_activate_then_login_and_quota_assignment",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_register_pending_activation.py::test_register_creates_inactive_account_without_token",
+      "status": "ERROR",
+      "exc": "concurrent.futures._base.CancelledError"
+    },
+    {
+      "id": "services/api/tests/test_registered_adjacent_method_preflight.py::test_registered_adjacent_readiness_preserves_local_preflight_and_closure_policy",
+      "status": "FAILED",
+      "exc": "assert 3 == 2"
+    },
+    {
+      "id": "services/api/tests/test_reproduction_record_assembly_canonical_integration.py::test_binding_composes_multiple_resource_artifacts_and_defaults_missing_components",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_reproduction_record_assembly_canonical_integration.py::test_registry_binding_and_adapter_use_existing_result_acceptance_authority",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_reproduction_record_assembly_canonical_integration.py::test_single_artifact_sources_remain_fail_closed_on_ambiguity",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_research_agent_quality_rubric.py::test_curated_research_agents_pass_release_contract_gate",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_agent_scenario_artifacts_v2.py::test_4_agent_scenarios_match_router_and_planner_contracts",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_dispatch_skill_provider.py::test_direct_skill_completed_result_uses_canonical_dispatch_service_path",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_dispatch_skill_provider.py::test_direct_skill_handoff_true_binding_identity_mismatch_stays_fail_closed",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_research_dispatch_skill_provider.py::test_direct_skill_handoff_uses_canonical_binding_identity_before_runtime[bind:opentrajectory:intent_understanding:skill:structured_requirement_generation-structured_requirement_generation-resolved_parameters1-ot_intent_understanding]",
+      "status": "FAILED",
+      "exc": "StopIteration"
+    },
+    {
+      "id": "services/api/tests/test_research_execution_lifecycle.py::test_semantic_gap_recovery_continues_from_latest_design_not_superseded_instance",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_research_external_evidence.py::test_rejected_response_diagnostics_are_precise_bounded_and_value_free[{\"title\":\"x\",\"mimeType\":\"text/plain\",\"content\":\"ok\",\"extra\":1}-stop-extra_fields-/extra-additionalProperties]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_next_task_authority.py::test_model_cannot_select_task_outside_legal_candidates",
+      "status": "FAILED",
+      "exc": "app.modules.research_execution_decision_service.ExecutionPre"
+    },
+    {
+      "id": "services/api/tests/test_research_next_task_authority.py::test_next_execution_decision_consumes_latest_scientific_state_semantics",
+      "status": "FAILED",
+      "exc": "app.modules.research_execution_decision_service.ExecutionPre"
+    },
+    {
+      "id": "services/api/tests/test_research_next_task_authority.py::test_next_task_semantic_failure_never_falls_back_to_engineering_order",
+      "status": "FAILED",
+      "exc": "app.modules.research_execution_decision_service.ExecutionPre"
+    },
+    {
+      "id": "services/api/tests/test_research_orchestration_contracts.py::test_all_core_models_round_trip_the_shared_valid_json_fixture",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_orchestration_resolver.py::test_production_bindings_have_unique_resolvable_identity_and_propagate_enablement",
+      "status": "FAILED",
+      "exc": "assert (not True or (False))"
+    },
+    {
+      "id": "services/api/tests/test_research_orchestration_resolver.py::test_production_definition_rows_freeze_external_action_contracts",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_orchestration_resolver.py::test_production_definitions_archive_full_normalized_spec_contracts",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_orchestration_resolver.py::test_pvd_unmigrated_m3_definition_is_disabled_and_has_no_composition",
+      "status": "FAILED",
+      "exc": "assert True is False"
+    },
+    {
+      "id": "services/api/tests/test_research_orchestration_resolver.py::test_pvd_workflow_v2_identity_and_composition_are_frozen_across_production_authorities",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_failure_ownership.py::test_current_pvd_compiler_fault_is_local_not_model",
+      "status": "FAILED",
+      "exc": "app.execution.research_start_provider_adapter.ProviderContra"
+    },
+    {
+      "id": "services/api/tests/test_research_start_failure_ownership.py::test_current_pvd_model_input_fault_has_specific_owner[missing_responsibility-workflow_responsibility_count_invalid-/responsibilityPlans]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_failure_ownership.py::test_current_pvd_workflow_compiles_without_changing_its_formal_nodes",
+      "status": "FAILED",
+      "exc": "app.execution.research_start_provider_adapter.ProviderContra"
+    },
+    {
+      "id": "services/api/tests/test_research_start_finalize_transaction.py::test_pure_builder_replaces_every_temporary_identity_with_reserved_ids",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_one_shot_provider.py::test_direct_chat_legacy_planner_uses_shared_schema_transport",
+      "status": "FAILED",
+      "exc": "app.execution.structured_output_provider_adapter.ProviderSchemaCapabilityError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_one_shot_provider.py::test_direct_chat_router_uses_shared_schema_transport",
+      "status": "FAILED",
+      "exc": "ValueError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_one_shot_provider.py::test_execute_planner_posts_once_when_the_observed_response_is_invalid",
+      "status": "FAILED",
+      "exc": "app.execution.research_start_processing.PlannerProcessingError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_one_shot_provider.py::test_execute_planner_rejects_reasoning_only_truncation",
+      "status": "FAILED",
+      "exc": "app.execution.research_start_processing.PlannerProcessingError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_one_shot_provider.py::test_json_object_router_provider_response_reaches_router_json_parsing",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_one_shot_provider.py::test_planner_openai_responses_shapes_post_once[direct]",
+      "status": "FAILED",
+      "exc": "app.execution.research_start_processing.PlannerProcessingErr"
+    },
+    {
+      "id": "services/api/tests/test_research_start_one_shot_provider.py::test_planner_openai_responses_shapes_post_once[nested]",
+      "status": "FAILED",
+      "exc": "app.execution.research_start_processing.PlannerProcessingErr"
+    },
+    {
+      "id": "services/api/tests/test_research_start_one_shot_provider.py::test_planner_prepared_attempt_snapshots_decision_for_prompt_and_decode",
+      "status": "FAILED",
+      "exc": "app.execution.research_start_processing.PlannerProcessingErr"
+    },
+    {
+      "id": "services/api/tests/test_research_start_one_shot_provider.py::test_v1_freeform_scientific_brief_is_deterministically_assembled_and_compiled",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_controller_research_plan_uses_registered_question_specialist",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_deterministic_fallback_preserves_formal_route_semantics_without_reclassifying_raw_text[Compare the cited MapReduce and Spark RDD papers in a source-traceable matrix covering fault recovery, data reuse, scheduling semantics, and workload fit.]",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_deterministic_fallback_preserves_formal_route_semantics_without_reclassifying_raw_text[Plan a DFT lithium-vacancy defect calculation for cubic LLZO with PBE versus PBEsol, cutoff, k-point mesh, and convergence checks.]",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_deterministic_fallback_preserves_formal_route_semantics_without_reclassifying_raw_text[Plan an NMC811 Al2O3 coating experiment matrix with untreated controls, replicates, XRD/SEM-EDS/XPS, and electrochemical measurements.]",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_deterministic_fallback_without_formal_semantic_authority_stays_generic",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_literature_hint_uses_callable_agent_and_durable_skill",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_live_planner_builds_validated_evidence_graph",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerUnava"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_live_planner_does_not_retry_transport_timeout_without_response_format",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_live_planner_live_mode_falls_back_when_llm_unavailable",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_live_planner_rejects_agent_skill_ids_outside_catalog",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_live_planner_rejects_unknown_agent_id",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_live_planner_repairs_one_invalid_completion_claim_with_same_provider",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_live_planner_retries_without_response_format_when_gateway_returns_empty_content",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerUnava"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_live_planner_unsafe_completion_claim_falls_back_to_safe_draft",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_llm_planner_allows_completed_plan_wording_without_completed_research",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_llm_planner_allows_negated_completion_claims_in_boundaries",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_llm_planner_allows_no_completed_results_boundary",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_llm_planner_allows_pending_validation_boundary",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_builds_agent_graph_from_declared_mapping",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_builds_evidence_organizing_graph_from_formal_router_candidate",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_builds_gap_identification_agent_graph_from_selected_hint",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_builds_mechanism_dispute_mapping_agent_graph",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_builds_paper_evidence_extraction_graph_from_formal_router_candidate",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_builds_question_refinement_agent_graph",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_builds_result_audit_agent_graph_from_selected_hint",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_builds_single_skill_graph_from_skill_metadata",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_builds_structured_literature_comparison_workflow",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_builds_validation_design_agent_graph",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_contract_keeps_key_literature_distinct_from_evidence_organizing",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_planner_keeps_research_focus_in_problem_modeling_stage",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_planner.py::test_research_start_planner_task_budget_override_is_authoritative",
+      "status": "FAILED",
+      "exc": "assert 3605.0 == 125.0"
+    },
+    {
+      "id": "services/api/tests/test_research_start_repository.py::test_external_unknown_automatic_retry_is_limited_to_one_prior_unknown",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_task.py::test_flag_on_without_definition_source_uses_legacy_validated_draft_path",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_task_draft.py::test_research_query_gets_compact_semantic_project_title",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_task_draft.py::test_research_start_draft_does_not_treat_material_mentions_as_pasted_materials",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_research_start_task_draft.py::test_research_start_draft_respects_inline_evidence_materials",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_cache.py::test_cached_list_resources_is_much_faster_than_cold_rebuild",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_cache.py::test_catalog_cache_hit_skips_rebuild",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_cache.py::test_clear_resource_catalog_cache_forces_rebuild",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_cache.py::test_mtime_fingerprint_change_forces_rebuild",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_cache.py::test_warm_resource_catalog_cache_populates_projection",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_full_publish.py::test_availability_histogram_is_stable",
+      "status": "FAILED",
+      "exc": "assert (110 + 22) == 133"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_full_publish.py::test_full_catalog_classification_and_availability_contract",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_full_publish.py::test_full_catalog_release_count_and_identity_set",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_full_publish.py::test_public_catalog_exposes_all_releases_and_filters",
+      "status": "FAILED",
+      "exc": "assert 0 == 133"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_full_publish.py::test_public_catalog_uses_chinese_research_presentation",
+      "status": "FAILED",
+      "exc": "assert 0 == 133"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_full_publish.py::test_view_only_cannot_start_research_and_tryable_can",
+      "status": "FAILED",
+      "exc": "assert 404 == 200"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_routes.py::test_catalog_projects_only_resources_with_public_catalog_releases",
+      "status": "FAILED",
+      "exc": "assert 0 == 133"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_routes.py::test_catalog_research_intent_rejects_unavailable_public_resource",
+      "status": "FAILED",
+      "exc": "assert"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_routes.py::test_catalog_research_intent_resolves_and_pins_server_resource_identity",
+      "status": "FAILED",
+      "exc": "assert"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_routes.py::test_catalog_sort_matches_frontend_enum_and_precedes_pagination",
+      "status": "FAILED",
+      "exc": "IndexError"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_routes.py::test_detail_visibility_is_independent_and_never_leaks_unreleased_registry_data",
+      "status": "FAILED",
+      "exc": "assert"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_routes.py::test_search_type_availability_pagination_and_detail_share_one_projection",
+      "status": "FAILED",
+      "exc": "assert 0 == 8"
+    },
+    {
+      "id": "services/api/tests/test_resource_catalog_routes.py::test_visible_on_home_filter_returns_only_featured_tryable_rows",
+      "status": "FAILED",
+      "exc": "assert"
+    },
+    {
+      "id": "services/api/tests/test_resource_saves.py::test_non_postgres_backend_has_no_in_memory_save_path",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_saves.py::test_owner_and_workspace_scopes_do_not_cross",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_saves.py::test_remove_is_idempotent",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_saves.py::test_save_is_idempotent_and_listed_after_reentry",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_saves.py::test_stale_saved_resource_is_filtered_from_list",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_saves.py::test_status_limit_and_unauthenticated_contract",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_saves.py::test_status_only_returns_current_scope_saves",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_resource_saves.py::test_unknown_or_nonpublic_resource_cannot_create_a_save",
+      "status": "FAILED",
+      "exc": "app.modules.resource_catalog.ResourceCatalogUnavailableError"
+    },
+    {
+      "id": "services/api/tests/test_scientific_completion_integrity.py::test_only_accepted_completion_closes_to_final_result",
+      "status": "FAILED",
+      "exc": "pydantic_core._pydantic_core.ValidationError"
+    },
+    {
+      "id": "services/api/tests/test_scientific_semantic_authority_contract.py::test_durable_runtime_does_not_keyword_score_scientific_relevance",
+      "status": "FAILED",
+      "exc": "AttributeError"
+    },
+    {
+      "id": "services/api/tests/test_scientific_state_feedback_loop.py::test_accepted_cs_readiness_result_materializes_only_decision_relevant_state",
+      "status": "FAILED",
+      "exc": "ValueError"
+    },
+    {
+      "id": "services/api/tests/test_scientific_state_feedback_loop.py::test_passed_execution_result_materializes_declared_research_facts",
+      "status": "FAILED",
+      "exc": "TypeError"
+    },
+    {
+      "id": "services/api/tests/test_skill_dependency_runtime.py::test_external_action_dependency_cannot_hide_inside_parent_dispatch",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_skill_dependency_runtime.py::test_failed_prerequisite_stops_generic_retrieval_matrix_chain",
+      "status": "FAILED",
+      "exc": "app.execution.skill_dependency_runtime.SkillDependencyContra"
+    },
+    {
+      "id": "services/api/tests/test_skill_dependency_runtime.py::test_production_execution_has_no_raw_durable_skill_bypass",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_skillpack_normalization.py::test_known_skillpack_passes_through_unchanged",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_skillpack_normalization.py::test_missing_skillpack_defaults_to_sdr",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_skillpack_normalization.py::test_unknown_skillpack_is_normalized_to_sdr_and_propagated",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_t0_2_hybrid_workflow_planner.py::test_workflow_provider_schema_contains_only_scientific_semantics",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_t0b_evidence_schema_finalization.py::test_production_path_uses_semantic_draft_then_finalizer_then_formal_artifact",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_t0b_evidence_schema_finalization.py::test_provider_cannot_supply_formal_machine_fields_through_semantic_draft",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_events.py::test_durable_sse_emits_ordered_revision_bound_multiagent_lifecycle",
+      "status": "FAILED",
+      "exc": "psycopg.OperationalError",
+      "note": "CI form: fast-fail psycopg.OperationalError. Local solo form hangs >7min on retries (env-form divergence, recorded; not a criterion for list membership)."
+    },
+    {
+      "id": "services/api/tests/test_task_events.py::test_durable_sse_heartbeat_carries_revision_and_last_sequence",
+      "status": "FAILED",
+      "exc": "psycopg.OperationalError",
+      "note": "CI form: fast-fail psycopg.OperationalError. Local solo form hangs >7min on retries (env-form divergence, recorded; not a criterion for list membership)."
+    },
+    {
+      "id": "services/api/tests/test_task_events.py::test_durable_sse_last_event_id_resumes_without_duplicate_or_reorder",
+      "status": "FAILED",
+      "exc": "psycopg.OperationalError",
+      "note": "CI form: fast-fail psycopg.OperationalError. Local solo form hangs >7min on retries (env-form divergence, recorded; not a criterion for list membership)."
+    },
+    {
+      "id": "services/api/tests/test_task_events.py::test_durable_sse_poll_appends_new_facts_before_the_new_revision_marker",
+      "status": "FAILED",
+      "exc": "psycopg.OperationalError",
+      "note": "CI form: fast-fail psycopg.OperationalError. Local solo form hangs >7min on retries (env-form divergence, recorded; not a criterion for list membership)."
+    },
+    {
+      "id": "services/api/tests/test_task_events.py::test_flag_on_sse_snapshot_uses_the_durable_projection_revision",
+      "status": "FAILED",
+      "exc": "psycopg.OperationalError",
+      "note": "CI form: fast-fail psycopg.OperationalError. Local solo form hangs >7min on retries (env-form divergence, recorded; not a criterion for list membership)."
+    },
+    {
+      "id": "services/api/tests/test_task_events.py::test_flag_on_sse_snapshot_without_durable_projection_uses_legacy_payload",
+      "status": "FAILED",
+      "exc": "psycopg.OperationalError",
+      "note": "CI form: fast-fail psycopg.OperationalError. Local solo form hangs >7min on retries (env-form divergence, recorded; not a criterion for list membership)."
+    },
+    {
+      "id": "services/api/tests/test_task_events.py::test_flag_on_v12_sse_reads_canonical_aggregate_not_legacy_collaboration",
+      "status": "FAILED",
+      "exc": "psycopg.OperationalError",
+      "note": "CI form: fast-fail psycopg.OperationalError. Local solo form hangs >7min on retries (env-form divergence, recorded; not a criterion for list membership)."
+    },
+    {
+      "id": "services/api/tests/test_task_events.py::test_old_source_cursor_is_fenced_when_successor_is_authoritative",
+      "status": "FAILED",
+      "exc": "psycopg.OperationalError",
+      "note": "CI form: fast-fail psycopg.OperationalError. Local solo form hangs >7min on retries (env-form divergence, recorded; not a criterion for list membership)."
+    },
+    {
+      "id": "services/api/tests/test_task_events.py::test_refresh_and_last_event_reconnect_are_read_only_and_never_dispatch",
+      "status": "FAILED",
+      "exc": "psycopg.OperationalError",
+      "note": "CI form: fast-fail psycopg.OperationalError. Local solo form hangs >7min on retries (env-form divergence, recorded; not a criterion for list membership)."
+    },
+    {
+      "id": "services/api/tests/test_task_events.py::test_sse_stale_projection_stamp_is_restamped_without_failing_stream",
+      "status": "FAILED",
+      "exc": "psycopg.OperationalError",
+      "note": "CI form: fast-fail psycopg.OperationalError. Local solo form hangs >7min on retries (env-form divergence, recorded; not a criterion for list membership)."
+    },
+    {
+      "id": "services/api/tests/test_task_execution_graph.py::test_build_creation_plan_stages_from_skill_metadata",
+      "status": "FAILED",
+      "exc": "app.modules.task_execution_graph.ExecutionGraphError"
+    },
+    {
+      "id": "services/api/tests/test_task_execution_graph.py::test_build_creation_plan_stages_preserves_planner_metadata",
+      "status": "FAILED",
+      "exc": "app.modules.task_execution_graph.ExecutionGraphError"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_complete_plan_round_trips_and_hides_internal_metadata",
+      "status": "FAILED",
+      "exc": "assert 400 == 200"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_editable_creation_statuses_are_saved[awaiting_confirmation]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_editable_creation_statuses_are_saved[revision_requested]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_final_precompile_failure_does_not_publish_json_candidate",
+      "status": "FAILED",
+      "exc": "app.modules.task_repository.TaskPlanValidationError"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_json_disk_error_does_not_publish_memory_state",
+      "status": "FAILED",
+      "exc": "app.modules.task_repository.TaskPlanValidationError"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_json_plan_reload_from_second_store_is_identical",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_legacy_json_task_without_revision_starts_at_zero",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_legacy_research_start_draft_is_repaired_in_same_projection",
+      "status": "FAILED",
+      "exc": "app.modules.task_repository.TaskPlanValidationError"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_missing_specialist_route_rejects_without_ready_to_confirm_change",
+      "status": "FAILED",
+      "exc": "assert 400 == 409"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_projection_is_consistent_and_revision_increments_once",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_saved_plan_refreshes_structured_research_start_goal_and_boundaries",
+      "status": "FAILED",
+      "exc": "app.modules.task_repository.TaskPlanValidationError"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_two_updates_with_same_revision_only_one_succeeds",
+      "status": "FAILED",
+      "exc": "assert [400, 400] == [200, 409]"
+    },
+    {
+      "id": "services/api/tests/test_task_plan_json_persistence.py::test_update_plan_preserves_substage_action",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_result_source_contract.py::test_mixed_live_and_replay_uses_authoritative_live_deterministically",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_result_source_contract.py::test_normalization_does_not_mutate_repository_payload",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_result_source_contract.py::test_result_source_truth_matrix[authoritative-live-upgrades-explicit-replay]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_result_source_contract.py::test_result_source_truth_matrix[fixture-runtime-never-live]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_result_source_contract.py::test_result_source_truth_matrix[reverse-call-artifact-linkage]",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_task_result_source_contract.py::test_task_store_list_and_detail_return_the_same_normalized_source",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_workbench_user_actions.py::test_completed_decision_continuation_reconciles_before_planning",
+      "status": "FAILED",
+      "exc": "ValueError"
+    },
+    {
+      "id": "services/api/tests/test_worker_entrypoint_resilience.py::test_global_db_failure_exits_without_emitting_worker_readiness",
+      "status": "FAILED",
+      "exc": "AssertionError"
+    },
+    {
+      "id": "services/api/tests/test_workflow_defined_stages.py::test_direct_draft_task_confirmed_json_start_fails_closed_without_postgres",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_workflow_defined_stages.py::test_direct_draft_task_uses_trimmed_execution_graph_shape",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_workflow_defined_stages.py::test_draft_creation_plan_allows_empty_unselected_fixed_stages",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_workflow_defined_stages.py::test_draft_creation_plan_can_be_adjusted_before_confirmation",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_workflow_defined_stages.py::test_draft_creation_plan_rejects_all_empty_fixed_stages",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_workflow_defined_stages.py::test_draft_creation_plan_rejects_cross_stage_substage_move",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_workflow_defined_stages.py::test_draft_creation_plan_rejects_unknown_substage",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "services/api/tests/test_workflow_defined_stages.py::test_draft_creation_plan_update_requires_complete_substage_rows",
+      "status": "FAILED",
+      "exc": "app.modules.research_start_planner.ResearchStartPlannerError"
+    },
+    {
+      "id": "skills/cs_research/execution-plan-fact-assembly/tests/test_execution_plan_registration_assets.py::test_w3_registry_and_bindings_reuse_upstream_source_instead_of_copying_authority",
+      "status": "FAILED",
+      "exc": "KeyError"
+    },
+    {
+      "id": "skills/pvd/pvd-bayesian-optimization-candidate-generation/tests/candidate_generation/test_contract_and_domain.py::test_recommendation_and_plan_never_become_real_bo_observations",
+      "status": "FAILED",
+      "exc": "jsonschema.exceptions.ValidationError"
+    },
+    {
+      "id": "verification/suites/durable_child_policy_handoff/test_policy_handoff.py::test_pvd_child_reaches_screening_transport_boundary_with_own_declared_policy",
+      "status": "FAILED",
+      "exc": "pvd_child_call_wiring_under_test.ChildSkillFailure"
+    }
+  ]
+}

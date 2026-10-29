@@ -1,0 +1,22 @@
+skill_id: code_implementation
+claude_name: code-implementation
+display_name: 代码实现
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - full_execution
+packs:
+  - sdr
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: full_execution
+owner: TBD
+fixture_status: missing
+notes: OPE L2

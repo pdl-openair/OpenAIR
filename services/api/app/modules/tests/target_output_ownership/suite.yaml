@@ -1,0 +1,38 @@
+suite_id: component.modules.target-output-ownership
+protected_outcome: Frozen Workflow target owners and explicit Query associations survive planning, compilation, design saving and completion; conditional omission and reuse preserve targets without forced work or fabricated acceptance; legal historical drafts remain editable through current command/save authority without rewriting history.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/02_产品与Workflow/OpenTrajectory/OpenTrajectory_Workflow设计合同.md
+  - docs/04_开发协作/产品开发经验/01_产品第一原则.md
+  - docs/task_specs/2026-10-09-OT-output-ownership-audit-and-fix.md
+failure_class: workflow_target_ownership_or_current_reuse_acceptance_violation
+minimum_owner: 跨组件与基础设施
+test_responsibility: ResearchDesign target contract conformance with actual completion and checked-result consumers; controlled counterfactual inputs are never evidence of real research execution.
+production_targets:
+  - services/api/app/modules/research_design_planner_assembly.py
+  - services/api/app/modules/research_design_compiler.py
+  - services/api/app/modules/research_design_service.py
+  - services/api/app/modules/research_design_agent_revision.py
+  - services/api/app/modules/target_output_ownership.py
+  - services/api/app/modules/target_output_completion.py
+  - services/api/app/modules/target_output_reuse_materialization.py
+  - services/api/app/modules/research_completion_decision.py
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - current repository Workflow and Definition source
+  - in-memory Registry archive
+  - explicitly controlled structural durable inputs
+  - existing Python runtime without live Provider calls
+  - Git baseline source for historical producer replay
+evidence_required:
+  - pytest_result
+  - current_source_frozen_versions
+  - identical_input_legacy_and_correct_owner_completion_comparison
+  - historical_producer_to_current_revision_command_save_and_completion
+verdict_rule: PASS only if current-source conformance and real consumer assertions pass; FAIL if valid evidence violates protected_outcome; otherwise NO_VALID_EVIDENCE. No result establishes Fresh research or scientific quality.
+triggers:
+  - Workflow target owner or responsibility coverage change
+  - scientific brief target association normalization change
+  - compilation, saving, revision or completion target contract change
+  - current-project reuse acceptance or Result projection change

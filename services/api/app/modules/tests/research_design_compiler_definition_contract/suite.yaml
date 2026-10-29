@@ -1,0 +1,23 @@
+suite_id: component.modules.research-design-compiler-definition-contract
+protected_outcome: ResearchDesign compilation consumes Definition-authorized evaluator identities for professional acceptance criteria and does not substitute quality-rule or legacy criterion identities when explicit evaluatorRefs are present.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: research_design_compiler_evaluator_authority_substitution
+minimum_owner: 确定性合同与不变量
+production_targets:
+  - services/api/app/modules/research_design_compiler.py
+test_responsibility: deterministic component proof that the compiler preserves the explicit Definition evaluator authority when forming ResearchDesign acceptance criteria
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - Definition catalog freeze changes
+  - ResearchDesign acceptance-criterion compilation changes

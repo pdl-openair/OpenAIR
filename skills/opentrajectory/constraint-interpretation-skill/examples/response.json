@@ -1,0 +1,75 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "voltage_window",
+      "original_phrase": "电压窗口≤4.2V",
+      "constraint_type": "numerical_range",
+      "interpreted_value": "≤4.2V",
+      "candidate_values": [],
+      "domain_rationale": "用户明确给出电压窗口上限。该条件必须保留为正式约束；后续检索与证据判断仍需结合论文中的电压窗口、截止电压或测试协议。",
+      "confidence": 0.92,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": [
+        "cutoff voltage 4.2V",
+        "voltage window",
+        "charging voltage limit",
+        "upper cutoff potential"
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": [
+        "explicit_value_from_user_input_only"
+      ]
+    },
+    {
+      "constraint_name": "temperature_range",
+      "original_phrase": "温度范围25-45°C",
+      "constraint_type": "numerical_range",
+      "interpreted_value": "25–45°C",
+      "candidate_values": [],
+      "domain_rationale": "用户明确给出温度范围。该约束只限定测试温度条件本身，不在本 skill 中扩展到具体衰减机理。",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": [
+        "temperature 25°C 45°C",
+        "test temperature",
+        "cycling temperature",
+        "elevated temperature"
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": [
+        "explicit_value_from_user_input_only"
+      ]
+    },
+    {
+      "constraint_name": "fast_charging_condition",
+      "original_phrase": "快充条件",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": null,
+      "candidate_values": [],
+      "domain_rationale": "“快充”表示高充电速率场景，但用户未给出具体倍率或判定阈值，因此保持为待确认语义，不能从领域常识补具体倍率。",
+      "confidence": 0.68,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "fast charging",
+        "high rate charging",
+        "rapid charging",
+        "C-rate",
+        "charge rate"
+      ],
+      "evidence_basis": "domain convention",
+      "risk_flags": [
+        "fast_charging_rate_undefined"
+      ]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.82,
+    "coverage_level": "moderate",
+    "missing_inputs": [],
+    "risk_flags": [
+      "explicit_value_from_user_input_only",
+      "fast_charging_rate_undefined"
+    ],
+    "needs_manual_review": true
+  }
+}

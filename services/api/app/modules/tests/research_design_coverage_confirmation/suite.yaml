@@ -1,0 +1,22 @@
+suite_id: component.modules.research-design-coverage-confirmation
+protected_outcome: Executable designs preserve target gaps and can be confirmed without weakening execution guards or fabricating completion.
+authority_refs:
+  - docs/task_specs/2026-10-09-ctrl-gap-contract-extension.md
+  - docs/04_开发协作/产品开发经验/01_产品第一原则.md
+failure_class: local_target_gap_blocks_valid_work_or_masks_completion
+minimum_owner: 跨组件与基础设施
+test_responsibility: Formal validation and the existing confirmation rule and completion consumer; no Fresh claim.
+production_targets:
+  - services/api/app/modules/research_design_coverage_confirmation.py
+  - services/api/app/models/research_orchestration.py
+  - services/api/app/modules/research_start_repository.py
+  - services/api/app/modules/task_public_projection.py
+  - services/api/app/modules/research_orchestration_repository.py
+  - services/api/app/modules/research_design_recovery.py
+execution_profiles: [deterministic]
+required_dependencies: [current Python runtime, shared formal software samples]
+evidence_required: [candidate source fingerprint, pytest output and JUnit, adjacent PV2 production probes]
+verdict_rule: PASS only if every scoped assertion passes; absent evidence is NO_VALID_EVIDENCE. Does not prove live research or UI.
+triggers: [coverage or confirmation contract changes]
+approval_basis: User explicitly approved both CTRL contract extensions and confirmed implementation may continue.
+scope_extensions: User explicitly approved three consumer files, recovery classification, and the subsequent single-file Workflow responsibility revision repair. Recovery preserves immutable prior designs and rebases all affected responsibility references without changing ownership or acceptance.

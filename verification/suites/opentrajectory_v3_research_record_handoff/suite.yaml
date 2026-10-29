@@ -1,0 +1,39 @@
+suite_id: opentrajectory-v3-research-record-handoff
+protected_outcome: >-
+  OpenTrajectory V3 research_record_establishment uses the formal problem-framing
+  and retrieval-matrix Bindings with an unbroken declared input handoff.
+authority_refs:
+  - docs/02_产品与Workflow/OpenTrajectory/OpenTrajectory_Workflow设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试架构.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - spec/testing/OpenAIR 测试执行基座（Harness）设计.md
+  - schemas/workflows/opentrajectory_research_workflow_v3.yaml
+  - schemas/opentrajectory/specs/03-validation/research-record-establishment.md
+  - skills/skill-bindings.yaml
+failure_class:
+  - opentrajectory_v3_research_record_handoff_identity_or_input_source_drift
+minimum_owner: 确定性合同与不变量
+production_targets:
+  - schemas/workflows/opentrajectory_research_workflow_v3.yaml
+  - schemas/opentrajectory/specs/03-validation/research-record-establishment.md
+  - skills/skill-bindings.yaml
+test_responsibility: >-
+  Deterministically verifies declared V3 Workflow, Definition, Binding, Skill,
+  and first-handoff input-source continuity. It does not verify execution,
+  Provider availability, research quality, or the full V3 result chain.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+  - repository OpenTrajectory Workflow and Binding assets
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when deterministic assertions prove the declared first-handoff
+  identities and source relationships; FAIL when an asserted identity or source
+  relationship differs; otherwise NO_VALID_EVIDENCE.
+triggers:
+  - OT V3 Workflow identity changes
+  - research_record_establishment Definition changes
+  - target problem-framing or retrieval-matrix Binding changes

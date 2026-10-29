@@ -1,0 +1,15 @@
+suite_id: component.api.research-design-agent-revision
+protected_outcome: Agent semantic edits preserve canonical structural authority and stale task revisions never reach the provider or write path.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: agent_revision_structural_authority_mutation
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/research_design_agent_revision.py
+  - services/api/app/models/schemas.py
+test_responsibility: Directly import the production validator, proposal builder and revision entry; verify immutable identity, preserved boundaries, input validation and stale CAS rejection.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: PASS when real production calls preserve authority and reject invalid requests; otherwise FAIL or NO_VALID_EVIDENCE.
+triggers: [research_design_agent_revision_changed]

@@ -1,0 +1,191 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "state",
+    "environment_identity",
+    "verification",
+    "execution_evidence",
+    "workspace_relative_path",
+    "environment_record_relative_path"
+  ],
+  "properties": {
+    "schema_version": {"const": "openair-environment-record/v1"},
+    "state": {"const": "succeeded"},
+    "environment_identity": {
+      "type": "object",
+      "required": ["python", "platform", "packages", "fingerprint_sha256"],
+      "properties": {
+        "python": {
+          "type": "object",
+          "required": ["implementation", "version", "major", "minor", "micro"],
+          "properties": {
+            "implementation": {"type": "string", "minLength": 1},
+            "version": {"type": "string", "minLength": 1},
+            "major": {"type": "integer", "minimum": 2},
+            "minor": {"type": "integer", "minimum": 0},
+            "micro": {"type": "integer", "minimum": 0}
+          },
+          "additionalProperties": false
+        },
+        "platform": {
+          "type": "object",
+          "required": ["system", "release", "machine", "python_platform"],
+          "properties": {
+            "system": {"type": "string"},
+            "release": {"type": "string"},
+            "machine": {"type": "string"},
+            "python_platform": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        },
+        "packages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "version"],
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "version": {"type": "string", "minLength": 1}
+            },
+            "additionalProperties": false
+          }
+        },
+        "fingerprint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "verification": {
+      "type": "object",
+      "required": ["requested_python_version", "python_version_match", "pip_check", "imports"],
+      "properties": {
+        "requested_python_version": {"type": "string", "minLength": 3},
+        "python_version_match": {"const": true},
+        "pip_check": {"const": "passed"},
+        "imports": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["module", "status"],
+            "properties": {
+              "module": {"type": "string", "minLength": 1},
+              "status": {"const": "passed"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "runtime_readiness": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["configured", "status"],
+              "properties": {
+                "configured": {"const": false},
+                "status": {"const": "not_configured"}
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "configured",
+                "status",
+                "requested_executable",
+                "actual_executable",
+                "argv",
+                "working_directory",
+                "timeout_seconds",
+                "exit_code",
+                "stdout",
+                "stderr"
+              ],
+              "properties": {
+                "configured": {"const": true},
+                "status": {"const": "passed"},
+                "requested_executable": {"type": "string", "minLength": 1},
+                "actual_executable": {"type": "string", "pattern": "^environment/.+"},
+                "argv": {
+                  "type": "array",
+                  "maxItems": 256,
+                  "items": {"type": "string", "maxLength": 4096}
+                },
+                "working_directory": {"type": "string", "minLength": 1},
+                "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 300},
+                "exit_code": {"const": 0},
+                "stdout": {"$ref": "#/definitions/capture"},
+                "stderr": {"$ref": "#/definitions/capture"}
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "execution_evidence": {
+      "type": "object",
+      "required": ["builder", "operations", "pip_version"],
+      "properties": {
+        "builder": {
+          "type": "object",
+          "required": ["kind", "version"],
+          "properties": {
+            "kind": {"enum": ["uv", "venv"]},
+            "version": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        },
+        "operations": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": ["operation", "exit_code"],
+            "properties": {
+              "operation": {
+                "enum": [
+                  "create_environment",
+                  "install_requirements",
+                  "pip_check",
+                  "verify_imports",
+                  "runtime_readiness_probe",
+                  "read_environment_identity"
+                ]
+              },
+              "exit_code": {"const": 0},
+              "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 3600}
+            },
+            "allOf": [
+              {
+                "if": {"properties": {"operation": {"const": "install_requirements"}}},
+                "then": {"required": ["timeout_seconds"]}
+              }
+            ],
+            "additionalProperties": false
+          }
+        },
+        "pip_version": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "workspace_relative_path": {"const": "environment"},
+    "environment_record_relative_path": {"const": "environment/environment-record.json"}
+  },
+  "definitions": {
+    "capture": {
+      "type": "object",
+      "required": ["text", "total_bytes", "captured_bytes", "truncated"],
+      "properties": {
+        "text": {"type": "string"},
+        "total_bytes": {"type": "integer", "minimum": 0},
+        "captured_bytes": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "truncated": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

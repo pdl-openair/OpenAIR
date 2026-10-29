@@ -1,0 +1,82 @@
+schemaVersion: workflow-definition.v2
+workflowId: opentrajectory_research_workflow
+workflowVersion: 4
+nameZh: OpenTrajectory 综合证据研究
+nameEn: OpenTrajectory Integrated Evidence Research Workflow
+description: 面向需要综合多项研究结果、比较条件差异、处理冲突与不确定性的科研问题，以研究记录、证据评估、当前结论、关键未知和下一步建议为稳定职责骨架；具体检索、筛选、阅读和工具核验由 Planner 按真实缺口选择。
+skillPack: opentrajectory
+planningPolicy:
+  responsibilityPlanning: project_adaptive
+  existingResultReuse: validated_existing_results
+  conditionalResponsibilities: planner_selected
+targetOutputSpecs:
+- description: 可追溯的关键公开研究记录
+  ownerNodeKey: research_record_establishment
+- description: 按条件比较的记录驱动证据评估与综合
+  ownerNodeKey: evidence_assessment_synthesis
+- description: 当前结论、关键未知与最具判别力的下一步建议
+  ownerNodeKey: next_research_recommendation
+nodes:
+- nodeKey: research_record_establishment
+  definitionId: opentrajectory:research_record_establishment
+  definitionVersion: 1
+  requirement: optional
+  displayOrder: 10
+- nodeKey: evidence_assessment_synthesis
+  definitionId: opentrajectory:evidence_assessment_synthesis
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 20
+- nodeKey: mechanism_explanation
+  definitionId: opentrajectory:mechanism_explanation
+  definitionVersion: 1
+  requirement: optional
+  displayOrder: 30
+- nodeKey: current_research_conclusion
+  definitionId: opentrajectory:current_research_conclusion
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 40
+- nodeKey: key_unknowns_candidate_explanations
+  definitionId: opentrajectory:key_unknowns_candidate_explanations
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 50
+- nodeKey: next_research_recommendation
+  definitionId: opentrajectory:next_research_recommendation
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 60
+dependencies:
+- upstreamNodeKey: research_record_establishment
+  downstreamNodeKey: evidence_assessment_synthesis
+  dependencyType: scientific_dependency
+- upstreamNodeKey: evidence_assessment_synthesis
+  downstreamNodeKey: mechanism_explanation
+  dependencyType: scientific_dependency
+- upstreamNodeKey: evidence_assessment_synthesis
+  downstreamNodeKey: current_research_conclusion
+  dependencyType: scientific_dependency
+- upstreamNodeKey: mechanism_explanation
+  downstreamNodeKey: current_research_conclusion
+  dependencyType: optional_enhancement
+- upstreamNodeKey: evidence_assessment_synthesis
+  downstreamNodeKey: key_unknowns_candidate_explanations
+  dependencyType: scientific_dependency
+- upstreamNodeKey: current_research_conclusion
+  downstreamNodeKey: key_unknowns_candidate_explanations
+  dependencyType: scientific_dependency
+- upstreamNodeKey: current_research_conclusion
+  downstreamNodeKey: next_research_recommendation
+  dependencyType: scientific_dependency
+- upstreamNodeKey: key_unknowns_candidate_explanations
+  downstreamNodeKey: next_research_recommendation
+  dependencyType: scientific_dependency
+boundaryPolicy:
+  allowedExternalActions:
+  - external_read
+  - external_compute
+  confirmationRequiredActions: []
+  prohibitedActions:
+  - external_write
+  - physical_action

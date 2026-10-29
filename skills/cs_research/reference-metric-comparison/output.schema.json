@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "state",
+    "comparison_status",
+    "overall_result",
+    "requested_reference_count",
+    "compared_metric_count",
+    "metrics"
+  ],
+  "properties": {
+    "schema_version": {"const": "openair-reference-comparison/v1"},
+    "state": {"type": "string", "enum": ["succeeded", "failed"]},
+    "comparison_status": {"type": "string", "enum": ["complete", "incomplete"]},
+    "overall_result": {"type": "string", "enum": ["meets_standard", "does_not_meet_standard", "indeterminate"]},
+    "failure_code": {"type": "string"},
+    "requested_reference_count": {"type": "integer", "minimum": 0},
+    "compared_metric_count": {"type": "integer", "minimum": 0},
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["metric_name", "comparison_status", "meets_rule", "actual", "reference", "rule"],
+        "properties": {
+          "metric_name": {"type": "string"},
+          "comparison_status": {"type": "string", "enum": ["succeeded", "failed"]},
+          "meets_rule": {"type": ["boolean", "null"]},
+          "failure_code": {"type": "string"},
+          "actual": {"type": ["object", "null"]},
+          "reference": {"type": "object"},
+          "rule": {"type": "object"},
+          "calculation_trace": {"type": "object"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

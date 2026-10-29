@@ -1,0 +1,195 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["metadata_candidates", "retrieval_report"],
+  "properties": {
+    "metadata_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "candidate_id",
+          "dedupe_key",
+          "normalized_title",
+          "external_ids",
+          "title",
+          "abstract",
+          "authors",
+          "year",
+          "venue",
+          "doi",
+          "arxiv_id",
+          "source_url",
+          "landing_page_url",
+          "source_name",
+          "matched_query",
+          "search_intent",
+          "query_variant_type",
+          "provenance",
+          "raw_metadata",
+          "retrieval_warnings"
+        ],
+        "properties": {
+          "candidate_id": { "type": "string", "minLength": 1 },
+          "dedupe_key": {
+            "type": ["string", "null"],
+            "description": "Stable key for downstream dedup: prefer DOI, else arxiv_id, else openalex_id, else normalized_title hash."
+          },
+          "normalized_title": {
+            "type": ["string", "null"],
+            "description": "Title normalized for fuzzy dedup: lowercase → unicode normalize → replace punctuation with spaces → collapse multiple spaces → trim. Example: 'Lithium-Ion' → 'lithium ion', 'High-Rate' → 'high rate'."
+          },
+          "external_ids": {
+            "type": "object",
+            "description": "All known external identifiers for this candidate. Used by downstream candidate-dedup-and-provenance.",
+            "properties": {
+              "doi":                { "type": ["string", "null"] },
+              "arxiv_id":           { "type": ["string", "null"] },
+              "openalex_id":        { "type": ["string", "null"] },
+              "semantic_scholar_id":{ "type": ["string", "null"] },
+              "corpus_id":          { "type": ["string", "null"] },
+              "pmid":               { "type": ["string", "null"] },
+              "pmcid":              { "type": ["string", "null"] }
+            },
+            "additionalProperties": false
+          },
+          "title": { "type": ["string", "null"] },
+          "abstract": { "type": ["string", "null"] },
+          "authors": {
+            "type": ["array", "null"],
+            "items": { "type": "string" }
+          },
+          "year": { "type": ["integer", "null"] },
+          "venue": { "type": ["string", "null"] },
+          "doi": { "type": ["string", "null"] },
+          "arxiv_id": { "type": ["string", "null"] },
+          "citation_count": { "type": ["integer", "null"], "minimum": 0, "description": "Optional citation count when exposed by the retrieval source." },
+          "source_url": {
+            "type": ["string", "null"],
+            "description": "PDF or landing URL as returned by source API. Metadata only — not downloaded, OA status not verified."
+          },
+          "landing_page_url": { "type": ["string", "null"] },
+          "source_name": {
+            "type": "string",
+            "enum": ["openalex", "semantic_scholar", "arxiv", "deepxiv", "agentic_data"]
+          },
+          "matched_query": { "type": "string" },
+          "search_intent": { "type": ["string", "null"] },
+          "query_variant_type": {
+            "type": ["string", "null"],
+            "enum": ["strict", "broad", "fallback", "exclusion", "targeted", null]
+          },
+          "provenance": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "source_name",
+                "matched_query",
+                "query_index",
+                "source_result_index",
+                "source_rank",
+                "retrieved_at",
+                "retrieval_mode"
+              ],
+              "properties": {
+                "source_name":        { "type": "string" },
+                "matched_query":      { "type": "string" },
+                "search_intent":      { "type": ["string", "null"] },
+                "query_variant_type": { "type": ["string", "null"] },
+                "source_constraints": { "type": "array", "items": { "type": "string" } },
+                "query_index":        { "type": "integer", "minimum": 0, "description": "Index in expanded_query_variants (0-based)." },
+                "source_result_index":{ "type": "integer", "minimum": 0, "description": "Position in this source's result list (0-based)." },
+                "source_rank":        { "type": "integer", "minimum": 1, "description": "1-based rank within this source's results." },
+                "retrieved_at":       { "type": "string", "description": "ISO 8601 timestamp of retrieval." },
+                "retrieval_mode":     {
+                  "type": "string",
+                  "enum": ["expanded_query_variant", "search_matrix_fallback", "english_user_query_fallback"],
+                  "description": "How the query was constructed."
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "decision_evidence_slot": { "type": ["string", "null"], "description": "Slot ID this candidate was retrieved to fill (targeted re-retrieval only)." },
+          "slot_reason": { "type": ["string", "null"], "description": "Human-readable reason why this slot needed supplementary evidence." },
+          "targeted_from_missing_item": { "type": ["boolean", "null"], "description": "True when candidate was generated by targeted decision re-retrieval." },
+          "retrieval_intent": { "type": ["string", "null"], "description": "High-level retrieval intent for this candidate (e.g. decision_evidence_gap)." },
+          "slot_ids": { "type": ["array", "null"], "items": { "type": "string" }, "description": "Evidence slot IDs this candidate is expected to support." },
+          "raw_metadata": { "type": "object" },
+          "retrieval_warnings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "retrieval_report": {
+      "type": "object",
+      "required": [
+        "source_counts",
+        "query_counts",
+        "failed_sources",
+        "total_candidates",
+        "partial_success",
+        "fallback_used",
+        "risk_flags"
+      ],
+      "properties": {
+        "source_counts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        },
+        "query_counts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        },
+        "failed_sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["source_name", "error"],
+            "properties": {
+              "source_name": { "type": "string" },
+              "error": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "total_candidates": { "type": "integer", "minimum": 0 },
+        "partial_success": { "type": "boolean" },
+        "fallback_used": { "type": "boolean" },
+        "risk_flags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "candidate_relevance_diagnostics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "matched_anchor_terms": { "type": "array", "items": { "type": "string" } },
+              "matched_slot_terms": { "type": "array", "items": { "type": "string" } },
+              "matched_positive_patterns": { "type": "array", "items": { "type": "string" } },
+              "matched_negative_patterns": { "type": "array", "items": { "type": "string" } },
+              "matched_offtopic_patterns": { "type": "array", "items": { "type": "string" } },
+              "review_background_hit": { "type": "array", "items": { "type": "string" } },
+              "access_score": { "type": "integer" },
+              "final_relevance_score": { "type": "integer" },
+              "selected": { "type": "boolean" },
+              "rejected_reason": { "type": ["string", "null"] },
+              "contract_id": { "type": ["string", "null"] },
+              "candidate_id": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "contract_profile_guided": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

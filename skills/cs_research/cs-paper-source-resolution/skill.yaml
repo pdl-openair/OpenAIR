@@ -1,0 +1,35 @@
+skill_id: cs_paper_source_resolution
+claude_name: cs-paper-source-resolution
+display_name: CS 复现正式来源确认
+domain: cs_research
+stages: [problem_modeling]
+substages: [reproduction_baseline_criteria]
+packs: [cs_reproduction]
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+skill_path: skills/cs_research/cs-paper-source-resolution
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:cs_paper_source_resolution
+  evidence_contract_version: external-action-evidence/v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+auto_allowed: true
+review_required: false
+risk_level: low
+fixture_status: missing
+capability_contract:
+  artifact_types: [cs_paper_source_resolution_result]
+  judgment_support:
+    deterministic: true
+    domain_professional: false
+execution_method_roles:
+  - cs_reproduction_baseline_grounding:source_identity_resolution
+notes: 从用户明确的仓库、已声明来源页、唯一主论文正文中的作者自述，或唯一 checkpoint 模型卡中取得可追溯的源码仓库候选；不选择同名仓库，不把普通引用当作作者代码声明，也不解释论文或指标。

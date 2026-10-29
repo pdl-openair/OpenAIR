@@ -1,0 +1,16 @@
+suite_id: component.web.planning-history
+protected_outcome: One chronological collaboration stream preserves real thoughts and plan milestones through confirmation, execution, disconnection and refresh.
+authority_refs:
+  [docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md]
+failure_class: planning_history_replaced_or_reordered
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/components/workbench/ResearchActivityStream.tsx
+  - apps/web/src/model/researchActivityStreamCore.mjs
+  - apps/web/src/model/collaborationPresentationCore.mjs
+test_responsibility: Real stream renderer and chronological compositor using controlled history snapshots; does not prove browser networking or database persistence.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS only when the protected assertions pass; missing execution evidence is NO_VALID_EVIDENCE.
+triggers: [planning_history_changes]

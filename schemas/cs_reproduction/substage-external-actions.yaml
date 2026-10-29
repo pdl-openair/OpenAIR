@@ -1,0 +1,39 @@
+schemaVersion: definition-external-actions.v1
+definitions:
+- substageKey: reproduction_input_structuring
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: code_identity_acquisition
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_read
+- substageKey: reference_metric_acquisition
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: execution_plan_acquisition
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: reproduction_baseline_criteria
+  definitionVersion: 3
+  requiredExternalActions:
+  - external_read
+- substageKey: reproduction_experiment_design
+  definitionVersion: 3
+  requiredExternalActions: []
+- substageKey: execution_readiness_validation
+  definitionVersion: 3
+  requiredExternalActions:
+  - external_read
+- substageKey: real_execution_result_acquisition
+  definitionVersion: 3
+  requiredExternalActions:
+  - external_compute
+- substageKey: result_comparability_judgment
+  definitionVersion: 3
+  requiredExternalActions: []
+- substageKey: reproduction_conclusion_recommendation
+  definitionVersion: 4
+  requiredExternalActions: []
+- substageKey: deviation_diagnosis_validation
+  definitionVersion: 4
+  requiredExternalActions: []

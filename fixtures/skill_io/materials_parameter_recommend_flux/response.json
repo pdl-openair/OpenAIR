@@ -1,0 +1,205 @@
+{
+  "status": "completed",
+  "summary": "为 CrSiTe3（层状三元硫族磁性半导体，mp-676）生成 1 个基线方案 + 2 个变体方案，全部满足实验室约束（Tmax ≤ 1050℃、降温速率 1-20 ℃/h、总时长 ≤ 240h）。基线方案采用 KCl 助熔剂中稀释配方（8:1），通过相似材料检索（CrGeTe3/MnPS3/FePSe3 等同族化合物）+ 统计窗口 + Claude 推理的三步 Pipeline 得到。故事线与 materials pack 其他 fixture（mp_constraint_search / new_crystal_generation / auto_xrd）对齐为 CrSiTe3。",
+  "artifacts": [
+    {
+      "path": "recommend_parameter/data/recommand_recipe/recommend_output_CrSiTe3.jsonl",
+      "type": "flux_recipe_recommendation",
+      "title": "CrSiTe3 Flux 制备参数推荐结果"
+    },
+    {
+      "path": "recommend_parameter/data/similar_mates/similar_output_CrSiTe3.jsonl",
+      "type": "similarity_retrieval",
+      "title": "相似材料检索结果（top-k=10，含 CrGeTe3/MnPS3/FePSe3/CrSe 等）"
+    },
+    {
+      "path": "recommend_parameter/data/recommand_window/window_output_CrSiTe3.jsonl",
+      "type": "statistic_window",
+      "title": "参数统计窗口（基于同族硫族化合物）"
+    }
+  ],
+  "capability_calls": [
+    {
+      "id": "capcall_similar_retrieval_001",
+      "ownerId": "task_materials_flux_001",
+      "workspaceId": "ws_materials",
+      "createdBy": "claude_code_runner",
+      "kind": "python_script",
+      "name": "相似材料检索 (similar_retrieval.py)",
+      "status": "completed",
+      "requestedAt": "2026-06-23T10:00:00Z",
+      "finishedAt": "2026-06-23T10:00:12Z",
+      "resultSummary": "从知识库检索到 10 条相似配方（同族 Cr-IV-VI 化合物），top-1 相似度 0.91（CrGeTe3）",
+      "runtime": "python",
+      "stageKey": "solution_design",
+      "subStageInstanceId": "ss_flux_parameter_recommendation_001"
+    },
+    {
+      "id": "capcall_statistic_window_001",
+      "ownerId": "task_materials_flux_001",
+      "workspaceId": "ws_materials",
+      "createdBy": "claude_code_runner",
+      "kind": "python_script",
+      "name": "参数统计窗口 (statistic_window.py)",
+      "status": "completed",
+      "requestedAt": "2026-06-23T10:00:12Z",
+      "finishedAt": "2026-06-23T10:00:14Z",
+      "resultSummary": "Tmax 中值 950℃、降温速率中值 3 ℃/h、保温时长中值 24h（基于 14 条同族配方）",
+      "runtime": "python",
+      "stageKey": "solution_design",
+      "subStageInstanceId": "ss_flux_parameter_recommendation_001",
+      "prevCallId": "capcall_similar_retrieval_001",
+      "inputCallRefs": ["capcall_similar_retrieval_001"]
+    }
+  ],
+  "next_actions": [
+    "用户确认基线方案后进入执行阶段（flux_synthesis_execution）",
+    "若实验室具 KCl 不便，可指定替换助熔剂（如 KI、InCl）后重新生成",
+    "目标相 CrSiTe3（R-3 #148）将继承到下游 synthesis_log.product_formula"
+  ],
+  "error": null,
+  "recommendations": {
+    "目标材料": {
+      "化学式": "CrSiTe3",
+      "结构原型": "层状三元硫族化合物",
+      "空间群": "R-3 (#148)",
+      "mp_id": "mp-676",
+      "是否二维": true,
+      "是否半导体": true,
+      "材料族系": ["三元硫族化合物", "Cr-IV-VI 族磁性半导体"]
+    },
+    "推荐实验方案列表": [
+      {
+        "方案ID": "方案_A_baseline",
+        "方案类型": "baseline",
+        "方案给人的一句话说明": "KCl 中稀释助熔剂（8:1）+ 缓慢降温（3℃/h），获取层状 CrSiTe3 单晶，参数取同族统计窗口中值",
+        "工艺参数": {
+          "原料信息": "Cr 粉（99.9%）、Si 粉（99.999%）、Te 粉（99.999%）按化学计量比",
+          "原料标准化": "Cr:Si:Te=1:1:3",
+          "助熔剂信息": "KCl（200℃ 真空预脱水 24h）",
+          "助熔剂标准化": "KCl:CrSiTe3=8:1",
+          "容器": "石英坩埚，真空封管（1e-3 Pa）",
+          "籽晶": "无（自发成核）",
+          "温度程序": {
+            "是否存在次高温预反应段": true,
+            "升温到次高温时间_h": 10.0,
+            "次高温段温度_摄氏": 500.0,
+            "次高温段保温时间_h": 12.0,
+            "升温到最高温时间_h": 20.0,
+            "最高温段保温温度_摄氏": 950.0,
+            "最高温段保温时间_h": 24.0,
+            "降温速率_主降温_℃每小时": 3.0,
+            "降温时间_主降温_h": 100.0,
+            "低温段保温温度_摄氏": 650.0,
+            "低温段保温时间_h": 24.0,
+            "冷却速率_至室温_标签": "炉冷"
+          },
+          "分离与后处理": {
+            "分离方式": "去离子水（80℃）溶解 KCl + 倾析",
+            "分离温度_摄氏": 80.0,
+            "晶体的进一步处理": "去离子水冲洗 3 次、乙醇脱水、真空干燥"
+          }
+        },
+        "预期结果标签": {
+          "预期晶体尺寸": "mm 级层状单晶（易解理）",
+          "预期风险水平": "低",
+          "风险来源简述": ["Te 蒸汽压偏高（>700℃ 显著）", "真空封管需检漏"]
+        },
+        "溯源信息": {
+          "主要参考配方ID": ["rec_crgete3_01", "rec_mnps3_02", "rec_fepse3_03"],
+          "参考材料ID-化学式": ["mp-5689-CrGeTe3", "mat-MnPS3", "mat-FePSe3"],
+          "参考方案类型ID-名称": ["scheme_002-中稀释缓慢降温"]
+        }
+      },
+      {
+        "方案ID": "方案_B_variant_high_dilution",
+        "方案类型": "variant",
+        "方案给人的一句话说明": "高稀释 KCl（15:1）+ 慢降温（1.5℃/h），追求 cm 级大单晶（用于磁性/解理测量）",
+        "工艺参数": {
+          "原料信息": "Cr 粉、Si 粉、Te 粉按化学计量比",
+          "原料标准化": "Cr:Si:Te=1:1:3",
+          "助熔剂信息": "KCl（预脱水）",
+          "助熔剂标准化": "KCl:CrSiTe3=15:1",
+          "容器": "石英坩埚，真空封管",
+          "籽晶": "无",
+          "温度程序": {
+            "是否存在次高温预反应段": true,
+            "升温到次高温时间_h": 10.0,
+            "次高温段温度_摄氏": 500.0,
+            "次高温段保温时间_h": 12.0,
+            "升温到最高温时间_h": 20.0,
+            "最高温段保温温度_摄氏": 1000.0,
+            "最高温段保温时间_h": 36.0,
+            "降温速率_主降温_℃每小时": 1.5,
+            "降温时间_主降温_h": 200.0,
+            "低温段保温温度_摄氏": 700.0,
+            "低温段保温时间_h": 24.0,
+            "冷却速率_至室温_标签": "炉冷"
+          },
+          "分离与后处理": {
+            "分离方式": "去离子水（80℃）溶解 KCl + 倾析",
+            "分离温度_摄氏": 80.0,
+            "晶体的进一步处理": "去离子水冲洗、乙醇脱水、真空干燥"
+          }
+        },
+        "预期结果标签": {
+          "预期晶体尺寸": "大尺寸 mm-cm 级单晶",
+          "预期风险水平": "中",
+          "风险来源简述": ["降温过慢导致总时长接近 240h 上限", "高稀释度可能引入 KCl 包裹体"]
+        },
+        "溯源信息": {
+          "主要参考配方ID": ["rec_crgete3_01", "rec_fepse3_03"],
+          "参考材料ID-化学式": ["mp-5689-CrGeTe3", "mat-FePSe3"],
+          "参考方案类型ID-名称": ["scheme_001-高稀释慢冷"]
+        }
+      },
+      {
+        "方案ID": "方案_C_variant_KI_flux",
+        "方案类型": "variant",
+        "方案给人的一句话说明": "KI 助熔剂（更低熔点 ~681℃，避免 KCl 残留腐蚀）+ 快降温，获取多晶粉末",
+        "工艺参数": {
+          "原料信息": "Cr 粉、Si 粉、Te 粉按化学计量比",
+          "原料标准化": "Cr:Si:Te=1:1:3",
+          "助熔剂信息": "KI（真空脱水）",
+          "助熔剂标准化": "KI:CrSiTe3=6:1",
+          "容器": "石英坩埚，真空封管",
+          "籽晶": "无",
+          "温度程序": {
+            "是否存在次高温预反应段": true,
+            "升温到次高温时间_h": 8.0,
+            "次高温段温度_摄氏": 480.0,
+            "次高温段保温时间_h": 10.0,
+            "升温到最高温时间_h": 16.0,
+            "最高温段保温温度_摄氏": 850.0,
+            "最高温段保温时间_h": 18.0,
+            "降温速率_主降温_℃每小时": 8.0,
+            "降温时间_主降温_h": 50.0,
+            "低温段保温温度_摄氏": 550.0,
+            "低温段保温时间_h": 12.0,
+            "冷却速率_至室温_标签": "炉冷"
+          },
+          "分离与后处理": {
+            "分离方式": "去离子水（60℃）溶解 KI + 倾析",
+            "分离温度_摄氏": 60.0,
+            "晶体的进一步处理": "去离子水冲洗、乙醇脱水、真空干燥"
+          }
+        },
+        "预期结果标签": {
+          "预期晶体尺寸": "mm 级多晶/小单晶",
+          "预期风险水平": "低",
+          "风险来源简述": ["KI 吸潮需严格脱水", "Tmax 偏低可能导致 Te 反应不完全"]
+        },
+        "溯源信息": {
+          "主要参考配方ID": ["rec_crse_07", "rec_mnps3_02"],
+          "参考材料ID-化学式": ["mat-CrSe", "mat-MnPS3"],
+          "参考方案类型ID-名称": ["scheme_004-低稀释快冷"]
+        }
+      }
+    ],
+    "expected_phase": {
+      "主相": "CrSiTe3（R-3 #148）",
+      "可能副产物": ["Cr2Te3（Fd-3m）", "SiTe2（P-3m1）", "未反应 Te"],
+      "副产物处理": "水洗 + 超声分离（KCl + Te 残留可溶）；必要时梯度密度液分离"
+    }
+  }
+}

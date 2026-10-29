@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goal"],
+  "properties": {
+    "goal": {
+      "type": "string",
+      "description": "用户的材料发现目标，例如「找带隙 2.5-3.5 eV 的无铅宽带隙氧化物半导体」"
+    },
+    "pareto_cif_paths": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "S3 crystal_design_structure_crossover_agent 产出的 Pareto CIF 路径列表，取第一个进行 DFT 计算"
+    },
+    "candidate_summary": {
+      "type": "string",
+      "description": "S3 top_k_table（CSV 格式），供上下文参考"
+    }
+  }
+}

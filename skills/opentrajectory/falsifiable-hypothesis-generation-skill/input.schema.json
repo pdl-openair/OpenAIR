@@ -1,0 +1,332 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "falsifiable-hypothesis-generation input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "research_context",
+    "findings_packet",
+    "research_lead_packet"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": ".*\\S.*"
+    },
+    "research_context": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "research_object"
+      ],
+      "properties": {
+        "research_object": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": ".*\\S.*"
+        },
+        "target_metrics": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          }
+        },
+        "boundary_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          }
+        },
+        "output_intent": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "mechanism_packet": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "mechanism_edges",
+        "mechanism_chains"
+      ],
+      "properties": {
+        "mechanism_edges": {
+          "type": "array",
+          "maxItems": 60,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "edge_id",
+              "edge_status",
+              "evidence_ids"
+            ],
+            "properties": {
+              "edge_id": {
+                "type": "string",
+                "pattern": "^me:[0-9a-f]{20}$"
+              },
+              "edge_status": {
+                "enum": [
+                  "support",
+                  "conflict",
+                  "gap"
+                ]
+              },
+              "evidence_ids": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": ".*\\S.*"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        },
+        "mechanism_chains": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "chain_id",
+              "edge_ids",
+              "chain_summary"
+            ],
+            "properties": {
+              "chain_id": {
+                "type": "string",
+                "pattern": "^mc:[0-9a-f]{20}$"
+              },
+              "edge_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^me:[0-9a-f]{20}$"
+                }
+              },
+              "chain_summary": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              }
+            }
+          }
+        },
+        "conflicts": {
+          "type": "array"
+        },
+        "gaps": {
+          "type": "array"
+        },
+        "summary": {
+          "type": "object"
+        },
+        "audit": {
+          "type": "object"
+        },
+        "synthesis_warnings": {
+          "type": "array"
+        }
+      }
+    },
+    "findings_packet": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "findings"
+      ],
+      "properties": {
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "finding_id",
+              "claim_type",
+              "statement",
+              "epistemic_status",
+              "provenance_evidence_ids",
+              "basis_mechanism_edge_ids",
+              "gap_mechanism_edge_ids"
+            ],
+            "properties": {
+              "finding_id": {
+                "type": "string",
+                "pattern": "^fd:[0-9a-f]{20}$"
+              },
+              "claim_type": {
+                "const": "evidence_supported_finding"
+              },
+              "statement": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              },
+              "epistemic_status": {
+                "enum": [
+                  "supported",
+                  "uncertain",
+                  "conflicting",
+                  "boundary_limited"
+                ]
+              },
+              "provenance_evidence_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": ".*\\S.*"
+                }
+              },
+              "basis_mechanism_edge_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^me:[0-9a-f]{20}$"
+                }
+              },
+              "gap_mechanism_edge_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^me:[0-9a-f]{20}$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "research_lead_packet": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "research_leads"
+      ],
+      "properties": {
+        "research_leads": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "research_lead_id",
+              "claim_type",
+              "research_question",
+              "source_finding_ids",
+              "mechanism_basis_edge_ids",
+              "gap_edge_ids",
+              "provenance_evidence_ids",
+              "semantic_boundary_judgment",
+              "novelty_boundary"
+            ],
+            "properties": {
+              "research_lead_id": {
+                "type": "string",
+                "pattern": "^rl:[0-9a-f]{20}$"
+              },
+              "claim_type": {
+                "const": "research_lead"
+              },
+              "research_question": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              },
+              "source_finding_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^fd:[0-9a-f]{20}$"
+                }
+              },
+              "mechanism_basis_edge_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^me:[0-9a-f]{20}$"
+                }
+              },
+              "gap_edge_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^me:[0-9a-f]{20}$"
+                }
+              },
+              "provenance_evidence_ids": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": ".*\\S.*"
+                }
+              },
+              "semantic_boundary_judgment": {
+                "const": "within_research_lead_boundary"
+              },
+              "novelty_boundary": {
+                "const": "research_direction_not_hypothesis_or_novelty_claim"
+              }
+            }
+          }
+        }
+      }
+    },
+    "generation_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_hypotheses"
+      ],
+      "properties": {
+        "max_hypotheses": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8,
+          "description": "Maximum unique validated hypotheses finalized. 0 disables hypothesis finalization; if generation_config is omitted, runtime default is 8."
+        },
+        "focus_questions": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "description": "Optional scientific focus hints for the model. They never relax provenance or output-contract validation."
+        }
+      },
+      "description": "Optional generation controls. If present, max_hypotheses is required."
+    }
+  }
+}

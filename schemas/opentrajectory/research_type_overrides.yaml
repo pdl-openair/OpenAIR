@@ -1,0 +1,30 @@
+D:
+  label: 证据驱动发现研究
+  required_substages: &id001
+  - intent_understanding
+  - constraints_criteria
+  - retrieval_strategy_design
+  - source_acquisition
+  - source_screening_selection
+  - progressive_reading
+  - evidence_extraction
+  - mechanism_explanation
+  - findings_synthesis
+  - research_lead_generation
+  - hypothesis_update
+  optional_substages: &id002
+  - evidence_schema_design
+  - validation_plan_generation
+  - report_generation
+H:
+  label: 证据驱动混合研究
+  required_substages: *id001
+  optional_substages: *id002
+M:
+  label: 证据驱动方法研究
+  required_substages: *id001
+  optional_substages: *id002
+C:
+  label: 证据驱动工具研究
+  required_substages: *id001
+  optional_substages: *id002

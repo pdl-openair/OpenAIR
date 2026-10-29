@@ -1,0 +1,49 @@
+suite_id: component.execution.provider-schema-executable-admission
+protected_outcome: >-
+  LLM structured-output Skills are admitted only when their frozen
+  Provider-visible schema can pass the exact production schema projection,
+  bounded lowering, and adapter compatibility path without semantic loss or
+  Provider I/O. Non-LLM python_adapter / deterministic / external Skills are
+  not fail-closed by that LLM transport admission path.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+failure_class:
+  - schema_projection_deletes_business_property
+  - ready_skill_is_deterministically_provider_incompatible
+  - executable_admission_does_not_match_worker_transport
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/provider_schema_projection.py
+  - services/api/app/execution/structured_output_provider_adapter.py
+  - services/api/app/execution/durable_skill_runtime.py
+  - services/api/app/modules/research_execution_decision_service.py
+test_responsibility: >-
+  Prove the public transform/final-payload admission preserves business
+  property names, known compatible LLM schemas remain executable, known
+  incompatible three-lane LLM schemas fail before WorkUnit admission,
+  python_adapter Skills with structured_output are not killed by LLM Provider
+  transport admission, and the OT evidence-schema incident regression is
+  closed without workflow-local fixes.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - business_property_preservation_assertion
+  - compatible_schema_admitted
+  - incompatible_schema_rejected_without_provider_io
+  - three_lane_known_bad_regressions
+  - python_adapter_not_killed_by_llm_transport_admission
+verdict_rule: >-
+  PASS only when the production LLM adapter path preserves business schema
+  meaning, accepts the fixed OT LLM schema, rejects all frozen known-bad
+  CS/OT/PVD LLM examples, leaves python_adapter Skills executable under
+  readiness, and readiness consumes that same admission result; FAIL on any
+  contradictory evidence; otherwise NO_VALID_EVIDENCE.
+triggers:
+  - Provider-visible schema projection changes
+  - structured-output adapter compatibility changes
+  - durable Skill readiness or WorkUnit admission changes

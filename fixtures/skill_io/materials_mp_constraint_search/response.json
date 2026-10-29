@@ -1,0 +1,165 @@
+{
+  "status": "completed",
+  "summary": "从 MP 检索到 15 条候选 → crystal-property-prediction MCP 验证后 9 条通过全部 9 项约束，覆盖 9 个独立 chemsys（命中率 60%）。输出 passing_candidates.json + base64 CIF 列表，可直接作为 mattergen MCP 的 seed_cif_files。",
+  "artifacts": [
+    {
+      "path": "mp_candidates_20260623T100000/passing_candidates.json",
+      "type": "mp_constraint_search_result",
+      "title": "通过全部约束的候选 + base64 CIF"
+    },
+    {
+      "path": "mp_candidates_20260623T100000/candidates.json",
+      "type": "mp_candidates_table",
+      "title": "所有候选（含 MP 字段 + cppred 验证字段）"
+    },
+    {
+      "path": "mp_candidates_20260623T100000/report.md",
+      "type": "mp_search_report",
+      "title": "人类可读 Markdown 报告"
+    }
+  ],
+  "capability_calls": [
+    {
+      "id": "capcall_mp_query_001",
+      "ownerId": "task_materials_mp_001",
+      "workspaceId": "ws_materials",
+      "createdBy": "claude_code_runner",
+      "kind": "mp_api",
+      "name": "MP 服务端检索 (search_mp_candidates.py)",
+      "status": "completed",
+      "requestedAt": "2026-06-23T10:00:00Z",
+      "finishedAt": "2026-06-23T10:00:22Z",
+      "resultSummary": "MP 返回 15 条三元候选（num_elements=3, bandgap 0.2-3.5, formation_energy ≤ 0）",
+      "runtime": "python",
+      "stageKey": "problem_modeling",
+      "subStageInstanceId": "ss_mp_constraint_search_001"
+    },
+    {
+      "id": "capcall_cppred_verify_001",
+      "ownerId": "task_materials_mp_001",
+      "workspaceId": "ws_materials",
+      "createdBy": "claude_code_runner",
+      "kind": "cppred_mcp",
+      "name": "crystal-property-prediction MCP 9 属性批量验证",
+      "status": "completed",
+      "requestedAt": "2026-06-23T10:00:22Z",
+      "finishedAt": "2026-06-23T10:06:48Z",
+      "resultSummary": "15 候选 × ~25s = ~6.5min；9 条通过 cl_score/f_max/exfoliation 全部阈值",
+      "runtime": "http_mcp",
+      "stageKey": "problem_modeling",
+      "subStageInstanceId": "ss_mp_constraint_search_001",
+      "prevCallId": "capcall_mp_query_001",
+      "inputCallRefs": ["capcall_mp_query_001"]
+    }
+  ],
+  "next_actions": [
+    "将 passing_candidates 喂给 materials_new_crystal_generation 作为演化种子",
+    "若命中率偏低可放宽 ehull 至 1.5 或关闭 --verify-cppred 快速扩展种子池"
+  ],
+  "error": null,
+  "passing_candidates": {
+    "metadata": {
+      "generated_at": "2026-06-23T10:06:48Z",
+      "constraint_set": "see request.context.constraint_set + cppred_constraints",
+      "query_params": {
+        "max_results": 15,
+        "max_per_chemsys": 1,
+        "rank_by": "stability",
+        "verify_cppred": true
+      }
+    },
+    "summary": {
+      "total_candidates": 15,
+      "cppred_verified_ok": 12,
+      "passing_all_constraints": 9,
+      "unique_chemsys": 9,
+      "hit_rate": 0.60
+    },
+    "candidates": [
+      {
+        "mp_id": "mp-1197575",
+        "formula": "Ag2AsS2",
+        "chemsys": "Ag-As-S",
+        "element_set": ["Ag", "As", "S"],
+        "properties": {
+          "bandgap_eV": 0.538,
+          "formation_energy_eV": -0.146,
+          "ehull_eV": 0.003,
+          "cl_score": 0.809,
+          "f_max_eV_A": 0.170,
+          "exfoliation_energy_meV": 28.8,
+          "sg_number": 7,
+          "sg_symbol": "Pc"
+        },
+        "passes_constraints": {
+          "bandgap_eV": true,
+          "formation_energy_eV": true,
+          "ehull_eV": true,
+          "num_elements": true,
+          "sg_number": true,
+          "cl_score": true,
+          "f_max_eV_A": true,
+          "exfoliation_energy_meV": true,
+          "element_set_banned": true
+        },
+        "cif_path": "cifs/mp-1197575_Ag2AsS2.cif"
+      },
+      {
+        "mp_id": "mp-5671",
+        "formula": "Cu2ZnSnS4",
+        "chemsys": "Cu-Sn-S-Zn",
+        "element_set": ["Cu", "Zn", "Sn", "S"],
+        "properties": {
+          "bandgap_eV": 1.42,
+          "formation_energy_eV": -0.082,
+          "ehull_eV": 0.0,
+          "cl_score": 0.921,
+          "f_max_eV_A": 0.042,
+          "exfoliation_energy_meV": 0.0,
+          "sg_number": 121,
+          "sg_symbol": "I-42m"
+        },
+        "passes_constraints": {
+          "bandgap_eV": true,
+          "formation_energy_eV": true,
+          "ehull_eV": true,
+          "num_elements": true,
+          "sg_number": true,
+          "cl_score": true,
+          "f_max_eV_A": true,
+          "exfoliation_energy_meV": true,
+          "element_set_banned": true
+        },
+        "cif_path": "cifs/mp-5671_Cu2ZnSnS4.cif"
+      },
+      {
+        "mp_id": "mp-676",
+        "formula": "CrSiTe3",
+        "chemsys": "Cr-Si-Te",
+        "element_set": ["Cr", "Si", "Te"],
+        "properties": {
+          "bandgap_eV": 0.596,
+          "formation_energy_eV": -0.128,
+          "ehull_eV": 0.012,
+          "cl_score": 0.786,
+          "f_max_eV_A": 0.464,
+          "exfoliation_energy_meV": 2.9,
+          "sg_number": 148,
+          "sg_symbol": "R-3"
+        },
+        "passes_constraints": {
+          "bandgap_eV": true,
+          "formation_energy_eV": true,
+          "ehull_eV": true,
+          "num_elements": true,
+          "sg_number": true,
+          "cl_score": true,
+          "f_max_eV_A": true,
+          "exfoliation_energy_meV": true,
+          "element_set_banned": true
+        },
+        "cif_path": "cifs/mp-676_CrSiTe3.cif"
+      }
+    ]
+  }
+}

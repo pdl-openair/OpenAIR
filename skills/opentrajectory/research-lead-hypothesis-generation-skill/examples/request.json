@@ -1,0 +1,234 @@
+{
+  "task_id": "example-final-synthesis",
+  "research_context": {
+    "research_object": "Protective interphase and battery capacity fade",
+    "research_question": "What does the evidence support about Formulation G and capacity fade, and what mechanism-linked question is worth testing next?",
+    "target_metrics": [
+      "capacity retention"
+    ],
+    "boundary_conditions": [
+      "100 cycles"
+    ],
+    "output_intent": "final_evidence_synthesis"
+  },
+  "research_records": [
+    {
+      "record_id": "rr:3791b1b3768170be3ebc5df9e97499ab",
+      "source": {
+        "candidate_id": "cand-07-1",
+        "anchor_id": "anchor-07-1",
+        "title": "Interphase observation",
+        "doi": "",
+        "arxiv_id": "",
+        "provider": "eval-fixture",
+        "source_locator": "eval://07/1",
+        "section_name": "Results",
+        "content_hash": "1ce7d4139c848db3bc49a91e0c32ce5a34529b2879d5d5df99c1be4a06fa42bb",
+        "source_type": "synthetic_eval_record",
+        "provenance": []
+      },
+      "source_anchor_id": "anchor-07-1",
+      "record_type": "characterization_observation",
+      "research_object": "Protective interphase and battery capacity fade",
+      "condition_status": "reported",
+      "conditions": [
+        {
+          "name": "cycle_count",
+          "status": "reported",
+          "value_text": "100",
+          "unit": "cycles"
+        }
+      ],
+      "result": {
+        "statement": "Cells with formulation G showed a denser protective interphase after cycling.",
+        "values": [],
+        "mechanism": null,
+        "comparison": null
+      },
+      "information_identity": "direct_source_fact",
+      "assertion_mode": "direct_observation",
+      "source_quote": "Cells with formulation G showed a denser protective interphase after cycling.",
+      "qualifiers": [],
+      "uncertainty": null,
+      "unknown_fields": [],
+      "relevant_target_ids": [
+        "target_001"
+      ]
+    },
+    {
+      "record_id": "rr:fa76b43391ed59c52c4a0857d27f5bb0",
+      "source": {
+        "candidate_id": "cand-07-2",
+        "anchor_id": "anchor-07-2",
+        "title": "Capacity result",
+        "doi": "",
+        "arxiv_id": "",
+        "provider": "eval-fixture",
+        "source_locator": "eval://07/2",
+        "section_name": "Results",
+        "content_hash": "684b85ae15c0e50f645f45d3bec565413ff104758e96eeda2c11e485b8183374",
+        "source_type": "synthetic_eval_record",
+        "provenance": []
+      },
+      "source_anchor_id": "anchor-07-2",
+      "record_type": "quantitative_result",
+      "research_object": "Protective interphase and battery capacity fade",
+      "condition_status": "reported",
+      "conditions": [
+        {
+          "name": "cycle_count",
+          "status": "reported",
+          "value_text": "100",
+          "unit": "cycles"
+        }
+      ],
+      "result": {
+        "statement": "Formulation G retained 92% capacity after 100 cycles versus 84% for the matched control.",
+        "values": [
+          {
+            "name": "capacity_retention_G",
+            "value_text": "92",
+            "unit": "%"
+          },
+          {
+            "name": "capacity_retention_control",
+            "value_text": "84",
+            "unit": "%"
+          }
+        ],
+        "mechanism": null,
+        "comparison": {
+          "subject": "Formulation G",
+          "baseline": "matched control",
+          "dimension": "capacity retention",
+          "relation": "higher",
+          "condition_text": [
+            "100 cycles"
+          ]
+        }
+      },
+      "information_identity": "direct_source_fact",
+      "assertion_mode": "direct_observation",
+      "source_quote": "Formulation G retained 92% capacity after 100 cycles versus 84% for the matched control.",
+      "qualifiers": [],
+      "uncertainty": null,
+      "unknown_fields": [],
+      "relevant_target_ids": [
+        "target_001"
+      ]
+    },
+    {
+      "record_id": "rr:c32abba8fd219eea0f80b968d22646db",
+      "source": {
+        "candidate_id": "cand-07-3",
+        "anchor_id": "anchor-07-3",
+        "title": "Mechanism interpretation",
+        "doi": "",
+        "arxiv_id": "",
+        "provider": "eval-fixture",
+        "source_locator": "eval://07/3",
+        "section_name": "Discussion",
+        "content_hash": "a66dcae77cefbd9093ca5165ddf0e2dea0ed405ca6ebd59157144a21fdc31a69",
+        "source_type": "synthetic_eval_record",
+        "provenance": []
+      },
+      "source_anchor_id": "anchor-07-3",
+      "record_type": "mechanism_statement",
+      "research_object": "Protective interphase and battery capacity fade",
+      "condition_status": "reported",
+      "conditions": [
+        {
+          "name": "cycle_count",
+          "status": "reported",
+          "value_text": "100",
+          "unit": "cycles"
+        }
+      ],
+      "result": {
+        "statement": "The authors interpret the denser protective interphase as suppressing parasitic side reactions during cycling.",
+        "values": [],
+        "mechanism": {
+          "cause": "denser protective interphase",
+          "effect": "suppressed parasitic side reactions"
+        },
+        "comparison": null
+      },
+      "information_identity": "author_interpretation",
+      "assertion_mode": "author_interpretation",
+      "source_quote": "The authors attribute lower parasitic-reaction activity to the denser protective interphase formed during cycling.",
+      "qualifiers": [
+        "author interpretation; not a directly established causal mechanism"
+      ],
+      "uncertainty": "The interpretation does not directly establish that interphase density causes the observed capacity-retention advantage.",
+      "unknown_fields": [],
+      "relevant_target_ids": [
+        "target_001"
+      ]
+    }
+  ],
+  "mechanism_packet": {
+    "mechanism_edges": [
+      {
+        "local_edge_key": "edge-1",
+        "edge_id": "me:20baecb7a8fd0ef7fec1",
+        "edge_status": "support",
+        "source_node": {
+          "node_type": "structure",
+          "label": "dense protective interphase"
+        },
+        "relation": {
+          "predicate": "suppresses",
+          "description": "suppresses parasitic side reactions during cycling"
+        },
+        "target_node": {
+          "node_type": "observation",
+          "label": "parasitic side reactions"
+        },
+        "evidence_ids": [
+          "rr:c32abba8fd219eea0f80b968d22646db"
+        ],
+        "rationale": "An author-interpretation ResearchRecord attributes lower parasitic-reaction activity to the denser protective interphase; this is explanatory context rather than direct proof that the interphase causes the capacity-retention advantage.",
+        "confidence": 0.78
+      }
+    ],
+    "mechanism_chains": [],
+    "conflicts": [],
+    "gaps": [],
+    "summary": {
+      "input_evidence_item_count": 3,
+      "mechanism_edge_count": 1,
+      "mechanism_chain_count": 0,
+      "edge_status_counts": {
+        "conflict": 0,
+        "gap": 0,
+        "support": 1
+      },
+      "dropped_duplicate_edge_count": 0,
+      "dropped_duplicate_chain_count": 0,
+      "degraded": false
+    },
+    "audit": {
+      "skill_id": "mechanism_chain_synthesis",
+      "traceability_mode": "evidence_id_guard",
+      "guard_version": "p07d-v1",
+      "input_fingerprint": "412a2ef3783d6a5137833cb136834921d3fc22a81b7f4c9c8857f3140d799b06",
+      "allowed_edge_statuses": [
+        "conflict",
+        "gap",
+        "support"
+      ],
+      "allowed_predicates": [
+        "associated_with",
+        "contradicts",
+        "decreases",
+        "enables",
+        "increases",
+        "limits",
+        "promotes",
+        "reveals_gap",
+        "suppresses"
+      ]
+    },
+    "synthesis_warnings": []
+  }
+}

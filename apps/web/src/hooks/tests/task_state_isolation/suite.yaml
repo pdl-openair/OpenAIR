@@ -1,0 +1,18 @@
+suite_id: component.web.hooks.task-state-isolation
+protected_outcome: Workbench loading and lifecycle events remain bound to the current Task, owner, workspace, revision and run; old requests cannot replace current state or fabricate fixture data.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: task_loading_or_event_scope_contamination
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/hooks/useWorkbenchTaskModel.ts
+  - apps/web/src/lib/loadTask.ts
+  - apps/web/src/lib/taskEventIdentityCore.mjs
+  - apps/web/src/lib/workbenchTaskRequestCoordinator.mjs
+test_responsibility: Render the production hook with real loader, model, coordinator and identity classifier; control only external task GET and event transport. Proves frontend isolation, not backend authorization or reconnect recovery.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when current state and committed renders exclude stale or mismatched Task data, forbidden events do not enter lifecycle state, and authoritative absence does not become fixture success; otherwise FAIL. Missing runtime evidence is NO_VALID_EVIDENCE.
+triggers: [task_loading_or_identity_changed]

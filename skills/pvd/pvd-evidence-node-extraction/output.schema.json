@@ -1,0 +1,462 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "pvd-evidence-node-extraction finalized output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidence_items",
+    "schema_id",
+    "summary",
+    "audit",
+    "extraction_warnings"
+  ],
+  "properties": {
+    "evidence_items": {
+      "type": "array",
+      "maxItems": 60,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_anchor_id",
+          "content_hash",
+          "section_name",
+          "arxiv_id",
+          "candidate_id",
+          "evidence_id",
+          "evidence_type",
+          "assertion_mode",
+          "claim",
+          "evidence_quote",
+          "conditions",
+          "metric",
+          "mechanism",
+          "comparison",
+          "qualifiers",
+          "confidence",
+          "matched_target_ids"
+        ],
+        "properties": {
+          "source_anchor_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_id": {
+            "type": "string",
+            "minLength": 1,
+            "readOnly": true
+          },
+          "candidate_id": {
+            "type": "string",
+            "minLength": 1,
+            "readOnly": true
+          },
+          "arxiv_id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "section_name": {
+            "type": "string",
+            "minLength": 1,
+            "readOnly": true
+          },
+          "content_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "readOnly": true
+          },
+          "evidence_type": {
+            "type": "string",
+            "enum": [
+              "material_composition",
+              "experimental_condition",
+              "quantitative_result",
+              "mechanism_claim",
+              "characterization_observation",
+              "computation_result",
+              "comparison",
+              "limitation"
+            ]
+          },
+          "assertion_mode": {
+            "type": "string",
+            "enum": [
+              "direct_observation",
+              "association",
+              "causal_claim",
+              "author_interpretation"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "evidence_quote": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 1200
+          },
+          "conditions": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "value_text",
+                "unit"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "value_text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "unit": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          },
+          "metric": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "value_text",
+                  "unit"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "value_text": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "unit": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "mechanism": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "cause",
+                  "effect"
+                ],
+                "properties": {
+                  "cause": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "effect": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          },
+          "comparison": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "subject",
+                  "baseline",
+                  "dimension",
+                  "relation",
+                  "condition_text"
+                ],
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "baseline": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "dimension": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "relation": {
+                    "type": "string",
+                    "enum": [
+                      "higher",
+                      "lower",
+                      "equal",
+                      "different",
+                      "better",
+                      "worse",
+                      "increase",
+                      "decrease",
+                      "other"
+                    ]
+                  },
+                  "condition_text": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "maxItems": 12
+                  }
+                }
+              }
+            ]
+          },
+          "qualifiers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true,
+            "maxItems": 12
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "matched_target_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^target_[0-9]{3}$"
+            },
+            "uniqueItems": true,
+            "maxItems": 40
+          },
+          "target_match_status": {
+            "type": "string",
+            "enum": [
+              "matched",
+              "partial",
+              "conflict",
+              "not_comparable"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "evidence_type": {
+                  "const": "quantitative_result"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "metric": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "evidence_type": {
+                  "const": "mechanism_claim"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "mechanism": {
+                  "type": "object"
+                },
+                "assertion_mode": {
+                  "enum": [
+                    "causal_claim",
+                    "author_interpretation"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "evidence_type": {
+                  "const": "comparison"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "comparison": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "matched_target_ids": {
+                  "minItems": 1
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "target_match_status"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "schema_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "readOnly": true
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "readOnly": true,
+      "required": [
+        "status",
+        "input_paper_packet_count",
+        "input_source_anchor_count",
+        "evidence_item_count",
+        "evidence_type_counts",
+        "dropped_duplicate_count",
+        "dropped_invalid_count",
+        "uncovered_required_target_ids",
+        "degraded"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "succeeded",
+            "partial",
+            "degraded"
+          ]
+        },
+        "input_paper_packet_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "input_source_anchor_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "evidence_item_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "evidence_type_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "dropped_duplicate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dropped_invalid_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "uncovered_required_target_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^target_[0-9]{3}$"
+          },
+          "uniqueItems": true
+        },
+        "degraded": {
+          "type": "boolean"
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "readOnly": true,
+      "required": [
+        "skill_id",
+        "traceability_mode",
+        "finalizer_version",
+        "input_fingerprint",
+        "supported_evidence_types"
+      ],
+      "properties": {
+        "skill_id": {
+          "const": "pvd_evidence_node_extraction"
+        },
+        "traceability_mode": {
+          "const": "source_anchor_quote_finalizer"
+        },
+        "finalizer_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "input_fingerprint": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "supported_evidence_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "extraction_warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "maxItems": 80,
+      "readOnly": true
+    }
+  }
+}

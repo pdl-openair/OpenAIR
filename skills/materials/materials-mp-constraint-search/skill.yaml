@@ -1,0 +1,122 @@
+skill_id: materials_mp_constraint_search
+claude_name: materials-mp-constraint-search
+display_name: MP 约束检索（L3）
+version: 0.1.0
+stages:
+- problem_modeling
+skill_type: atomic
+runtime: python_adapter
+runtime_contract:
+  kind: skill_script
+  requires_external_action: true
+  adapter_id: skill_runtime:materials_mp_constraint_search
+  evidence_contract_version: skill-execution-evidence/v1
+  # 声明式产物注册：dispatch 完成后按 glob（相对 <workspace>/<task>/<wu>/）
+  # 注册为平台 artifact（前端按 markdown/json/cif 渲染）
+  artifact_files:
+    - mp-seeds/report.md
+    - mp-seeds/candidates.json
+    - mp-seeds/cifs/*.cif
+status: ready
+source: manual
+substages:
+- database_search
+packs:
+- materials
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: database_search
+output_file: mp_seeds.md
+durable_execution:
+  adapter: python_adapter
+  entry_function: run_mp_constraint_search
+config:
+  max_results: 50
+  banned_elements:
+  - Hg
+  - Tl
+  - Na
+  - K
+  - F
+  - Pb
+  - Cd
+  keep_radioactive: false
+  num_elements:
+  - 3
+  - 3
+  bandgap:
+  - 0.2
+  - 3.5
+  formation_energy_max: 0.0
+  ehull_max: 1.0
+  banned_sg:
+  - 1
+  max_per_chemsys: 1
+  pool_size: 1000
+  rank_by: auto
+  verify_cppred: false
+  cppred_mcp_url: http://mcp.example.internal:22222/mcp/flux/mcp
+input_schema:
+  type: object
+  properties:
+    goal:
+      type: string
+      description: User natural-language goal (e.g. "find ternary oxides with bandgap
+        1-3 eV excluding Pb").
+    task_instruction:
+      description: Optional overrides for skill defaults. JSON-decoded if string.
+      oneOf:
+      - type: string
+      - type: object
+      - type: 'null'
+  required:
+  - goal
+  additionalProperties: false
+output_schema:
+  type: object
+  properties:
+    state:
+      type: string
+      enum:
+      - succeeded
+      - partial_failure
+    candidates:
+      type: array
+      items:
+        type: object
+        additionalProperties: true
+        required:
+        - material_id
+        - formula_pretty
+        - cif_text
+        properties:
+          material_id:
+            type: string
+            minLength: 1
+          formula_pretty:
+            type: string
+            minLength: 1
+          cif_text:
+            type: string
+            minLength: 1
+    report_markdown:
+      type: string
+    run_summary:
+      type: object
+    partial_failure:
+      oneOf:
+      - type: array
+      - type: 'null'
+  required:
+  - state
+  - candidates
+  - report_markdown
+  - run_summary
+owner: TBD
+fixture_status: missing
+notes: ''
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only

@@ -1,0 +1,26 @@
+skill_id: report_generation
+claude_name: report-generation
+display_name: 报告/图表生成
+version: "0.1.0"
+stages:
+  - insight_generation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - report_generation
+output_file: 04-report/report.md
+pack: sdr
+spec: 04-report/report.md
+input_skills:
+  - result_acceptance
+  - mechanism_explanation
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: report_generation
+owner: TBD
+fixture_status: missing
+notes: ''

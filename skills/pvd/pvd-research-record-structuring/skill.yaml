@@ -1,0 +1,44 @@
+skill_id: pvd_research_record_structuring
+claude_name: pvd-research-record-structuring
+display_name: PVD Research Record Structuring
+domain: pvd
+stages:
+- execution_validation
+substages:
+- literature_experiment_record_verification
+packs:
+- pvd
+skill_type: atomic
+runtime: llm_structured
+status: ready
+enabled: true
+input_schema: input.schema.json
+output_schema: output.schema.json
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: provider.schema.json
+output_file: result.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+  provider_input_projection:
+    omit_fields:
+    - evidence_packet
+    - source_material
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+durable_model_profile: terra
+capability_contract:
+  artifact_types:
+  - pvd.research_records
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+notes: Groups finalized Evidence into traceable PVD ResearchRecords. Deterministic singleton materialization is the formal degradation path when grouping is unavailable; no comparability or recommendation authority.

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GapAnalysisOutput",
+  "type": "object",
+  "required": [
+    "gap_list",
+    "not_a_gap",
+    "evidence_needed",
+    "priority",
+    "review_questions"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "material_coverage": {
+      "type": "object",
+      "description": "材料覆盖面与置信度摘要。"
+    },
+    "gap_list": {
+      "type": "array",
+      "description": "可追溯空缺条目；行键使用 G-ID。",
+      "items": {
+        "type": "object",
+        "required": [
+          "G-ID",
+          "gap_statement",
+          "gap_type",
+          "linked_material_ids",
+          "evidence_strength",
+          "confidence"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "G-ID": { "type": "string", "minLength": 1 },
+          "gap_statement": { "type": "string" },
+          "gap_type": {
+            "type": "string",
+            "enum": [
+              "theoretical_gap",
+              "method_gap",
+              "data_gap",
+              "validation_gap",
+              "application_gap",
+              "reproducibility_gap"
+            ]
+          },
+          "linked_material_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "linked_evidence_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "evidence_strength": { "type": "string" },
+          "confidence": {
+            "type": "string",
+            "enum": ["high", "medium", "low", "insufficient_materials"]
+          }
+        }
+      }
+    },
+    "not_a_gap": {
+      "type": "array",
+      "description": "看似空缺但已覆盖或证据不足的条目。",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "evidence_needed": {
+      "type": "array",
+      "description": "每条空缺下一步需补的论文、实验、数据或分析。",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "priority": {
+      "type": "array",
+      "description": "高/中/低优先级与理由。",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "review_questions": {
+      "type": "array",
+      "description": "需要用户或导师确认的问题。",
+      "items": { "type": "string" }
+    },
+    "advisor_review_questions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_upgrade_queue": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    }
+  }
+}

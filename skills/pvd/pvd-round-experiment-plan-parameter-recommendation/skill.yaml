@@ -1,0 +1,65 @@
+skill_id: pvd_round_experiment_plan_parameter_recommendation
+claude_name: pvd-round-experiment-plan-parameter-recommendation
+display_name: PVD Round Experiment Plan & Parameter Recommendation
+description: Generate concrete values for the formal PVD parameter scope and assemble a feasibility-admitted, hard-boundary-validated
+  next-round experiment portfolio.
+version: 1.1.0
+domain: pvd
+stages:
+- insight_generation
+substages:
+- round_experiment_plan_parameter_recommendation
+packs:
+- pvd
+skill_type: atomic
+runtime: llm_structured
+status: ready
+owner: TBD
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+durable_llm_execution_policy:
+  contract_version: 1
+  model_profile: terra
+  reasoning_effort: none
+  max_output_tokens: 5000
+  read_timeout_seconds: 120
+  response_mode: json_object
+  load_references: false
+  structured_output_recovery_attempts: 1
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: draft.schema.json
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: pvd:round-experiment-recommendation:v1
+  facts:
+  - fact_key: pvd_recommendation_decision_status
+    source_field: decision_status
+  - fact_key: pvd_recommendation_first_run_ranking_status
+    source_field: first_run_ranking_status
+  - fact_key: pvd_recommendation_experiments
+    source_field: experiments
+  - fact_key: pvd_recommendation_blocked_experiments
+    source_field: blocked_experiments
+  - fact_key: pvd_recommendation_next_step
+    source_field: next_step
+  - fact_key: pvd_recommendation_important_unknowns
+    source_field: important_unknowns
+fixture_status: missing
+enabled: true
+notes: Capability 7 consumes Cap5 direction analysis and Cap6 feasibility/admission, then generates the concrete parameter
+  values and experiment portfolio. It must not select blocked/deferred candidates as executable recommendations.

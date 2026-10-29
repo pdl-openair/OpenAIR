@@ -1,0 +1,26 @@
+{
+  "skill_name": "crystal-design-formula-crossover",
+  "evals": [
+    {
+      "id": 1,
+      "name": "magnet-smoke-one-iter",
+      "prompt": "用 SAGA-MVP 跑一次 1 轮迭代的烟雾测试：从 Materials Project 拉 5 个磁性相关化学式，生成 3 个新候选，跑完整 loop。我只想看到管线能走通，不需要收敛。把每步的成功/失败都报给我。",
+      "expected_output": "Skill runs probe_mcps.py, initializes from MP (or fallback if no key), runs 1 iteration: crossover → DiffCSP → MatterSim relax → ALIGNN (magmom + ehull) → mag_density derived → HHI → reward → top-K. RunPlan explicitly named the magnet property family. Outputs a per-step status table and a final top-K table with mag_density + hhi columns.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "semiconductor-default-three-iter",
+      "prompt": "I want to discover wide-bandgap semiconductors with low supply-chain risk. Run the default 3-iteration SAGA-MVP (init_n=10, batch_size=3, max_iters=3, top_k=5, ehull filter on). After each iteration give me the top-K with the Pareto-knee candidate, and a final report with chemical trends.",
+      "expected_output": "Phase 0.5 produced a RunPlan whose alignn_models=[bandgap, ehull], objectives include max(bandgap) and min(hhi), crossover_hints mention semiconductor-relevant swap groups (Ga/In/Al, As/P/Sb, S/Se/Te), and init_elements are from {Si,Ge,Ga,In,Al,As,P,Sb,S,Se,Te,Zn,Cd} — NOT the magnet Fe/Co/Ni/Cr/Mn set. Three iterations executed. After each: top-K table with bandgap + hhi + reward. Final report: top-K, Pareto knee on bandgap vs hhi, ≥2 chemical trends, recommended next run, RunPlan recap.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "hard-material-multi-obj-two-iter",
+      "prompt": "帮我搜一下又硬又强的晶体——同时最大化体弹模量和剪切模量。跑 2 轮迭代就行，看看 multi-objective 的奖励怎么算的。",
+      "expected_output": "Phase 0.5 produced a RunPlan with TWO max objectives (bulk_modulus AND shear_modulus), alignn_models=[bulk_modulus, shear_modulus, ehull], crossover_hints mention B/C/N covalent networks and transition-metal carbides/borides/nitrides, init_elements from {B,C,N,O,Ti,W,Mo,Cr,Hf,Ta}. Reward math correctly applies (norm_o if direction_o==max) on BOTH objectives — i.e. reward = norm(bulk) + norm(shear), NOT 1-norm on either. Each iteration's report shows both moduli per candidate. Final report surfaces a Pareto note on bulk vs shear if they trade off.",
+      "files": []
+    }
+  ]
+}

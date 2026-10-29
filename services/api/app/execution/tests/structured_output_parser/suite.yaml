@@ -1,0 +1,37 @@
+suite_id: component.execution.structured-output-parser
+protected_outcome: >-
+  Structured output parsing preserves one complete JSON object while removing
+  only bounded outer prose or a JSON fence; it never chooses among multiple
+  objects, repairs truncated JSON, or creates fields.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - structured_parser_changes_payload
+  - structured_parser_selects_ambiguous_object
+  - structured_parser_repairs_truncated_json
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/durable_skill_runtime.py
+test_responsibility: >-
+  Prove the lossless parser accepts one complete wrapped object and rejects
+  ambiguous or incomplete object text without exercising Provider execution,
+  correction policy, finalization, or failure classification.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - exact_object_equality
+  - ambiguous_multiple_object_rejection
+  - truncated_object_rejection
+verdict_rule: >-
+  PASS only when every parser assertion succeeds and the returned object is
+  exactly the supplied complete object. FAIL when valid evidence proves the
+  parser selects, repairs, or changes structured content. Return
+  NO_VALID_EVIDENCE when required execution evidence is absent.
+triggers:
+  - structured output parser changes
+  - wrapper extraction bounds change

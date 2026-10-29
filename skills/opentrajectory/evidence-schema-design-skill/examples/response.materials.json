@@ -1,0 +1,207 @@
+{
+  "evidence_schema": {
+    "schema_id": "schema:p07f-materials-example:001",
+    "schema_version": "0.1.0",
+    "task_context": {
+      "research_question": "高电压和快充条件下，如何为锂金属电池设计更有潜力的电解液组合？",
+      "task_scope": "Identify the evidence required to compare electrolyte candidates under high-voltage fast-charge conditions and explain why promising formulations work.",
+      "domain_hints": [
+        "electrochemical energy storage",
+        "electrolyte design",
+        "lithium metal battery"
+      ],
+      "design_assumptions": [
+        "Candidate formulations must be evaluated under comparable cell conditions and protocols."
+      ]
+    },
+    "evidence_targets": [
+      {
+        "target_id": "target_001",
+        "target_type": "entity",
+        "scientific_role": "composition",
+        "description": "Electrolyte formulation with explicit solvent, salt and additive composition.",
+        "requiredness": "required",
+        "completion_criteria": "Record each formulation component and amount or concentration with a source anchor and verbatim quote.",
+        "allowed_evidence_forms": [
+          "formula table",
+          "experimental section",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "solvent",
+          "salt",
+          "additive",
+          "concentration or ratio"
+        ],
+        "comparison_requirements": [],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      },
+      {
+        "target_id": "target_002",
+        "target_type": "experimental_condition",
+        "scientific_role": "condition",
+        "description": "Electrochemical test protocol and cell configuration required to interpret performance.",
+        "requiredness": "required",
+        "completion_criteria": "Record voltage range, charge and discharge protocol, cathode loading, lithium foil thickness and temperature when reported.",
+        "allowed_evidence_forms": [
+          "experimental section",
+          "table",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "voltage range",
+          "charge and discharge protocol",
+          "cathode loading",
+          "lithium foil thickness",
+          "temperature"
+        ],
+        "comparison_requirements": [],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      },
+      {
+        "target_id": "target_003",
+        "target_type": "performance_metric",
+        "scientific_role": "metric",
+        "description": "Decision-relevant cycling performance, including reversible capacity, cycle life and coulombic efficiency.",
+        "requiredness": "required",
+        "completion_criteria": "Record numeric metric values together with cycle index and the linked protocol or cell configuration.",
+        "allowed_evidence_forms": [
+          "table",
+          "figure caption",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "cycle index",
+          "reversible capacity",
+          "cycle life",
+          "coulombic efficiency",
+          "protocol"
+        ],
+        "comparison_requirements": [
+          "baseline formulation under comparable conditions"
+        ],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      },
+      {
+        "target_id": "target_004",
+        "target_type": "mechanism_evidence",
+        "scientific_role": "mechanism",
+        "description": "Evidence connecting formulation choices to solvation structure and interphase formation.",
+        "requiredness": "required",
+        "completion_criteria": "Capture the proposed causal link and the observations used to support it.",
+        "allowed_evidence_forms": [
+          "mechanism discussion",
+          "spectroscopy result",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "solvation structure",
+          "interphase formation"
+        ],
+        "comparison_requirements": [],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      },
+      {
+        "target_id": "target_005",
+        "target_type": "characterization_observation",
+        "scientific_role": "characterization",
+        "description": "Characterization evidence for SEI or CEI chemistry, composition and morphology.",
+        "requiredness": "required",
+        "completion_criteria": "Capture the characterization method and observation linked to the relevant formulation.",
+        "allowed_evidence_forms": [
+          "spectroscopy data",
+          "microscopy image",
+          "figure caption",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "characterization method",
+          "interphase type"
+        ],
+        "comparison_requirements": [],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      },
+      {
+        "target_id": "target_006",
+        "target_type": "theoretical_calculation",
+        "scientific_role": "theoretical_explanation",
+        "description": "Calculated descriptors explaining why the formulation may form the proposed solvation or interphase structure, such as binding energy or electrostatic potential.",
+        "requiredness": "preferred",
+        "completion_criteria": "Capture the calculated descriptor, compared species and explanatory interpretation.",
+        "allowed_evidence_forms": [
+          "calculation result",
+          "simulation section",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "binding energy",
+          "electrostatic potential",
+          "compared species"
+        ],
+        "comparison_requirements": [],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      },
+      {
+        "target_id": "target_007",
+        "target_type": "comparison_baseline",
+        "scientific_role": "comparability",
+        "description": "Baseline formulation and explicit comparability conditions for candidate assessment.",
+        "requiredness": "required",
+        "completion_criteria": "Identify the baseline and verify that metric definition, protocol and cell configuration are sufficiently comparable.",
+        "allowed_evidence_forms": [
+          "comparison table",
+          "experimental section",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [
+          "metric definition",
+          "protocol",
+          "cell configuration"
+        ],
+        "comparison_requirements": [
+          "same metric definition",
+          "same protocol",
+          "sufficiently comparable cell configuration"
+        ],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      }
+    ],
+    "gap_taxonomy": [
+      "missing_mechanism",
+      "missing_condition",
+      "missing_metric",
+      "missing_baseline",
+      "conflict",
+      "not_comparable"
+    ],
+    "uncertainty_rules": [
+      {
+        "rule_id": "u01",
+        "trigger": "A performance value is reported without voltage range, protocol or cell-configuration context.",
+        "handling": "Do not treat the value as directly comparable; mark the relevant target incomplete and retain a comparability warning."
+      }
+    ]
+  },
+  "design_warnings": []
+}

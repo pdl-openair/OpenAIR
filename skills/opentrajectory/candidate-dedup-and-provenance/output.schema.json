@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["deduped_candidates", "dedup_report"],
+  "properties": {
+    "deduped_candidates": {
+      "type": "array",
+      "description": "Deduplicated list of metadata candidates with merged provenance.",
+      "items": {
+        "type": "object",
+        "required": [
+          "candidate_id",
+          "dedupe_key",
+          "normalized_title",
+          "external_ids",
+          "title",
+          "source_name",
+          "provenance",
+          "matched_source_count",
+          "dedup_reason"
+        ],
+        "properties": {
+          "candidate_id": { "type": "string", "minLength": 1 },
+          "dedupe_key": { "type": ["string", "null"] },
+          "normalized_title": { "type": ["string", "null"] },
+          "external_ids": {
+            "type": "object",
+            "properties": {
+              "doi": { "type": ["string", "null"] },
+              "arxiv_id": { "type": ["string", "null"] },
+              "openalex_id": { "type": ["string", "null"] },
+              "semantic_scholar_id": { "type": ["string", "null"] },
+              "corpus_id": { "type": ["string", "null"] },
+              "pmid": { "type": ["string", "null"] },
+              "pmcid": { "type": ["string", "null"] }
+            },
+            "additionalProperties": false
+          },
+          "title": { "type": ["string", "null"] },
+          "abstract": { "type": ["string", "null"] },
+          "authors": {
+            "type": ["array", "null"],
+            "items": { "type": "string" }
+          },
+          "year": { "type": ["integer", "null"] },
+          "venue": { "type": ["string", "null"] },
+          "doi": { "type": ["string", "null"] },
+          "arxiv_id": { "type": ["string", "null"] },
+          "citation_count": { "type": ["integer", "null"] },
+          "source_url": { "type": ["string", "null"] },
+          "landing_page_url": { "type": ["string", "null"] },
+          "source_name": { "type": "string" },
+          "matched_query": { "type": "string" },
+          "search_intent": { "type": ["string", "null"] },
+          "query_variant_type": { "type": ["string", "null"] },
+          "provenance": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Merged provenance from all duplicate candidates.",
+            "items": {
+              "type": "object",
+              "required": ["source_name", "matched_query"],
+              "properties": {
+                "source_name": { "type": "string" },
+                "matched_query": { "type": "string" },
+                "search_intent": { "type": ["string", "null"] },
+                "query_variant_type": { "type": ["string", "null"] },
+                "source_constraints": { "type": "array", "items": { "type": "string" } },
+                "query_index": { "type": "integer", "minimum": 0 },
+                "source_result_index": { "type": "integer", "minimum": 0 },
+                "source_rank": { "type": "integer", "minimum": 1 },
+                "retrieved_at": { "type": "string" },
+                "retrieval_mode": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "matched_source_count": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of distinct retrieval sources that returned this candidate."
+          },
+          "dedup_reason": {
+            "type": "string",
+            "description": "Why this version was kept: 'unique', 'higher_citations', 'more_recent', 'arxiv_pdf_preferred', etc."
+          },
+          "raw_metadata": { "type": "object" },
+          "retrieval_warnings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "dedup_report": {
+      "type": "object",
+      "required": [
+        "input_count",
+        "output_count",
+        "duplicates_removed",
+        "multi_source_candidates",
+        "dedup_keys_used"
+      ],
+      "properties": {
+        "input_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total candidates before deduplication."
+        },
+        "output_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Unique candidates after deduplication."
+        },
+        "duplicates_removed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of duplicate candidates merged."
+        },
+        "multi_source_candidates": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Candidates found by 2+ sources."
+        },
+        "degraded_provenance_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Candidates whose missing or partial provenance was recovered by deterministic fallback."
+        },
+        "risk_flags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Deterministic degradation flags emitted by deduplication."
+        },
+        "dedup_keys_used": {
+          "type": "object",
+          "description": "Count of candidates deduplicated by each key type.",
+          "properties": {
+            "doi": { "type": "integer", "minimum": 0 },
+            "arxiv_id": { "type": "integer", "minimum": 0 },
+            "openalex_id": { "type": "integer", "minimum": 0 },
+            "normalized_title": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

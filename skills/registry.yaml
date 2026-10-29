@@ -1,0 +1,6225 @@
+version: 1.0.0
+skills:
+- skill_id: ablation_planning
+  claude_name: ablation-planning
+  display_name: 消融规划
+  domain: cs_research
+  stages:
+  - solution_design
+  substages:
+  - ablation_design
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/ablation-planning
+  claude_skill_path: .claude/skills/ablation-planning
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: actual_metric_extraction
+  claude_name: actual-metric-extraction
+  display_name: 实际指标确定性提取
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - evidence_extraction
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/actual-metric-extraction
+  claude_skill_path: .claude/skills/actual-metric-extraction
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - raw_actual_metric_records
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_real_execution:metric_extraction
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:actual_metric_extraction
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: missing
+  notes: 作为 SDR“执行验证→证据抽取”的确定性 actual metric 能力；只从成功 execution record 关联的已明确真实结果来源中提取实际测量值，不选择指标、不读论文参考值、不比较、不做科研解释。
+- skill_id: actual_metric_records_closure
+  claude_name: actual-metric-records-closure
+  display_name: 实测指标记录闭合
+  domain: cs_research
+  stages:
+  - execution_validation
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/actual-metric-records-closure
+  claude_skill_path: .claude/skills/actual-metric-records-closure
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - actual_metric_records
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_real_execution:actual_metric_records_closure
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: draft.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: research:declared-scientific-facts:v1
+    facts:
+    - fact_key: actual_metric_status
+      source_field: status
+    - fact_key: actual_metric_execution_record_ref
+      source_field: execution_record_ref
+    - fact_key: actual_metric_records
+      source_field: metrics
+    - fact_key: actual_metric_reference_values_used
+      source_field: reference_values_used
+    - fact_key: actual_metric_partial_failures
+      source_field: partial_failures
+    - fact_key: actual_metric_unknowns
+      source_field: unknowns
+  fixture_status: missing
+  notes: 将确定性提取结果闭合为正式实测指标记录；不读取参考值，不改写实测值。
+- skill_id: analysis_plan_design
+  claude_name: analysis-plan-design
+  display_name: 分析方案设计
+  domain: cs_research
+  stages:
+  - solution_design
+  substages:
+  - analysis_planning
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/analysis-plan-design
+  claude_skill_path: .claude/skills/analysis-plan-design
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: argument_structuring
+  claude_name: argument-structuring
+  display_name: 论点组织
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - argument_blueprint
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/argument-structuring
+  claude_skill_path: .claude/skills/argument-structuring
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: baseline_comparison
+  claude_name: baseline-comparison
+  display_name: 基线比较
+  domain: cs_research
+  stages:
+  - solution_design
+  substages:
+  - baseline_selection
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/baseline-comparison
+  claude_skill_path: .claude/skills/baseline-comparison
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: causal_reasoning
+  claude_name: causal-reasoning
+  display_name: 因果推理
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - mechanism_explanation
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/causal-reasoning
+  claude_skill_path: .claude/skills/causal-reasoning
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: code_implementation
+  claude_name: code-implementation
+  display_name: 代码实现
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - full_execution
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/code-implementation
+  claude_skill_path: .claude/skills/code-implementation
+  fixture_status: missing
+  notes: OPE L2
+- skill_id: constraint_definition
+  claude_name: constraint-definition
+  display_name: 约束定义
+  domain: cs_research
+  stages:
+  - problem_modeling
+  substages:
+  - constraints_criteria
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/constraint-definition
+  claude_skill_path: .claude/skills/constraint-definition
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: cs_paper_source_resolution
+  claude_name: cs-paper-source-resolution
+  display_name: CS 复现正式来源确认
+  domain: cs_research
+  stages:
+  - problem_modeling
+  substages:
+  - reproduction_baseline_criteria
+  packs:
+  - cs_reproduction
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/cs-paper-source-resolution
+  claude_skill_path: .claude/skills/cs-paper-source-resolution
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - cs_paper_source_resolution_result
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_baseline_grounding:source_identity_resolution
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:cs_paper_source_resolution
+    evidence_contract_version: external-action-evidence/v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 从用户明确的仓库、已声明来源页、唯一主论文正文中的作者自述，或唯一 checkpoint 模型卡中取得可追溯的源码仓库候选；不选择同名仓库，不把普通引用当作作者代码声明，也不解释论文或指标。
+- skill_id: cs_reproduction_input_structuring
+  claude_name: cs-reproduction-input-structuring
+  display_name: 论文复现执行输入结构化
+  domain: cs_research
+  stages:
+  - problem_modeling
+  substages:
+  - reproduction_input_structuring
+  packs:
+  - cs_reproduction
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/cs-reproduction-input-structuring
+  claude_skill_path: .claude/skills/cs-reproduction-input-structuring
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: reproduction_input.json
+  capability_contract:
+    artifact_types:
+    - cs_reproduction_execution_inputs
+    judgment_support:
+      deterministic: false
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_baseline_grounding:input_structuring
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: cs:reproduction-input-source:v1
+    facts:
+    - fact_key: reproduction_repository
+      source_field: repository
+    - fact_key: reproduction_revision
+      source_field: revision
+    - fact_key: reproduction_unresolved_inputs
+      source_field: unresolved_inputs
+  fixture_status: missing
+  notes: 只结构化与已确认 ResearchDesign 绑定的用户原文及修订中明确存在的代码执行输入；正式落入 ScientificState 前由确定性
+    materializer 核验其可逐字追溯到冻结原文；来源与版本关联由代码负责。
+- skill_id: data_acquisition
+  claude_name: data-acquisition
+  display_name: 数据获取
+  domain: cs_research
+  stages:
+  - solution_design
+  substages:
+  - data_strategy
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/data-acquisition
+  claude_skill_path: .claude/skills/data-acquisition
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: environment_setup
+  claude_name: environment-setup
+  display_name: 环境搭建
+  domain: cs_research
+  stages:
+  - solution_design
+  substages:
+  - reproducibility
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/environment-setup
+  claude_skill_path: .claude/skills/environment-setup
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - environment_setup_record
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_execution_readiness:environment_setup
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:environment_setup
+    evidence_contract_version: external-action-evidence/v1
+  conditional_binding:
+    policy_version: conditional_capability_binding_v1
+    evaluator_ref: python:environment_setup.applicability:evaluate_capability_applicability
+    required_runtime_fact_refs:
+    - runtime:research-task:v1
+  fixture_status: missing
+  notes: 只负责上游已明确的 Python、依赖和目标运行就绪探针真实建立隔离环境、验证后固定身份；不推断依赖、不自动补包、不做实验执行、CUDA 管理或正式
+    OpenAIR 集成。
+- skill_id: evidence_mining
+  claude_name: evidence-mining
+  display_name: 证据挖掘
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - evidence_extraction
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/evidence-mining
+  claude_skill_path: .claude/skills/evidence-mining
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: execution_plan_fact_assembly
+  claude_name: execution-plan-fact-assembly
+  display_name: 复现执行方案确定性组装
+  domain: cs_research
+  stages:
+  - solution_design
+  - execution_validation
+  substages:
+  - execution_plan_acquisition
+  packs:
+  - cs_reproduction
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/execution-plan-fact-assembly
+  claude_skill_path: .claude/skills/execution-plan-fact-assembly
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - reproduction_execution_plan_facts
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_experiment_design_grounding:execution_fact_assembly
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:execution_plan_fact_assembly
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: missing
+  notes: 确定性核验逐字来源、stable ID、正式 reference identity 和机械默认；不固定真实资源、不执行程序、不产生实际测量结果。
+- skill_id: execution_plan_interpretation
+  claude_name: execution-plan-interpretation
+  display_name: 复现执行方案语义判断
+  domain: cs_research
+  stages:
+  - solution_design
+  - execution_validation
+  substages:
+  - execution_plan_acquisition
+  packs:
+  - cs_reproduction
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/execution-plan-interpretation
+  claude_skill_path: .claude/skills/execution-plan-interpretation
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_execution_plan_interpretation
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_experiment_design_grounding:execution_source_interpretation
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 只理解正式来源中的资源、环境、执行和结果读取语义；不得把来源未写的科研事实补成来源要求，也不得重定义 reference metric identity。
+- skill_id: execution_readiness_assessment
+  claude_name: execution-readiness-assessment
+  display_name: 执行准备证据核验
+  domain: cs_research
+  stages:
+  - execution_validation
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/execution-readiness-assessment
+  claude_skill_path: .claude/skills/execution-readiness-assessment
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - execution_readiness_record
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_execution_readiness:readiness_closure
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: research:declared-scientific-facts:v1
+    facts:
+    - fact_key: execution_readiness_status
+      source_field: status
+    - fact_key: execution_plan_resource_relation_status
+      source_field: plan_resource_relation_status
+    - fact_key: execution_readiness_executable_scope
+      source_field: executable_scope
+    - fact_key: execution_readiness_blocking_gaps
+      source_field: blocking_gaps
+    - fact_key: execution_readiness_unknowns
+      source_field: unknowns
+  fixture_status: missing
+  notes: 基于真实代码、资源和环境结果形成有范围的 readiness 结论；不执行实验。
+- skill_id: exploratory_run
+  claude_name: exploratory-run
+  display_name: 受控实验执行
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - exploratory_execution
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/exploratory-run
+  claude_skill_path: .claude/skills/exploratory-run
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - raw_reproduction_execution
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_real_execution:experiment_execution
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:exploratory_run
+    evidence_contract_version: external-action-evidence/v1
+  fixture_status: missing
+  notes: 只负责使用已验证 environment 真实执行一个已明确实验并固定进程事实；正式 Resource 的 argv 路径绑定只证明 delivery，只有可确定性核验的实际消费证据才允许
+    verified；不做 Artifact、指标、比较、调度平台或正式 OpenAIR 集成。
+- skill_id: failure_documentation
+  claude_name: failure-documentation
+  display_name: 失败记录
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - negative_result_recording
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/failure-documentation
+  claude_skill_path: .claude/skills/failure-documentation
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: finding_integration
+  claude_name: finding-integration
+  display_name: 发现整合
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - findings_synthesis
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/finding-integration
+  claude_skill_path: .claude/skills/finding-integration
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: gap_analysis
+  claude_name: gap-analysis
+  display_name: 空缺分析
+  domain: cs_research
+  stages:
+  - problem_modeling
+  substages:
+  - gap_identification
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/gap-analysis
+  claude_skill_path: .claude/skills/gap-analysis
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: OPE L2
+- skill_id: hypothesis_construction
+  claude_name: hypothesis-construction
+  display_name: 假说构建
+  domain: cs_research
+  stages:
+  - problem_modeling
+  substages:
+  - hypothesis_formation
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/hypothesis-construction
+  claude_skill_path: .claude/skills/hypothesis-construction
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: OPE L2
+- skill_id: hypothesis_revision
+  claude_name: hypothesis-revision
+  display_name: 假说修正
+  domain: cs_research
+  stages:
+  - insight_generation
+  substages:
+  - hypothesis_update
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/hypothesis-revision
+  claude_skill_path: .claude/skills/hypothesis-revision
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: hypothesis_testing
+  claude_name: hypothesis-testing
+  display_name: 假设检验
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - hypothesis_validation
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/hypothesis-testing
+  claude_skill_path: .claude/skills/hypothesis-testing
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: intent_extraction
+  claude_name: intent-extraction
+  display_name: 意图提取
+  domain: cs_research
+  stages:
+  - problem_modeling
+  substages:
+  - intent_understanding
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/intent-extraction
+  claude_skill_path: .claude/skills/intent-extraction
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: lead_discovery
+  claude_name: lead-discovery
+  display_name: 线索发现
+  domain: cs_research
+  stages:
+  - insight_generation
+  substages:
+  - research_lead_generation
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/lead-discovery
+  claude_skill_path: .claude/skills/lead-discovery
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: literature_review
+  claude_name: literature-review
+  display_name: 文献调研综述
+  domain: cs_research
+  stages:
+  - problem_modeling
+  substages:
+  - literature_search
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: Maxine-1520
+  source: manual
+  skill_path: skills/cs_research/literature-review
+  claude_skill_path: .claude/skills/literature-review
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: example_only
+  notes: Sprint01 占位实现，满足 check 与 skill_io 回放
+- skill_id: method_evaluation
+  claude_name: method-evaluation
+  display_name: 方法评估
+  domain: cs_research
+  stages:
+  - solution_design
+  substages:
+  - method_selection
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/method-evaluation
+  claude_skill_path: .claude/skills/method-evaluation
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: mmp_deploy_app
+  claude_name: mmp-deploy-app
+  display_name: 推理服务部署
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - full_execution
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: tacmon
+  source: manual
+  skill_path: skills/cs_research/mmp-deploy-app
+  claude_skill_path: .claude/skills/mmp-deploy-app
+  fixture_status: none
+  notes: 迁移自 mmp-platform MCP；一键部署推理服务，自动完成模型/代码/镜像/资源选配、应用与版本创建及部署进度轮询。
+- skill_id: mmp_resources
+  claude_name: mmp-resources
+  display_name: 平台资源管理
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - full_execution
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: tacmon
+  source: manual
+  skill_path: skills/cs_research/mmp-resources
+  claude_skill_path: .claude/skills/mmp-resources
+  fixture_status: none
+  notes: 迁移自 mmp-platform MCP；通过统一 mmp-platform MCP 管理模型/代码配置/镜像/数据集的增删改查、版本上传与下载。
+- skill_id: mmp_training_workflow
+  claude_name: mmp-training-workflow
+  display_name: 平台训练流水线
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - full_execution
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: tacmon
+  source: manual
+  skill_path: skills/cs_research/mmp-training-workflow
+  claude_skill_path: .claude/skills/mmp-training-workflow
+  fixture_status: none
+  notes: 迁移自 mmp-platform MCP；在协同开发平台执行训练流水线，覆盖 A 逐项选配/B 已有流水线/C 快捷训练三模式，含校验、启动、轮询、产物下载。
+- skill_id: official_reference_source_acquisition
+  claude_name: official-reference-source-acquisition
+  display_name: 官方参考来源读取
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - reference_metric_acquisition
+  packs:
+  - cs_reproduction
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/official-reference-source-acquisition
+  claude_skill_path: .claude/skills/official-reference-source-acquisition
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - official_reference_source_package
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_baseline_grounding:official_source_acquisition
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:official_reference_source_acquisition
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: missing
+  notes: 复用上游 repository_revision_acquisition 已固定的官方仓库工作区，重新核验 HEAD 后只读取受控文本来源；不做指标语义或比较规则判断。
+- skill_id: quality_audit
+  claude_name: quality-audit
+  display_name: 质量审计
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - result_acceptance
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/quality-audit
+  claude_skill_path: .claude/skills/quality-audit
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: question_formulation
+  claude_name: question-formulation
+  display_name: 问题形式化
+  domain: cs_research
+  stages:
+  - problem_modeling
+  substages:
+  - question_refinement
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/question-formulation
+  claude_skill_path: .claude/skills/question-formulation
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: OPE L2
+- skill_id: reference_metric_comparison
+  claude_name: reference-metric-comparison
+  display_name: 参考指标确定性比较
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - result_acceptance
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reference-metric-comparison
+  claude_skill_path: .claude/skills/reference-metric-comparison
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - deterministic_metric_comparison
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_result_comparison:deterministic_comparison
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:reference_metric_comparison
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: missing
+  notes: 对显式 actual/reference 与冻结规则做确定性比较；CS 使用 B04 actual_metric_records 与 reproduction_comparability_assessment
+    门控，只有可比性完整成立时才计算；SDR 原有 actual_metrics 输入保持兼容。
+- skill_id: reference_metric_fact_assembly
+  claude_name: reference-metric-fact-assembly
+  display_name: Reference facts 确定性组装
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - reference_metric_acquisition
+  packs:
+  - cs_reproduction
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reference-metric-fact-assembly
+  claude_skill_path: .claude/skills/reference-metric-fact-assembly
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - reference_metric_facts
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_baseline_grounding:reference_fact_assembly
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:reference_metric_fact_assembly
+    evidence_contract_version: deterministic-output/v1
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: research:declared-scientific-facts:v1
+    facts:
+    - fact_key: reference_metric_records
+      source_field: reference_metric_records
+    - fact_key: reference_metric_comparison_requests
+      source_field: reference_metric_comparison_requests
+    - fact_key: reference_metric_source_conflicts
+      source_field: reference_metric_source_conflicts
+    - fact_key: reference_metric_unresolved
+      source_field: reference_metric_unresolved
+  fixture_status: missing
+  notes: 只做来源引用、类型、规则和冲突的确定性核验与装配；不读取 actual metrics，不做科研取舍。
+- skill_id: reference_metric_interpretation
+  claude_name: reference-metric-interpretation
+  display_name: 参考指标语义判断
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - reference_metric_acquisition
+  packs:
+  - cs_reproduction
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reference-metric-interpretation
+  claude_skill_path: .claude/skills/reference-metric-interpretation
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reference_metric_interpretation
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_baseline_grounding:reference_interpretation
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 只做 reference 相关性、实验条件对应、指标语义和比较规则依据判断；不读取 actual metrics，不负责来源身份和引用的确定性核验。
+- skill_id: report_writing
+  claude_name: report-writing
+  display_name: 报告撰写
+  domain: cs_research
+  stages:
+  - insight_generation
+  substages:
+  - report_generation
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/report-writing
+  claude_skill_path: .claude/skills/report-writing
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: repository_revision_acquisition
+  claude_name: repository-revision-acquisition
+  display_name: 代码仓库与版本获取
+  domain: cs_research
+  stages:
+  - solution_design
+  substages:
+  - reproducibility
+  - code_identity_acquisition
+  packs:
+  - sdr
+  - cs_reproduction
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/repository-revision-acquisition
+  claude_skill_path: .claude/skills/repository-revision-acquisition
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - repository_revision_acquisition_result
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_execution_readiness:code_identity_acquisition
+  - cs_reproduction_baseline_grounding:code_identity_acquisition
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:repository_revision_acquisition
+    evidence_contract_version: external-action-evidence/v1
+  fixture_status: missing
+  notes: 只负责使用上游已明确的 repository 与 revision 在当前任务受控工作区真实获取 Git 仓库、固定 revision、验证实际
+    HEAD；不猜 revision、不回退到默认分支、不负责环境、实验、指标或科研意图解释。
+- skill_id: reproduction_baseline_and_criteria
+  claude_name: reproduction-baseline-and-criteria
+  display_name: 复现基线与验收标准
+  domain: cs_research
+  stages:
+  - problem_modeling
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-baseline-and-criteria
+  claude_skill_path: .claude/skills/reproduction-baseline-and-criteria
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_baseline_and_criteria
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_baseline_grounding:baseline_closure
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 只负责形成复现基线与验收标准；输入事实不足时保留未知，不替代执行验证与结果判断。
+- skill_id: reproduction_comparability_assessment
+  claude_name: reproduction-comparability-assessment
+  display_name: 复现结果可比性判断
+  domain: cs_research
+  stages:
+  - execution_validation
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-comparability-assessment
+  claude_skill_path: .claude/skills/reproduction-comparability-assessment
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_comparability_assessment
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_result_comparison:comparability_assessment
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 只负责判断参考结果与本次真实结果是否具有比较资格；不得形成达标/未达标结论。
+- skill_id: reproduction_comparison_closure
+  claude_name: reproduction-comparison-closure
+  display_name: 复现比较三态确定性收口
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - result_acceptance
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-comparison-closure
+  claude_skill_path: .claude/skills/reproduction-comparison-closure
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - reproduction_comparison_judgment
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_result_comparison:comparison_judgment_closure
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:reproduction_comparison_closure
+    evidence_contract_version: deterministic-output/v1
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: research:declared-scientific-facts:v1
+    facts:
+    - fact_key: reproduction_comparison_verdict
+      source_field: overall_verdict
+    - fact_key: reproduction_comparability
+      source_field: comparability
+    - fact_key: reproduction_metric_judgments
+      source_field: metric_judgments
+    - fact_key: reproduction_condition_mismatches
+      source_field: condition_mismatches
+    - fact_key: reproduction_rule_application
+      source_field: rule_application
+    - fact_key: reproduction_comparison_evidence_refs
+      source_field: evidence_refs
+    - fact_key: reproduction_comparison_unknowns
+      source_field: unknowns
+  fixture_status: missing
+  notes: 最终三态由代码收口；只有可比性完整成立且确定性比较完整时才允许达标/未达标，否则 indeterminate。
+- skill_id: reproduction_comparison_judgment
+  claude_name: reproduction-comparison-judgment
+  display_name: 复现结果可比性与达标判断
+  domain: cs_research
+  stages:
+  - execution_validation
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-comparison-judgment
+  claude_skill_path: .claude/skills/reproduction-comparison-judgment
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_comparison_judgment
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_result_comparison:comparison_judgment_closure
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 先判断可比性，再使用预先确定的规则和确定性差值形成科研达标判断。
+- skill_id: reproduction_conclusion
+  claude_name: reproduction-conclusion
+  display_name: 复现结论与下一步建议
+  domain: cs_research
+  stages:
+  - insight_generation
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-conclusion
+  claude_skill_path: .claude/skills/reproduction-conclusion
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_conclusion
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 只基于正式比较判断回答当前复现问题，不扩大到整篇论文。
+- skill_id: reproduction_conclusion_closure
+  claude_name: reproduction-conclusion-closure
+  display_name: 复现结论确定性收口
+  domain: cs_research
+  stages:
+  - insight_generation
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-conclusion-closure
+  claude_skill_path: .claude/skills/reproduction-conclusion-closure
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - reproduction_conclusion
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_conclusion_closure:conclusion_closure
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:reproduction_conclusion_closure
+    evidence_contract_version: deterministic-output/v1
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: research:declared-scientific-facts:v1
+    facts:
+    - fact_key: reproduction_verdict
+      source_field: verdict
+    - fact_key: reproduction_comparison
+      source_field: comparison
+    - fact_key: reproduction_comparison_source
+      source_field: comparison_source
+    - fact_key: reproduction_conclusion_answer
+      source_field: answer
+    - fact_key: reproduction_scope
+      source_field: scope
+    - fact_key: reproduction_execution_status
+      source_field: execution_status
+    - fact_key: reproduction_evidence_sufficiency
+      source_field: evidence_sufficiency
+    - fact_key: reproduction_conclusion_evidence_refs
+      source_field: evidence_refs
+    - fact_key: reproduction_limitations
+      source_field: limitations
+    - fact_key: reproduction_unknowns
+      source_field: unknowns
+    - fact_key: reproduction_upstream_unknowns
+      source_field: upstream_unknowns
+    - fact_key: reproduction_next_steps
+      source_field: next_steps
+    - fact_key: reproduction_synthesis_gaps
+      source_field: synthesis_gaps
+    - fact_key: reproduction_isolated_synthesis_segments
+      source_field: isolated_synthesis_segments
+  fixture_status: missing
+  notes: 最终三态、正式比较、执行状态和类型化证据引用由代码闭合；综合草稿按片段接受或隔离。
+- skill_id: reproduction_conclusion_synthesis_v2
+  claude_name: reproduction-conclusion-synthesis-v2
+  display_name: 复现结论专业综合草稿
+  domain: cs_research
+  stages:
+  - insight_generation
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-conclusion-synthesis-v2
+  claude_skill_path: .claude/skills/reproduction-conclusion-synthesis-v2
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_conclusion_draft
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_conclusion_closure:conclusion_synthesis
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 只形成范围、解释、限制、未知与下一步草稿；不输出最终三态或执行状态。
+- skill_id: reproduction_deviation_diagnosis
+  claude_name: reproduction-deviation-diagnosis
+  display_name: 复现偏差诊断与验证建议
+  domain: cs_research
+  stages:
+  - execution_validation
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-deviation-diagnosis
+  claude_skill_path: .claude/skills/reproduction-deviation-diagnosis
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_deviation_diagnosis
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 区分证据支持原因、待验证假设和未知；不把运行故障泛化为科研解释。
+- skill_id: reproduction_deviation_diagnosis_v2
+  claude_name: reproduction-deviation-diagnosis-v2
+  display_name: 复现偏差诊断与验证路径
+  domain: cs_research
+  stages:
+  - execution_validation
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-deviation-diagnosis-v2
+  claude_skill_path: .claude/skills/reproduction-deviation-diagnosis-v2
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_deviation_diagnosis
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_deviation_diagnosis:diagnosis_and_validation
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: research:declared-scientific-facts:v1
+    facts:
+    - fact_key: reproduction_evidence_supported_causes
+      source_field: evidence_supported_causes
+    - fact_key: reproduction_deviation_hypotheses
+      source_field: hypotheses
+    - fact_key: reproduction_diagnosis_remaining_unknowns
+      source_field: remaining_unknowns
+  fixture_status: missing
+  notes: 先做正式进入判定；验证要求只路由到已确认 CS Definition，由后续 ExecutionDecision / WorkUnit 执行；假设不得升级为事实。
+- skill_id: reproduction_execution_input_closure
+  claude_name: reproduction-execution-input-closure
+  display_name: 复现执行输入闭合
+  domain: cs_research
+  stages:
+  - execution_validation
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-execution-input-closure
+  claude_skill_path: .claude/skills/reproduction-execution-input-closure
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - reproduction_execution_input
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_real_execution:execution_input_closure
+  runtime_contract:
+    kind: reasoning_adapter
+    requires_external_action: false
+    adapter_id: python_adapter:reproduction_execution_input_closure
+    evidence_contract_version: none
+    internal_skill_calls:
+      contract_version: 1
+      binding_refs:
+      - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_repair_reasoning
+        bindingVersion: 4
+      - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:execution_readiness_assessment
+        bindingVersion: 4
+      - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_validation
+        bindingVersion: 4
+      - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:repository_revision_acquisition
+        bindingVersion: 4
+      - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:resource_identity_acquisition
+        bindingVersion: 4
+      - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:environment_setup
+        bindingVersion: 4
+      - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:official_reference_source_acquisition
+        bindingVersion: 4
+      - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:execution_plan_interpretation
+        bindingVersion: 4
+      - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:execution_plan_fact_assembly
+        bindingVersion: 4
+      max_calls: 12
+  fixture_status: missing
+  notes: 原execution_input_closure职责内部补证；只有原确定性核验代码成功才交付冻结运行输入，失败准备材料交后续诚实交付；不改变方法或执行实验。
+- skill_id: reproduction_execution_input_repair_reasoning
+  claude_name: reproduction-execution-input-repair-reasoning
+  display_name: 复现准备输入纠错判断
+  domain: cs_research
+  stages:
+  - solution_design
+  - execution_validation
+  substages:
+  - real_execution_result_acquisition
+  packs:
+  - cs_reproduction
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-execution-input-repair-reasoning
+  claude_skill_path: .claude/skills/reproduction-execution-input-repair-reasoning
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_input_repair_proposal
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 同职责工具选择与失败反馈，不重新规划研究任务，不生成真实身份或许可。
+- skill_id: reproduction_execution_input_validation
+  claude_name: reproduction-execution-input-validation
+  display_name: 复现执行输入真实条件核验
+  domain: cs_research
+  stages:
+  - execution_validation
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-execution-input-validation
+  claude_skill_path: .claude/skills/reproduction-execution-input-validation
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - reproduction_execution_input
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:reproduction_execution_input_validation
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: missing
+  notes: 原确定性闭合代码的正式工具；逐项核验真实动作输入，不担任独立方法角色，不执行实验。
+- skill_id: reproduction_execution_record_closure
+  claude_name: reproduction-execution-record-closure
+  display_name: 真实执行记录闭合
+  domain: cs_research
+  stages:
+  - execution_validation
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-execution-record-closure
+  claude_skill_path: .claude/skills/reproduction-execution-record-closure
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_execution_record
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_real_execution:execution_record_closure
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: draft.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 对真实运行证据做专业闭合；不运行程序、不补造实测结果。
+- skill_id: reproduction_experiment_design
+  claude_name: reproduction-experiment-design
+  display_name: 复现实验方案设计
+  domain: cs_research
+  stages:
+  - solution_design
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-experiment-design
+  claude_skill_path: .claude/skills/reproduction-experiment-design
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - reproduction_experiment_design
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - cs_reproduction_experiment_design_grounding:experiment_design_closure
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 只把已确认基线、官方执行事实和项目边界转成可执行方案；缺失事实保持阻断，不声称资源、环境或运行已经完成。
+- skill_id: reproduction_record_assembly
+  claude_name: reproduction-record-assembly
+  display_name: 完整复现记录确定性组装
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - result_acceptance
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/reproduction-record-assembly
+  claude_skill_path: .claude/skills/reproduction-record-assembly
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:reproduction_record_assembly
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: missing
+  notes: 只验证并组装已形成的代码、资源、资源实际使用、环境、执行、实际指标和参考比较正式记录；资源使用关系完全确定性核验，不重新执行上游职责，不建设 Artifact/provenance
+    或输出文件采集平台。
+- skill_id: resource_identity_acquisition
+  claude_name: resource-identity-acquisition
+  display_name: 复现资源获取与身份固定
+  domain: cs_research
+  stages:
+  - solution_design
+  substages:
+  - reproducibility
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/resource-identity-acquisition
+  claude_skill_path: .claude/skills/resource-identity-acquisition
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - resource_identity_acquisition_result
+    judgment_support:
+      deterministic: true
+      domain_professional: false
+  execution_method_roles:
+  - cs_reproduction_execution_readiness:resource_identity_acquisition
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:resource_identity_acquisition
+    evidence_contract_version: external-action-evidence/v1
+  conditional_binding:
+    policy_version: conditional_capability_binding_v1
+    evaluator_ref: python:resource_identity_acquisition.applicability:evaluate_capability_applicability
+    required_runtime_fact_refs:
+    - runtime:research-task:v1
+  fixture_status: missing
+  notes: 只负责使用上游已明确的一份或多份 Hugging Face resource 定位，在当前任务受控工作区逐份真实获取并固定实际 commit /
+    内容身份；批量输入不形成复合资源身份，资源版本事实与代码 revision 分离，不做资源选择、环境、实验、指标或科研意图解释。
+- skill_id: statistical_testing
+  claude_name: statistical-testing
+  display_name: 统计检验
+  domain: cs_research
+  stages:
+  - execution_validation
+  substages:
+  - statistical_analysis
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/statistical-testing
+  claude_skill_path: .claude/skills/statistical-testing
+  fixture_status: missing
+  notes: ''
+- skill_id: task_decomposition
+  claude_name: task-decomposition
+  display_name: 任务分解
+  domain: cs_research
+  stages:
+  - solution_design
+  substages:
+  - task_breakdown
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/task-decomposition
+  claude_skill_path: .claude/skills/task-decomposition
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: variable_identification
+  claude_name: variable-identification
+  display_name: 变量识别
+  domain: cs_research
+  stages:
+  - solution_design
+  substages:
+  - variable_definition
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/cs_research/variable-identification
+  claude_skill_path: .claude/skills/variable-identification
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: fixture_recorded_run_creation
+  claude_name: fixture-recorded-run-creation
+  display_name: Fixture Recorded Run 创建
+  domain: general
+  stages:
+  - problem_modeling
+  - solution_design
+  - execution_validation
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: draft
+  owner: TBD
+  source: manual
+  skill_path: skills/general/fixture-recorded-run-creation
+  claude_skill_path: .claude/skills/fixture-recorded-run-creation
+  fixture_status: missing
+  notes: ''
+- skill_id: new_task_planning
+  claude_name: new-task-planning
+  display_name: 新任务规划
+  domain: general
+  stages:
+  - problem_modeling
+  - solution_design
+  packs:
+  - sdr
+  skill_type: atomic
+  runtime: claude_code
+  status: draft
+  owner: TBD
+  source: manual
+  skill_path: skills/general/new-task-planning
+  claude_skill_path: .claude/skills/new-task-planning
+  fixture_status: example_only
+  notes: 创建流程专用，输出待确认 plan，不推进执行态
+- skill_id: analysis_report_durable
+  claude_name: analysis-report-durable
+  display_name: 新材料发现分析报告
+  domain: materials
+  stages:
+  - insight_generation
+  substages:
+  - report_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/analysis-report-durable
+  claude_skill_path: .claude/skills/analysis-report-durable
+  input_schema:
+    type: object
+    additionalProperties: false
+    required:
+    - goal
+    properties:
+      goal:
+        type: string
+      mp_search_report:
+        type: string
+      candidate_summary:
+        type: string
+      stability_handoff:
+        type: string
+      experiment_handoff:
+        type: string
+      work_dir:
+        type: string
+  output_schema:
+    type: object
+    additionalProperties: false
+    required:
+    - state
+    - report_path
+    properties:
+      state:
+        type: string
+        enum:
+        - succeeded
+        - partial_failure
+      report_path:
+        type: string
+      figures:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            path:
+              type: string
+            type:
+              type: string
+              enum:
+              - svg
+              - png
+      failure_reason:
+        type: string
+  runtime_contract:
+    kind: skill_script
+    requires_external_action: true
+    adapter_id: skill_runtime:analysis_report_durable
+    evidence_contract_version: skill-execution-evidence/v1
+    artifact_files:
+    - analysis-report/figures/*.svg
+    - analysis-report/figures/*.png
+    - analysis-report/analysis_report.md
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 'durable_agent 实现：LLM agent 读取前序产物，自主规划图表， 内联调用 figure_renderer.py 生成流程 SVG，用
+    matplotlib 生成 数据分析图，产出 analysis_report.md（结论先行、证据支撑、用户友好）。 替换 experiment_report（llm_reasoning）。
+
+    '
+- skill_id: band_gap_calculation
+  claude_name: band-gap-calculation
+  display_name: DFT 带隙计算
+  domain: materials
+  stages:
+  - execution_validation
+  substages:
+  - band_gap_calculation
+  pack: materials
+  spec: specs/band-gap-calculation.md
+  input_skills:
+  - candidate_generation
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/band-gap-calculation
+  claude_skill_path: .claude/skills/band-gap-calculation
+  output_file: band_gap_summary.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: candidate_generation
+  claude_name: candidate-generation
+  display_name: 候选生成
+  domain: materials
+  stages:
+  - solution_design
+  substages:
+  - candidate_generation
+  pack: materials
+  spec: specs/candidate-generation.md
+  input_skills:
+  - database_search
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/candidate-generation
+  claude_skill_path: .claude/skills/candidate-generation
+  output_file: novel_candidates.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: characterization
+  claude_name: characterization
+  display_name: 物相表征
+  domain: materials
+  stages:
+  - insight_generation
+  substages:
+  - characterization
+  pack: materials
+  enabled: false
+  spec: specs/characterization.md
+  input_skills:
+  - synthesis_execution
+  skill_type: orchestration
+  runtime: claude_code
+  status: draft
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/characterization
+  claude_skill_path: .claude/skills/characterization
+  output_file: xrd_report.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: cif_to_vasp
+  claude_name: cif-to-vasp
+  display_name: CIF 转 VASP 输入（L3）
+  domain: materials
+  stages:
+  - execution_validation
+  substages:
+  - band_gap_calculation
+  - stability_verification
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/cif-to-vasp
+  claude_skill_path: .claude/skills/cif-to-vasp
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: crystal_design_formula_crossover_agent
+  claude_name: crystal-design-formula-crossover-agent
+  display_name: 晶体设计 · 公式交叉演化（agent 交互版）
+  domain: materials
+  stages:
+  - problem_modeling
+  - solution_design
+  substages:
+  - candidate_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/crystal-design-formula-crossover-agent
+  claude_skill_path: .claude/skills/crystal-design-formula-crossover-agent
+  input_schema:
+    type: object
+    properties:
+      goal:
+        type: string
+        description: User natural-language goal (e.g. "find stable lead-free wide-bandgap
+          oxide semiconductors" or "evolve high-Tc superconductors").
+      task_instruction:
+        description: Optional overrides for skill defaults. JSON-decoded if string.
+          Allows overriding init_n/batch_size/max_iters/top_k/run_mattergen_eval/init_elements/fallback_formulas/seed
+          at init time.
+        oneOf:
+        - type: string
+        - type: object
+        - type: 'null'
+    required:
+    - goal
+    additionalProperties: false
+  output_schema:
+    type: object
+    properties:
+      state:
+        type: string
+        enum:
+        - succeeded
+        - partial_failure
+      run_dir:
+        type: string
+        description: Host-side run directory holding runplan.json, population.json,
+          per-iter snapshots, pareto/ and leaderboard.csv.
+      objectives:
+        type: object
+        description: 'The objectives (e.g. {bandgap: max, hhi: min}) fixed at init.'
+      constraints:
+        type: object
+      top_k_table:
+        type: string
+      iterations:
+        type: array
+      run_summary:
+        type: object
+      pareto_cif_paths:
+        type: array
+        items:
+          type: string
+      evaluate_report_path:
+        oneOf:
+        - type: string
+        - type: 'null'
+      partial_failure:
+        oneOf:
+        - type: array
+        - type: 'null'
+    required:
+    - state
+    - run_dir
+    - objectives
+    - top_k_table
+    - iterations
+    - run_summary
+  fixture_status: missing
+  notes: ''
+- skill_id: crystal_design_formula_crossover_py
+  claude_name: crystal-design-formula-crossover-py
+  display_name: 晶体设计 · 公式交叉演化（python_adapter 批量版）
+  domain: materials
+  stages:
+  - problem_modeling
+  - solution_design
+  substages:
+  - candidate_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/crystal-design-formula-crossover-py
+  claude_skill_path: .claude/skills/crystal-design-formula-crossover-py
+  input_schema:
+    type: object
+    properties:
+      goal:
+        type: string
+        description: User natural-language goal (e.g. "find 2D magnetic semiconductors"
+          or "evolve high-bandgap wide-gap materials").
+      task_instruction:
+        description: 'Optional overrides for skill defaults. JSON-decoded if string.
+
+          Supports init_n/batch_size/max_iters/top_k/seed, init_elements/fallback_formulas,
+
+          objectives/hard_filter/alignn_models/crossover_hints, and skip_runplan_llm.
+
+          skip_runplan_llm is valid only when an explicit scientific RunPlan and
+
+          confirmed initial scope (seed_formulas or init_elements) are supplied;
+
+          planner failure never falls back to keyword/default scientific semantics.
+
+          Upstream chaining: pass `seed_formulas` (array of pretty formulas like
+
+          ["AgPO3","Fe2O3"]) to skip the MP init query entirely and use these as
+
+          the initial population — typically the `candidates[*].formula_pretty`
+
+          output of materials-mp-constraint-search (stage 1).
+
+          '
+        oneOf:
+        - type: string
+        - type: object
+        - type: 'null'
+    required:
+    - goal
+    additionalProperties: false
+  output_schema:
+    type: object
+    properties:
+      state:
+        type: string
+        enum:
+        - succeeded
+        - partial_failure
+      run_plan:
+        type: object
+        description: The RunPlan (objectives, hard_filter, alignn_models, crossover_hints)
+          that drove this run.
+      top_k_table:
+        type: string
+      iterations:
+        type: array
+      run_summary:
+        type: object
+      partial_failure:
+        oneOf:
+        - type: array
+        - type: 'null'
+    required:
+    - state
+    - run_plan
+    - top_k_table
+    - iterations
+    - run_summary
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:crystal_design_formula_crossover_py
+    evidence_contract_version: external-action-evidence/v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: ''
+- skill_id: crystal_design_structure_crossover_agent
+  claude_name: crystal-design-structure-crossover-agent
+  display_name: Crystal design structure crossover
+  domain: materials
+  stages:
+  - problem_modeling
+  - solution_design
+  substages:
+  - candidate_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/crystal-design-structure-crossover-agent
+  claude_skill_path: .claude/skills/crystal-design-structure-crossover-agent
+  input_schema:
+    type: object
+    additionalProperties: false
+    required:
+    - goal
+    - seed_cif_paths
+    - task_instruction
+    properties:
+      goal:
+        type: string
+      seed_cif_paths:
+        type: array
+        minItems: 1
+        items:
+          type: string
+      task_instruction:
+        type: object
+        additionalProperties: false
+        properties:
+          pop_size:
+            type: integer
+            minimum: 2
+            maximum: 20
+          max_generations:
+            type: integer
+            minimum: 0
+            maximum: 3
+          crossover_rate:
+            type: number
+            minimum: 0
+            maximum: 1
+  output_schema:
+    type: object
+    additionalProperties: false
+    required:
+    - state
+    - run_dir
+    - objectives
+    - constraints
+    - top_k_table
+    - iterations
+    - run_summary
+    - pareto_cif_paths
+    - partial_failure
+    - execution_evidence
+    properties:
+      state:
+        type: string
+        enum:
+        - succeeded
+        - partial_failure
+      run_dir:
+        type: string
+      objectives:
+        type: object
+      constraints:
+        type: object
+      top_k_table:
+        type: string
+      iterations:
+        type: array
+      run_summary:
+        type: object
+      pareto_cif_paths:
+        type: array
+        items:
+          type: string
+      partial_failure:
+        oneOf:
+        - type: array
+          items:
+            type: string
+        - type: 'null'
+      execution_evidence:
+        type: array
+        minItems: 1
+        items:
+          type: object
+  runtime_contract:
+    kind: skill_script
+    requires_external_action: true
+    adapter_id: skill_runtime:crystal_design_structure_crossover_agent
+    evidence_contract_version: skill-execution-evidence/v1
+    artifact_files:
+    - structure-crossover/leaderboard.csv
+    - structure-crossover/pareto/*.png
+    - structure-crossover/pareto/*.cif
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: Agent-guided evolutionary loop. Claude translates the NL goal into objectives/constraints,
+    drives the deterministic evolve_driver (bash) one generation at a time, and adaptively
+    steers (ban elements, tighten constraints, raise mutation strength, flip crossover).
+    Mutation = diffusion-mutate MCP (noise+denoise); crossover = same MCP two-parent
+    blend; fitness = alignn-predict; relax = mattersim-relax; final novelty = mattergen-evaluate.
+    Replaces the deprecated flux-evolution-mcp service.
+- skill_id: crystal_design_structure_crossover_py
+  claude_name: crystal-design-structure-crossover-py
+  display_name: 晶体设计 · 结构交叉演化（python_adapter 批量版）
+  domain: materials
+  stages:
+  - problem_modeling
+  - solution_design
+  substages:
+  - candidate_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/crystal-design-structure-crossover-py
+  claude_skill_path: .claude/skills/crystal-design-structure-crossover-py
+  input_schema:
+    type: object
+    properties:
+      goal:
+        type: string
+        minLength: 1
+        description: User natural-language goal.
+      candidates:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: true
+          required:
+          - material_id
+          - formula_pretty
+          - cif_text
+          properties:
+            material_id:
+              type: string
+              minLength: 1
+            formula_pretty:
+              type: string
+              minLength: 1
+            cif_text:
+              type: string
+              minLength: 1
+              pattern: ^[\s\uFEFF]*(?:#[^\r\n]*(?:\r?\n|\r)[\s\uFEFF]*)*data_[^\s\r\n]+
+              description: CIF content beginning with a CIF data block; host file
+                paths are not accepted.
+      task_instruction:
+        description: Optional crossover overrides. Candidate/CIF interpretation is
+          owned by this Materials Skill.
+        type: object
+        not:
+          anyOf:
+          - required:
+            - seed_cifs
+          - required:
+            - seed_cif_paths
+          - required:
+            - seed_cif_files
+    required:
+    - goal
+    - candidates
+    additionalProperties: false
+  output_schema:
+    type: object
+    properties:
+      state:
+        type: string
+        enum:
+        - succeeded
+        - partial_failure
+      run_dir:
+        type: string
+      objectives:
+        type: object
+      constraints:
+        type: object
+      top_k_table:
+        type: string
+        description: CSV from leaderboard.csv
+      iterations:
+        type: array
+      run_summary:
+        type: object
+      pareto_cif_paths:
+        type: array
+        items:
+          type: string
+      evaluate_report_path:
+        oneOf:
+        - type: string
+        - type: 'null'
+      partial_failure:
+        oneOf:
+        - type: array
+        - type: 'null'
+    required:
+    - state
+    - run_dir
+    - objectives
+    - top_k_table
+    - iterations
+    - run_summary
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:crystal_design_structure_crossover_py
+    evidence_contract_version: external-action-evidence/v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: Python_adapter port of crystal-design-structure-crossover-agent. Runs the
+    full evolutionary loop in one subprocess call (Phase 0 LLM runplan + init + step
+    x N + finalize). Reuses the sibling skill's evolve_driver.py. Trades Claude-per-generation
+    steering for one-shot batch execution; lower token cost, no mid-run human intervention.
+- skill_id: crystal_synthesis_advisor
+  claude_name: crystal-synthesis-advisor
+  display_name: 晶体可制备性评估（L3）
+  domain: materials
+  stages:
+  - solution_design
+  substages:
+  - synthesis_assessment
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/crystal-synthesis-advisor
+  claude_skill_path: .claude/skills/crystal-synthesis-advisor
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: database_search
+  claude_name: database-search
+  display_name: 数据库候选检索
+  domain: materials
+  stages:
+  - problem_modeling
+  substages:
+  - database_search
+  pack: materials
+  spec: specs/database-search.md
+  input_skills: []
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/database-search
+  claude_skill_path: .claude/skills/database-search
+  output_file: mp_seeds.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: experiment_report
+  claude_name: experiment-report
+  display_name: 实验报告生成（L3）
+  domain: materials
+  stages:
+  - insight_generation
+  substages:
+  - report_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/experiment-report
+  claude_skill_path: .claude/skills/experiment-report
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: figure_spec
+  claude_name: figure-spec
+  display_name: 结构化流程图绘制（L3）
+  domain: materials
+  stages:
+  - insight_generation
+  substages:
+  - report_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/figure-spec
+  claude_skill_path: .claude/skills/figure-spec
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: flux_experiment
+  claude_name: flux-experiment
+  display_name: 云实验平台试验任务下发
+  domain: materials
+  stages:
+  - execution_validation
+  substages:
+  - synthesis_execution
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/flux-experiment
+  claude_skill_path: .claude/skills/flux-experiment
+  input_schema:
+    type: object
+    additionalProperties: false
+    required:
+    - goal
+    properties:
+      goal:
+        type: string
+      candidate_summary:
+        type: string
+      stability_handoff:
+        type: string
+      pareto_cif_paths:
+        type: array
+        items:
+          type: string
+      work_dir:
+        type: string
+  output_schema:
+    type: object
+    additionalProperties: false
+    required:
+    - state
+    - dispatch_report_path
+    properties:
+      state:
+        type: string
+        enum:
+        - succeeded
+        - partial_failure
+      task_id:
+        type: string
+      task_code:
+        type: string
+      task_name:
+        type: string
+      recipe_count:
+        type:
+        - number
+        - 'null'
+      dispatch_report_path:
+        type: string
+      failure_reason:
+        type: string
+      evidence:
+        type: array
+        items:
+          type: object
+      handoff_summary:
+        type: string
+  runtime_contract:
+    kind: skill_script
+    requires_external_action: true
+    adapter_id: skill_runtime:flux_experiment
+    evidence_contract_version: skill-execution-evidence/v1
+    artifact_files:
+    - flux-experiment/dispatch_report.md
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 'durable_agent 实现：LLM agent 读取 S3 候选与 S7 DFT 结论，为 top 候选 生成助熔剂法实验推荐方案（recipes
+    JSON），经 flux_api.py validate 离线 校验后调用云实验平台（CrystalFlux）开放 API 创建并启动试验任务， 产出 dispatch_report.md（taskId/taskCode/方案-候选映射）。仅完成下发，
+    不做任务处理与结果回收。
+
+    '
+- skill_id: jcc
+  claude_name: jcc
+  display_name: JCC 云际 HPC 提交（L3）
+  domain: materials
+  stages:
+  - execution_validation
+  substages:
+  - stability_verification
+  - band_gap_calculation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/jcc
+  claude_skill_path: .claude/skills/jcc
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: materials_literature_review
+  claude_name: materials-literature-review
+  display_name: 文献调研与研究目标
+  domain: materials
+  stages:
+  - problem_modeling
+  substages:
+  - literature_review
+  pack: materials
+  spec: specs/literature-review.md
+  input_skills: []
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/materials-literature-review
+  claude_skill_path: .claude/skills/materials-literature-review
+  output_file: literature_review.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: materials_magnet_design_mvp
+  claude_name: materials-magnet-design-mvp
+  display_name: 永磁体设计 MVP（SAGA-Opt）
+  domain: materials
+  stages:
+  - problem_modeling
+  - solution_design
+  substages:
+  - candidate_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/materials-magnet-design-mvp
+  claude_skill_path: .claude/skills/materials-magnet-design-mvp
+  input_schema:
+    type: object
+    properties:
+      goal:
+        type: string
+        description: User natural-language goal (e.g. "find high-mag-density low-HHI
+          magnets").
+      task_instruction:
+        description: Optional overrides for skill defaults. JSON-decoded if string.
+        oneOf:
+        - type: string
+        - type: object
+        - type: 'null'
+    required:
+    - goal
+    additionalProperties: false
+  output_schema:
+    type: object
+    properties:
+      state:
+        type: string
+        enum:
+        - succeeded
+        - partial_failure
+      top_k_table:
+        type: string
+      iterations:
+        type: array
+      run_summary:
+        type: object
+      partial_failure:
+        oneOf:
+        - type: array
+        - type: 'null'
+    required:
+    - state
+    - top_k_table
+    - iterations
+    - run_summary
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:materials_magnet_design_mvp
+    evidence_contract_version: external-action-evidence/v1
+  fixture_status: missing
+  notes: ''
+- skill_id: materials_mp_constraint_search
+  claude_name: materials-mp-constraint-search
+  display_name: MP 约束检索（L3）
+  domain: materials
+  stages:
+  - problem_modeling
+  substages:
+  - database_search
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/materials-mp-constraint-search
+  claude_skill_path: .claude/skills/materials-mp-constraint-search
+  input_schema:
+    type: object
+    properties:
+      goal:
+        type: string
+        description: User natural-language goal (e.g. "find ternary oxides with bandgap
+          1-3 eV excluding Pb").
+      task_instruction:
+        description: Optional overrides for skill defaults. JSON-decoded if string.
+        oneOf:
+        - type: string
+        - type: object
+        - type: 'null'
+    required:
+    - goal
+    additionalProperties: false
+  output_schema:
+    type: object
+    properties:
+      state:
+        type: string
+        enum:
+        - succeeded
+        - partial_failure
+      candidates:
+        type: array
+        items:
+          type: object
+          additionalProperties: true
+          required:
+          - material_id
+          - formula_pretty
+          - cif_text
+          properties:
+            material_id:
+              type: string
+              minLength: 1
+            formula_pretty:
+              type: string
+              minLength: 1
+            cif_text:
+              type: string
+              minLength: 1
+      report_markdown:
+        type: string
+      run_summary:
+        type: object
+      partial_failure:
+        oneOf:
+        - type: array
+        - type: 'null'
+    required:
+    - state
+    - candidates
+    - report_markdown
+    - run_summary
+  output_file: mp_seeds.md
+  runtime_contract:
+    kind: skill_script
+    requires_external_action: true
+    adapter_id: skill_runtime:materials_mp_constraint_search
+    evidence_contract_version: skill-execution-evidence/v1
+    artifact_files:
+    - mp-seeds/report.md
+    - mp-seeds/candidates.json
+    - mp-seeds/cifs/*.cif
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: ''
+- skill_id: materials_new_crystal_generation
+  claude_name: materials-new-crystal-generation
+  display_name: 新晶体演化生成（L3）
+  domain: materials
+  stages:
+  - problem_modeling
+  - solution_design
+  substages:
+  - candidate_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/materials-new-crystal-generation
+  claude_skill_path: .claude/skills/materials-new-crystal-generation
+  fixture_status: missing
+  notes: ''
+- skill_id: materials_parameter_recommend_flux
+  claude_name: materials-parameter-recommend-flux
+  display_name: Flux 制备参数推荐（L3）
+  domain: materials
+  stages:
+  - solution_design
+  substages:
+  - parameter_recommendation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/materials-parameter-recommend-flux
+  claude_skill_path: .claude/skills/materials-parameter-recommend-flux
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: materials_report_generation
+  claude_name: materials-report-generation
+  display_name: 报告生成
+  domain: materials
+  stages:
+  - insight_generation
+  substages:
+  - report_generation
+  pack: materials
+  spec: specs/report-generation.md
+  input_skills:
+  - database_search
+  - candidate_generation
+  - stability_verification
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/materials-report-generation
+  claude_skill_path: .claude/skills/materials-report-generation
+  output_file: final_report.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: mp_search
+  claude_name: mp-search
+  display_name: MP 数据库检索（L3）
+  domain: materials
+  stages:
+  - problem_modeling
+  substages:
+  - database_search
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/mp-search
+  claude_skill_path: .claude/skills/mp-search
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: paper_figure
+  claude_name: paper-figure
+  display_name: 论文数据图绘制（L3）
+  domain: materials
+  stages:
+  - insight_generation
+  substages:
+  - report_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/paper-figure
+  claude_skill_path: .claude/skills/paper-figure
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: parameter_recommendation
+  claude_name: parameter-recommendation
+  display_name: 参数推荐
+  domain: materials
+  stages:
+  - solution_design
+  substages:
+  - parameter_recommendation
+  pack: materials
+  spec: specs/parameter-recommendation.md
+  input_skills:
+  - candidate_generation
+  - database_search
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/parameter-recommendation
+  claude_skill_path: .claude/skills/parameter-recommendation
+  output_file: flux_parameters.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: pymatgen
+  claude_name: pymatgen
+  display_name: Pymatgen 结构分析（L3）
+  domain: materials
+  stages:
+  - problem_modeling
+  - solution_design
+  substages:
+  - database_search
+  - candidate_generation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/pymatgen
+  claude_skill_path: .claude/skills/pymatgen
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: research_lit
+  claude_name: research-lit
+  display_name: 文献检索与分析（L3）
+  domain: materials
+  stages:
+  - problem_modeling
+  substages:
+  - literature_review
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/research-lit
+  claude_skill_path: .claude/skills/research-lit
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: stability_verification
+  claude_name: stability-verification
+  display_name: 热力学稳定性验证
+  domain: materials
+  stages:
+  - execution_validation
+  substages:
+  - stability_verification
+  pack: materials
+  spec: specs/stability-verification.md
+  input_skills:
+  - candidate_generation
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/stability-verification
+  claude_skill_path: .claude/skills/stability-verification
+  output_file: stability_report.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: synthesis_assessment
+  claude_name: synthesis-assessment
+  display_name: 可制备性评估
+  domain: materials
+  stages:
+  - solution_design
+  substages:
+  - synthesis_assessment
+  pack: materials
+  spec: specs/synthesis-assessment.md
+  input_skills:
+  - candidate_generation
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/synthesis-assessment
+  claude_skill_path: .claude/skills/synthesis-assessment
+  output_file: synthesis_assessment.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: synthesis_execution
+  claude_name: synthesis-execution
+  display_name: 合成执行（湿实验）
+  domain: materials
+  stages:
+  - execution_validation
+  substages:
+  - synthesis_execution
+  pack: materials
+  spec: specs/synthesis-execution.md
+  input_skills:
+  - synthesis_assessment
+  - parameter_recommendation
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/synthesis-execution
+  claude_skill_path: .claude/skills/synthesis-execution
+  output_file: synthesis_execution_log.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: vasp_band_gap
+  claude_name: vasp-band-gap
+  display_name: VASP 带隙计算（L3）
+  domain: materials
+  stages:
+  - execution_validation
+  substages:
+  - band_gap_calculation
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/vasp-band-gap
+  claude_skill_path: .claude/skills/vasp-band-gap
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: vasp_stability_durable
+  claude_name: vasp-stability-durable
+  display_name: VASP 热力学稳定性
+  domain: materials
+  stages:
+  - execution_validation
+  substages:
+  - stability_verification
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/vasp-stability-durable
+  claude_skill_path: .claude/skills/vasp-stability-durable
+  input_schema:
+    type: object
+    additionalProperties: false
+    required:
+    - goal
+    properties:
+      goal:
+        type: string
+      pareto_cif_paths:
+        type: array
+        items:
+          type: string
+      candidate_summary:
+        type: string
+  output_schema:
+    type: object
+    additionalProperties: false
+    required:
+    - state
+    - target_formula
+    - ehull_eV
+    - formation_energy_eV_per_atom
+    - stability_verdict
+    - evidence
+    properties:
+      state:
+        type: string
+        enum:
+        - succeeded
+        - partial_failure
+      target_formula:
+        type: string
+      ehull_eV:
+        type:
+        - number
+        - 'null'
+      formation_energy_eV_per_atom:
+        type:
+        - number
+        - 'null'
+      stability_verdict:
+        type: string
+      jcc_task_name:
+        type: string
+      work_dir:
+        type: string
+      failure_reason:
+        type: string
+      evidence:
+        type: array
+        items:
+          type: object
+      handoff_summary:
+        type: string
+  runtime_contract:
+    kind: skill_script
+    requires_external_action: true
+    adapter_id: skill_runtime:vasp_stability_durable
+    evidence_contract_version: skill-execution-evidence/v1
+    artifact_files:
+    - vasp-stability/stability_report.md
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: '确定性 skill_script 实现：读取 S3 Pareto CIF（取第一名），用 setup_competing_phases.py 生成
+    VASP 输入，通过 jcc CLI 提交 HPCSlurmArm，轮询等待结果（最多 550s），解析 OUTCAR 用 analyze_stability.py
+    计算 ehull，产出结构化 JSON 供 S9 消费。 凭证通过 JCC_BASE_URL / JCC_USERNAME / JCC_PASSWORD 环境变量注入。
+
+    '
+- skill_id: vasp_thermodynamic_stability
+  claude_name: vasp-thermodynamic-stability
+  display_name: VASP 热力学稳定性分析（L3）
+  domain: materials
+  stages:
+  - execution_validation
+  substages:
+  - stability_verification
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/vasp-thermodynamic-stability
+  claude_skill_path: .claude/skills/vasp-thermodynamic-stability
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: wet_lab_workflow
+  claude_name: wet-lab-workflow
+  display_name: 湿实验工作流管理（L3）
+  domain: materials
+  stages:
+  - execution_validation
+  substages:
+  - synthesis_execution
+  packs:
+  - materials
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/materials/wet-lab-workflow
+  claude_skill_path: .claude/skills/wet-lab-workflow
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_code_implementation
+  claude_name: ope-code-implementation
+  display_name: 代码实现
+  domain: ope
+  stages:
+  - execution_validation
+  substages:
+  - code_implementation
+  pack: ope
+  spec: implementation.md
+  input_skills:
+  - ope_task_planning
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-code-implementation
+  claude_skill_path: .claude/skills/ope-code-implementation
+  output_file: execute/code/implementation.md
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_data_validation
+  claude_name: ope-data-validation
+  display_name: 数据验证
+  domain: ope
+  stages:
+  - execution_validation
+  substages:
+  - data_validation
+  pack: ope
+  spec: data_validation.md
+  input_skills:
+  - ope_experiment_execution
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-data-validation
+  claude_skill_path: .claude/skills/ope-data-validation
+  output_file: execute/data/data_validation.md
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_data_visualization
+  claude_name: ope-data-visualization
+  display_name: 数据可视化
+  domain: ope
+  stages:
+  - insight_generation
+  substages:
+  - data_visualization
+  pack: ope
+  spec: visualization.md
+  input_skills:
+  - ope_data_validation
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-data-visualization
+  claude_skill_path: .claude/skills/ope-data-visualization
+  output_file: report/visualization.md
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_experiment_design
+  claude_name: ope-experiment-design
+  display_name: 实验设计
+  domain: ope
+  stages:
+  - solution_design
+  substages:
+  - experiment_design
+  pack: ope
+  spec: experiment_design.md
+  input_skills:
+  - ope_hypothesis_construction
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-experiment-design
+  claude_skill_path: .claude/skills/ope-experiment-design
+  output_file: design/experiment_design.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_experiment_execution
+  claude_name: ope-experiment-execution
+  display_name: 实验执行
+  domain: ope
+  stages:
+  - execution_validation
+  substages:
+  - experiment_execution
+  pack: ope
+  spec: execution_log.md
+  input_skills:
+  - ope_code_implementation
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-experiment-execution
+  claude_skill_path: .claude/skills/ope-experiment-execution
+  output_file: execute/experiments/execution_log.md
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_gap_analysis
+  claude_name: ope-gap-analysis
+  display_name: 空缺分析
+  domain: ope
+  stages:
+  - problem_modeling
+  substages:
+  - gap_analysis
+  pack: ope
+  spec: analysis.md
+  input_skills:
+  - ope_literature_filter
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-gap-analysis
+  claude_skill_path: .claude/skills/ope-gap-analysis
+  output_file: proposal/analysis.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_hypothesis_construction
+  claude_name: ope-hypothesis-construction
+  display_name: 假设构建
+  domain: ope
+  stages:
+  - problem_modeling
+  substages:
+  - hypothesis_construction
+  pack: ope
+  spec: proposal.md
+  input_skills:
+  - ope_question_formulation
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-hypothesis-construction
+  claude_skill_path: .claude/skills/ope-hypothesis-construction
+  output_file: proposal/proposal.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_info_retrieval
+  claude_name: ope-info-retrieval
+  display_name: 信息检索
+  domain: ope
+  stages:
+  - problem_modeling
+  substages:
+  - info_retrieval
+  pack: ope
+  spec: reference.md
+  input_skills: []
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-info-retrieval
+  claude_skill_path: .claude/skills/ope-info-retrieval
+  output_file: proposal/reference.md
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_literature_filter
+  claude_name: ope-literature-filter
+  display_name: 文献筛选
+  domain: ope
+  stages:
+  - problem_modeling
+  substages:
+  - literature_filter
+  pack: ope
+  spec: literature.md
+  input_skills:
+  - ope_info_retrieval
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-literature-filter
+  claude_skill_path: .claude/skills/ope-literature-filter
+  output_file: proposal/literature.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_paper_revision
+  claude_name: ope-paper-revision
+  display_name: 论文修订
+  domain: ope
+  stages:
+  - insight_generation
+  substages:
+  - paper_revision
+  pack: ope
+  spec: revision_notes.md
+  input_skills:
+  - ope_paper_writing
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-paper-revision
+  claude_skill_path: .claude/skills/ope-paper-revision
+  output_file: report/revision_notes.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_paper_writing
+  claude_name: ope-paper-writing
+  display_name: 论文撰写
+  domain: ope
+  stages:
+  - insight_generation
+  substages:
+  - paper_writing
+  pack: ope
+  spec: paper.md
+  input_skills:
+  - ope_data_visualization
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-paper-writing
+  claude_skill_path: .claude/skills/ope-paper-writing
+  output_file: report/paper.tex
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: ope_question_formulation
+  claude_name: ope-question-formulation
+  display_name: 问题建模
+  domain: ope
+  stages:
+  - problem_modeling
+  substages:
+  - question_formulation
+  pack: ope
+  spec: question.md
+  input_skills:
+  - ope_gap_analysis
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-question-formulation
+  claude_skill_path: .claude/skills/ope-question-formulation
+  output_file: proposal/question.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: code_implementation_l3
+  claude_name: ope-rs-code-implementation
+  display_name: 代码实现
+  domain: ope
+  stages:
+  - execution_validation
+  substages:
+  - code_implementation
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-code-implementation
+  claude_skill_path: .claude/skills/ope-rs-code-implementation
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: data_validation_l3
+  claude_name: ope-rs-data-validation
+  display_name: 数据验证
+  domain: ope
+  stages:
+  - execution_validation
+  substages:
+  - data_validation
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-data-validation
+  claude_skill_path: .claude/skills/ope-rs-data-validation
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: data_visualization_l3
+  claude_name: ope-rs-data-visualization
+  display_name: 数据可视化
+  domain: ope
+  stages:
+  - insight_generation
+  substages:
+  - data_visualization
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-data-visualization
+  claude_skill_path: .claude/skills/ope-rs-data-visualization
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: experiment_design_l3
+  claude_name: ope-rs-experiment-design
+  display_name: 实验设计
+  domain: ope
+  stages:
+  - solution_design
+  substages:
+  - experiment_design
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-experiment-design
+  claude_skill_path: .claude/skills/ope-rs-experiment-design
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: experiment_execution_l3
+  claude_name: ope-rs-experiment-execution
+  display_name: 实验执行
+  domain: ope
+  stages:
+  - execution_validation
+  substages:
+  - experiment_execution
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-experiment-execution
+  claude_skill_path: .claude/skills/ope-rs-experiment-execution
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: gap_analysis_l3
+  claude_name: ope-rs-gap-analysis
+  display_name: 空缺分析
+  domain: ope
+  stages:
+  - problem_modeling
+  substages:
+  - gap_analysis
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-gap-analysis
+  claude_skill_path: .claude/skills/ope-rs-gap-analysis
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: hypothesis_construction_l3
+  claude_name: ope-rs-hypothesis-construction
+  display_name: 假设构建
+  domain: ope
+  stages:
+  - problem_modeling
+  substages:
+  - hypothesis_construction
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-hypothesis-construction
+  claude_skill_path: .claude/skills/ope-rs-hypothesis-construction
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: info_retrieval_l3
+  claude_name: ope-rs-info-retrieval
+  display_name: 信息检索
+  domain: ope
+  stages:
+  - problem_modeling
+  substages:
+  - info_retrieval
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-info-retrieval
+  claude_skill_path: .claude/skills/ope-rs-info-retrieval
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: literature_filter_l3
+  claude_name: ope-rs-literature-filter
+  display_name: 文献筛选
+  domain: ope
+  stages:
+  - problem_modeling
+  substages:
+  - literature_filter
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-literature-filter
+  claude_skill_path: .claude/skills/ope-rs-literature-filter
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: paper_revision_l3
+  claude_name: ope-rs-paper-revision
+  display_name: 论文修订
+  domain: ope
+  stages:
+  - insight_generation
+  substages:
+  - paper_revision
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-paper-revision
+  claude_skill_path: .claude/skills/ope-rs-paper-revision
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: paper_writing_l3
+  claude_name: ope-rs-paper-writing
+  display_name: 论文撰写
+  domain: ope
+  stages:
+  - insight_generation
+  substages:
+  - paper_writing
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-paper-writing
+  claude_skill_path: .claude/skills/ope-rs-paper-writing
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: question_formulation_l3
+  claude_name: ope-rs-question-formulation
+  display_name: 问题建模
+  domain: ope
+  stages:
+  - problem_modeling
+  substages:
+  - question_formulation
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-question-formulation
+  claude_skill_path: .claude/skills/ope-rs-question-formulation
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: task_planning_l3
+  claude_name: ope-rs-task-planning
+  display_name: 任务规划
+  domain: ope
+  stages:
+  - solution_design
+  substages:
+  - task_planning
+  packs:
+  - ope
+  skill_type: atomic
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-rs-task-planning
+  claude_skill_path: .claude/skills/ope-rs-task-planning
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: OPE L3
+- skill_id: ope_task_planning
+  claude_name: ope-task-planning
+  display_name: 任务规划
+  domain: ope
+  stages:
+  - solution_design
+  substages:
+  - task_planning
+  pack: ope
+  spec: task_plan.md
+  input_skills:
+  - ope_experiment_design
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/ope/ope-task-planning
+  claude_skill_path: .claude/skills/ope-task-planning
+  output_file: plan/task_plan.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: academic_source_retrieval_skill
+  claude_name: academic-source-retrieval-skill
+  display_name: 学术文献多源 Metadata 召回
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - source_acquisition
+  packs:
+  - opentrajectory
+  sequence: 10
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/academic-source-retrieval-skill
+  claude_skill_path: .claude/skills/academic-source-retrieval-skill
+  output_file: academic_source_retrieval.json
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:academic_source_retrieval_skill
+    evidence_contract_version: external-action-evidence/v1
+  fixture_status: example_only
+  notes: 'P0.7a self-contained runtime: OpenAlex and arXiv metadata retrieval execute
+    from this Skill package; Semantic Scholar remains optional best-effort. No PDF
+    download, no dedup, no scoring.'
+- skill_id: candidate_dedup_and_provenance
+  claude_name: candidate-dedup-and-provenance
+  display_name: 候选文献去重与来源标记
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - source_acquisition
+  packs:
+  - opentrajectory
+  sequence: 20
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/candidate-dedup-and-provenance
+  claude_skill_path: .claude/skills/candidate-dedup-and-provenance
+  output_file: deduped_candidates.json
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:candidate_dedup_and_provenance
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: example_only
+  notes: Migrated from OpenTrajectory literature_merge_filter.py merge_candidates()
+    function. No LLM, no scoring, no tiering.
+- skill_id: candidate_source_scoring
+  claude_name: candidate-source-scoring
+  display_name: 候选文献来源评分
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - literature_experiment_record_verification
+  packs:
+  - opentrajectory
+  - pvd
+  sequence: 20
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/candidate-source-scoring
+  claude_skill_path: .claude/skills/candidate-source-scoring
+  output_file: candidate_scores.json
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:candidate_source_scoring
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: example_only
+  notes: Directly consumes screened_candidates from title-abstract screening plus
+    the research context required for candidate-level scoring. Produces explainable
+    candidate_scores for candidate-tiering only; no screening, tiering, or top-k authority.
+- skill_id: candidate_tiering
+  claude_name: candidate-tiering
+  display_name: 候选文献分层门控
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - literature_experiment_record_verification
+  packs:
+  - opentrajectory
+  - pvd
+  sequence: 30
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/candidate-tiering
+  claude_skill_path: .claude/skills/candidate-tiering
+  output_file: source_tiers.json
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:candidate_tiering
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: example_only
+  notes: Migrated from OpenTrajectory p025_topk_selector gate/pool logic only. No
+    top-k selection.
+- skill_id: deepxiv_progressive_reading
+  claude_name: deepxiv-progressive-reading-skill
+  display_name: DeepXiv 渐进式文献深读
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - progressive_reading
+  packs:
+  - opentrajectory
+  sequence: 10
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/deepxiv-progressive-reading-skill
+  claude_skill_path: .claude/skills/deepxiv-progressive-reading-skill
+  output_file: deepxiv_paper_packets.json
+  capability_contract:
+    artifact_types:
+    - opentrajectory.progressive_reading
+    - opentrajectory.progressive_reading.planned_output
+    judgment_support:
+      deterministic: false
+      domain_professional: false
+  execution_method_roles:
+  - opentrajectory_research_record_establishment_v1:progressive_reading
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:deepxiv_progressive_reading
+    evidence_contract_version: external-action-evidence/v1
+  external_source_records:
+  - record_path: /paper_packets/*
+    identity_fields:
+    - field_path: /arxiv_id
+      identity_type: arxiv_identifier
+  fixture_status: example_only
+  notes: Canonical dual input is topk_selection + evidence_schema. EvidenceSchema
+    drives section order and bounded deepening; unresolved targets stay explicit in
+    packet diagnostics. Identity/material/source-anchor truth remains unchanged; raw()
+    remains explicit opt-in.
+- skill_id: evidence_node_extraction
+  claude_name: evidence-node-extraction-skill
+  display_name: 研究记录提取
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - evidence_extraction
+  packs:
+  - opentrajectory
+  sequence: 10
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/evidence-node-extraction-skill
+  claude_skill_path: .claude/skills/evidence-node-extraction-skill
+  output_file: research_records.json
+  capability_contract:
+    artifact_types:
+    - opentrajectory.evidence_extraction.planned_output
+    - research_records
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - opentrajectory_research_record_establishment_v1:research_record_extraction
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_model_profile: terra
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: model_output.schema.json
+  fixture_status: example_only
+  notes: ResearchRecord-first Skill-local implementation. The model emits only semantic
+    ResearchRecord fields defined by model_output.schema.json. scripts/finalize.py
+    owns deterministic condition-status aggregation, source identity, grounding, stable
+    IDs, deduplication, summary, audit, and final-schema validation. ResearchRecords
+    are not Evidence at this substage.
+- skill_id: evidence_schema_design
+  claude_name: evidence-schema-design-skill
+  display_name: 动态证据模型设计
+  domain: opentrajectory
+  stages:
+  - solution_design
+  substages:
+  - evidence_schema_design
+  packs:
+  - opentrajectory
+  sequence: 10
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/evidence-schema-design-skill
+  claude_skill_path: .claude/skills/evidence-schema-design-skill
+  output_file: evidence_schema.json
+  capability_contract:
+    artifact_types:
+    - opentrajectory.evidence_schema_design
+    - opentrajectory.evidence_schema_design.planned_output
+    judgment_support:
+      deterministic: false
+      domain_professional: false
+  execution_method_roles:
+  - opentrajectory_research_record_establishment_v1:evidence_schema
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_model_profile: terra
+  durable_llm_execution_policy:
+    contract_version: 1
+    reasoning_effort: low
+    max_output_tokens: 5000
+    read_timeout_seconds: 90
+    task_budget_seconds: 135
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: model_output.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: example_only
+  notes: P0.7f narrow slice. Stable shell plus task-specific dynamic targets. No evidence
+    extraction, GapMap, acquisition actions, or hypothesis generation.
+- skill_id: ot_evidence_supported_findings_synthesis
+  claude_name: evidence-supported-findings-synthesis-skill
+  display_name: 已有证据结论凝练
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - findings_synthesis
+  packs:
+  - opentrajectory
+  sequence: 10
+  enabled: false
+  skill_type: atomic
+  runtime: llm_structured
+  status: draft
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/evidence-supported-findings-synthesis-skill
+  claude_skill_path: .claude/skills/evidence-supported-findings-synthesis-skill
+  output_file: evidence_supported_findings.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: example_only
+  notes: Single-responsibility findings synthesis. LLM must produce synthesis-level
+    findings rather than edge-by-edge restatements; deterministic Skill code owns
+    provenance guards, IDs, deduplication, max_findings, status metadata, and final
+    schema validation.
+- skill_id: ot_falsifiable_hypothesis_generation
+  claude_name: falsifiable-hypothesis-generation-skill
+  display_name: 待验证可证伪假说生成
+  domain: opentrajectory
+  stages:
+  - insight_generation
+  substages:
+  - hypothesis_update
+  packs:
+  - opentrajectory
+  sequence: 10
+  enabled: false
+  skill_type: atomic
+  runtime: llm_structured
+  status: draft
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/falsifiable-hypothesis-generation-skill
+  claude_skill_path: .claude/skills/falsifiable-hypothesis-generation-skill
+  output_file: hypothesis_drafts.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: example_only
+  notes: Single-responsibility hypothesis_update Skill. The model produces scientific-semantic
+    hypothesis drafts; Skill-local deterministic code validates provenance, identity,
+    deduplication, limits, audit, degraded state, and final schema. No experiment
+    design, parameter recommendation, final conclusion, workflow orchestration, or
+    round management.
+- skill_id: mechanism_chain_synthesis
+  claude_name: mechanism-chain-synthesis-skill
+  display_name: 机制链合成
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages: []
+  packs:
+  - opentrajectory
+  sequence: 10
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/mechanism-chain-synthesis-skill
+  claude_skill_path: .claude/skills/mechanism-chain-synthesis-skill
+  output_file: mechanism_packets.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_model_profile: terra
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: research:declared-scientific-facts:v1
+    facts:
+    - fact_key: mechanism_edges
+      source_field: mechanism_edges
+    - fact_key: mechanism_chains
+      source_field: mechanism_chains
+    - fact_key: mechanism_conflicts
+      source_field: conflicts
+    - fact_key: mechanism_gaps
+      source_field: gaps
+  fixture_status: example_only
+  notes: Legacy narrow mechanism-chain capability retained for traceability. It is
+    not bound to the OpenTrajectory v3 mechanism_explanation Definition because its
+    current input contract does not cover the accepted evidence assessment and candidate-explanation
+    context required by that responsibility.
+- skill_id: opentrajectory_mechanism_explanation
+  claude_name: opentrajectory-mechanism-explanation
+  display_name: 机制解释
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - mechanism_explanation
+  pack: opentrajectory
+  sequence: 90
+  enabled: true
+  spec: 03-validation/mechanism-explanation.md
+  input_skills: []
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/opentrajectory-mechanism-explanation
+  claude_skill_path: .claude/skills/opentrajectory-mechanism-explanation
+  output_file: 03-validation/mechanism-packets.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: none
+  notes: OpenTrajectory v3 conditional responsibility; entered only when mechanism
+    reasoning can materially affect evidence interpretation, conclusions, unknowns,
+    or next-step advice.
+- skill_id: opentrajectory_source_acquisition
+  claude_name: opentrajectory-source-acquisition
+  display_name: 文献获取
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - source_acquisition
+  packs:
+  - opentrajectory
+  sequence: 50
+  enabled: true
+  spec: 03-validation/source-acquisition.md
+  input_skills:
+  - opentrajectory_retrieval_strategy_design
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/opentrajectory-source-acquisition
+  claude_skill_path: .claude/skills/opentrajectory-source-acquisition
+  output_file: 03-validation/source-acquisition.json
+  capability_contract:
+    artifact_types:
+    - opentrajectory.source_acquisition
+    - opentrajectory.source_acquisition.planned_output
+    judgment_support:
+      deterministic: false
+      domain_professional: false
+  execution_method_roles:
+  - opentrajectory_research_record_establishment_v1:source_acquisition
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:opentrajectory_source_acquisition
+    evidence_contract_version: external-action-evidence/v1
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: example_only
+  notes: One OT source-acquisition work unit. External retrieval is bounded and parallel;
+    deterministic deduplication and access-readiness resolution run inside the Skill.
+- skill_id: opentrajectory_source_screening_selection
+  claude_name: opentrajectory-source-screening-selection
+  display_name: 文献筛选与优选
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - source_screening_selection
+  packs:
+  - opentrajectory
+  sequence: 60
+  enabled: true
+  spec: 03-validation/source-screening-selection.md
+  input_skills:
+  - opentrajectory_source_acquisition
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/opentrajectory-source-screening-selection
+  claude_skill_path: .claude/skills/opentrajectory-source-screening-selection
+  output_file: topk_selection.json
+  capability_contract:
+    artifact_types:
+    - opentrajectory.source_screening_selection
+    - opentrajectory.source_screening_selection.planned_output
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - opentrajectory_research_record_establishment_v1:source_screening
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_model_profile: terra
+  durable_llm_execution_policy:
+    contract_version: 1
+    reasoning_effort: none
+    max_output_tokens: 6000
+    read_timeout_seconds: 120
+    task_budget_seconds: 135
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 0
+  durable_llm_batch_policy:
+    contract_version: 1
+    input_array_field: candidates
+    output_array_field: judgments
+    identity_field: candidate_id
+    max_items_per_batch: 30
+    max_parallel: 4
+    partial_failure_mode: preserve_successes
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: model_output.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: example_only
+  notes: One OT screening work unit. The model owns scientific relevance and reading
+    priority; deterministic finalization preserves source identity. Downstream progressive
+    reading owns the execution budget.
+- skill_id: ot_v3_evidence_assessment_synthesis
+  claude_name: ot-v3-evidence-assessment-synthesis-skill
+  display_name: v3 证据评估与综合
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - evidence_assessment_synthesis
+  packs:
+  - opentrajectory
+  sequence: 10
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/ot-v3-evidence-assessment-synthesis-skill
+  claude_skill_path: .claude/skills/ot-v3-evidence-assessment-synthesis-skill
+  output_file: evidence_assessment_and_research_synthesis.json
+  capability_contract:
+    artifact_types:
+    - evidence_assessment_and_research_synthesis
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - opentrajectory_evidence_assessment_synthesis_v1:evidence_assessment
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_model_profile: terra
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.runtime_guard:finalize
+    draft_schema: draft.schema.json
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: research:declared-scientific-facts:v1
+    facts:
+    - fact_key: ot_v3_evidence_assessment
+      source_field: evidence_assessment_and_research_synthesis
+  fixture_status: example_only
+  notes: Formal v3 evidence assessment over supplied ResearchRecords. The skill does
+    not retrieve evidence; it preserves record membership, support/refutation/limitation
+    distinctions, conflicts, and gaps for the required v3 responsibility.
+- skill_id: problem_framing_generation
+  claude_name: problem-framing-generation
+  display_name: 研究问题建模生成
+  domain: opentrajectory
+  stages:
+  - problem_modeling
+  substages:
+  - problem_framing
+  packs:
+  - opentrajectory
+  sequence: 10
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/problem-framing-generation
+  claude_skill_path: .claude/skills/problem-framing-generation
+  output_file: problem_framing.json
+  capability_contract:
+    artifact_types:
+    - opentrajectory.problem_framing
+    - opentrajectory.problem_framing.planned_output
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  execution_method_roles:
+  - opentrajectory_research_record_establishment_v1:research_context_modeling
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_model_profile: terra
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: example_only
+  notes: ''
+- skill_id: ot_research_lead_generation
+  claude_name: research-lead-generation-skill
+  display_name: 科研线索生成
+  domain: opentrajectory
+  stages:
+  - insight_generation
+  substages:
+  - research_lead_generation
+  packs:
+  - opentrajectory
+  sequence: 10
+  enabled: false
+  skill_type: atomic
+  runtime: llm_structured
+  status: draft
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/research-lead-generation-skill
+  claude_skill_path: .claude/skills/research-lead-generation-skill
+  output_file: research_leads.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: example_only
+  notes: Single-responsibility research lead generation. The LLM emits draft.schema.json
+    and explicitly owns semantic boundary judgment; Skill-local finalization validates
+    that declared judgment plus deterministic provenance, computes identity/summary/audit,
+    applies max_research_leads, and validates output.schema.json. Code does not infer
+    scientific semantics from text.
+- skill_id: research_lead_hypothesis_generation
+  claude_name: research-lead-hypothesis-generation-skill
+  display_name: 最终证据综合
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  - insight_generation
+  substages:
+  - findings_synthesis
+  packs:
+  - opentrajectory
+  sequence: 10
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/research-lead-hypothesis-generation-skill
+  claude_skill_path: .claude/skills/research-lead-hypothesis-generation-skill
+  output_file: final_synthesis.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_model_profile: terra
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: research:declared-scientific-facts:v1
+    facts:
+    - fact_key: direct_answer
+      source_field: direct_answer
+    - fact_key: evidence_supported_conclusions
+      source_field: evidence_supported_conclusions
+    - fact_key: evidence_conflicts
+      source_field: conflicts
+    - fact_key: uncertainties
+      source_field: uncertainties
+    - fact_key: evidence_gaps
+      source_field: evidence_gaps
+    - fact_key: research_leads
+      source_field: research_leads
+    - fact_key: hypotheses
+      source_field: hypotheses
+  fixture_status: example_only
+  notes: Single-call OpenTrajectory final synthesis. ResearchRecords are the direct
+    conclusion evidence source; mechanism_packet is optional enhancement. Separates
+    supported conclusions, research leads, and unvalidated falsifiable hypotheses
+    without hidden extra model calls.
+- skill_id: retrieval_matrix_generation
+  claude_name: retrieval-matrix-generation
+  display_name: 检索矩阵生成
+  domain: opentrajectory
+  stages:
+  - solution_design
+  substages:
+  - retrieval_strategy_design
+  packs:
+  - opentrajectory
+  sequence: 10
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/retrieval-matrix-generation
+  claude_skill_path: .claude/skills/retrieval-matrix-generation
+  output_file: retrieval_matrix.json
+  capability_contract:
+    artifact_types:
+    - opentrajectory.retrieval_strategy_design
+    - opentrajectory.retrieval_strategy_design.planned_output
+    judgment_support:
+      deterministic: false
+      domain_professional: false
+  execution_method_roles:
+  - opentrajectory_research_record_establishment_v1:retrieval_strategy
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_model_profile: terra
+  durable_llm_execution_policy:
+    contract_version: 1
+    reasoning_effort: low
+    max_output_tokens: 6000
+    read_timeout_seconds: 90
+    task_budget_seconds: 135
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: model_output.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: example_only
+  notes: Migrated from 04_backend/app/skills/literature_search_matrix_adapter.py +
+    app/schemas/literature_search_matrix.py
+- skill_id: source_access_readiness_resolver
+  claude_name: source-access-readiness-resolver-skill
+  display_name: 文献访问准备状态判定
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - source_acquisition
+  packs:
+  - opentrajectory
+  sequence: 30
+  enabled: true
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/source-access-readiness-resolver-skill
+  claude_skill_path: .claude/skills/source-access-readiness-resolver-skill
+  output_file: source_access_readiness.json
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:source_access_readiness_resolver
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: example_only
+  notes: Metadata-only bridge between candidate-dedup-and-provenance and title-abstract-screening-skill.
+    No network fetch, download, or parsing.
+- skill_id: title_abstract_screening
+  claude_name: title-abstract-screening-skill
+  display_name: 标题摘要筛选
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - literature_experiment_record_verification
+  packs:
+  - opentrajectory
+  - pvd
+  sequence: 10
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/title-abstract-screening-skill
+  claude_skill_path: .claude/skills/title-abstract-screening-skill
+  output_file: title_abstract_screening.json
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:title_abstract_screening
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: example_only
+  notes: Deterministic screening bridge before candidate-source-scoring. No network
+    fetch, fulltext parsing, scoring, tiering, or Top-K selection.
+- skill_id: topk_source_selection
+  claude_name: topk-source-selection
+  display_name: 候选文献 Top-K 选择
+  domain: opentrajectory
+  stages:
+  - execution_validation
+  substages:
+  - literature_experiment_record_verification
+  packs:
+  - opentrajectory
+  - pvd
+  sequence: 40
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: opentrajectory
+  skill_path: skills/opentrajectory/topk-source-selection
+  claude_skill_path: .claude/skills/topk-source-selection
+  output_file: topk_selection.json
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:topk_source_selection
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: example_only
+  notes: Migrated from OpenTrajectory p025_topk_selector top-k selection logic only.
+    No scoring, no tiering, no persistence.
+- skill_id: pvd_bayesian_optimization_candidate_generation
+  claude_name: pvd-bayesian-optimization-candidate-generation
+  display_name: PVD Bayesian Optimization Candidate Generation
+  domain: pvd
+  stages:
+  - execution_validation
+  substages: []
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-bayesian-optimization-candidate-generation
+  claude_skill_path: .claude/skills/pvd-bayesian-optimization-candidate-generation
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:pvd_bayesian_optimization_candidate_generation
+    evidence_contract_version: deterministic-output/v1
+  review_policy:
+    contract_version: 2
+    mode: schema_validated_only
+  conditional_binding:
+    policy_version: conditional_capability_binding_v1
+    evaluator_ref: python:pvd_bo.applicability:evaluate_capability_applicability
+    required_runtime_fact_refs:
+    - runtime:research-task:v1
+    - runtime:execution-instance:v1
+    - runtime:scientific-state:v1
+  fixture_status: missing
+  notes: Optional deterministic PVD candidate method. It may supply candidate settings
+    when applicable, does not define the Workflow parameter scope, and does not replace
+    feasibility or final recommendation authority.
+- skill_id: pvd_candidate_scoring_context_assembly
+  claude_name: pvd-candidate-scoring-context-assembly
+  display_name: PVD Candidate Scoring Context Assembly
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - literature_experiment_record_verification
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-candidate-scoring-context-assembly
+  claude_skill_path: .claude/skills/pvd-candidate-scoring-context-assembly
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: pvd_candidate_scoring_context.json
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:pvd_candidate_scoring_context_assembly
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: missing
+  notes: PVD deterministic bridge from formal retrieval/evidence artifacts to candidate
+    scoring context. No scientific judgment.
+- skill_id: pvd_evidence_applicability_comparability_analysis
+  claude_name: pvd-evidence-applicability-comparability-analysis
+  display_name: PVD Evidence Applicability & Comparability Analysis
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - evidence_applicability_comparability_analysis
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-evidence-applicability-comparability-analysis
+  claude_skill_path: .claude/skills/pvd-evidence-applicability-comparability-analysis
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - evidence_applicability
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  runtime_contract:
+    kind: reasoning_adapter
+    requires_external_action: false
+    adapter_id: python_adapter:pvd_evidence_applicability_comparability_analysis
+    evidence_contract_version: none
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: 'Production T05 capability: Python orchestration owns deterministic identity/provenance
+    joins and invokes registered durable LLM child Skills for Global Planning, record-level
+    Deep Verification, and Final Synthesis. Scientific authorization remains model-owned;
+    no external action.'
+- skill_id: pvd_evidence_applicability_final_synthesis
+  claude_name: pvd-evidence-applicability-final-synthesis
+  display_name: PVD Evidence Applicability Final Synthesis
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - evidence_applicability_comparability_analysis
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-evidence-applicability-final-synthesis
+  claude_skill_path: .claude/skills/pvd-evidence-applicability-final-synthesis
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_llm_execution_policy:
+    contract_version: 1
+    model_profile: terra
+    reasoning_effort: none
+    max_output_tokens: 5500
+    read_timeout_seconds: 120
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: Internal durable LLM component of T05 reasoning_adapter. It is Registry-executable
+    but is not an independent Workflow responsibility or Binding target; it is the
+    sole scientific child stage allowed to emit allowed_uses.
+- skill_id: pvd_evidence_applicability_global_planning
+  claude_name: pvd-evidence-applicability-global-planning
+  display_name: PVD Evidence Applicability Global Planning
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - evidence_applicability_comparability_analysis
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-evidence-applicability-global-planning
+  claude_skill_path: .claude/skills/pvd-evidence-applicability-global-planning
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_llm_execution_policy:
+    contract_version: 1
+    model_profile: terra
+    reasoning_effort: none
+    max_output_tokens: 5500
+    read_timeout_seconds: 120
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: Internal durable LLM component of T05 reasoning_adapter. It is Registry-executable
+    but is not an independent Workflow responsibility or Binding target; it cannot
+    emit allowed_uses.
+- skill_id: pvd_evidence_node_extraction
+  claude_name: pvd-evidence-node-extraction
+  display_name: PVD Evidence Node Extraction
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - literature_experiment_record_verification
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-evidence-node-extraction
+  claude_skill_path: .claude/skills/pvd-evidence-node-extraction
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - pvd.evidence_packet
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_model_profile: terra
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: provider.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: PVD Evidence-first extraction migrated from validated 407b behavior. Shared
+    durable runtime executes bounded per-paper Provider subtasks in parallel; deterministic
+    finalization enforces source-anchor grounding and isolates invalid sibling Evidence
+    items.
+- skill_id: pvd_evidence_record_deep_verification
+  claude_name: pvd-evidence-record-deep-verification
+  display_name: PVD Evidence Record Deep Verification
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - evidence_applicability_comparability_analysis
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-evidence-record-deep-verification
+  claude_skill_path: .claude/skills/pvd-evidence-record-deep-verification
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_llm_execution_policy:
+    contract_version: 1
+    model_profile: terra
+    reasoning_effort: none
+    max_output_tokens: 5500
+    read_timeout_seconds: 120
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: Internal durable LLM component of T05 reasoning_adapter. It is Registry-executable
+    per record but is not an independent Workflow responsibility or Binding target;
+    it cannot emit allowed_uses.
+- skill_id: pvd_evidence_retrieval_design
+  claude_name: pvd-evidence-retrieval-design
+  display_name: PVD Evidence Retrieval Design
+  domain: pvd
+  stages:
+  - solution_design
+  substages:
+  - research_retrieval_experiment_design
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-evidence-retrieval-design
+  claude_skill_path: .claude/skills/pvd-evidence-retrieval-design
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_llm_execution_policy:
+    contract_version: 1
+    model_profile: terra
+    reasoning_effort: none
+    max_output_tokens: 3500
+    read_timeout_seconds: 90
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: provider.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: PVD evidence-retrieval design owns core retrieval semantics and shortage-triggered
+    supplemental retrieval. Supplemental mode is entered only from formal evidence_shortage_facts
+    plus prior_retrieval_design; deterministic finalization preserves dynamic parameter
+    identity, merge, de-duplication and provenance.
+- skill_id: pvd_evidence_schema_design
+  claude_name: pvd-evidence-schema-design
+  display_name: PVD Evidence Schema Design
+  domain: pvd
+  stages:
+  - solution_design
+  substages:
+  - research_retrieval_experiment_design
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-evidence-schema-design
+  claude_skill_path: .claude/skills/pvd-evidence-schema-design
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_llm_execution_policy:
+    contract_version: 1
+    model_profile: terra
+    reasoning_effort: none
+    max_output_tokens: 4500
+    read_timeout_seconds: 90
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: provider.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: PVD CALL_03 migrated from validated 407b behavior. Model owns scientific
+    evidence targets; deterministic finalization owns stable target identity, exact
+    dynamic coverage and pending/non-formal separation.
+- skill_id: pvd_experimental_feedback_round_analysis
+  claude_name: pvd-experimental-feedback-round-analysis
+  display_name: PVD Experimental Feedback & Round Analysis
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - experimental_feedback_round_analysis
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-experimental-feedback-round-analysis
+  claude_skill_path: .claude/skills/pvd-experimental-feedback-round-analysis
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_llm_execution_policy:
+    contract_version: 1
+    model_profile: terra
+    reasoning_effort: none
+    max_output_tokens: 5000
+    read_timeout_seconds: 90
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  structured_output:
+    contract_version: 1
+    guard_version: p06c-v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: Capability 8 diagnoses one explicitly identified experiment from canonical
+    ScientificState facts, with Cap4 authorization, Cap5 factor context and Cap7 recommendation
+    context. It separates planned, actual and measured facts, records limitations/confounding,
+    and does not generate the next concrete recommendation.
+- skill_id: pvd_literature_evidence_acquisition_closure
+  claude_name: pvd-literature-evidence-acquisition-closure
+  display_name: PVD Literature Evidence Acquisition & Closure
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - literature_experiment_record_verification
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-literature-evidence-acquisition-closure
+  claude_skill_path: .claude/skills/pvd-literature-evidence-acquisition-closure
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  capability_contract:
+    artifact_types:
+    - pvd.evidence_packet
+    - pvd.research_records
+    - pvd.evidence_coverage
+    - pvd.evidence_shortage_facts
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  runtime_contract:
+    kind: external_adapter
+    requires_external_action: true
+    adapter_id: python_adapter:pvd_literature_evidence_acquisition_closure
+    evidence_contract_version: external-action-evidence/v1
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: One formal PVD literature-evidence closure capability. It closes EvidencePacket,
+    ResearchRecords, provenance and coverage, then deterministically projects real
+    coverage gaps into evidence_shortage_facts for shortage-triggered supplemental
+    retrieval. No shortage means no supplemental trigger.
+- skill_id: pvd_parameter_experiment_plan_feasibility_validation
+  claude_name: pvd-parameter-experiment-plan-feasibility-validation
+  display_name: PVD Parameter & Experiment Plan Feasibility Validation
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - parameter_experiment_plan_feasibility_validation
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-parameter-experiment-plan-feasibility-validation
+  claude_skill_path: .claude/skills/pvd-parameter-experiment-plan-feasibility-validation
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_llm_execution_policy:
+    contract_version: 1
+    model_profile: terra
+    reasoning_effort: none
+    max_output_tokens: 5000
+    read_timeout_seconds: 120
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: draft.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: Capability 6 feasibility/admission consumes the finalized Cap5 direction
+    analysis plus current context. It may admit, condition, defer or block directions
+    without requiring pre-generated concrete values; unavailable is not equivalent
+    to infeasible.
+- skill_id: pvd_process_factor_candidate_experiment_analysis
+  claude_name: pvd-process-factor-candidate-experiment-analysis
+  display_name: PVD Process Factors & Candidate Experiment Analysis
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - process_factor_candidate_experiment_analysis
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-process-factor-candidate-experiment-analysis
+  claude_skill_path: .claude/skills/pvd-process-factor-candidate-experiment-analysis
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_llm_execution_policy:
+    contract_version: 1
+    model_profile: terra
+    reasoning_effort: none
+    max_output_tokens: 6000
+    read_timeout_seconds: 120
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: draft.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: Finalized Workflow core responsibility. Reuses 407b factor reasoning, but
+    correctly moves concrete candidate settings into candidate analysis before feasibility;
+    deterministic finalization preserves exact task-defined parameter scope.
+- skill_id: pvd_recommendation_mode_resolution
+  claude_name: pvd-recommendation-mode-resolution
+  display_name: PVD Recommendation Mode Resolution
+  domain: pvd
+  stages:
+  - insight_generation
+  substages:
+  - four_parameter_recommendation
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: python_adapter
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-recommendation-mode-resolution
+  claude_skill_path: .claude/skills/pvd-recommendation-mode-resolution
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: pvd_recommendation_mode.json
+  runtime_contract:
+    kind: deterministic
+    requires_external_action: false
+    adapter_id: python_adapter:pvd_recommendation_mode_resolution
+    evidence_contract_version: deterministic-output/v1
+  fixture_status: missing
+  notes: PVD deterministic projection of formal ScientificState into recommendation
+    execution mode. It is an auxiliary method and not a fixed Workflow responsibility.
+- skill_id: pvd_research_record_structuring
+  claude_name: pvd-research-record-structuring
+  display_name: PVD Research Record Structuring
+  domain: pvd
+  stages:
+  - execution_validation
+  substages:
+  - literature_experiment_record_verification
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-research-record-structuring
+  claude_skill_path: .claude/skills/pvd-research-record-structuring
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  capability_contract:
+    artifact_types:
+    - pvd.research_records
+    judgment_support:
+      deterministic: false
+      domain_professional: true
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_model_profile: terra
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: provider.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  fixture_status: missing
+  notes: Groups finalized Evidence into traceable PVD ResearchRecords. Deterministic
+    singleton materialization is the formal degradation path when grouping is unavailable;
+    no comparability or recommendation authority.
+- skill_id: pvd_research_request_understanding
+  claude_name: pvd-research-request-understanding
+  display_name: PVD Research Request Understanding
+  domain: pvd
+  stages:
+  - problem_modeling
+  substages:
+  - research_goal_equipment_constraints
+  - evidence_applicability_comparability_analysis
+  - experimental_feedback_round_analysis
+  - process_factor_candidate_experiment_analysis
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-research-request-understanding
+  claude_skill_path: .claude/skills/pvd-research-request-understanding
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_llm_execution_policy:
+    contract_version: 1
+    model_profile: terra
+    reasoning_effort: none
+    max_output_tokens: 6000
+    read_timeout_seconds: 60
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: provider.schema.json
+  fixture_status: missing
+  notes: PVD request-understanding input-preparation capability migrated from 407b
+    behavior; dynamic task-defined parameter scope, provenance-preserving context,
+    and no recommendation authority.
+- skill_id: pvd_round_experiment_plan_parameter_recommendation
+  claude_name: pvd-round-experiment-plan-parameter-recommendation
+  display_name: PVD Round Experiment Plan & Parameter Recommendation
+  domain: pvd
+  stages:
+  - insight_generation
+  substages:
+  - round_experiment_plan_parameter_recommendation
+  packs:
+  - pvd
+  enabled: true
+  skill_type: atomic
+  runtime: llm_structured
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/pvd/pvd-round-experiment-plan-parameter-recommendation
+  claude_skill_path: .claude/skills/pvd-round-experiment-plan-parameter-recommendation
+  input_schema: input.schema.json
+  output_schema: output.schema.json
+  output_file: result.json
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  durable_llm_execution_policy:
+    contract_version: 1
+    model_profile: terra
+    reasoning_effort: none
+    max_output_tokens: 5000
+    read_timeout_seconds: 120
+    response_mode: json_object
+    load_references: false
+    structured_output_recovery_attempts: 1
+  finalization:
+    contract_version: 1
+    entrypoint: scripts.finalize:finalize
+    draft_schema: draft.schema.json
+  review_policy:
+    contract_version: 1
+    mode: schema_validated_only
+  scientific_state_projection:
+    contract_version: 2
+    materializer_ref: pvd:round-experiment-recommendation:v1
+    facts:
+    - fact_key: pvd_recommendation_decision_status
+      source_field: decision_status
+    - fact_key: pvd_recommendation_first_run_ranking_status
+      source_field: first_run_ranking_status
+    - fact_key: pvd_recommendation_experiments
+      source_field: experiments
+    - fact_key: pvd_recommendation_blocked_experiments
+      source_field: blocked_experiments
+    - fact_key: pvd_recommendation_next_step
+      source_field: next_step
+    - fact_key: pvd_recommendation_important_unknowns
+      source_field: important_unknowns
+  fixture_status: missing
+  notes: Capability 7 consumes Cap5 direction analysis and Cap6 feasibility/admission,
+    then generates the concrete parameter values and experiment portfolio. It must
+    not select blocked/deferred candidates as executable recommendations.
+- skill_id: ablation_design
+  claude_name: ablation-design
+  display_name: 消融设计
+  domain: sdr
+  stages:
+  - solution_design
+  substages:
+  - ablation_design
+  pack: sdr
+  spec: 02-method/ablation-plan.md
+  input_skills:
+  - method_selection
+  - baseline_selection
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/ablation-design
+  claude_skill_path: .claude/skills/ablation-design
+  output_file: 02-method/ablation-plan.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: analysis_planning
+  claude_name: analysis-planning
+  display_name: 分析计划
+  domain: sdr
+  stages:
+  - solution_design
+  substages:
+  - analysis_planning
+  pack: sdr
+  spec: 02-method/analysis-plan.md
+  input_skills:
+  - method_selection
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/analysis-planning
+  claude_skill_path: .claude/skills/analysis-planning
+  output_file: 02-method/analysis-plan.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: argument_blueprint
+  claude_name: argument-blueprint
+  display_name: 论点蓝图
+  domain: sdr
+  stages:
+  - execution_validation
+  substages:
+  - argument_blueprint
+  pack: sdr
+  spec: 03-experiment/argument-blueprint.md
+  input_skills:
+  - findings_synthesis
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/argument-blueprint
+  claude_skill_path: .claude/skills/argument-blueprint
+  output_file: 03-experiment/argument-blueprint.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: baseline_selection
+  claude_name: baseline-selection
+  display_name: 基线/竞品选择
+  domain: sdr
+  stages:
+  - solution_design
+  substages:
+  - baseline_selection
+  pack: sdr
+  spec: 02-method/baselines.md
+  input_skills:
+  - method_selection
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/baseline-selection
+  claude_skill_path: .claude/skills/baseline-selection
+  output_file: 02-method/baselines.md
+  fixture_status: missing
+  notes: ''
+- skill_id: constraints_criteria
+  claude_name: constraints-criteria
+  display_name: 约束与标准
+  domain: sdr
+  stages:
+  - problem_modeling
+  substages:
+  - constraints_criteria
+  pack: sdr
+  spec: 01-problem/constraints-criteria.md
+  input_skills:
+  - intent_understanding
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/constraints-criteria
+  claude_skill_path: .claude/skills/constraints-criteria
+  output_file: 01-problem/constraints-criteria.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: data_strategy
+  claude_name: data-strategy
+  display_name: 数据策略
+  domain: sdr
+  stages:
+  - solution_design
+  substages:
+  - data_strategy
+  pack: sdr
+  spec: 02-method/data-strategy.md
+  input_skills:
+  - method_selection
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/data-strategy
+  claude_skill_path: .claude/skills/data-strategy
+  output_file: 02-method/data-strategy.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: evidence_extraction
+  claude_name: evidence-extraction
+  display_name: 证据抽取
+  domain: sdr
+  stages:
+  - execution_validation
+  substages:
+  - evidence_extraction
+  pack: sdr
+  spec: 03-experiment/evidence-extraction.md
+  input_skills:
+  - full_execution
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/evidence-extraction
+  claude_skill_path: .claude/skills/evidence-extraction
+  output_file: 03-experiment/evidence-extraction.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: exploratory_execution
+  claude_name: exploratory-execution
+  display_name: 探索执行
+  domain: sdr
+  stages:
+  - execution_validation
+  substages:
+  - exploratory_execution
+  pack: sdr
+  spec: 03-experiment/execution-exploratory.md
+  input_skills:
+  - task_breakdown
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/exploratory-execution
+  claude_skill_path: .claude/skills/exploratory-execution
+  output_file: 03-experiment/execution-exploratory.md
+  fixture_status: missing
+  notes: ''
+- skill_id: findings_synthesis
+  claude_name: findings-synthesis
+  display_name: 发现凝练
+  domain: sdr
+  stages:
+  - execution_validation
+  substages:
+  - findings_synthesis
+  pack: sdr
+  spec: 03-experiment/findings.md
+  input_skills:
+  - evidence_extraction
+  - statistical_analysis
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/findings-synthesis
+  claude_skill_path: .claude/skills/findings-synthesis
+  output_file: 03-experiment/findings.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: full_execution
+  claude_name: full-execution
+  display_name: 全规模执行
+  domain: sdr
+  stages:
+  - execution_validation
+  substages:
+  - full_execution
+  pack: sdr
+  spec: 03-experiment/execution-full.md
+  input_skills:
+  - task_breakdown
+  - reproducibility
+  - exploratory_execution
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/full-execution
+  claude_skill_path: .claude/skills/full-execution
+  output_file: 03-experiment/execution-full.md
+  fixture_status: missing
+  notes: ''
+- skill_id: gap_identification
+  claude_name: gap-identification
+  display_name: 空缺识别
+  domain: sdr
+  stages:
+  - problem_modeling
+  substages:
+  - gap_identification
+  pack: sdr
+  spec: 01-problem/gap-analysis.md
+  input_skills:
+  - literature_search
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/gap-identification
+  claude_skill_path: .claude/skills/gap-identification
+  output_file: 01-problem/gap-analysis.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: hypothesis_formation
+  claude_name: hypothesis-formation
+  display_name: 假说形成
+  domain: sdr
+  stages:
+  - problem_modeling
+  substages:
+  - hypothesis_formation
+  pack: sdr
+  spec: 01-problem/hypotheses.md
+  input_skills:
+  - question_refinement
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/hypothesis-formation
+  claude_skill_path: .claude/skills/hypothesis-formation
+  output_file: 01-problem/hypotheses.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: hypothesis_update
+  claude_name: hypothesis-update
+  display_name: 假说更新
+  domain: sdr
+  stages:
+  - insight_generation
+  substages:
+  - hypothesis_update
+  pack: sdr
+  spec: 04-report/hypothesis-update.md
+  input_skills:
+  - result_acceptance
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/hypothesis-update
+  claude_skill_path: .claude/skills/hypothesis-update
+  output_file: 04-report/hypothesis-update.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: hypothesis_validation
+  claude_name: hypothesis-validation
+  display_name: 假设验证
+  domain: sdr
+  stages:
+  - execution_validation
+  substages:
+  - hypothesis_validation
+  pack: sdr
+  spec: 03-experiment/hypothesis-validation.md
+  input_skills:
+  - hypothesis_formation
+  - statistical_analysis
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/hypothesis-validation
+  claude_skill_path: .claude/skills/hypothesis-validation
+  output_file: 03-experiment/hypothesis-validation.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: intent_understanding
+  claude_name: intent-understanding
+  display_name: 意图理解
+  domain: sdr
+  stages:
+  - problem_modeling
+  substages:
+  - intent_understanding
+  pack: sdr
+  spec: research-config.yaml
+  input_skills: []
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/intent-understanding
+  claude_skill_path: .claude/skills/intent-understanding
+  output_file: research-config.yaml
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: literature_search
+  claude_name: literature-search
+  display_name: 文献检索
+  domain: sdr
+  stages:
+  - problem_modeling
+  substages:
+  - literature_search
+  pack: sdr
+  spec: 01-problem/literature-review.md
+  input_skills:
+  - intent_understanding
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/literature-search
+  claude_skill_path: .claude/skills/literature-search
+  output_file: 01-problem/literature-review.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: mechanism_explanation
+  claude_name: mechanism-explanation
+  display_name: 机制解释
+  domain: sdr
+  stages:
+  - execution_validation
+  substages:
+  - mechanism_explanation
+  pack: sdr
+  spec: 03-experiment/mechanism-explanation.md
+  input_skills:
+  - findings_synthesis
+  - literature_search
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/mechanism-explanation
+  claude_skill_path: .claude/skills/mechanism-explanation
+  output_file: 03-experiment/mechanism-explanation.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: method_selection
+  claude_name: method-selection
+  display_name: 方法论选型
+  domain: sdr
+  stages:
+  - solution_design
+  substages:
+  - method_selection
+  pack: sdr
+  spec: 02-method/method-selection.md
+  input_skills:
+  - hypothesis_formation
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/method-selection
+  claude_skill_path: .claude/skills/method-selection
+  output_file: 02-method/method-selection.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: negative_result_recording
+  claude_name: negative-result-recording
+  display_name: 负面结果记录
+  domain: sdr
+  stages:
+  - execution_validation
+  substages:
+  - negative_result_recording
+  pack: sdr
+  spec: 03-experiment/negative-results.md
+  input_skills:
+  - full_execution
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/negative-result-recording
+  claude_skill_path: .claude/skills/negative-result-recording
+  output_file: 03-experiment/negative-results.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: question_refinement
+  claude_name: question-refinement
+  display_name: 问题凝练
+  domain: sdr
+  stages:
+  - problem_modeling
+  substages:
+  - question_refinement
+  pack: sdr
+  spec: 01-problem/research-questions.md
+  input_skills:
+  - gap_identification
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/question-refinement
+  claude_skill_path: .claude/skills/question-refinement
+  output_file: 01-problem/research-questions.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: report_generation
+  claude_name: report-generation
+  display_name: 报告/图表生成
+  domain: sdr
+  stages:
+  - insight_generation
+  substages:
+  - report_generation
+  pack: sdr
+  spec: 04-report/report.md
+  input_skills:
+  - result_acceptance
+  - mechanism_explanation
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/report-generation
+  claude_skill_path: .claude/skills/report-generation
+  output_file: 04-report/report.md
+  fixture_status: missing
+  notes: ''
+- skill_id: reproducibility
+  claude_name: reproducibility
+  display_name: 可复现性
+  domain: sdr
+  stages:
+  - solution_design
+  substages:
+  - reproducibility
+  pack: sdr
+  spec: 02-method/reproducibility.md
+  input_skills:
+  - method_selection
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/reproducibility
+  claude_skill_path: .claude/skills/reproducibility
+  output_file: 02-method/reproducibility.md
+  fixture_status: missing
+  notes: ''
+- skill_id: research_lead_generation
+  claude_name: research-lead-generation
+  display_name: 研究线索生成
+  domain: sdr
+  stages:
+  - insight_generation
+  substages:
+  - research_lead_generation
+  pack: sdr
+  spec: 04-report/research-leads.md
+  input_skills:
+  - result_acceptance
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/research-lead-generation
+  claude_skill_path: .claude/skills/research-lead-generation
+  output_file: 04-report/research-leads.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: result_acceptance
+  claude_name: result-acceptance
+  display_name: 结果验收
+  domain: sdr
+  stages:
+  - execution_validation
+  substages:
+  - result_acceptance
+  pack: sdr
+  spec: 03-experiment/result-acceptance.md
+  input_skills:
+  - hypothesis_validation
+  - findings_synthesis
+  - argument_blueprint
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/result-acceptance
+  claude_skill_path: .claude/skills/result-acceptance
+  output_file: 03-experiment/result-acceptance.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: statistical_analysis
+  claude_name: statistical-analysis
+  display_name: 统计分析
+  domain: sdr
+  stages:
+  - execution_validation
+  substages:
+  - statistical_analysis
+  pack: sdr
+  spec: 03-experiment/statistical-analysis.md
+  input_skills:
+  - analysis_planning
+  - evidence_extraction
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/statistical-analysis
+  claude_skill_path: .claude/skills/statistical-analysis
+  output_file: 03-experiment/statistical-analysis.md
+  fixture_status: missing
+  notes: ''
+- skill_id: task_breakdown
+  claude_name: task-breakdown
+  display_name: 任务拆解
+  domain: sdr
+  stages:
+  - solution_design
+  substages:
+  - task_breakdown
+  pack: sdr
+  spec: 02-method/task.md
+  input_skills:
+  - method_selection
+  - variable_definition
+  - data_strategy
+  - analysis_planning
+  - ablation_design
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/task-breakdown
+  claude_skill_path: .claude/skills/task-breakdown
+  output_file: 02-method/task.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: topic_briefing
+  claude_name: topic-briefing
+  display_name: 选题汇报
+  domain: sdr
+  stages:
+  - problem_modeling
+  substages:
+  - topic_briefing
+  pack: sdr
+  spec: 01-problem/topic-briefing.md
+  input_skills:
+  - intent_understanding
+  - literature_search
+  - gap_identification
+  - question_refinement
+  - hypothesis_formation
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/topic-briefing
+  claude_skill_path: .claude/skills/topic-briefing
+  output_file: 01-problem/topic-briefing.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''
+- skill_id: variable_definition
+  claude_name: variable-definition
+  display_name: 变量定义
+  domain: sdr
+  stages:
+  - solution_design
+  substages:
+  - variable_definition
+  pack: sdr
+  spec: 02-method/variable-definition.md
+  input_skills:
+  - method_selection
+  skill_type: orchestration
+  runtime: claude_code
+  status: ready
+  owner: TBD
+  source: manual
+  skill_path: skills/sdr/variable-definition
+  claude_skill_path: .claude/skills/variable-definition
+  output_file: 02-method/variable-definition.md
+  runtime_contract:
+    kind: llm_reasoning
+    requires_external_action: false
+    adapter_id: huiyan_chat_completions
+    evidence_contract_version: none
+  fixture_status: missing
+  notes: ''

@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TitleAbstractScreeningOutput",
+  "type": "object",
+  "required": ["task_id", "skill_id", "screened_candidates", "summary", "warnings", "errors"],
+  "additionalProperties": false,
+  "properties": {
+    "task_id": { "type": "string" },
+    "skill_id": {
+      "type": "string",
+      "const": "title-abstract-screening-skill"
+    },
+    "run_id": { "type": "string" },
+    "screened_candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ScreenedCandidate" }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total_candidates", "include_count", "maybe_count", "exclude_count"],
+      "additionalProperties": false,
+      "properties": {
+        "total_candidates": { "type": "integer", "minimum": 0 },
+        "include_count": { "type": "integer", "minimum": 0 },
+        "maybe_count": { "type": "integer", "minimum": 0 },
+        "exclude_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ScreeningWarning" }
+    },
+    "errors": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ScreeningError" }
+    }
+  },
+  "$defs": {
+    "ScreenedCandidate": {
+      "type": "object",
+      "required": [
+        "candidate_id",
+        "title",
+        "screening_decision",
+        "screening_reason",
+        "relevance_signals",
+        "access_status",
+        "provenance"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "title": { "type": "string" },
+        "screening_decision": {
+          "type": "string",
+          "enum": ["include", "exclude", "maybe"]
+        },
+        "screening_reason": { "type": "string" },
+        "relevance_signals": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "access_status": {
+          "type": "string",
+          "enum": [
+            "structured_fulltext_ready",
+            "pdf_ready",
+            "landing_page_only",
+            "metadata_only",
+            "blocked",
+            "unknown"
+          ]
+        },
+        "provenance": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ProvenanceRecord" }
+        }
+      }
+    },
+    "ScreeningWarning": {
+      "type": "object",
+      "required": ["candidate_id", "code", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "code": {
+          "type": "string",
+          "enum": ["MISSING_ABSTRACT", "BLOCKED_ACCESS", "UNKNOWN_ACCESS", "METADATA_ONLY_DECISION"]
+        },
+        "message": { "type": "string" }
+      }
+    },
+    "ScreeningError": {
+      "type": "object",
+      "required": ["candidate_id", "code", "message", "retryable"],
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "code": {
+          "type": "string",
+          "enum": ["INVALID_CANDIDATE", "MISSING_REQUIRED_FIELDS", "SCREENING_FAILED"]
+        },
+        "message": { "type": "string" },
+        "retryable": { "type": "boolean" }
+      }
+    },
+    "ProvenanceRecord": {
+      "type": "object",
+      "required": ["stage", "skill_id", "timestamp"],
+      "additionalProperties": true,
+      "properties": {
+        "stage": { "type": "string" },
+        "skill_id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "operation": { "type": "string" },
+        "decision": { "type": "string" }
+      }
+    }
+  }
+}

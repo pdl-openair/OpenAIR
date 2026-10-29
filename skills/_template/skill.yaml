@@ -1,0 +1,69 @@
+# OpenAIR skill.yaml 模板（默认骨架：L3 atomic, claude_code runtime）
+#
+# 复制本目录后，必须替换所有 <占位>，然后跑：
+#   python scripts/register_skills.py update
+#
+# 字段消费矩阵与必填规则见：
+#   docs/dev_skills/openair-skill-guider/SKILL.md
+
+# === 必填字段 ===
+skill_id: <snake_case>            # 必填，如 literature_search
+claude_name: <kebab-case>          # 必填，须=目录名=SKILL.md frontmatter.name
+stages:                            # 必填，非空 list，四选：problem_modeling / solution_design / execution_validation / insight_generation
+  - <stage_key>
+skill_type: atomic                 # 必填，atomic / orchestration / workflow / management（L2 用 orchestration）
+runtime: claude_code               # 必填，claude_code / llm_structured / python_adapter
+substages:                         # 必填，list；L2 在此声明新 substage_key，L3 挂到现有 substage_key
+  - <substage_key>
+
+# === L3 atomic 专用字段（L2 orchestration 删除本段）===
+# skill_type 为 atomic 时，L3 可以跨 pack 复用，用 packs（复数 list）声明：
+# packs:                           # L3 可选，不声明默认 [sdr]
+#   - sdr
+#   - opentrajectory               # 想跨 pack 复用就列出多个 pack
+# 注意：L3 不要写 pack（单数，validator 报 legacy warning），改用 packs
+
+# === 可选字段 ===
+display_name: <中文展示名>
+version: "0.1.0"
+status: draft                      # draft / converting / ready / deprecated
+source: manual
+
+# === L2 orchestration 专用字段（L3 atomic 删除本段）===
+# skill_type 改为 orchestration 时取消注释并填值：
+# pack: <pack_name>                # L2 必填；查 schemas/packs.yaml
+# spec: <spec_file>                # L2 必填，如 implementation.md（相对 schemas/<pack>/）
+# output_file: <relative/path/to/output.md>  # L2 必填，相对任务工作区
+# input_skills:                    # L2 可选，依赖的上游 L2 skill_id 列表
+#   - <upstream_skill_id>
+
+# === llm_structured / python_adapter runtime 专用字段（claude_code runtime 删除本段）===
+# runtime 改为 llm_structured 或 python_adapter 时取消注释并填值：
+# 此时 input.schema.json 和 output.schema.json 必填（点分隔命名，runner 硬编码识别）
+# output_file: <relative/path/to/output.json>  # runner 强约束
+# llm:
+#   model: gpt-5-mini
+#   temperature: 0.3
+#   max_completion_tokens: 8000
+#   reasoning_effort: medium       # 可选
+#
+# 标准 durable LLM 正式执行策略（仅在 capability 已完成相应 Provider 策略验证后声明）：
+# durable_llm_execution_policy:
+#   contract_version: 1
+#   model_profile: terra           # 与 model 二选一；不得同时声明
+#   # model: <explicit-model-id>
+#   reasoning_effort: none
+#   max_output_tokens: 6000
+#   read_timeout_seconds: 60
+#   response_mode: json_object
+#   load_references: false
+#   structured_output_recovery_attempts: 1  # 0 或 1；不含 primary attempt
+
+# === 禁止字段（历史遗留，不要写）===
+# description: ...        # description 单一源是 SKILL.md frontmatter
+# domain: ...             # 已被 pack 取代
+# input_schema: ...       # runner 不读此字段，只读硬编码文件名
+# output_schema: ...      # 同上
+# example_request: ...    # registry 元数据，0 运行时消费，建议不写
+# example_response: ...   # 同上
+# claude_skill_path: ...  # 由 sync 脚本自动管理

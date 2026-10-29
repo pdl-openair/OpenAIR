@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["evidence_supported_causes", "hypotheses", "validation_actions", "judgment_impacts", "remaining_unknowns"],
+  "properties": {
+    "evidence_supported_causes": {"type": "array", "items": {"type": "object"}},
+    "hypotheses": {"type": "array", "items": {"type": "object"}},
+    "validation_actions": {"type": "array", "items": {"type": "object"}},
+    "judgment_impacts": {"type": "array", "items": {"type": "object"}},
+    "remaining_unknowns": {"type": "array", "items": {"type": "string"}}
+  }
+}

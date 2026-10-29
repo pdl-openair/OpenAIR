@@ -1,0 +1,14 @@
+suite_id: component.web.router.legacy-task-identity
+protected_outcome: Legacy links preserve the exact Task and query when redirected to Workbench, without leaving a legacy entry in history or fabricating a missing Task.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: legacy_task_route_identity_loss
+minimum_owner: 单个组件行为
+production_targets: [apps/web/src/router/LegacyTaskRouteRedirect.tsx]
+test_responsibility: Render the production redirect inside MemoryRouter and observe destination and back navigation. Does not prove the full production router hierarchy.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when the Task and query survive redirect, back returns to the prior entry, and missing Task routes to the Workbench entry; otherwise FAIL. Missing runtime evidence is NO_VALID_EVIDENCE.
+triggers: [legacy_task_redirect_changed]

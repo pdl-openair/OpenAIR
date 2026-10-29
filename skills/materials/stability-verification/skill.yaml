@@ -1,0 +1,30 @@
+skill_id: stability_verification
+claude_name: stability-verification
+display_name: 热力学稳定性验证
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - stability_verification
+pack: materials
+spec: specs/stability-verification.md
+output_file: stability_report.md
+input_skills:
+  - candidate_generation
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: stability_verification
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

@@ -1,0 +1,15 @@
+{
+  "task_id": "task_cs_ope_001",
+  "run_id": "run_cs_ope_001",
+  "stage": "problem_modeling",
+  "user_goal": "将研究问题转化为可验证的假说，建立理论框架",
+  "context": {
+    "questions_ref": "openair/ope-benchmark/proposal/question-v2.md",
+    "research_topic": "OPE Method Reliability in RL Training Dynamics"
+  },
+  "constraints": [
+    "假说需递进式构建（H1→H2→H3）",
+    "每个假说需可证伪",
+    "目标投稿 NeurIPS 2026 或 ICLR 2027"
+  ]
+}

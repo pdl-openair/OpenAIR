@@ -1,0 +1,47 @@
+suite_id: durable-child-policy-handoff
+protected_outcome: >-
+  PVD 的真实 child 调用经公共执行入口取得并冻结目标 child 自身声明的执行策略，
+  携带该策略和 sub-call 证据到达正确的 Provider 请求边界。
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试架构.md
+- spec/testing/OpenAIR 测试代码架构.md
+- skills/pvd/pvd-literature-evidence-acquisition-closure/SKILL.md
+- skills/opentrajectory/opentrajectory-source-screening-selection/skill.yaml
+failure_class:
+- child_invocation_bypasses_policy_preparation
+minimum_owner: 跨组件与基础设施
+production_targets:
+- skills/pvd/pvd-literature-evidence-acquisition-closure/adapter/literature_evidence_closure.py
+- skills/registry.yaml
+- services/api/app/execution/durable_skill_runtime.py
+- services/api/app/execution/durable_llm_execution_policy.py
+test_responsibility: >-
+  通过真实 PVD child 调用确定性验证 adapter、公共 child 执行入口、Registry 声明、
+  策略解析与 Provider 请求投影之间的策略交接；在 HTTP 前停止，不证明 Provider
+  可用性、模型执行结果或科研质量。
+execution_profiles:
+- 确定性配置
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- public_pvd_child_call_reaches_provider_request_boundary
+- resolved_policy_matches_registered_child_contract
+- provider_payload_and_sub_call_evidence_preserved
+- no_provider_network_or_database_io_attempted
+verdict_rule: >-
+  PASS only when the deterministic run through the real PVD child entry reaches the
+  intercepted Provider request boundary before external I/O, the captured resolved
+  policy matches the registered target-child contract, and the Provider payload and
+  sub-call evidence preserve that policy and child-call identity. FAIL when valid
+  deterministic evidence shows policy preparation was bypassed, the declared policy
+  was missing or changed, a valid child invocation failed to reach the boundary, the
+  Provider projection or sub-call evidence disagreed with the prepared request, or
+  prohibited external I/O was attempted. Missing project dependencies, an invalid
+  deterministic setup, or failure to capture the required boundary facts for reasons
+  that do not themselves prove a protected-outcome violation is NO_VALID_EVIDENCE.
+triggers:
+- pvd_child_invocation_changed
+- child_registry_or_execution_policy_declaration_changed
+- shared_policy_preparation_or_provider_projection_changed

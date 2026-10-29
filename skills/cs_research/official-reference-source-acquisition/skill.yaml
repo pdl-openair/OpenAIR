@@ -1,0 +1,37 @@
+skill_id: official_reference_source_acquisition
+claude_name: official-reference-source-acquisition
+display_name: 官方参考来源读取
+version: "0.1.0"
+stages:
+- execution_validation
+substages:
+- reference_metric_acquisition
+packs:
+- cs_reproduction
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+capability_contract:
+  artifact_types:
+  - official_reference_source_package
+  judgment_support:
+    deterministic: true
+    domain_professional: false
+execution_method_roles:
+- cs_reproduction_baseline_grounding:official_source_acquisition
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:official_reference_source_acquisition
+  evidence_contract_version: deterministic-output/v1
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: reference_metric_acquisition
+owner: TBD
+fixture_status: missing
+notes: 复用上游 repository_revision_acquisition 已固定的官方仓库工作区，重新核验 HEAD 后只读取受控文本来源；不做指标语义或比较规则判断。

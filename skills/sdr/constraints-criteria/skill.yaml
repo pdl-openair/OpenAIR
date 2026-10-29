@@ -1,0 +1,30 @@
+skill_id: constraints_criteria
+claude_name: constraints-criteria
+display_name: 约束与标准
+version: "0.1.0"
+stages:
+  - problem_modeling
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - constraints_criteria
+output_file: 01-problem/constraints-criteria.md
+pack: sdr
+spec: 01-problem/constraints-criteria.md
+input_skills:
+  - intent_understanding
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: constraints_criteria
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

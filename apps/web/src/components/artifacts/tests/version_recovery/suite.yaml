@@ -1,0 +1,15 @@
+suite_id: component.web.artifacts.version-recovery
+protected_outcome: Version mutations use current fetched revision; failed or missing CAS never reports success.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+failure_class: version_recovery_authority_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/components/artifacts/ArtifactVersionDrawer.tsx
+test_responsibility: Render the production drawer with controlled external API; verifies UI requests and refresh, not database history.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when real runtime assertions prove protected_outcome; FAIL on violation; missing runtime evidence is NO_VALID_EVIDENCE.
+triggers: [recovery_or_persistence_changed]

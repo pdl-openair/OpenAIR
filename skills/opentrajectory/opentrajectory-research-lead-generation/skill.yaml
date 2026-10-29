@@ -1,0 +1,34 @@
+skill_id: opentrajectory_research_lead_generation
+claude_name: opentrajectory-research-lead-generation
+display_name: 科研线索生成
+version: 0.1.0
+stages:
+- insight_generation
+substages:
+- research_lead_generation
+pack: opentrajectory
+sequence: 110
+enabled: true
+spec: 04-insight/research-lead-generation.md
+input_skills:
+- opentrajectory_findings_synthesis
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-research-lead-generation
+claude_skill_path: .claude/skills/opentrajectory-research-lead-generation
+output_file: 04-insight/research-leads.json
+fixture_status: none
+notes: OpenTrajectory L2 orchestration slot.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: insight_generation
+substage: research_lead_generation
+owner: TBD
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

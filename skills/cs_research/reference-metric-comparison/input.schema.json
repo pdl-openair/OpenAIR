@@ -1,0 +1,629 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "reference_metrics"
+  ],
+  "properties": {
+    "actual_metrics": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "state",
+        "extraction_status",
+        "metrics"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "openair-actual-metrics/v1"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "succeeded",
+            "failed"
+          ]
+        },
+        "extraction_status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "incomplete"
+          ]
+        },
+        "metrics": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 128,
+          "items": {
+            "type": "object",
+            "required": [
+              "metric_name",
+              "value_type",
+              "unit",
+              "extraction_status"
+            ],
+            "properties": {
+              "metric_name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "actual_value": {
+                "type": [
+                  "number",
+                  "integer",
+                  "string",
+                  "boolean",
+                  "null"
+                ]
+              },
+              "value_type": {
+                "type": "string",
+                "enum": [
+                  "number",
+                  "integer",
+                  "string",
+                  "boolean"
+                ]
+              },
+              "unit": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "extraction_status": {
+                "type": "string",
+                "enum": [
+                  "succeeded",
+                  "failed"
+                ]
+              },
+              "failure_code": {
+                "type": "string"
+              },
+              "source_trace": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "reference_metrics": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "required": [
+          "metric_name",
+          "reference_value",
+          "value_type",
+          "unit",
+          "comparison_rule"
+        ],
+        "properties": {
+          "metric_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "reference_value": {
+            "type": [
+              "number",
+              "integer",
+              "string",
+              "boolean"
+            ]
+          },
+          "value_type": {
+            "type": "string",
+            "enum": [
+              "number",
+              "integer",
+              "string",
+              "boolean"
+            ]
+          },
+          "unit": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "comparison_rule": {
+            "type": "object",
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "exact",
+                  "absolute_tolerance",
+                  "relative_tolerance",
+                  "actual_gte_reference",
+                  "actual_lte_reference"
+                ]
+              },
+              "tolerance": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "absolute_tolerance",
+                        "relative_tolerance"
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "tolerance"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "exact",
+                        "actual_gte_reference",
+                        "actual_lte_reference"
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "not": {
+                    "required": [
+                      "tolerance"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "actual_metric_records": {
+      "type": "object",
+      "required": [
+        "status",
+        "execution_record_ref",
+        "metrics",
+        "reference_values_used",
+        "partial_failures",
+        "unknowns"
+      ],
+      "properties": {
+        "status": {
+          "const": "complete"
+        },
+        "execution_record_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "metrics": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 128,
+          "items": {
+            "type": "object",
+            "required": [
+              "metric_name",
+              "value_type",
+              "unit",
+              "extraction_status"
+            ],
+            "properties": {
+              "metric_name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "actual_value": {
+                "type": [
+                  "number",
+                  "integer",
+                  "string",
+                  "boolean",
+                  "null"
+                ]
+              },
+              "value_type": {
+                "type": "string",
+                "enum": [
+                  "number",
+                  "integer",
+                  "string",
+                  "boolean"
+                ]
+              },
+              "unit": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "extraction_status": {
+                "type": "string",
+                "enum": [
+                  "succeeded",
+                  "failed"
+                ]
+              },
+              "failure_code": {
+                "type": "string"
+              },
+              "source_trace": {
+                "type": "object"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "reference_values_used": {
+          "const": false
+        },
+        "partial_failures": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "unknowns": {
+          "type": "array",
+          "maxItems": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "reproduction_comparability_assessment": {
+      "type": "object",
+      "required": [
+        "status",
+        "conditions",
+        "condition_mismatches",
+        "evidence_refs",
+        "unknowns"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "comparable",
+            "not_comparable",
+            "indeterminate"
+          ]
+        },
+        "conditions": {
+          "type": "object",
+          "required": [
+            "task_scope",
+            "data_split",
+            "preprocessing",
+            "training_or_inference_protocol",
+            "metric_definition",
+            "aggregation",
+            "implementation",
+            "randomness",
+            "hardware"
+          ],
+          "properties": {
+            "task_scope": {
+              "type": "object",
+              "required": [
+                "status",
+                "evidence_refs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "compatible",
+                    "mismatch",
+                    "unknown"
+                  ]
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "note": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "data_split": {
+              "type": "object",
+              "required": [
+                "status",
+                "evidence_refs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "compatible",
+                    "mismatch",
+                    "unknown"
+                  ]
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "note": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "preprocessing": {
+              "type": "object",
+              "required": [
+                "status",
+                "evidence_refs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "compatible",
+                    "mismatch",
+                    "unknown"
+                  ]
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "note": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "training_or_inference_protocol": {
+              "type": "object",
+              "required": [
+                "status",
+                "evidence_refs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "compatible",
+                    "mismatch",
+                    "unknown"
+                  ]
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "note": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "metric_definition": {
+              "type": "object",
+              "required": [
+                "status",
+                "evidence_refs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "compatible",
+                    "mismatch",
+                    "unknown"
+                  ]
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "note": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "aggregation": {
+              "type": "object",
+              "required": [
+                "status",
+                "evidence_refs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "compatible",
+                    "mismatch",
+                    "unknown"
+                  ]
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "note": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "implementation": {
+              "type": "object",
+              "required": [
+                "status",
+                "evidence_refs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "compatible",
+                    "mismatch",
+                    "unknown"
+                  ]
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "note": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "randomness": {
+              "type": "object",
+              "required": [
+                "status",
+                "evidence_refs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "compatible",
+                    "mismatch",
+                    "unknown"
+                  ]
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "note": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "hardware": {
+              "type": "object",
+              "required": [
+                "status",
+                "evidence_refs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "compatible",
+                    "mismatch",
+                    "unknown"
+                  ]
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  }
+                },
+                "note": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "condition_mismatches": {
+          "type": "array"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          }
+        },
+        "unknowns": {
+          "type": "array"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "required": [
+        "actual_metrics"
+      ],
+      "not": {
+        "required": [
+          "actual_metric_records"
+        ]
+      }
+    },
+    {
+      "required": [
+        "actual_metric_records"
+      ],
+      "not": {
+        "required": [
+          "actual_metrics"
+        ]
+      }
+    }
+  ]
+}

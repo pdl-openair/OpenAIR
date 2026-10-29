@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "reproduction_comparison_judgment"
+  ],
+  "properties": {
+    "reproduction_comparison_judgment": {
+      "type": "object"
+    },
+    "reproduction_deviation_diagnosis": {
+      "type": "object"
+    }
+  }
+}

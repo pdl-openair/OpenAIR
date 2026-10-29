@@ -1,0 +1,16 @@
+{
+  "task_id": "task_cs_ope_001",
+  "run_id": "run_cs_ope_001",
+  "stage": "execution_validation",
+  "user_goal": "初始化执行阶段，将 task_plan.md 中的任务拆分为可执行 session",
+  "context": {
+    "task_plan_ref": "openair/ope-benchmark/plan/task_plan.md",
+    "experiment_design_ref": "openair/ope-benchmark/design/experiment_design-v2.md",
+    "project_root": "S:\\research\\OpenAIR\\sb3_ope"
+  },
+  "constraints": [
+    "每个 Task Set 工时不超过 6h",
+    "需要生成跨 session 状态管理文件",
+    "支持断点续跑"
+  ]
+}

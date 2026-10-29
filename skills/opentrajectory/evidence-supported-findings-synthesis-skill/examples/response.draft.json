@@ -1,0 +1,26 @@
+{
+  "findings": [
+    {
+      "statement": "Within the reported 2 M LiFSI/FDEE lithium-metal system, the supplied evidence supports a coherent chain in which the concentrated fluorinated electrolyte favors an anion-rich solvation structure, that structure promotes a LiF-rich interphase with suppressed parasitic reactions, and the resulting interphase state is associated with 99.5% lithium plating/stripping Coulombic efficiency at 1 mA cm−2 and 1 mAh cm−2.",
+      "epistemic_status": "boundary_limited",
+      "provenance_evidence_ids": [
+        "ev:3e88da7bb098191e16cf",
+        "ev:851a9927a5a502895bae",
+        "ev:880f2f98084d75d04768"
+      ],
+      "basis_mechanism_edge_ids": [
+        "me:06cdaf84e920d43c3996",
+        "me:8289dcf192477eece18b",
+        "me:9a2ef66af0a8aa3b941d"
+      ],
+      "gap_mechanism_edge_ids": [],
+      "scope_boundary": "This finding is limited to the reported 2 M LiFSI/FDEE lithium-metal chemistry and the stated plating/stripping test condition; it does not establish equivalent behavior in other electrolyte systems or under high-voltage fast-charging cell operation.",
+      "uncertainties": [
+        "The final interphase-to-efficiency link is reported as an association, so the supplied evidence does not by itself establish that the LiF-rich interphase is the sole causal determinant of the measured efficiency.",
+        "Transferability beyond the reported electrolyte chemistry and matched test conditions is not established."
+      ],
+      "confidence": 0.82
+    }
+  ],
+  "generation_warnings": []
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "open_trajectory_literature_evidence_contract_v1.schema.json",
+  "title": "OpenTrajectory Literature Evidence Contract v1",
+  "type": "object",
+  "required": ["contract_id", "evidence", "comparators", "task_fidelity", "mechanism_evidence", "gaps"],
+  "properties": {
+    "contract_id": {"const": "opentrajectory_literature_evidence_contract_v1"},
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+    "comparators": {"type": "array", "items": {"$ref": "#/$defs/comparator"}},
+    "task_fidelity": {"$ref": "#/$defs/taskFidelity"},
+    "mechanism_evidence": {"type": "array", "items": {"$ref": "#/$defs/mechanism"}},
+    "structured_formulation_facts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/structuredFormulationFact"}
+    },
+    "gaps": {"type": "array"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "evidence": {
+      "type": "object",
+      "required": ["evidence_id", "paper_id", "title", "source_anchor_id", "evidence_quote", "evidence_type", "observed_or_inferred"],
+      "anyOf": [{"required": ["doi"]}, {"required": ["stable_source_id"]}],
+      "properties": {
+        "evidence_id": {"type": "string", "minLength": 1},
+        "paper_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "doi": {"type": "string", "minLength": 1},
+        "stable_source_id": {"type": "string", "minLength": 1},
+        "source_anchor_id": {"type": "string", "minLength": 1},
+        "evidence_quote": {"type": "string", "minLength": 1},
+        "evidence_type": {"type": "string", "enum": ["baseline_formulation", "candidate_formulation", "controllable_variable", "variable_level", "cell_configuration", "anode", "cathode", "voltage_window", "charge_rate", "current_density", "temperature", "loading", "electrolyte_amount_or_E_L", "cycle_count", "coulombic_efficiency", "capacity_retention", "impedance", "SEI", "CEI", "mechanism", "other"]},
+        "observed_or_inferred": {"type": "string", "enum": ["observed", "inferred"]}
+      },
+      "additionalProperties": false
+    },
+    "arm": {
+      "type": "object",
+      "required": ["formulation", "evidence_ids"],
+      "properties": {"formulation": {"type": "string", "minLength": 1}, "evidence_ids": {"$ref": "#/$defs/ids"}},
+      "additionalProperties": false
+    },
+    "evidenceFields": {
+      "type": "object",
+      "required": ["fields", "evidence_ids"],
+      "properties": {"fields": {"type": "object", "minProperties": 1}, "evidence_ids": {"$ref": "#/$defs/ids"}},
+      "additionalProperties": false
+    },
+    "comparator": {
+      "type": "object",
+      "required": ["comparator_id", "paper_id", "control", "candidate", "controllable_variable", "comparability"],
+      "properties": {
+        "comparator_id": {"type": "string", "minLength": 1}, "paper_id": {"type": "string", "minLength": 1},
+        "control": {"$ref": "#/$defs/arm"}, "candidate": {"$ref": "#/$defs/arm"},
+        "controllable_variable": {"type": "object", "required": ["name", "control_level", "candidate_level", "evidence_ids"], "properties": {"name": {"type": "string", "minLength": 1}, "control_level": {"type": "string", "minLength": 1}, "candidate_level": {"type": "string", "minLength": 1}, "evidence_ids": {"$ref": "#/$defs/ids"}}, "additionalProperties": false},
+        "shared_protocol": {"$ref": "#/$defs/evidenceFields"}, "shared_metrics": {"$ref": "#/$defs/evidenceFields"},
+        "comparability": {"type": "string", "enum": ["same_paper_explicit", "same_paper_partial", "cross_paper", "unsupported"]}
+      }, "additionalProperties": false
+    },
+    "fact": {"type": "object", "required": ["value", "evidence_ids"], "properties": {"value": {"type": ["string", "null"]}, "evidence_ids": {"$ref": "#/$defs/ids"}}, "additionalProperties": false},
+    "taskFidelity": {"type": "object", "required": ["anode_chemistry", "cathode_chemistry", "voltage_regime", "charge_rate_or_current_density", "intervention_domain"], "properties": {"anode_chemistry": {"$ref": "#/$defs/fact"}, "cathode_chemistry": {"$ref": "#/$defs/fact"}, "voltage_regime": {"$ref": "#/$defs/fact"}, "charge_rate_or_current_density": {"$ref": "#/$defs/fact"}, "intervention_domain": {"$ref": "#/$defs/fact"}}, "additionalProperties": false},
+    "mechanism": {"type": "object", "required": ["cause_or_intervention", "intermediate", "outcome", "relation_type", "evidence_ids", "support_strength"], "properties": {"cause_or_intervention": {"type": "string", "minLength": 1}, "intermediate": {"type": "string", "minLength": 1}, "outcome": {"type": "string", "minLength": 1}, "relation_type": {"type": "string", "enum": ["observed_association", "supported_mechanism", "inferred", "gap"]}, "evidence_ids": {"$ref": "#/$defs/ids"}, "support_strength": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+    "formulationArm": {
+      "type": "object",
+      "required": ["arm_id", "formulation"],
+      "properties": {
+        "arm_id": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1},
+        "formulation": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "enum": ["control", "candidate", "reference", "unspecified"]},
+        "shared_components": {"type": "object", "additionalProperties": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "formulationRelation": {
+      "type": "object",
+      "required": ["from_arm_id", "to_arm_id", "relation"],
+      "properties": {
+        "from_arm_id": {"type": "string", "minLength": 1},
+        "to_arm_id": {"type": "string", "minLength": 1},
+        "relation": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "formulationProvenance": {
+      "type": "object",
+      "required": ["source_anchor_id", "evidence_quote"],
+      "properties": {
+        "source_anchor_id": {"type": "string", "minLength": 1},
+        "evidence_quote": {"type": "string", "minLength": 1},
+        "paper_id": {"type": "string", "minLength": 1},
+        "doi": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "structuredFormulationFact": {
+      "type": "object",
+      "required": ["fact_id", "evidence_ids", "arms", "relations", "provenance"],
+      "properties": {
+        "fact_id": {"type": "string", "minLength": 1},
+        "evidence_ids": {"$ref": "#/$defs/ids", "minItems": 1},
+        "arms": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/formulationArm"}},
+        "relations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/formulationRelation"}},
+        "provenance": {"$ref": "#/$defs/formulationProvenance"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

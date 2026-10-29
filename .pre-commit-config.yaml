@@ -1,0 +1,44 @@
+# OpenAIR local pre-commit hooks.
+# All tool hooks are `language: system` and delegate to
+# scripts/gates/run_local.py (Windows/SAC constraint: no per-hook venv
+# downloads). run_local degrades gracefully - warn + exit 0 - when a tool is
+# missing on this machine (e.g. gitleaks binary, or a gate script that a later
+# batch has not landed yet); CI is the authoritative enforcement layer.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+
+  - repo: local
+    hooks:
+      - id: openair-ruff
+        name: ruff incremental gate
+        language: system
+        entry: python scripts/gates/run_local.py ruff
+        pass_filenames: false
+        types: [python]
+
+      - id: openair-gitleaks
+        name: gitleaks staged-secret scan
+        language: system
+        entry: python scripts/gates/run_local.py gitleaks
+        pass_filenames: false
+
+      - id: openair-pointer
+        name: spec pointer integrity (batch B2)
+        language: system
+        entry: python scripts/gates/run_local.py pointer
+        pass_filenames: false
+        files: ^(spec/|AGENTS\.md|CLAUDE\.md|docs/)
+
+      - id: openair-commit-msg
+        name: commit message check (batch B3)
+        language: system
+        entry: python scripts/gates/run_local.py commit-msg
+        stages: [commit-msg]

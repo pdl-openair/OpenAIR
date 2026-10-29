@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-evidence-schema-design/input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "structured_context",
+    "recommendation_parameter_set",
+    "parameter_admission_judgments",
+    "retrieval_design"
+  ],
+  "properties": {
+    "structured_context": {
+      "type": "object"
+    },
+    "recommendation_parameter_set": {
+      "type": "object",
+      "required": [
+        "parameters"
+      ],
+      "properties": {
+        "parameters": {
+          "type": "array",
+          "minItems": 1
+        }
+      }
+    },
+    "retrieval_design": {
+      "type": "object",
+      "required": [
+        "contract",
+        "mode",
+        "query_variants"
+      ],
+      "properties": {
+        "contract": {
+          "const": "pvd-evidence-retrieval-design/v1"
+        },
+        "mode": {
+          "enum": [
+            "core",
+            "core_plus_supplemental"
+          ]
+        },
+        "query_variants": {
+          "type": "array",
+          "minItems": 1
+        }
+      }
+    },
+    "parameter_admission_judgments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "status",
+          "user_intent",
+          "parameter_key"
+        ],
+        "properties": {
+          "status": {
+            "const": "pending_evidence"
+          },
+          "user_intent": {
+            "const": "evaluate_for_admission"
+          },
+          "parameter_key": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          }
+        }
+      }
+    }
+  }
+}

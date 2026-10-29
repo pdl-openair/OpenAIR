@@ -1,0 +1,31 @@
+skill_id: synthesis_execution
+claude_name: synthesis-execution
+display_name: 合成执行（湿实验）
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - synthesis_execution
+pack: materials
+spec: specs/synthesis-execution.md
+output_file: synthesis_execution_log.md
+input_skills:
+  - synthesis_assessment
+  - parameter_recommendation
+auto_allowed: true
+review_required: true
+risk_level: medium
+stage: execution_validation
+substage: synthesis_execution
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

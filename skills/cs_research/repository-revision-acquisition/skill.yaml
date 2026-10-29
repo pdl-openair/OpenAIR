@@ -1,0 +1,40 @@
+skill_id: repository_revision_acquisition
+claude_name: repository-revision-acquisition
+display_name: 代码仓库与版本获取
+version: "0.2.0"
+stages:
+  - solution_design
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+substages:
+  - reproducibility
+  - code_identity_acquisition
+packs:
+  - sdr
+  - cs_reproduction
+input_schema: input.schema.json
+output_schema: output.schema.json
+execution_method_roles:
+  - cs_reproduction_execution_readiness:code_identity_acquisition
+  - cs_reproduction_baseline_grounding:code_identity_acquisition
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:repository_revision_acquisition
+  evidence_contract_version: external-action-evidence/v1
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: reproducibility
+owner: TBD
+fixture_status: missing
+notes: 只负责使用上游已明确的 repository 与 revision 在当前任务受控工作区真实获取 Git 仓库、固定 revision、验证实际 HEAD；不猜 revision、不回退到默认分支、不负责环境、实验、指标或科研意图解释。
+capability_contract:
+  artifact_types:
+    - repository_revision_acquisition_result
+  judgment_support:
+    deterministic: true
+    domain_professional: false

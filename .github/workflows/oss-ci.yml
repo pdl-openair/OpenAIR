@@ -1,0 +1,35 @@
+# OpenAIR 公开仓精简 CI（源头：私有仓 scripts/oss/overlays，公开仓侧勿手改）
+name: ci
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+jobs:
+  web-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # pnpm 版本读 package.json 的 packageManager（pnpm@9.15.0）
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @openair/web build
+
+  secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # python lint 棘轮与后端测试随 v0.2 引入：当前代码基线含历史违规，
+  # 私有仓以增量门禁（diff_gate --ruff）管理，公开仓待建立同等棘轮后再启用。
+  #
+  # TODO(v0.2)：打 tag 时构建并推送镜像到 ghcr.io，Release 附 docker-compose 拉取版与复现脚本。

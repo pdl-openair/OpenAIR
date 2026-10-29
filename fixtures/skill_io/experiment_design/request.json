@@ -1,0 +1,17 @@
+{
+  "task_id": "task_cs_ope_001",
+  "run_id": "run_cs_ope_001",
+  "stage": "solution_design",
+  "user_goal": "设计 OPE 方法的系统性基准实验方案",
+  "context": {
+    "hypotheses_ref": "openair/ope-benchmark/proposal/proposal-v3.md",
+    "environments": ["CartPole-v1", "LunarLander-v3", "Pendulum-v1", "HalfCheetah-v5"],
+    "ope_methods": ["IS", "PDIS", "WIS", "DM", "DR", "SNDR", "FQE"],
+    "framework": "Stable-Baselines3"
+  },
+  "constraints": [
+    "覆盖离散和连续动作空间",
+    "实验需覆盖 RQ1/RQ2/RQ3 三个维度",
+    "基于 SB3 框架实现"
+  ]
+}

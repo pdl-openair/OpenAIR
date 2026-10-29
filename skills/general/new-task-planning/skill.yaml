@@ -1,0 +1,18 @@
+skill_id: new_task_planning
+claude_name: new-task-planning
+display_name: 新任务规划
+version: 0.1.0
+domain: general
+stages:
+  - problem_modeling
+  - solution_design
+skill_type: atomic
+runtime: claude_code
+status: draft
+owner: TBD
+inputs_schema: input_schema.json
+outputs_schema: output_schema.json
+packs:
+  - sdr
+fixture_status: example_only
+notes: 创建流程专用，输出待确认 plan，不推进执行态

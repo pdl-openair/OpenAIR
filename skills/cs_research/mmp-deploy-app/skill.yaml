@@ -1,0 +1,22 @@
+skill_id: mmp_deploy_app
+claude_name: mmp-deploy-app
+display_name: 推理服务部署
+version: "0.1.0"
+stages:
+  - execution_validation
+substages:
+  - full_execution
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+packs:
+  - sdr
+owner: tacmon
+notes: 迁移自 mmp-platform MCP；一键部署推理服务，自动完成模型/代码/镜像/资源选配、应用与版本创建及部署进度轮询。
+fixture_status: none
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: full_execution

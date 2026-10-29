@@ -1,0 +1,42 @@
+suite_id: component.execution.structured-skill-schema-runtime
+protected_outcome: >-
+  File-backed Formal Schema local and relative references resolve by the correct
+  URI within the repository boundary, nested references continue from their own
+  locations, and missing, invalid, escaping, or ambiguously rooted references
+  fail closed.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - formal_schema_reference_resolved_from_wrong_uri
+  - invalid_or_missing_schema_reference_accepted
+  - schema_reference_escapes_repository_boundary
+  - ambiguous_repository_root_accepted
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/structured_skill_schema_runtime.py
+test_responsibility: >-
+  Deterministically prove local, sibling, parent, fragment, and nested file
+  reference resolution; fail-closed behavior for missing, invalid, and escaping
+  references; and unambiguous repository-root discovery.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - valid_relative_reference_acceptance
+  - invalid_reference_rejection
+  - repository_boundary_and_root_assertions
+verdict_rule: >-
+  PASS only when all required evidence is obtained and the existing assertions
+  prove valid local and relative references resolve from the correct schema URI,
+  nested references rebase to their own URI, scientific value types stay intact,
+  missing, invalid, or repository-escaping references fail closed, and repository
+  root discovery accepts exactly one anchor; FAIL when valid evidence contradicts
+  any of those behaviors; otherwise NO_VALID_EVIDENCE.
+triggers:
+  - structured skill schema loading or reference resolution changes
+  - repository-root discovery or schema boundary changes

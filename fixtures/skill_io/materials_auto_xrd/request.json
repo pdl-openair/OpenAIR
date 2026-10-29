@@ -1,0 +1,27 @@
+{
+  "task_id": "task_materials_xrd_001",
+  "run_id": "run_materials_xrd_001",
+  "stage": "insight_generation",
+  "substage": "xrd_characterization",
+  "skill_id": "materials_auto_xrd",
+  "skill_pack": "materials",
+  "user_goal": "用化学式 CrSiTe3 + AlN 训练 XRD 模型，并对真实谱图做主相 + 副相预测",
+  "context": {
+    "workflow": "xrd-formula-train-infer",
+    "phases": [
+      {"label": "CrSiTe3", "source": "mp", "material_id": "mp-3779"},
+      {"label": "AlN", "source": "mp", "material_id": "mp-1700"}
+    ],
+    "spectra_source": "./data/CrSiTe3_mixture/",
+    "use_docker": true,
+    "run_name": "crsite3_aln_v1",
+    "mp_api_key_env": "MP_API_KEY"
+  },
+  "constraints": [
+    "训练和推理必须走 Docker（带 LOCAL_UID / LOCAL_GID）",
+    "每次训练使用新的 run_name，不覆盖旧结果",
+    "训练前清理旧的 References / Models 状态",
+    "Spectra 和 All_CIFs 用相对软链接指向 soft_link/...",
+    "MP_API_KEY 必须可用（涉及 MP 下载）"
+  ]
+}

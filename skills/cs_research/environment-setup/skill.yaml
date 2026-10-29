@@ -1,0 +1,42 @@
+skill_id: environment_setup
+claude_name: environment-setup
+display_name: 环境搭建
+version: "0.3.0"
+stages:
+  - solution_design
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+substages:
+  - reproducibility
+packs:
+  - sdr
+input_schema: input.schema.json
+output_schema: output.schema.json
+execution_method_roles:
+  - cs_reproduction_execution_readiness:environment_setup
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:environment_setup
+  evidence_contract_version: external-action-evidence/v1
+conditional_binding:
+  policy_version: conditional_capability_binding_v1
+  evaluator_ref: python:environment_setup.applicability:evaluate_capability_applicability
+  required_runtime_fact_refs:
+    - runtime:research-task:v1
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: reproducibility
+owner: TBD
+fixture_status: missing
+notes: 只负责上游已明确的 Python、依赖和目标运行就绪探针真实建立隔离环境、验证后固定身份；不推断依赖、不自动补包、不做实验执行、CUDA 管理或正式 OpenAIR 集成。
+capability_contract:
+  artifact_types:
+    - environment_setup_record
+  judgment_support:
+    deterministic: true
+    domain_professional: false

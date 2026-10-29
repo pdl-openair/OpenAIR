@@ -1,0 +1,17 @@
+suite_id: component.web.hooks.task-stream-recovery
+protected_outcome: Shared task subscriptions reconnect once, honor Retry-After and cursor, and never infer completion from EOF.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+failure_class: task_stream_recovery_authority_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/hooks/useWorkbenchTaskModel.ts
+  - apps/web/src/lib/workbenchTaskRequestCoordinator.mjs
+  - apps/web/src/lib/loadTask.ts
+test_responsibility: Real React hook, loader, model, HTTP error parser and coordinator; control only network and time.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when real runtime assertions prove protected_outcome; FAIL on violation; missing runtime evidence is NO_VALID_EVIDENCE.
+triggers: [recovery_or_persistence_changed]

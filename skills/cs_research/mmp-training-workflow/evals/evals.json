@@ -1,0 +1,155 @@
+{
+  "skill_name": "mmp-training-workflow",
+  "evals": [
+    {
+      "id": 1,
+      "name": "mode-C-quick-training",
+      "prompt": "Git: https://openi.pcl.ac.cn/somunslotus/egnn.git  分支 master\n数据集: C:\\data\\gnn_train_ori_data.zip\n模型: C:\\data\\final_model.ckpt",
+      "expected_output": "Agent should immediately login() then call prepare_quick_training() with the provided Git/file paths, without asking about mode A/B/C. Should present hyperparams table + image list in one message, then validate and run.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "no-mode-ask-question",
+          "text": "Agent does NOT ask '选 A/B/C' or '哪种训练方式' — recognizes Git URL + local file as Mode C and proceeds directly",
+          "expected": true
+        },
+        {
+          "name": "calls-prepare-quick-training",
+          "text": "Agent calls prepare_quick_training with git_url, git_branch, dataset_file_path, and model_file_path from the user prompt",
+          "expected": true
+        },
+        {
+          "name": "presents-hyperparams-table-once",
+          "text": "Agent presents hyperparams_table as a single complete table (not split across multiple messages)",
+          "expected": true
+        },
+        {
+          "name": "presents-image-list-for-user-selection",
+          "text": "Agent calls list_training_images and presents the list for user to select",
+          "expected": true
+        },
+        {
+          "name": "no-ask-resource-type-spec",
+          "text": "Agent does NOT call list_resource_types or list_resource_specs in Mode C — uses draft values from prepare_quick_training",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "mode-C-no-pretrain-model",
+      "prompt": "跑个训练，Git地址是 https://openi.pcl.ac.cn/somunslotus/egnn.git master分支，数据集文件在 C:\\data\\train_data.zip，没有预训练模型",
+      "expected_output": "Agent should identify Mode C, call prepare_quick_training without model_file_path, auto set skip_pretrain_model=true, and not ask about pre-training.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "mode-c-without-pretrain",
+          "text": "Agent recognizes Git URL + dataset file (no model file) as Mode C without pre-training",
+          "expected": true
+        },
+        {
+          "name": "no-ask-pretrain",
+          "text": "Agent does NOT ask user whether to use pre-training when no model_file_path is provided",
+          "expected": true
+        },
+        {
+          "name": "skip-pretrain-auto",
+          "text": "Agent automatically sets skip_pretrain_model=true in the training params",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "mode-a-step-by-step",
+      "prompt": "我想用我之前创建的代码配置和数据集跑个训练任务，帮我一步步配置吧。我的代码是 'atom-train'，数据集是 'GNN-DATA'，要选 v3 版本。资源用 GPU 的 A100 规格。镜像用默认的 pytorch 那个。启动文件是 train.py，输出目录 /result。不需要预训练模型。",
+      "expected_output": "Agent should follow Mode A step-by-step flow: login, code_query to confirm atom-train, dataset_query to confirm GNN-DATA, dataset_get_version_list to pick v3, list_resource_types, list_resource_specs for A100, list_training_images, ensure_export_model auto-create, validate, then run.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "follows-step-by-step",
+          "text": "Agent follows Mode A sequential steps, confirming each selection with user before proceeding",
+          "expected": true
+        },
+        {
+          "name": "calls-ensure-export-model",
+          "text": "Agent calls ensure_export_model (or uses auto-create in run_training_pipeline) without asking user for export model name",
+          "expected": true
+        },
+        {
+          "name": "no-skip-validate",
+          "text": "Agent calls validate_training_params before run_training_pipeline",
+          "expected": true
+        },
+        {
+          "name": "shows-personal-first",
+          "text": "Agent queries personal resources first (is_public=false or not specified) before asking if user wants public resources",
+          "expected": true
+        },
+        {
+          "name": "entry-command-relative-path",
+          "text": "Agent accepts train.py as relative path, does NOT prepend 'python ' or 'bash '",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "mode-b-existing-workflow",
+      "prompt": "帮我用我之前保存的流水线 'my-standard-training' 跑个实验吧，实验名叫 test-run-001，超参把 lr 改成 0.0001 就行",
+      "expected_output": "Agent should call list_workflows, find 'my-standard-training', get_workflow_detail, confirm params, and call create_and_run_experiment.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "calls-list-workflows",
+          "text": "Agent calls list_workflows to show available workflow templates (not asking for workflow_id)",
+          "expected": true
+        },
+        {
+          "name": "not-ask-workflow-id",
+          "text": "Agent does NOT ask user for workflow_id — uses list + name search instead",
+          "expected": true
+        },
+        {
+          "name": "calls-get-workflow-detail",
+          "text": "Agent calls get_workflow_detail to show current params before asking user to confirm",
+          "expected": true
+        },
+        {
+          "name": "uses-create-and-run-experiment",
+          "text": "Agent calls create_and_run_experiment (not run_training_pipeline) for Mode B",
+          "expected": true
+        },
+        {
+          "name": "partial-params-override",
+          "text": "Agent only overrides lr=0.0001 in global_params_json, keeping other params from the template",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "polling-and-output",
+      "prompt": "Git: https://openi.pcl.ac.cn/somunslotus/egnn.git 分支 main\n数据集: C:\\data\\train.zip",
+      "expected_output": "Mode C flow then polling: after run_training_pipeline, Agent should show launch_summary immediately, poll periodically, and show completion summary.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "shows-launch-summary",
+          "text": "Agent immediately shows launch_summary table after run_training_pipeline returns",
+          "expected": true
+        },
+        {
+          "name": "polls-with-offset",
+          "text": "Agent calls poll_training_progress with last_status and log_offset tracking",
+          "expected": true
+        },
+        {
+          "name": "shows-completion-summary",
+          "text": "Agent shows completion_summary when should_continue=false with status, duration, output files, and export model info",
+          "expected": true
+        }
+      ]
+    }
+  ]
+}

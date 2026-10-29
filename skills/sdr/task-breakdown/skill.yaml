@@ -1,0 +1,34 @@
+skill_id: task_breakdown
+claude_name: task-breakdown
+display_name: 任务拆解
+version: "0.1.0"
+stages:
+  - solution_design
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - task_breakdown
+output_file: 02-method/task.md
+pack: sdr
+spec: 02-method/task.md
+input_skills:
+  - method_selection
+  - variable_definition
+  - data_strategy
+  - analysis_planning
+  - ablation_design
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: task_breakdown
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pvd_project_context",
+    "research_records",
+    "source_provenance",
+    "support_target",
+    "coverage",
+    "unresolved_gaps",
+    "conditional_evidence_linkage"
+  ],
+  "properties": {
+    "pvd_project_context": {
+      "type": "object"
+    },
+    "research_records": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "source_provenance": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "support_target": {
+      "type": "object"
+    },
+    "coverage": {
+      "type": "object"
+    },
+    "unresolved_gaps": {
+      "type": "array"
+    },
+    "conditional_evidence_linkage": {
+      "type": "array"
+    }
+  }
+}

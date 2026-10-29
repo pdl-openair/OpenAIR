@@ -1,0 +1,16 @@
+suite_id: component.web.hooks.workbench-authority
+protected_outcome: Workbench remote authority and local sessions remain isolated across task and revision transitions, late responses, and StrictMode lifetimes.
+authority_refs:
+  - docs/02_产品与Workflow/OpenAIR/OpenAIR 工作台状态与信息结构.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: workbench_authority_or_session_cross_context_contamination
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/hooks/useWorkbenchAuthority.ts
+  - apps/web/src/hooks/useWorkbenchSessionState.ts
+test_responsibility: Real hooks reject obsolete remote responses and old session updates; current snapshots and drafts remain authoritative.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS only with all declared evidence and protected outcomes satisfied; otherwise FAIL or NO_VALID_EVIDENCE.
+triggers: [workbench_authority_lifetime_changes]

@@ -1,0 +1,32 @@
+skill_id: literature_search
+claude_name: literature-search
+display_name: 文献检索
+version: "0.1.0"
+stages:
+  - problem_modeling
+skill_type: orchestration
+runtime: claude_code
+durable_execution:
+  adapter: huiyan_chat_completions
+status: ready
+source: manual
+substages:
+  - literature_search
+output_file: 01-problem/literature-review.md
+pack: sdr
+spec: 01-problem/literature-review.md
+input_skills:
+  - intent_understanding
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: literature_search
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

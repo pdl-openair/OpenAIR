@@ -1,0 +1,26 @@
+suite_id: component.modules.registry-snapshot-repository
+protected_outcome: Registry snapshots preserve production bootstrap, immutable committed history, collision handling, rollback,
+  and safe migration lifecycle.
+authority_refs:
+- docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+- docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class: registry_snapshot_persistence_or_history_violation
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/modules/registry_snapshot_repository.py
+test_responsibility: deterministic component-owned PostgreSQL persistence and transaction behavior
+execution_profiles:
+- postgres
+required_dependencies:
+- isolated PostgreSQL test database
+evidence_required:
+- pytest_result
+- database_identity
+- transaction_state
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- owned repository/service persistence changes
+- owned migration or transaction semantics change

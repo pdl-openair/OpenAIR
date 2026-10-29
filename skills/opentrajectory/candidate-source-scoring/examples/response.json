@@ -1,0 +1,172 @@
+{
+  "candidate_scores": [
+    {
+      "candidate_id": "cand_001",
+      "dedupe_key": "doi:10.1000/aln-d33-001",
+      "title": "Reactive sputtering conditions for high piezoelectric response in AlN films",
+      "provenance": [
+        {
+          "stage": "source_screening_selection",
+          "skill_id": "title-abstract-screening-skill",
+          "timestamp": "2026-08-29T12:00:00Z"
+        }
+      ],
+      "screening_decision": "include",
+      "screening_reason": "Directly studies AlN process conditions and d33.",
+      "relevance_signals": [
+        "AlN",
+        "nitrogen flow",
+        "substrate temperature",
+        "d33"
+      ],
+      "access_status": "pdf_ready",
+      "degradation_reasons": [],
+      "final_score": 0.966,
+      "score_breakdown": {
+        "domain_match": 1.0,
+        "object_match": 0.8,
+        "mechanism_match": 0.6,
+        "metric_match": 0.8,
+        "context_match": 0.8,
+        "evaluation_match": 0.8,
+        "screening_relevance": 1.0,
+        "evidence_potential": 0.95,
+        "source_accessibility": 0.8,
+        "diversity_bonus": 0.0,
+        "negative_penalty": 0.0,
+        "off_domain_penalty": 0.0,
+        "slot_coverage_bonus": 0.15
+      },
+      "matched_facets": {
+        "object": [
+          "aln",
+          "mo electrode"
+        ],
+        "mechanism": [
+          "reactive sputtering"
+        ],
+        "metric": [
+          "d33",
+          "piezoelectric response"
+        ],
+        "context": [
+          "nitrogen flow",
+          "substrate temperature"
+        ],
+        "evaluation": [
+          "nitrogen flow",
+          "substrate temperature"
+        ],
+        "must_have": [
+          "aln",
+          "d33"
+        ],
+        "contract_slots": [
+          "aln",
+          "d33"
+        ],
+        "required_slots": [
+          "aln",
+          "d33"
+        ],
+        "off_domain": []
+      },
+      "negative_hits": [],
+      "must_have_hit_count": 2,
+      "metric_only": false,
+      "facets_quality_flags": {
+        "facets_incomplete": false,
+        "missing_facets": [],
+        "degraded_scoring": false
+      },
+      "source_name": "openalex",
+      "abstract": "AlN thin films were deposited on Mo electrodes. Nitrogen flow and substrate temperature were varied and the d33 response was measured.",
+      "citation_count": 28
+    },
+    {
+      "candidate_id": "cand_002",
+      "dedupe_key": "doi:10.1000/battery-002",
+      "title": "Fast-charging lithium-ion batteries under low-temperature conditions",
+      "provenance": [
+        {
+          "stage": "source_screening_selection",
+          "skill_id": "title-abstract-screening-skill",
+          "timestamp": "2026-08-29T12:00:00Z"
+        }
+      ],
+      "screening_decision": "maybe",
+      "screening_reason": "Metric language overlaps, but the research object is outside the AlN system.",
+      "relevance_signals": [
+        "temperature",
+        "response"
+      ],
+      "access_status": "metadata_only",
+      "degradation_reasons": [
+        "access_degraded:metadata_only",
+        "screening_maybe",
+        "critical_evidence_requirements_incomplete"
+      ],
+      "final_score": 0.0,
+      "score_breakdown": {
+        "domain_match": 0.0,
+        "object_match": 0.0,
+        "mechanism_match": 0.0,
+        "metric_match": 0.0,
+        "context_match": 0.0,
+        "evaluation_match": 0.0,
+        "screening_relevance": 0.55,
+        "evidence_potential": 0.75,
+        "source_accessibility": 0.35,
+        "diversity_bonus": 0.0,
+        "negative_penalty": 0.0,
+        "off_domain_penalty": 0.8,
+        "slot_coverage_bonus": 0.0
+      },
+      "matched_facets": {
+        "object": [],
+        "mechanism": [],
+        "metric": [],
+        "context": [],
+        "evaluation": [],
+        "must_have": [],
+        "contract_slots": [],
+        "required_slots": [],
+        "off_domain": [
+          "lithium-ion",
+          "graphite plating"
+        ]
+      },
+      "negative_hits": [],
+      "must_have_hit_count": 0,
+      "metric_only": false,
+      "facets_quality_flags": {
+        "facets_incomplete": false,
+        "missing_facets": [],
+        "degraded_scoring": true
+      },
+      "source_name": "semantic_scholar",
+      "abstract": "We investigate graphite plating during fast charging and report capacity retention.",
+      "citation_count": 850
+    }
+  ],
+  "scoring_report": {
+    "input_count": 2,
+    "screening_eligible_count": 2,
+    "screening_excluded_count": 0,
+    "unscored_identity_count": 0,
+    "output_count": 2,
+    "facets_incomplete": false,
+    "missing_facets": [],
+    "degraded_scoring": true,
+    "off_domain_candidate_count": 1,
+    "missing_abstract_count": 0,
+    "access_degraded_count": 1,
+    "critical_coverage_degraded_count": 1,
+    "unscored_candidates": [],
+    "risk_flags": [
+      "access_degraded_present",
+      "critical_evidence_coverage_incomplete",
+      "off_domain_candidates_detected"
+    ]
+  }
+}

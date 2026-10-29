@@ -1,0 +1,10 @@
+{
+  "package_version": "research_lead_package_v0.1",
+  "evaluation_mode": "offline_proposal",
+  "domain_profile": "cs_v0.3",
+  "claimed_result_status": "planned",
+  "evidence_refs_count": 0,
+  "artifact_refs_count": 4,
+  "min_gap_records_count": 4,
+  "mapping_confidence": "medium"
+}

@@ -1,0 +1,139 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "material_system",
+      "original_phrase": "高熵合金",
+      "constraint_type": "material_property",
+      "interpreted_value": "high-entropy alloy",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies high-entropy alloys as the material system.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["high-entropy alloy", "HEA", "multi-principal element alloy"],
+      "downstream_filter_rules": [
+        {"type": "hard_filter", "field": "material_class", "condition": "high-entropy alloy"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "research_topic",
+      "original_phrase": "相稳定性预测",
+      "constraint_type": "condition",
+      "interpreted_value": "phase stability prediction",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies phase stability prediction as the research topic.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["phase stability prediction HEA", "phase stability high-entropy alloy", "phase diagram prediction"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers on phase stability prediction in HEAs"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "method_calphad",
+      "original_phrase": "CALPHAD",
+      "constraint_type": "condition",
+      "interpreted_value": "CALPHAD method",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies CALPHAD as one of the computational methods of interest.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["CALPHAD high-entropy alloy", "CALPHAD phase stability", "thermodynamic modeling HEA"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers using CALPHAD; do not treat as material filter"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "method_dft",
+      "original_phrase": "DFT",
+      "constraint_type": "condition",
+      "interpreted_value": "DFT calculation",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies DFT as the other computational method, combined with CALPHAD.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["DFT high-entropy alloy", "first-principles HEA", "DFT CALPHAD combined"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers combining DFT and CALPHAD approaches"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "composition_system",
+      "original_phrase": "Al-Co-Cr-Fe-Ni 体系",
+      "constraint_type": "material_property",
+      "interpreted_value": "Al-Co-Cr-Fe-Ni system",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies the Al-Co-Cr-Fe-Ni quinary system as the target composition.",
+      "confidence": 0.92,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["Al-Co-Cr-Fe-Ni", "AlCoCrFeNi high-entropy alloy", "Cantor alloy variant Al"],
+      "downstream_filter_rules": [
+        {"type": "hard_filter", "field": "composition_system", "condition": "Al-Co-Cr-Fe-Ni"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["explicit_value_from_user_input_only"]
+    },
+    {
+      "constraint_name": "formation_enthalpy",
+      "original_phrase": "形成焓",
+      "constraint_type": "material_property",
+      "interpreted_value": "formation enthalpy",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly lists formation enthalpy as a thermodynamic property of interest.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["formation enthalpy HEA", "mixing enthalpy high-entropy alloy", "enthalpy of formation alloy"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers reporting formation enthalpy data"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "mixing_entropy",
+      "original_phrase": "混合熵",
+      "constraint_type": "material_property",
+      "interpreted_value": "mixing entropy",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly lists mixing entropy as a thermodynamic property of interest.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["mixing entropy HEA", "configurational entropy high-entropy alloy", "entropy stabilization"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers analyzing mixing entropy contributions"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "phase_decomposition_risk",
+      "original_phrase": "相分解风险",
+      "constraint_type": "condition",
+      "interpreted_value": "phase decomposition risk",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly wants to understand phase decomposition risk, i.e., the tendency of the alloy to separate into multiple phases.",
+      "confidence": 0.85,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["phase decomposition HEA", "phase separation high-entropy alloy", "spinodal decomposition HEA", "phase stability risk"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers analyzing phase decomposition or separation risks"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.89,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": ["explicit_value_from_user_input_only"],
+    "needs_manual_review": false
+  }
+}

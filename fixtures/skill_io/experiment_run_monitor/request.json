@@ -1,0 +1,16 @@
+{
+  "task_id": "task_cs_ope_001",
+  "run_id": "run_cs_ope_001",
+  "stage": "execution_validation",
+  "user_goal": "执行 Set 10-13：RQ1/RQ2/RQ3 主实验与超参搜索",
+  "context": {
+    "task_sets": [10, 11, 12, 13],
+    "project_root": "S:\\research\\OpenAIR\\sb3_ope",
+    "resource_config_ref": "resources/resource_config.json"
+  },
+  "constraints": [
+    "支持 JSON 进度文件断点续跑",
+    "按 env+algo 分组执行",
+    "GPU 密集任务单独调度"
+  ]
+}

@@ -1,0 +1,27 @@
+skill_id: reproduction_comparison_judgment
+claude_name: reproduction-comparison-judgment
+display_name: 复现结果可比性与达标判断
+version: "1.0.0"
+stages: [execution_validation]
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+execution_method_roles:
+  - cs_reproduction_result_comparison:comparison_judgment_closure
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output: {contract_version: 1, guard_version: p06c-v1}
+review_policy: {contract_version: 1, mode: schema_validated_only}
+owner: TBD
+fixture_status: missing
+notes: 先判断可比性，再使用预先确定的规则和确定性差值形成科研达标判断。
+capability_contract:
+  artifact_types: [reproduction_comparison_judgment]
+  judgment_support: {deterministic: false, domain_professional: true}

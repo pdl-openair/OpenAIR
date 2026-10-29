@@ -1,0 +1,42 @@
+schemaVersion: definition-external-actions.v1
+definitions:
+  - substageKey: research_goal_equipment_constraints
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: research_retrieval_experiment_design
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: literature_experiment_record_verification
+    definitionVersion: 1
+    requiredExternalActions:
+      - external_read
+  - substageKey: process_result_comparability_analysis
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: process_factor_candidate_direction_analysis
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: parameter_feasibility_experiment_plan_validation
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: experimental_feedback_round_comparison
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: four_parameter_recommendation
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: evidence_applicability_comparability_analysis
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: experimental_feedback_round_analysis
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: process_factor_candidate_experiment_analysis
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: parameter_experiment_plan_feasibility_validation
+    definitionVersion: 1
+    requiredExternalActions: []
+  - substageKey: round_experiment_plan_parameter_recommendation
+    definitionVersion: 1
+    requiredExternalActions: []

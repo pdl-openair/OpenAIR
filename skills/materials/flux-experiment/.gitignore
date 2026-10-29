@@ -1,0 +1,6 @@
+# 凭据与本地配置 —— 禁止提交到版本库
+config.local.json
+
+# Python
+__pycache__/
+*.pyc

@@ -1,0 +1,15 @@
+{
+  "metadata_candidates": [],
+  "retrieval_report": {
+    "source_counts": {},
+    "query_counts": {},
+    "failed_sources": [],
+    "total_candidates": 0,
+    "partial_success": false,
+    "fallback_used": true,
+    "risk_flags": [
+      "missing_english_query_variants",
+      "chinese_user_query_not_used_as_search_query"
+    ]
+  }
+}

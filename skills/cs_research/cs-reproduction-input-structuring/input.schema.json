@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CS reproduction requirements input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "research_goal"
+  ],
+  "properties": {
+    "research_goal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    }
+  }
+}

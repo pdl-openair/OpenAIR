@@ -1,0 +1,34 @@
+skill_id: opentrajectory_intent_understanding
+claude_name: opentrajectory-intent-understanding
+display_name: 科研需求理解
+version: 0.1.0
+stages:
+- problem_modeling
+substages:
+- intent_understanding
+pack: opentrajectory
+sequence: 10
+enabled: false
+spec: 01-problem/intent-understanding.md
+input_skills: []
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-intent-understanding
+claude_skill_path: .claude/skills/opentrajectory-intent-understanding
+output_file: 01-problem/structured-requirement.json
+fixture_status: none
+notes: Superseded for new OT runs by opentrajectory:problem_framing; retained only
+  as a disabled historical definition.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: intent_understanding
+owner: TBD
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

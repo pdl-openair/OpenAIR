@@ -1,0 +1,47 @@
+{
+  "scenarioName": "audit_no_records_pass_fail_request",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "status": "insufficient_materials",
+    "audit_scope": {
+      "inspected": [],
+      "not_inspected": ["result locator", "raw data", "analysis script", "run log", "audit criterion"]
+    },
+    "traceability_matrix": [],
+    "verdict": "insufficient_materials",
+    "missing_records": [
+      "result locator",
+      "raw data",
+      "analysis script",
+      "run log",
+      "audit criterion"
+    ],
+    "minimum_usable_input": [
+      "result claim",
+      "result locator",
+      "raw data or experiment record",
+      "analysis method"
+    ],
+    "next_record_to_inspect": "result locator and raw data packet",
+    "forbidden_output": [
+      "pass/fail verdict",
+      "needs_fix as if records were inspected",
+      "result reliability conclusion"
+    ],
+    "safe_next_step": [
+      "Provide the result figure/table ID and the underlying data or analysis record."
+    ]
+  },
+  "review": {
+    "rubricScore": 90,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 21, "OEA": 22, "Rig": 20, "Lev": 8, "UX": 9, "Spec": 5, "Eng": 5},
+    "mainReason": "Correctly refuses pass/fail audit without records."
+  }
+}

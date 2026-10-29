@@ -1,0 +1,45 @@
+schemaVersion: definition-external-actions.v1
+definitions:
+- substageKey: database_search
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_read
+- substageKey: literature_review
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_read
+- substageKey: candidate_generation
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: synthesis_assessment
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_read
+- substageKey: parameter_recommendation
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: band_gap_calculation
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_read
+  - external_compute
+- substageKey: stability_verification
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_read
+  - external_compute
+- substageKey: synthesis_execution
+  definitionVersion: 1
+  requiredExternalActions:
+  - physical_action
+- substageKey: characterization
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: report_generation
+  definitionVersion: 1
+  requiredExternalActions: []
+- substageKey: candidate_discovery
+  definitionVersion: 1
+  requiredExternalActions:
+  - external_read
+  - external_compute

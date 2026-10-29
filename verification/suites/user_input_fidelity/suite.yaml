@@ -1,0 +1,41 @@
+suite_id: verification.user-input-fidelity
+protected_outcome: >-
+  User-provided input sources remain complete, immutable, and distinct from
+  planner summaries from planning and revision through confirmed execution,
+  frozen WorkUnit input, fork, and recovery.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+failure_class:
+  - user_input_content_lost_or_replaced
+  - work_unit_input_source_continuity_broken
+minimum_owner: 跨组件与基础设施
+production_targets:
+  - services/api/app/models/research_orchestration.py
+  - services/api/app/modules/research_design_service.py
+  - services/api/app/modules/research_design_agent_revision.py
+  - services/api/app/modules/research_user_input.py
+  - services/api/app/modules/research_execution_decision_service.py
+  - services/api/app/modules/research_orchestration_repository.py
+  - services/api/app/routes/tasks.py
+test_responsibility: >-
+  Prove that accepted user-request and revision source text remains the canonical
+  execution input across planning, confirmation, WorkUnit freezing, replay,
+  fork, and recovery, without substitution by a planner-authored summary.
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - exact source snapshots before and after planning revisions
+  - exact canonical user query and resolved parameters on frozen WorkUnits
+  - replay, serialization, fork, recovery, and missing-source outcomes
+verdict_rule: >-
+  PASS only when every declared transition preserves the exact accepted source
+  sequence and freezes that sequence as execution input while missing or
+  oversized input fails closed before execution; FAIL when valid deterministic
+  evidence shows loss, mutation, summary substitution, or unauthorized input;
+  otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - planning or revision input capture changes
+  - ResearchDesign confirmation or WorkUnit input freezing changes
+  - task fork, replay, serialization, or recovery changes

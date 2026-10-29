@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CS reproduction execution input structuring output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "repository",
+    "revision",
+    "unresolved_inputs"
+  ],
+  "properties": {
+    "repository": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "revision": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "unresolved_inputs": {
+      "type": "array",
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "repository",
+          "revision"
+        ]
+      }
+    }
+  }
+}

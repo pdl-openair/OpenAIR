@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-evidence-applicability-comparability-analysis/output.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_status",
+    "evidence_assessments",
+    "support_conclusions",
+    "conflicts",
+    "important_unknowns",
+    "summary"
+  ],
+  "properties": {
+    "analysis_status": {
+      "enum": [
+        "complete",
+        "partial",
+        "insufficient",
+        "not_needed"
+      ]
+    },
+    "evidence_assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "record_id",
+          "source_id",
+          "evidence_refs",
+          "key_matches",
+          "important_differences",
+          "measurement_compatibility",
+          "transfer_limits",
+          "uncertainty"
+        ],
+        "properties": {
+          "record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "key_matches": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "important_differences": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "measurement_compatibility": {
+            "enum": [
+              "compatible",
+              "partially_compatible",
+              "incompatible",
+              "unknown"
+            ]
+          },
+          "transfer_limits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "uncertainty": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "support_conclusions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "conclusion_id",
+          "judgment_target",
+          "evidence_record_refs",
+          "evidence_refs",
+          "support_level",
+          "allowed_uses",
+          "conditions",
+          "transfer_limits",
+          "conflicts",
+          "important_unknowns",
+          "rationale"
+        ],
+        "properties": {
+          "conclusion_id": {
+            "type": "string",
+            "pattern": "^support_conclusion:target_[0-9]{3}$",
+            "description": "Code-owned stable identity for the target-scoped T05 conclusion within the formal Artifact."
+          },
+          "judgment_target": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_record_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Verified record identities explicitly selected by Final Synthesis as the basis of this target conclusion."
+          },
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Deterministically materialized T04 Evidence identities cited by the selected verified record/target findings."
+          },
+          "support_level": {
+            "enum": [
+              "direct",
+              "directional",
+              "mechanism_only",
+              "background_only",
+              "not_transferable",
+              "insufficient"
+            ]
+          },
+          "allowed_uses": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "mechanism",
+                "trend_direction",
+                "magnitude_reference",
+                "direct_numeric"
+              ]
+            },
+            "maxItems": 1,
+            "description": "Positive downstream scientific-use authorization signed only by Final Synthesis. At most one strongest decision-specific class is retained; an empty list means no positive authorization."
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "transfer_limits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conflicts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "important_unknowns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "important_unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

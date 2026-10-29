@@ -1,0 +1,39 @@
+{
+  "task_id": "p07f-cs-example",
+  "research_question": "对比学习方法如何提升视觉检索效果，并在不同数据集与评测协议下保持可比性？",
+  "constraints_criteria": {
+    "evaluation_focus": [
+      "retrieval quality",
+      "generalization",
+      "comparability"
+    ],
+    "must_track_method_dimensions": [
+      "architecture",
+      "contrastive objective",
+      "training regime",
+      "ablation setting"
+    ],
+    "must_track_evaluation_context": [
+      "dataset",
+      "data split",
+      "retrieval protocol"
+    ],
+    "must_track_metrics": [
+      "mAP",
+      "Recall@K"
+    ],
+    "comparison_requirement": "Compare scores only under the same benchmark and metric definition."
+  },
+  "sample_scan": {
+    "signals": [
+      "contrastive objective",
+      "dataset split",
+      "retrieval protocol",
+      "mAP",
+      "Recall@K",
+      "baseline comparison",
+      "ablation",
+      "generalization limit"
+    ]
+  }
+}

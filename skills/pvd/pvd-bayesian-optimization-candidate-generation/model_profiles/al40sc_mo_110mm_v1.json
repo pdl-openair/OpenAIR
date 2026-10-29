@@ -1,0 +1,117 @@
+{
+  "acquisition": {
+    "kappa": 3.0,
+    "kind": "ucb"
+  },
+  "algorithm_id": "gpr_ucb_matern25_v1",
+  "applicability_domain": {
+    "numeric_tolerance": 1e-08,
+    "required_process_context": {
+      "power_supply_temperature": 200.0,
+      "substrate": "Mo",
+      "target_angle": "内偏30度",
+      "target_material": "40%AlSc",
+      "target_substrate_distance_mm": 110.0
+    }
+  },
+  "base_dataset": {
+    "dataset_id": "al40sc_mo_110mm_initial_63",
+    "observation_count": 63,
+    "relative_path": "assets/al40sc_mo_110mm_initial_63.json",
+    "sha256": "a49e2ce660d167b3a0521fc8909a60bd171a841784aeb593f7562b99195fd456"
+  },
+  "constraints": [
+    {
+      "denominator_features": [
+        "n2_sccm",
+        "ar_sccm"
+      ],
+      "kind": "fraction_bounds",
+      "max": 0.52,
+      "min": 0.28,
+      "numerator": "n2_sccm"
+    },
+    {
+      "features": [
+        "n2_sccm",
+        "ar_sccm"
+      ],
+      "kind": "sum_bounds",
+      "max": 90.0,
+      "min": 39.0
+    }
+  ],
+  "diversity": {
+    "greedy_penalty_weight": 0.5,
+    "group_by": [
+      "n2_sccm",
+      "ar_sccm"
+    ],
+    "high_ucb_pool_size": 5000,
+    "max_per_group": 2,
+    "min_distance_from_observed": 0.3
+  },
+  "feature_order": [
+    "power_w",
+    "n2_sccm",
+    "ar_sccm",
+    "time_s"
+  ],
+  "gpr": {
+    "alpha": 1e-08,
+    "constant_bounds": [
+      0.001,
+      1000.0
+    ],
+    "kernel": "ConstantKernel * Matern(nu=2.5, ARD) + WhiteKernel",
+    "length_scale_bounds": [
+      0.01,
+      1000.0
+    ],
+    "length_scale_initial": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "normalize_y": false,
+    "optimizer_restarts": 20,
+    "white_noise_bounds": [
+      1e-05,
+      10.0
+    ],
+    "white_noise_initial": 0.1
+  },
+  "grid": {
+    "ar_sccm": {
+      "max": 60.0,
+      "min": 27.0,
+      "step": 1.0
+    },
+    "n2_sccm": {
+      "max": 50.0,
+      "min": 12.0,
+      "step": 1.0
+    },
+    "power_w": {
+      "max": 255.0,
+      "min": 130.0,
+      "step": 5.0
+    },
+    "time_s": {
+      "max": 4600.0,
+      "min": 1500.0,
+      "step": 100.0
+    }
+  },
+  "objective": {
+    "direction": "maximize",
+    "target_metric": "d33",
+    "transform": "absolute_value"
+  },
+  "prediction_chunk_size": 10000,
+  "profile_id": "al40sc_mo_110mm_v1",
+  "profile_version": 1,
+  "random_seed": 42,
+  "top_n": 10
+}

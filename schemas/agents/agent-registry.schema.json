@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/agents/agent-registry.schema.json",
+  "title": "OpenAIR Agent Registry",
+  "type": "object",
+  "required": ["schemaVersion", "agents"],
+  "additionalProperties": true,
+  "properties": {
+    "schemaVersion": { "type": "integer", "minimum": 1 },
+    "updatedAt": { "type": "string" },
+    "description": { "type": "string" },
+    "agents": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/agent" }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "nonEmptyStringList": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/nonEmptyString" }
+    },
+    "agent": {
+      "type": "object",
+      "required": [
+        "agentId",
+        "displayName",
+        "visibility",
+        "agentKind",
+        "candidateScope",
+        "enabled",
+        "skillIds",
+        "capability",
+        "notFor",
+        "inputContract",
+        "outputContract",
+        "failClosedRules",
+        "budgetPolicy",
+        "evaluator",
+        "sdr",
+        "allowedProviders",
+        "defaultProvider",
+        "judgmentSupport"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "agentId": { "$ref": "#/$defs/nonEmptyString" },
+        "displayName": { "$ref": "#/$defs/nonEmptyString" },
+        "visibility": {
+          "type": "string",
+          "enum": ["internal", "user_entry", "internal_or_user_entry"]
+        },
+        "agentKind": {
+          "type": "string",
+          "enum": ["specialist", "general_research"]
+        },
+        "candidateScope": {
+          "type": "string",
+          "enum": ["explicit_mappings", "all_enabled_substages"]
+        },
+        "enabled": { "type": "boolean" },
+        "skillIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyString" }
+        },
+        "allowedProviders": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmptyString" }
+        },
+        "defaultProvider": { "$ref": "#/$defs/nonEmptyString" },
+        "judgmentSupport": {
+          "type": "object",
+          "required": ["domainProfessional", "humanAuthority"],
+          "additionalProperties": false,
+          "properties": {
+            "domainProfessional": { "type": "boolean" },
+            "humanAuthority": { "const": false }
+          }
+        },
+        "aliases": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonEmptyString" }
+        },
+        "capability": { "$ref": "#/$defs/nonEmptyStringList" },
+        "notFor": { "$ref": "#/$defs/nonEmptyStringList" },
+        "inputContract": {
+          "type": "object",
+          "required": ["required"],
+          "additionalProperties": true,
+          "properties": {
+            "required": { "$ref": "#/$defs/nonEmptyStringList" },
+            "optional": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/nonEmptyString" }
+            },
+            "materialKinds": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/nonEmptyString" }
+            },
+            "minimumReadiness": { "$ref": "#/$defs/nonEmptyStringList" }
+          }
+        },
+        "outputContract": {
+          "type": "object",
+          "required": ["artifactKind", "artifactContract", "requiredFields"],
+          "additionalProperties": true,
+          "properties": {
+            "artifactKind": { "$ref": "#/$defs/nonEmptyString" },
+            "artifactContract": { "$ref": "#/$defs/nonEmptyString" },
+            "requiredFields": { "$ref": "#/$defs/nonEmptyStringList" },
+            "rowRequirements": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/nonEmptyString" }
+            }
+          }
+        },
+        "failClosedRules": { "$ref": "#/$defs/nonEmptyStringList" },
+        "budgetPolicy": {
+          "type": "object",
+          "required": ["defaultMode", "maxWallTimeSec", "maxToolCalls"],
+          "additionalProperties": true,
+          "properties": {
+            "defaultMode": {
+              "type": "string",
+              "enum": ["route_only", "draft_only", "evidence_bound", "retrieval_bound", "full_execution", "critique_only"]
+            },
+            "allowedModes": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": ["route_only", "draft_only", "evidence_bound", "retrieval_bound", "full_execution", "critique_only"]
+              }
+            },
+            "maxWallTimeSec": { "type": "integer", "minimum": 1 },
+            "maxToolCalls": { "type": "integer", "minimum": 0 },
+            "maxContextMaterials": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "evaluator": {
+          "type": "object",
+          "required": ["id", "artifactValidator", "requiredMetadata", "qualitySignals"],
+          "additionalProperties": true,
+          "properties": {
+            "id": { "$ref": "#/$defs/nonEmptyString" },
+            "artifactValidator": { "$ref": "#/$defs/nonEmptyString" },
+            "requiredMetadata": { "$ref": "#/$defs/nonEmptyStringList" },
+            "qualitySignals": { "$ref": "#/$defs/nonEmptyStringList" }
+          }
+        },
+        "sdr": {
+          "type": "object",
+          "required": ["primaryStages", "mappings"],
+          "additionalProperties": true,
+          "properties": {
+            "primaryStages": { "$ref": "#/$defs/nonEmptyStringList" },
+            "mappings": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["pack", "stage", "substage", "role", "supportedRole", "enabled", "artifactContract"],
+                "additionalProperties": true,
+                "properties": {
+                  "pack": { "$ref": "#/$defs/nonEmptyString" },
+                  "stage": { "$ref": "#/$defs/nonEmptyString" },
+                  "substage": { "$ref": "#/$defs/nonEmptyString" },
+                  "role": { "$ref": "#/$defs/nonEmptyString" },
+                  "supportedRole": {
+                    "type": "string",
+                    "enum": ["primary", "reviewer", "support"]
+                  },
+                  "enabled": { "type": "boolean" },
+                  "artifactContract": { "$ref": "#/$defs/nonEmptyString" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

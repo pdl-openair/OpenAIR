@@ -1,0 +1,47 @@
+{
+  "scenarioName": "evidence_abstract_caption_only",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "status": "requires_existing_inputs",
+    "material_readiness": {
+      "usable": ["abstract-level claim"],
+      "unusable": ["direct evidence extraction", "method-level support", "figure/table verification"],
+      "boundary": "An abstract can seed claims to inspect, but it is not enough to populate evidence rows."
+    },
+    "claim_evidence_table": [],
+    "minimum_usable_input": [
+      "result paragraph or figure/table caption",
+      "paper ID and locator",
+      "measurement condition",
+      "methods or statistics context"
+    ],
+    "unsupported_or_missing": [
+      "direct observations",
+      "figure/table locator",
+      "methods",
+      "sample count",
+      "metric definition"
+    ],
+    "forbidden_output": [
+      "claim_evidence_table",
+      "selectivity evidence as if figures were inspected",
+      "mechanism proof"
+    ],
+    "safe_next_step": [
+      "Paste the specific figure caption or result paragraph.",
+      "Name the claim to extract and provide a locator."
+    ]
+  },
+  "review": {
+    "rubricScore": 88,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 21, "OEA": 21, "Rig": 20, "Lev": 8, "UX": 8, "Spec": 5, "Eng": 5},
+    "mainReason": "Strong fail-closed boundary for abstract-only input; useful next input list, but no live extraction proof."
+  }
+}

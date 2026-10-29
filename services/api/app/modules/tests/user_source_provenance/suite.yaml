@@ -1,0 +1,29 @@
+suite_id: component.modules.user-source-provenance
+protected_outcome: >-
+  CS reproduction repository and revision identities are accepted only when the
+  exact identity text is present in canonical confirmed user input; planner text,
+  request identifiers, and other incidental metadata cannot become source authority.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+failure_class: user_source_identity_inferred_without_authority
+minimum_owner: 确定性合同与不变量
+production_targets:
+  - services/api/app/modules/cs_reproduction_scientific_state_materialization.py
+test_responsibility: >-
+  Prove the CS reproduction source-consistency validator rejects repository or
+  revision identity absent from canonical confirmed user input and preserves an
+  explicitly supplied valid identity verbatim.
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - deterministic rejection for repository and revision source mismatch
+  - deterministic acceptance of an explicitly supplied valid revision
+verdict_rule: >-
+  PASS only when absent or incidental identity text is rejected and exact
+  user-supplied identity is accepted unchanged; FAIL when valid deterministic
+  evidence shows an untraceable identity is accepted or a traceable identity is
+  mutated or rejected; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - CS reproduction source materialization changes
+  - repository or revision provenance validation changes

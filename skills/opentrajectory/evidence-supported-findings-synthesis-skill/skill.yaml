@@ -1,0 +1,29 @@
+skill_id: ot_evidence_supported_findings_synthesis
+claude_name: evidence-supported-findings-synthesis-skill
+display_name: 已有证据结论凝练
+stages:
+- execution_validation
+substages:
+- findings_synthesis
+skill_type: atomic
+runtime: llm_structured
+status: draft
+enabled: false
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: evidence_supported_findings.json
+llm:
+  temperature: 0
+  max_completion_tokens: 3200
+  reasoning_effort: minimal
+  structured_output_max_attempts: 2
+notes: Single-responsibility findings synthesis. LLM must produce synthesis-level findings rather than edge-by-edge restatements; deterministic Skill code owns provenance guards, IDs, deduplication, max_findings, status metadata, and final schema validation.
+fixture_status: example_only
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

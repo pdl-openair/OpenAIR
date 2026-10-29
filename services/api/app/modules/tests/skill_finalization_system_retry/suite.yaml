@@ -1,0 +1,17 @@
+suite_id: component.modules.skill-finalization-system-retry
+protected_outcome: Durable skill_finalization_runtime_failed outcomes auto-enqueue a bounded system explicit retry without waiting for Workbench user action.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: skill_finalization_system_retry_authority_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/workbench_user_actions.py
+  - services/api/app/modules/research_dispatch_service.py
+  - services/api/app/modules/research_external_recovery_persistence.py
+test_responsibility: deterministic component proof of system-owned finalization retry liveness
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: PASS only when declared conditions and evidence prove protected_outcome; otherwise FAIL or NO_VALID_EVIDENCE.
+triggers: [skill finalization retry changes]

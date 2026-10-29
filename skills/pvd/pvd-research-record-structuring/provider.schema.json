@@ -1,0 +1,2703 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PVD Research Record Structuring Model Semantic Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_groups"
+  ],
+  "properties": {
+    "record_groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "group_id",
+          "grouping_status",
+          "evidence_refs",
+          "grouping_basis_evidence_refs"
+        ],
+        "properties": {
+          "group_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "grouping_status": {
+            "type": "string",
+            "enum": [
+              "explicit_record",
+              "ambiguous_singleton"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "grouping_basis_evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "study_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "series_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sample_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "record_role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "material": {
+            "type": "object",
+            "properties": {
+              "target_system": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "target_composition": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "film_composition": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "substrate": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "electrode": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "buffer": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "film_structure": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "other_conditions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "fact"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "fact": {
+                      "type": "object",
+                      "required": [
+                        "fact_status"
+                      ],
+                      "properties": {
+                        "fact_status": {
+                          "type": "string",
+                          "enum": [
+                            "known",
+                            "not_reported",
+                            "unknown",
+                            "unavailable",
+                            "ambiguous",
+                            "not_applicable"
+                          ]
+                        },
+                        "value": {},
+                        "unit": {
+                          "type": "string"
+                        },
+                        "definition": {
+                          "type": "string"
+                        },
+                        "qualifier": {
+                          "type": "string"
+                        },
+                        "uncertainty": {
+                          "type": [
+                            "number",
+                            "string",
+                            "object"
+                          ]
+                        },
+                        "provenance_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "uniqueItems": true
+                        }
+                      },
+                      "additionalProperties": false,
+                      "allOf": [
+                        {
+                          "if": {
+                            "properties": {
+                              "fact_status": {
+                                "const": "known"
+                              }
+                            },
+                            "required": [
+                              "fact_status"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "value"
+                            ]
+                          },
+                          "else": {
+                            "not": {
+                              "required": [
+                                "value"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "process": {
+            "type": "object",
+            "properties": {
+              "sputtering_mode": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "power": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "power_density": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "n2_flow": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "ar_flow": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "gas_ratio": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "reactive_gas_fraction": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "total_flow": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "pressure": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "reactive_gas_partial_pressure": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "target_substrate_distance": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "substrate_temperature": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "deposition_time": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "film_thickness": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "substrate_bias": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "target_effective_area": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "target_geometry": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "chamber_geometry": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "base_pressure": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "substrate_rotation": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "post_treatment": {
+                "type": "object",
+                "required": [
+                  "fact_status"
+                ],
+                "properties": {
+                  "fact_status": {
+                    "type": "string",
+                    "enum": [
+                      "known",
+                      "not_reported",
+                      "unknown",
+                      "unavailable",
+                      "ambiguous",
+                      "not_applicable"
+                    ]
+                  },
+                  "value": {},
+                  "unit": {
+                    "type": "string"
+                  },
+                  "definition": {
+                    "type": "string"
+                  },
+                  "qualifier": {
+                    "type": "string"
+                  },
+                  "uncertainty": {
+                    "type": [
+                      "number",
+                      "string",
+                      "object"
+                    ]
+                  },
+                  "provenance_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "fact_status": {
+                          "const": "known"
+                        }
+                      },
+                      "required": [
+                        "fact_status"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "other_conditions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "fact"
+                  ],
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "fact": {
+                      "type": "object",
+                      "required": [
+                        "fact_status"
+                      ],
+                      "properties": {
+                        "fact_status": {
+                          "type": "string",
+                          "enum": [
+                            "known",
+                            "not_reported",
+                            "unknown",
+                            "unavailable",
+                            "ambiguous",
+                            "not_applicable"
+                          ]
+                        },
+                        "value": {},
+                        "unit": {
+                          "type": "string"
+                        },
+                        "definition": {
+                          "type": "string"
+                        },
+                        "qualifier": {
+                          "type": "string"
+                        },
+                        "uncertainty": {
+                          "type": [
+                            "number",
+                            "string",
+                            "object"
+                          ]
+                        },
+                        "provenance_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "uniqueItems": true
+                        }
+                      },
+                      "additionalProperties": false,
+                      "allOf": [
+                        {
+                          "if": {
+                            "properties": {
+                              "fact_status": {
+                                "const": "known"
+                              }
+                            },
+                            "required": [
+                              "fact_status"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "value"
+                            ]
+                          },
+                          "else": {
+                            "not": {
+                              "required": [
+                                "value"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "outcomes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "metric",
+                "value"
+              ],
+              "properties": {
+                "observation_id": {
+                  "type": "string"
+                },
+                "metric": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "value": {},
+                "unit": {
+                  "type": "string"
+                },
+                "definition": {
+                  "type": "string"
+                },
+                "measurement_method": {
+                  "type": "object",
+                  "required": [
+                    "fact_status"
+                  ],
+                  "properties": {
+                    "fact_status": {
+                      "type": "string",
+                      "enum": [
+                        "known",
+                        "not_reported",
+                        "unknown",
+                        "unavailable",
+                        "ambiguous",
+                        "not_applicable"
+                      ]
+                    },
+                    "value": {},
+                    "unit": {
+                      "type": "string"
+                    },
+                    "definition": {
+                      "type": "string"
+                    },
+                    "qualifier": {
+                      "type": "string"
+                    },
+                    "uncertainty": {
+                      "type": [
+                        "number",
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "provenance_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "uniqueItems": true
+                    }
+                  },
+                  "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "fact_status": {
+                            "const": "known"
+                          }
+                        },
+                        "required": [
+                          "fact_status"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "value"
+                        ]
+                      },
+                      "else": {
+                        "not": {
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "measurement_geometry": {
+                  "type": "object",
+                  "required": [
+                    "fact_status"
+                  ],
+                  "properties": {
+                    "fact_status": {
+                      "type": "string",
+                      "enum": [
+                        "known",
+                        "not_reported",
+                        "unknown",
+                        "unavailable",
+                        "ambiguous",
+                        "not_applicable"
+                      ]
+                    },
+                    "value": {},
+                    "unit": {
+                      "type": "string"
+                    },
+                    "definition": {
+                      "type": "string"
+                    },
+                    "qualifier": {
+                      "type": "string"
+                    },
+                    "uncertainty": {
+                      "type": [
+                        "number",
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "provenance_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "uniqueItems": true
+                    }
+                  },
+                  "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "fact_status": {
+                            "const": "known"
+                          }
+                        },
+                        "required": [
+                          "fact_status"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "value"
+                        ]
+                      },
+                      "else": {
+                        "not": {
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "sign_convention": {
+                  "type": "object",
+                  "required": [
+                    "fact_status"
+                  ],
+                  "properties": {
+                    "fact_status": {
+                      "type": "string",
+                      "enum": [
+                        "known",
+                        "not_reported",
+                        "unknown",
+                        "unavailable",
+                        "ambiguous",
+                        "not_applicable"
+                      ]
+                    },
+                    "value": {},
+                    "unit": {
+                      "type": "string"
+                    },
+                    "definition": {
+                      "type": "string"
+                    },
+                    "qualifier": {
+                      "type": "string"
+                    },
+                    "uncertainty": {
+                      "type": [
+                        "number",
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "provenance_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "uniqueItems": true
+                    }
+                  },
+                  "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "fact_status": {
+                            "const": "known"
+                          }
+                        },
+                        "required": [
+                          "fact_status"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "value"
+                        ]
+                      },
+                      "else": {
+                        "not": {
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "correction_state": {
+                  "type": "object",
+                  "required": [
+                    "fact_status"
+                  ],
+                  "properties": {
+                    "fact_status": {
+                      "type": "string",
+                      "enum": [
+                        "known",
+                        "not_reported",
+                        "unknown",
+                        "unavailable",
+                        "ambiguous",
+                        "not_applicable"
+                      ]
+                    },
+                    "value": {},
+                    "unit": {
+                      "type": "string"
+                    },
+                    "definition": {
+                      "type": "string"
+                    },
+                    "qualifier": {
+                      "type": "string"
+                    },
+                    "uncertainty": {
+                      "type": [
+                        "number",
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "provenance_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "uniqueItems": true
+                    }
+                  },
+                  "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "fact_status": {
+                            "const": "known"
+                          }
+                        },
+                        "required": [
+                          "fact_status"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "value"
+                        ]
+                      },
+                      "else": {
+                        "not": {
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "uncertainty": {
+                  "type": [
+                    "number",
+                    "string",
+                    "object"
+                  ]
+                },
+                "provenance_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "other_context": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "key",
+                "fact"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "fact": {
+                  "type": "object",
+                  "required": [
+                    "fact_status"
+                  ],
+                  "properties": {
+                    "fact_status": {
+                      "type": "string",
+                      "enum": [
+                        "known",
+                        "not_reported",
+                        "unknown",
+                        "unavailable",
+                        "ambiguous",
+                        "not_applicable"
+                      ]
+                    },
+                    "value": {},
+                    "unit": {
+                      "type": "string"
+                    },
+                    "definition": {
+                      "type": "string"
+                    },
+                    "qualifier": {
+                      "type": "string"
+                    },
+                    "uncertainty": {
+                      "type": [
+                        "number",
+                        "string",
+                        "object"
+                      ]
+                    },
+                    "provenance_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "uniqueItems": true
+                    }
+                  },
+                  "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "fact_status": {
+                            "const": "known"
+                          }
+                        },
+                        "required": [
+                          "fact_status"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "value"
+                        ]
+                      },
+                      "else": {
+                        "not": {
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "grouping_status": {
+                  "const": "explicit_record"
+                }
+              },
+              "required": [
+                "grouping_status"
+              ]
+            },
+            "then": {
+              "anyOf": [
+                {
+                  "required": [
+                    "study_id"
+                  ]
+                },
+                {
+                  "required": [
+                    "series_id"
+                  ]
+                },
+                {
+                  "required": [
+                    "sample_id"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "grouping_status": {
+                  "const": "ambiguous_singleton"
+                }
+              },
+              "required": [
+                "grouping_status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "evidence_refs": {
+                  "maxItems": 1
+                },
+                "record_role": {
+                  "const": "unresolved_record_identity"
+                }
+              },
+              "required": [
+                "record_role"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "study_id"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "series_id"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "sample_id"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

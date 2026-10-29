@@ -1,0 +1,21 @@
+suite_id: component.modules.durable-artifact-presentation
+protected_outcome: Valid durable Skill results retain their Result Protocol and quality facts at acceptance; malformed or unusable presentations are rejected.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: artifact_presentation_quality_or_validation_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/durable_execution.py
+  - services/api/app/modules/durable_artifact_presentation.py
+test_responsibility: Receiver metadata validation and preservation; this suite does not claim database persistence or live Provider proof.
+execution_profiles: [local]
+required_dependencies: []
+evidence_required: [pytest_result, checkout_identity, interpreter_identity]
+verdict_rule: PASS when all valid-envelope preservation and invalid-envelope rejection assertions pass; FAIL on a valid counterexample; otherwise NO_VALID_EVIDENCE.
+triggers:
+  [
+    durable Skill presentation acceptance changes,
+    result protocol producer changes,
+  ]

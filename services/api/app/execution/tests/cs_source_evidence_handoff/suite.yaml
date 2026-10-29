@@ -1,0 +1,27 @@
+suite_id: component.execution.cs-source-evidence-handoff
+protected_outcome: 公共输入 gate 接收当前冻结合同声明的完整 CS 来源证据，拒收非法证据，历史冻结合同保持不可变。
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - docs/02_产品与Workflow/CS论文复现/OpenAIR_CS论文复现_Workflow设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class:
+  - declared_source_evidence_rejected_or_lost
+  - invalid_source_evidence_accepted
+minimum_owner: 确定性合同与不变量
+production_targets:
+  - services/api/app/execution/research_input_contract_gate.py
+test_responsibility: 使用真实生产者材料与正式注册冻结机制，验证 gate 的来源证据输入合同；不证明 Artifact 持久化、外网仓库获取或完整复现。
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - registered_skill_sources
+  - git
+  - pymupdf
+evidence_required:
+  - original_contract_rejects_real_producer_result
+  - current_frozen_contract_accepts_complete_evidence
+  - invalid_and_missing_evidence_rejected
+  - historical_frozen_hash_and_schema_unchanged
+verdict_rule: 合法来源完整交接且非法输入拒收、历史快照不变时 PASS；合同违反时 FAIL；缺少依赖或材料时 NO_VALID_EVIDENCE。
+triggers:
+  - CS source evidence input/output or frozen binding contract changes

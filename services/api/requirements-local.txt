@@ -1,0 +1,6 @@
+# Local / CI install that includes the in-repo llm_core package.
+# Use from services/api/:
+#   pip install -r requirements-local.txt
+# Prefer `uv sync` when available (pyproject.toml already declares llm-core).
+-r requirements.txt
+-e ../../packages/llm_core

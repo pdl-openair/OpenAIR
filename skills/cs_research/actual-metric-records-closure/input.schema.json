@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["reproduction_experiment_design", "execution_readiness_record", "frozen_execution_input"],
+  "properties": {
+    "reproduction_experiment_design": {"type": "object"},
+    "execution_readiness_record": {"type": "object"},
+    "frozen_execution_input": {"type": "object"},
+    "raw_execution_record": {"type": "object"},
+    "raw_actual_metrics": {"type": "object"}
+  }
+}

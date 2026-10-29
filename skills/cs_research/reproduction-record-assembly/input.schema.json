@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "code_identity",
+    "resource_identities",
+    "environment_record",
+    "execution_record",
+    "actual_metrics",
+    "reference_comparison"
+  ],
+  "properties": {
+    "code_identity": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": [
+            "state",
+            "repository",
+            "requested_revision",
+            "resolved_commit_sha",
+            "verified_head",
+            "workspace_relative_path",
+            "execution_evidence"
+          ],
+          "properties": {
+            "state": {
+              "$ref": "../repository-revision-acquisition/output.schema.json#/properties/state"
+            },
+            "resolved_commit_sha": {
+              "$ref": "../repository-revision-acquisition/output.schema.json#/properties/resolved_commit_sha"
+            },
+            "verified_head": {
+              "$ref": "../repository-revision-acquisition/output.schema.json#/properties/verified_head"
+            },
+            "workspace_relative_path": {
+              "$ref": "../repository-revision-acquisition/output.schema.json#/properties/workspace_relative_path"
+            },
+            "execution_evidence": {
+              "$ref": "../repository-revision-acquisition/output.schema.json#/properties/execution_evidence"
+            },
+            "repository": {
+              "$ref": "../repository-revision-acquisition/input.schema.json#/properties/repository"
+            },
+            "requested_revision": {
+              "$ref": "../repository-revision-acquisition/input.schema.json#/properties/revision"
+            },
+            "source_evidence": {
+              "$ref": "#/definitions/receivedSourceEvidence"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "resource_identities": {"type": "array", "maxItems": 256, "items": {"type": "object"}},
+    "environment_record": {"type": ["object", "null"]},
+    "execution_record": {"type": ["object", "null"]},
+    "actual_metrics": {"type": ["object", "null"]},
+    "reference_comparison": {"type": ["object", "null"]}
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "receivedSourceEvidence": {
+      "type": "object",
+      "description": "待核查的来源材料；接收不等于认定正式证据。未支持的读取形式或 repository_url 缺失可隔离为明确缺口；其他字段仍引用正式约束。",
+      "required": [
+        "kind",
+        "source_url",
+        "selection_basis"
+      ],
+      "properties": {
+        "kind": {
+          "$ref": "../repository-revision-acquisition/input.schema.json#/properties/source_evidence/properties/kind"
+        },
+        "source_url": {
+          "$ref": "../repository-revision-acquisition/input.schema.json#/properties/source_evidence/properties/source_url"
+        },
+        "repository_url": {
+          "$ref": "../repository-revision-acquisition/input.schema.json#/properties/source_evidence/properties/repository_url"
+        },
+        "selection_basis": {
+          "$ref": "../repository-revision-acquisition/input.schema.json#/properties/source_evidence/properties/selection_basis"
+        },
+        "model_id": {
+          "$ref": "../repository-revision-acquisition/input.schema.json#/properties/source_evidence/properties/model_id"
+        },
+        "content_form": {"type": "string", "minLength": 1, "maxLength": 128},
+        "paper_identity": {
+          "$ref": "../repository-revision-acquisition/input.schema.json#/properties/source_evidence/properties/paper_identity"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

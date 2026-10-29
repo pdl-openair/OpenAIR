@@ -1,0 +1,307 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "evidence-schema-design output",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/ready_result"
+    },
+    {
+      "$ref": "#/definitions/blocked_result"
+    }
+  ],
+  "definitions": {
+    "design_warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "ready_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "evidence_schema",
+        "design_warnings"
+      ],
+      "properties": {
+        "status": {
+          "const": "ready"
+        },
+        "evidence_schema": {
+          "$ref": "#/definitions/evidence_schema"
+        },
+        "design_warnings": {
+          "$ref": "#/definitions/design_warnings"
+        }
+      }
+    },
+    "blocked_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "blocking_reason",
+        "missing_minimum_information",
+        "missing_comparison_dimensions",
+        "design_warnings"
+      ],
+      "properties": {
+        "status": {
+          "const": "blocked"
+        },
+        "blocking_reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1200
+        },
+        "missing_minimum_information": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "missing_comparison_dimensions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "design_warnings": {
+          "$ref": "#/definitions/design_warnings"
+        }
+      },
+      "anyOf": [
+        {
+          "properties": {
+            "missing_minimum_information": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "missing_comparison_dimensions": {
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "evidence_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "schema_version",
+        "task_context",
+        "evidence_targets",
+        "gap_taxonomy",
+        "uncertainty_rules"
+      ],
+      "properties": {
+        "schema_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "schema_version": {
+          "const": "0.1.0"
+        },
+        "task_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "research_question",
+            "task_scope",
+            "domain_hints",
+            "design_assumptions"
+          ],
+          "properties": {
+            "research_question": {
+              "type": "string",
+              "minLength": 3
+            },
+            "task_scope": {
+              "type": "string",
+              "minLength": 1
+            },
+            "domain_hints": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "design_assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "evidence_targets": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 40,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "target_id",
+              "target_type",
+              "scientific_role",
+              "description",
+              "requiredness",
+              "completion_criteria",
+              "allowed_evidence_forms",
+              "condition_dimensions",
+              "comparison_requirements",
+              "provenance_requirements"
+            ],
+            "properties": {
+              "target_id": {
+                "type": "string",
+                "pattern": "^target_[0-9]{3}$"
+              },
+              "target_type": {
+                "type": "string",
+                "enum": [
+                  "entity",
+                  "relation",
+                  "attribute",
+                  "experimental_condition",
+                  "performance_metric",
+                  "mechanism_evidence",
+                  "characterization_observation",
+                  "theoretical_calculation",
+                  "comparison_baseline",
+                  "limitation",
+                  "provenance",
+                  "other"
+                ]
+              },
+              "scientific_role": {
+                "type": "string",
+                "enum": [
+                  "composition",
+                  "condition",
+                  "metric",
+                  "mechanism",
+                  "characterization",
+                  "theoretical_explanation",
+                  "baseline",
+                  "comparability",
+                  "limitation",
+                  "provenance",
+                  "other"
+                ]
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 800
+              },
+              "requiredness": {
+                "type": "string",
+                "enum": [
+                  "required",
+                  "preferred",
+                  "optional"
+                ]
+              },
+              "completion_criteria": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 800
+              },
+              "allowed_evidence_forms": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "condition_dimensions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "comparison_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "provenance_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            }
+          }
+        },
+        "gap_taxonomy": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "missing_mechanism",
+              "missing_condition",
+              "missing_metric",
+              "missing_baseline",
+              "conflict",
+              "not_comparable"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "uncertainty_rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "rule_id",
+              "trigger",
+              "handling"
+            ],
+            "properties": {
+              "rule_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "trigger": {
+                "type": "string",
+                "minLength": 1
+              },
+              "handling": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

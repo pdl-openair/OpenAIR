@@ -1,0 +1,240 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "falsifiable-hypothesis-generation LLM draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "hypotheses",
+    "generation_warnings"
+  ],
+  "properties": {
+    "hypotheses": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_research_lead_ids",
+          "source_finding_ids",
+          "title",
+          "statement",
+          "independent_variable",
+          "dependent_variable",
+          "expected_relation",
+          "boundary_conditions",
+          "provenance_evidence_ids",
+          "provenance_mechanism_edge_ids",
+          "scientific_significance",
+          "mechanism_reasoning",
+          "falsifiable_prediction",
+          "falsification_condition",
+          "known_evidence_boundary",
+          "evidence_context_status",
+          "uncertainties",
+          "confidence",
+          "semantic_hypothesis_judgment"
+        ],
+        "properties": {
+          "source_research_lead_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^rl:[0-9a-f]{20}$"
+            }
+          },
+          "source_finding_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^fd:[0-9a-f]{20}$"
+            }
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "independent_variable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "manipulation_or_contrast"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              },
+              "manipulation_or_contrast": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              }
+            }
+          },
+          "dependent_variable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "measurement_or_observation"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              },
+              "measurement_or_observation": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              }
+            }
+          },
+          "expected_relation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "direction",
+              "detail"
+            ],
+            "properties": {
+              "direction": {
+                "enum": [
+                  "increase",
+                  "decrease",
+                  "positive_association",
+                  "negative_association",
+                  "non_monotonic",
+                  "threshold",
+                  "difference",
+                  "no_difference",
+                  "other"
+                ]
+              },
+              "detail": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": ".*\\S.*"
+              }
+            }
+          },
+          "boundary_conditions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": ".*\\S.*"
+            }
+          },
+          "provenance_evidence_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": ".*\\S.*"
+            }
+          },
+          "provenance_mechanism_edge_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^me:[0-9a-f]{20}$"
+            }
+          },
+          "scientific_significance": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "mechanism_reasoning": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "falsifiable_prediction": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "falsification_condition": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "known_evidence_boundary": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
+          "evidence_context_status": {
+            "enum": [
+              "supported",
+              "uncertain",
+              "conflicting",
+              "boundary_limited",
+              "gap_limited"
+            ],
+            "description": "Model scientific judgment of the evidence context relative to this hypothesis. This is semantic content, not computed by the guard."
+          },
+          "uncertainties": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": ".*\\S.*"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "semantic_hypothesis_judgment": {
+            "enum": [
+              "valid_unvalidated_falsifiable_hypothesis",
+              "restates_existing_finding",
+              "already_established_by_sources",
+              "not_falsifiable",
+              "insufficiently_bounded",
+              "not_grounded_in_research_lead",
+              "experiment_design",
+              "parameter_recommendation",
+              "final_conclusion",
+              "workflow_or_round_management"
+            ],
+            "description": "Model semantic judgment. Only valid_unvalidated_falsifiable_hypothesis may enter final success; code does not infer this from wording."
+          }
+        }
+      }
+    },
+    "generation_warnings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": ".*\\S.*"
+      }
+    }
+  }
+}

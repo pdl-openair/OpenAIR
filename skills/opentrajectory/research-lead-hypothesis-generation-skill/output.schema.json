@@ -1,0 +1,692 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpenTrajectory final evidence synthesis output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "direct_answer",
+    "evidence_supported_conclusions",
+    "conflicts",
+    "uncertainties",
+    "evidence_gaps",
+    "research_leads",
+    "hypotheses",
+    "summary",
+    "audit",
+    "generation_warnings"
+  ],
+  "properties": {
+    "direct_answer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "answer",
+        "supporting_record_ids",
+        "caveats",
+        "confidence"
+      ],
+      "properties": {
+        "answer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "supporting_record_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 24,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^rr:[0-9a-f]{32}$"
+          }
+        },
+        "caveats": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "evidence_supported_conclusions": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "local_conclusion_key",
+          "conclusion_id",
+          "claim_type",
+          "statement",
+          "epistemic_status",
+          "supporting_record_ids",
+          "supporting_mechanism_edge_ids",
+          "evidence_basis",
+          "scope_boundary",
+          "uncertainties",
+          "confidence"
+        ],
+        "properties": {
+          "local_conclusion_key": {
+            "type": "string",
+            "pattern": "^conclusion-[1-8]$"
+          },
+          "conclusion_id": {
+            "type": "string",
+            "pattern": "^fc:[0-9a-f]{20}$"
+          },
+          "claim_type": {
+            "const": "evidence_supported_conclusion"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2400
+          },
+          "epistemic_status": {
+            "enum": [
+              "supported",
+              "uncertain",
+              "conflicting",
+              "boundary_limited"
+            ]
+          },
+          "supporting_record_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 24,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^rr:[0-9a-f]{32}$"
+            },
+            "minItems": 1
+          },
+          "supporting_mechanism_edge_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 16,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^me:[0-9a-f]{20}$"
+            }
+          },
+          "evidence_basis": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2400
+          },
+          "scope_boundary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1600
+          },
+          "uncertainties": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "statement",
+          "record_ids",
+          "mechanism_context_edge_ids",
+          "implication"
+        ],
+        "properties": {
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1800
+          },
+          "record_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 16,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^rr:[0-9a-f]{32}$"
+            },
+            "minItems": 2
+          },
+          "mechanism_context_edge_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^me:[0-9a-f]{20}$"
+            }
+          },
+          "implication": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1200
+          }
+        }
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 16,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence_gaps": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "gap",
+          "related_record_ids",
+          "mechanism_context_edge_ids",
+          "impact"
+        ],
+        "properties": {
+          "gap": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1600
+          },
+          "related_record_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 16,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^rr:[0-9a-f]{32}$"
+            }
+          },
+          "mechanism_context_edge_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^me:[0-9a-f]{20}$"
+            }
+          },
+          "impact": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1200
+          }
+        }
+      }
+    },
+    "research_leads": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "local_lead_key",
+          "research_lead_id",
+          "claim_type",
+          "lead_kind",
+          "title",
+          "research_question",
+          "investigation_target",
+          "rationale",
+          "supporting_record_ids",
+          "mechanism_context_edge_ids",
+          "boundary_conditions",
+          "scientific_significance",
+          "uncertainties",
+          "confidence",
+          "novelty_boundary"
+        ],
+        "properties": {
+          "local_lead_key": {
+            "type": "string",
+            "pattern": "^lead-[1-8]$"
+          },
+          "research_lead_id": {
+            "type": "string",
+            "pattern": "^rl:[0-9a-f]{20}$"
+          },
+          "claim_type": {
+            "const": "research_lead"
+          },
+          "lead_kind": {
+            "enum": [
+              "mechanism_gap",
+              "unresolved_conflict",
+              "boundary_extension",
+              "underexplored_relationship",
+              "measurement_gap",
+              "transferability_question",
+              "other"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 600
+          },
+          "research_question": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 1400,
+            "pattern": ".*\\?\\s*$"
+          },
+          "investigation_target": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1200
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1800
+          },
+          "supporting_record_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 24,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^rr:[0-9a-f]{32}$"
+            },
+            "minItems": 1
+          },
+          "mechanism_context_edge_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 16,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^me:[0-9a-f]{20}$"
+            }
+          },
+          "boundary_conditions": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "scientific_significance": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1200
+          },
+          "uncertainties": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "novelty_boundary": {
+            "const": "research_direction_not_hypothesis_or_novelty_claim"
+          }
+        }
+      }
+    },
+    "hypotheses": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "local_hypothesis_key",
+          "hypothesis_id",
+          "claim_type",
+          "source_local_lead_key",
+          "research_lead_id",
+          "title",
+          "statement",
+          "independent_variable",
+          "dependent_variable",
+          "expected_direction",
+          "boundary_conditions",
+          "supporting_record_ids",
+          "mechanism_context_edge_ids",
+          "evidence_basis",
+          "mechanism_reasoning",
+          "falsifiable_prediction",
+          "validation_conditions",
+          "falsification_conditions",
+          "scientific_significance",
+          "uncertainties",
+          "confidence",
+          "novelty_boundary"
+        ],
+        "properties": {
+          "local_hypothesis_key": {
+            "type": "string",
+            "pattern": "^hypothesis-[1-8]$"
+          },
+          "hypothesis_id": {
+            "type": "string",
+            "pattern": "^hy:[0-9a-f]{20}$"
+          },
+          "claim_type": {
+            "const": "unvalidated_hypothesis"
+          },
+          "source_local_lead_key": {
+            "type": "string",
+            "pattern": "^lead-[1-8]$"
+          },
+          "research_lead_id": {
+            "type": "string",
+            "pattern": "^rl:[0-9a-f]{20}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 600
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "independent_variable": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 600
+          },
+          "dependent_variable": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 600
+          },
+          "expected_direction": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 600
+          },
+          "boundary_conditions": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "supporting_record_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 24,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^rr:[0-9a-f]{32}$"
+            },
+            "minItems": 1
+          },
+          "mechanism_context_edge_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 16,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^me:[0-9a-f]{20}$"
+            }
+          },
+          "evidence_basis": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1800
+          },
+          "mechanism_reasoning": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 1800
+          },
+          "falsifiable_prediction": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1600
+          },
+          "validation_conditions": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "falsification_conditions": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "scientific_significance": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1200
+          },
+          "uncertainties": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 12,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "novelty_boundary": {
+            "const": "derived_from_evidence_not_established_by_sources"
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_record_count",
+        "mechanism_available",
+        "mechanism_edge_count",
+        "conclusion_count",
+        "conflict_count",
+        "evidence_gap_count",
+        "research_lead_count",
+        "hypothesis_count",
+        "dropped_duplicate_conclusion_count",
+        "dropped_duplicate_lead_count",
+        "dropped_duplicate_hypothesis_count",
+        "dropped_over_limit_conclusion_count",
+        "dropped_over_limit_lead_count",
+        "dropped_over_limit_hypothesis_count",
+        "degraded"
+      ],
+      "properties": {
+        "input_record_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "mechanism_available": {
+          "type": "boolean"
+        },
+        "mechanism_edge_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "conclusion_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "conflict_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "evidence_gap_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "research_lead_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "hypothesis_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "dropped_duplicate_conclusion_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dropped_duplicate_lead_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dropped_duplicate_hypothesis_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dropped_over_limit_conclusion_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dropped_over_limit_lead_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dropped_over_limit_hypothesis_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "degraded": {
+          "type": "boolean"
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "skill_id",
+        "task_id",
+        "traceability_mode",
+        "guard_version",
+        "input_fingerprint",
+        "claim_layers",
+        "mechanism_role"
+      ],
+      "properties": {
+        "skill_id": {
+          "const": "research_lead_hypothesis_generation"
+        },
+        "task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "traceability_mode": {
+          "const": "research_record_direct_grounding"
+        },
+        "guard_version": {
+          "const": "lane-a-p0-final-v1"
+        },
+        "input_fingerprint": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "claim_layers": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "evidence_supported_conclusion",
+              "research_lead",
+              "unvalidated_hypothesis"
+            ]
+          }
+        },
+        "mechanism_role": {
+          "const": "optional_enhancement"
+        }
+      }
+    },
+    "generation_warnings": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 24,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

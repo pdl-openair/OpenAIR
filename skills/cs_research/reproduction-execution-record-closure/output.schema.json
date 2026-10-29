@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "execution", "frozen_input_consistency", "raw_output_trace", "actual_result_provenance", "partial_failures", "unknowns"],
+  "properties": {
+    "status": {"type": "string", "enum": ["succeeded", "failed", "partial"]},
+    "execution": {"type": ["object", "null"]},
+    "frozen_input_consistency": {"type": "object"},
+    "raw_output_trace": {"type": "array", "items": {"type": "object"}},
+    "actual_result_provenance": {"type": "object"},
+    "partial_failures": {"type": "array", "items": {"type": "object"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}}
+  }
+}

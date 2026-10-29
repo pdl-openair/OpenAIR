@@ -1,0 +1,29 @@
+suite_id: component.skill.cs-research.reference-metric-comparison
+protected_outcome: >-
+  Reference metric comparison keeps a legal per-metric difference when an
+  actual-record unknown, partial failure, or incomplete status is
+  non-decisive; identity, type, unit, rule, source, and duplicate failures
+  stay on the affected metric; missing execution authority or a decisive
+  comparability gap cannot become meets_standard. Generic actual_metrics
+  comparison status and counts stay unchanged.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - skills/cs_research/reference-metric-comparison/SKILL.md
+  - skills/cs_research/reference-metric-comparison/skill.yaml
+failure_class: reference_metric_comparison_partial_record_or_authority_regression
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/cs_research/reference-metric-comparison/adapter
+test_responsibility: >-
+  Deterministic verification that actual_metric_records admission isolates
+  local metric failures without discarding other legal differences, and that
+  measurement authority plus decisive comparability conditions still fail closed.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - actual_metric_records admission changes
+  - comparability gate or per-metric failure isolation changes

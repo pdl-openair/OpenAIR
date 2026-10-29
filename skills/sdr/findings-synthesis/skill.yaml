@@ -1,0 +1,31 @@
+skill_id: findings_synthesis
+claude_name: findings-synthesis
+display_name: 发现凝练
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - findings_synthesis
+output_file: 03-experiment/findings.md
+pack: sdr
+spec: 03-experiment/findings.md
+input_skills:
+  - evidence_extraction
+  - statistical_analysis
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: findings_synthesis
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

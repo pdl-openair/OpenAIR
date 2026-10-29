@@ -1,0 +1,66 @@
+# ===========================================================================
+# .dockerignore — 控制三个镜像（api / worker / web）的构建上下文
+# 仅排除「体积大 / 含密钥 / 与构建无关」的路径；不触碰任何 Dockerfile 的 COPY 目标
+# （services/、packages/、schemas/、skills/、apps/web/、根 workspace 清单均保留）
+# ===========================================================================
+
+# 版本控制 / IDE
+.git
+.gitignore
+.gitattributes
+.cursor
+.vscode
+.idea
+*.swp
+
+# Claude 规则 + 子代理 git 工作树（包含整仓库副本，体积巨大，绝不可进上下文）
+.claude
+
+# Node 构建产物（镜像内由 pnpm install / vite build 重新生成）
+node_modules
+**/node_modules
+**/dist
+**/dist-ssr
+**/.vite
+.pnpm-store
+
+# build artifacts
+apps/web/dist
+
+# Local runtime data (mount as Zeabur volume in production)
+data
+workspace
+
+# Python 缓存与虚拟环境
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+.venv
+venv
+**/.venv
+
+# 环境变量与密钥（构建上下文里不应出现）
+.env
+.env.local
+.env.*.local
+.env.*
+!.env.example
+
+# 日志与临时文件
+*.log
+**/logs
+tmp
+.DS_Store
+**/.DS_Store
+
+# 文档（无任何 Dockerfile COPY 它）
+# 注意：fixtures/ 不可排除——apps/web 构建经 vite @fixtures alias 导入录制运行数据
+docs
+evals
+*.md
+!skills/**/SKILL.md
+!skills/**/README.md
+

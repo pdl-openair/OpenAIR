@@ -1,0 +1,33 @@
+suite_id: component.opentrajectory.gap-to-action.product-module
+protected_outcome: >-
+  The gap_to_action product module independently plans targeted actions from
+  explicit gaps without Workbench wiring, without mutating evidence or status,
+  and without inventing unsupported upstream taxonomy mappings.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - docs/02_产品与Workflow/OpenTrajectory/OpenTrajectory_Workflow设计合同.md
+  - skills/opentrajectory/gap_to_action/README.md
+  - skills/opentrajectory/gap_to_action/pipeline.py
+  - skills/opentrajectory/gap_to_action/planner.py
+failure_class: gap_to_action_planning_honesty_or_upstream_mapping_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/opentrajectory/gap_to_action
+test_responsibility: >-
+  deterministic product-module checks for registry non-registration, public API
+  importability, real research_lead_package composition into planning, legacy
+  shape non-mutation, and explicit unsupported upstream gap handling
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions prove
+  protected_outcome; FAIL when sufficient valid evidence proves protected_outcome
+  is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - gap_to_action planner or pipeline changes
+  - research_lead_package upstream gap mapping contract changes

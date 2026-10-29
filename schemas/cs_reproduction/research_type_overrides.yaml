@@ -1,0 +1,16 @@
+M:
+  required_substages: []
+  optional_substages: []
+D:
+  required_substages: []
+  optional_substages: []
+C:
+  required_substages:
+  - reproduction_input_structuring
+  - code_identity_acquisition
+  - reference_metric_acquisition
+  - execution_plan_acquisition
+  optional_substages: []
+H:
+  required_substages: []
+  optional_substages: []

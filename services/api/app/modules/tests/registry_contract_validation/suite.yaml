@@ -1,0 +1,26 @@
+suite_id: component.modules.registry-contract-validation
+protected_outcome: Registry declarative contracts preserve the formal separation between scientific input sources, runtime inputs, quality rules, evaluator authority, and deterministic validators, while legacy Definition metadata remains compatible without inventing missing contract truth.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: registry_declarative_contract_schema_or_semantic_boundary_violation
+minimum_owner: 确定性合同与不变量
+production_targets:
+  - services/api/app/modules/registry_snapshot_repository.py
+test_responsibility: deterministic component proof that Binding v2 input-source/runtime-input contracts and Definition contract metadata are parsed and rejected according to their formal semantic boundaries, including v1 compatibility and known-empty versus unknown state
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - repository skill binding declarations
+  - Definition spec documents
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - Registry spec parser changes
+  - Binding v2 input-source or runtime-input schema changes
+  - Definition contract metadata changes
+  - v1/v2 Definition compatibility changes

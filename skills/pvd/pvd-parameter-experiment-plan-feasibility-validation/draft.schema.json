@@ -1,0 +1,9 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,
+ "required":["direction_assessments","cross_parameter_assessment","shared_risks","important_unknowns","limitations"],
+ "properties":{
+  "direction_assessments":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["candidate_ref","factor","feasibility","rationale","conditions","conflicts","risks","missing_information"],"properties":{"candidate_ref":{"type":"string"},"factor":{"type":"string"},"feasibility":{"enum":["feasible","feasible_with_conditions","insufficient_information","infeasible"]},"rationale":{"type":"string"},"conditions":{"type":"array","items":{"type":"string"}},"conflicts":{"type":"array","items":{"type":"string"}},"risks":{"type":"array","items":{"type":"string"}},"missing_information":{"type":"array","items":{"type":"string"}}}}},
+  "cross_parameter_assessment":{"type":"object","additionalProperties":false,"required":["feasibility","rationale","conditions","conflicts","missing_information"],"properties":{"feasibility":{"enum":["feasible","feasible_with_conditions","insufficient_information","infeasible"]},"rationale":{"type":"string"},"conditions":{"type":"array","items":{"type":"string"}},"conflicts":{"type":"array","items":{"type":"string"}},"missing_information":{"type":"array","items":{"type":"string"}}}},
+  "shared_risks":{"type":"array","items":{"type":"string"}},"important_unknowns":{"type":"array","items":{"type":"string"}},"limitations":{"type":"array","items":{"type":"string"}}
+ }
+}

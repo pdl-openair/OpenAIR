@@ -1,0 +1,14 @@
+suite_id: component.web.api.credential-boundary
+protected_outcome: HTTP requests use explicit credentials; access denial cannot silently switch identity or expose protected backend details.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: credential_identity_or_error_detail_leak
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/api/http.ts
+test_responsibility: Run production header construction and response parsing with controlled storage, environment and HTTP responses.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when credentials, status handling and safe errors satisfy the boundary; otherwise FAIL or NO_VALID_EVIDENCE.
+triggers: [http_credential_or_response_parsing_changed]

@@ -1,0 +1,12 @@
+suite_id: component.web.hooks.artifact-hydration
+protected_outcome: Successful artifact versions remain readable across projection refresh and remount without request storms; errors remain stable until explicit retry and old task responses never overwrite current content.
+authority_refs: [spec/testing/OpenAIR 测试设计合同.md]
+failure_class: artifact_hydration_request_storm
+minimum_owner: 单个组件行为
+production_targets: [apps/web/src/hooks/useHydratedWorkbenchModel.ts, apps/web/src/lib/artifactBodyCache.ts]
+test_responsibility: request deduplication, failure retention, explicit retry, version invalidation, route identity and account isolation
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when all assertions pass; real browser acceptance is separate.
+triggers: [artifact_hydration_changes]

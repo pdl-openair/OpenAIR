@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenTrajectorySourceAcquisitionInput",
+  "type": "object",
+  "required": [
+    "search_matrix",
+    "expanded_query_variants",
+    "user_query",
+    "task_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "search_matrix": {
+      "type": "array"
+    },
+    "expanded_query_variants": {
+      "type": "array"
+    },
+    "user_query": {
+      "type": "string"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "retrieval_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "target_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "max_results_per_query": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "max_total_candidates": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 45
+        },
+        "allow_partial_success": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

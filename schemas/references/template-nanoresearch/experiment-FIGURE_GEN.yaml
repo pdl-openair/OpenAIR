@@ -1,0 +1,11 @@
+# FIGURE_GEN stage output template
+# Source: nanoresearch/schemas/figure.py → FigureOutput
+
+figures:                           # List of generated figures
+  - figure_id: ""
+    title: ""
+    path: ""                       # Path to generated figure file
+    chart_type: ""                 # e.g. "bar", "line", "scatter", "heatmap"
+    description: ""
+figure_count: 0                    # Auto-synced with len(figures)
+status: "pending"                  # pending | completed | failed

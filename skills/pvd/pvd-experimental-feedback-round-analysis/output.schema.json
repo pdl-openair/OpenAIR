@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-experimental-feedback-round-analysis/output.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_status", "experiment_ref", "execution_analysis", "measurement_analysis", "result_change",
+    "findings", "anomalies", "confounders", "causal_boundary", "unresolved_questions",
+    "upstream_context", "downstream_readiness", "summary"
+  ],
+  "properties": {
+    "analysis_status": {"enum": ["complete", "partial", "insufficient"]},
+    "experiment_ref": {"type": "string", "minLength": 1},
+    "execution_analysis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "deviations"],
+      "properties": {
+        "status": {"enum": ["aligned", "deviated", "partial", "not_executed", "unknown"]},
+        "deviations": {"type": "array", "items": {"$ref": "#/$defs/basedStatement"}}
+      }
+    },
+    "measurement_analysis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "limitations"],
+      "properties": {
+        "status": {"enum": ["usable", "usable_with_caution", "insufficient", "conflicted", "not_supplied"]},
+        "limitations": {"type": "array", "items": {"$ref": "#/$defs/basedStatement"}}
+      }
+    },
+    "result_change": {
+      "type": "object", "additionalProperties": false,
+      "required": ["state", "basis_refs", "comparison_refs"],
+      "properties": {
+        "state": {"enum": ["improved", "degraded", "unchanged", "mixed", "uncertain", "not_assessable"]},
+        "basis_refs": {"$ref": "#/$defs/refArray"},
+        "comparison_refs": {"$ref": "#/$defs/refArray"}
+      }
+    },
+    "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+    "anomalies": {"type": "array", "items": {"$ref": "#/$defs/basedStatement"}},
+    "confounders": {"type": "array", "items": {"$ref": "#/$defs/basedStatement"}},
+    "causal_boundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["causality_established", "statement", "basis_refs"],
+      "properties": {
+        "causality_established": {"const": false},
+        "statement": {"type": "string", "minLength": 1},
+        "basis_refs": {"$ref": "#/$defs/refArray"}
+      }
+    },
+    "unresolved_questions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "upstream_context": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authorized_evidence_refs", "factor_basis_refs", "recommendation_basis_refs"],
+      "properties": {
+        "authorized_evidence_refs": {"$ref": "#/$defs/refArray"},
+        "factor_basis_refs": {"$ref": "#/$defs/refArray"},
+        "recommendation_basis_refs": {"$ref": "#/$defs/refArray"}
+      }
+    },
+    "downstream_readiness": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": {"enum": ["usable", "usable_with_caution", "not_ready"]},
+        "reasons": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "summary": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"measurement_analysis": {"properties": {"status": {"enum": ["insufficient", "not_supplied"]}}, "required": ["status"]}},
+        "required": ["measurement_analysis"]
+      },
+      "then": {"properties": {"result_change": {"properties": {"state": {"enum": ["uncertain", "not_assessable"]}}}}}
+    }
+  ],
+  "$defs": {
+    "refArray": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "basedStatement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["statement", "basis_refs"],
+      "properties": {
+        "statement": {"type": "string", "minLength": 1},
+        "basis_refs": {"$ref": "#/$defs/refArray"}
+      }
+    },
+    "finding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["epistemic_state", "statement", "basis_refs", "uncertainty", "missing_evidence"],
+      "properties": {
+        "epistemic_state": {"enum": ["observed", "inferred", "hypothesized", "unknown"]},
+        "statement": {"type": "string", "minLength": 1},
+        "basis_refs": {"$ref": "#/$defs/refArray"},
+        "uncertainty": {"type": ["string", "null"]},
+        "missing_evidence": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "allOf": [
+        {"if": {"properties": {"epistemic_state": {"const": "observed"}}}, "then": {"properties": {"basis_refs": {"minItems": 1}}}},
+        {"if": {"properties": {"epistemic_state": {"const": "inferred"}}}, "then": {"properties": {"basis_refs": {"minItems": 1}, "uncertainty": {"type": "string", "minLength": 1}}}},
+        {"if": {"properties": {"epistemic_state": {"const": "hypothesized"}}}, "then": {"properties": {"basis_refs": {"minItems": 1}, "uncertainty": {"type": "string", "minLength": 1}, "missing_evidence": {"minItems": 1}}}},
+        {"if": {"properties": {"epistemic_state": {"const": "unknown"}}}, "then": {"properties": {"missing_evidence": {"minItems": 1}}}}
+      ]
+    }
+  }
+}

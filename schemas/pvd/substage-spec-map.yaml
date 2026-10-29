@@ -1,0 +1,13 @@
+research_goal_equipment_constraints: 01-problem/research-goal-equipment-constraints.md
+research_retrieval_experiment_design: 02-design/evidence-retrieval-experiment-design.md
+literature_experiment_record_verification: 03-validation/literature-experiment-material-validation.md
+process_result_comparability_analysis: 03-validation/process-condition-result-comparability.md
+process_factor_candidate_direction_analysis: 03-validation/process-factor-candidate-direction-analysis.md
+parameter_feasibility_experiment_plan_validation: 03-validation/parameter-feasibility-experiment-validation.md
+experimental_feedback_round_comparison: 03-validation/experimental-feedback-round-comparison.md
+four_parameter_recommendation: 04-insight/round-parameter-recommendation.md
+evidence_applicability_comparability_analysis: 03-validation/evidence-applicability-comparability-analysis.md
+experimental_feedback_round_analysis: 03-validation/experimental-feedback-round-analysis.md
+process_factor_candidate_experiment_analysis: 03-validation/process-factor-candidate-experiment-analysis.md
+parameter_experiment_plan_feasibility_validation: 03-validation/parameter-experiment-plan-feasibility-validation.md
+round_experiment_plan_parameter_recommendation: 04-insight/round-experiment-plan-parameter-recommendation.md

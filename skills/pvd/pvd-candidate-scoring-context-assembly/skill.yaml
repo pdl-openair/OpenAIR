@@ -1,0 +1,31 @@
+skill_id: pvd_candidate_scoring_context_assembly
+claude_name: pvd-candidate-scoring-context-assembly
+display_name: PVD Candidate Scoring Context Assembly
+version: 1.0.0
+domain: pvd
+stages:
+- execution_validation
+substages:
+- literature_experiment_record_verification
+packs:
+- pvd
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+description: Deterministically assemble the candidate-source-scoring research context from canonical PVD retrieval and evidence-schema artifacts.
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: pvd_candidate_scoring_context.json
+side_effects: none
+external_actions: []
+capability_kind: deterministic_transform
+review_required: false
+risk_level: low
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:pvd_candidate_scoring_context_assembly
+  evidence_contract_version: deterministic-output/v1
+enabled: true
+notes: PVD deterministic bridge from formal retrieval/evidence artifacts to candidate scoring context. No scientific judgment.

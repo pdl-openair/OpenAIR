@@ -1,0 +1,12 @@
+# AUTO-GENERATED-compatible CS reproduction pack metadata.
+# 反向索引：L2/L3 skill_id/claude_name → substage_key。
+official-reference-source-acquisition: reference_metric_acquisition
+official_reference_source_acquisition: reference_metric_acquisition
+reference-metric-interpretation: reference_metric_acquisition
+reference_metric_interpretation: reference_metric_acquisition
+reference-metric-fact-assembly: reference_metric_acquisition
+reference_metric_fact_assembly: reference_metric_acquisition
+execution-plan-interpretation: execution_plan_acquisition
+execution_plan_interpretation: execution_plan_acquisition
+execution-plan-fact-assembly: execution_plan_acquisition
+execution_plan_fact_assembly: execution_plan_acquisition

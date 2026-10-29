@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CS reproduction baseline criteria input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "research_goal"
+  ],
+  "properties": {
+    "research_goal": {
+      "oneOf": [
+        {"type": "string", "minLength": 1},
+        {"type": "object"}
+      ]
+    },
+    "reference_facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "assembly_status",
+        "reference_metric_records",
+        "reference_metric_comparison_requests",
+        "reference_metric_source_conflicts",
+        "reference_metric_unresolved"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "openair-reference-metrics/v1"
+        },
+        "assembly_status": {
+          "type": "string",
+          "enum": ["complete", "incomplete"]
+        },
+        "reference_metric_records": {
+          "type": "array",
+          "items": {"type": "object"}
+        },
+        "reference_metric_comparison_requests": {
+          "type": "array",
+          "items": {"type": "object"}
+        },
+        "reference_metric_source_conflicts": {
+          "type": "array",
+          "items": {"type": "object"}
+        },
+        "reference_metric_unresolved": {
+          "type": "array",
+          "items": {"type": "object"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "status": "completed",
+  "summary": "DEMO 演化完成 20 代 × 32 种群，TriplePopCMOEA 在 ehull↓ × bandgap↑ Pareto 前沿产出 8 个非支配候选，其中 3 个同时满足全部 5 项 CDP 约束（feasible）。最优解 (Cr-based 三元硫族化合物) bandgap=1.83 eV / ehull=0.04 eV / cl_score=0.71。",
+  "artifacts": [
+    {
+      "path": "evolution_runs/ternary_semiconductor_v1/pareto_front.json",
+      "type": "evolution_pareto_front",
+      "title": "Pareto 前沿（ehull × bandgap）"
+    },
+    {
+      "path": "evolution_runs/ternary_semiconductor_v1/feasible_candidates.cif",
+      "type": "evolution_feasible_cifs",
+      "title": "满足全部约束的候选 CIF 集合"
+    },
+    {
+      "path": "evolution_runs/ternary_semiconductor_v1/run_log.jsonl",
+      "type": "evolution_run_log",
+      "title": "逐代日志"
+    }
+  ],
+  "capability_calls": [
+    {
+      "id": "capcall_mcp_probe_001",
+      "ownerId": "task_materials_demo_001",
+      "workspaceId": "ws_materials",
+      "createdBy": "claude_code_runner",
+      "kind": "http_mcp",
+      "name": "probe_mcp.py（mattergen + crystal-property-prediction 双服务可用性探测）",
+      "status": "completed",
+      "requestedAt": "2026-06-23T11:00:00Z",
+      "finishedAt": "2026-06-23T11:00:03Z",
+      "resultSummary": "mattergen MCP PASS / crystal-property-prediction MCP PASS / active_sessions=0",
+      "runtime": "http_mcp",
+      "stageKey": "problem_modeling",
+      "subStageInstanceId": "ss_crystal_generation_001"
+    },
+    {
+      "id": "capcall_run_evolution_001",
+      "ownerId": "task_materials_demo_001",
+      "workspaceId": "ws_materials",
+      "createdBy": "claude_code_runner",
+      "kind": "mattergen_mcp",
+      "name": "run_autonomous_evolution（异步提交 + 轮询）",
+      "status": "completed",
+      "requestedAt": "2026-06-23T11:00:03Z",
+      "finishedAt": "2026-06-23T12:42:17Z",
+      "resultSummary": "task_id=demo_t1 完成；20 代、7680 次属性评估；Pareto=8 / feasible=3",
+      "runtime": "http_mcp",
+      "stageKey": "problem_modeling",
+      "subStageInstanceId": "ss_crystal_generation_001",
+      "prevCallId": "capcall_mcp_probe_001",
+      "inputCallRefs": ["capcall_mcp_probe_001"]
+    }
+  ],
+  "next_actions": [
+    "对 feasible_candidates 做 crystal-property-prediction MCP 二次精算（可选，确认 9 属性）",
+    "挑 Pareto 前沿 top-3 喂给 materials_parameter_recommend_flux 出制备配方",
+    "若 Pareto 不够靠前，可 intervene：modify_crystal_fitness / add_evolution_constraint 后继续"
+  ],
+  "error": null,
+  "evolution_result": {
+    "session_id": "sess_ternary_semiconductor_v1",
+    "task_id": "demo_t1",
+    "status": "completed",
+    "generations_completed": 20,
+    "total_evaluations": 7680,
+    "emo_engine": "TriplePopCMOEA",
+    "objectives": {"ehull_eV": "minimize", "bandgap_eV": "maximize"},
+    "pareto_front_size": 8,
+    "feasible_count": 3,
+    "pareto_front": [
+      {
+        "rank": 1,
+        "formula": "CrPS3",
+        "cif_name": "cand_001.cif",
+        "objectives": {"ehull_eV": 0.04, "bandgap_eV": 1.83},
+        "properties": {
+          "formation_energy_eV": -0.094,
+          "cl_score": 0.71,
+          "f_max_eV_A": 0.082,
+          "sg_number": 147,
+          "num_elements": 3
+        },
+        "feasible": true,
+        "dominates": ["cand_002", "cand_003", "cand_004"]
+      },
+      {
+        "rank": 1,
+        "formula": "CrAsSe3",
+        "cif_name": "cand_002.cif",
+        "objectives": {"ehull_eV": 0.08, "bandgap_eV": 2.14},
+        "properties": {
+          "formation_energy_eV": -0.061,
+          "cl_score": 0.64,
+          "f_max_eV_A": 0.121,
+          "sg_number": 164,
+          "num_elements": 3
+        },
+        "feasible": true,
+        "dominates": ["cand_005"]
+      },
+      {
+        "rank": 1,
+        "formula": "FeSiTe3",
+        "cif_name": "cand_003.cif",
+        "objectives": {"ehull_eV": 0.12, "bandgap_eV": 1.45},
+        "properties": {
+          "formation_energy_eV": -0.038,
+          "cl_score": 0.58,
+          "f_max_eV_A": 0.156,
+          "sg_number": 148,
+          "num_elements": 3
+        },
+        "feasible": true,
+        "dominates": []
+      },
+      {
+        "rank": 2,
+        "formula": "MnPS3",
+        "cif_name": "cand_004.cif",
+        "objectives": {"ehull_eV": 0.21, "bandgap_eV": 2.51},
+        "properties": {
+          "formation_energy_eV": 0.012,
+          "cl_score": 0.49,
+          "f_max_eV_A": 0.210,
+          "sg_number": 147,
+          "num_elements": 3
+        },
+        "feasible": false,
+        "dominates": []
+      }
+    ]
+  }
+}

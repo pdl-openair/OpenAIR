@@ -1,0 +1,29 @@
+suite_id: component.skill.cs-research.resource-identity-acquisition
+protected_outcome: >-
+  Resource identity acquisition stays fail-closed outside its declared
+  domain: eligibility requires non-empty resource requests with formal
+  identity grammar (e.g. HuggingFace), missing design projections stay
+  eligible for material-unavailable reporting, ambiguous design
+  projections fail closed, and adapter snapshots materialize only after a
+  successfully resolved commit identity.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - skills/cs_research/resource-identity-acquisition/SKILL.md
+  - skills/cs_research/resource-identity-acquisition/skill.yaml
+failure_class: resource_identity_applicability_or_snapshot_contract_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/cs_research/resource-identity-acquisition/src
+  - skills/cs_research/resource-identity-acquisition/adapter
+test_responsibility: >-
+  Deterministic verification of applicability gating rules, identity
+  grammar, and adapter snapshot materialization boundaries.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - applicability eligibility or identity grammar changes
+  - adapter snapshot/materialization boundary changes

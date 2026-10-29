@@ -1,0 +1,45 @@
+suite_id: component.modules.provider-transport-evidence
+protected_outcome: >-
+  Provider transport evidence remains bounded, body-free, and secret-safe;
+  primary and recovery attempts retain their actual resolved execution policy;
+  and execution observations map only durable facts without fabricating success
+  or failure from unknown state.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - provider_transport_evidence_leaks_secret_or_body
+  - resolved_execution_policy_not_persisted_per_attempt
+  - provider_execution_state_fabricated_from_incomplete_facts
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/provider_transport_evidence.py
+test_responsibility: >-
+  Deterministically prove bounded rejection diagnostics and redaction, exact
+  resolved-policy persistence for primary and recovery attempt records, and the
+  observation mapping for in-flight, unsubmitted, completed, failed, and
+  transport-uncertain durable records.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - bounded_body_free_secret_safe_rejection_diagnostic_assertions
+  - primary_and_recovery_resolved_execution_policy_persistence_assertions
+  - durable_transport_fact_observation_mapping_assertions
+verdict_rule: >-
+  PASS only when all required evidence is obtained and all three existing tests
+  prove that provider rejection diagnostics are bounded, body-free, and exclude
+  system prompts, user content, and provider secrets; primary and recovery
+  attempts persist their actual resolved execution policy; and observations use
+  only durable transport facts, mapping in_flight and transport_uncertain to
+  unknown, transport_not_submitted to not_submitted, response_received to
+  completed, and provider_http_error to failed without fabricating success or
+  failure from unknown state. FAIL when valid evidence proves any of these
+  boundaries is violated; otherwise NO_VALID_EVIDENCE.
+triggers:
+  - provider rejection diagnostic bounding or sanitization changes
+  - primary or recovery attempt resolved execution policy persistence changes
+  - durable provider transport fact observation mapping changes

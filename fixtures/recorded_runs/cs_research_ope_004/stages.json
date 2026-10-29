@@ -1,0 +1,97 @@
+[
+  {
+    "stage": "problem_modeling",
+    "status": "completed",
+    "summary": "完成文献调研、研究问题凝练与假说构建。产出研究提案 v3，含 3 个递进式假说链，目标会议 NeurIPS 2026 Main Track 或 ICLR 2027。",
+    "risks": "假说链中 H2 依赖较强的分布假设，若实际数据偏离可能导致结论失效。",
+    "next_steps": "在 solution_design 阶段需设计分布鲁棒性检验实验以验证 H2 前提。",
+    "artifact_refs": ["art-001", "art-002"],
+    "sub_stages": [
+      {
+        "sub_stage": "literature_review",
+        "status": "completed",
+        "artifact_refs": ["art-001"]
+      },
+      {
+        "sub_stage": "question_formulation",
+        "status": "completed",
+        "artifact_refs": []
+      },
+      {
+        "sub_stage": "hypothesis_construction",
+        "status": "completed",
+        "artifact_refs": ["art-002"]
+      }
+    ]
+  },
+  {
+    "stage": "solution_design",
+    "status": "completed",
+    "summary": "完成实验设计方案 v2（4 环境 × 7 OPE 方法，覆盖 RQ1-RQ3）和任务拆解计划（54 任务 / 14 Task Set）。",
+    "risks": "14 个 Task Set 串行执行对算力要求较高，整体周期可能超出预期。",
+    "next_steps": "在 execution_validation 阶段优先并行执行 Set 1-9，并监控吞吐与失败率。",
+    "artifact_refs": ["art-003", "art-004"],
+    "sub_stages": [
+      {
+        "sub_stage": "experiment_design",
+        "status": "completed",
+        "artifact_refs": ["art-003"]
+      },
+      {
+        "sub_stage": "task_planning",
+        "status": "completed",
+        "artifact_refs": ["art-004"]
+      }
+    ]
+  },
+  {
+    "stage": "execution_validation",
+    "status": "failed",
+    "summary": "代码实现已完成（sb3_ope 全部模块 + 43 个测试通过）。Set 1-9 执行成功；Set 10（Hopper-v4）因 GPU OOM 失败，实验任务池与监控均已中止。",
+    "risks": "剩余 Set 10-13 未产出数据，H2/H3 假说验证缺少高方差环境样本。",
+    "next_steps": "释放 GPU 资源后重试 Set 10-13，或调整实验设计缩减环境规模。",
+    "artifact_refs": [],
+    "sub_stages": [
+      {
+        "sub_stage": "code_implementation",
+        "status": "completed",
+        "artifact_refs": []
+      },
+      {
+        "sub_stage": "experiment_execution",
+        "status": "failed",
+        "artifact_refs": []
+      },
+      {
+        "sub_stage": "result_monitoring",
+        "status": "failed",
+        "artifact_refs": []
+      }
+    ]
+  },
+  {
+    "stage": "insight_generation",
+    "status": "not_started",
+    "summary": null,
+    "risks": null,
+    "next_steps": null,
+    "artifact_refs": [],
+    "sub_stages": [
+      {
+        "sub_stage": "result_analysis",
+        "status": "not_started",
+        "artifact_refs": []
+      },
+      {
+        "sub_stage": "insight_synthesis",
+        "status": "not_started",
+        "artifact_refs": []
+      },
+      {
+        "sub_stage": "report_writing",
+        "status": "not_started",
+        "artifact_refs": []
+      }
+    ]
+  }
+]

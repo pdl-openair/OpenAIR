@@ -1,0 +1,53 @@
+skill_id: reproduction_execution_input_closure
+claude_name: reproduction-execution-input-closure
+display_name: 复现执行输入闭合
+version: 1.0.0
+stages:
+- execution_validation
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+execution_method_roles:
+- cs_reproduction_real_execution:execution_input_closure
+runtime_contract:
+  kind: reasoning_adapter
+  requires_external_action: false
+  adapter_id: python_adapter:reproduction_execution_input_closure
+  evidence_contract_version: none
+  internal_skill_calls:
+    contract_version: 1
+    binding_refs:
+    - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_repair_reasoning
+      bindingVersion: 4
+    - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:execution_readiness_assessment
+      bindingVersion: 4
+    - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:reproduction_execution_input_validation
+      bindingVersion: 4
+    - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:repository_revision_acquisition
+      bindingVersion: 4
+    - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:resource_identity_acquisition
+      bindingVersion: 4
+    - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:environment_setup
+      bindingVersion: 4
+    - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:official_reference_source_acquisition
+      bindingVersion: 4
+    - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:execution_plan_interpretation
+      bindingVersion: 4
+    - bindingId: bind:cs_reproduction:real_execution_result_acquisition:skill:execution_plan_fact_assembly
+      bindingVersion: 4
+    max_calls: 12
+auto_allowed: true
+review_required: false
+risk_level: low
+owner: TBD
+fixture_status: missing
+notes: 原execution_input_closure职责内部补证；只有原确定性核验代码成功才交付冻结运行输入，失败准备材料交后续诚实交付；不改变方法或执行实验。
+capability_contract:
+  artifact_types:
+  - reproduction_execution_input
+  judgment_support:
+    deterministic: true
+    domain_professional: false

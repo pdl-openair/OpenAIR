@@ -1,0 +1,133 @@
+# research_type_overrides.yaml
+# Required and optional substages per research type (M/D/C/H).
+# M=Method, D=Discovery, C=Computational tool, H=Hybrid
+
+M:
+  label: 方法研究
+  required_substages:
+    - intent_understanding
+    - literature_search
+    - gap_identification
+    - question_refinement
+    - hypothesis_formation
+    - topic_briefing
+    - method_selection
+    - variable_definition
+    - data_strategy
+    - analysis_planning
+    - baseline_selection
+    - ablation_design
+    - task_breakdown
+    - reproducibility
+    - exploratory_execution
+    - full_execution
+    - statistical_analysis
+    - hypothesis_validation
+    - findings_synthesis
+    - argument_blueprint
+    - report_generation
+  optional_substages:
+    - constraints_criteria
+    - negative_result_recording
+    - mechanism_explanation
+    - result_acceptance
+    - research_lead_generation
+    - hypothesis_update
+
+D:
+  label: 发现研究
+  required_substages:
+    - intent_understanding
+    - literature_search
+    - gap_identification
+    - question_refinement
+    - hypothesis_formation
+    - topic_briefing
+    - method_selection
+    - variable_definition
+    - data_strategy
+    - analysis_planning
+    - task_breakdown
+    - exploratory_execution
+    - evidence_extraction
+    - findings_synthesis
+    - mechanism_explanation
+    - argument_blueprint
+    - report_generation
+  optional_substages:
+    - constraints_criteria
+    - baseline_selection
+    - ablation_design
+    - reproducibility
+    - full_execution
+    - statistical_analysis
+    - hypothesis_validation
+    - negative_result_recording
+    - result_acceptance
+    - research_lead_generation
+    - hypothesis_update
+
+C:
+  label: 工具研究
+  required_substages:
+    - intent_understanding
+    - literature_search
+    - question_refinement
+    - topic_briefing
+    - method_selection
+    - variable_definition
+    - data_strategy
+    - analysis_planning
+    - baseline_selection
+    - task_breakdown
+    - reproducibility
+    - exploratory_execution
+    - full_execution
+    - statistical_analysis
+    - evidence_extraction
+    - findings_synthesis
+    - argument_blueprint
+    - report_generation
+  optional_substages:
+    - gap_identification
+    - hypothesis_formation
+    - constraints_criteria
+    - ablation_design
+    - hypothesis_validation
+    - negative_result_recording
+    - mechanism_explanation
+    - result_acceptance
+    - research_lead_generation
+    - hypothesis_update
+
+H:
+  label: 混合研究
+  required_substages:
+    - intent_understanding
+    - literature_search
+    - gap_identification
+    - question_refinement
+    - hypothesis_formation
+    - topic_briefing
+    - method_selection
+    - variable_definition
+    - data_strategy
+    - analysis_planning
+    - baseline_selection
+    - ablation_design
+    - task_breakdown
+    - reproducibility
+    - exploratory_execution
+    - full_execution
+    - statistical_analysis
+    - hypothesis_validation
+    - findings_synthesis
+    - mechanism_explanation
+    - argument_blueprint
+    - report_generation
+  optional_substages:
+    - constraints_criteria
+    - negative_result_recording
+    - result_acceptance
+    - research_lead_generation
+    - hypothesis_update

@@ -1,0 +1,36 @@
+suite_id: component.execution.provider-schema-bounded-lowering
+protected_outcome: >-
+  Provider Schema lowering may expand only closed optional-property objects and
+  exhaustive finite discriminators, while preserving the accepted instance set
+  and failing closed at every proof or final-leaf-budget boundary.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class:
+  - bounded_lowering_changes_schema_semantics
+  - bounded_lowering_exceeds_branch_budget
+  - unproven_schema_shape_is_lowered
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/provider_schema_bounded_lowering.py
+test_responsibility: >-
+  Prove acceptance-set equivalence for legal omission and discriminator cases;
+  unknown-field and branch-required-field rejection; the per-object and global
+  final-leaf limits across combined and nested expansion paths; and fail-closed
+  rejection of non-closed, dynamic, incomplete, open, or non-mutually-exclusive
+  inputs.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - pre_and_post_validation_equivalence
+  - fail_closed_counterexamples
+verdict_rule: >-
+  PASS only when all legal samples receive identical Draft 2020-12 decisions
+  before and after lowering, every frozen limit is enforced, and every unproven
+  counterexample raises instead of returning a weakened schema.
+triggers:
+  - bounded Provider Schema lowering changes

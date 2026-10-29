@@ -1,0 +1,35 @@
+skill_id: reproduction_baseline_and_criteria
+claude_name: reproduction-baseline-and-criteria
+display_name: 复现基线与验收标准
+version: "1.0.0"
+stages:
+  - problem_modeling
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+owner: TBD
+fixture_status: missing
+notes: 只负责形成复现基线与验收标准；输入事实不足时保留未知，不替代执行验证与结果判断。
+capability_contract:
+  artifact_types:
+    - reproduction_baseline_and_criteria
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+execution_method_roles:
+  - cs_reproduction_baseline_grounding:baseline_closure

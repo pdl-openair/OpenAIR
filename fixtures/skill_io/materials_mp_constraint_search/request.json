@@ -1,0 +1,37 @@
+{
+  "task_id": "task_materials_mp_001",
+  "run_id": "run_materials_mp_001",
+  "stage": "problem_modeling",
+  "substage": "mp_constraint_search",
+  "skill_id": "materials_mp_constraint_search",
+  "skill_pack": "materials",
+  "user_goal": "查 MP 找满足多目标约束的三元硫族化合物种子材料，用于后续 DEMO 演化",
+  "context": {
+    "constraint_set": {
+      "bandgap_eV": {"min": 0.2, "max": 3.5},
+      "formation_energy_eV": {"max": 0},
+      "ehull_eV": {"max": 1.0},
+      "num_elements": {"min": 3, "max": 3},
+      "element_set": {"banned": ["Hg", "Tl", "Na", "K", "F"]},
+      "sg_number": {"banned": [1]}
+    },
+    "diversity": {
+      "max_per_chemsys": 1,
+      "rank_by": "stability"
+    },
+    "verify_cppred": true,
+    "cppred_constraints": {
+      "cl_score": {"min": 0.5},
+      "f_max_eV_A": {"max": 2.0},
+      "exfoliation_energy_meV": {"min": -5, "max": 350}
+    },
+    "max_results": 15
+  },
+  "constraints": [
+    "约束集 bandgap/formation_energy/ehull 由 MP 服务端过滤",
+    "sg_number 客户端过滤",
+    "cl_score/f_max/exfoliation 通过 crystal-property-prediction MCP（mcp.example.internal:22222）验证",
+    "默认排除 22 种放射性/稀有元素（Ac/Th/U/Tc/Pm/Po/At/Rn/Fr/Ra 等）",
+    "结果应可直接作为 mattergen MCP 的 seed_cif_files"
+  ]
+}

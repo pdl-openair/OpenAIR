@@ -1,0 +1,11 @@
+reproduction_input_structuring: 01-problem/cs-reproduction-input-structuring.md
+code_identity_acquisition: 02-solution/cs-code-identity-acquisition.md
+reference_metric_acquisition: 03-validation/cs-reference-metric-acquisition.md
+execution_plan_acquisition: 03-validation/cs-execution-plan-acquisition.md
+reproduction_baseline_criteria: 01-problem/cs-reproduction-baseline-criteria-v3.md
+reproduction_experiment_design: 02-solution/cs-reproduction-experiment-design-v3.md
+execution_readiness_validation: 03-validation/cs-execution-readiness-validation-v3.md
+real_execution_result_acquisition: 03-validation/cs-real-execution-result-acquisition-v3.md
+result_comparability_judgment: 03-validation/cs-result-comparability-judgment-v3.md
+deviation_diagnosis_validation: 03-validation/cs-deviation-diagnosis-validation-v4.md
+reproduction_conclusion_recommendation: 04-insight/cs-reproduction-conclusion-recommendation-v4.md

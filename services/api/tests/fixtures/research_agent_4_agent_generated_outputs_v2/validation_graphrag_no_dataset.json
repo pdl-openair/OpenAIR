@@ -1,0 +1,95 @@
+{
+  "scenarioName": "validation_graphrag_no_dataset",
+  "provenance": {
+    "kind": "reviewed_recorded_fixture",
+    "generatedBy": "local scenario harness",
+    "liveAgentRun": false,
+    "reviewedAt": "2026-07-14"
+  },
+  "artifact": {
+    "testable_hypothesis": "Adding retrieval-grounded context reduces unsupported claims in generated hypotheses compared with the same base LLM without retrieval.",
+    "variable_table": [
+      {
+        "variable_id": "V1",
+        "type": "independent_variable",
+        "name": "retrieval condition",
+        "levels": ["baseline LLM", "GraphRAG"],
+        "measurement_method": "fixed prompt set and corpus snapshot"
+      },
+      {
+        "variable_id": "V2",
+        "type": "dependent_variable",
+        "name": "unsupported-claim rate",
+        "measurement_method": "blind annotation with claim/source rubric",
+        "unit": "unsupported claims per output"
+      },
+      {
+        "variable_id": "V3",
+        "type": "control_variable",
+        "name": "model and prompt version",
+        "measurement_method": "run manifest"
+      }
+    ],
+    "controls_and_baselines": [
+      "baseline LLM without retrieval",
+      "same prompt set",
+      "same model version",
+      "fixed corpus snapshot",
+      "same decoding settings"
+    ],
+    "baseline_fairness_criteria": [
+      "same question distribution across conditions",
+      "same output length budget",
+      "same judge rubric and blind review process"
+    ],
+    "confounders": [
+      "dataset topic skew",
+      "retrieval coverage",
+      "model version drift",
+      "annotator disagreement",
+      "prompt leakage"
+    ],
+    "ablation_or_comparison_matrix": [
+      "retrieval off vs GraphRAG",
+      "GraphRAG with full corpus vs restricted corpus after dataset exists",
+      "human source-check subset for calibration"
+    ],
+    "analysis_plan": [
+      "build dataset before execution",
+      "pre-register unsupported-claim definition",
+      "measure annotation agreement",
+      "report both unsupported-claim rate and answer usefulness"
+    ],
+    "minimum_viable_validation_inputs": [
+      "dataset or prompt set",
+      "licensed corpus snapshot",
+      "annotation rubric",
+      "judge assignment",
+      "model/run manifest"
+    ],
+    "success_failure_thresholds": [
+      "success threshold cannot be finalized until dataset and baseline variance are known",
+      "failure if GraphRAG lowers unsupported claims only by refusing useful content"
+    ],
+    "stop_conditions": [
+      "dataset unavailable",
+      "corpus license unconfirmed",
+      "rubric unconfirmed",
+      "judge owner missing"
+    ],
+    "confirmation_gates": [
+      "dataset license",
+      "corpus snapshot",
+      "judge owner",
+      "model/version lock"
+    ],
+    "execution_status": "not_started"
+  },
+  "review": {
+    "rubricScore": 90,
+    "cap": "reviewed_recorded_fixture_not_live_agent",
+    "recommendation": "available_not_featured",
+    "breakdown": {"RUV": 23, "OEA": 24, "Rig": 19, "Lev": 9, "UX": 8, "Spec": 3, "Eng": 4},
+    "mainReason": "Good missing-dataset handling and protocol shape; still needs actual dataset before execution."
+  }
+}

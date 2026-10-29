@@ -1,0 +1,19 @@
+suite_id: component.web.artifacts.ot-evidence-graph
+protected_outcome: Evidence assessment renders as a traceable, readable Evidence Graph in the canonical Workbench artifact path without inventing Record-to-Judgment relations.
+authority_refs:
+  - schemas/opentrajectory/specs/03-validation/evidence-assessment-synthesis.md
+  - schemas/opentrajectory/specs/03-validation/research-record-establishment.md
+failure_class: evidence_graph_authority_or_workbench_integration_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/components/artifacts/evidenceGraph/**
+  - apps/web/src/components/artifacts/ScientificArtifactPresentation.tsx
+  - apps/web/src/pages/WorkbenchPage.tsx
+test_responsibility: deterministic Evidence Graph projection, rendering, formal upstream ResearchRecord resolution, and Workbench dependency hydration wiring
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result, typecheck_result, browser_workbench_result]
+verdict_rule: >-
+  PASS only when graph semantics remain fail-closed, the assessment resolves all formally supplied producer input ResearchRecord artifacts without choosing unrelated sources or overwriting conflicting record identities, and the graph is verified through the real Workbench center artifact path; otherwise FAIL or NO_VALID_EVIDENCE as appropriate.
+triggers:
+  [evidence_assessment_rendering_or_workbench_artifact_integration_changes]

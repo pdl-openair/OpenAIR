@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["state", "top_k_table", "iterations", "run_summary"],
+  "properties": {
+    "state": {"type": "string", "enum": ["succeeded", "partial_failure"]},
+    "top_k_table": {"type": "string"},
+    "iterations": {"type": "array"},
+    "run_summary": {"type": "object"}
+  }
+}

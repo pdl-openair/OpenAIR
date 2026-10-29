@@ -1,0 +1,56 @@
+{
+  "evidence_schema": {
+    "schema_id": "schema:p07f-minimal-example:001",
+    "schema_version": "0.1.0",
+    "task_context": {
+      "research_question": "如何提升科研智能体生成假说的可信度？",
+      "task_scope": "Define the minimum evidence required to assess hypothesis-generation trustworthiness.",
+      "domain_hints": [
+        "scientific agents",
+        "hypothesis generation"
+      ],
+      "design_assumptions": [
+        "The input does not specify a scientific domain or benchmark."
+      ]
+    },
+    "evidence_targets": [
+      {
+        "target_id": "target_001",
+        "target_type": "performance_metric",
+        "scientific_role": "metric",
+        "description": "Evidence that hypothesis quality is evaluated with explicit criteria and grounded examples.",
+        "requiredness": "required",
+        "completion_criteria": "At least one source-grounded item with explicit provenance.",
+        "allowed_evidence_forms": [
+          "evaluation rubric",
+          "benchmark result",
+          "source-grounded text span"
+        ],
+        "condition_dimensions": [],
+        "comparison_requirements": [
+          "baseline generation strategy"
+        ],
+        "provenance_requirements": [
+          "source anchor",
+          "verbatim quote"
+        ]
+      }
+    ],
+    "gap_taxonomy": [
+      "missing_metric",
+      "missing_baseline",
+      "conflict",
+      "not_comparable"
+    ],
+    "uncertainty_rules": [
+      {
+        "rule_id": "u01",
+        "trigger": "The task lacks a domain-specific benchmark or acceptance criterion.",
+        "handling": "Return a minimal schema and disclose the missing benchmark as a warning."
+      }
+    ]
+  },
+  "design_warnings": [
+    "No domain-specific benchmark or acceptance criterion was supplied; the schema remains intentionally minimal."
+  ]
+}

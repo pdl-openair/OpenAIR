@@ -1,0 +1,45 @@
+suite_id: component.execution.structured-execution-failure-classification
+protected_outcome: >-
+  After a Provider response is completed, one structured Skill execution keeps
+  JSON parse failure, JSON schema failure, exhausted model correction, and
+  registered-finalizer runtime failure distinct; Provider HTTP rejection does
+  not become a schema failure.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - json_parse_failure_misclassified
+  - json_schema_failure_misclassified
+  - correction_exhaustion_misclassified
+  - finalizer_runtime_failure_misclassified_as_provider_transport
+  - provider_http_failure_misclassified_as_schema
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/durable_skill_runtime.py
+test_responsibility: >-
+  Prove exact result classification for a single structured execution after a
+  completed response. This suite does not own structured batch failure facts,
+  Provider transport evidence or phases, correction request budgets, or
+  deterministic structural correction policy.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - json_parse_failed_stage
+  - json_schema_failed_stage
+  - provider_structured_output_correction_exhausted_classification
+  - skill_finalization_runtime_failed_classification
+  - provider_http_rejection_not_schema_failure
+verdict_rule: >-
+  PASS only when each single-execution result has the exact expected stage and
+  classification and the HTTP boundary remains distinct. FAIL when valid
+  evidence conflates any protected result. Return NO_VALID_EVIDENCE when a
+  required scenario or assertion is absent.
+triggers:
+  - durable structured post-response classification changes
+  - structured correction exhaustion result changes
+  - registered finalizer failure mapping changes

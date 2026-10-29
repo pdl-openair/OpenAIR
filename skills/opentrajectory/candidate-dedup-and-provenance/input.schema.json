@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["metadata_candidates"],
+  "properties": {
+    "metadata_candidates": {
+      "type": "array",
+      "description": "List of metadata candidates from one or more retrieval sources. Compatible with academic-source-retrieval-skill output.",
+      "items": {
+        "type": "object",
+        "required": [
+          "candidate_id",
+          "dedupe_key",
+          "normalized_title",
+          "external_ids",
+          "title",
+          "source_name",
+          "provenance"
+        ],
+        "properties": {
+          "candidate_id": { "type": "string", "minLength": 1 },
+          "dedupe_key": {
+            "type": ["string", "null"],
+            "description": "Stable key for dedup: prefer DOI, else arxiv_id, else openalex_id, else normalized_title hash."
+          },
+          "normalized_title": {
+            "type": ["string", "null"],
+            "description": "Title normalized for fuzzy dedup."
+          },
+          "external_ids": {
+            "type": "object",
+            "properties": {
+              "doi": { "type": ["string", "null"] },
+              "arxiv_id": { "type": ["string", "null"] },
+              "openalex_id": { "type": ["string", "null"] },
+              "semantic_scholar_id": { "type": ["string", "null"] },
+              "corpus_id": { "type": ["string", "null"] },
+              "pmid": { "type": ["string", "null"] },
+              "pmcid": { "type": ["string", "null"] }
+            },
+            "additionalProperties": false
+          },
+          "title": { "type": ["string", "null"] },
+          "abstract": { "type": ["string", "null"] },
+          "authors": {
+            "type": ["array", "null"],
+            "items": { "type": "string" }
+          },
+          "year": { "type": ["integer", "null"] },
+          "venue": { "type": ["string", "null"] },
+          "doi": { "type": ["string", "null"] },
+          "arxiv_id": { "type": ["string", "null"] },
+          "citation_count": { "type": ["integer", "null"] },
+          "source_url": { "type": ["string", "null"] },
+          "landing_page_url": { "type": ["string", "null"] },
+          "source_name": { "type": "string" },
+          "matched_query": { "type": "string" },
+          "search_intent": { "type": ["string", "null"] },
+          "query_variant_type": { "type": ["string", "null"] },
+          "provenance": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["source_name", "matched_query"],
+              "properties": {
+                "source_name": { "type": "string" },
+                "matched_query": { "type": "string" },
+                "search_intent": { "type": ["string", "null"] },
+                "query_variant_type": { "type": ["string", "null"] },
+                "source_constraints": { "type": "array", "items": { "type": "string" } },
+                "query_index": { "type": "integer", "minimum": 0 },
+                "source_result_index": { "type": "integer", "minimum": 0 },
+                "source_rank": { "type": "integer", "minimum": 1 },
+                "retrieved_at": { "type": "string" },
+                "retrieval_mode": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "raw_metadata": { "type": "object" },
+          "retrieval_warnings": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

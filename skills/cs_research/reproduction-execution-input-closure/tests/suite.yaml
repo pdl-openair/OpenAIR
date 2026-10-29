@@ -1,0 +1,25 @@
+suite_id: component.skills.reproduction-execution-input-closure-contracts
+protected_outcome: Reproduction execution input closure admits only formal ready states (unknown status fails closed), materializes actual resources and validates runner inputs only when ready, and never creates an execution input for a non-ready plan.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- execution_input_closure_contract_regression
+minimum_owner: 单个组件行为
+production_targets:
+- skills/cs_research/reproduction-execution-input-closure/
+test_responsibility: Deterministically pin readiness eligibility, fail-closed unknown handling, and ready-input materialization contracts of the closure adapter.
+execution_profiles:
+- deterministic
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- pytest_exit_code_0
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions
+  prove protected_outcome; FAIL when sufficient valid evidence proves
+  protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- reproduction_execution_input_closure_changed

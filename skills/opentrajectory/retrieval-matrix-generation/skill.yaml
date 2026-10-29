@@ -1,0 +1,73 @@
+skill_id: retrieval_matrix_generation
+claude_name: retrieval-matrix-generation
+display_name: 检索矩阵生成
+stages:
+- solution_design
+substages:
+- retrieval_strategy_design
+skill_type: atomic
+runtime: llm_structured
+status: ready
+packs:
+- opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: retrieval_matrix.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+  max_completion_tokens: 6000
+  reasoning_effort: minimal
+notes: Migrated from 04_backend/app/skills/literature_search_matrix_adapter.py + app/schemas/literature_search_matrix.py
+fixture_status: example_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: retrieval_strategy_design
+durable_model_profile: terra
+durable_llm_execution_policy:
+  contract_version: 1
+  reasoning_effort: low
+  max_output_tokens: 6000
+  read_timeout_seconds: 90
+  task_budget_seconds: 135
+  response_mode: json_object
+  load_references: false
+  structured_output_recovery_attempts: 1
+capability_contract:
+  artifact_types:
+  - opentrajectory.retrieval_strategy_design
+  - opentrajectory.retrieval_strategy_design.planned_output
+  judgment_support:
+    deterministic: false
+    domain_professional: false
+execution_method_roles:
+- opentrajectory_research_record_establishment_v1:retrieval_strategy
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+input_handoff:
+  contract_version: 1
+  predecessor_skill_id: null
+  predecessor_definition_version: null
+  dependency_skill_id: constraint_interpretation_skill
+  dependency_definition_version: 1
+  context_fields:
+    user_query: canonical_user_query
+  field_mappings:
+    interpreted_constraints: interpreted_constraints
+    constraint_quality_report: quality_report
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+finalization:
+  contract_version: 1
+  entrypoint: scripts.finalize:finalize
+  draft_schema: model_output.schema.json

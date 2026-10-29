@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-evidence-applicability-final-synthesis/output.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysis_status",
+    "evidence_assessments",
+    "support_conclusions",
+    "conflicts",
+    "important_unknowns",
+    "summary"
+  ],
+  "properties": {
+    "analysis_status": {
+      "enum": [
+        "complete",
+        "partial",
+        "insufficient",
+        "not_needed"
+      ]
+    },
+    "evidence_assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "record_id",
+          "key_matches",
+          "important_differences",
+          "measurement_compatibility",
+          "transfer_limits",
+          "uncertainty"
+        ],
+        "properties": {
+          "record_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "key_matches": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "important_differences": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "measurement_compatibility": {
+            "enum": [
+              "compatible",
+              "partially_compatible",
+              "incompatible",
+              "unknown"
+            ]
+          },
+          "transfer_limits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "uncertainty": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "support_conclusions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "judgment_target",
+          "evidence_record_refs",
+          "support_level",
+          "allowed_uses",
+          "conditions",
+          "transfer_limits",
+          "conflicts",
+          "important_unknowns",
+          "rationale"
+        ],
+        "properties": {
+          "judgment_target": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_record_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Verified record IDs that Final Synthesis actually uses for this target conclusion."
+          },
+          "support_level": {
+            "enum": [
+              "direct",
+              "directional",
+              "mechanism_only",
+              "background_only",
+              "not_transferable",
+              "insufficient"
+            ]
+          },
+          "allowed_uses": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "mechanism",
+                "trend_direction",
+                "magnitude_reference",
+                "direct_numeric"
+              ]
+            },
+            "maxItems": 1,
+            "description": "Synthesis-only authorization. Keep only the strongest decision-specific class actually supported; empty means no positive authorization."
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "transfer_limits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conflicts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "important_unknowns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "important_unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

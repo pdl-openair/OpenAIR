@@ -1,0 +1,122 @@
+[
+  {
+    "call_id": "call_001",
+    "skill_id": "literature_review",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "started_at": "2026-04-09T09:00:00Z",
+    "ended_at": "2026-04-10T10:00:00Z",
+    "input_ref": "skill_io/literature_review/request.json",
+    "output_ref": "skill_io/literature_review/response.json",
+    "artifact_refs": ["art-001"],
+    "error": null
+  },
+  {
+    "call_id": "call_002",
+    "skill_id": "question_formulation",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "started_at": "2026-04-10T10:30:00Z",
+    "ended_at": "2026-04-11T12:00:00Z",
+    "input_ref": "skill_io/question_formulation/request.json",
+    "output_ref": "skill_io/question_formulation/response.json",
+    "artifact_refs": [],
+    "error": null
+  },
+  {
+    "call_id": "call_003",
+    "skill_id": "hypothesis_construction",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "started_at": "2026-04-11T14:00:00Z",
+    "ended_at": "2026-04-27T16:00:00Z",
+    "input_ref": "skill_io/hypothesis_construction/request.json",
+    "output_ref": "skill_io/hypothesis_construction/response.json",
+    "artifact_refs": ["art-002"],
+    "error": null
+  },
+  {
+    "call_id": "call_004",
+    "skill_id": "experiment_design",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "started_at": "2026-04-15T09:00:00Z",
+    "ended_at": "2026-04-19T14:00:00Z",
+    "input_ref": "skill_io/experiment_design/request.json",
+    "output_ref": "skill_io/experiment_design/response.json",
+    "artifact_refs": ["art-003"],
+    "error": null
+  },
+  {
+    "call_id": "call_005",
+    "skill_id": "task_planning",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "started_at": "2026-04-20T09:00:00Z",
+    "ended_at": "2026-04-22T12:00:00Z",
+    "input_ref": "skill_io/task_planning/request.json",
+    "output_ref": "skill_io/task_planning/response.json",
+    "artifact_refs": ["art-004"],
+    "error": null
+  },
+  {
+    "call_id": "call_006",
+    "skill_id": "ope_meta_execute",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "started_at": "2026-04-22T14:00:00Z",
+    "ended_at": "2026-04-22T15:00:00Z",
+    "input_ref": "skill_io/ope_meta_execute/request.json",
+    "output_ref": "skill_io/ope_meta_execute/response.json",
+    "artifact_refs": [],
+    "error": null
+  },
+  {
+    "call_id": "call_007",
+    "skill_id": "code_implementation",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "started_at": "2026-04-22T16:00:00Z",
+    "ended_at": "2026-05-05T18:00:00Z",
+    "input_ref": "skill_io/code_implementation/request.json",
+    "output_ref": "skill_io/code_implementation/response.json",
+    "artifact_refs": [],
+    "error": null
+  },
+  {
+    "call_id": "call_008",
+    "skill_id": "ope_session_execute",
+    "runtime": "claude_agent_sdk",
+    "status": "completed",
+    "started_at": "2026-05-06T09:00:00Z",
+    "ended_at": "2026-05-12T18:00:00Z",
+    "input_ref": "skill_io/ope_session_execute/request.json",
+    "output_ref": "skill_io/ope_session_execute/response.json",
+    "artifact_refs": [],
+    "error": null
+  },
+  {
+    "call_id": "call_009",
+    "skill_id": "experiment_run_monitor",
+    "runtime": "claude_agent_sdk",
+    "status": "running",
+    "started_at": "2026-05-13T09:00:00Z",
+    "ended_at": null,
+    "input_ref": "skill_io/experiment_run_monitor/request.json",
+    "output_ref": "skill_io/experiment_run_monitor/response.json",
+    "artifact_refs": [],
+    "error": null
+  },
+  {
+    "call_id": "call_010",
+    "skill_id": "experiment_taskpool",
+    "runtime": "claude_agent_sdk",
+    "status": "running",
+    "started_at": "2026-05-13T09:00:00Z",
+    "ended_at": null,
+    "input_ref": "skill_io/experiment_taskpool/request.json",
+    "output_ref": "skill_io/experiment_taskpool/response.json",
+    "artifact_refs": [],
+    "error": null
+  }
+]

@@ -1,0 +1,336 @@
+[
+  {
+    "formula": "CrTe3",
+    "dirname": "CrTe3_32at",
+    "natoms": 32,
+    "elements": [
+      "Cr",
+      "Te"
+    ],
+    "kpoints_relax": [
+      5,
+      4,
+      3
+    ],
+    "kpoints_static": [
+      6,
+      5,
+      4
+    ],
+    "is_target": false,
+    "ehull_mp": 0.0,
+    "spacegroup": "P2_1/c",
+    "spacegroup_number": 14,
+    "material_id": "mp-aaabeues"
+  },
+  {
+    "formula": "SiTe2",
+    "dirname": "SiTe2_3at",
+    "natoms": 3,
+    "elements": [
+      "Si",
+      "Te"
+    ],
+    "kpoints_relax": [
+      12,
+      12,
+      6
+    ],
+    "kpoints_static": [
+      14,
+      14,
+      7
+    ],
+    "is_target": false,
+    "ehull_mp": 0.0,
+    "spacegroup": "P-3m1",
+    "spacegroup_number": 164,
+    "material_id": "mp-aaaaaebz"
+  },
+  {
+    "formula": "Cr3Si",
+    "dirname": "Cr3Si_8at",
+    "natoms": 8,
+    "elements": [
+      "Cr",
+      "Si"
+    ],
+    "kpoints_relax": [
+      7,
+      7,
+      7
+    ],
+    "kpoints_static": [
+      8,
+      8,
+      8
+    ],
+    "is_target": false,
+    "ehull_mp": 0.0,
+    "spacegroup": "Pm-3n",
+    "spacegroup_number": 223,
+    "material_id": "mp-aaaaabcb"
+  },
+  {
+    "formula": "Cr2Te3",
+    "dirname": "Cr2Te3_20at",
+    "natoms": 20,
+    "elements": [
+      "Cr",
+      "Te"
+    ],
+    "kpoints_relax": [
+      6,
+      6,
+      3
+    ],
+    "kpoints_static": [
+      7,
+      7,
+      4
+    ],
+    "is_target": false,
+    "ehull_mp": 0.0,
+    "spacegroup": "P-31c",
+    "spacegroup_number": 163,
+    "material_id": "mp-aaaaaebu"
+  },
+  {
+    "formula": "CrSiTe3",
+    "dirname": "CrSiTe3_10at",
+    "natoms": 10,
+    "elements": [
+      "Cr",
+      "Si",
+      "Te"
+    ],
+    "kpoints_relax": [
+      6,
+      6,
+      6
+    ],
+    "kpoints_static": [
+      7,
+      7,
+      7
+    ],
+    "is_target": true,
+    "ehull_mp": 0.0,
+    "spacegroup": "R-3",
+    "spacegroup_number": 148,
+    "material_id": "mp-aaaaafpj"
+  },
+  {
+    "formula": "Cr5Te8",
+    "dirname": "Cr5Te8_13at",
+    "natoms": 13,
+    "elements": [
+      "Cr",
+      "Te"
+    ],
+    "kpoints_relax": [
+      6,
+      6,
+      5
+    ],
+    "kpoints_static": [
+      7,
+      7,
+      6
+    ],
+    "is_target": false,
+    "ehull_mp": 0.0,
+    "spacegroup": "C2/m",
+    "spacegroup_number": 12,
+    "material_id": "mp-aaacrbmw"
+  },
+  {
+    "formula": "CrTe2",
+    "dirname": "CrTe2_3at",
+    "natoms": 24,
+    "elements": [
+      "Cr",
+      "Te"
+    ],
+    "kpoints_relax": [
+      5,
+      5,
+      3
+    ],
+    "kpoints_static": [
+      6,
+      6,
+      4
+    ],
+    "is_target": false,
+    "ehull_mp": 0.0,
+    "spacegroup": "P-3m1",
+    "spacegroup_number": 164,
+    "material_id": "mp-aaabmzkh"
+  },
+  {
+    "formula": "Si",
+    "dirname": "Si_2at",
+    "natoms": 2,
+    "elements": [
+      "Si"
+    ],
+    "kpoints_relax": [
+      11,
+      11,
+      11
+    ],
+    "kpoints_static": [
+      13,
+      13,
+      13
+    ],
+    "is_target": false,
+    "ehull_mp": 0.0,
+    "spacegroup": "Fd-3m",
+    "spacegroup_number": 227,
+    "material_id": "mp-aaaaaaft"
+  },
+  {
+    "formula": "Cr",
+    "dirname": "Cr_2at",
+    "natoms": 2,
+    "elements": [
+      "Cr"
+    ],
+    "kpoints_relax": [
+      11,
+      11,
+      11
+    ],
+    "kpoints_static": [
+      13,
+      13,
+      13
+    ],
+    "is_target": false,
+    "ehull_mp": 0.0,
+    "spacegroup": "Im-3m",
+    "spacegroup_number": 229,
+    "material_id": "mp-aaaaaadm"
+  },
+  {
+    "formula": "CrSi2",
+    "dirname": "CrSi2_3at",
+    "natoms": 3,
+    "elements": [
+      "Cr",
+      "Si"
+    ],
+    "kpoints_relax": [
+      11,
+      11,
+      7
+    ],
+    "kpoints_static": [
+      13,
+      13,
+      9
+    ],
+    "is_target": false,
+    "ehull_mp": 0.0,
+    "spacegroup": "I4/mmm",
+    "spacegroup_number": 139,
+    "material_id": "mp-aaaaanft"
+  },
+  {
+    "formula": "Te",
+    "dirname": "Te_3at",
+    "natoms": 3,
+    "elements": [
+      "Te"
+    ],
+    "kpoints_relax": [
+      10,
+      10,
+      8
+    ],
+    "kpoints_static": [
+      12,
+      12,
+      10
+    ],
+    "is_target": false,
+    "ehull_mp": 0.0,
+    "spacegroup": "P3_121",
+    "spacegroup_number": 152,
+    "material_id": "mp-aaaaaaat"
+  },
+  {
+    "formula": "Si19Te8",
+    "dirname": "Si19Te8_54at",
+    "natoms": 54,
+    "elements": [
+      "Si",
+      "Te"
+    ],
+    "kpoints_relax": [
+      3,
+      3,
+      3
+    ],
+    "kpoints_static": [
+      4,
+      4,
+      4
+    ],
+    "is_target": false,
+    "ehull_mp": 0.015168027407408857,
+    "spacegroup": "R3c",
+    "spacegroup_number": 161,
+    "material_id": "mp-aaaabubn"
+  },
+  {
+    "formula": "Cr3Te4",
+    "dirname": "Cr3Te4_7at",
+    "natoms": 7,
+    "elements": [
+      "Cr",
+      "Te"
+    ],
+    "kpoints_relax": [
+      7,
+      7,
+      7
+    ],
+    "kpoints_static": [
+      8,
+      8,
+      9
+    ],
+    "is_target": false,
+    "ehull_mp": 0.014827734285714378,
+    "spacegroup": "C2/m",
+    "spacegroup_number": 12,
+    "material_id": "mp-aaacjisa"
+  },
+  {
+    "formula": "Cr5Si3",
+    "dirname": "Cr5Si3_16at",
+    "natoms": 16,
+    "elements": [
+      "Cr",
+      "Si"
+    ],
+    "kpoints_relax": [
+      7,
+      5,
+      5
+    ],
+    "kpoints_static": [
+      8,
+      5,
+      5
+    ],
+    "is_target": false,
+    "ehull_mp": 0.04285364324999996,
+    "spacegroup": "I4/mcm",
+    "spacegroup_number": 140,
+    "material_id": "mp-aaaaalcs"
+  }
+]

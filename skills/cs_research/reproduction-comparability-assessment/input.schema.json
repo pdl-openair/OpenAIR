@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "reproduction_baseline_and_criteria",
+    "reproduction_execution_record",
+    "actual_metric_records"
+  ],
+  "properties": {
+    "reproduction_baseline_and_criteria": {
+      "type": "object"
+    },
+    "reproduction_execution_record": {
+      "type": "object"
+    },
+    "actual_metric_records": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,344 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "state",
+    "plan_status",
+    "execution_plan_id",
+    "source_identity",
+    "resource_acquisition_requests",
+    "python_version",
+    "requirements",
+    "verify_imports",
+    "dependency_install_timeout_seconds",
+    "find_links",
+    "executable",
+    "argv",
+    "working_directory",
+    "timeout_seconds",
+    "environment_variables",
+    "execution_resource_binding_plan",
+    "actual_metric_result_source",
+    "actual_metric_requests",
+    "metric_extraction_jobs",
+    "execution_plan_provenance",
+    "execution_plan_unresolved",
+    "execution_plan_runtime_pending"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "openair-execution-plan/v1"
+    },
+    "state": {
+      "const": "succeeded"
+    },
+    "plan_status": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "incomplete"
+      ]
+    },
+    "execution_plan_id": {
+      "type": "string",
+      "pattern": "^execplan:[0-9a-f]{64}$"
+    },
+    "source_identity": {
+      "type": "object",
+      "required": [
+        "repository",
+        "resolved_commit_sha"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resolved_commit_sha": {
+          "type": "string",
+          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "resource_acquisition_requests": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "required": [
+          "usage",
+          "resource_kind",
+          "repo_id",
+          "repo_type",
+          "revision"
+        ],
+        "properties": {
+          "usage": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "resource_kind": {
+            "type": "string",
+            "enum": [
+              "huggingface_snapshot",
+              "huggingface_file"
+            ]
+          },
+          "repo_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "repo_type": {
+            "type": "string",
+            "enum": [
+              "model",
+              "dataset"
+            ]
+          },
+          "revision": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1
+          },
+          "filename": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_commit_sha": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "expected_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "python_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9]+\\.[0-9]+(?:\\.[0-9]+)?$"
+    },
+    "requirements": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ]
+    },
+    "verify_imports": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ]
+    },
+    "dependency_install_timeout_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3600
+    },
+    "find_links": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "executable": {
+      "type": "string",
+      "minLength": 1
+    },
+    "argv": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "maxItems": 256,
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "working_directory": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "timeout_seconds": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1,
+      "maximum": 86400
+    },
+    "environment_variables": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "execution_resource_binding_plan": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object"
+      }
+    },
+    "actual_metric_result_source": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "actual_metric_requests": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "required": [
+          "metric_name",
+          "value_type",
+          "unit"
+        ],
+        "properties": {
+          "metric_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value_type": {
+            "type": "string",
+            "enum": [
+              "number",
+              "integer",
+              "string",
+              "boolean"
+            ]
+          },
+          "unit": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "selector": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "json_pointer"
+                ],
+                "properties": {
+                  "json_pointer": {
+                    "type": "string",
+                    "maxLength": 2048
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "column"
+                ],
+                "properties": {
+                  "column": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "metric_extraction_jobs": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object"
+      }
+    },
+    "execution_plan_provenance": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object"
+      }
+    },
+    "execution_plan_unresolved": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "required": [
+          "target",
+          "reason"
+        ],
+        "properties": {
+          "target": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "execution_plan_runtime_pending": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

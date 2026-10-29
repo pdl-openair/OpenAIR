@@ -1,0 +1,39 @@
+suite_id: registered-finalizer-subprocess-bridge
+protected_outcome: registered finalizer 的内部 JSON wire 与宿主 locale 无关；model draft 只经冻结 registered finalizer 与最终 Formal Schema 形成 artifact，失败时不得回退 raw draft。
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+- docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+- spec/testing/OpenAIR 测试设计合同.md
+failure_class:
+- locale_dependent_finalizer_wire
+- finalizer_child_exception_diagnostics_lost
+- registered_finalizer_bypassed
+- raw_draft_artifact_fallback
+- invalid_final_schema_accepted
+minimum_owner: 跨组件与基础设施
+production_targets:
+- services/api/app/execution/skill_finalization_runtime.py
+- services/api/app/execution/durable_skill_runtime.py
+- services/api/app/execution/durable_multiagent_orchestrator.py
+- services/api/app/modules/collaboration_repository.py
+test_responsibility: 强制 ASCII-only child stdio 验证 Unicode 往返、真实 screening finalizer、bounded child failure facts，并以通用冻结合同验证 durable runtime 只发布 registered finalizer 产出且失败时不发布 raw draft。
+execution_profiles:
+- 确定性配置
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- unicode_roundtrip_under_ascii_child_stdio
+- screening_registered_finalizer_success
+- bounded_failure_facts_without_input_leak
+- generic_registered_finalizer_runs_once
+- artifact_contains_only_finalized_output
+- finalizer_or_final_schema_failure_has_no_artifact
+- no_provider_network_or_database_io
+verdict_rule: >-
+  PASS only when every required deterministic assertion succeeds, registered
+  finalization publishes only final-schema-valid output, and all failure paths
+  publish no raw draft artifact. FAIL when valid evidence contradicts any
+  protected outcome. Return NO_VALID_EVIDENCE when required evidence is absent.
+triggers:
+- production_targets_changed
+- registered_finalizer_contract_changed

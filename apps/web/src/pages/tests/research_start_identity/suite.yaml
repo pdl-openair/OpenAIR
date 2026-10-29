@@ -1,0 +1,14 @@
+suite_id: component.web.pages.research-start-identity
+protected_outcome: A completed research session opens only its own reserved Task and retains planning-session identity; stale or mismatched completions cannot change the current route.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: research_session_task_route_contamination
+minimum_owner: 单个组件行为
+production_targets: [apps/web/src/pages/ResearchStartWaitingPage.tsx]
+test_responsibility: Render the production waiting page and router, control only session-status API responses, and observe actual navigation and session state. Does not prove server-side identity or creation persistence.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when a matching completion opens its reserved Task with the correct session and wrong or late completions cannot change current identity; otherwise FAIL. Missing runtime evidence is NO_VALID_EVIDENCE.
+triggers: [research_start_session_navigation_changed]

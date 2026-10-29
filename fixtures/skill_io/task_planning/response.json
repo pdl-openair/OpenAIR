@@ -1,0 +1,16 @@
+{
+  "status": "completed",
+  "summary": "拆解 54 个任务为 14 个 Task Set，含依赖关系图与关键路径分析。",
+  "artifacts": [
+    {
+      "path": "openair/ope-benchmark/plan/task_plan.md",
+      "type": "stage_summary",
+      "title": "任务拆解与计划"
+    }
+  ],
+  "capability_calls": [],
+  "next_actions": [
+    "进入执行阶段，初始化任务集合"
+  ],
+  "error": null
+}

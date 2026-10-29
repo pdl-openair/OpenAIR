@@ -1,0 +1,168 @@
+{
+  "metadata_candidates": [
+    {
+      "candidate_id": "openalex:doi:10.1016/j.jpowsour.2023.12345:0",
+      "dedupe_key": "doi:10.1016/j.jpowsour.2023.12345",
+      "normalized_title": "fast charging stability of silicon anode materials in lithium ion batteries",
+      "external_ids": {
+        "doi": "10.1016/j.jpowsour.2023.12345",
+        "arxiv_id": "2301.12345",
+        "openalex_id": "W2301123456",
+        "semantic_scholar_id": null,
+        "corpus_id": null,
+        "pmid": null,
+        "pmcid": null
+      },
+      "title": "Fast Charging Stability of Silicon Anode Materials in Lithium-Ion Batteries",
+      "abstract": "We investigate the cycling stability of silicon-based anode materials under fast charging conditions (2C–5C) with a voltage window of 0.01–1.5 V. Capacity retention exceeds 80% after 500 cycles with surface-modified Si-C composites.",
+      "authors": ["Zhang Wei", "Li Ming", "Chen Fang"],
+      "year": 2023,
+      "venue": "Journal of Power Sources",
+      "doi": "10.1016/j.jpowsour.2023.12345",
+      "arxiv_id": "2301.12345",
+      "source_url": "https://doi.org/10.1016/j.jpowsour.2023.12345",
+      "landing_page_url": "https://openalex.org/W2301123456",
+      "source_name": "openalex",
+      "matched_query": "\"anode material\" AND \"fast charging\"",
+      "search_intent": "core_topic",
+      "query_variant_type": "strict",
+      "provenance": [
+        {
+          "source_name": "openalex",
+          "matched_query": "\"anode material\" AND \"fast charging\"",
+          "search_intent": "core_topic",
+          "query_variant_type": "strict",
+          "source_constraints": ["user_query"],
+          "query_index": 0,
+          "source_result_index": 0,
+          "source_rank": 1,
+          "retrieved_at": "2026-05-24T02:57:22Z",
+          "retrieval_mode": "expanded_query_variant"
+        }
+      ],
+      "raw_metadata": {
+        "id": "https://openalex.org/W2301123456",
+        "display_name": "Fast Charging Stability of Silicon Anode Materials in Lithium-Ion Batteries",
+        "publication_year": 2023,
+        "cited_by_count": 42,
+        "doi": "https://doi.org/10.1016/j.jpowsour.2023.12345",
+        "best_oa_location": {
+          "pdf_url": "https://arxiv.org/pdf/2301.12345.pdf"
+        }
+      },
+      "retrieval_warnings": []
+    },
+    {
+      "candidate_id": "semantic_scholar:doi:10.1016/j.jpowsour.2023.12345:0",
+      "dedupe_key": "doi:10.1016/j.jpowsour.2023.12345",
+      "normalized_title": "fast charging stability of silicon anode materials in lithium ion batteries",
+      "external_ids": {
+        "doi": "10.1016/j.jpowsour.2023.12345",
+        "arxiv_id": "2301.12345",
+        "openalex_id": null,
+        "semantic_scholar_id": "abc123",
+        "corpus_id": "234567890",
+        "pmid": null,
+        "pmcid": null
+      },
+      "title": "Fast Charging Stability of Silicon Anode Materials in Lithium-Ion Batteries",
+      "abstract": "We investigate the cycling stability of silicon-based anode materials under fast charging conditions (2C–5C) with a voltage window of 0.01–1.5 V. Capacity retention exceeds 80% after 500 cycles with surface-modified Si-C composites.",
+      "authors": ["Zhang Wei", "Li Ming", "Chen Fang"],
+      "year": 2023,
+      "venue": "Journal of Power Sources",
+      "doi": "10.1016/j.jpowsour.2023.12345",
+      "arxiv_id": "2301.12345",
+      "source_url": "https://arxiv.org/pdf/2301.12345.pdf",
+      "landing_page_url": "https://api.semanticscholar.org/paper/abc123",
+      "source_name": "semantic_scholar",
+      "matched_query": "\"anode material\" AND \"fast charging\"",
+      "search_intent": "core_topic",
+      "query_variant_type": "strict",
+      "provenance": [
+        {
+          "source_name": "semantic_scholar",
+          "matched_query": "\"anode material\" AND \"fast charging\"",
+          "search_intent": "core_topic",
+          "query_variant_type": "strict",
+          "source_constraints": ["user_query"],
+          "query_index": 0,
+          "source_result_index": 0,
+          "source_rank": 1,
+          "retrieved_at": "2026-05-24T02:57:22Z",
+          "retrieval_mode": "expanded_query_variant"
+        }
+      ],
+      "raw_metadata": {
+        "paperId": "abc123",
+        "title": "Fast Charging Stability of Silicon Anode Materials in Lithium-Ion Batteries",
+        "year": 2023,
+        "citationCount": 42,
+        "externalIds": { "ArXiv": "2301.12345", "DOI": "10.1016/j.jpowsour.2023.12345", "CorpusId": 234567890 }
+      },
+      "retrieval_warnings": []
+    },
+    {
+      "candidate_id": "arxiv:arxiv:2309.67890:2",
+      "dedupe_key": "arxiv:2309.67890",
+      "normalized_title": "graphite anode degradation mechanisms under high rate charging",
+      "external_ids": {
+        "doi": null,
+        "arxiv_id": "2309.67890",
+        "openalex_id": null,
+        "semantic_scholar_id": null,
+        "corpus_id": null,
+        "pmid": null,
+        "pmcid": null
+      },
+      "title": "Graphite Anode Degradation Mechanisms Under High-Rate Charging",
+      "abstract": null,
+      "authors": ["Park Joon", "Kim Soo"],
+      "year": 2023,
+      "venue": null,
+      "doi": null,
+      "arxiv_id": "2309.67890",
+      "source_url": "https://arxiv.org/pdf/2309.67890.pdf",
+      "landing_page_url": "https://arxiv.org/abs/2309.67890",
+      "source_name": "arxiv",
+      "matched_query": "\"fast charging\" AND \"capacity retention\"",
+      "search_intent": "constraint_focused",
+      "query_variant_type": "strict",
+      "provenance": [
+        {
+          "source_name": "arxiv",
+          "matched_query": "\"fast charging\" AND \"capacity retention\"",
+          "search_intent": "constraint_focused",
+          "query_variant_type": "strict",
+          "source_constraints": ["fast_charging_condition", "capacity_retention_metric"],
+          "query_index": 2,
+          "source_result_index": 0,
+          "source_rank": 1,
+          "retrieved_at": "2026-05-24T02:57:22Z",
+          "retrieval_mode": "expanded_query_variant"
+        }
+      ],
+      "raw_metadata": {
+        "arxiv_id": "2309.67890",
+        "title": "Graphite Anode Degradation Mechanisms Under High-Rate Charging",
+        "abs_url": "https://arxiv.org/abs/2309.67890"
+      },
+      "retrieval_warnings": ["abstract_missing"]
+    }
+  ],
+  "retrieval_report": {
+    "source_counts": {
+      "openalex": 1,
+      "semantic_scholar": 1,
+      "arxiv": 1
+    },
+    "query_counts": {
+      "\"anode material\" AND \"fast charging\"": 2,
+      "\"fast charging\" AND \"capacity retention\"": 1
+    },
+    "failed_sources": [],
+    "total_candidates": 3,
+    "partial_success": false,
+    "fallback_used": false,
+    "risk_flags": []
+  }
+}

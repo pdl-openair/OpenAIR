@@ -1,0 +1,281 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "executable",
+    "argv",
+    "working_directory",
+    "timeout_seconds"
+  ],
+  "properties": {
+    "executable": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "description": "Path to the executable relative to the verified workspace environment/ directory.",
+      "pattern": "^(?!/)(?!.*(?:^|/)(?:\\.\\.?)(?:/|$))(?!.*:)(?!.*\\\\)[^\\u0000-\\u001F\\u007F]+$"
+    },
+    "argv": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "string",
+        "maxLength": 4096,
+        "pattern": "^[^\\u0000]*$"
+      },
+      "description": "Arguments passed directly to the executable with shell disabled. Resource-bound positions use controlled placeholders and are replaced before process start."
+    },
+    "working_directory": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "description": "Existing working directory relative to the runtime-authorized workspace.",
+      "pattern": "^(?!/)(?!.*(?:^|/)(?:\\.\\.?)(?:/|$))(?!.*:)(?!.*\\\\)[^\\u0000-\\u001F\\u007F]+$"
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 86400
+    },
+    "environment_variables": {
+      "type": "object",
+      "maxProperties": 64,
+      "propertyNames": {
+        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 4096,
+        "pattern": "^[^\\u0000]*$"
+      },
+      "description": "Explicit environment overrides. Values are used for execution but never copied into the execution record."
+    },
+    "resource_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "usage",
+              "argv_index",
+              "resource"
+            ],
+            "properties": {
+              "usage": {
+                "type": "string",
+                "enum": [
+                  "model",
+                  "dataset"
+                ]
+              },
+              "argv_index": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "consumption_probe": {
+                "$ref": "#/definitions/consumptionProbe"
+              },
+              "resource": {
+                "$ref": "#/definitions/formalResource"
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "usage",
+              "delivery",
+              "resource"
+            ],
+            "properties": {
+              "usage": {
+                "type": "string",
+                "enum": [
+                  "model",
+                  "dataset"
+                ]
+              },
+              "delivery": {
+                "type": "object",
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "tar_extract_working_directory"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "consumption_probe": {
+                "$ref": "#/definitions/consumptionProbe"
+              },
+              "resource": {
+                "$ref": "#/definitions/formalResource"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "description": "Optional deterministic bindings from formal resource records to controlled argv positions or an explicitly requested bounded tar delivery into the working directory."
+    }
+  },
+  "definitions": {
+    "consumptionProbe": {
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "const": "python_file_open_read"
+        }
+      },
+      "additionalProperties": false
+    },
+    "formalResource": {
+      "type": "object",
+      "required": [
+        "state",
+        "resource_kind",
+        "repo_id",
+        "repo_type",
+        "requested_revision",
+        "resolved_commit_sha",
+        "actual_identity",
+        "expected_identity_verification",
+        "workspace_relative_path",
+        "execution_evidence"
+      ],
+      "properties": {
+        "state": {
+          "const": "succeeded"
+        },
+        "resource_kind": {
+          "type": "string",
+          "enum": [
+            "huggingface_snapshot",
+            "huggingface_file"
+          ]
+        },
+        "repo_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repo_type": {
+          "type": "string",
+          "enum": [
+            "model",
+            "dataset"
+          ]
+        },
+        "requested_revision": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "resolved_commit_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "actual_identity": {
+          "$ref": "#/definitions/immutableIdentity"
+        },
+        "expected_identity_verification": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "not_requested"
+          ]
+        },
+        "workspace_relative_path": {
+          "type": "string",
+          "pattern": "^resource(?:/.*)?$"
+        },
+        "execution_evidence": {
+          "type": "object",
+          "required": [
+            "provider_client",
+            "operation",
+            "materialized"
+          ],
+          "properties": {
+            "provider_client": {
+              "type": "string",
+              "minLength": 1
+            },
+            "operation": {
+              "type": "string",
+              "enum": [
+                "snapshot_download",
+                "hf_hub_download"
+              ]
+            },
+            "materialized": {
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "immutableIdentity": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "commit_sha"
+          ],
+          "properties": {
+            "kind": {
+              "const": "huggingface_commit"
+            },
+            "commit_sha": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "commit_sha",
+            "filename",
+            "sha256"
+          ],
+          "properties": {
+            "kind": {
+              "const": "huggingface_file_at_commit"
+            },
+            "commit_sha": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "filename": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

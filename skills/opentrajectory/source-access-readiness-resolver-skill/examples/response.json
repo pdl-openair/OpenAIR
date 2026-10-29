@@ -1,0 +1,86 @@
+{
+  "task_id": "task_demo_001",
+  "skill_id": "source-access-readiness-resolver-skill",
+  "run_id": "run_demo_001",
+  "candidates": [
+    {
+      "candidate_id": "cand_001",
+      "canonical_source_id": "src_001",
+      "title": "Example open access battery paper",
+      "normalized_title": "example open access battery paper",
+      "doi": "10.1000/example",
+      "external_ids": {
+        "pmcid": "PMC1234567"
+      },
+      "access_status": "structured_fulltext_ready",
+      "available_access_types": ["html", "xml", "landing_page"],
+      "preferred_access_type": "xml",
+      "access_routes": [
+        {
+          "access_type": "xml",
+          "status": "candidate",
+          "source": "pmcid",
+          "confidence": 0.85,
+          "notes": "PMCID indicates likely structured fulltext route. Not fetched in this skill."
+        },
+        {
+          "access_type": "landing_page",
+          "status": "available",
+          "url": "https://example.org/articles/001",
+          "source": "source_url",
+          "confidence": 0.9
+        }
+      ],
+      "needs_acquisition": false,
+      "acquisition_hint": {
+        "recommended_next_action": "use_structured_fulltext",
+        "reason": "Structured fulltext route is likely available from PMCID."
+      },
+      "warnings": [
+        {
+          "candidate_id": "cand_001",
+          "code": "UNVERIFIED_ACCESS",
+          "message": "Access route was inferred from metadata only; no network fetch was performed."
+        }
+      ],
+      "retry": {
+        "retryable": false,
+        "retry_reason": "no_retry_needed",
+        "recommended_retry_after_seconds": null
+      },
+      "provenance": [
+        {
+          "stage": "candidate_dedup_and_provenance",
+          "skill_id": "candidate-dedup-and-provenance",
+          "timestamp": "2026-05-27T00:00:00Z"
+        },
+        {
+          "stage": "source_access_readiness_resolution",
+          "skill_id": "source-access-readiness-resolver-skill",
+          "timestamp": "2026-05-27T00:00:01Z",
+          "operation": "resolve_access_readiness",
+          "input_candidate_id": "cand_001",
+          "decision": "structured_fulltext_ready",
+          "evidence_fields": ["doi", "pmcid", "source_url"]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_candidates": 1,
+    "structured_fulltext_available_count": 1,
+    "pdf_available_count": 0,
+    "landing_page_only_count": 0,
+    "metadata_only_count": 0,
+    "access_blocked_count": 0,
+    "needs_acquisition_count": 0
+  },
+  "warnings": [
+    {
+      "candidate_id": "cand_001",
+      "code": "UNVERIFIED_ACCESS",
+      "message": "Access route was inferred from metadata only; no network fetch was performed."
+    }
+  ],
+  "errors": []
+}

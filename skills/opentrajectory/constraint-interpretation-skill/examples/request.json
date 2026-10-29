@@ -1,0 +1,15 @@
+{
+  "user_query": "比较不同负极材料在快充条件下循环稳定性，关注容量保持率，电压窗口≤4.2V，温度范围25-45°C。",
+  "research_domain": "锂离子电池",
+  "material_system": "负极材料",
+  "research_context": {
+    "boundary_conditions": ["快充条件", "电压窗口≤4.2V", "温度范围25-45°C"],
+    "target_metrics": ["容量保持率"]
+  },
+  "raw_constraints": [
+    {"phrase": "电压窗口≤4.2V", "source": "user_query"},
+    {"phrase": "温度范围25-45°C", "source": "user_query"}
+  ],
+  "task_schema": null,
+  "available_documents_summary": null
+}

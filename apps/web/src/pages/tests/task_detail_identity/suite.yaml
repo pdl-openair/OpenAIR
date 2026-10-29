@@ -1,0 +1,14 @@
+suite_id: component.web.task-detail-identity
+protected_outcome: Navigating between tasks cannot apply a late response or stale not-found result to the currently displayed task or its actions. Workflow artifact entries retain canonical Chinese titles and the final-result shell has no redundant source selector.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: task_detail_cross_route_or_generation_contamination
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/pages/TaskDetailPage.tsx
+test_responsibility: Render the production page with real React and router; control only API load responses and verify late A/B/A responses and navigation actions.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS when stale responses cannot replace current content or actions; otherwise FAIL or NO_VALID_EVIDENCE.
+triggers: [task_detail_route_or_load_changed]

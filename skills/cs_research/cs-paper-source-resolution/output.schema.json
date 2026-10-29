@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CS paper source resolution output",
+  "oneOf": [
+    {"$ref": "#/definitions/success"},
+    {"$ref": "#/definitions/incomplete"},
+    {"$ref": "#/definitions/failure"}
+  ],
+  "definitions": {
+    "paperIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "arxiv_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "title": {"type": "string", "minLength": 1, "maxLength": 1024},
+        "doi": {"type": "string", "minLength": 1, "maxLength": 256},
+        "openalex_id": {"type": "string", "minLength": 1, "maxLength": 256}
+      }
+    },
+    "sourceEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "source_url", "repository_url", "selection_basis"],
+      "properties": {
+        "kind": {"type": "string", "enum": ["user_provided_repository", "declared_source_page_code_link", "primary_paper_author_declared_code_link", "checkpoint_model_card_code_link"]},
+        "source_url": {"type": "string", "minLength": 1},
+        "repository_url": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "selection_basis": {"type": "string", "enum": ["user_provided", "unique_code_link_in_declared_source_page", "unique_author_declared_code_link_in_primary_paper", "unique_code_link_in_checkpoint_model_card"]},
+        "model_id": {"type": "string", "minLength": 3},
+        "content_form": {
+          "type": "string",
+          "enum": ["metadata_only", "landing_page", "html", "pdf", "xml", "tei"]
+        },
+        "paper_identity": {"$ref": "#/definitions/paperIdentity"}
+      }
+    },
+    "actionEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operations", "network_action_performed"],
+      "properties": {
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["operation", "endpoint", "outcome"],
+            "properties": {
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "git_ls_remote",
+                  "declared_source_page_read",
+                  "literature_metadata_search",
+                  "arxiv_metadata_search",
+                  "primary_paper_content_read",
+                  "primary_paper_pdf_read",
+                  "huggingface_model_search",
+                  "huggingface_model_card_read"
+                ]
+              },
+              "endpoint": {"type": "string", "minLength": 1, "maxLength": 4096},
+              "outcome": {"type": "string", "enum": ["succeeded", "failed"]},
+              "http_status": {"type": "integer", "minimum": 100, "maximum": 599}
+            }
+          }
+        },
+        "network_action_performed": {"type": "boolean"}
+      }
+    },
+    "success": {
+      "type": "object", "additionalProperties": false,
+      "required": ["state", "repository", "requested_revision", "source_evidence", "execution_evidence"],
+      "properties": {
+        "state": {"const": "succeeded"},
+        "repository": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "requested_revision": {"type": "string", "minLength": 1, "maxLength": 512},
+        "source_evidence": {"$ref": "#/definitions/sourceEvidence"},
+        "execution_evidence": {"$ref": "#/definitions/actionEvidence"}
+      }
+    },
+    "incomplete": {
+      "type": "object", "additionalProperties": false,
+      "required": ["state", "resolution_status", "repository", "requested_revision", "candidate_options", "execution_evidence"],
+      "properties": {
+        "state": {"const": "incomplete"},
+        "resolution_status": {"type": "string", "enum": ["paper_ambiguous", "model_not_found", "model_ambiguous", "code_link_missing", "code_link_ambiguous"]},
+        "repository": {"type": "null"},
+        "requested_revision": {"type": "null"},
+        "candidate_options": {"type": "array", "maxItems": 5, "items": {"type": "string", "minLength": 1, "maxLength": 2048}},
+        "execution_evidence": {"$ref": "#/definitions/actionEvidence"}
+      }
+    },
+    "failure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["state", "failure_code", "failed_stage", "execution_evidence"],
+      "properties": {
+        "state": {"const": "failed"},
+        "failure_code": {"type": "string", "enum": ["skill_input_invalid", "source_provider_unavailable", "git_unavailable", "repository_unavailable"]},
+        "failed_stage": {"type": "string", "enum": ["input_validation", "source_lookup", "source_read", "repository_probe"]},
+        "execution_evidence": {"$ref": "#/definitions/actionEvidence"}
+      }
+    }
+  }
+}

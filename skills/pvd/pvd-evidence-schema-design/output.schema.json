@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/pvd-evidence-schema-design/output.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["evidence_schema", "coverage_target", "pending_parameter_evidence_identities", "design_warnings"],
+  "properties": {
+    "evidence_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract", "evidence_targets", "gap_taxonomy", "uncertainty_rules"],
+      "properties": {
+        "contract": {"const": "pvd-evidence-schema/v1"},
+        "evidence_targets": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 40,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["target_id", "target_type", "scientific_role", "description", "requiredness", "completion_criteria", "covered_parameter_keys", "comparison_dimensions", "provenance_requirements"],
+            "properties": {
+              "target_id": {"type": "string", "pattern": "^target_[0-9]{3}$"},
+              "target_type": {"type": "string"},
+              "scientific_role": {"type": "string"},
+              "description": {"type": "string", "minLength": 1},
+              "requiredness": {"enum": ["required", "preferred", "optional"]},
+              "completion_criteria": {"type": "string", "minLength": 1},
+              "covered_parameter_keys": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+              "comparison_dimensions": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+              "provenance_requirements": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+            }
+          }
+        },
+        "gap_taxonomy": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "uncertainty_rules": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "coverage_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["formal_parameter_keys", "pending_parameter_keys", "all_parameter_keys"],
+      "properties": {
+        "formal_parameter_keys": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "pending_parameter_keys": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "all_parameter_keys": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "pending_parameter_evidence_identities": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "design_warnings": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+  }
+}

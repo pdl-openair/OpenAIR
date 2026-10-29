@@ -1,0 +1,36 @@
+suite_id: component.web.pages.workbench-current-version-truth
+protected_outcome: >-
+  The Workbench page keeps presenting the current version of task research
+  state: refresh, recovery, and plan-confirmation flows never surface stale
+  or fabricated version state to the user; before confirmation, the plan
+  structure, partial draft, single elapsed-time
+  placement, and confirmation transition come only from current authority.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: workbench_current_version_stale_or_fabricated_presentation
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/pages/WorkbenchPage.tsx
+  - apps/web/src/lib/researchDesignEdit.ts
+  - apps/web/src/hooks/useResearchDesignCatalog.ts
+  - apps/web/src/components/workbench/ResearchDesignWorkTypeSelect.tsx
+  - apps/web/src/hooks/useWorkbenchSessionState.ts
+  - apps/web/src/components/workbench/WorkbenchPlanningBootstrap.tsx
+  - apps/web/src/components/workbench/PlanningDraftContent.tsx
+  - apps/web/src/components/workbench/WorkbenchResearchDelivery.tsx
+  - apps/web/src/components/workbench/ConfirmedResearchPlan.tsx
+  - apps/web/src/components/workbench/WorkbenchResearchNavigation.tsx
+  - apps/web/src/lib/confirmedResearchDesign.ts
+  - apps/web/src/lib/planningCollaboration.ts
+test_responsibility: Real page current-version, historical semantic restore with current CAS, visible conflict reconciliation without retry, unsaved-edit protection, obsolete edit-session invalidation, pinned Artifact retention, invalid substage exclusion, late node-location auto-follow, URL/manual pin priority, completed-visible-output eligibility, and mobile pane switching without refresh theft; navigation callback and selection assertions use a controlled navigation boundary and do not prove actual FlowNav rendering; controlled API does not prove server persistence.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  [
+    workbench_current_version_presentation_changes,
+    research_design_planning_hierarchy_changes,
+  ]

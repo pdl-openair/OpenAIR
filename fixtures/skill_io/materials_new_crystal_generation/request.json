@@ -1,0 +1,44 @@
+{
+  "task_id": "task_materials_demo_001",
+  "run_id": "run_materials_demo_001",
+  "stage": "problem_modeling",
+  "substage": "crystal_generation",
+  "skill_id": "materials_new_crystal_generation",
+  "skill_pack": "materials",
+  "user_goal": "跑一轮 DEMO 演化，发现满足带隙 + 合成可行性约束的三元半导体新晶体",
+  "context": {
+    "execution_mode": "autonomous",
+    "session_name": "ternary_semiconductor_v1",
+    "evolution_params": {
+      "n_pops": 32,
+      "max_generations": 20,
+      "n_offspring_per_generation": 32,
+      "noise_level": 0.3,
+      "emo_engine": "TriplePopCMOEA",
+      "initial_pool_mode": "random",
+      "batch_size": 4,
+      "max_attempts": 10
+    },
+    "objectives_json": {
+      "ehull_eV": "minimize",
+      "bandgap_eV": "maximize"
+    },
+    "constraints_json": {
+      "bandgap_eV": {"min": 0.5, "max": 3.0, "weight": 5.0},
+      "formation_energy_eV": {"max": 0, "weight": 10.0},
+      "cl_score": {"min": 0.5, "weight": 5.0},
+      "num_elements": {"min": 3, "max": 3, "weight": 10.0},
+      "element_set": {"banned": ["Hg", "Tl", "Pb", "Cd"], "weight": 5.0}
+    },
+    "seed_cif_files": [],
+    "mattergen_mcp_url": "http://mcp.example.internal:22222/mcp/mattergen/mcp",
+    "cppred_mcp_url": "http://mcp.example.internal:22222/mcp/flux/mcp"
+  },
+  "constraints": [
+    "提交前必须 probe_mcp.py 通过（两个 MCP 服务器都 PASS）",
+    "不可在本地 import torch / pymatgen，不可直接跑 Evoloop.py",
+    "不可 SSH 进 GPU 盒子，所有操作走 HTTP MCP",
+    "若 active_sessions > 0，需要决定等待 / list / kill",
+    "constraints_json 键名必须匹配 crystal-property-prediction MCP 返回属性名（_eV 形式）"
+  ]
+}

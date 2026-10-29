@@ -1,0 +1,27 @@
+skill_id: task_planning_l3
+claude_name: ope-rs-task-planning
+display_name: 任务规划
+version: "0.1.0"
+stages:
+  - solution_design
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - task_planning
+packs:
+  - ope
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: solution_design
+substage: task_planning
+owner: TBD
+fixture_status: missing
+notes: OPE L3
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

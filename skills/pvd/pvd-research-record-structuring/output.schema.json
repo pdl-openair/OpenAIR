@@ -1,0 +1,502 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/pvd-research-record-structuring/output.schema.json",
+  "title": "PVD Research Record Structuring Output",
+  "type": "object",
+  "required": [
+    "evidence_records",
+    "source_provenance"
+  ],
+  "properties": {
+    "evidence_records": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence_record"
+      },
+      "description": "External evidence records. record_id values must be unique across evidence_records and project_experiment_records; this referential rule is enforced by the deterministic input guard."
+    },
+    "source_provenance": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      },
+      "description": "Source provenance table. source_id values must be unique. A record may reference an absent source_id only if the output explicitly exposes a provenance_gap transfer limitation."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "fact": {
+      "type": "object",
+      "required": [
+        "fact_status"
+      ],
+      "properties": {
+        "fact_status": {
+          "type": "string",
+          "enum": [
+            "known",
+            "not_reported",
+            "unknown",
+            "unavailable",
+            "ambiguous",
+            "not_applicable"
+          ]
+        },
+        "value": {},
+        "unit": {
+          "type": "string"
+        },
+        "definition": {
+          "type": "string"
+        },
+        "qualifier": {
+          "type": "string"
+        },
+        "uncertainty": {
+          "type": [
+            "number",
+            "string",
+            "object"
+          ]
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "fact_status": {
+                "const": "known"
+              }
+            },
+            "required": [
+              "fact_status"
+            ]
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "named_fact": {
+      "type": "object",
+      "required": [
+        "key",
+        "fact"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fact": {
+          "$ref": "#/$defs/fact"
+        }
+      },
+      "additionalProperties": false
+    },
+    "material": {
+      "type": "object",
+      "properties": {
+        "target_system": {
+          "$ref": "#/$defs/fact"
+        },
+        "target_composition": {
+          "$ref": "#/$defs/fact"
+        },
+        "film_composition": {
+          "$ref": "#/$defs/fact"
+        },
+        "substrate": {
+          "$ref": "#/$defs/fact"
+        },
+        "electrode": {
+          "$ref": "#/$defs/fact"
+        },
+        "buffer": {
+          "$ref": "#/$defs/fact"
+        },
+        "film_structure": {
+          "$ref": "#/$defs/fact"
+        },
+        "other_conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/named_fact"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "process": {
+      "type": "object",
+      "properties": {
+        "sputtering_mode": {
+          "$ref": "#/$defs/fact"
+        },
+        "power": {
+          "$ref": "#/$defs/fact"
+        },
+        "power_density": {
+          "$ref": "#/$defs/fact"
+        },
+        "n2_flow": {
+          "$ref": "#/$defs/fact"
+        },
+        "ar_flow": {
+          "$ref": "#/$defs/fact"
+        },
+        "gas_ratio": {
+          "$ref": "#/$defs/fact"
+        },
+        "reactive_gas_fraction": {
+          "$ref": "#/$defs/fact"
+        },
+        "total_flow": {
+          "$ref": "#/$defs/fact"
+        },
+        "pressure": {
+          "$ref": "#/$defs/fact"
+        },
+        "reactive_gas_partial_pressure": {
+          "$ref": "#/$defs/fact"
+        },
+        "target_substrate_distance": {
+          "$ref": "#/$defs/fact"
+        },
+        "substrate_temperature": {
+          "$ref": "#/$defs/fact"
+        },
+        "deposition_time": {
+          "$ref": "#/$defs/fact"
+        },
+        "film_thickness": {
+          "$ref": "#/$defs/fact"
+        },
+        "substrate_bias": {
+          "$ref": "#/$defs/fact"
+        },
+        "target_effective_area": {
+          "$ref": "#/$defs/fact"
+        },
+        "target_geometry": {
+          "$ref": "#/$defs/fact"
+        },
+        "chamber_geometry": {
+          "$ref": "#/$defs/fact"
+        },
+        "base_pressure": {
+          "$ref": "#/$defs/fact"
+        },
+        "substrate_rotation": {
+          "$ref": "#/$defs/fact"
+        },
+        "post_treatment": {
+          "$ref": "#/$defs/fact"
+        },
+        "other_conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/named_fact"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "measurement": {
+      "type": "object",
+      "required": [
+        "metric",
+        "value"
+      ],
+      "properties": {
+        "observation_id": {
+          "type": "string"
+        },
+        "metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {},
+        "unit": {
+          "type": "string"
+        },
+        "definition": {
+          "type": "string"
+        },
+        "measurement_method": {
+          "$ref": "#/$defs/fact"
+        },
+        "measurement_geometry": {
+          "$ref": "#/$defs/fact"
+        },
+        "sign_convention": {
+          "$ref": "#/$defs/fact"
+        },
+        "correction_state": {
+          "$ref": "#/$defs/fact"
+        },
+        "uncertainty": {
+          "type": [
+            "number",
+            "string",
+            "object"
+          ]
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "context": {
+      "type": "object",
+      "required": [
+        "context_id"
+      ],
+      "properties": {
+        "context_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "material": {
+          "$ref": "#/$defs/material"
+        },
+        "process": {
+          "$ref": "#/$defs/process"
+        },
+        "outcomes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/measurement"
+          }
+        },
+        "other_context": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/named_fact"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidence_record": {
+      "type": "object",
+      "required": [
+        "record_id",
+        "source_id"
+      ],
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable evidence identity; must be globally unique across all input evidence/project records and preserved exactly in one output evidence_analysis."
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable source identity; output analysis source_id must exactly match this value. Missing source_provenance is allowed only with explicit provenance_gap limitation."
+        },
+        "study_id": {
+          "type": "string"
+        },
+        "series_id": {
+          "type": "string"
+        },
+        "sample_id": {
+          "type": "string"
+        },
+        "record_role": {
+          "type": "string"
+        },
+        "material": {
+          "$ref": "#/$defs/material"
+        },
+        "process": {
+          "$ref": "#/$defs/process"
+        },
+        "outcomes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/measurement"
+          }
+        },
+        "other_context": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/named_fact"
+          }
+        },
+        "provenance_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "source_type"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique source identity within source_provenance."
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "journal_article",
+            "conference_paper",
+            "thesis",
+            "report",
+            "dataset",
+            "project_experiment",
+            "lab_record",
+            "other"
+          ]
+        },
+        "citation": {
+          "type": "string"
+        },
+        "doi": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "source_location": {
+          "type": "string"
+        },
+        "access_state": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "partial",
+            "unverified",
+            "unavailable"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "support_target": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "power_related_judgment",
+            "n2_related_judgment",
+            "ar_related_judgment",
+            "gas_balance_related_judgment",
+            "pressure_related_judgment",
+            "deposition_time_related_judgment",
+            "temperature_related_judgment",
+            "material_mechanism",
+            "piezoelectric_outcome",
+            "crystallinity_orientation",
+            "stress",
+            "composition",
+            "thickness"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^custom:[a-z0-9][a-z0-9_.-]*$"
+        }
+      ]
+    },
+    "custom_support_target_definition": {
+      "type": "object",
+      "required": [
+        "support_target",
+        "dependency_groups"
+      ],
+      "properties": {
+        "support_target": {
+          "type": "string",
+          "pattern": "^custom:[a-z0-9][a-z0-9_.-]*$"
+        },
+        "dependency_groups": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "dependency_id",
+              "any_of",
+              "required_sides"
+            ],
+            "properties": {
+              "dependency_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+              },
+              "any_of": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.:-]*$"
+                }
+              },
+              "required_sides": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "target",
+                    "evidence"
+                  ]
+                }
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

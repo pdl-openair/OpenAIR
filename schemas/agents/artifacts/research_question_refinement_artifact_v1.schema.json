@@ -1,0 +1,465 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/agents/artifacts/research_question_refinement_artifact_v1.schema.json",
+  "title": "research_question_refinement_artifact_v1",
+  "contractId": "research_question_refinement_artifact_v1",
+  "semanticVersion": "1.0.0",
+  "description": "Authoritative body schema for research_question_refinement_artifact_v1. Validates artifact.body only; envelope identity is contractId + semanticVersion 1.0.0.",
+  "x-openair-referenceConstraints": {
+    "version": "1.0.0",
+    "identifierCollections": [
+      {
+        "id": "candidate_ids",
+        "identifierPointers": ["/question_candidates/*/candidate_id"],
+        "duplicateErrorCode": "duplicate_identifier"
+      },
+      {
+        "id": "boundary_ids",
+        "identifierPointers": [
+          "/scope_boundary/included_boundaries/*/boundary_id",
+          "/scope_boundary/excluded_boundaries/*/boundary_id"
+        ],
+        "duplicateErrorCode": "duplicate_identifier"
+      },
+      {
+        "id": "included_boundary_ids",
+        "identifierPointers": ["/scope_boundary/included_boundaries/*/boundary_id"],
+        "duplicateErrorCode": "duplicate_identifier"
+      },
+      {
+        "id": "assumption_ids",
+        "identifierPointers": ["/assumptions/*/assumption_id"],
+        "duplicateErrorCode": "duplicate_identifier"
+      },
+      {
+        "id": "evidence_need_ids",
+        "identifierPointers": ["/next_evidence_needs/*/evidence_need_id"],
+        "duplicateErrorCode": "duplicate_identifier"
+      },
+      {
+        "id": "assessment_candidate_ids",
+        "identifierPointers": ["/verification_readiness/candidate_assessments/*/candidate_id"],
+        "duplicateErrorCode": "duplicate_identifier"
+      }
+    ],
+    "rules": [
+      {
+        "id": "candidate_boundary_exists",
+        "kind": "exists",
+        "errorCode": "reference_target_missing",
+        "sourceReferencePointer": "/question_candidates/*/boundary_ids/*",
+        "targetCollectionId": "included_boundary_ids"
+      },
+      {
+        "id": "candidate_assumption_reciprocal",
+        "kind": "reciprocal",
+        "errorCode": "reference_relation_inconsistent",
+        "sourceCollectionId": "candidate_ids",
+        "sourceReferencePointer": "/question_candidates/*/assumption_ids/*",
+        "targetCollectionId": "assumption_ids",
+        "targetReferencePointer": "/assumptions/*/candidate_ids/*"
+      },
+      {
+        "id": "candidate_evidence_need_reciprocal",
+        "kind": "reciprocal",
+        "errorCode": "reference_relation_inconsistent",
+        "sourceCollectionId": "candidate_ids",
+        "sourceReferencePointer": "/question_candidates/*/evidence_need_ids/*",
+        "targetCollectionId": "evidence_need_ids",
+        "targetReferencePointer": "/next_evidence_needs/*/candidate_ids/*"
+      },
+      {
+        "id": "assessment_candidate_exists",
+        "kind": "exists",
+        "errorCode": "reference_target_missing",
+        "sourceReferencePointer": "/verification_readiness/candidate_assessments/*/candidate_id",
+        "targetCollectionId": "candidate_ids"
+      },
+      {
+        "id": "assessment_candidates_match_candidates",
+        "kind": "consistent",
+        "errorCode": "reference_relation_inconsistent",
+        "leftCollectionId": "candidate_ids",
+        "rightCollectionId": "assessment_candidate_ids",
+        "comparison": "set_equal"
+      },
+      {
+        "id": "assessment_blocking_evidence_need_exists",
+        "kind": "exists",
+        "errorCode": "reference_target_missing",
+        "sourceReferencePointer": "/verification_readiness/candidate_assessments/*/blocking_evidence_need_ids/*",
+        "targetCollectionId": "evidence_need_ids"
+      },
+      {
+        "id": "assessment_unresolved_assumption_exists",
+        "kind": "exists",
+        "errorCode": "reference_target_missing",
+        "sourceReferencePointer": "/verification_readiness/candidate_assessments/*/unresolved_assumption_ids/*",
+        "targetCollectionId": "assumption_ids"
+      },
+      {
+        "id": "handoff_candidate_exists",
+        "kind": "exists",
+        "errorCode": "reference_target_missing",
+        "sourceReferencePointer": "/handoff/candidate_ids/*",
+        "targetCollectionId": "candidate_ids"
+      },
+      {
+        "id": "handoff_evidence_need_exists",
+        "kind": "exists",
+        "errorCode": "reference_target_missing",
+        "sourceReferencePointer": "/handoff/evidence_need_ids/*",
+        "targetCollectionId": "evidence_need_ids"
+      }
+    ]
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "question_candidates",
+    "scope_boundary",
+    "assumptions",
+    "verification_readiness",
+    "next_evidence_needs",
+    "handoff"
+  ],
+  "properties": {
+    "question_candidates": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/questionCandidate" }
+    },
+    "scope_boundary": { "$ref": "#/$defs/scopeBoundary" },
+    "assumptions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/assumption" }
+    },
+    "verification_readiness": { "$ref": "#/$defs/verificationReadiness" },
+    "next_evidence_needs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/evidenceNeed" }
+    },
+    "handoff": { "$ref": "#/$defs/handoff" }
+  },
+  "$defs": {
+    "localIdentifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "idReferenceList": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/localIdentifier" }
+    },
+    "optionalIdReferenceList": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/localIdentifier" }
+    },
+    "boundaryDimension": {
+      "type": "string",
+      "enum": [
+        "research_object",
+        "subject_or_population",
+        "context",
+        "time_window",
+        "outcome",
+        "method",
+        "evidence"
+      ]
+    },
+    "readinessEnum": {
+      "type": "string",
+      "enum": [
+        "needs_input",
+        "ready_for_literature_positioning",
+        "ready_for_validation_design"
+      ]
+    },
+    "boundaryObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["boundary_id", "dimension", "statement"],
+      "properties": {
+        "boundary_id": { "$ref": "#/$defs/localIdentifier" },
+        "dimension": { "$ref": "#/$defs/boundaryDimension" },
+        "statement": { "type": "string", "minLength": 5, "maxLength": 500 }
+      }
+    },
+    "questionCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "candidate_status",
+        "research_question",
+        "candidate_rationale",
+        "research_object",
+        "outcome_or_decision",
+        "boundary_ids",
+        "assumption_ids",
+        "evidence_need_ids"
+      ],
+      "properties": {
+        "candidate_id": { "$ref": "#/$defs/localIdentifier" },
+        "candidate_status": { "const": "candidate_unverified" },
+        "research_question": { "type": "string", "minLength": 10, "maxLength": 500 },
+        "candidate_rationale": { "type": "string", "minLength": 20, "maxLength": 800 },
+        "research_object": { "type": "string", "minLength": 2, "maxLength": 200 },
+        "outcome_or_decision": { "type": "string", "minLength": 5, "maxLength": 300 },
+        "boundary_ids": { "$ref": "#/$defs/idReferenceList" },
+        "assumption_ids": { "$ref": "#/$defs/idReferenceList" },
+        "evidence_need_ids": { "$ref": "#/$defs/idReferenceList" }
+      }
+    },
+    "scopeBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["included_boundaries", "excluded_boundaries"],
+      "properties": {
+        "included_boundaries": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": { "$ref": "#/$defs/boundaryObject" }
+        },
+        "excluded_boundaries": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": { "$ref": "#/$defs/boundaryObject" }
+        }
+      }
+    },
+    "assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assumption_id",
+        "statement",
+        "source_basis",
+        "confirmation_status",
+        "candidate_ids"
+      ],
+      "properties": {
+        "assumption_id": { "$ref": "#/$defs/localIdentifier" },
+        "statement": { "type": "string", "minLength": 5, "maxLength": 500 },
+        "source_basis": {
+          "type": "string",
+          "enum": ["user_input", "advisor_feedback", "planner_inference"]
+        },
+        "confirmation_status": {
+          "type": "string",
+          "enum": ["unconfirmed", "confirmed_by_user"]
+        },
+        "candidate_ids": { "$ref": "#/$defs/idReferenceList" }
+      }
+    },
+    "candidateAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "readiness",
+        "reason",
+        "blocking_evidence_need_ids",
+        "unresolved_assumption_ids"
+      ],
+      "properties": {
+        "candidate_id": { "$ref": "#/$defs/localIdentifier" },
+        "readiness": { "$ref": "#/$defs/readinessEnum" },
+        "reason": { "type": "string", "minLength": 10, "maxLength": 500 },
+        "blocking_evidence_need_ids": { "$ref": "#/$defs/optionalIdReferenceList" },
+        "unresolved_assumption_ids": { "$ref": "#/$defs/optionalIdReferenceList" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "readiness": { "const": "needs_input" } },
+            "required": ["readiness"]
+          },
+          "then": {
+            "properties": {
+              "blocking_evidence_need_ids": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 10,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/localIdentifier" }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "blocking_evidence_need_ids": {
+                "type": "array",
+                "maxItems": 0,
+                "items": { "$ref": "#/$defs/localIdentifier" }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "verificationReadiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["readiness_basis", "overall_readiness", "candidate_assessments"],
+      "properties": {
+        "readiness_basis": { "const": "planning_only" },
+        "overall_readiness": { "$ref": "#/$defs/readinessEnum" },
+        "candidate_assessments": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 5,
+          "items": { "$ref": "#/$defs/candidateAssessment" }
+        }
+      }
+    },
+    "evidenceNeed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_need_id",
+        "candidate_ids",
+        "need_kind",
+        "question",
+        "minimum_sufficient_input",
+        "resolution_effect",
+        "blocks_readiness"
+      ],
+      "properties": {
+        "evidence_need_id": { "$ref": "#/$defs/localIdentifier" },
+        "candidate_ids": { "$ref": "#/$defs/idReferenceList" },
+        "need_kind": {
+          "type": "string",
+          "enum": [
+            "literature_positioning",
+            "data_or_record",
+            "method_feasibility",
+            "domain_expert_feedback",
+            "user_clarification"
+          ]
+        },
+        "question": { "type": "string", "minLength": 10, "maxLength": 500 },
+        "minimum_sufficient_input": { "type": "string", "minLength": 10, "maxLength": 500 },
+        "resolution_effect": {
+          "type": "string",
+          "enum": [
+            "narrow_candidate",
+            "choose_candidate",
+            "revise_scope",
+            "determine_feasibility"
+          ]
+        },
+        "blocks_readiness": { "type": "boolean" }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "handoff_status",
+        "next_consumer",
+        "candidate_ids",
+        "evidence_need_ids",
+        "instruction",
+        "requires_user_confirmation_before_external_execution"
+      ],
+      "properties": {
+        "handoff_status": {
+          "type": "string",
+          "enum": ["ready_for_next_consumer", "needs_user_clarification"]
+        },
+        "next_consumer": {
+          "type": "string",
+          "enum": [
+            "key_literature_positioning",
+            "validation_design_planning",
+            "user_clarification"
+          ]
+        },
+        "candidate_ids": { "$ref": "#/$defs/idReferenceList" },
+        "evidence_need_ids": { "$ref": "#/$defs/idReferenceList" },
+        "instruction": { "type": "string", "minLength": 20, "maxLength": 800 },
+        "requires_user_confirmation_before_external_execution": { "const": true }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "handoff_status": { "const": "needs_user_clarification" } },
+            "required": ["handoff_status"]
+          },
+          "then": {
+            "properties": {
+              "next_consumer": { "const": "user_clarification" }
+            }
+          },
+          "else": {
+            "properties": {
+              "next_consumer": {
+                "type": "string",
+                "enum": ["key_literature_positioning", "validation_design_planning"]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "semanticVersion",
+        "producerId",
+        "failureCode",
+        "fieldPaths",
+        "safeSummary"
+      ],
+      "properties": {
+        "contractId": { "const": "research_question_refinement_artifact_v1" },
+        "semanticVersion": { "const": "1.0.0" },
+        "producerId": { "const": "research_question_refinement" },
+        "failureCode": {
+          "type": "string",
+          "enum": [
+            "contract_id_unsupported",
+            "semantic_version_unsupported",
+            "required_field_missing",
+            "type_invalid",
+            "empty_value",
+            "unknown_field",
+            "identifier_invalid",
+            "identifier_duplicate",
+            "reference_missing",
+            "reference_inconsistent",
+            "minimum_cardinality_not_met",
+            "candidate_fact_claim",
+            "readiness_misrepresented",
+            "handoff_incompatible",
+            "goal_insufficient"
+          ]
+        },
+        "fieldPaths": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": { "type": "string", "minLength": 1, "maxLength": 512 }
+        },
+        "safeSummary": { "type": "string", "minLength": 1, "maxLength": 300 }
+      }
+    }
+  }
+}

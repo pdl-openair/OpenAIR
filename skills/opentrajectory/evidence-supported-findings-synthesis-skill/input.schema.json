@@ -1,0 +1,164 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "evidence-supported-findings-synthesis input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "research_context"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required invocation correlation identifier. It is copied into audit and included in the input fingerprint."
+    },
+    "research_context": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "research_object"
+      ],
+      "properties": {
+        "research_object": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_metrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "boundary_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "output_intent": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "mechanism_packet": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "mechanism_edges",
+        "mechanism_chains"
+      ],
+      "properties": {
+        "mechanism_edges": {
+          "type": "array",
+          "maxItems": 60,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "edge_id",
+              "edge_status",
+              "evidence_ids"
+            ],
+            "properties": {
+              "edge_id": {
+                "type": "string",
+                "pattern": "^me:[0-9a-f]{20}$"
+              },
+              "edge_status": {
+                "enum": [
+                  "support",
+                  "conflict",
+                  "gap"
+                ]
+              },
+              "evidence_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        },
+        "mechanism_chains": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "chain_id",
+              "edge_ids",
+              "chain_summary"
+            ],
+            "properties": {
+              "chain_id": {
+                "type": "string",
+                "pattern": "^mc:[0-9a-f]{20}$"
+              },
+              "edge_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^me:[0-9a-f]{20}$"
+                }
+              },
+              "chain_summary": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "conflicts": {
+          "type": "array"
+        },
+        "gaps": {
+          "type": "array"
+        },
+        "summary": {
+          "type": "object"
+        },
+        "audit": {
+          "type": "object"
+        },
+        "synthesis_warnings": {
+          "type": "array"
+        }
+      }
+    },
+    "generation_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_findings": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 12,
+          "default": 12,
+          "description": "Maximum number of unique validated findings finalized. 0 suppresses finding finalization; omitted defaults to 12."
+        },
+        "focus_questions": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "description": "Optional deterministic generation controls. If omitted, max_findings defaults to 12."
+    }
+  }
+}

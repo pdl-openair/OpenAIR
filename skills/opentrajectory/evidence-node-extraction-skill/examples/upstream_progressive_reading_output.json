@@ -1,0 +1,218 @@
+{
+  "status": "success",
+  "paper_packets": [
+    {
+      "candidate_id": "cand_001",
+      "arxiv_id": "2608.12345",
+      "doi": "10.0000/example.001",
+      "title": "Example source-grounded materials study",
+      "read_depth": "pdf_fulltext",
+      "reading_mode": "section_priority",
+      "brief": {
+        "summary": "example"
+      },
+      "head": {
+        "abstract": "example abstract"
+      },
+      "sections": [
+        {
+          "section_name": "Results",
+          "content": "At 25 °C, Sample A showed an ionic conductivity of 2.4 mS cm−1. The higher conductivity was associated with a lower interfacial resistance. Compared with Sample B, which retained 78%, Sample A retained 91% capacity after 200 cycles at 1 C.",
+          "content_hash": "69ada095686f3effd1e883f74a372c98ab52a4bd1c7a63a4bbab988012e3496b",
+          "source_type": "fulltext",
+          "provider": "deepxiv",
+          "source_locator": "https://example.org/paper/001#results",
+          "paper_identity": {
+            "candidate_id": "cand_001",
+            "doi": "10.0000/example.001",
+            "arxiv_id": "2608.12345",
+            "arxiv_work_id": "2608.12345",
+            "arxiv_version": "",
+            "pmcid": "",
+            "openalex_id": "W0001",
+            "title": "Example source-grounded materials study"
+          },
+          "material_type": "article_fulltext",
+          "material_status": "MATERIAL_READY"
+        },
+        {
+          "section_name": "Discussion",
+          "content": "The authors suggest that the fluorinated interphase may suppress continuous electrolyte decomposition, which could reduce impedance growth.",
+          "content_hash": "2b3b2317d24ce2e917e11f60a1b4aea3fc2f728471be36610df94f8d3ebd3acf",
+          "source_type": "fulltext",
+          "provider": "deepxiv",
+          "source_locator": "https://example.org/paper/001#discussion",
+          "paper_identity": {
+            "candidate_id": "cand_001",
+            "doi": "10.0000/example.001",
+            "arxiv_id": "2608.12345",
+            "arxiv_work_id": "2608.12345",
+            "arxiv_version": "",
+            "pmcid": "",
+            "openalex_id": "W0001",
+            "title": "Example source-grounded materials study"
+          },
+          "material_type": "article_fulltext",
+          "material_status": "MATERIAL_READY"
+        }
+      ],
+      "source_anchors": [
+        {
+          "anchor_id": "anchor_001",
+          "candidate_id": "cand_001",
+          "arxiv_id": "2608.12345",
+          "section_name": "Results",
+          "content_hash": "69ada095686f3effd1e883f74a372c98ab52a4bd1c7a63a4bbab988012e3496b",
+          "source_type": "fulltext",
+          "provider": "deepxiv",
+          "source_locator": "https://example.org/paper/001#results"
+        },
+        {
+          "anchor_id": "anchor_002",
+          "candidate_id": "cand_001",
+          "arxiv_id": "2608.12345",
+          "section_name": "Discussion",
+          "content_hash": "2b3b2317d24ce2e917e11f60a1b4aea3fc2f728471be36610df94f8d3ebd3acf",
+          "source_type": "fulltext",
+          "provider": "deepxiv",
+          "source_locator": "https://example.org/paper/001#discussion"
+        }
+      ],
+      "material_status": "MATERIAL_READY",
+      "material_type": "article_fulltext",
+      "requested_identity": {
+        "candidate_id": "cand_001",
+        "doi": "10.0000/example.001",
+        "arxiv_id": "2608.12345",
+        "arxiv_work_id": "2608.12345",
+        "arxiv_version": "",
+        "pmcid": "",
+        "openalex_id": "W0001",
+        "title": "Example source-grounded materials study"
+      },
+      "provider_observed_identity": {
+        "doi": "10.0000/example.001",
+        "arxiv_id": "2608.12345",
+        "arxiv_work_id": "2608.12345",
+        "arxiv_version": "",
+        "pmcid": "",
+        "openalex_id": "W0001"
+      },
+      "resolved_identity": {
+        "candidate_id": "cand_001",
+        "doi": "10.0000/example.001",
+        "arxiv_id": "2608.12345",
+        "arxiv_work_id": "2608.12345",
+        "arxiv_version": "",
+        "pmcid": "",
+        "openalex_id": "W0001",
+        "title": "Example source-grounded materials study"
+      },
+      "paper_identity": {
+        "candidate_id": "cand_001",
+        "doi": "10.0000/example.001",
+        "arxiv_id": "2608.12345",
+        "arxiv_work_id": "2608.12345",
+        "arxiv_version": "",
+        "pmcid": "",
+        "openalex_id": "W0001",
+        "title": "Example source-grounded materials study"
+      },
+      "provider": "deepxiv",
+      "source_locator": "https://example.org/paper/001",
+      "provider_observed_title": "Example source-grounded materials study",
+      "provenance": [
+        {
+          "source": "openalex",
+          "id": "W0001"
+        }
+      ],
+      "tables": [],
+      "diagnostics": {
+        "evidence_schema_id": "schema_example_001",
+        "evidence_schema_version": "0.1.0",
+        "target_reading": [
+          {
+            "target_id": "target_001",
+            "target_type": "performance_metric",
+            "scientific_role": "metric",
+            "requiredness": "required",
+            "status": "located_in_read_content",
+            "matched_cues": [
+              "ionic conductivity",
+              "2.4 mS cm−1",
+              "25 °C"
+            ],
+            "missing_cues": [],
+            "source_anchor_ids": [
+              "anchor_001"
+            ]
+          },
+          {
+            "target_id": "target_002",
+            "target_type": "mechanism_evidence",
+            "scientific_role": "mechanism",
+            "requiredness": "preferred",
+            "status": "located_in_read_content",
+            "matched_cues": [
+              "fluorinated interphase",
+              "suppress continuous electrolyte decomposition"
+            ],
+            "missing_cues": [],
+            "source_anchor_ids": [
+              "anchor_002"
+            ]
+          },
+          {
+            "target_id": "target_003",
+            "target_type": "performance_metric",
+            "scientific_role": "metric",
+            "requiredness": "required",
+            "status": "unresolved",
+            "matched_cues": [
+              "200 cycles"
+            ],
+            "missing_cues": [
+              "cycle life beyond 500 cycles"
+            ],
+            "source_anchor_ids": [
+              "anchor_001"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "material_attempts": [],
+  "summary": {
+    "input_candidate_count": 1,
+    "attempted_candidate_count": 1,
+    "truncated_candidate_count": 0,
+    "paper_packet_count": 1,
+    "ready_packet_count": 1,
+    "abstract_only_packet_count": 0,
+    "failed_candidate_count": 0,
+    "material_attempt_count": 0,
+    "section_count": 2,
+    "source_anchor_count": 2,
+    "partial_success": false,
+    "degraded": false
+  },
+  "audit": {
+    "skill_id": "deepxiv_progressive_reading",
+    "reader_mode": "deepxiv_sdk_reader",
+    "raw_default_enabled": false,
+    "raw_call_count": 0,
+    "max_papers": 12,
+    "max_sections_per_paper": 5,
+    "network_timeout_seconds": 30,
+    "max_provider_retries": 1,
+    "max_total_chars": 200000,
+    "output_content_chars": 378,
+    "section_priority": [
+      "Results",
+      "Discussion"
+    ],
+    "input_fingerprint": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}

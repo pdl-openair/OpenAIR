@@ -1,0 +1,33 @@
+skill_id: ot_falsifiable_hypothesis_generation
+claude_name: falsifiable-hypothesis-generation-skill
+display_name: 待验证可证伪假说生成
+stages:
+  - insight_generation
+substages:
+  - hypothesis_update
+skill_type: atomic
+runtime: llm_structured
+status: draft
+enabled: false
+packs:
+  - opentrajectory
+source: opentrajectory
+sequence: 10
+owner: TBD
+output_file: hypothesis_drafts.json
+llm:
+  temperature: 0
+  max_completion_tokens: 4200
+  reasoning_effort: minimal
+  structured_output_max_attempts: 2
+notes: >-
+  Single-responsibility hypothesis_update Skill. The model produces scientific-semantic
+  hypothesis drafts; Skill-local deterministic code validates provenance, identity,
+  deduplication, limits, audit, degraded state, and final schema. No experiment design,
+  parameter recommendation, final conclusion, workflow orchestration, or round management.
+fixture_status: example_only
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

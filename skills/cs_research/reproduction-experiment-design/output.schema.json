@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status", "target_experiments", "protocol",
+    "resource_acquisition_requests", "requirements", "verify_imports",
+    "argv", "environment_variables",
+    "actual_metric_requests", "resource_and_cost_boundary", "source_required_facts",
+    "system_selected_details", "project_constraints", "intentional_deviations", "unknowns"
+  ],
+  "properties": {
+    "status": {"type": "string", "enum": ["ready", "blocked"]},
+    "target_experiments": {"type": "array", "items": {"type": "object"}},
+    "protocol": {"type": "object"},
+    "repository": {"type": "string", "minLength": 1},
+    "revision": {"type": "string", "minLength": 1},
+    "resource_acquisition_requests": {"type": "array", "items": {"type": "object"}},
+    "python_version": {"type": "string", "minLength": 1},
+    "requirements": {"type": "array", "items": {"type": "string"}},
+    "verify_imports": {"type": "array", "items": {"type": "string"}},
+    "runtime_readiness_probe": {
+      "type": "object",
+      "required": ["executable", "argv", "working_directory", "timeout_seconds"],
+      "properties": {
+        "executable": {"type": "string", "minLength": 1, "maxLength": 1024},
+        "argv": {"type": "array", "maxItems": 256, "items": {"type": "string", "maxLength": 4096}},
+        "working_directory": {"type": "string", "minLength": 1, "maxLength": 1024},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 300}
+      },
+      "additionalProperties": false
+    },
+    "executable": {"type": "string", "minLength": 1},
+    "argv": {"type": "array", "items": {"type": "string"}},
+    "working_directory": {"type": "string", "minLength": 1},
+    "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 86400},
+    "environment_variables": {"type": "object", "additionalProperties": {"type": "string"}},
+    "execution_resource_binding_plan": {"type": "array", "items": {"type": "object"}},
+    "actual_metric_result_source": {"type": "object"},
+    "actual_metric_requests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["metric_name", "value_type"],
+        "properties": {
+          "metric_name": {"type": "string", "minLength": 1, "maxLength": 256},
+          "value_type": {"type": "string", "enum": ["number", "integer", "string", "boolean"]},
+          "unit": {"type": ["string", "null"], "minLength": 1, "maxLength": 128},
+          "selector": {"type": "object"}
+        }
+      }
+    },
+    "resource_and_cost_boundary": {"type": "object"},
+    "source_required_facts": {"type": "array", "items": {"type": "object"}},
+    "system_selected_details": {"type": "array", "items": {"type": "object"}},
+    "project_constraints": {"type": "array", "items": {"type": "object"}},
+    "intentional_deviations": {"type": "array", "items": {"type": "object"}},
+    "unknowns": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  }
+}

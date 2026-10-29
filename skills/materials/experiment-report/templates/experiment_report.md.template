@@ -1,0 +1,124 @@
+# 材料发现实验报告 — {{research_name}}
+
+> 状态：{{report_status}} ｜ 日期区间：{{date_range}} ｜ schema: materials-discovery-pipeline/v1
+> 报告生成：{{generated_date}}（experiment-report skill，证据清单：`report/evidence_manifest.json`）
+
+## 1. 研究目标与约束
+
+{{goal_summary_table}}
+
+元素约束：{{composition_constraints}}；预算：{{budget_summary}}
+来源：`goal.yaml`
+
+## 2. 方法总览
+
+<img src="figures/pipeline.svg" width="900" alt="管线图：四阶段材料发现管线与降级链路" />
+{{pipeline_figure_note}}
+
+组件与端点：
+
+| 环节 | 组件 | 关键参数/端点 |
+|---|---|---|
+{{components_table}}
+
+## 3. 阶段 1：数据库调研与初代选择
+
+{{mp_summary}}
+
+种子材料：
+
+| mp_id | 化学式 | 选择理由 |
+|---|---|---|
+{{seed_table}}
+
+来源：`proposal/{{mp_report_file}}`、`design/seeds/`
+
+## 4. 阶段 2：计算设计
+
+### 4.1 进化/生成设置
+
+{{evo_config_table}}
+
+### 4.2 搜索过程
+
+{{steer_log_summary}}
+
+### 4.3 Pareto 结果（Top 候选）
+
+{{leaderboard_top}}
+
+<img src="figures/pareto_front.png" width="360" alt="Pareto 前沿：候选个体的目标散点（max bandgap / min ehull）" />
+
+### 4.4 新颖性/有效性评估
+
+{{novelty_table}}
+
+### 4.5 可制备性评估
+
+{{synth_grade_table}}
+
+### 4.6 制备参数推荐
+
+{{recipe_table}}
+
+## 5. 阶段 3：DFT 验证
+
+### 5.1 计算设置
+
+{{dft_setup_summary}}
+
+### 5.2 带隙：ML 预测 vs DFT
+
+{{dft_bandgap_table}}
+
+### 5.3 热力学稳定性（凸包）
+
+{{dft_stability_table}}
+
+<img src="figures/phase_diagram.png" width="360" alt="凸包相图" />
+
+{{phase_diagram_note}}
+
+### 5.4 计算事件记录（排队/失败/续跑）
+
+{{dft_incidents}}
+
+## 6. 阶段 3w：湿实验执行
+
+{{wetlab_ledger_summary}}
+
+## 7. 预测 vs 实测（三方对比）
+
+{{tri_compare_table}}
+
+<img src="figures/candidate_props.png" width="720" alt="三方对比：ML / DFT / 实验 口径柱状" />
+
+## 8. 结论与建议
+
+{{conclusion_ranking}}
+
+## 9. 缺失环节与不确定性声明
+
+| 环节 | 涉及 | 缺失原因 | 影响 | 补救建议 |
+|---|---|---|---|---|
+{{missing_links_table}}
+
+{{uncertainty_statement}}
+
+## 10. 附录
+
+### 10.1 证据清单
+
+{{evidence_manifest_table}}
+
+### 10.2 目录树
+
+{{dir_tree}}
+
+### 10.3 复现命令
+
+{{repro_commands}}
+
+### 10.4 术语
+
+{{glossary}}

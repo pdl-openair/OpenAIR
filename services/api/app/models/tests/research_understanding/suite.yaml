@@ -1,0 +1,15 @@
+suite_id: component.models.research-understanding
+protected_outcome: Historical research understanding retains its exact planning rationale while loading under the current contract, emits only the current field name, and rejects ambiguous or invalid facts.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/task_specs/2026-10-09-historical-research-design-compatibility.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: research_understanding_historical_field_compatibility_violation
+minimum_owner: 确定性合同与不变量
+production_targets: [services/api/app/models/research_understanding.py, services/api/app/models/research_orchestration.py]
+test_responsibility: Exact historical field input compatibility without factual changes or relaxed validation, including canonical aggregate round trips.
+execution_profiles: [deterministic]
+required_dependencies: [Python test dependencies]
+evidence_required: [pytest_result, validated_model, serialization, validation_errors]
+verdict_rule: PASS only when legacy and current input preserve the original value and emit the canonical contract while missing, invalid, ambiguous and unknown fields are rejected; FAIL on any violated invariant; otherwise NO_VALID_EVIDENCE.
+triggers: [research understanding contract changes, research model refactoring]

@@ -1,0 +1,179 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "oneOf": [
+    {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "required": [
+        "schema_version",
+        "state",
+        "execution_plan_id",
+        "readiness_status",
+        "executable",
+        "argv",
+        "working_directory",
+        "timeout_seconds",
+        "environment_variables",
+        "resource_bindings",
+        "actual_metric_result_source",
+        "actual_metric_requests",
+        "frozen_identities",
+        "frozen_input_sha256"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "openair-reproduction-execution-input/v1"
+        },
+        "state": {
+          "const": "succeeded"
+        },
+        "execution_plan_id": {
+          "type": "string",
+          "pattern": "^execplan:[0-9a-f]{64}$"
+        },
+        "readiness_status": {
+          "const": "ready"
+        },
+        "executable": {
+          "type": "string",
+          "minLength": 1
+        },
+        "argv": {
+          "type": "array",
+          "maxItems": 256,
+          "items": {
+            "type": "string"
+          }
+        },
+        "working_directory": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 86400
+        },
+        "environment_variables": {
+          "type": "object",
+          "maxProperties": 64,
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "resource_bindings": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {
+            "type": "object"
+          }
+        },
+        "actual_metric_result_source": {
+          "type": "object"
+        },
+        "actual_metric_requests": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "items": {
+            "type": "object",
+            "required": [
+              "metric_name",
+              "value_type"
+            ],
+            "properties": {
+              "metric_name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "value_type": {
+                "type": "string",
+                "enum": [
+                  "number",
+                  "integer",
+                  "string",
+                  "boolean"
+                ]
+              },
+              "unit": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "selector": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "frozen_identities": {
+          "type": "object",
+          "required": [
+            "code",
+            "environment",
+            "resources"
+          ],
+          "properties": {
+            "code": {
+              "type": "object"
+            },
+            "environment": {
+              "type": "object"
+            },
+            "resources": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "frozen_input_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "state",
+        "input_status",
+        "reason",
+        "observations",
+        "execution_claim"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "openair-reproduction-input-preparation-report/v1"
+        },
+        "state": {
+          "const": "failed"
+        },
+        "input_status": {
+          "const": "not_ready"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "observations": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "execution_claim": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

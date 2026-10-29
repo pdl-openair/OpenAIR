@@ -1,0 +1,262 @@
+{
+  "skill_name": "opentrajectory-source-screening-selection",
+  "purpose": "Evaluate deep-read recall, exclude/defer precision, EvidenceSchema alignment, scientific reasons, and boundary handling before/after prompt changes.",
+  "evals": [
+    {
+      "id": "materials_battery_core_vs_noise",
+      "coverage": ["materials_battery", "must_read_recall", "exclude_precision"],
+      "prompt": {
+        "task_id": "eval-01",
+        "user_query": "Which electrolyte design most directly improves Li-metal Coulombic efficiency at high current density, and what failure mechanism limits it?",
+        "research_context": {"system": "Li metal battery", "decision": "prioritize sources for deep reading"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_eff", "question": "high-current Coulombic efficiency"}, {"target_id": "T_fail", "question": "limiting failure mechanism"}]},
+        "candidates": [
+          {"candidate_id": "M1", "title": "Localized high-concentration electrolyte enables stable lithium metal cycling at 5 mA cm-2", "abstract": "Reports Coulombic efficiency at 5 mA cm-2 and attributes failure at higher current to transport-limited interfacial depletion.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "M2", "title": "A broad review of rechargeable battery electrolytes", "abstract": "Surveys electrolyte families across lithium-ion, sodium-ion, and lithium-metal batteries without focused high-current measurements.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "M3", "title": "Thermal conductivity of graphite current collectors", "abstract": "Measures in-plane thermal conductivity of graphite sheets for heat spreading.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["M1"],
+        "must_exclude": ["M3"],
+        "not_priority": ["M2", "M3"],
+        "target_expectations": {"M1": ["T_eff", "T_fail"]},
+        "rationale": "M1 directly addresses both decision-critical targets; M2 is broad background; M3 is scientifically unrelated."
+      }
+    },
+    {
+      "id": "cs_agent_direct_eval",
+      "coverage": ["cs_agent", "must_read_recall", "reason_quality"],
+      "prompt": {
+        "task_id": "eval-02",
+        "user_query": "Do retrieval-augmented memory systems improve long-horizon tool-using agents, compared with no persistent memory?",
+        "research_context": {"domain": "LLM agents", "need": "direct comparative evidence"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_cmp", "question": "memory vs no-memory agent performance"}]},
+        "candidates": [
+          {"candidate_id": "C1", "title": "Persistent retrieval memory for long-horizon tool agents", "abstract": "Compares identical agents with and without retrieval memory on 30-step tool tasks and reports task success and recovery metrics.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "C2", "title": "A taxonomy of language-model agents", "abstract": "Categorizes planning, memory, tool use, and multi-agent architectures across prior work.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "C3", "title": "Vector database indexing throughput", "abstract": "Benchmarks ANN index build speed and query latency without agent evaluation.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["C1"],
+        "must_exclude": ["C3"],
+        "not_priority": ["C2", "C3"],
+        "target_expectations": {"C1": ["T_cmp"]},
+        "rationale": "C1 is the direct controlled comparison; C2 is contextual background; C3 does not test the research question."
+      }
+    },
+    {
+      "id": "theoretical_materials_mechanism",
+      "coverage": ["theoretical_materials", "mechanism", "must_read_recall"],
+      "prompt": {
+        "task_id": "eval-03",
+        "user_query": "What electronic-structure mechanism explains Sc-induced softening of wurtzite AlScN?",
+        "research_context": {"domain": "theoretical materials", "focus": "mechanistic explanation"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_mech", "question": "electronic-structure mechanism for softening"}]},
+        "candidates": [
+          {"candidate_id": "T1", "title": "First-principles origin of elastic softening in wurtzite Al1-xScxN", "abstract": "Density-functional calculations link softening to composition-driven changes in bonding and energy landscape along internal structural distortions.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "T2", "title": "Sputter deposition rate of AlScN films", "abstract": "Maps growth rate versus power and pressure but does not analyze electronic structure or elastic origin.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "T3", "title": "Piezoelectric nitrides: a review", "abstract": "Reviews AlN-family piezoelectrics and summarizes reported Sc-alloy trends and device applications.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["T1"],
+        "must_exclude": [],
+        "not_priority": ["T2", "T3"],
+        "target_expectations": {"T1": ["T_mech"]},
+        "rationale": "T1 directly provides the requested mechanism; T2 is process data without mechanism; T3 is broader background."
+      }
+    },
+    {
+      "id": "explicit_head_to_head_comparison",
+      "coverage": ["explicit_comparison", "priority_order", "reason_quality"],
+      "prompt": {
+        "task_id": "eval-04",
+        "user_query": "Compare ALD and sputtering for conformal TiN on high-aspect-ratio structures; which route preserves conductivity while improving coverage?",
+        "research_context": {"decision": "choose process route"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_cover", "question": "conformality/coverage"}, {"target_id": "T_cond", "question": "conductivity"}]},
+        "candidates": [
+          {"candidate_id": "H1", "title": "Direct comparison of ALD and reactive sputtered TiN in 20:1 trenches", "abstract": "Measures step coverage and resistivity for both processes on the same trench geometry and discusses the trade-off between coverage and conductivity.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "H2", "title": "Low-resistivity sputtered TiN on planar silicon", "abstract": "Optimizes sputter power for planar-film resistivity; no high-aspect-ratio coverage measurement or ALD comparison.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "H3", "title": "ALD TiN nucleation chemistry", "abstract": "Studies precursor reactions and early-cycle nucleation on oxide surfaces; does not report trench coverage or electrical comparison.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["H1"],
+        "not_priority": ["H2", "H3"],
+        "target_expectations": {"H1": ["T_cover", "T_cond"]},
+        "rationale": "H1 is uniquely decision-complete because it compares both routes under the same geometry and measures both targets."
+      }
+    },
+    {
+      "id": "mechanism_over_performance_only",
+      "coverage": ["mechanism", "priority_order", "reason_quality"],
+      "prompt": {
+        "task_id": "eval-05",
+        "user_query": "Why does adding a small amount of oxygen suppress dendrites in zinc anodes?",
+        "research_context": {"focus": "mechanism, not just performance"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_mech", "question": "causal mechanism of dendrite suppression"}]},
+        "candidates": [
+          {"candidate_id": "G1", "title": "Operando imaging reveals oxygen-mediated zinc nucleation", "abstract": "Operando microscopy and interfacial spectroscopy show oxygen changes nucleation density and local electric-field distribution during zinc deposition.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "G2", "title": "Long-life zinc cycling with oxygen additive", "abstract": "Reports 500-cycle lifetime improvement with oxygen additive but does not resolve the interfacial mechanism.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "G3", "title": "Zinc-air cathode catalyst durability", "abstract": "Studies oxygen reduction catalysts in zinc-air cathodes, not zinc metal deposition.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["G1"],
+        "must_exclude": ["G3"],
+        "not_priority": ["G2", "G3"],
+        "target_expectations": {"G1": ["T_mech"]},
+        "rationale": "G1 provides mechanism-resolving evidence; G2 supports the phenomenon but not the requested causal explanation; G3 is a domain-near mismatch."
+      }
+    },
+    {
+      "id": "missing_abstract_high_signal_title",
+      "coverage": ["missing_abstract", "information_boundary", "must_read_recall"],
+      "prompt": {
+        "task_id": "eval-06",
+        "user_query": "Does Mo substrate texture influence c-axis orientation of sputtered AlScN?",
+        "research_context": {"domain": "PVD thin films", "need": "source triage before full-text acquisition"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_texture", "question": "Mo texture effect on AlScN orientation"}]},
+        "candidates": [
+          {"candidate_id": "A1", "title": "Effect of molybdenum substrate texture on c-axis orientation of sputtered AlScN", "abstract": null, "access_status": "metadata_only", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "A2", "title": "Residual stress in Mo electrodes", "abstract": "Measures Mo stress as a function of argon pressure without depositing AlScN.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "A3", "title": "AlScN acoustic resonators", "abstract": "Reports resonator performance and stack design; substrate texture is not analyzed.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_not_exclude": ["A1"],
+        "allowed_decisions": {"A1": ["priority", "supporting", "defer"]},
+        "not_priority": ["A2", "A3"],
+        "target_expectations": {},
+        "rationale": "A1 has an exact title-level match but missing abstract; it must not be treated as irrelevant, and any positive ranking must state that evidence is title-level only."
+      }
+    },
+    {
+      "id": "title_match_abstract_mismatch",
+      "coverage": ["title_abstract_conflict", "exclude_precision", "hallucination_guard"],
+      "prompt": {
+        "task_id": "eval-07",
+        "user_query": "How does Sc content change piezoelectric coefficient d33 in wurtzite AlScN thin films?",
+        "research_context": {"need": "composition-property evidence"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_d33", "question": "Sc content vs d33"}]},
+        "candidates": [
+          {"candidate_id": "X1", "title": "Sc-doped AlN for enhanced piezoelectric response", "abstract": "This work uses Sc-doped AlN only as a seed layer for GaN transistor fabrication and reports transistor mobility; no piezoelectric coefficient or composition series is measured.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "X2", "title": "Composition dependence of piezoelectric response in Al1-xScxN", "abstract": "Measures d33 across x=0.05-0.35 in sputtered wurtzite films and discusses the composition trend.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "X3", "title": "Scandium nitride transport properties", "abstract": "Reports carrier transport in rocksalt ScN.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["X2"],
+        "must_exclude": ["X1", "X3"],
+        "target_expectations": {"X2": ["T_d33"]},
+        "rationale": "The abstract must override a superficially relevant title when it clearly shows the paper does not address the target property."
+      }
+    },
+    {
+      "id": "review_vs_core_primary",
+      "coverage": ["review_vs_primary", "priority_order", "background"],
+      "prompt": {
+        "task_id": "eval-08",
+        "user_query": "Which interfacial reaction causes capacity fade in sulfide solid-state batteries at high voltage?",
+        "research_context": {"focus": "reaction mechanism"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_rxn", "question": "specific high-voltage interfacial reaction causing fade"}]},
+        "candidates": [
+          {"candidate_id": "R1", "title": "Operando XPS identifies high-voltage decomposition at NCM-sulfide interfaces", "abstract": "Tracks interfacial species during charging and links a specific oxidative decomposition pathway to impedance rise and capacity loss.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "R2", "title": "Interfaces in sulfide solid-state batteries: a review", "abstract": "Reviews cathode, anode, and electrolyte interfaces, summarizing common degradation mechanisms across many chemistries.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "R3", "title": "Mechanical stack pressure in solid-state cells", "abstract": "Studies pressure effects on contact loss without chemical characterization of the cathode interface.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["R1"],
+        "not_priority": ["R2", "R3"],
+        "target_expectations": {"R1": ["T_rxn"]},
+        "rationale": "The primary operando study should outrank broad review material for a specific mechanism question."
+      }
+    },
+    {
+      "id": "negative_conflicting_evidence",
+      "coverage": ["negative_result", "conflict_evidence", "must_read_recall"],
+      "prompt": {
+        "task_id": "eval-09",
+        "user_query": "Does adding 1-2% fluorine reliably improve Li-metal cycling stability?",
+        "research_context": {"prior_state": "several reports claim improvement", "need": "check robustness and conflicting evidence"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_effect", "question": "effect of 1-2% fluorine on cycling stability"}, {"target_id": "T_limit", "question": "conditions where the effect fails"}]},
+        "candidates": [
+          {"candidate_id": "N1", "title": "Fluorine additive improves lithium cycling in ether electrolyte", "abstract": "Reports improved Coulombic efficiency at 1% fluorine under 0.5 mA cm-2.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "N2", "title": "Fluorine additive shows no benefit at practical current density", "abstract": "At 2-4 mA cm-2, 1-2% fluorine produces no statistically significant lifetime gain and accelerates impedance growth under lean electrolyte.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "N3", "title": "Fluorinated polymer separators", "abstract": "Studies separator tensile strength and wetting; no fluorine additive is used in the electrolyte.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["N2"],
+        "must_not_exclude": ["N1"],
+        "must_exclude": ["N3"],
+        "target_expectations": {"N2": ["T_effect", "T_limit"]},
+        "rationale": "Decision-changing negative evidence is must-read even when it contradicts the apparent consensus; N1 remains relevant supportive positive evidence."
+      }
+    },
+    {
+      "id": "evidence_schema_missing",
+      "coverage": ["evidence_schema_missing", "target_alignment", "boundary"],
+      "prompt": {
+        "task_id": "eval-10",
+        "user_query": "Which papers best explain why retrieval can hurt small language models on noisy corpora?",
+        "research_context": {"domain": "retrieval-augmented generation"},
+        "candidates": [
+          {"candidate_id": "E1", "title": "When retrieval hurts: distractor sensitivity in small language models", "abstract": "Evaluates small models with controlled distractor passages and analyzes attention shifts associated with accuracy drops.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "E2", "title": "Scaling laws for dense retrievers", "abstract": "Measures retriever recall as encoder size increases; downstream small-LM robustness is not studied.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["E1"],
+        "not_priority": ["E2"],
+        "forbid_any_target_ids": true,
+        "rationale": "Screening must work normally without EvidenceSchema and must not invent target IDs."
+      }
+    },
+    {
+      "id": "partial_evidence_schema_no_forced_mapping",
+      "coverage": ["partial_evidence_schema", "target_alignment", "no_forced_mapping"],
+      "prompt": {
+        "task_id": "eval-11",
+        "user_query": "How do Mo roughness and substrate temperature affect AlScN texture and residual stress?",
+        "research_context": {"domain": "PVD AlScN"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_texture", "question": "texture/orientation"}]},
+        "candidates": [
+          {"candidate_id": "P1", "title": "Molybdenum roughness controls AlScN texture", "abstract": "Quantifies Mo roughness and AlScN rocking-curve width at fixed temperature.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "P2", "title": "Substrate temperature and residual stress in AlScN", "abstract": "Measures residual stress from 100-400 C at fixed Mo surface condition; texture is not reported.", "access_status": "available", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "P3", "title": "AlScN etch selectivity", "abstract": "Compares chlorine plasma etch chemistries and selectivity to Mo.", "access_status": "available", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["P1", "P2"],
+        "must_exclude": ["P3"],
+        "target_expectations": {"P1": ["T_texture"], "P2": []},
+        "rationale": "P2 is core to the user question even though EvidenceSchema currently covers only texture; it must not be forced onto T_texture or demoted because the schema is partial."
+      }
+    },
+    {
+      "id": "access_separate_from_relevance",
+      "coverage": ["access_status", "boundary", "must_read_recall"],
+      "prompt": {
+        "task_id": "eval-12",
+        "user_query": "What directly measured evidence links grain-boundary segregation to embrittlement in a Ni superalloy?",
+        "research_context": {"need": "deep-read selection"},
+        "evidence_schema": {"evidence_targets": [{"target_id": "T_link", "question": "direct measurement linking segregation and embrittlement"}]},
+        "candidates": [
+          {"candidate_id": "Z1", "title": "Atom-probe and fracture correlation of B segregation in Ni superalloy", "abstract": "Correlates atom-probe grain-boundary composition with fracture mode across heat treatments.", "access_status": "paywalled_no_pdf", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "Z2", "title": "Open dataset of nickel alloy tensile curves", "abstract": "Provides tensile curves for several alloys but no grain-boundary chemistry measurements.", "access_status": "open_pdf", "provenance": [{"source": "eval"}]},
+          {"candidate_id": "Z3", "title": "Grain-boundary segregation in steels", "abstract": "Reviews phosphorus segregation and embrittlement in ferritic steels, not Ni superalloys.", "access_status": "open_pdf", "provenance": [{"source": "eval"}]}
+        ]
+      },
+      "oracle": {
+        "must_priority": ["Z1"],
+        "not_priority": ["Z2", "Z3"],
+        "target_expectations": {"Z1": ["T_link"]},
+        "rationale": "The inaccessible direct source must outrank open but weaker sources; access is an execution constraint, not a scientific relevance score."
+      }
+    }
+  ]
+}

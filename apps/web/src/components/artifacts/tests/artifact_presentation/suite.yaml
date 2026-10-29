@@ -1,0 +1,47 @@
+suite_id: component.web.artifacts.canonical-presentation
+protected_outcome: >-
+  Canonical Artifact and Evidence content remains visible and traceable in the Web
+  presentation without being replaced by an empty-state or legacy payload interpretation;
+  all legal result JSON shapes retain answers, scope, uncertainty, next actions and
+  ancillary evidence/limitations without resetting user reading state.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR 研究资料整理规范.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: canonical_artifact_content_source_or_unknown_fact_presentation_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/components/artifacts/ArtifactRenderer.tsx
+  - apps/web/src/components/artifacts/ScientificArtifactPresentation.tsx
+  - apps/web/src/components/artifacts/OpenTrajectoryResearchRecordPresentation.tsx
+  - apps/web/src/components/artifacts/researchRecordDataChartProjection.ts
+  - apps/web/src/components/artifacts/researchRecordComparisonProjection.ts
+  - apps/web/src/components/artifacts/DataChartComparison.tsx
+  - apps/web/src/components/artifacts/researchRecordTrendProjection.ts
+  - apps/web/src/components/artifacts/DataChartTrend.tsx
+  - apps/web/src/components/artifacts/researchRecordContextProjection.ts
+  - apps/web/src/components/artifacts/DataChartContext.tsx
+  - apps/web/src/components/artifacts/PvdResearchRecordPresentation.tsx
+  - apps/web/src/components/artifacts/pvdReportedValueProjection.ts
+  - apps/web/src/components/artifacts/reportedUnitConversion.ts
+  - apps/web/src/components/artifacts/pvdExperimentSeriesProjection.ts
+  - apps/web/src/components/artifacts/PvdExperimentTrends.tsx
+  - apps/web/src/components/artifacts/pvdRecordFieldLabels.ts
+  - apps/web/src/components/artifacts/OpenTrajectoryResearchPlanningPresentation.tsx
+  - apps/web/src/components/workbench/SubstageArtifactFooter.tsx
+  - apps/web/src/components/workbench/WorkbenchInteractionPanel.tsx
+  - apps/web/src/components/artifacts/CsReproductionComparisonPresentation.tsx
+  - apps/web/src/components/artifacts/PvdDirectionFeasibilityPresentation.tsx
+  - apps/web/src/components/artifacts/PvdResearchContextPresentation.tsx
+  - apps/web/src/components/artifacts/PvdEvidenceDesignPresentation.tsx
+  - apps/web/src/components/artifacts/PvdEvidenceApplicabilityPresentation.tsx
+  - apps/web/src/components/artifacts/WorkflowNodeResultPresentation.tsx
+  - apps/web/src/components/artifacts/scientificResultDisplayValue.tsx
+  - apps/web/src/lib/workbenchUi.ts
+test_responsibility: deterministic component behavior for canonical Artifact and scientific Evidence presentation
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [artifact_rendering_or_scientific_presentation_changes]

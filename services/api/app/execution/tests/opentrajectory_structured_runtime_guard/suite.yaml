@@ -1,0 +1,26 @@
+suite_id: component.execution.opentrajectory-structured-runtime-guard
+protected_outcome: The opentrajectory structured runtime derives problem-framing readiness only from formal state, preserves uncertainty without creating review authority, rejects model self-evaluation and routing authority, keeps high model confidence from overriding missing information, sanitizes representations without inventing semantics, and rejects query drift.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- problem_framing_authority_leak
+- structured_representation_semantic_drift
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/execution/opentrajectory_structured_runtime_guard.py
+test_responsibility: Deterministically prove the guard's routing, sanitization, and drift-rejection decisions on fixed representations without provider or database IO.
+execution_profiles:
+- deterministic
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- pytest_exit_code_0
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions
+  prove protected_outcome; FAIL when sufficient valid evidence proves
+  protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- opentrajectory_runtime_guard_changed

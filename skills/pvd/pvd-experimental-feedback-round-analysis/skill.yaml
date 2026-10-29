@@ -1,0 +1,49 @@
+skill_id: pvd_experimental_feedback_round_analysis
+claude_name: pvd-experimental-feedback-round-analysis
+display_name: PVD Experimental Feedback & Round Analysis
+description: Interpret real PVD execution and measurement feedback, distinguish plan/actual/result facts, identify deviations,
+  anomalies, confounding and judgments that need update without recommending next-round parameters.
+version: 1.1.1
+domain: pvd
+stages:
+- execution_validation
+substages:
+- experimental_feedback_round_analysis
+packs:
+- pvd
+skill_type: atomic
+runtime: llm_structured
+status: ready
+owner: TBD
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+llm:
+  provider_message_contract: scientific_minimal_v1
+  temperature: 0
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+durable_llm_execution_policy:
+  contract_version: 1
+  model_profile: terra
+  reasoning_effort: none
+  max_output_tokens: 5000
+  read_timeout_seconds: 90
+  response_mode: json_object
+  load_references: false
+  structured_output_recovery_attempts: 1
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+fixture_status: missing
+enabled: true
+notes: Capability 8 diagnoses one explicitly identified experiment from canonical ScientificState facts, with Cap4 authorization,
+  Cap5 factor context and Cap7 recommendation context. It separates planned, actual and measured facts, records limitations/confounding,
+  and does not generate the next concrete recommendation.

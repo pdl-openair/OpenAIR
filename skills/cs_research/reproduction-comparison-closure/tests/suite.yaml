@@ -1,0 +1,27 @@
+suite_id: component.skill.cs-research.reproduction-comparison-closure
+protected_outcome: >-
+  Reproduction comparison closure accepts a formally comparable assessment
+  even when top-level unknowns are present, keeps those unknowns readable,
+  and refuses meets_standard when a decisive condition is unknown, mismatched,
+  or unevidenced, or when deterministic comparison is incomplete. Scoped
+  success, partial failure, and unknowns are handed to the existing conclusion
+  consumer without a second comparison state machine.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - skills/cs_research/reproduction-comparison-closure/SKILL.md
+  - skills/cs_research/reproduction-comparison-closure/skill.yaml
+failure_class: reproduction_comparison_closure_unknown_or_verdict_regression
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/cs_research/reproduction-comparison-closure/adapter
+test_responsibility: >-
+  Deterministic verification of three-state closure, decisive comparability
+  blocks, and source consumption of unknowns by the existing conclusion consumer.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - comparison closure verdict or unknown consumption changes

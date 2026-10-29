@@ -1,0 +1,91 @@
+{
+  "skill_name": "crystal-design-structure-crossover-py",
+  "comparison_baseline": {
+    "skill_id": "crystal-design-structure-crossover",
+    "skill_path": "skills/materials/crystal-design-structure-crossover",
+    "runtime": "claude_code",
+    "rationale": "This skill is a python_adapter port of the original claude_code evolutionary search skill. The baseline is the original skill (improving-existing-skill pattern), to measure whether dropping Claude-in-the-loop steering changes output quality at small eval scale."
+  },
+  "shared_eval_config": {
+    "seed_pool": [
+      "skills/materials/evaluation/high_mobility/cif_for_evolving/CrSiTe3.cif",
+      "skills/materials/evaluation/high_mobility/cif_for_evolving/AlInSe3.cif",
+      "skills/materials/evaluation/high_mobility/cif_for_evolving/mp-1227356_Bi2TeSe2.cif",
+      "skills/materials/evaluation/high_mobility/cif_for_evolving/mp-1217293_TeMoSe.cif",
+      "skills/materials/evaluation/high_mobility/cif_for_evolving/mp-541070_Ta2NiSe5.cif",
+      "skills/materials/evaluation/high_mobility/cif_for_evolving/mp-28308_Ta2NiS5.cif",
+      "skills/materials/evaluation/high_mobility/cif_for_evolving/mp-1221404_MoSeS.cif",
+      "skills/materials/evaluation/high_mobility/cif_for_evolving/mp-1216174_WSeS.cif"
+    ],
+    "pop_size": 10,
+    "max_generations": 3,
+    "noise_level": 0.3,
+    "crossover_rate": 0.0,
+    "top_n": 10,
+    "run_evaluate": false
+  },
+  "evals": [
+    {
+      "id": 1,
+      "name": "narrow-gap-stable",
+      "prompt": "用 skills/materials/evaluation/high_mobility/cif_for_evolving/ 目录下的全部 8 个 CIF 作为初始种子池，做进化搜索。目标：找热力学稳定（ehull minimize）且带隙落在 [0.1, 1.5] eV 的窄带半导体。约束：bandgap [0.1, 1.5] eV weight=10（hard），禁用 Pb。规模：pop_size=10, max_generations=3, noise_level=0.3, crossover_rate=0.0。返回最终 Pareto 前沿 + leaderboard.csv。",
+      "expected_output": "Final Pareto front (pareto/*.cif) + leaderboard.csv. Both versions should run init->3 steps->finalize. Quality bar: at least one candidate with bandgap in [0.1, 1.5] and the lowest ehull on the front.",
+      "files": [],
+      "task_instruction_override": {
+        "skip_runplan_llm": true,
+        "objectives": {"ehull": "minimize"},
+        "constraints": {"bandgap": {"min": 0.1, "max": 1.5, "weight": 10.0}, "element_set": {"banned": ["Pb"]}}
+      }
+    },
+    {
+      "id": 2,
+      "name": "high-dielectric-stable",
+      "prompt": "用 skills/materials/evaluation/high_mobility/cif_for_evolving/ 目录下的全部 8 个 CIF 作为初始种子池，做进化搜索。目标：找热力学稳定（ehull minimize）且高介电（dielectric maximize）的候选。约束：禁用 Pb。规模：pop_size=10, max_generations=3, noise_level=0.3, crossover_rate=0.0。返回最终 Pareto 前沿 + leaderboard.csv。",
+      "expected_output": "Final Pareto front + leaderboard.csv. Quality bar: the candidate with the highest dielectric on the front should be > the best seed's dielectric (search must improve, not just echo seeds).",
+      "files": [],
+      "task_instruction_override": {
+        "skip_runplan_llm": true,
+        "objectives": {"ehull": "minimize", "dielectric": "maximize"},
+        "constraints": {"element_set": {"banned": ["Pb"]}}
+      }
+    }
+  ],
+  "assertions": [
+    {
+      "name": "init_completed",
+      "description": "Phase 1 init succeeded (run_dir/population.json exists, generation 0 snapshot present)"
+    },
+    {
+      "name": "all_generations_run",
+      "description": "Exactly max_generations step calls ran (snapshots gen1..gen{max_generations} all present)"
+    },
+    {
+      "name": "finalize_completed",
+      "description": "leaderboard.csv exists and has >=1 row; pareto/ dir has >=1 CIF"
+    },
+    {
+      "name": "pareto_front_nonempty",
+      "description": "At least 1 CIF in pareto/ with formula != seed formula (true evolution happened)"
+    },
+    {
+      "name": "best_ehull_improved_or_held",
+      "description": "Best ehull on final front <= best ehull in gen0 (search did not regress)"
+    },
+    {
+      "name": "diversity_unique_formulas",
+      "description": ">=3 unique reduced formulas across the final population"
+    },
+    {
+      "name": "no_hard_constraint_violation_on_front",
+      "description": "For narrow-gap eval: all front candidates have bandgap within [0.1, 1.5] OR viol=0 in leaderboard"
+    },
+    {
+      "name": "wallclock_under_30min",
+      "description": "run_summary.wall_clock_seconds < 1800"
+    },
+    {
+      "name": "state_succeeded",
+      "description": "Output state == 'succeeded'"
+    }
+  ]
+}

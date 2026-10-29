@@ -1,0 +1,52 @@
+suite_id: component.execution.structured-output-provider-adapter
+protected_outcome: >-
+  Provider Schema transport remains separate from scientific prompts, uses each
+  Provider's native strict expression without changing Provider Schema semantics,
+  and fails closed when a schema keyword is unsupported or not proven.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - provider_schema_transport_changes_scientific_prompts
+  - provider_schema_transport_loses_schema_semantics
+  - provider_schema_capability_is_elevated_without_proof
+  - final_payload_schema_is_not_admitted
+  - nullable_object_required_mismatch_reaches_transport
+  - reference_resource_scope_changes_during_projection
+  - incompatible_response_mode_is_accepted
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/structured_output_provider_adapter.py
+test_responsibility: >-
+  Deterministically prove shared invariants across Huiyan and OpenAI Responses:
+  position-safe business property preservation, recursive object integrity
+  including nullable objects, closed-reference integrity and resource-scope
+  safety, exact final native schema admission, preservation of proven
+  constraints, fail-closed handling of unsupported and not-proven keywords,
+  and rejection of incompatible modes.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - adapted_provider_payload_assertions
+  - shared_cross_provider_invariant_assertions
+  - final_payload_admission_assertions
+  - capability_fail_closed_assertions
+  - incompatible_response_mode_rejection
+verdict_rule: >-
+  PASS only when all required evidence is obtained and the existing assertions
+  prove that Huiyan and OpenAI Responses receive the same admitted schema that
+  transport serializes, business property names and supported constraints are
+  preserved, malformed object/reference/resource-scope structures and
+  unsupported keywords stop before Provider I/O, and an incompatible response
+  mode is rejected; FAIL when valid evidence shows prompt contamination,
+  schema mutation after admission, loss of a proven constraint, capability
+  elevation, the wrong Provider expression, or incompatible-mode acceptance;
+  otherwise NO_VALID_EVIDENCE.
+triggers:
+  - structured output provider adapter behavior changes
+  - Provider Schema transport or response-mode mapping changes

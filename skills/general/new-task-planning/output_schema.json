@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NewTaskPlanningWorkflowOutput",
+  "type": "object",
+  "required": ["goalSummary", "domain", "skillPack", "researchType", "clarifications", "stages", "readyToConfirm"],
+  "properties": {
+    "goalSummary": { "type": "string", "minLength": 1 },
+    "domain": { "type": "string", "minLength": 1 },
+    "skillPack": {
+      "type": "string",
+      "minLength": 1,
+      "description": "选定的 skill pack key（如 sdr / ope），由 skill 根据用户意图判定"
+    },
+    "researchType": {
+      "type": "string",
+      "enum": ["M", "D", "C", "H"],
+      "description": "研究类型：M=方法, D=发现, C=工具, H=混合"
+    },
+    "clarifications": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["stageKey", "substages"],
+        "properties": {
+          "stageKey": {
+            "type": "string",
+            "enum": [
+              "problem_modeling",
+              "solution_design",
+              "execution_validation",
+              "insight_generation"
+            ]
+          },
+          "substages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["substage"],
+              "properties": {
+                "substage": { "type": "string", "minLength": 1 },
+                "skills": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "default": []
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "readyToConfirm": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

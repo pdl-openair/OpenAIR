@@ -1,0 +1,23 @@
+suite_id: component.gates.self-tests
+protected_outcome: >-
+  CI gate scripts keep deterministic self-verifying behavior: every gate
+  module under scripts/gates/ ships with unit tests that prove its decision
+  logic (verdict, ratchet accounting, path classification) without relying on
+  live repository state beyond explicit fixtures.
+authority_refs:
+  - spec/foundations/testing-gates.md
+  - spec/foundations/coding-standards.md
+failure_class: gate_decision_logic_regression
+minimum_owner: 单个组件行为
+production_targets:
+  - scripts/gates/
+test_responsibility: deterministic unit verification of gate decision logic
+execution_profiles: [deterministic]
+required_dependencies: [project_python_dependencies]
+evidence_required: [pytest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions
+  prove protected_outcome; FAIL when sufficient valid evidence proves
+  protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [gate_script_decision_logic_changes]

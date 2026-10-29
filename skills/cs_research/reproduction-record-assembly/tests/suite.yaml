@@ -1,0 +1,22 @@
+suite_id: component.skills.reproduction-record-assembly
+protected_outcome: 复现记录组装按正式合同保留代码与来源身份；读取形式未支持或来源仓库地址缺失时隔离待核实证据并保留已有成果；拒收结构非法、仓库冲突及版本无法核验的输入，不能补造复现达标结论。
+authority_refs:
+  - skills/cs_research/reproduction-record-assembly/SKILL.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - docs/02_产品与Workflow/CS论文复现/OpenAIR_CS论文复现_Workflow设计合同.md
+failure_class: reproduction_record_identity_or_source_chain_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/cs_research/reproduction-record-assembly/adapter/
+test_responsibility: 验证组装组件接收实际仓库获取输出、保留可选来源证据、严格核验身份及结果来源链，包含公共冻结输入校验与注册 Python 入口；待核实证据必须留原始材料、不得冒充正式证据，其余可信事实仍可交付；不证明 Workflow 自动调用、网络补证或 Fresh 完成。
+execution_profiles: [deterministic, offline]
+required_dependencies: [project_python_dependencies, git]
+evidence_required:
+  - pytest_result
+  - actual_local_git_acquisition_output
+  - registered_adapter_result
+  - source_identity_and_unknown_field_rejection
+  - incomplete_result_preserved
+  - unverified_source_keeps_other_trusted_facts
+verdict_rule: 必要依赖成立，合法正式结果完整接收且来源链严格核验时 PASS；违反保护责任时 FAIL；未形成实际 Git/注册入口证据时 NO_VALID_EVIDENCE。
+triggers: [code identity or reproduction assembly source-chain contract changes]

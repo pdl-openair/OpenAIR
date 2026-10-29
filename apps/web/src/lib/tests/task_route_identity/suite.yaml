@@ -1,0 +1,22 @@
+suite_id: component.web.lib.task-route-identity
+protected_outcome: >-
+  Browser route selection preserves the current durable Task across refresh and
+  re-entry while preventing an Artifact selected under one Task from leaking
+  into another Task identity.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: task_route_identity_or_artifact_scope_leak
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/lib/userRouteState.ts
+test_responsibility: deterministic browser route-state fencing by durable Task identity
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when the stored Task survives a same-Task refresh/re-entry and a
+  Task switch clears the prior Task's Artifact selection; FAIL when valid
+  evidence shows cross-Task route state can survive; otherwise NO_VALID_EVIDENCE.
+triggers: [current-task_or_artifact_route_state_changes]

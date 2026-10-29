@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goal"],
+  "properties": {
+    "goal": {
+      "type": "string"
+    },
+    "candidate_summary": {
+      "type": "string"
+    },
+    "stability_handoff": {
+      "type": "string"
+    },
+    "pareto_cif_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "work_dir": {
+      "type": "string"
+    }
+  }
+}

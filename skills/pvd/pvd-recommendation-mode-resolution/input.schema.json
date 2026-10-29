@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PVD recommendation mode resolution input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "scientific_state_facts"
+  ],
+  "properties": {
+    "scientific_state_facts": {
+      "$ref": "https://openair.local/schemas/pvd/pvd-scientific-state-facts-v1.schema.json"
+    }
+  }
+}

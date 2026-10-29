@@ -1,0 +1,47 @@
+suite_id: verification.research-orchestration-continuation-identity
+protected_outcome: >-
+  Repeating or continuing an already confirmed project research task preserves
+  its SubstageInstance identity and confirmed ResearchDesign task set while
+  forming a new ExecutionDecision and WorkUnit; historical re-entry execution
+  records remain recoverable without becoming project-task selection authority.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试架构.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: research_execution_continuation_project_task_identity_fork
+minimum_owner: 跨组件与基础设施
+production_targets:
+  - services/api/app/models/research_orchestration.py
+  - services/api/app/modules/research_orchestration_repository.py
+  - services/api/app/modules/repeatable_definition_reentry.py
+  - services/api/app/modules/research_execution_decision_service.py
+test_responsibility: >-
+  Prove across the model, continuation repository, re-entry policy, and execution
+  decision service that continuation reactivates the original confirmed
+  SubstageInstance, historical execution records stay outside next-task authority,
+  and each new execution freezes distinct decision and WorkUnit identities against
+  the correct project-task or historical recovery identity.
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+  - asserted_substage_identity_and_design_task_count
+  - asserted_distinct_execution_decision_and_work_unit_identity
+  - asserted_continuation_start_directive
+  - asserted_legacy_reentry_metadata_is_not_selection_authority
+  - asserted_historical_execution_recovery_without_task_set_growth
+verdict_rule: >-
+  PASS only when the deterministic Suite run obtains every required assertion and
+  proves that continuation keeps the confirmed SubstageInstance and ResearchDesign
+  task set unchanged while a distinct ExecutionDecision and WorkUnit are frozen
+  against that same identity; FAIL when valid evidence shows an identity fork,
+  task-set growth, unreachable continuation, or missing new execution objects;
+  otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - execution continuation preparation changes
+  - repeatable Definition execution policy changes
+  - SubstageInstance identity semantics change
+  - ExecutionDecision or WorkUnit materialization changes

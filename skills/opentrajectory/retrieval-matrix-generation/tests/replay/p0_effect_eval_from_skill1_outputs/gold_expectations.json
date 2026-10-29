@@ -1,0 +1,209 @@
+{
+  "version": "skill2_p0_effect_eval_from_skill1_outputs_v1",
+  "purpose": "Effect validation for retrieval-matrix-generation using real Skill 1 outputs from realistic Chinese queries.",
+  "important_note": "Use replay_cases_raw.json first. If it fails only because downstream_filter_rules are objects, that is a Skill 2 input schema compatibility issue, not a query-generation effect failure. Do not hide it.",
+  "global_requirements": {
+    "search_matrix": {
+      "must_have_exactly_7_rows": true,
+      "must_cover_unique_intents": [
+        "core_topic",
+        "constraint_focused",
+        "mechanism_focused",
+        "method_or_strategy",
+        "metric_or_performance",
+        "adjacent_but_relevant",
+        "noise_exclusion"
+      ]
+    },
+    "expanded_query_variants": {
+      "minimum_count": 8,
+      "must_include_variant_types": [
+        "strict",
+        "broad"
+      ],
+      "may_include_variant_types": [
+        "exclusion",
+        "fallback"
+      ],
+      "must_be_english_only": true,
+      "must_not_contain_cjk": true,
+      "must_not_duplicate_semantically": true
+    },
+    "safety": {
+      "risk_flags_must_not_be_used_as_exclude_terms": true,
+      "noise_exclusion_only_from_explicit_out_of_scope_or_user_exclusion": true,
+      "must_not_invent_specific_materials_benchmarks_or_thresholds": true
+    }
+  },
+  "case_expectations": {
+    "cn_battery_001_precise_li_metal": {
+      "must_query_terms": [
+        "lithium metal battery",
+        "ether electrolyte",
+        "high voltage",
+        "fast charging",
+        "Coulombic efficiency",
+        "cycle life"
+      ],
+      "must_not": [
+        "Chinese/CJK in any term or query",
+        "turn risk flags into NOT",
+        "drop 4.5 V or 2C completely"
+      ]
+    },
+    "cn_battery_002_fuzzy_fast_charge": {
+      "must_query_terms": [
+        "fast charging",
+        "electrolyte",
+        "additive",
+        "solvation structure",
+        "mechanism"
+      ],
+      "must_not": [
+        "invent 4.5 V",
+        "invent 2C",
+        "use 'real problem' as literal query term"
+      ]
+    },
+    "cn_battery_003_mixed_solid_state": {
+      "must_query_terms": [
+        "solid-state lithium battery",
+        "sulfide electrolyte",
+        "ionic conductivity",
+        "10^-3 S/cm",
+        "lithium metal anode",
+        "interface"
+      ],
+      "must_not": [
+        "turn interface quality into hard numerical query",
+        "drop room-temperature/ambient-temperature context completely"
+      ]
+    },
+    "cn_battery_004_vague_sodium_low_temp": {
+      "must_query_terms": [
+        "sodium-ion cathode",
+        "low temperature",
+        "rate capability",
+        "structural stability",
+        "layered oxide",
+        "modification"
+      ],
+      "must_not": [
+        "invent -20°C",
+        "force P2 or O3 as must_include"
+      ]
+    },
+    "cn_agent_001_precise_long_task": {
+      "must_query_terms": [
+        "long-horizon agent",
+        "software engineering agent",
+        "memory management",
+        "tool use",
+        "reflection",
+        "benchmark"
+      ],
+      "must_not": [
+        "force materials domain",
+        "turn methods into NOT"
+      ]
+    },
+    "cn_agent_002_fuzzy_research_agent": {
+      "must_query_terms": [
+        "scientific research agent",
+        "literature analysis",
+        "hypothesis generation",
+        "validation"
+      ],
+      "must_not": [
+        "literal query term for 真问题",
+        "invent a specific benchmark",
+        "overfit only to RAG"
+      ]
+    },
+    "cn_agent_003_mixed_materials_multi_agent": {
+      "must_query_terms": [
+        "multi-agent",
+        "materials research",
+        "literature retrieval",
+        "evidence",
+        "hypothesis generation",
+        "computational tool",
+        "experimental feedback",
+        "closed-loop"
+      ],
+      "must_not": [
+        "invent a material system",
+        "collapse workflow into one query only"
+      ]
+    },
+    "cn_agent_004_precise_rag_evidence_graph": {
+      "must_query_terms": [
+        "scientific discovery agent",
+        "retrieval-augmented generation",
+        "evidence graph",
+        "reverse validation",
+        "traceability",
+        "evidence chain",
+        "negative results"
+      ],
+      "must_not": [
+        "generic enterprise RAG QA only",
+        "turn credibility/trustworthiness into NOT"
+      ]
+    },
+    "cn_theory_001_precise_perovskite_dft": {
+      "must_query_terms": [
+        "halide perovskite",
+        "defect tolerance",
+        "DFT",
+        "nonradiative recombination",
+        "band-edge states"
+      ],
+      "must_not": [
+        "invent MAPbI3/FAPbI3/CsPbBr3 as must_include",
+        "treat DFT as material"
+      ]
+    },
+    "cn_theory_002_mixed_high_entropy": {
+      "must_query_terms": [
+        "high-entropy alloy",
+        "Al-Co-Cr-Fe-Ni",
+        "CALPHAD",
+        "DFT",
+        "phase stability",
+        "formation enthalpy",
+        "mixing entropy",
+        "phase decomposition"
+      ],
+      "must_not": [
+        "add unmentioned elements",
+        "drop Al-Co-Cr-Fe-Ni"
+      ]
+    },
+    "cn_theory_003_fuzzy_topological": {
+      "must_query_terms": [
+        "topological material",
+        "spin-orbit coupling",
+        "band inversion",
+        "theoretical calculation",
+        "experimental validation"
+      ],
+      "must_not": [
+        "invent TaAs/WTe2/Bi2Se3 as must_include",
+        "require ARPES as hard term unless optional"
+      ]
+    },
+    "cn_theory_004_underspecified_mechanism": {
+      "must_query_terms": [
+        "mechanism explanation",
+        "computational validation",
+        "structure-property relationship"
+      ],
+      "must_not": [
+        "invent DFT as hard requirement",
+        "invent a specific material family",
+        "be overconfident or over-specific"
+      ]
+    }
+  }
+}

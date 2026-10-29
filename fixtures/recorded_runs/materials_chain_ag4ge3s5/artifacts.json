@@ -1,0 +1,86 @@
+[
+  {
+    "artifact_id": "art-001",
+    "type": "stage_summary",
+    "title": "MP Seeds — Stage 1a MP 约束检索",
+    "format": "markdown",
+    "path": "mp_seeds.md",
+    "created_by": "claude_agent_sdk",
+    "related_stage": "problem_modeling",
+    "related_skill_id": "mp_constraint_search",
+    "sub_stage_instance_id": "sub_problem_modeling_0_mp_constraint_search",
+    "summary": "16 passing 候选(7 strict + 9 degraded),top=mp-9900 Ag2GeS3 CL=0.886。crystal-property-prediction MCP partial 模式客户端降级保留。"
+  },
+  {
+    "artifact_id": "art-002",
+    "type": "stage_summary",
+    "title": "Novel Candidates — Stage 1b mattergen 演化",
+    "format": "markdown",
+    "path": "novel_candidates.md",
+    "created_by": "claude_agent_sdk",
+    "related_stage": "problem_modeling",
+    "related_skill_id": "crystal_generation",
+    "sub_stage_instance_id": "sub_problem_modeling_1_crystal_generation",
+    "summary": "Pareto 2 唯一(gen002_ind_001 / gen004_ind_000),均为 Ag4Ge3S5,CL=0.858,ehull=0.878。MP 无此计量比(novel)。"
+  },
+  {
+    "artifact_id": "art-003",
+    "type": "stage_summary",
+    "title": "Flux Parameters — Stage 2 K2S3 Reactive Flux 推荐",
+    "format": "markdown",
+    "path": "flux_parameters.md",
+    "created_by": "claude_agent_sdk",
+    "related_stage": "solution_design",
+    "related_skill_id": "flux_parameter_recommendation",
+    "sub_stage_instance_id": "sub_solution_design_0_flux_parameter_recommendation",
+    "summary": "5 套方案:baseline K2S3 (5:1) Tmax=850℃ 3℃/h + 4 variants(CsCl/KCl / self-flux / SnCl2 / Bi-flux)。"
+  },
+  {
+    "artifact_id": "art-004",
+    "type": "stage_summary",
+    "title": "Synthesis Log — Stage 3 Flux 合成执行(Stub)",
+    "format": "markdown",
+    "path": "synthesis_log.md",
+    "created_by": "claude_agent_sdk",
+    "related_stage": "execution_validation",
+    "related_skill_id": "flux_synthesis_execution",
+    "sub_stage_instance_id": "sub_execution_validation_0_flux_synthesis_execution",
+    "summary": "Stub:batch_ag4ge3s5_stub_001_s1,304h timeline,0.38g / 38% 产率,mm 级片晶;observations 针状副相疑 Ag2S。"
+  },
+  {
+    "artifact_id": "art-005",
+    "type": "stage_summary",
+    "title": "XRD Report — Stage 4 物相表征(Fixture 回放)",
+    "format": "markdown",
+    "path": "xrd_report.md",
+    "created_by": "claude_agent_sdk",
+    "related_stage": "insight_generation",
+    "related_skill_id": "xrd_characterization",
+    "sub_stage_instance_id": "sub_insight_generation_0_xrd_characterization",
+    "summary": "主相 Ag4Ge3S5 = 92%(≥90% ✅),副相 Ag2S = 5%,Rwp=4.8%,conf=0.87。"
+  },
+  {
+    "artifact_id": "art-006",
+    "type": "crystal_structure",
+    "title": "Ag4Ge3S5 CIF — Pareto gen002_ind_001(mattergen 演化产物)",
+    "format": "cif",
+    "path": "cifs/gen002_ind_001_Ag4Ge3S5.cif",
+    "created_by": "mattergen_mcp",
+    "related_stage": "problem_modeling",
+    "related_skill_id": "crystal_generation",
+    "sub_stage_instance_id": "sub_problem_modeling_1_crystal_generation",
+    "summary": "12 sites, sg=1 P1。来自 session evo_20260703_153008_08a2249a,task_20260703_153008_37b3f76d。主推候选。"
+  },
+  {
+    "artifact_id": "art-007",
+    "type": "crystal_structure",
+    "title": "Ag4Ge3S5 CIF — Pareto gen004_ind_000(mattergen 演化产物)",
+    "format": "cif",
+    "path": "cifs/gen004_ind_000_Ag4Ge3S5.cif",
+    "created_by": "mattergen_mcp",
+    "related_stage": "problem_modeling",
+    "related_skill_id": "crystal_generation",
+    "sub_stage_instance_id": "sub_problem_modeling_1_crystal_generation",
+    "summary": "12 sites, sg=1 P1。Pareto 备选(epsx/formation_energy 更优,但 ehull/cl_score 略逊于 gen002_ind_001)。"
+  }
+]

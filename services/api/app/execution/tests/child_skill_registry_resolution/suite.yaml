@@ -1,0 +1,28 @@
+suite_id: durable-single-skill-registry-resolution
+protected_outcome: 新 child 调用仍以正式 Registry 为 Authority，但只冻结本次实际 Skill，不因无关 Skill 数量增加而线性放大调用准备时间。
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- docs/01_核心设计/研究执行与能力/OpenAIR 模型调用运行与故障恢复设计合同.md
+- spec/testing/OpenAIR 测试设计合同.md
+failure_class:
+- unrelated_registry_entries_inflate_child_preparation
+- targeted_resolution_changes_registry_authority
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/execution/durable_skill_runtime.py
+test_responsibility: 单 Skill 解析只冻结目标 Registry 行，同时保留 canonical skill id 与 claude alias 的同一正式解析语义。
+execution_profiles:
+- 确定性配置
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- targeted_freeze_count_equals_one
+- no_provider_network_or_database_io
+- pytest_exit_code_0
+verdict_rule: >-
+  仅当定向冻结数恰为一、Registry 仍为正式 Authority、无 Provider 网络或数据库 IO 且 pytest 通过时 PASS（无关 Skill 数量不放大本次调用的准备时间）；目标解析改变 Registry 语义或冻结数不为一时 FAIL；证据不完整为 NO_VALID_EVIDENCE。
+triggers:
+- production_targets_changed
+- registry_resolution_contract_changed
+verdict_rule: >-
+  PASS only when the existing Suite proves canonical and alias lookup freeze exactly the requested Registry row and no unrelated row; FAIL when deterministic evidence shows expanded selection or whole-Registry preparation; otherwise NO_VALID_EVIDENCE.

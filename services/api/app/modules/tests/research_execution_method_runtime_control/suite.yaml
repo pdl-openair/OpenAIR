@@ -1,0 +1,26 @@
+suite_id: component.modules.research-execution-method-runtime-control
+protected_outcome: Execution Method runtime follows the declared role graph and current scientific state, selects eligible current capabilities without hard-coding their identity, freezes the selected method/role/capability/input on WorkUnit, and reads artifact inputs only from the current method iteration lineage.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - spec/testing/OpenAIR 测试架构.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class: execution_method_runtime_control_or_frozen_selection_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/research_execution_decision_service.py
+test_responsibility: deterministic component proof that execution-method role selection, dependency release, failure handling, conditional continuation, method iteration, completion, WorkUnit freezing, and current-iteration artifact binding obey the formal execution-method contract
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - execution-method selection or assignment changes
+  - role dependency, release, stop, failure, or iteration control changes
+  - WorkUnit capability/input freeze changes
+  - execution-method artifact binding lineage changes

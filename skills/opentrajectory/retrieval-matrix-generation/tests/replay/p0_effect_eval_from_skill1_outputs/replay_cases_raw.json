@@ -1,0 +1,2214 @@
+{
+  "version": "skill2_p0_effect_eval_from_skill1_outputs_v1",
+  "cases": [
+    {
+      "case_id": "cn_agent_001_precise_long_task",
+      "domain_group": "agent_systems",
+      "input_style": "precise",
+      "source_skill1_output_file": "outputs/cn_agent_001_precise_long_task.json",
+      "input": {
+        "user_query": "请帮我检索面向长任务软件开发的 AI Agent 文献，重点关注记忆管理、工具调用、反思机制对任务成功率和稳定性的影响，最好有 benchmark 或可复现实验。",
+        "research_domain": "AI agents",
+        "material_system": null,
+        "research_context": {
+          "domain_group": "agent_systems",
+          "input_style": "precise"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "agent_task_scope",
+            "original_phrase": "面向长任务软件开发的 AI Agent",
+            "constraint_type": "condition",
+            "interpreted_value": "long-horizon software development AI agent",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies AI agents for long-horizon software development tasks. This defines the application domain and agent type.",
+            "confidence": 0.88,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "long-horizon software development agent",
+              "AI agent software engineering",
+              "autonomous coding agent",
+              "long-task agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers on AI agents for software development or long-horizon task completion"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "memory_management",
+            "original_phrase": "记忆管理",
+            "constraint_type": "condition",
+            "interpreted_value": "memory management",
+            "candidate_values": [
+              "context window management",
+              "external memory",
+              "episodic memory",
+              "working memory"
+            ],
+            "domain_rationale": "User explicitly lists memory management as a key mechanism of interest. In agent systems, this covers context management, external memory stores, and memory retrieval.",
+            "confidence": 0.85,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "memory management agent",
+              "agent memory",
+              "context management LLM agent",
+              "external memory agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying memory management in AI agents"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "tool_use",
+            "original_phrase": "工具调用",
+            "constraint_type": "condition",
+            "interpreted_value": "tool use / tool calling",
+            "candidate_values": [
+              "function calling",
+              "API tool use",
+              "code execution tools"
+            ],
+            "domain_rationale": "User explicitly lists tool use as a key mechanism. Tool calling is a standard capability in modern LLM-based agents.",
+            "confidence": 0.87,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "tool use agent",
+              "tool calling LLM",
+              "function calling agent",
+              "tool-augmented agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying tool use or tool calling in AI agents"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "reflection_mechanism",
+            "original_phrase": "反思机制",
+            "constraint_type": "condition",
+            "interpreted_value": "reflection mechanism",
+            "candidate_values": [
+              "self-reflection",
+              "self-critique",
+              "iterative refinement",
+              "chain-of-thought reflection"
+            ],
+            "domain_rationale": "User explicitly lists reflection mechanism as a key component. Reflection in agents refers to self-evaluation and iterative improvement of outputs.",
+            "confidence": 0.85,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "reflection mechanism agent",
+              "self-reflection LLM",
+              "agent self-critique",
+              "iterative refinement agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying reflection or self-improvement mechanisms in agents"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "performance_metrics",
+            "original_phrase": "任务成功率和稳定性",
+            "constraint_type": "experimental_condition",
+            "interpreted_value": "task success rate and stability",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly wants papers measuring task success rate and stability as evaluation metrics.",
+            "confidence": 0.85,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "task success rate agent",
+              "agent stability",
+              "task completion rate",
+              "agent reliability"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers reporting task success rate or stability metrics"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "benchmark_requirement",
+            "original_phrase": "最好有 benchmark 或可复现实验",
+            "constraint_type": "source_preference",
+            "interpreted_value": null,
+            "candidate_values": [
+              "SWE-bench",
+              "HumanEval",
+              "reproducible experiments"
+            ],
+            "domain_rationale": "User prefers papers with benchmark evaluation or reproducible experiments. '最好有' indicates a preference, not a hard requirement.",
+            "confidence": 0.65,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "benchmark evaluation agent",
+              "reproducible experiment agent",
+              "SWE-bench",
+              "agent evaluation benchmark"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers with benchmark evaluation or reproducible experimental results"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "benchmark_not_specified: user did not name a specific benchmark"
+            ]
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.83,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [
+            "benchmark_not_specified"
+          ],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_agent_002_fuzzy_research_agent",
+      "domain_group": "agent_systems",
+      "input_style": "fuzzy",
+      "source_skill1_output_file": "outputs/cn_agent_002_fuzzy_research_agent.json",
+      "input": {
+        "user_query": "现在科研智能体到底是不是一个真问题？我想找一些不是简单套壳聊天机器人的研究，最好能说明它怎么真的参与文献分析、假设生成和验证。",
+        "research_domain": "scientific discovery agents",
+        "material_system": null,
+        "research_context": {
+          "domain_group": "agent_systems",
+          "input_style": "fuzzy"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "research_agent_scope",
+            "original_phrase": "科研智能体",
+            "constraint_type": "condition",
+            "interpreted_value": "scientific research agent",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly asks about scientific research agents as the target system. This is a specific subfield of AI agent research.",
+            "confidence": 0.82,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "scientific research agent",
+              "AI research agent",
+              "autonomous research agent",
+              "science agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers on AI agents designed for scientific research tasks"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "non_chatbot_distinction",
+            "original_phrase": "不是简单套壳聊天机器人的研究",
+            "constraint_type": "boundary_condition",
+            "interpreted_value": null,
+            "candidate_values": [],
+            "domain_rationale": "User wants to exclude papers that are merely chatbot wrappers without genuine research capability. This is a qualitative exclusion criterion that cannot be converted to a hard filter.",
+            "confidence": 0.38,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "autonomous research agent",
+              "agentic AI research",
+              "beyond chatbot research agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "avoid_strong_filter_on_low_confidence: chatbot vs genuine agent distinction is not quantifiable"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "exclusion_criterion_subjective: chatbot wrapper vs genuine agent is not a filterable criterion"
+            ]
+          },
+          {
+            "constraint_name": "literature_analysis_capability",
+            "original_phrase": "真的参与文献分析",
+            "constraint_type": "condition",
+            "interpreted_value": "literature analysis capability",
+            "candidate_values": [],
+            "domain_rationale": "User wants agents that genuinely perform literature analysis, not just retrieval. This implies active reading, synthesis, and reasoning over papers.",
+            "confidence": 0.55,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "literature analysis agent",
+              "automated literature review",
+              "paper analysis AI",
+              "scientific literature agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers demonstrating literature analysis capability in agents"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "capability_depth_undefined: 'genuine' literature analysis is subjective"
+            ]
+          },
+          {
+            "constraint_name": "hypothesis_generation",
+            "original_phrase": "假设生成",
+            "constraint_type": "condition",
+            "interpreted_value": "hypothesis generation",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly wants agents capable of hypothesis generation, a key step in the scientific discovery process.",
+            "confidence": 0.8,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "hypothesis generation agent",
+              "automated hypothesis generation",
+              "scientific hypothesis AI",
+              "hypothesis discovery"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying hypothesis generation in AI agents"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "validation_involvement",
+            "original_phrase": "验证",
+            "constraint_type": "condition",
+            "interpreted_value": "validation",
+            "candidate_values": [
+              "experimental validation",
+              "computational validation",
+              "logical verification"
+            ],
+            "domain_rationale": "User wants agents that participate in validation of hypotheses. The type of validation (experimental, computational, logical) is not specified.",
+            "confidence": 0.58,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "hypothesis validation agent",
+              "automated validation research",
+              "agent verification scientific"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers where agents participate in hypothesis validation"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "validation_type_undefined: experimental vs computational vs logical validation not specified"
+            ]
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.55,
+          "coverage_level": "moderate",
+          "missing_inputs": [
+            "specific_research_domain",
+            "validation_type"
+          ],
+          "risk_flags": [
+            "exclusion_criterion_subjective",
+            "capability_depth_undefined",
+            "validation_type_undefined"
+          ],
+          "needs_manual_review": true
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_agent_003_mixed_materials_multi_agent",
+      "domain_group": "agent_systems",
+      "input_style": "mixed",
+      "source_skill1_output_file": "outputs/cn_agent_003_mixed_materials_multi_agent.json",
+      "input": {
+        "user_query": "面向材料科研任务的多智能体系统，怎么把文献检索、证据整理、候选假说、计算工具调用和实验反馈串起来？我想看持续演化或闭环优化相关工作。",
+        "research_domain": "AI agents for materials research",
+        "material_system": null,
+        "research_context": {
+          "domain_group": "agent_systems",
+          "input_style": "mixed"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "system_type",
+            "original_phrase": "面向材料科研任务的多智能体系统",
+            "constraint_type": "condition",
+            "interpreted_value": "multi-agent system for materials research",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies multi-agent systems applied to materials science research tasks.",
+            "confidence": 0.88,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "multi-agent system materials research",
+              "multi-agent materials science",
+              "collaborative agent materials discovery"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers on multi-agent systems applied to materials research"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "literature_retrieval_component",
+            "original_phrase": "文献检索",
+            "constraint_type": "condition",
+            "interpreted_value": "literature retrieval",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly lists literature retrieval as one of the workflow components to be integrated.",
+            "confidence": 0.87,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "literature retrieval agent",
+              "automated literature search",
+              "scientific paper retrieval agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers including literature retrieval as a workflow component"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "evidence_organization",
+            "original_phrase": "证据整理",
+            "constraint_type": "condition",
+            "interpreted_value": "evidence organization",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly lists evidence organization as a workflow component, referring to structuring and synthesizing retrieved evidence.",
+            "confidence": 0.82,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "evidence organization agent",
+              "evidence synthesis AI",
+              "knowledge organization agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers including evidence organization or synthesis components"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "hypothesis_generation",
+            "original_phrase": "候选假说",
+            "constraint_type": "condition",
+            "interpreted_value": "candidate hypothesis generation",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly lists candidate hypothesis generation as a workflow component.",
+            "confidence": 0.85,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "hypothesis generation materials",
+              "candidate hypothesis agent",
+              "automated hypothesis materials science"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers including hypothesis generation in the workflow"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "computational_tool_invocation",
+            "original_phrase": "计算工具调用",
+            "constraint_type": "condition",
+            "interpreted_value": "computational tool invocation",
+            "candidate_values": [
+              "DFT tools",
+              "MD simulation",
+              "CALPHAD",
+              "ML models"
+            ],
+            "domain_rationale": "User explicitly lists computational tool invocation as a workflow component. In materials research, this typically includes DFT, MD, or ML-based tools.",
+            "confidence": 0.8,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "computational tool agent",
+              "simulation tool calling",
+              "DFT tool agent",
+              "agent computational workflow"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers where agents invoke computational tools (DFT, MD, ML)"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "computational_tool_type_unspecified: DFT/MD/ML not specified by user"
+            ]
+          },
+          {
+            "constraint_name": "experimental_feedback",
+            "original_phrase": "实验反馈",
+            "constraint_type": "condition",
+            "interpreted_value": "experimental feedback",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly lists experimental feedback as a workflow component, implying closed-loop integration with experimental results.",
+            "confidence": 0.8,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "experimental feedback agent",
+              "closed-loop experiment agent",
+              "experiment-in-the-loop AI"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers integrating experimental feedback into the agent workflow"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "closed_loop_optimization",
+            "original_phrase": "持续演化或闭环优化",
+            "constraint_type": "condition",
+            "interpreted_value": "continuous evolution or closed-loop optimization",
+            "candidate_values": [
+              "iterative optimization",
+              "self-improving agent",
+              "closed-loop discovery"
+            ],
+            "domain_rationale": "User explicitly wants systems with continuous evolution or closed-loop optimization, indicating interest in self-improving or iterative agent architectures.",
+            "confidence": 0.72,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "closed-loop optimization agent",
+              "continuous learning agent",
+              "iterative agent materials",
+              "self-improving agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers demonstrating closed-loop or iterative optimization in agent systems"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "closed_loop_definition_ambiguous: continuous evolution vs closed-loop optimization are distinct concepts"
+            ]
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.82,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [
+            "computational_tool_type_unspecified",
+            "closed_loop_definition_ambiguous"
+          ],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_agent_004_precise_rag_evidence_graph",
+      "domain_group": "agent_systems",
+      "input_style": "precise_tricky",
+      "source_skill1_output_file": "outputs/cn_agent_004_precise_rag_evidence_graph.json",
+      "input": {
+        "user_query": "科研发现智能体中，RAG、证据图谱和反向校验机制如何提升假说生成可信度？请重点检索来源可追溯、证据链完整、能处理失败案例或负结果的研究。",
+        "research_domain": "scientific discovery agents",
+        "material_system": null,
+        "research_context": {
+          "domain_group": "agent_systems",
+          "input_style": "precise_tricky"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "agent_system_type",
+            "original_phrase": "科研发现智能体",
+            "constraint_type": "condition",
+            "interpreted_value": "scientific discovery agent",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies scientific discovery agents as the target system.",
+            "confidence": 0.88,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "scientific discovery agent",
+              "AI discovery agent",
+              "autonomous scientific discovery"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers on AI agents for scientific discovery"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "rag_mechanism",
+            "original_phrase": "RAG",
+            "constraint_type": "condition",
+            "interpreted_value": "retrieval-augmented generation",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly mentions RAG as a mechanism of interest in scientific discovery agents.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "retrieval-augmented generation",
+              "RAG scientific discovery",
+              "RAG agent research"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying RAG in scientific discovery agents"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "evidence_graph",
+            "original_phrase": "证据图谱",
+            "constraint_type": "condition",
+            "interpreted_value": "evidence graph",
+            "candidate_values": [
+              "knowledge graph",
+              "evidence network",
+              "citation graph"
+            ],
+            "domain_rationale": "User explicitly mentions evidence graphs as a mechanism for improving hypothesis credibility. This refers to structured representations of evidence relationships.",
+            "confidence": 0.82,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "evidence graph",
+              "knowledge graph scientific discovery",
+              "evidence network hypothesis",
+              "structured evidence representation"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers using evidence graphs or structured evidence representations"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "reverse_validation",
+            "original_phrase": "反向校验机制",
+            "constraint_type": "condition",
+            "interpreted_value": "reverse validation mechanism",
+            "candidate_values": [
+              "backward verification",
+              "counterfactual checking",
+              "hypothesis falsification"
+            ],
+            "domain_rationale": "User explicitly mentions reverse validation as a mechanism. This likely refers to checking hypotheses against known negative results or falsification approaches.",
+            "confidence": 0.65,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "reverse validation agent",
+              "backward verification hypothesis",
+              "counterfactual validation",
+              "hypothesis falsification agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers with reverse validation or backward verification mechanisms"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "reverse_validation_definition_ambiguous: multiple interpretations possible"
+            ]
+          },
+          {
+            "constraint_name": "traceability",
+            "original_phrase": "来源可追溯",
+            "constraint_type": "source_preference",
+            "interpreted_value": "source traceability",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly requires that evidence sources be traceable, meaning the origin of each piece of evidence can be identified.",
+            "confidence": 0.85,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "source traceability agent",
+              "evidence provenance",
+              "traceable reasoning AI",
+              "citation traceability"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers emphasizing source traceability or evidence provenance"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "evidence_chain_completeness",
+            "original_phrase": "证据链完整",
+            "constraint_type": "source_preference",
+            "interpreted_value": "complete evidence chain",
+            "candidate_values": [],
+            "domain_rationale": "User wants papers with complete evidence chains, meaning the reasoning from evidence to conclusion is fully documented.",
+            "confidence": 0.72,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "evidence chain",
+              "reasoning chain completeness",
+              "full evidence trail",
+              "chain of evidence AI"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "avoid_strong_filter_on_low_confidence: evidence chain completeness is qualitative"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "evidence_chain_completeness_not_filterable: qualitative criterion"
+            ]
+          },
+          {
+            "constraint_name": "negative_results_handling",
+            "original_phrase": "能处理失败案例或负结果",
+            "constraint_type": "source_preference",
+            "interpreted_value": "failure cases or negative results handling",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly wants papers that handle failure cases or negative results, indicating interest in robust and honest scientific agents.",
+            "confidence": 0.78,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "negative results agent",
+              "failure case handling",
+              "negative result scientific AI",
+              "failed experiment agent"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers that address failure cases or negative results in agent reasoning"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.8,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [
+            "reverse_validation_definition_ambiguous",
+            "evidence_chain_completeness_not_filterable"
+          ],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_battery_001_precise_li_metal",
+      "domain_group": "battery_materials",
+      "input_style": "precise",
+      "source_skill1_output_file": "outputs/cn_battery_001_precise_li_metal.json",
+      "input": {
+        "user_query": "我想检索锂金属电池在 4.5V 以上高电压、2C 以上快充条件下的醚类电解液设计文献，重点看库伦效率、循环寿命和界面稳定性。",
+        "research_domain": "battery materials",
+        "material_system": "lithium metal battery ether-based electrolyte",
+        "research_context": {
+          "domain_group": "battery_materials",
+          "input_style": "precise"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "battery_system",
+            "original_phrase": "锂金属电池",
+            "constraint_type": "material_property",
+            "interpreted_value": "lithium metal battery",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies lithium metal battery as the target system, distinguishing from lithium-ion batteries with graphite anodes.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "lithium metal battery",
+              "Li metal anode",
+              "lithium metal electrode"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_filter",
+                "field": "battery_type",
+                "condition": "lithium metal"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "voltage_threshold",
+            "original_phrase": "4.5V 以上高电压",
+            "constraint_type": "numerical_range",
+            "interpreted_value": ">4.5V",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly states voltage above 4.5V as a high-voltage condition. This is a clear numerical threshold for the operating voltage window.",
+            "confidence": 0.88,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "high voltage 4.5V",
+              "voltage window above 4.5V",
+              "high voltage electrolyte",
+              "4.5V cutoff"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_filter",
+                "field": "voltage_min",
+                "condition": ">= 4.5"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "explicit_value_from_user_input_only"
+            ]
+          },
+          {
+            "constraint_name": "charge_rate",
+            "original_phrase": "2C 以上快充",
+            "constraint_type": "numerical_range",
+            "interpreted_value": ">2C",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly states fast charging above 2C rate. 2C is a clear numerical threshold in battery literature.",
+            "confidence": 0.88,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "fast charging",
+              "2C rate",
+              "high rate charging",
+              "C-rate above 2C"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_filter",
+                "field": "charge_rate",
+                "condition": ">= 2C"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "explicit_value_from_user_input_only"
+            ]
+          },
+          {
+            "constraint_name": "electrolyte_type",
+            "original_phrase": "醚类电解液",
+            "constraint_type": "material_property",
+            "interpreted_value": "ether-based electrolyte",
+            "candidate_values": [
+              "DME-based",
+              "DOL/DME",
+              "glyme-based",
+              "ether solvent electrolyte"
+            ],
+            "domain_rationale": "User explicitly specifies ether-based electrolytes as the design focus. Ether solvents (DME, DOL, glymes) are commonly studied for lithium metal batteries due to their compatibility with Li metal.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "ether electrolyte",
+              "ether-based electrolyte",
+              "glyme electrolyte",
+              "DME electrolyte",
+              "ether solvent lithium"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_filter",
+                "field": "electrolyte_type",
+                "condition": "ether-based"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "performance_metric_coulombic_efficiency",
+            "original_phrase": "库伦效率",
+            "constraint_type": "experimental_condition",
+            "interpreted_value": "Coulombic efficiency",
+            "candidate_values": [],
+            "domain_rationale": "Coulombic efficiency (CE) is a standard metric for lithium metal battery performance, measuring the ratio of charge extracted to charge stored per cycle.",
+            "confidence": 0.87,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "Coulombic efficiency",
+              "CE lithium metal",
+              "first cycle efficiency"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers reporting Coulombic efficiency as a key metric"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "performance_metric_cycle_life",
+            "original_phrase": "循环寿命",
+            "constraint_type": "experimental_condition",
+            "interpreted_value": "cycle life",
+            "candidate_values": [],
+            "domain_rationale": "Cycle life is a standard electrochemical performance metric indicating how many charge-discharge cycles a battery can sustain before significant capacity fade.",
+            "confidence": 0.87,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "cycle life",
+              "cycling stability",
+              "capacity retention",
+              "long-term cycling"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers reporting cycle life or cycling stability data"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "performance_metric_interfacial_stability",
+            "original_phrase": "界面稳定性",
+            "constraint_type": "experimental_condition",
+            "interpreted_value": "interfacial stability",
+            "candidate_values": [],
+            "domain_rationale": "Interfacial stability refers to the stability of the electrode-electrolyte interface (SEI on Li metal), a critical factor for lithium metal battery performance.",
+            "confidence": 0.85,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "interfacial stability",
+              "SEI stability",
+              "electrode-electrolyte interface",
+              "solid electrolyte interphase"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying interfacial stability or SEI characterization"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.88,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [
+            "explicit_value_from_user_input_only"
+          ],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_battery_002_fuzzy_fast_charge",
+      "domain_group": "battery_materials",
+      "input_style": "fuzzy",
+      "source_skill1_output_file": "outputs/cn_battery_002_fuzzy_fast_charge.json",
+      "input": {
+        "user_query": "锂电池快充的时候电解液不稳定，有没有一些比较新的添加剂或者溶剂化结构设计思路？最好别太偏工程应用，想看机理比较清楚的论文。",
+        "research_domain": "battery materials",
+        "material_system": null,
+        "research_context": {
+          "domain_group": "battery_materials",
+          "input_style": "fuzzy"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "battery_system",
+            "original_phrase": "锂电池",
+            "constraint_type": "material_property",
+            "interpreted_value": "lithium-ion battery",
+            "candidate_values": [
+              "lithium-ion battery",
+              "lithium metal battery"
+            ],
+            "domain_rationale": "User says '锂电池' without specifying lithium metal vs lithium-ion. Most fast-charging literature covers lithium-ion; lithium metal is not stated.",
+            "confidence": 0.65,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "lithium battery",
+              "lithium-ion battery",
+              "Li-ion battery"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "treat_as_soft_constraint_until_confirmed: lithium-ion or lithium metal not specified"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "battery_subtype_ambiguous: lithium-ion vs lithium metal not specified"
+            ]
+          },
+          {
+            "constraint_name": "fast_charging_instability",
+            "original_phrase": "快充的时候电解液不稳定",
+            "constraint_type": "experimental_condition",
+            "interpreted_value": "electrolyte instability under fast charging",
+            "candidate_values": [],
+            "domain_rationale": "User identifies electrolyte instability during fast charging as the core problem. This is a qualitative condition without specific rate or voltage threshold.",
+            "confidence": 0.6,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "electrolyte instability fast charging",
+              "electrolyte decomposition high rate",
+              "fast charging electrolyte degradation"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "avoid_strong_filter_on_low_confidence: no specific rate or voltage threshold given"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "fast_charging_rate_undefined: specific C-rate not specified by user",
+              "voltage_threshold_undefined: no voltage window given"
+            ]
+          },
+          {
+            "constraint_name": "solution_type_additive_or_solvation",
+            "original_phrase": "添加剂或者溶剂化结构设计思路",
+            "constraint_type": "condition",
+            "interpreted_value": null,
+            "candidate_values": [
+              "electrolyte additive",
+              "solvation structure design",
+              "co-solvent design"
+            ],
+            "domain_rationale": "User is interested in either additive-based or solvation structure design approaches. These are two distinct but related research directions for electrolyte stabilization.",
+            "confidence": 0.62,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "electrolyte additive",
+              "solvation structure",
+              "solvation sheath design",
+              "co-solvent electrolyte",
+              "electrolyte formulation"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers on additive design or solvation structure engineering"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "approach_scope_broad: additive vs solvation structure are distinct research directions"
+            ]
+          },
+          {
+            "constraint_name": "recency_preference",
+            "original_phrase": "比较新的",
+            "constraint_type": "source_preference",
+            "interpreted_value": null,
+            "candidate_values": [
+              "recent 3 years",
+              "recent 5 years"
+            ],
+            "domain_rationale": "User prefers recent literature but does not specify a year range. 'New' is subjective; in fast-charging electrolyte research, recent typically means within 3-5 years.",
+            "confidence": 0.4,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "recent electrolyte design",
+              "novel electrolyte additive"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "treat_as_soft_constraint_until_confirmed: recency preference without year range"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "recency_undefined: no year range specified"
+            ]
+          },
+          {
+            "constraint_name": "mechanistic_clarity_preference",
+            "original_phrase": "机理比较清楚的论文",
+            "constraint_type": "source_preference",
+            "interpreted_value": null,
+            "candidate_values": [],
+            "domain_rationale": "User explicitly prefers papers with clear mechanistic explanation over engineering application papers. This is a qualitative preference that cannot be converted to a hard filter.",
+            "confidence": 0.45,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "mechanism electrolyte",
+              "mechanistic study fast charging",
+              "fundamental mechanism electrolyte stability"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "avoid_strong_filter_on_low_confidence: mechanistic clarity is not a quantifiable filter criterion"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "mechanistic_clarity_not_filterable: subjective quality criterion cannot be used as hard filter"
+            ]
+          },
+          {
+            "constraint_name": "application_scope_exclusion",
+            "original_phrase": "别太偏工程应用",
+            "constraint_type": "boundary_condition",
+            "interpreted_value": null,
+            "candidate_values": [],
+            "domain_rationale": "User wants to exclude papers that are primarily engineering-application focused, preferring fundamental/mechanistic research. This is a soft exclusion preference.",
+            "confidence": 0.42,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "fundamental study",
+              "mechanistic investigation",
+              "basic research electrolyte"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "deprioritize engineering application papers; prefer fundamental mechanistic studies"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "exclusion_criterion_subjective: engineering vs fundamental distinction is not always clear-cut"
+            ]
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.52,
+          "coverage_level": "moderate",
+          "missing_inputs": [
+            "specific_charge_rate",
+            "voltage_window",
+            "battery_subtype"
+          ],
+          "risk_flags": [
+            "fast_charging_rate_undefined",
+            "battery_subtype_ambiguous",
+            "recency_undefined",
+            "mechanistic_clarity_not_filterable"
+          ],
+          "needs_manual_review": true
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_battery_003_mixed_solid_state",
+      "domain_group": "battery_materials",
+      "input_style": "mixed",
+      "source_skill1_output_file": "outputs/cn_battery_003_mixed_solid_state.json",
+      "input": {
+        "user_query": "固态锂电池里，硫化物电解质室温离子电导率最好能到 10^-3 S/cm 以上，同时界面别太差。想看看有没有和锂金属负极匹配比较好的材料或界面调控方法。",
+        "research_domain": "solid-state batteries",
+        "material_system": "sulfide solid electrolyte",
+        "research_context": {
+          "domain_group": "battery_materials",
+          "input_style": "mixed"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "battery_system",
+            "original_phrase": "固态锂电池",
+            "constraint_type": "material_property",
+            "interpreted_value": "solid-state lithium battery",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies solid-state lithium battery as the target system.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "solid-state lithium battery",
+              "all-solid-state battery",
+              "solid electrolyte lithium"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_filter",
+                "field": "battery_type",
+                "condition": "solid-state"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "electrolyte_type",
+            "original_phrase": "硫化物电解质",
+            "constraint_type": "material_property",
+            "interpreted_value": "sulfide electrolyte",
+            "candidate_values": [
+              "Li6PS5Cl",
+              "Li10GeP2S12",
+              "Li3PS4",
+              "LGPS",
+              "argyrodite"
+            ],
+            "domain_rationale": "User explicitly specifies sulfide-type solid electrolyte. Sulfide electrolytes are a major class of solid electrolytes known for high ionic conductivity.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "sulfide electrolyte",
+              "sulfide solid electrolyte",
+              "thiophosphate electrolyte",
+              "Li-S-P electrolyte"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_filter",
+                "field": "electrolyte_class",
+                "condition": "sulfide"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "ionic_conductivity_threshold",
+            "original_phrase": "室温离子电导率最好能到 10^-3 S/cm 以上",
+            "constraint_type": "numerical_range",
+            "interpreted_value": ">= 1e-3 S/cm",
+            "candidate_values": [],
+            "domain_rationale": "User states a target ionic conductivity of at least 10^-3 S/cm at room temperature. This is a well-established benchmark in solid electrolyte literature. The phrase '最好能到' indicates a target/preference rather than a strict cutoff.",
+            "confidence": 0.85,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "ionic conductivity 10-3 S/cm",
+              "room temperature ionic conductivity",
+              "high ionic conductivity sulfide",
+              "mS/cm solid electrolyte"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers reporting room-temperature ionic conductivity >= 1e-3 S/cm; treat as target not hard cutoff due to '最好能到' phrasing"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "explicit_value_from_user_input_only",
+              "threshold_is_target_not_strict_cutoff: user said '最好能到' indicating preference"
+            ]
+          },
+          {
+            "constraint_name": "interface_quality",
+            "original_phrase": "界面别太差",
+            "constraint_type": "boundary_condition",
+            "interpreted_value": null,
+            "candidate_values": [
+              "low interfacial resistance",
+              "good electrochemical compatibility",
+              "stable SEI"
+            ],
+            "domain_rationale": "User wants acceptable interface quality but does not specify a quantitative threshold. '别太差' is a vague negative constraint meaning 'not too poor'.",
+            "confidence": 0.4,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "interfacial resistance",
+              "interface compatibility",
+              "electrolyte-electrode interface",
+              "interfacial stability solid electrolyte"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "avoid_strong_filter_on_low_confidence: interface quality is vague; no quantitative threshold given"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "interface_quality_undefined: no quantitative threshold for interface quality"
+            ]
+          },
+          {
+            "constraint_name": "anode_compatibility",
+            "original_phrase": "和锂金属负极匹配比较好的材料或界面调控方法",
+            "constraint_type": "experimental_condition",
+            "interpreted_value": "lithium metal anode compatibility",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly wants materials or interface engineering methods that are compatible with lithium metal anodes. This is a key research direction in solid-state battery development.",
+            "confidence": 0.82,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "lithium metal anode compatibility",
+              "Li metal interface",
+              "anode-electrolyte interface",
+              "interface engineering lithium metal"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying Li metal anode compatibility or interface modification methods"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.77,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [
+            "interface_quality_undefined"
+          ],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_battery_004_vague_sodium_low_temp",
+      "domain_group": "battery_materials",
+      "input_style": "vague",
+      "source_skill1_output_file": "outputs/cn_battery_004_vague_sodium_low_temp.json",
+      "input": {
+        "user_query": "钠电正极低温性能差，想找一些能改善倍率和结构稳定性的思路，不限定具体材料，但最好能覆盖层状氧化物和一些改性策略。",
+        "research_domain": "battery materials",
+        "material_system": "sodium-ion cathode",
+        "research_context": {
+          "domain_group": "battery_materials",
+          "input_style": "vague"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "battery_system",
+            "original_phrase": "钠电正极",
+            "constraint_type": "material_property",
+            "interpreted_value": "sodium-ion cathode",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies sodium-ion battery cathode as the target system.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "sodium-ion cathode",
+              "Na-ion cathode",
+              "sodium battery cathode material"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_filter",
+                "field": "battery_type",
+                "condition": "sodium-ion"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "low_temperature_performance",
+            "original_phrase": "低温性能差",
+            "constraint_type": "experimental_condition",
+            "interpreted_value": null,
+            "candidate_values": [
+              "-20°C",
+              "-40°C",
+              "0°C",
+              "sub-zero temperature"
+            ],
+            "domain_rationale": "User identifies poor low-temperature performance as the problem. No specific temperature is given. Low temperature in battery context typically refers to below 0°C, but the exact threshold is undefined.",
+            "confidence": 0.45,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "low temperature performance",
+              "low temperature sodium battery",
+              "cold temperature cathode",
+              "sub-zero electrochemistry"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "avoid_strong_filter_on_low_confidence: no specific temperature threshold given"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "temperature_threshold_undefined: no specific low-temperature value given by user"
+            ]
+          },
+          {
+            "constraint_name": "rate_capability",
+            "original_phrase": "倍率",
+            "constraint_type": "experimental_condition",
+            "interpreted_value": null,
+            "candidate_values": [],
+            "domain_rationale": "User mentions rate capability as a performance target to improve. No specific C-rate threshold is given.",
+            "confidence": 0.55,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "rate capability",
+              "rate performance sodium cathode",
+              "high rate sodium-ion"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers reporting rate capability data for sodium cathodes"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "rate_threshold_undefined: no specific C-rate target given"
+            ]
+          },
+          {
+            "constraint_name": "structural_stability",
+            "original_phrase": "结构稳定性",
+            "constraint_type": "material_property",
+            "interpreted_value": null,
+            "candidate_values": [],
+            "domain_rationale": "User wants structural stability as a performance criterion. This is a qualitative property without a specific quantitative threshold.",
+            "confidence": 0.6,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "structural stability sodium cathode",
+              "phase stability Na-ion",
+              "structural degradation cathode"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying structural stability of sodium cathode materials"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "material_scope_layered_oxide",
+            "original_phrase": "最好能覆盖层状氧化物",
+            "constraint_type": "boundary_condition",
+            "interpreted_value": null,
+            "candidate_values": [
+              "P2-type layered oxide",
+              "O3-type layered oxide",
+              "layered transition metal oxide"
+            ],
+            "domain_rationale": "User prefers coverage of layered oxide cathodes but does not restrict to a specific composition or phase. '最好能覆盖' indicates a preference, not a hard requirement.",
+            "confidence": 0.62,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "layered oxide sodium cathode",
+              "layered transition metal oxide Na-ion",
+              "P2 O3 sodium cathode"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers covering layered oxide cathodes; do not restrict to specific P2/O3 phase"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "material_scope_broad: layered oxide covers many compositions; specific phase not specified"
+            ]
+          },
+          {
+            "constraint_name": "modification_strategies",
+            "original_phrase": "改性策略",
+            "constraint_type": "condition",
+            "interpreted_value": null,
+            "candidate_values": [
+              "doping",
+              "coating",
+              "structural engineering",
+              "electrolyte optimization"
+            ],
+            "domain_rationale": "User wants modification strategies without specifying which type. This is a broad research direction covering doping, coating, structural design, etc.",
+            "confidence": 0.45,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "modification strategy sodium cathode",
+              "doping sodium cathode",
+              "surface coating Na-ion",
+              "structural engineering cathode"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers proposing modification strategies for sodium cathode improvement"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "modification_type_undefined: doping/coating/structural engineering not specified"
+            ]
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.55,
+          "coverage_level": "moderate",
+          "missing_inputs": [
+            "specific_temperature_threshold",
+            "specific_material_composition"
+          ],
+          "risk_flags": [
+            "temperature_threshold_undefined",
+            "rate_threshold_undefined",
+            "material_scope_broad"
+          ],
+          "needs_manual_review": true
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_theory_001_precise_perovskite_dft",
+      "domain_group": "theoretical_materials",
+      "input_style": "precise",
+      "source_skill1_output_file": "outputs/cn_theory_001_precise_perovskite_dft.json",
+      "input": {
+        "user_query": "我想检索卤化物钙钛矿缺陷容忍性的理论研究，重点关注 DFT 计算、非辐射复合、带边态和载流子复合机制之间的关系。",
+        "research_domain": "theoretical materials science",
+        "material_system": "halide perovskites",
+        "research_context": {
+          "domain_group": "theoretical_materials",
+          "input_style": "precise"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "material_system",
+            "original_phrase": "卤化物钙钛矿",
+            "constraint_type": "material_property",
+            "interpreted_value": "halide perovskite",
+            "candidate_values": [
+              "lead halide perovskite",
+              "tin halide perovskite",
+              "mixed halide perovskite"
+            ],
+            "domain_rationale": "User explicitly specifies halide perovskites as the material system. This is a well-defined class of materials in photovoltaics and optoelectronics research.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "halide perovskite",
+              "lead halide perovskite",
+              "perovskite semiconductor",
+              "ABX3 perovskite"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_filter",
+                "field": "material_class",
+                "condition": "halide perovskite"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "research_topic",
+            "original_phrase": "缺陷容忍性",
+            "constraint_type": "material_property",
+            "interpreted_value": "defect tolerance",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies defect tolerance as the research topic. Defect tolerance is a key property of halide perovskites explaining their high performance despite high defect densities.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "defect tolerance perovskite",
+              "defect tolerant semiconductor",
+              "defect physics perovskite"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying defect tolerance in halide perovskites"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "computational_method",
+            "original_phrase": "DFT 计算",
+            "constraint_type": "condition",
+            "interpreted_value": "DFT calculation",
+            "candidate_values": [
+              "density functional theory",
+              "hybrid DFT",
+              "GW calculation"
+            ],
+            "domain_rationale": "User explicitly specifies DFT as the computational method of interest. DFT is the standard first-principles method for studying defect physics in perovskites.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "DFT calculation perovskite",
+              "density functional theory defect",
+              "first-principles perovskite defect"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers using DFT calculations; do not treat as material filter"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "nonradiative_recombination",
+            "original_phrase": "非辐射复合",
+            "constraint_type": "condition",
+            "interpreted_value": "nonradiative recombination",
+            "candidate_values": [
+              "Shockley-Read-Hall recombination",
+              "Auger recombination",
+              "trap-assisted recombination"
+            ],
+            "domain_rationale": "User explicitly specifies nonradiative recombination as a key mechanism to study. This is directly linked to defect states in perovskites.",
+            "confidence": 0.88,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "nonradiative recombination perovskite",
+              "trap-assisted recombination",
+              "Shockley-Read-Hall perovskite",
+              "non-radiative recombination defect"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying nonradiative recombination mechanisms"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "band_edge_states",
+            "original_phrase": "带边态",
+            "constraint_type": "condition",
+            "interpreted_value": "band-edge states",
+            "candidate_values": [
+              "valence band maximum",
+              "conduction band minimum",
+              "shallow defect states"
+            ],
+            "domain_rationale": "User explicitly mentions band-edge states as a focus. In perovskite defect physics, band-edge states are associated with shallow defects that are less harmful than deep trap states.",
+            "confidence": 0.87,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "band-edge states perovskite",
+              "shallow defect states",
+              "band edge defect",
+              "valence band maximum defect"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers analyzing band-edge states and their relation to defect tolerance"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "carrier_recombination_mechanism",
+            "original_phrase": "载流子复合机制",
+            "constraint_type": "condition",
+            "interpreted_value": "carrier recombination mechanism",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly wants to understand the relationship between carrier recombination mechanisms and defect tolerance/band-edge states.",
+            "confidence": 0.85,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "carrier recombination mechanism perovskite",
+              "recombination dynamics perovskite",
+              "charge carrier recombination defect"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying carrier recombination mechanisms in halide perovskites"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.88,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_theory_002_mixed_high_entropy",
+      "domain_group": "theoretical_materials",
+      "input_style": "mixed",
+      "source_skill1_output_file": "outputs/cn_theory_002_mixed_high_entropy.json",
+      "input": {
+        "user_query": "高熵合金相稳定性预测方面，想找 CALPHAD 和 DFT 结合的工作，最好围绕 Al-Co-Cr-Fe-Ni 体系，看形成焓、混合熵和相分解风险。",
+        "research_domain": "theoretical materials science",
+        "material_system": "Al-Co-Cr-Fe-Ni high-entropy alloys",
+        "research_context": {
+          "domain_group": "theoretical_materials",
+          "input_style": "mixed"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "material_system",
+            "original_phrase": "高熵合金",
+            "constraint_type": "material_property",
+            "interpreted_value": "high-entropy alloy",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies high-entropy alloys as the material system.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "high-entropy alloy",
+              "HEA",
+              "multi-principal element alloy"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_filter",
+                "field": "material_class",
+                "condition": "high-entropy alloy"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "research_topic",
+            "original_phrase": "相稳定性预测",
+            "constraint_type": "condition",
+            "interpreted_value": "phase stability prediction",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies phase stability prediction as the research topic.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "phase stability prediction HEA",
+              "phase stability high-entropy alloy",
+              "phase diagram prediction"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers on phase stability prediction in HEAs"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "method_calphad",
+            "original_phrase": "CALPHAD",
+            "constraint_type": "condition",
+            "interpreted_value": "CALPHAD method",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies CALPHAD as one of the computational methods of interest.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "CALPHAD high-entropy alloy",
+              "CALPHAD phase stability",
+              "thermodynamic modeling HEA"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers using CALPHAD; do not treat as material filter"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "method_dft",
+            "original_phrase": "DFT",
+            "constraint_type": "condition",
+            "interpreted_value": "DFT calculation",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies DFT as the other computational method, combined with CALPHAD.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "DFT high-entropy alloy",
+              "first-principles HEA",
+              "DFT CALPHAD combined"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers combining DFT and CALPHAD approaches"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "composition_system",
+            "original_phrase": "Al-Co-Cr-Fe-Ni 体系",
+            "constraint_type": "material_property",
+            "interpreted_value": "Al-Co-Cr-Fe-Ni system",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly specifies the Al-Co-Cr-Fe-Ni quinary system as the target composition.",
+            "confidence": 0.92,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "Al-Co-Cr-Fe-Ni",
+              "AlCoCrFeNi high-entropy alloy",
+              "Cantor alloy variant Al"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_filter",
+                "field": "composition_system",
+                "condition": "Al-Co-Cr-Fe-Ni"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "explicit_value_from_user_input_only"
+            ]
+          },
+          {
+            "constraint_name": "formation_enthalpy",
+            "original_phrase": "形成焓",
+            "constraint_type": "material_property",
+            "interpreted_value": "formation enthalpy",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly lists formation enthalpy as a thermodynamic property of interest.",
+            "confidence": 0.88,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "formation enthalpy HEA",
+              "mixing enthalpy high-entropy alloy",
+              "enthalpy of formation alloy"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers reporting formation enthalpy data"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "mixing_entropy",
+            "original_phrase": "混合熵",
+            "constraint_type": "material_property",
+            "interpreted_value": "mixing entropy",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly lists mixing entropy as a thermodynamic property of interest.",
+            "confidence": 0.88,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "mixing entropy HEA",
+              "configurational entropy high-entropy alloy",
+              "entropy stabilization"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers analyzing mixing entropy contributions"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "phase_decomposition_risk",
+            "original_phrase": "相分解风险",
+            "constraint_type": "condition",
+            "interpreted_value": "phase decomposition risk",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly wants to understand phase decomposition risk, i.e., the tendency of the alloy to separate into multiple phases.",
+            "confidence": 0.85,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "phase decomposition HEA",
+              "phase separation high-entropy alloy",
+              "spinodal decomposition HEA",
+              "phase stability risk"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers analyzing phase decomposition or separation risks"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.89,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [
+            "explicit_value_from_user_input_only"
+          ],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_theory_003_fuzzy_topological",
+      "domain_group": "theoretical_materials",
+      "input_style": "fuzzy",
+      "source_skill1_output_file": "outputs/cn_theory_003_fuzzy_topological.json",
+      "input": {
+        "user_query": "拓扑材料里自旋轨道耦合到底怎么影响能带反转？我想找一些理论计算和实验验证能对应上的文章，不要只讲概念。",
+        "research_domain": "theoretical materials science",
+        "material_system": "topological materials",
+        "research_context": {
+          "domain_group": "theoretical_materials",
+          "input_style": "fuzzy"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "material_class",
+            "original_phrase": "拓扑材料",
+            "constraint_type": "material_property",
+            "interpreted_value": "topological materials",
+            "candidate_values": [
+              "topological insulator",
+              "topological semimetal",
+              "Weyl semimetal",
+              "Dirac semimetal"
+            ],
+            "domain_rationale": "User specifies topological materials as the broad material class. No specific compound is named; the class covers topological insulators, semimetals, etc.",
+            "confidence": 0.72,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "topological materials",
+              "topological insulator",
+              "topological semimetal",
+              "Weyl semimetal"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers on topological materials broadly; do not restrict to specific compound"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "material_class_broad: topological materials covers many subclasses; specific compound not given"
+            ]
+          },
+          {
+            "constraint_name": "mechanism_soc",
+            "original_phrase": "自旋轨道耦合",
+            "constraint_type": "condition",
+            "interpreted_value": "spin-orbit coupling",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly asks how spin-orbit coupling (SOC) affects band inversion. SOC is the key mechanism driving topological phase transitions.",
+            "confidence": 0.88,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "spin-orbit coupling topological",
+              "SOC band inversion",
+              "spin-orbit interaction topological insulator"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying spin-orbit coupling effects on band structure"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "mechanism_band_inversion",
+            "original_phrase": "能带反转",
+            "constraint_type": "condition",
+            "interpreted_value": "band inversion",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly asks about band inversion as the key topological phenomenon driven by SOC.",
+            "confidence": 0.88,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "band inversion topological",
+              "band inversion spin-orbit coupling",
+              "topological band inversion mechanism"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers studying band inversion mechanisms"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "theory_experiment_alignment",
+            "original_phrase": "理论计算和实验验证能对应上",
+            "constraint_type": "source_preference",
+            "interpreted_value": "theory-experiment correspondence",
+            "candidate_values": [],
+            "domain_rationale": "User explicitly wants papers where theoretical calculations and experimental validation are aligned. This is a qualitative preference for papers with both computational and experimental components.",
+            "confidence": 0.62,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "theory experiment agreement topological",
+              "first-principles ARPES topological",
+              "calculation experimental validation band inversion"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers combining theoretical calculation with experimental validation; do not require ARPES specifically"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "experimental_method_unspecified: ARPES/STM/transport not specified by user"
+            ]
+          },
+          {
+            "constraint_name": "content_depth_preference",
+            "original_phrase": "不要只讲概念",
+            "constraint_type": "boundary_condition",
+            "interpreted_value": null,
+            "candidate_values": [],
+            "domain_rationale": "User wants papers with substantive analysis beyond conceptual introduction. This is a soft exclusion of purely review/introductory papers.",
+            "confidence": 0.4,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "quantitative analysis topological",
+              "numerical calculation band inversion"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "deprioritize purely conceptual or introductory review papers"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "depth_criterion_subjective: conceptual vs substantive is not a filterable criterion"
+            ]
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.68,
+          "coverage_level": "moderate",
+          "missing_inputs": [
+            "specific_material_compound",
+            "experimental_method"
+          ],
+          "risk_flags": [
+            "material_class_broad",
+            "experimental_method_unspecified"
+          ],
+          "needs_manual_review": true
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    },
+    {
+      "case_id": "cn_theory_004_underspecified_mechanism",
+      "domain_group": "theoretical_materials",
+      "input_style": "underspecified",
+      "source_skill1_output_file": "outputs/cn_theory_004_underspecified_mechanism.json",
+      "input": {
+        "user_query": "有没有材料里机制解释比较清楚、又能被计算验证的研究？我想学习它们怎么从结构变化推到性能提升。",
+        "research_domain": "materials science",
+        "material_system": null,
+        "research_context": {
+          "domain_group": "theoretical_materials",
+          "input_style": "underspecified"
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "research_topic",
+            "original_phrase": "材料里机制解释比较清楚、又能被计算验证的研究",
+            "constraint_type": "condition",
+            "interpreted_value": null,
+            "candidate_values": [],
+            "domain_rationale": "User wants materials research where the mechanism is clearly explained and computationally validated. No specific material, property, or method is given. This is a highly underspecified query about a research quality criterion.",
+            "confidence": 0.32,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "mechanism explanation computational validation materials",
+              "structure-property relationship first-principles",
+              "mechanistic study materials science"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "avoid_strong_filter_on_low_confidence: no material system, method, or property specified"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "material_system_missing: no specific material or material class given",
+              "method_missing: computational method not specified",
+              "property_target_missing: no specific property or performance metric given",
+              "query_highly_underspecified: cannot generate meaningful hard filters"
+            ]
+          },
+          {
+            "constraint_name": "structure_property_relationship",
+            "original_phrase": "从结构变化推到性能提升",
+            "constraint_type": "condition",
+            "interpreted_value": "structure-to-property reasoning",
+            "candidate_values": [],
+            "domain_rationale": "User wants to learn how structural changes lead to performance improvements. This is a general research methodology preference, not a specific constraint.",
+            "confidence": 0.35,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "structure-property relationship materials",
+              "structural change performance improvement",
+              "structure-property correlation computational"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers explicitly linking structural changes to performance improvements via computation"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "structure_type_undefined: crystal structure, microstructure, or electronic structure not specified",
+              "performance_metric_undefined: no specific performance target given"
+            ]
+          },
+          {
+            "constraint_name": "computational_validation_requirement",
+            "original_phrase": "能被计算验证",
+            "constraint_type": "source_preference",
+            "interpreted_value": null,
+            "candidate_values": [
+              "DFT",
+              "MD simulation",
+              "ML model",
+              "CALPHAD"
+            ],
+            "domain_rationale": "User requires computational validation but does not specify the method. This is a soft preference for papers with computational evidence.",
+            "confidence": 0.38,
+            "needs_user_confirmation": true,
+            "downstream_search_terms": [
+              "computational validation materials",
+              "first-principles validation",
+              "simulation validated mechanism"
+            ],
+            "downstream_filter_rules": [
+              {
+                "type": "soft_rule",
+                "description": "prefer papers with computational validation of proposed mechanisms; method not specified"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": [
+              "computational_method_undefined: DFT/MD/ML not specified by user"
+            ]
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.35,
+          "coverage_level": "partial",
+          "missing_inputs": [
+            "material_system",
+            "computational_method",
+            "property_target",
+            "research_domain"
+          ],
+          "risk_flags": [
+            "material_system_missing",
+            "method_missing",
+            "property_target_missing",
+            "query_highly_underspecified"
+          ],
+          "needs_manual_review": true
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "fixtureVersion": 1,
+  "incident": "cs_first_role_input_fidelity_and_method_preflight_isolation",
+  "knownBadSource": "f0d2aeac392f305184303783cc21cf9b8d1a87a6",
+  "sourceEvidenceKind": "minimized_from_actual_production_submit_workunit_artifact_and_lineage",
+  "originalRequestExcerpt": "复现 SimCSE 官方公开实验链，形成真实、可追溯的论文复现结论。\n\n目标对象：\n- 官方代码仓库：https://github.com/princeton-nlp/SimCSE.git\n- 固定代码 revision：235f89e0244b23673b69fbbc4a1cd9868c5a5c24",
+  "persistedDesignGoal": "在固定 SimCSE 代码 revision、官方模型及指定 STS test 配置下完成一次新的真实评测，取得可追溯实际 Avg. 指标，并依据可追溯的官方参考结果和比较判据形成受 B05 comparison verdict 约束的论文复现结论。",
+  "actualFirstRoleParameters": {
+    "research_goal": "在固定 SimCSE 代码 revision、官方模型及指定 STS test 配置下完成一次新的真实评测，取得可追溯实际 Avg. 指标，并依据可追溯的官方参考结果和比较判据形成受 B05 comparison verdict 约束的论文复现结论。"
+  },
+  "actualFirstRoleContent": "{\"repository\":null,\"revision\":null,\"unresolved_inputs\":[\"repository\",\"revision\"]}",
+  "actualContentSha256": "254a1247061851c98af3eedefecda63c59a340328def0f7e7a0f557c00786a04",
+  "method": {
+    "methodId": "cs_reproduction_baseline_grounding",
+    "methodVersion": 1
+  },
+  "identities": {
+    "taskId": "task-fixture-cs",
+    "decisionId": "decision-fixture-cs",
+    "substageInstanceId": "instance-fixture-baseline",
+    "producerAssignmentId": "assignment-fixture-input",
+    "consumerAssignmentId": "assignment-fixture-code",
+    "producerWorkUnitId": "workunit-fixture-input",
+    "sourceCallId": "call-fixture-input",
+    "sourceArtifactId": "artifact-fixture-input"
+  },
+  "producer": {
+    "roleId": "input_structuring",
+    "iteration": 1,
+    "executorRef": {
+      "executorId": "cs_reproduction_input_structuring",
+      "executorType": "skill",
+      "definitionVersion": 1
+    },
+    "sourceBindingRefs": [
+      {
+        "bindingId": "bind:cs_reproduction:reproduction_baseline_criteria:skill:cs_reproduction_input_structuring",
+        "bindingVersion": 2
+      }
+    ],
+    "failurePolicy": "continue_degraded",
+    "status": "completed",
+    "artifactState": "usable",
+    "sourceMode": "live"
+  },
+  "consumer": {
+    "roleId": "code_identity_acquisition",
+    "iteration": 1,
+    "executorRef": {
+      "executorId": "repository_revision_acquisition",
+      "executorType": "skill",
+      "definitionVersion": 1
+    },
+    "sourceBindingRefs": [
+      {
+        "bindingId": "bind:cs_reproduction:reproduction_baseline_criteria:skill:repository_revision_acquisition",
+        "bindingVersion": 2
+      }
+    ],
+    "dependencyRoleIds": [
+      "input_structuring"
+    ],
+    "failurePolicy": "continue_degraded"
+  },
+  "observedGate": {
+    "code": "input_contract_invalid",
+    "fieldPaths": [
+      "/repository",
+      "/revision"
+    ]
+  },
+  "observedIncorrectMethodState": "blocked_recoverable",
+  "anonymization": "Runtime IDs are synthetic fixture identities. Scientific excerpt, summarized goal, frozen parameters and first-role output are verbatim production values."
+}

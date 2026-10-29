@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "evidence-node-extraction input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "paper_packets",
+    "evidence_schema"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "paper_packets": {
+      "type": "array",
+      "items": {
+        "$ref": "../deepxiv-progressive-reading-skill/output.schema.json#/properties/paper_packets/items"
+      },
+      "$comment": "Each packet is consumed under the progressive-reading Formal Schema. Runtime additionally verifies the cross-object facts that JSON Schema cannot safely express: SHA-256 content hashes, unique section identities, globally unique anchor_id values, anchor candidate identity, and anchor-to-section/source relationships."
+    },
+    "evidence_schema": {
+      "$ref": "../evidence-schema-design-skill/output.schema.json#/definitions/evidence_schema",
+      "$comment": "target_id values must be unique. This property-level uniqueness relation is enforced deterministically at runtime because standard JSON Schema cannot express uniqueness by one property across array objects."
+    }
+  }
+}

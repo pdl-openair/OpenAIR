@@ -1,0 +1,123 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "system_type",
+      "original_phrase": "面向材料科研任务的多智能体系统",
+      "constraint_type": "condition",
+      "interpreted_value": "multi-agent system for materials research",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies multi-agent systems applied to materials science research tasks.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["multi-agent system materials research", "multi-agent materials science", "collaborative agent materials discovery"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers on multi-agent systems applied to materials research"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "literature_retrieval_component",
+      "original_phrase": "文献检索",
+      "constraint_type": "condition",
+      "interpreted_value": "literature retrieval",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly lists literature retrieval as one of the workflow components to be integrated.",
+      "confidence": 0.87,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["literature retrieval agent", "automated literature search", "scientific paper retrieval agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers including literature retrieval as a workflow component"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "evidence_organization",
+      "original_phrase": "证据整理",
+      "constraint_type": "condition",
+      "interpreted_value": "evidence organization",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly lists evidence organization as a workflow component, referring to structuring and synthesizing retrieved evidence.",
+      "confidence": 0.82,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["evidence organization agent", "evidence synthesis AI", "knowledge organization agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers including evidence organization or synthesis components"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "hypothesis_generation",
+      "original_phrase": "候选假说",
+      "constraint_type": "condition",
+      "interpreted_value": "candidate hypothesis generation",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly lists candidate hypothesis generation as a workflow component.",
+      "confidence": 0.85,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["hypothesis generation materials", "candidate hypothesis agent", "automated hypothesis materials science"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers including hypothesis generation in the workflow"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "computational_tool_invocation",
+      "original_phrase": "计算工具调用",
+      "constraint_type": "condition",
+      "interpreted_value": "computational tool invocation",
+      "candidate_values": ["DFT tools", "MD simulation", "CALPHAD", "ML models"],
+      "domain_rationale": "User explicitly lists computational tool invocation as a workflow component. In materials research, this typically includes DFT, MD, or ML-based tools.",
+      "confidence": 0.80,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["computational tool agent", "simulation tool calling", "DFT tool agent", "agent computational workflow"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers where agents invoke computational tools (DFT, MD, ML)"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["computational_tool_type_unspecified: DFT/MD/ML not specified by user"]
+    },
+    {
+      "constraint_name": "experimental_feedback",
+      "original_phrase": "实验反馈",
+      "constraint_type": "condition",
+      "interpreted_value": "experimental feedback",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly lists experimental feedback as a workflow component, implying closed-loop integration with experimental results.",
+      "confidence": 0.80,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["experimental feedback agent", "closed-loop experiment agent", "experiment-in-the-loop AI"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers integrating experimental feedback into the agent workflow"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "closed_loop_optimization",
+      "original_phrase": "持续演化或闭环优化",
+      "constraint_type": "condition",
+      "interpreted_value": "continuous evolution or closed-loop optimization",
+      "candidate_values": ["iterative optimization", "self-improving agent", "closed-loop discovery"],
+      "domain_rationale": "User explicitly wants systems with continuous evolution or closed-loop optimization, indicating interest in self-improving or iterative agent architectures.",
+      "confidence": 0.72,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["closed-loop optimization agent", "continuous learning agent", "iterative agent materials", "self-improving agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers demonstrating closed-loop or iterative optimization in agent systems"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["closed_loop_definition_ambiguous: continuous evolution vs closed-loop optimization are distinct concepts"]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.82,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": ["computational_tool_type_unspecified", "closed_loop_definition_ambiguous"],
+    "needs_manual_review": false
+  }
+}

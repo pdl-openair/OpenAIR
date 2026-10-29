@@ -1,0 +1,20 @@
+suite_id: component.modules.resource-catalog-public-contributions
+protected_outcome: Approved public contributions remain uniquely identifiable and non-executable until a public runtime contract exists.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - schemas/resources/catalog-release.schema.json
+failure_class: public_catalog_contribution_identity_or_execution_authority_corruption
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/modules/resource_catalog.py
+test_responsibility: deterministic component behavior for public contribution projection and identity collision handling
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - public contribution projection changes
+  - catalog identity merge changes

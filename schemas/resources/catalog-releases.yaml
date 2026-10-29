@@ -1,0 +1,3075 @@
+catalogReleases:
+- resourceId: agent:general_research_agent
+  resourceType: agent
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_agent
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: agent:key_literature_positioning
+  resourceType: agent
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - problem_modeling
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: agent:mechanism_dispute_mapping
+  resourceType: agent
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_agent
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: agent:paper_evidence_extraction
+  resourceType: agent
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_agent
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: agent:research_gap_identification
+  resourceType: agent
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_agent
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: agent:research_question_refinement
+  resourceType: agent
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_agent
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: agent:result_reliability_audit
+  resourceType: agent
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_agent
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: agent:validation_design
+  resourceType: agent
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - problem_modeling
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_agent
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ablation_design
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ablation_planning
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:academic_source_retrieval_skill
+  resourceType: skill
+  releaseVersion: 1.0.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:analysis_plan_design
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:analysis_planning
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:argument_blueprint
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:argument_structuring
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:baseline_comparison
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:baseline_selection
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:candidate_dedup_and_provenance
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:candidate_generation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - materials
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:candidate_source_scoring
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:candidate_tiering
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:causal_reasoning
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:characterization
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - materials
+  scenarios:
+  - insight_generation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:code_implementation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:code_implementation_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:constraint_definition
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:constraints_criteria
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:data_acquisition
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:data_strategy
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:data_validation_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:data_visualization_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:database_search
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - materials
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:deepxiv_progressive_reading
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:environment_setup
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:evidence_extraction
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:evidence_mining
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:evidence_node_extraction
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:evidence_schema_design
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - solution_design
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:experiment_design_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:experiment_execution_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:exploratory_execution
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:exploratory_run
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:failure_documentation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:finding_integration
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:findings_synthesis
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:full_execution
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:gap_analysis
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:gap_analysis_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:gap_identification
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:hypothesis_construction
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: true
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:hypothesis_construction_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:hypothesis_formation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:hypothesis_revision
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:hypothesis_testing
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:hypothesis_update
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:hypothesis_validation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:info_retrieval_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:intent_extraction
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:intent_understanding
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:lead_discovery
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:literature_filter_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:literature_review
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - problem_modeling
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:literature_search
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:materials_mp_constraint_search
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - materials
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:materials_new_crystal_generation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - materials
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:materials_parameter_recommend_flux
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - materials
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:mechanism_chain_synthesis
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:mechanism_explanation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:method_evaluation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:method_selection
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:mmp_deploy_app
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:mmp_resources
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:mmp_training_workflow
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:negative_result_recording
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:new_task_planning
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - general
+  scenarios:
+  - problem_modeling
+  - solution_design
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_code_implementation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_data_validation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_data_visualization
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_experiment_design
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_experiment_execution
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_gap_analysis
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_hypothesis_construction
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_info_retrieval
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_literature_filter
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_paper_revision
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_paper_writing
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_question_formulation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:ope_task_planning
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:opentrajectory_mechanism_explanation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:opentrajectory_source_acquisition
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:opentrajectory_source_screening_selection
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:paper_revision_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:paper_writing_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:parameter_recommendation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - materials
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:quality_audit
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:question_formulation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:question_formulation_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:question_refinement
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:report_generation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:report_writing
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:reproducibility
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:research_lead_generation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - insight_generation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:result_acceptance
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:retrieval_matrix_generation
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - solution_design
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:source_access_readiness_resolver
+  resourceType: skill
+  releaseVersion: 1.0.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:stability_verification
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - materials
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:statistical_analysis
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:statistical_testing
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:synthesis_execution
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - materials
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:task_breakdown
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:task_decomposition
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:task_planning_l3
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - ope
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:title_abstract_screening
+  resourceType: skill
+  releaseVersion: 1.0.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:topic_briefing
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - problem_modeling
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:topk_source_selection
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - opentrajectory
+  scenarios:
+  - execution_validation
+  availability: view_only
+  executionBlocked: true
+  primaryAction: view
+  executionEntry: null
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内查看
+  usagePolicy: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内查看；暂不开放资源执行、导出、再分发或外部复用。
+  safetyRisk: null
+- resourceId: skill:variable_definition
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - sdr
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:variable_identification
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - cs_research
+  scenarios:
+  - solution_design
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null
+- resourceId: skill:vasp_thermodynamic_stability
+  resourceType: skill
+  releaseVersion: 0.1.0
+  catalogReleased: true
+  discoverable: true
+  visibleOnHome: false
+  visibleInCatalog: true
+  visibleInDetail: true
+  source: OpenAIR 官方
+  maintainer: OpenAIR 官方
+  evidenceStatus: verified_execution_evidence
+  evidenceConflictDisposition: no_conflict_recorded
+  domains:
+  - materials
+  scenarios:
+  - execution_validation
+  availability: tryable
+  executionBlocked: false
+  primaryAction: try
+  executionEntry: durable_skill
+  configurationRequirements: []
+  permissionRequirements:
+  - OpenAIR 受控试用范围内试用
+  usagePolicy: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  licenseSummary: 仅限 OpenAIR 受控试用范围内试用；不得导出、再分发或用于未授权外部复用。
+  safetyRisk: null

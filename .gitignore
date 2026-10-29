@@ -1,0 +1,206 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build / cache
+dist/
+build/
+.next/
+out/
+.turbo/
+.cache/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+# Ignore all per-user / per-host env files, but keep templates and shared zeabur config tracked.
+.env.*
+!.env.example
+!.env.zeabur.*
+
+# Logs
+logs/
+*.log
+.devstack-logs/
+npm-debug.log*
+
+.nightly_worktrees/
+
+# local package store / worktrees / task scratch clones (never sync to test)
+.pnpm-store/
+.worktrees/
+/t05-workspace/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Test / coverage
+coverage/
+.nyc_output/
+.coverage
+.coverage.*
+
+# Misc
+*.swp
+*.swo
+tmp/
+.tmp/
+/.tmp_*
+temp/
+tmp*.json
+tmp*.md
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Secrets — auto-generated locally, never commit
+services/api/.dev_jwt_secret
+
+# agent — .claude 入仓白名单：仅共享 settings 与 agents 定义（SPEC-SEC-02 白名单模式）；
+# 其余（skills 镜像、settings.local.json、本地状态）保持忽略
+.claude/*
+!.claude/settings.json
+!.claude/agents/
+!.claude/agents/**
+.trae/
+.cursor/
+.qoder/
+.agents/
+
+# archive / local reports
+_archive/
+
+# generated local evidence / smoke artifacts (root only — anchor to avoid
+# catching tracked source like apps/web/src/components/artifacts/)
+/artifacts/
+
+# persisted task workspace (root only)
+/workspace/
+
+# local dev tools / debug scripts
+scripts/local/
+tools/local/
+
+# persisted task data (root only — without the leading slash this also
+# matched apps/web/src/data/, which forced `git add -f` on tracked source)
+/data/
+
+# playwright (local runner outputs; harness also ignores under evals/)
+.playwright-mcp
+/test-results/
+/playwright-report/
+
+# opentrajectory generated runtime outputs
+skills/opentrajectory/tests/execution_outputs/
+
+# local smoke payloads (keep examples/; do not version generated smoke dumps)
+skills/opentrajectory/**/tests/smoke/*_output.json
+skills/opentrajectory/**/tests/smoke/*_results.json
+skills/opentrajectory/**/tests/smoke/*_results*.json
+skills/opentrajectory/**/tests/smoke/smoke_results.json
+skills/opentrajectory/**/tests/smoke/full_source_results.json
+skills/opentrajectory/**/tests/smoke/formal_adapter_smoke_results.json
+
+# docker dev
+docker-compose.override.y*ml
+
+# XRD skill — keep local, exclude from git for now (large data + WIP)
+skills/materials/materials-auto-xrd/
+
+# CVD/FLUX capability-call mocks — keep local, untracked (reference
+# .claude/skills/execute-cvd-reactor which is not in repo yet)
+fixtures/capability_calls/mocks/
+
+# materials design scratch workspaces — local iteration artifacts, not shared
+skills/materials/evaluation/
+skills/materials/crystal-design-formula-crossover-workspace/
+
+# verification/ — 测试代码架构：仅长期 Suite 入库；运行过程/WIP/隔离 runtime 留本地。
+# 注意：写成 `verification/` 会挡住子路径反向规则，必须用 /* + !suites/
+/verification/*
+!/verification/suites/
+!/verification/suites/**
+
+# 阶段性诊断探针默认不入库（形成正式 Suite / Eval 后再显式纳入）
+/tools/diagnostics/**
+
+# 常见本地证据压缩包（防误 add；verification 过程目录已由上方规则覆盖）
+*.run.zip
+*.evidence.zip
+
+# pycache re-ignore after the suites whitelist above (last-match wins);
+# bare local __pycache__ dirs made the guard see suiteless formal suites
+verification/suites/**/__pycache__/
+
+# Local Codex/Cursor temporary worktrees and acceptance artifacts
+.codex-tmp-*/
+apps/web/artifacts/
+
+# Local investigation, source snapshots and independent review notes.
+# Keep task specifications and formal product/engineering contracts versioned.
+/docs/dev_plans/research-package/
+/docs/03_工程/可复现研究包/2026-10-09_接续盘点.md
+/docs/dev_plans/three-line-20261009/OT-rework-independent-review.md
+/docs/task_specs/2026-10-09-OT-review-rework.md
+
+
+# --- 2026-10-13 worktree cleanup: historical PVD capability dirs removed by 2b3d2b99b ---
+# Eight-capability refactor deleted these from the index; working-tree copies stay local.
+/skills/pvd/pvd-baseline-evaluation-context-generation/
+/skills/pvd/pvd-evidence-comparability/
+/skills/pvd/pvd-experimental-context-structuring/
+/skills/pvd/pvd-experimental-result-interpretation-diagnosis/
+/skills/pvd/pvd-four-parameter-recommendation/
+/skills/pvd/pvd-parameter-feasibility-validation/
+/skills/pvd/pvd-process-factor-candidate-direction-analysis/
+# orphan files inside tracked PVD skill dirs (left over from the same refactor)
+/skills/pvd/pvd-evidence-node-extraction/examples/
+/skills/pvd/pvd-evidence-node-extraction/model_output.schema.json
+/skills/pvd/pvd-evidence-node-extraction/tests/test_finalizer.py
+/skills/pvd/pvd-research-record-structuring/MANIFEST.sha256
+/skills/pvd/pvd-research-record-structuring/VALIDATION_RESULTS.md
+/skills/pvd/pvd-research-record-structuring/examples/pvd_two_sample.response.json
+/skills/pvd/pvd-research-record-structuring/references/
+/skills/pvd/pvd-research-record-structuring/tests/README.md
+/skills/pvd/pvd-research-record-structuring/tests/test_research_record_structuring.py
+# historical spec copy removed from HEAD (spec/collaboration is the authority)
+/schemas/pvd/specs/01-problem/current-baseline-evaluation-criteria.md
+
+# --- historical test orphans: referenced code deleted by 2b3d2b99b-era refactors ---
+/services/api/tests/test_handoff_authority_migration.py
+/services/api/tests/test_ot_node6_provider_projection.py
+/services/api/tests/test_professional_evaluator_focused_repair.py
+/services/api/tests/test_pvd_node2_baseline_evaluation_binding.py
+/services/api/tests/test_pvd_optional_artifact_contracts.py
+/services/api/tests/test_r7_controller_runtime_source_fence.py
+/services/api/tests/test_research_input_contract_gate.py
+/services/api/tests/test_skill_binding_input_source_schema.py
+/services/api/tests/test_skill_binding_source.py
+/services/api/tests/test_structure_crossover_interactive_profile.py
+/services/api/tests/test_structure_crossover_py_canonical_input.py
+/services/api/tests/test_structured_skill_schema_runtime_relative_refs.py
+/skills/pvd/pvd-bayesian-optimization-candidate-generation/tests/conftest.py
+/skills/pvd/pvd-bayesian-optimization-candidate-generation/tests/helpers.py
+/skills/pvd/pvd-bayesian-optimization-candidate-generation/tests/test_applicability_entrypoint.py
+/skills/pvd/pvd-bayesian-optimization-candidate-generation/tests/test_contract_and_domain.py
+/skills/pvd/pvd-bayesian-optimization-candidate-generation/tests/test_dataset_semantics.py
+/skills/pvd/pvd-bayesian-optimization-candidate-generation/tests/test_optimizer_regression.py
+/skills/pvd/pvd-bayesian-optimization-candidate-generation/tests/test_side_effects_and_output.py
+/skills/opentrajectory/tests/p08b_1c/
+
+# local scratch
+/.tmp-ms3-sel.json
+
+outputs/

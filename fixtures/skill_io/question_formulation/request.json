@@ -1,0 +1,15 @@
+{
+  "task_id": "task_cs_ope_001",
+  "run_id": "run_cs_ope_001",
+  "stage": "problem_modeling",
+  "user_goal": "从文献调研识别的研究空白中凝练具体的研究问题",
+  "context": {
+    "gap_analysis_ref": "openair/ope-benchmark/proposal/literature.md",
+    "research_topic": "Off-Policy Evaluation in RL Training Dynamics"
+  },
+  "constraints": [
+    "问题需可验证、可操作",
+    "优先关注训练动态视角",
+    "与 AutoOPE 互补而非竞争"
+  ]
+}

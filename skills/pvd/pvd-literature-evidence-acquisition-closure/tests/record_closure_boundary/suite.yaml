@@ -1,0 +1,15 @@
+suite_id: skill.pvd.literature-evidence-closure.record-boundary
+protected_outcome: Evidence survives missing formal keys through existing singleton closure; model content and coverage are not rejected.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+failure_class: unfinalized_record_draft_consumed_as_empty_formal_output
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/pvd/pvd-literature-evidence-acquisition-closure/adapter/record_closure.py
+  - skills/pvd/pvd-literature-evidence-acquisition-closure/adapter/literature_evidence_closure.py
+test_responsibility: Existing required-key checks and finalizer exercise draft isolation, singleton assembly, and preservation of model content.
+execution_profiles: [deterministic]
+required_dependencies: [project_python_dependencies]
+evidence_required: [pytest_exit_code_0]
+verdict_rule: PASS when missing required formal keys use existing recovery and scientific content does not trigger rejection.
+triggers: [research_record_child_acceptance_changes]

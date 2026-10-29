@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goal", "task_instruction"],
+  "properties": {
+    "goal": {"type": "string", "minLength": 1},
+    "task_instruction": {"type": "object", "additionalProperties": true}
+  }
+}

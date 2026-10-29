@@ -1,0 +1,34 @@
+skill_id: opentrajectory_evidence_extraction
+claude_name: opentrajectory-evidence-extraction
+display_name: 证据抽取
+version: 0.1.0
+stages:
+- execution_validation
+substages:
+- evidence_extraction
+pack: opentrajectory
+sequence: 80
+enabled: true
+spec: 03-validation/evidence-extraction.md
+input_skills:
+- opentrajectory_progressive_reading
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-evidence-extraction
+claude_skill_path: .claude/skills/opentrajectory-evidence-extraction
+output_file: 03-validation/evidence-packets.json
+fixture_status: none
+notes: OpenTrajectory L2 orchestration slot.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: evidence_extraction
+owner: TBD
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

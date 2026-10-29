@@ -1,0 +1,1250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/pvd/pvd-scientific-state-facts-v1.schema.json",
+  "title": "PVD ScientificState Facts v1",
+  "description": "Machine-readable contract for the PVD-owned fact slice inside canonical ScientificState.scientificFacts. PVD fields remain canonical and strict; unrelated accepted scientific facts owned by other capabilities may coexist in the same ScientificState.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "experimental_system_contexts",
+    "current_experimental_system_context_ref",
+    "experiment_history"
+  ],
+  "properties": {
+    "experimental_system_contexts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/experimentalSystemContextEntry"
+      }
+    },
+    "current_experimental_system_context_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "current_recommendation_decision": {
+      "$ref": "#/$defs/currentRecommendationDecision"
+    },
+    "experiment_history": {
+      "$ref": "#/$defs/experimentHistory"
+    }
+  },
+  "$defs": {
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin",
+        "source_ref"
+      ],
+      "properties": {
+        "origin": {
+          "enum": [
+            "system",
+            "user",
+            "imported_project_record"
+          ]
+        },
+        "source_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "nonSystemProvenance": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/provenance"
+        },
+        {
+          "properties": {
+            "origin": {
+              "enum": [
+                "user",
+                "imported_project_record"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "systemRecommendationProvenance": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/provenance"
+        },
+        {
+          "properties": {
+            "origin": {
+              "enum": [
+                "system"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "currentRecommendationDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_status",
+        "first_run_ranking_status",
+        "blocked_experiments",
+        "important_unknowns",
+        "next_step",
+        "provenance"
+      ],
+      "properties": {
+        "decision_status": {
+          "enum": [
+            "recommendation",
+            "no_recommendation"
+          ]
+        },
+        "first_run_ranking_status": {
+          "enum": [
+            "not_applicable",
+            "pending",
+            "ranked"
+          ]
+        },
+        "blocked_experiments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/blockedExperiment"
+          }
+        },
+        "important_unknowns": {
+          "type": "array"
+        },
+        "next_step": {
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/systemRecommendationProvenance"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "decision_status": {
+                "const": "no_recommendation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "first_run_ranking_status": {
+                "const": "not_applicable"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "decision_status": {
+                "const": "recommendation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "first_run_ranking_status": {
+                "enum": [
+                  "pending",
+                  "ranked"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "blockedExperiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "experiment_id",
+        "reason_codes"
+      ],
+      "properties": {
+        "experiment_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "powerObservation": {
+      "$ref": "#/$defs/powerObservationAny"
+    },
+    "powerObservationAny": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/powerKnown"
+        },
+        {
+          "$ref": "#/$defs/powerUnknown"
+        }
+      ]
+    },
+    "powerKnown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value",
+        "unit",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "const": "known"
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "const": "W"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "powerUnknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value",
+        "unit",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unknown",
+            "not_reported"
+          ]
+        },
+        "value": {
+          "type": "null"
+        },
+        "unit": {
+          "const": "W"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "n2Observation": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/n2Known"
+        },
+        {
+          "$ref": "#/$defs/n2Unknown"
+        }
+      ]
+    },
+    "n2Known": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value",
+        "unit",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "const": "known"
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "const": "sccm"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "n2Unknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value",
+        "unit",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unknown",
+            "not_reported"
+          ]
+        },
+        "value": {
+          "type": "null"
+        },
+        "unit": {
+          "const": "sccm"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "arObservation": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/arKnown"
+        },
+        {
+          "$ref": "#/$defs/arUnknown"
+        }
+      ]
+    },
+    "arKnown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value",
+        "unit",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "const": "known"
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "const": "sccm"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "arUnknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value",
+        "unit",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unknown",
+            "not_reported"
+          ]
+        },
+        "value": {
+          "type": "null"
+        },
+        "unit": {
+          "const": "sccm"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "timeObservation": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/timeKnown"
+        },
+        {
+          "$ref": "#/$defs/timeUnknown"
+        }
+      ]
+    },
+    "timeKnown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value",
+        "unit",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "const": "known"
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "const": "s"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "timeUnknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value",
+        "unit",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unknown",
+            "not_reported"
+          ]
+        },
+        "value": {
+          "type": "null"
+        },
+        "unit": {
+          "const": "s"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "fourParameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "power": {
+          "$ref": "#/$defs/powerObservation"
+        },
+        "n2_flow": {
+          "$ref": "#/$defs/n2Observation"
+        },
+        "ar_flow": {
+          "$ref": "#/$defs/arObservation"
+        },
+        "deposition_time": {
+          "$ref": "#/$defs/timeObservation"
+        }
+      }
+    },
+    "systemRecommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parameters",
+        "validation_goal",
+        "failure_signal",
+        "next_step",
+        "provenance"
+      ],
+      "properties": {
+        "parameters": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "parameter_key",
+              "display_name",
+              "recommended_value",
+              "unit"
+            ],
+            "properties": {
+              "parameter_key": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "display_name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "recommended_value": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean"
+                ]
+              },
+              "unit": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "validation_goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "failure_signal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "next_step": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/systemRecommendationProvenance"
+        }
+      }
+    },
+    "systemPowerKnown": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/powerKnown"
+        },
+        {
+          "properties": {
+            "provenance": {
+              "$ref": "#/$defs/systemRecommendationProvenance"
+            }
+          }
+        }
+      ]
+    },
+    "systemN2Known": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/n2Known"
+        },
+        {
+          "properties": {
+            "provenance": {
+              "$ref": "#/$defs/systemRecommendationProvenance"
+            }
+          }
+        }
+      ]
+    },
+    "systemArKnown": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/arKnown"
+        },
+        {
+          "properties": {
+            "provenance": {
+              "$ref": "#/$defs/systemRecommendationProvenance"
+            }
+          }
+        }
+      ]
+    },
+    "systemTimeKnown": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/timeKnown"
+        },
+        {
+          "properties": {
+            "provenance": {
+              "$ref": "#/$defs/systemRecommendationProvenance"
+            }
+          }
+        }
+      ]
+    },
+    "otherProcessCondition": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "A formally recorded non-MVP process condition. Its domain-specific internal fields remain owned by the originating plan/execution record; this contract only requires it to remain an object and forbids promotion into the four MVP parameters."
+    },
+    "plannedExecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parameters",
+        "other_process_conditions",
+        "provenance"
+      ],
+      "properties": {
+        "parameters": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/fourParameters"
+            },
+            {
+              "$ref": "#/$defs/dynamicParameterValues"
+            }
+          ]
+        },
+        "other_process_conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/otherProcessCondition"
+          }
+        },
+        "provenance": {
+          "$ref": "#/$defs/nonSystemProvenance"
+        }
+      }
+    },
+    "actualExecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "execution_ref",
+        "status",
+        "validity",
+        "parameters",
+        "other_process_conditions",
+        "provenance"
+      ],
+      "properties": {
+        "execution_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "executed",
+            "partially_executed",
+            "not_executed"
+          ]
+        },
+        "validity": {
+          "enum": [
+            "valid",
+            "partial",
+            "invalid",
+            "unknown"
+          ]
+        },
+        "parameters": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/fourParameters"
+            },
+            {
+              "$ref": "#/$defs/dynamicParameterValues"
+            }
+          ]
+        },
+        "other_process_conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/otherProcessCondition"
+          }
+        },
+        "provenance": {
+          "$ref": "#/$defs/nonSystemProvenance"
+        }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "measurement_ref",
+        "metric_key",
+        "status",
+        "validity",
+        "provenance"
+      ],
+      "properties": {
+        "measurement_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metric_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": [
+            "number",
+            "string",
+            "null"
+          ]
+        },
+        "qualitative_result": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "enum": [
+            "provisional",
+            "final"
+          ]
+        },
+        "validity": {
+          "enum": [
+            "valid",
+            "invalid",
+            "unknown"
+          ]
+        },
+        "method": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "measurement_condition": {},
+        "evaluation_basis_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "repeat_group_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "uncertainty": {},
+        "reported_anomaly": {
+          "type": [
+            "string",
+            "boolean",
+            "null"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/nonSystemProvenance"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "value"
+          ]
+        },
+        {
+          "required": [
+            "qualitative_result"
+          ]
+        }
+      ]
+    },
+    "processEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_ref",
+        "statement",
+        "provenance"
+      ],
+      "properties": {
+        "event_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provenance": {
+          "$ref": "#/$defs/nonSystemProvenance"
+        }
+      }
+    },
+    "experimentRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "experiment_ref",
+        "round_ref",
+        "experimental_system_context_ref",
+        "system_recommendation",
+        "planned_execution",
+        "actual_execution",
+        "measurements",
+        "process_events"
+      ],
+      "properties": {
+        "experiment_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "round_ref": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "experimental_system_context_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "system_recommendation": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/systemRecommendation"
+            }
+          ]
+        },
+        "planned_execution": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/plannedExecution"
+            }
+          ]
+        },
+        "actual_execution": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/actualExecution"
+            }
+          ]
+        },
+        "measurements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/measurement"
+          }
+        },
+        "process_events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/processEvent"
+          }
+        }
+      }
+    },
+    "experimentHistory": {
+      "type": "array",
+      "description": "Canonical chronological history, oldest -> newest. Array order is the only chronology authority.",
+      "items": {
+        "$ref": "#/$defs/experimentRecord"
+      }
+    },
+    "experimentalSystemContextEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "experimental_system_context_ref",
+        "experimental_system_context"
+      ],
+      "properties": {
+        "experimental_system_context_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "experimental_system_context": {
+          "$ref": "#/$defs/experimentalSystemContext"
+        }
+      }
+    },
+    "dynamicParameterValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parameter_key",
+        "value_type",
+        "value",
+        "unit",
+        "unit_identity",
+        "unit_dimension",
+        "provenance"
+      ],
+      "properties": {
+        "parameter_key": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "value_type": {
+          "enum": [
+            "continuous",
+            "integer",
+            "categorical",
+            "boolean"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit_identity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit_dimension": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/nonSystemProvenance"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value_type": {
+                "const": "continuous"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_type": {
+                "const": "integer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_type": {
+                "const": "categorical"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_type": {
+                "const": "boolean"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "dynamicParameterValues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/dynamicParameterValue"
+      }
+    },
+    "experimentalSystemContextSourceProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "raw_expression"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "raw_expression": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact contiguous substring copied verbatim from the referenced source.raw_text. Enforced by scripts/semantic_validate.py."
+        },
+        "source_location": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "experimentalSystemContextFieldMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "known",
+            "missing",
+            "conflict"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provenance": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/experimentalSystemContextSourceProvenance"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "known"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "provenance": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "missing"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "provenance": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "conflict"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "reason"
+            ],
+            "properties": {
+              "provenance": {
+                "minItems": 2
+              }
+            }
+          }
+        }
+      ]
+    },
+    "experimentalSystemContextAdditionalFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field",
+        "value",
+        "metadata"
+      ],
+      "properties": {
+        "field": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "Capability-neutral canonical field name for an additional stable system identity fact."
+        },
+        "value": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        },
+        "metadata": {
+          "$ref": "#/$defs/experimentalSystemContextFieldMetadata"
+        }
+      }
+    },
+    "experimentalSystemContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Canonical current experimental-system identity facts. This object is the sole structured authority for same-system/capability applicability decisions. Detailed materials/equipment sections remain evidence-rich descriptive context, not an alternate identity authority. Canonical scalar values are null when missing or conflicting; field_metadata carries status and source provenance.",
+      "required": [
+        "contract",
+        "context_status",
+        "target_material",
+        "substrate",
+        "target_substrate_distance_mm",
+        "power_supply_temperature",
+        "target_angle",
+        "field_metadata",
+        "additional_facts"
+      ],
+      "properties": {
+        "contract": {
+          "const": "pvd-experimental-system-context/v1"
+        },
+        "context_status": {
+          "enum": [
+            "complete",
+            "partial",
+            "conflicted"
+          ],
+          "description": "complete: all five core system-identity fields are known; partial: at least one is missing and none conflict; conflicted: at least one core field has conflicting explicit source facts."
+        },
+        "target_material": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "substrate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "target_substrate_distance_mm": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Canonical target-to-substrate distance in millimetres when an explicit source fact supports a deterministic unit normalization; otherwise null."
+        },
+        "power_supply_temperature": {
+          "type": [
+            "string",
+            "number",
+            "null"
+          ],
+          "description": "Explicit power-supply temperature/setting identity only. Never substitute substrate_temperature. Preserve a directly supported scalar representation; use null if absent or ambiguous."
+        },
+        "target_angle": {
+          "type": [
+            "string",
+            "number",
+            "null"
+          ],
+          "description": "Explicit target orientation/angle identity. Null when not explicitly supplied or when conflicting."
+        },
+        "field_metadata": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target_material",
+            "substrate",
+            "target_substrate_distance_mm",
+            "power_supply_temperature",
+            "target_angle"
+          ],
+          "properties": {
+            "target_material": {
+              "$ref": "#/$defs/experimentalSystemContextFieldMetadata"
+            },
+            "substrate": {
+              "$ref": "#/$defs/experimentalSystemContextFieldMetadata"
+            },
+            "target_substrate_distance_mm": {
+              "$ref": "#/$defs/experimentalSystemContextFieldMetadata"
+            },
+            "power_supply_temperature": {
+              "$ref": "#/$defs/experimentalSystemContextFieldMetadata"
+            },
+            "target_angle": {
+              "$ref": "#/$defs/experimentalSystemContextFieldMetadata"
+            }
+          }
+        },
+        "additional_facts": {
+          "type": "array",
+          "description": "Additional stable experimental-system identity facts not covered by the core fields. Do not place run-varying recommendation knobs here merely because they exist elsewhere in the context.",
+          "items": {
+            "$ref": "#/$defs/experimentalSystemContextAdditionalFact"
+          }
+        }
+      }
+    }
+  }
+}

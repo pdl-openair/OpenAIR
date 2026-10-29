@@ -1,0 +1,63 @@
+{
+  "projectCompletionRequirement": {
+    "completionRequirementId": "requirement-fixture",
+    "targetOutputRef": "understanding.targetOutputs[0]",
+    "description": "Traceable research records.",
+    "workflowResponsibilityKey": "records"
+  },
+  "reuseAcceptance": {
+    "researchDesignId": "design-fixture",
+    "researchDesignVersion": 1,
+    "targetOutputRef": "understanding.targetOutputs[0]",
+    "responsibilityKey": "records",
+    "reusedResultRefs": ["artifact:prior-records"],
+    "acceptanceArtifactRef": "artifact:current-review",
+    "verdict": "accepted"
+  },
+  "reuseJudgment": {
+    "targetOutputRef": "understanding.targetOutputs[0]",
+    "responsibilityKey": "records",
+    "reusedResultRefs": ["artifact:prior-records"],
+    "verdict": "accepted",
+    "rationale": "Provided records cover the current bounded target."
+  },
+  "workflowResponsibilityCoverage": {
+    "responsibilityKey": "records",
+    "definitionId": "records-definition",
+    "requirement": "conditional",
+    "coverageMode": "reused_result",
+    "instanceRefs": [],
+    "reusedResultRefs": ["artifact:prior-records"],
+    "rationale": "Current-project applicability still needs acceptance."
+  },
+  "completionRequirementAssessment": {
+    "completionRequirementId": "requirement-fixture",
+    "targetOutputRef": "understanding.targetOutputs[0]",
+    "status": "unresolved",
+    "coverageTargetId": null,
+    "acceptanceCriterionRefs": [],
+    "gaps": [],
+    "uncertainty": ["Current applicability has not been accepted."],
+    "fulfillmentStatus": "reuse_pending"
+  },
+  "reuseInteractionRecord": {
+    "interactionId": "interaction:reuse-fixture",
+    "idempotencyKey": "interaction:reuse-fixture",
+    "taskId": "task-fixture",
+    "executionDecisionId": "decision-fixture",
+    "sourceAssignmentId": "assignment-fixture",
+    "sourceWorkUnitId": "work-fixture",
+    "targetAssignmentId": null,
+    "targetWorkUnitId": null,
+    "interactionType": "target_output_reuse_accepted",
+    "inputArtifactRefs": [],
+    "outputArtifactRefs": ["artifact:current-review"],
+    "verdict": {
+      "verdictType": "acceptance",
+      "decision": "approved",
+      "rationaleCode": "explicit_current_target_reuse_judgment_accepted"
+    },
+    "summary": "Isolated contract material; no real research occurred.",
+    "createdAt": "2026-10-09T00:00:00Z"
+  }
+}

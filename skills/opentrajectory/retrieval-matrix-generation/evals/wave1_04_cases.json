@@ -1,0 +1,533 @@
+{
+  "version": "wave1_04_retrieval_matrix_eval_v1",
+  "created_before_skill_edit": true,
+  "scoring": {
+    "core_topic_and_constraint_recall": 25,
+    "upstream_constraint_fidelity": 20,
+    "query_diversity_non_redundancy": 15,
+    "boolean_filter_semantics": 15,
+    "noise_exclusion_safety": 10,
+    "cross_domain_generalization": 10,
+    "conciseness_performance": 5
+  },
+  "critical_failures": [
+    "unconfirmed candidate value enters strict/must-have",
+    "risk_flags become NOT/exclude",
+    "invented system/threshold/database",
+    "incorrect Boolean AND/OR grouping",
+    "CJK/internal label in query",
+    "battery-specific logic contaminates non-battery task"
+  ],
+  "existing_replay_case_ids": [
+    "cn_agent_001_precise_long_task",
+    "cn_agent_002_fuzzy_research_agent",
+    "cn_agent_003_mixed_materials_multi_agent",
+    "cn_agent_004_precise_rag_evidence_graph",
+    "cn_battery_001_precise_li_metal",
+    "cn_battery_002_fuzzy_fast_charge",
+    "cn_battery_003_mixed_solid_state",
+    "cn_battery_004_vague_sodium_low_temp",
+    "cn_theory_001_precise_perovskite_dft",
+    "cn_theory_002_mixed_high_entropy",
+    "cn_theory_003_fuzzy_topological",
+    "cn_theory_004_underspecified_mechanism"
+  ],
+  "boundary_cases": [
+    {
+      "case_id": "edge_no_explicit_constraints",
+      "risk_dimension": "无明确约束",
+      "input": {
+        "user_query": "Find literature on reproducible computational notebooks for scientific workflows.",
+        "research_domain": "research software",
+        "material_system": null,
+        "research_context": {
+          "input_style": "topic_only"
+        },
+        "interpreted_constraints": [],
+        "constraint_quality_report": {
+          "confidence": 0.45,
+          "coverage_level": "none",
+          "missing_inputs": [
+            "explicit constraints"
+          ],
+          "risk_flags": [],
+          "needs_manual_review": false
+        },
+        "seed_terms": [
+          "reproducible computational notebook",
+          "scientific workflow"
+        ],
+        "known_seed_papers": []
+      },
+      "expectations": {
+        "must_cover": [
+          "reproducible computational notebook",
+          "scientific workflow"
+        ],
+        "must_not": [
+          "invent a benchmark",
+          "invent a database",
+          "invent a numeric threshold",
+          "fabricate mechanism/method/metric facets"
+        ],
+        "special": "Keep unsupported intent rows structurally present but do not invent content merely to fill them; eight query variants must remain meaningfully distinct."
+      }
+    },
+    {
+      "case_id": "edge_explicit_out_of_scope",
+      "risk_dimension": "明确 out-of-scope",
+      "input": {
+        "user_query": "Find studies of LLM-assisted code review for defect detection, excluding educational tutoring and customer-support chatbots.",
+        "research_domain": "software engineering",
+        "material_system": null,
+        "research_context": {
+          "out_of_scope": [
+            "educational tutoring",
+            "customer-support chatbots"
+          ]
+        },
+        "interpreted_constraints": [
+          {
+            "constraint_name": "research_object",
+            "original_phrase": "LLM-assisted code review",
+            "constraint_type": "condition",
+            "interpreted_value": "LLM-assisted code review",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "LLM code review",
+              "AI-assisted code review"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "target_outcome",
+            "original_phrase": "defect detection",
+            "constraint_type": "experimental_condition",
+            "interpreted_value": "defect detection",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "defect detection",
+              "bug detection"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "explicit_exclusion",
+            "original_phrase": "excluding educational tutoring and customer-support chatbots",
+            "constraint_type": "boundary_condition",
+            "interpreted_value": [
+              "educational tutoring",
+              "customer-support chatbots"
+            ],
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [],
+            "downstream_filter_rules": [
+              {
+                "type": "hard_exclusion",
+                "values": [
+                  "educational tutoring",
+                  "customer-support chatbots"
+                ]
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.92,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      },
+      "expectations": {
+        "must_cover": [
+          "LLM code review",
+          "defect detection"
+        ],
+        "must_exclude": [
+          "educational tutoring",
+          "customer-support chatbots"
+        ],
+        "special": "NOT/exclude is allowed only because the exclusion is explicit; do not add unrelated exclusions."
+      }
+    },
+    {
+      "case_id": "edge_source_scope_only",
+      "risk_dimension": "仅 source-scope 约束",
+      "input": {
+        "user_query": "Find evidence on remote work and software developer productivity.",
+        "research_domain": "software engineering",
+        "material_system": null,
+        "research_context": {},
+        "interpreted_constraints": [
+          {
+            "constraint_name": "recency_window",
+            "original_phrase": "published in the last five years",
+            "constraint_type": "source_preference",
+            "interpreted_value": "published in the last five years",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.95,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [],
+            "downstream_filter_rules": [
+              {
+                "type": "source_filter",
+                "field": "publication_date",
+                "operator": "last_n_years",
+                "value": 5
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "language_scope",
+            "original_phrase": "English-language sources",
+            "constraint_type": "source_preference",
+            "interpreted_value": "English-language sources",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.95,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [],
+            "downstream_filter_rules": [
+              {
+                "type": "source_filter",
+                "field": "language",
+                "operator": "eq",
+                "value": "English"
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "source_quality",
+            "original_phrase": "peer-reviewed studies",
+            "constraint_type": "source_preference",
+            "interpreted_value": "peer-reviewed studies",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [],
+            "downstream_filter_rules": [
+              {
+                "type": "source_filter",
+                "field": "peer_reviewed",
+                "operator": "eq",
+                "value": true
+              }
+            ],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.9,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [],
+          "needs_manual_review": false
+        },
+        "seed_terms": [
+          "remote work",
+          "software developer productivity"
+        ],
+        "known_seed_papers": []
+      },
+      "expectations": {
+        "must_cover": [
+          "remote work",
+          "software developer productivity"
+        ],
+        "structured_only": [
+          "recency_window",
+          "language_scope",
+          "source_quality"
+        ],
+        "must_not": [
+          "last five years as a fake query phrase",
+          "English as a topical query term",
+          "peer-reviewed as a topical query term"
+        ],
+        "special": "Source-scope constraints must be recorded as utilized filters, not manufactured topical facets."
+      }
+    },
+    {
+      "case_id": "edge_comparison_baseline",
+      "risk_dimension": "对比基线明确",
+      "input": {
+        "user_query": "Compare graph neural networks with XGBoost as an explicit baseline for molecular property prediction.",
+        "research_domain": "machine learning",
+        "material_system": null,
+        "research_context": {},
+        "interpreted_constraints": [
+          {
+            "constraint_name": "primary_method",
+            "original_phrase": "graph neural networks",
+            "constraint_type": "condition",
+            "interpreted_value": "graph neural networks",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "graph neural network",
+              "GNN molecular property prediction"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "comparison_baseline",
+            "original_phrase": "XGBoost baseline",
+            "constraint_type": "condition",
+            "interpreted_value": "XGBoost baseline",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "XGBoost molecular property prediction",
+              "gradient boosted trees molecular descriptors"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "task",
+            "original_phrase": "molecular property prediction",
+            "constraint_type": "condition",
+            "interpreted_value": "molecular property prediction",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "molecular property prediction",
+              "molecular machine learning"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.95,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      },
+      "expectations": {
+        "must_cover": [
+          "graph neural network",
+          "XGBoost",
+          "molecular property prediction"
+        ],
+        "special": "At least one high-priority query must preserve the explicit comparison rather than treating XGBoost as optional or adjacent."
+      }
+    },
+    {
+      "case_id": "edge_synonym_clusters",
+      "risk_dimension": "多个同义对象",
+      "input": {
+        "user_query": "Find work on single-cell RNA sequencing (scRNA-seq, single-cell transcriptomics) for cell-type annotation or cell-identity classification.",
+        "research_domain": "bioinformatics",
+        "material_system": null,
+        "research_context": {},
+        "interpreted_constraints": [
+          {
+            "constraint_name": "data_modality",
+            "original_phrase": "single-cell RNA sequencing",
+            "constraint_type": "condition",
+            "interpreted_value": "single-cell RNA sequencing",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "single-cell RNA sequencing",
+              "scRNA-seq",
+              "single-cell transcriptomics"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "analysis_task",
+            "original_phrase": "cell-type annotation",
+            "constraint_type": "condition",
+            "interpreted_value": "cell-type annotation",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "cell type annotation",
+              "cell identity classification",
+              "cell type classification"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.96,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      },
+      "expectations": {
+        "must_cover": [
+          "single-cell RNA sequencing",
+          "scRNA-seq",
+          "single-cell transcriptomics",
+          "cell type annotation",
+          "cell identity classification"
+        ],
+        "special": "Synonyms should be OR-grouped within a concept, not expanded into near-duplicate full queries."
+      }
+    },
+    {
+      "case_id": "edge_non_material_transit",
+      "risk_dimension": "完全非材料领域",
+      "input": {
+        "user_query": "Find studies on public-transit demand forecasting during service disruptions, focusing on spatiotemporal models and MAE/RMSE evaluation.",
+        "research_domain": "transportation forecasting",
+        "material_system": null,
+        "research_context": {},
+        "interpreted_constraints": [
+          {
+            "constraint_name": "research_object",
+            "original_phrase": "public-transit demand forecasting",
+            "constraint_type": "condition",
+            "interpreted_value": "public-transit demand forecasting",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "public transit demand forecasting",
+              "transit ridership forecasting"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "context",
+            "original_phrase": "service disruptions",
+            "constraint_type": "boundary_condition",
+            "interpreted_value": "service disruptions",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "service disruption",
+              "transit disruption"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "method_scope",
+            "original_phrase": "spatiotemporal models",
+            "constraint_type": "condition",
+            "interpreted_value": "spatiotemporal models",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "spatiotemporal model",
+              "spatiotemporal forecasting"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          },
+          {
+            "constraint_name": "evaluation_metrics",
+            "original_phrase": "MAE/RMSE evaluation",
+            "constraint_type": "experimental_condition",
+            "interpreted_value": "MAE/RMSE evaluation",
+            "candidate_values": [],
+            "domain_rationale": "Boundary-eval fixture; semantics are intentionally explicit.",
+            "confidence": 0.9,
+            "needs_user_confirmation": false,
+            "downstream_search_terms": [
+              "mean absolute error",
+              "MAE",
+              "root mean squared error",
+              "RMSE"
+            ],
+            "downstream_filter_rules": [],
+            "evidence_basis": "user_query explicit value",
+            "risk_flags": []
+          }
+        ],
+        "constraint_quality_report": {
+          "confidence": 0.93,
+          "coverage_level": "complete",
+          "missing_inputs": [],
+          "risk_flags": [],
+          "needs_manual_review": false
+        },
+        "seed_terms": [],
+        "known_seed_papers": []
+      },
+      "expectations": {
+        "must_cover": [
+          "public transit demand forecasting",
+          "service disruption",
+          "spatiotemporal model",
+          "MAE",
+          "RMSE"
+        ],
+        "must_not": [
+          "battery",
+          "electrolyte",
+          "SEI",
+          "CEI",
+          "DFT",
+          "materials science"
+        ],
+        "special": "No materials/battery examples may leak into queries or facets."
+      }
+    }
+  ]
+}

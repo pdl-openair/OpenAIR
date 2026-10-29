@@ -1,0 +1,83 @@
+schemaVersion: workflow-definition.v2
+workflowId: cs_paper_reproduction_workflow
+workflowVersion: 7
+nameZh: 计算机领域论文复现
+nameEn: CS Paper Reproduction Workflow
+description: 面向真实、可追溯的计算机论文复现，固定从复现基线、实验设计、执行准备、真实执行、结果比较到复现结论的专业责任；项目任务数量、正式结果复用和偏差诊断是否进入由 Planner 根据当前项目确定。
+skillPack: cs_reproduction
+planningPolicy:
+  responsibilityPlanning: project_adaptive
+  existingResultReuse: validated_existing_results
+  conditionalResponsibilities: planner_selected
+nodes:
+- nodeKey: reproduction_baseline_criteria
+  definitionId: cs_reproduction:reproduction_baseline_criteria
+  definitionVersion: 3
+  requirement: required
+  displayOrder: 10
+- nodeKey: reproduction_experiment_design
+  definitionId: cs_reproduction:reproduction_experiment_design
+  definitionVersion: 3
+  requirement: required
+  displayOrder: 20
+- nodeKey: execution_readiness_validation
+  definitionId: cs_reproduction:execution_readiness_validation
+  definitionVersion: 3
+  requirement: required
+  displayOrder: 30
+- nodeKey: real_execution_result_acquisition
+  definitionId: cs_reproduction:real_execution_result_acquisition
+  definitionVersion: 3
+  requirement: required
+  displayOrder: 40
+- nodeKey: result_comparability_judgment
+  definitionId: cs_reproduction:result_comparability_judgment
+  definitionVersion: 3
+  requirement: required
+  displayOrder: 50
+- nodeKey: reproduction_conclusion_recommendation
+  definitionId: cs_reproduction:reproduction_conclusion_recommendation
+  definitionVersion: 4
+  requirement: required
+  displayOrder: 60
+- nodeKey: deviation_diagnosis_validation
+  definitionId: cs_reproduction:deviation_diagnosis_validation
+  definitionVersion: 4
+  requirement: optional
+  displayOrder: 70
+dependencies:
+- upstreamNodeKey: reproduction_baseline_criteria
+  downstreamNodeKey: reproduction_experiment_design
+  dependencyType: scientific_dependency
+- upstreamNodeKey: reproduction_experiment_design
+  downstreamNodeKey: execution_readiness_validation
+  dependencyType: scientific_dependency
+- upstreamNodeKey: reproduction_experiment_design
+  downstreamNodeKey: real_execution_result_acquisition
+  dependencyType: scientific_dependency
+- upstreamNodeKey: execution_readiness_validation
+  downstreamNodeKey: real_execution_result_acquisition
+  dependencyType: execution_prerequisite
+- upstreamNodeKey: reproduction_baseline_criteria
+  downstreamNodeKey: result_comparability_judgment
+  dependencyType: scientific_dependency
+- upstreamNodeKey: real_execution_result_acquisition
+  downstreamNodeKey: result_comparability_judgment
+  dependencyType: scientific_dependency
+- upstreamNodeKey: result_comparability_judgment
+  downstreamNodeKey: reproduction_conclusion_recommendation
+  dependencyType: scientific_dependency
+- upstreamNodeKey: result_comparability_judgment
+  downstreamNodeKey: deviation_diagnosis_validation
+  dependencyType: scientific_dependency
+- upstreamNodeKey: deviation_diagnosis_validation
+  downstreamNodeKey: reproduction_conclusion_recommendation
+  dependencyType: optional_enhancement
+boundaryPolicy:
+  allowedExternalActions:
+  - external_read
+  - external_compute
+  confirmationRequiredActions: []
+  prohibitedActions:
+  - external_write
+  - physical_action

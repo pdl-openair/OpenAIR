@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openair.local/schemas/agents/reviews/independent_result_review_v1.schema.json",
+  "title": "independent_result_review_v1",
+  "contractId": "independent_result_review_v1",
+  "semanticVersion": "1.0.0",
+  "description": "Authoritative body schema for independent_result_review_v1. This is a review gate conclusion, not a research Artifact. It validates the four-field review result consumed by durable_multiagent_orchestrator._strict_review_result and collaboration_repository.finish_artifact_review after optional reviewVerdict unwrap.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "verdict",
+    "basis",
+    "issues",
+    "missingInputs"
+  ],
+  "properties": {
+    "verdict": {
+      "$ref": "#/$defs/reviewVerdict"
+    },
+    "basis": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "issues": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 40,
+      "items": {
+        "$ref": "#/$defs/reviewIssue"
+      }
+    },
+    "missingInputs": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 40,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    }
+  },
+  "$defs": {
+    "reviewVerdict": {
+      "type": "string",
+      "enum": [
+        "usable",
+        "needs_revision",
+        "needs_input",
+        "insufficient_materials",
+        "human_decision_required",
+        "external_result_unknown"
+      ]
+    },
+    "reviewIssue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "severity",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "severity": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      }
+    },
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "semanticVersion",
+        "producerId",
+        "failureCode",
+        "fieldPaths",
+        "safeSummary"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "independent_result_review_v1"
+        },
+        "semanticVersion": {
+          "const": "1.0.0"
+        },
+        "producerId": {
+          "const": "result_reliability_audit"
+        },
+        "failureCode": {
+          "type": "string",
+          "enum": [
+            "contract_id_unsupported",
+            "semantic_version_unsupported",
+            "required_field_missing",
+            "type_invalid",
+            "empty_value",
+            "unknown_field",
+            "unknown_verdict",
+            "issue_shape_invalid",
+            "review_not_research_artifact"
+          ]
+        },
+        "fieldPaths": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        },
+        "safeSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        }
+      }
+    }
+  }
+}

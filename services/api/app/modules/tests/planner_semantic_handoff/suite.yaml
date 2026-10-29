@@ -1,0 +1,52 @@
+suite_id: component.modules.planner-semantic-handoff
+protected_outcome: Query-specific scientific content, constraints and original target associations reach readable executable formal designs; combinations preserve every contribution and completion requires current necessary facts; local gaps never silently erase other valid content or gain approval as whole-plan blocking. Multiple scientific focuses refine one Workflow subgoal while explicit independent freeform subgoals retain separate identities.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/04_开发协作/产品开发经验/01_产品第一原则.md
+  - spec/testing/README.md
+failure_class: planner_semantic_handoff_content_loss_or_unapproved_blocking
+minimum_owner: 跨组件与基础设施
+test_responsibility: Independently exercise prepared Planner decoding, reception, assembly, compilation, formal in-memory building and confirmation, and the existing completion consumer. Audit effective blocking changes separately; pytest green cannot authorize a new blocking policy.
+production_targets:
+  - services/api/app/modules/research_design_workflow_semantic_provider.py
+  - services/api/app/modules/research_design_freeform_semantic_provider.py
+  - services/api/app/modules/research_design_workflow_semantics.py
+  - services/api/app/modules/research_design_freeform_semantics.py
+  - services/api/app/modules/research_design_planner_assembly.py
+  - services/api/app/modules/research_design_compiler.py
+  - services/api/app/modules/research_design_service.py
+  - services/api/app/modules/research_design_agent_revision.py
+  - services/api/app/modules/research_finalization.py
+  - services/api/app/modules/target_output_ownership.py
+  - services/api/app/modules/target_output_completion.py
+  - services/api/app/modules/research_completion_decision.py
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - current registered Workflow and Definition source with explicit InMemoryRegistrySnapshotRepository
+  - recorded real-response.json payload at the HTTP transport boundary
+  - Suite-local ephemeral Task repository; admission read isolated without replacing scientific results
+  - existing Python runtime with no live HTTP, model or business database access
+  - explicitly supplied offline completion and reuse acceptance controls; never Fresh research evidence
+evidence_required:
+  - production HEAD plus dirty source SHA256 manifest before and after run
+  - original input provenance and SHA256, raw stage outputs and output hashes
+  - pytest raw output, exit code, per-case stage and exception records
+  - neighboring Authority and historical revision regression results
+  - independent candidate diff audit of new or enlarged stopping points and their approval records
+verdict_rule: PASS only when valid evidence proves every scoped assertion AND blocking audit finds no unapproved effective blocker; FAIL/REJECT for valid counterexamples or unapproved blocking even when pytest is green; NO_VALID_EVIDENCE for unavailable dependencies or unfrozen candidate identity. In-memory results do not prove PostgreSQL saving, Fresh, UI or scientific quality.
+triggers:
+  - Planner prompt or scientific receiver compatibility change
+  - target normalization, association, constraint or combination handoff change
+  - compilation, building, confirmation or revision change
+  - current acceptance, reuse source or unique completion consumer change
+approval_basis:
+  record: services/api/app/modules/tests/planner_semantic_handoff/contract-provenance.json
+  scope: CTRL card sections 2 and 3 as reported approved there; current user explicitly assigned PV2 execution.
+  limitations: The repository card still says awaiting approval; the CTRL report records approval but contains no direct user-message transcript. No pending formal gap policy is made a passing assertion.
+pending_contracts:
+  - Required/optional expression of unassociated Query goals through confirmation, without fabricated coverage
+  - Formal representation and acceptance of combinations containing multiple reused or unselected contributions
+  - Frozen committed candidate SHA remains unavailable; actual dirty sources are fingerprinted
+placement_basis: Explicit PV2 task allowlist requires this modules/tests location despite its cross-component minimum_owner.

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "plan_resource_relation_status", "executable_scope", "code", "resources", "environment", "entry_verification", "blocking_gaps", "unknowns"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ready", "not_ready", "partially_ready"]},
+    "plan_resource_relation_status": {"type": "string", "enum": ["verified", "mismatch", "not_verified"]},
+    "executable_scope": {"type": "array", "items": {"type": "string"}},
+    "code": {"type": "object"},
+    "resources": {"type": "object"},
+    "environment": {"type": "object"},
+    "entry_verification": {"type": "object"},
+    "blocking_gaps": {"type": "array", "items": {"type": "object"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}}
+  }
+}

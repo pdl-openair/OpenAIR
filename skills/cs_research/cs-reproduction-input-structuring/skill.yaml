@@ -1,0 +1,55 @@
+skill_id: cs_reproduction_input_structuring
+claude_name: cs-reproduction-input-structuring
+display_name: 论文复现执行输入结构化
+version: 0.1.0
+stages:
+- problem_modeling
+substages:
+- reproduction_input_structuring
+packs:
+- cs_reproduction
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: reproduction_input.json
+capability_contract:
+  artifact_types:
+  - cs_reproduction_execution_inputs
+  judgment_support:
+    deterministic: false
+    domain_professional: false
+execution_method_roles:
+- cs_reproduction_baseline_grounding:input_structuring
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+scientific_state_projection:
+  contract_version: 2
+  materializer_ref: cs:reproduction-input-source:v1
+  facts:
+  - fact_key: reproduction_repository
+    source_field: repository
+  - fact_key: reproduction_revision
+    source_field: revision
+  - fact_key: reproduction_unresolved_inputs
+    source_field: unresolved_inputs
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: reproduction_input_structuring
+owner: TBD
+fixture_status: missing
+notes: 只结构化与已确认 ResearchDesign 绑定的用户原文及修订中明确存在的代码执行输入；正式落入 ScientificState 前由确定性 materializer
+  核验其可逐字追溯到冻结原文；来源与版本关联由代码负责。

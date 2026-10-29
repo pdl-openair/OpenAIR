@@ -1,0 +1,28 @@
+skill_id: cif_to_vasp
+claude_name: cif-to-vasp
+display_name: CIF 转 VASP 输入（L3）
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - band_gap_calculation
+  - stability_verification
+packs:
+  - materials
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: band_gap_calculation
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

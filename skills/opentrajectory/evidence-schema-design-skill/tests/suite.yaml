@@ -1,0 +1,25 @@
+suite_id: component.skills.evidence-schema-design-contracts
+protected_outcome: Evidence schema design keeps code-owned formal fields out of the model schema, finalizes ready drafts to the strict formal schema without rewriting science, wraps blocked drafts without semantic substitution, and retains the existing missing-ready-payload failure.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+- evidence_schema_design_contract_regression
+minimum_owner: 单个组件行为
+production_targets:
+- skills/opentrajectory/evidence-schema-design-skill/
+test_responsibility: Deterministically pin schema field ownership, finalization, blocked-state wrapping, and existing missing-required-payload handling.
+execution_profiles:
+- deterministic
+required_dependencies:
+- project_python_dependencies
+evidence_required:
+- pytest_exit_code_0
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions
+  prove protected_outcome; FAIL when sufficient valid evidence proves
+  protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- evidence_schema_design_changed

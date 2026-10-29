@@ -1,0 +1,34 @@
+skill_id: topic_briefing
+claude_name: topic-briefing
+display_name: 选题汇报
+version: "0.1.0"
+stages:
+  - problem_modeling
+skill_type: orchestration
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - topic_briefing
+output_file: 01-problem/topic-briefing.md
+pack: sdr
+spec: 01-problem/topic-briefing.md
+input_skills:
+  - intent_understanding
+  - literature_search
+  - gap_identification
+  - question_refinement
+  - hypothesis_formation
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: problem_modeling
+substage: topic_briefing
+owner: TBD
+fixture_status: missing
+notes: ''
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none

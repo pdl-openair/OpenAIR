@@ -1,0 +1,117 @@
+problem_modeling:
+  label: 问题定义
+  description: Define the research question, boundary, constraints, and success criteria.
+  substages:
+  - key: reproduction_input_structuring
+    enabled: false
+    label: 复现执行输入结构化
+    description: 从与已确认 ResearchDesign 绑定的用户原文及修订结构化后续代码身份固定所需的 repository、revision 与缺失输入。
+  - key: reproduction_baseline_criteria
+    label: 复现基线与判据确定
+    description: 明确本次复现目标、对应参考结果、实验条件和有依据的比较判据。
+    definitionVersion: 3
+    historicalVersions:
+    - definitionVersion: 2
+      specRef: 01-problem/cs-reproduction-baseline-criteria.md
+      sourceSpecRef: 01-problem/cs-reproduction-baseline-criteria.md
+    - definitionVersion: 1
+      specRef: 01-problem/cs-reproduction-baseline-criteria.md
+      sourceSpecRef: 01-problem/cs-reproduction-baseline-criteria-v1.md
+solution_design:
+  label: 方案设计
+  description: Design the research method, data strategy, analysis plan, and executable
+    tasks.
+  substages:
+  - key: code_identity_acquisition
+    enabled: false
+    label: 代码版本固定
+    description: 基于正式 repository 与 revision 固定可追溯代码身份。
+  - key: reproduction_experiment_design
+    label: 复现实验方案设计
+    description: 形成足以检验目标的实验安排、实现、资源、关键配置、训练或评测协议和成本边界。
+    definitionVersion: 3
+    historicalVersions:
+    - definitionVersion: 2
+      specRef: 02-solution/cs-reproduction-experiment-design.md
+      sourceSpecRef: 02-solution/cs-reproduction-experiment-design.md
+    - definitionVersion: 1
+      specRef: 02-solution/cs-reproduction-experiment-design.md
+      sourceSpecRef: 02-solution/cs-reproduction-experiment-design-v1.md
+execution_validation:
+  label: 执行与验证
+  description: Acquire and validate source-grounded reference facts and later execution
+    evidence.
+  substages:
+  - key: reference_metric_acquisition
+    enabled: false
+    label: 参考结果获取与结构化
+    description: 从已固定官方来源形成与当前复现条件对应、可追溯且具有正式比较规则依据的 reference metrics。
+  - key: execution_plan_acquisition
+    enabled: false
+    label: 复现执行方案获取
+    description: 基于已固定来源和正式参考指标形成资源、环境、运行与结果读取所需的最小可信执行计划。
+  - key: execution_readiness_validation
+    label: 执行准备与条件核验
+    description: 准备并核验真实执行所需代码、资源、环境、输入和执行条件。
+    definitionVersion: 3
+    historicalVersions:
+    - definitionVersion: 2
+      specRef: 03-validation/cs-execution-readiness-validation.md
+      sourceSpecRef: 03-validation/cs-execution-readiness-validation.md
+    - definitionVersion: 1
+      specRef: 03-validation/cs-execution-readiness-validation.md
+      sourceSpecRef: 03-validation/cs-execution-readiness-validation-v1.md
+  - key: real_execution_result_acquisition
+    label: 真实执行与结果取得
+    description: 完成授权范围内真实实验并取得可追溯原始输出和实际结果。
+    definitionVersion: 3
+    historicalVersions:
+    - definitionVersion: 2
+      specRef: 03-validation/cs-real-execution-result-acquisition.md
+      sourceSpecRef: 03-validation/cs-real-execution-result-acquisition.md
+    - definitionVersion: 1
+      specRef: 03-validation/cs-real-execution-result-acquisition.md
+      sourceSpecRef: 03-validation/cs-real-execution-result-acquisition-v1.md
+  - key: result_comparability_judgment
+    label: 结果可比性与达标判断
+    description: 核验实际与参考条件是否可比，并按已确定判据形成逐项目标判断。
+    definitionVersion: 3
+    historicalVersions:
+    - definitionVersion: 2
+      specRef: 03-validation/cs-result-comparability-judgment.md
+      sourceSpecRef: 03-validation/cs-result-comparability-judgment.md
+    - definitionVersion: 1
+      specRef: 03-validation/cs-result-comparability-judgment.md
+      sourceSpecRef: 03-validation/cs-result-comparability-judgment-v1.md
+  - key: deviation_diagnosis_validation
+    label: 偏差诊断与验证
+    description: 在关键差异可能改变判断或下一步时，区分证据支持原因、待验证解释和剩余未知。
+    definitionVersion: 4
+    historicalVersions:
+    - definitionVersion: 3
+      specRef: 03-validation/cs-deviation-diagnosis-validation-v3.md
+      sourceSpecRef: 03-validation/cs-deviation-diagnosis-validation-v3.md
+    - definitionVersion: 2
+      specRef: 03-validation/cs-deviation-diagnosis-validation.md
+      sourceSpecRef: 03-validation/cs-deviation-diagnosis-validation.md
+    - definitionVersion: 1
+      specRef: 03-validation/cs-deviation-diagnosis-validation.md
+      sourceSpecRef: 03-validation/cs-deviation-diagnosis-validation-v1.md
+insight_generation:
+  label: 结果总结
+  description: Form a scoped reproduction conclusion and decision-relevant next steps.
+  substages:
+  - key: reproduction_conclusion_recommendation
+    label: 复现结论与下一步建议
+    description: 直接回答复现是否达标，说明适用范围、证据、限制和下一步。
+    definitionVersion: 4
+    historicalVersions:
+    - definitionVersion: 3
+      specRef: 04-insight/cs-reproduction-conclusion-recommendation.md
+      sourceSpecRef: 04-insight/cs-reproduction-conclusion-recommendation.md
+    - definitionVersion: 2
+      specRef: 04-insight/cs-reproduction-conclusion-recommendation.md
+      sourceSpecRef: 04-insight/cs-reproduction-conclusion-recommendation-v2.md
+    - definitionVersion: 1
+      specRef: 04-insight/cs-reproduction-conclusion-recommendation.md
+      sourceSpecRef: 04-insight/cs-reproduction-conclusion-recommendation-v1.md

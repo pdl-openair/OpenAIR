@@ -1,0 +1,29 @@
+skill_id: opentrajectory_progressive_reading
+claude_name: opentrajectory-progressive-reading
+display_name: 文献渐进式深读
+version: 0.1.0
+stages:
+- execution_validation
+substages:
+- progressive_reading
+pack: opentrajectory
+sequence: 70
+enabled: true
+spec: 03-validation/progressive-reading.md
+input_skills:
+- opentrajectory_source_screening_selection
+skill_type: orchestration
+runtime: claude_code
+status: deprecated
+source: opentrajectory
+skill_path: skills/opentrajectory/opentrajectory-progressive-reading
+claude_skill_path: .claude/skills/opentrajectory-progressive-reading
+output_file: 03-validation/paper-packets.json
+fixture_status: none
+notes: OpenTrajectory L2 orchestration slot.
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: progressive_reading
+owner: TBD

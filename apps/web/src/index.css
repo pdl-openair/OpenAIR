@@ -1,0 +1,514 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Streamdown (and plugins) ship Tailwind utility classes in their dist bundles. */
+@source "../node_modules/streamdown/dist/*.js";
+@source "../node_modules/@streamdown/code/dist/*.js";
+@source "../node_modules/@streamdown/mermaid/dist/*.js";
+@source "../node_modules/@streamdown/math/dist/*.js";
+@source "../node_modules/@streamdown/cjk/dist/*.js";
+
+:root {
+  color-scheme: light;
+
+  /* Font sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.8125rem;
+  --font-size-base: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.375rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 1.75rem;
+  --line-height-compact: 1.25;
+  --line-height-body: 1.4;
+  --line-height-hero: 1.8;
+  --line-height-display: 1.34;
+  --font-size-display: 2.125rem;
+  --font-size-display-sm: 1.75rem;
+  --font-size-subtitle: 1.0625rem;
+  --font-size-2xs: 0.6875rem;
+  --font-size-3xs: 0.625rem;
+  --line-height-tight: 1.2;
+  --line-height-title: 1.3;
+  --line-height-snug: 1.35;
+  --line-height-normal: 1.45;
+  --line-height-content: 1.55;
+  --line-height-relaxed: 1.5;
+  --line-height-copy: 1.65;
+  --line-height-copy-loose: 1.7;
+
+  /* Colors - light */
+  --wb-bg: #f5f6fa;
+  --wb-surface: #ffffff;
+  --wb-surface-soft: #f7f8fc;
+  --wb-surface-muted: #f0f2f7;
+  --wb-border: #e8eaf0;
+  --wb-border-strong: #dce0e9;
+  --wb-text: #2b2d36;
+  --wb-text-secondary: #666a78;
+  --wb-text-muted: #969baa;
+  --wb-accent: #594aff;
+  --wb-accent-strong: #594aff;
+  --wb-chat-user: #594aff;
+  --wb-accent-soft: #f0eeff;
+  --wb-accent-soft-2: #f8f7ff;
+  --wb-info-border: #d8d2ff;
+  --wb-success: #20ae70;
+  --wb-success-soft: #eaf8f0;
+  --wb-warning: #c98812;
+  --wb-warning-soft: #fff6e6;
+  --wb-warning-border: #f4d9a8;
+  --wb-danger: #df5a62;
+  --wb-danger-soft: #fff0f1;
+  --wb-info-soft: #f0eeff;
+  --wb-purple: #594aff;
+  --wb-purple-soft: #f0eeff;
+  --wb-purple-border: #d8d2ff;
+  --wb-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --wb-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --wb-shadow-accent: 0 4px 12px rgba(89, 74, 255, 0.12);
+  --wb-login-gradient-from: #faf9ff;
+  --wb-login-gradient-to: #eeebff;
+  --wb-accent-tint: rgba(89, 74, 255, 0.04);
+  --wb-success-tint: rgba(32, 174, 112, 0.04);
+  --wb-accent-selected: rgba(89, 74, 255, 0.08);
+  --wb-accent-ring: rgba(89, 74, 255, 0.18);
+  --wb-accent-border-faint: rgba(89, 74, 255, 0.2);
+  --wb-surface-glass: rgba(248, 250, 252, 0.9);
+  --wb-overlay: rgba(43, 45, 54, 0.28);
+  --wb-scrim-heavy: rgba(43, 45, 54, 0.92);
+  --wb-shadow-overlay: 0 18px 48px rgba(43, 45, 54, 0.18);
+  --wb-shadow-inset-accent: inset 0 0 0 1px rgba(89, 74, 255, 0.18);
+  --wb-code-bg: #29263a;
+  --wb-code-text: #f0eeff;
+  --wb-chat-user-overlay: rgba(255, 255, 255, 0.18);
+  --wb-icon-disabled: #d9d9d9;
+  --wb-purple-light: #8e82ff;
+  --wb-warning-light: #dea84b;
+  --wb-success-light: #65c69a;
+
+  /* OpenAIR shell / Figma brand palette */
+  --wb-brand: #594aff;
+  --wb-brand-soft: #f4f2ff;
+  --wb-brand-soft-2: #e7e3ff;
+  --wb-shell-bg: #f4f2ff;
+  --wb-shell-border: #e8eaf0;
+  --wb-shell-divider: #e8eaf0;
+  --wb-shell-text: #2b2d36;
+  --wb-shell-text-strong: #20212a;
+  --wb-shell-text-secondary: #666a78;
+  --wb-shell-text-muted: #969baa;
+  --wb-shell-trigger-text: #4d4f5a;
+  --wb-shell-surface-subtle: #f0f2f7;
+  --wb-shell-surface-subtle-2: #f7f8fc;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --wb-bg: #17151e;
+  --wb-surface: #201e28;
+  --wb-surface-soft: #282532;
+  --wb-surface-muted: #2e2b38;
+  --wb-border: #393648;
+  --wb-border-strong: #4b465b;
+  --wb-text: #f4f2f8;
+  --wb-text-secondary: #cbc7d4;
+  --wb-text-muted: #9892a5;
+  --wb-accent: #a497ff;
+  --wb-accent-strong: #a497ff;
+  --wb-chat-user: #a497ff;
+  --wb-accent-soft: rgba(164, 151, 255, 0.18);
+  --wb-accent-soft-2: rgba(164, 151, 255, 0.1);
+  --wb-info-border: rgba(164, 151, 255, 0.4);
+  --wb-success: #55c893;
+  --wb-success-soft: rgba(85, 200, 147, 0.16);
+  --wb-warning: #e7b55c;
+  --wb-warning-soft: rgba(231, 181, 92, 0.16);
+  --wb-warning-border: rgba(231, 181, 92, 0.32);
+  --wb-danger: #f07a82;
+  --wb-danger-soft: rgba(240, 122, 130, 0.16);
+  --wb-info-soft: rgba(164, 151, 255, 0.16);
+  --wb-purple: #a497ff;
+  --wb-purple-soft: rgba(164, 151, 255, 0.16);
+  --wb-purple-border: rgba(164, 151, 255, 0.32);
+  --wb-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.22);
+  --wb-shadow-md: 0 4px 14px rgba(0, 0, 0, 0.28);
+  --wb-shadow-accent: 0 4px 14px rgba(164, 151, 255, 0.2);
+  --wb-login-gradient-from: #17151e;
+  --wb-login-gradient-to: #282532;
+  --wb-accent-tint: rgba(164, 151, 255, 0.08);
+  --wb-success-tint: rgba(85, 200, 147, 0.08);
+  --wb-accent-selected: rgba(164, 151, 255, 0.14);
+  --wb-accent-ring: rgba(164, 151, 255, 0.26);
+  --wb-accent-border-faint: rgba(164, 151, 255, 0.3);
+  --wb-surface-glass: rgba(32, 30, 40, 0.92);
+  --wb-overlay: rgba(0, 0, 0, 0.45);
+  --wb-scrim-heavy: rgba(0, 0, 0, 0.72);
+  --wb-shadow-overlay: 0 18px 48px rgba(0, 0, 0, 0.42);
+  --wb-shadow-inset-accent: inset 0 0 0 1px rgba(164, 151, 255, 0.26);
+  --wb-code-bg: rgba(0, 0, 0, 0.55);
+  --wb-code-text: #f0eeff;
+  --wb-chat-user-overlay: rgba(255, 255, 255, 0.14);
+  --wb-icon-disabled: #5c6475;
+  --wb-purple-light: #c2baff;
+  --wb-warning-light: #f0cc8a;
+  --wb-success-light: #8dddb5;
+
+  --wb-brand: #a497ff;
+  --wb-brand-soft: rgba(164, 151, 255, 0.18);
+  --wb-brand-soft-2: rgba(164, 151, 255, 0.1);
+  --wb-shell-bg: #282532;
+  --wb-shell-border: #393648;
+  --wb-shell-divider: #4b465b;
+  --wb-shell-text: #f4f2f8;
+  --wb-shell-text-strong: #ffffff;
+  --wb-shell-text-secondary: #cbc7d4;
+  --wb-shell-text-muted: #9892a5;
+  --wb-shell-trigger-text: #cbc7d4;
+  --wb-shell-surface-subtle: #2e2b38;
+  --wb-shell-surface-subtle-2: #34313e;
+}
+
+@theme inline {
+  --color-bg: var(--wb-bg);
+  --color-surface: var(--wb-surface);
+  --color-surface-soft: var(--wb-surface-soft);
+  --color-surface-muted: var(--wb-surface-muted);
+  --color-border: var(--wb-border);
+  --color-border-strong: var(--wb-border-strong);
+  --color-text: var(--wb-text);
+  --color-text-secondary: var(--wb-text-secondary);
+  --color-text-muted: var(--wb-text-muted);
+  --color-accent: var(--wb-accent);
+  --color-accent-strong: var(--wb-accent-strong);
+  --color-chat-user: var(--wb-chat-user);
+  --color-accent-soft: var(--wb-accent-soft);
+  --color-accent-soft-2: var(--wb-accent-soft-2);
+  --color-info-border: var(--wb-info-border);
+  --color-success: var(--wb-success);
+  --color-success-soft: var(--wb-success-soft);
+  --color-warning: var(--wb-warning);
+  --color-warning-soft: var(--wb-warning-soft);
+  --color-warning-border: var(--wb-warning-border);
+  --color-danger: var(--wb-danger);
+  --color-danger-soft: var(--wb-danger-soft);
+  --color-info-soft: var(--wb-info-soft);
+  --color-purple: var(--wb-purple);
+  --color-purple-soft: var(--wb-purple-soft);
+  --color-purple-border: var(--wb-purple-border);
+  --color-accent-tint: var(--wb-accent-tint);
+  --color-success-tint: var(--wb-success-tint);
+  --color-accent-selected: var(--wb-accent-selected);
+  --color-accent-ring: var(--wb-accent-ring);
+  --color-accent-border-faint: var(--wb-accent-border-faint);
+  --color-surface-glass: var(--wb-surface-glass);
+  --color-overlay: var(--wb-overlay);
+  --color-scrim-heavy: var(--wb-scrim-heavy);
+  --color-code-bg: var(--wb-code-bg);
+  --color-code-text: var(--wb-code-text);
+  --color-chat-user-overlay: var(--wb-chat-user-overlay);
+  --color-icon-disabled: var(--wb-icon-disabled);
+  --color-purple-light: var(--wb-purple-light);
+  --color-warning-light: var(--wb-warning-light);
+  --color-success-light: var(--wb-success-light);
+  --color-brand: var(--wb-brand);
+  --color-brand-soft: var(--wb-brand-soft);
+  --color-brand-soft-2: var(--wb-brand-soft-2);
+  --color-shell-bg: var(--wb-shell-bg);
+  --color-shell-border: var(--wb-shell-border);
+  --color-shell-divider: var(--wb-shell-divider);
+  --color-shell-text: var(--wb-shell-text);
+  --color-shell-text-strong: var(--wb-shell-text-strong);
+  --color-shell-text-secondary: var(--wb-shell-text-secondary);
+  --color-shell-text-muted: var(--wb-shell-text-muted);
+  --color-shell-trigger-text: var(--wb-shell-trigger-text);
+  --color-shell-surface-subtle: var(--wb-shell-surface-subtle);
+  --color-shell-surface-subtle-2: var(--wb-shell-surface-subtle-2);
+
+  /* Streamdown / shadcn-compatible color aliases (aligned with streamdown.ai playground). */
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-primary: var(--wb-accent);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f8fafc;
+  --color-secondary-foreground: #0f172a;
+  --color-accent-foreground: #0f172a;
+  --color-card: #ffffff;
+  --color-card-foreground: #0f172a;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #0f172a;
+  --color-destructive: var(--wb-danger);
+  --color-destructive-foreground: #ffffff;
+  --color-input: #e2e8f0;
+  --color-ring: var(--wb-accent-ring);
+  --color-sidebar: #f8fafc;
+  --color-sidebar-foreground: #334155;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  --font-size-2xs: var(--font-size-2xs);
+  --font-size-display: var(--font-size-display);
+  --font-size-display-sm: var(--font-size-display-sm);
+  --font-size-subtitle: var(--font-size-subtitle);
+  --leading-compact: var(--line-height-compact);
+  --leading-body: var(--line-height-body);
+  --leading-hero: var(--line-height-hero);
+  --leading-display: var(--line-height-display);
+  --font-size-3xs: var(--font-size-3xs);
+  --font-size-xs: var(--font-size-xs);
+  --font-size-sm: var(--font-size-sm);
+  --font-size-base: var(--font-size-base);
+  --font-size-md: var(--font-size-md);
+  --font-size-lg: var(--font-size-lg);
+  --font-size-xl: var(--font-size-xl);
+  --font-size-2xl: var(--font-size-2xl);
+  --leading-tight: var(--line-height-tight);
+  --leading-title: var(--line-height-title);
+  --leading-snug: var(--line-height-snug);
+  --leading-normal: var(--line-height-normal);
+  --leading-content: var(--line-height-content);
+  --leading-relaxed: var(--line-height-relaxed);
+  --leading-copy: var(--line-height-copy);
+  --leading-copy-loose: var(--line-height-copy-loose);
+  --shadow-sm: var(--wb-shadow-sm);
+  --shadow-md: var(--wb-shadow-md);
+  --shadow-accent: var(--wb-shadow-accent);
+  --shadow-overlay: var(--wb-shadow-overlay);
+  --shadow-inset-accent: var(--wb-shadow-inset-accent);
+  --color-login-gradient-from: var(--wb-login-gradient-from);
+  --color-login-gradient-to: var(--wb-login-gradient-to);
+  --radius-card: 0.625rem;
+  --max-width-auth: 25rem;
+  --z-index-resize: 5;
+  --z-index-sticky: 4;
+  --z-index-raised: 1;
+  --z-index-overlay: 1090;
+  --z-index-modal: 1100;
+  --font-size-4xs: 0.5rem;
+  --tracking-sidebar: 2px;
+}
+
+@theme {
+  --breakpoint-3xl: 112rem;
+  --breakpoint-4xl: 128rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#root > .ant-app {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "PingFang SC",
+    "Microsoft YaHei",
+    sans-serif;
+  background: var(--wb-bg);
+  color: var(--wb-text);
+  line-height: var(--line-height-relaxed);
+}
+
+a {
+  color: var(--wb-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Keep layout details local; all colours come from the system token set above. */
+.task-detail-page {
+  padding: 4px 0 24px;
+}
+
+.task-detail-page .ant-card {
+  box-shadow: none;
+}
+
+.task-detail-stage-board {
+  position: relative;
+}
+
+.task-detail-stage::after {
+  position: absolute;
+  top: 16px;
+  left: calc(50% + 20px);
+  width: calc(100% - 40px);
+  height: 1px;
+  background: var(--wb-border-strong);
+  content: "";
+}
+
+.task-detail-stage:last-child::after {
+  display: none;
+}
+
+.task-detail-stage-marker {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--wb-border-strong);
+  border-radius: 999px;
+  background: var(--wb-surface-soft);
+  color: var(--wb-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.task-detail-stage-marker-completed {
+  border-color: var(--wb-success);
+  background: var(--wb-success);
+  color: #ffffff;
+}
+
+.task-detail-stage-marker-running {
+  border-color: var(--wb-accent-strong);
+  background: var(--wb-accent-strong);
+  color: #ffffff;
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--wb-accent-strong) 12%, transparent);
+}
+
+.task-detail-stage-marker-pending {
+  border-color: var(--wb-warning-border);
+  background: var(--wb-warning-soft);
+  color: var(--wb-warning);
+}
+
+.task-detail-stage-marker-failed {
+  border-color: var(--wb-danger);
+  background: var(--wb-danger-soft);
+  color: var(--wb-danger);
+}
+
+@media (max-width: 1279px) {
+  .task-detail-stage:nth-child(2n)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .task-detail-stage::after {
+    display: none;
+  }
+}
+
+/* Artifact Markdown: isolate Streamdown from Ant Design / host typography so it
+   tracks https://streamdown.ai/playground rather than inheriting workbench chrome. */
+.wb-artifact-md {
+  color: var(--color-foreground);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.wb-artifact-md .wb-artifact-streamdown {
+  max-width: 100%;
+  color: var(--color-foreground);
+}
+
+/* Neutralize host/UA table borders; Streamdown uses divide-y + wrapper chrome. */
+.wb-artifact-streamdown table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.wb-artifact-streamdown th,
+.wb-artifact-streamdown td {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  background-color: transparent;
+}
+
+.wb-artifact-streamdown [data-streamdown="table-wrapper"] {
+  overflow: hidden;
+  background-color: var(--color-sidebar);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg, 0.5rem);
+}
+
+.wb-artifact-streamdown [data-streamdown="table-header"] {
+  background-color: color-mix(in srgb, var(--color-muted) 80%, transparent);
+}
+
+.wb-artifact-streamdown [data-streamdown="table-header-cell"],
+.wb-artifact-streamdown [data-streamdown="table-cell"] {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  vertical-align: top;
+}
+
+.wb-artifact-streamdown [data-streamdown="table-header-cell"] {
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.wb-artifact-streamdown [data-streamdown="table-body"] > tr + tr,
+.wb-artifact-streamdown table > :not([hidden]) ~ :not([hidden]) {
+  border-top: 1px solid var(--color-border);
+}
+
+/* Keep headings/lists readable without Ant Design Typography bleed-through. */
+.wb-artifact-streamdown :where(h1, h2, h3, h4, h5, h6) {
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+
+.wb-artifact-streamdown :where(a) {
+  color: var(--color-primary);
+}
+
+/* Dark theme tokens only inside Streamdown islands (do not clobber app brand accent). */
+:root[data-theme="dark"] .wb-artifact-streamdown {
+  --color-background: #0f172a;
+  --color-foreground: #f8fafc;
+  --color-muted: #1e293b;
+  --color-muted-foreground: #94a3b8;
+  --color-secondary: #1e293b;
+  --color-secondary-foreground: #f8fafc;
+  --color-card: #0f172a;
+  --color-card-foreground: #f8fafc;
+  --color-popover: #0f172a;
+  --color-popover-foreground: #f8fafc;
+  --color-input: #334155;
+  --color-sidebar: #1e293b;
+  --color-sidebar-foreground: #cbd5e1;
+  --color-border: #334155;
+  --color-primary-foreground: #0f172a;
+  color: var(--color-foreground);
+}

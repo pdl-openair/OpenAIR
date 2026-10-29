@@ -1,0 +1,14 @@
+{
+  "formula": "CrSiTe3",
+  "entry_id": "{'identifier': 'mp-aaaaafpj', 'suffix': 'GGA', 'separator': '-'}",
+  "total_energy": -53.406007079999995,
+  "energy_per_atom": -5.340600707999999,
+  "formation_energy": -0.43894407199999963,
+  "ehull": 0.0,
+  "decomposition": {
+    "Cr2 Si2 Te6": 1.0
+  },
+  "status": "THERMODYNAMICALLY STABLE (在凸包上)",
+  "pass_formation": true,
+  "pass_hull": true
+}

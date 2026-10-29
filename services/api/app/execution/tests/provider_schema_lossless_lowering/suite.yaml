@@ -1,0 +1,38 @@
+suite_id: component.execution.provider-schema-lossless-lowering
+protected_outcome: >-
+  Shared Provider Schema normalization applies only locally proven,
+  instance-validation-equivalent lowerings and refuses every unsupported target
+  construct without returning a partially lowered schema. The shared layer
+  never rewrites ``not`` or ``not/pattern`` into a regular-expression complement.
+authority_refs:
+  - spec/collaboration/01_产品第一原则.md
+  - spec/collaboration/05_Skill与模型任务设计.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class:
+  - provider_schema_lowering_changes_validation_semantics
+  - unproven_provider_schema_construct_is_lowered
+  - provider_schema_lowering_creates_scientific_facts
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/provider_schema_lossless_lowering.py
+test_responsibility: >-
+  Prove positive and negative validation equivalence for typed const and
+  statically disjoint oneOf; prove fail-closed refusal for ambiguous const
+  types, overlapping oneOf, every not form, and missing required type constraints.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - positive_and_negative_equivalence_assertions
+  - unsupported_construct_refusal_assertions
+verdict_rule: >-
+  PASS only when both frozen lowerings preserve decisive accepted and rejected
+  instances, every not/pattern remains untransformed, and every unsupported
+  counterexample returns NOT_LOWERABLE; otherwise FAIL when evidence contradicts
+  equivalence or fail-closed behavior, and otherwise NO_VALID_EVIDENCE.
+triggers:
+  - Provider Schema lossless lowering changes
+  - Provider Schema compatibility normalization changes

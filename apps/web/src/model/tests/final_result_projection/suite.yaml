@@ -1,0 +1,17 @@
+suite_id: component.web.model.final-result-projection
+protected_outcome: The Web workbench model preserves the canonical Final Result and its scientific source references without dropping or reinterpreting them during Task projection.
+authority_refs:
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: final_result_projection_loss_or_reinterpretation
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/model/workbenchTask.ts
+test_responsibility: deterministic component behavior for canonical Final Result projection
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all evidence_required items are obtained, and the existing Suite assertions prove protected_outcome; FAIL when sufficient valid evidence proves protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers: [task_to_workbench_projection_or_final_result_changes]

@@ -1,0 +1,23 @@
+suite_id: component.web.frontend-contract-tests
+protected_outcome: The web app keeps its pinned frontend contract surfaces - task and event stream projections, artifact selection and visibility, collaboration stream behavior, user-action requests, and error presentation - so that any change to a pinned contract shape or behavior fails these deterministic node:test suites instead of silently reaching users.
+authority_refs:
+- docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+- spec/testing/OpenAIR 测试设计合同.md
+- spec/testing/OpenAIR 测试代码架构.md
+failure_class: frontend_contract_regression
+minimum_owner: 单个组件行为
+production_targets:
+- apps/web/src/
+test_responsibility: Deterministic node:test verification of the web app's pinned contract surfaces from source modules, without a live backend.
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- node_test_exit_code_0
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions
+  prove protected_outcome; FAIL when sufficient valid evidence proves
+  protected_outcome is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+- frontend_contract_surface_changed

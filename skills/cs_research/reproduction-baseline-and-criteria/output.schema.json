@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CS reproduction baseline criteria output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "reproduction_target", "reference_sources", "reference_metric_records", "reference_metric_comparison_requests", "comparison_criteria", "unknowns", "conflicts"],
+  "properties": {
+    "status": {"type": "string", "enum": ["complete", "incomplete"]},
+    "reproduction_target": {
+      "type": "object",
+      "required": ["claim", "implementation", "scope"],
+      "properties": {
+        "claim": {"type": ["string", "null"]},
+        "implementation": {"type": ["string", "null"]},
+        "scope": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "reference_sources": {"type": "array", "items": {"type": "object"}},
+    "reference_metric_records": {"type": "array", "items": {"type": "object"}},
+    "reference_metric_comparison_requests": {"type": "array", "items": {"$ref": "#/definitions/comparisonRequest"}},
+    "comparison_criteria": {"type": "array", "items": {"type": "object"}},
+    "unknowns": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "conflicts": {"type": "array", "items": {"type": "object"}}
+  },
+  "definitions": {
+    "comparisonRequest": {
+      "type": "object",
+      "required": ["metric_name", "reference_value", "value_type", "unit", "comparison_rule"],
+      "properties": {
+        "metric_name": {"type": "string", "minLength": 1},
+        "reference_value": {"type": ["number", "integer", "string", "boolean"]},
+        "value_type": {"type": "string", "enum": ["number", "integer", "string", "boolean"]},
+        "unit": {"type": ["string", "null"]},
+        "comparison_rule": {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {
+            "kind": {"type": "string", "enum": ["exact", "absolute_tolerance", "relative_tolerance", "actual_gte_reference", "actual_lte_reference"]},
+            "tolerance": {"type": "number", "minimum": 0}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

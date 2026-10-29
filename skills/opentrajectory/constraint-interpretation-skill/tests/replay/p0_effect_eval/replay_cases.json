@@ -1,0 +1,349 @@
+{
+  "version": "p0_effect_eval_v1",
+  "cases": [
+    {
+      "case_id": "battery_001_li_metal_high_voltage_fast_charge",
+      "domain_group": "battery_materials",
+      "difficulty": "medium",
+      "purpose": "Test numerical voltage/rate constraints, material system constraints, and avoid over-expanding fast charging into mechanisms as hard filters.",
+      "input": {
+        "user_query": "面向高电压和快充条件下的锂金属电池，如何设计更稳定的醚类电解液？重点关注 4.5 V 以上、2C 以上倍率、库伦效率和循环寿命。",
+        "research_domain": "battery materials",
+        "material_system": "lithium metal battery ether-based electrolyte",
+        "raw_constraints": [
+          {
+            "phrase": "4.5 V 以上",
+            "source": "user_query",
+            "constraint_type_hint": "numerical_range"
+          },
+          {
+            "phrase": "2C 以上倍率",
+            "source": "user_query",
+            "constraint_type_hint": "numerical_range"
+          },
+          {
+            "phrase": "醚类电解液",
+            "source": "user_query",
+            "constraint_type_hint": "material_system"
+          }
+        ],
+        "research_context": {
+          "target": "stable ether-based electrolytes for lithium metal batteries",
+          "metrics": [
+            "Coulombic efficiency",
+            "cycle life"
+          ],
+          "boundary_conditions": [
+            "high voltage",
+            "fast charging"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "battery_002_solid_state_room_temperature",
+      "domain_group": "battery_materials",
+      "difficulty": "medium",
+      "purpose": "Test qualitative and numerical constraints around room temperature, ionic conductivity, and solid electrolyte material classes.",
+      "input": {
+        "user_query": "固态锂电池中，哪些硫化物固态电解质在室温下具有较高离子电导率，同时界面稳定性较好？希望优先关注 10^-3 S/cm 以上的报道。",
+        "research_domain": "solid-state batteries",
+        "material_system": "sulfide solid electrolyte",
+        "raw_constraints": [
+          {
+            "phrase": "硫化物固态电解质",
+            "source": "user_query",
+            "constraint_type_hint": "material_system"
+          },
+          {
+            "phrase": "室温",
+            "source": "user_query",
+            "constraint_type_hint": "condition"
+          },
+          {
+            "phrase": "10^-3 S/cm 以上",
+            "source": "user_query",
+            "constraint_type_hint": "numerical_range"
+          }
+        ],
+        "research_context": {
+          "target": "sulfide solid electrolytes for solid-state lithium batteries",
+          "metrics": [
+            "ionic conductivity",
+            "interfacial stability"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "battery_003_sodium_cathode_low_temperature",
+      "domain_group": "battery_materials",
+      "difficulty": "hard",
+      "purpose": "Test low-temperature condition, sodium-ion cathode material system, and avoid converting vague stability claims into hard numerical filters.",
+      "input": {
+        "user_query": "钠离子电池层状氧化物正极在低温环境下容量衰减严重，想检索能够改善低温倍率性能和结构稳定性的掺杂或包覆策略，最好关注 -20°C 附近测试。",
+        "research_domain": "battery materials",
+        "material_system": "sodium-ion layered oxide cathode",
+        "raw_constraints": [
+          {
+            "phrase": "层状氧化物正极",
+            "source": "user_query",
+            "constraint_type_hint": "material_system"
+          },
+          {
+            "phrase": "低温环境",
+            "source": "user_query",
+            "constraint_type_hint": "condition"
+          },
+          {
+            "phrase": "-20°C 附近测试",
+            "source": "user_query",
+            "constraint_type_hint": "numerical_range"
+          }
+        ],
+        "research_context": {
+          "target": "low-temperature sodium-ion layered oxide cathodes",
+          "metrics": [
+            "rate capability",
+            "capacity retention",
+            "structural stability"
+          ],
+          "required_conditions": [
+            "low temperature"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "agent_001_long_horizon_software_agent",
+      "domain_group": "agent_systems",
+      "difficulty": "medium",
+      "purpose": "Test non-material research query; distinguish mechanisms from constraints; avoid treating memory/tool/reflection as filters.",
+      "input": {
+        "user_query": "面向长任务软件开发的 AI Agent，如何通过记忆管理、工具调用和反思机制提升任务成功率与稳定性？重点关注可复现实验和 benchmark。",
+        "research_domain": "AI agents",
+        "material_system": null,
+        "raw_constraints": [
+          {
+            "phrase": "长任务软件开发",
+            "source": "user_query",
+            "constraint_type_hint": "task_context"
+          },
+          {
+            "phrase": "记忆管理、工具调用和反思机制",
+            "source": "user_query",
+            "constraint_type_hint": "method_or_mechanism"
+          },
+          {
+            "phrase": "可复现实验和 benchmark",
+            "source": "user_query",
+            "constraint_type_hint": "evidence_requirement"
+          }
+        ],
+        "research_context": {
+          "target": "long-horizon software engineering agents",
+          "metrics": [
+            "task success rate",
+            "stability",
+            "reproducibility"
+          ],
+          "required_conditions": [
+            "benchmark-based evaluation"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "agent_002_multi_agent_materials_research",
+      "domain_group": "agent_systems",
+      "difficulty": "hard",
+      "purpose": "Test mixed domain: materials research + multi-agent systems; identify workflow constraints without overfitting to one material system.",
+      "input": {
+        "user_query": "面向材料科研任务的多智能体系统持续演化技术，现在有哪些研究空白？要求关注文献检索、证据整理、假说生成、计算工具调用和实验反馈之间的协同。",
+        "research_domain": "AI agents for materials research",
+        "material_system": null,
+        "raw_constraints": [
+          {
+            "phrase": "材料科研任务",
+            "source": "user_query",
+            "constraint_type_hint": "application_domain"
+          },
+          {
+            "phrase": "多智能体系统",
+            "source": "user_query",
+            "constraint_type_hint": "system_type"
+          },
+          {
+            "phrase": "文献检索、证据整理、假说生成、计算工具调用和实验反馈",
+            "source": "user_query",
+            "constraint_type_hint": "workflow_scope"
+          }
+        ],
+        "research_context": {
+          "target": "multi-agent systems for materials research",
+          "metrics": [
+            "research gap",
+            "workflow integration",
+            "continuous evolution"
+          ],
+          "boundary_conditions": [
+            "literature-to-validation workflow"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "agent_003_rag_evidence_graph_scientific_discovery",
+      "domain_group": "agent_systems",
+      "difficulty": "medium",
+      "purpose": "Test evidence/RAG/graph constraints; ensure 'trustworthy' is treated as qualitative and not a hard filter.",
+      "input": {
+        "user_query": "科研发现智能体中，RAG、证据图谱和反向校验机制如何提升假说生成的可信度？希望检索能够提供来源追溯、证据链和失败案例分析的研究。",
+        "research_domain": "scientific discovery agents",
+        "material_system": null,
+        "raw_constraints": [
+          {
+            "phrase": "RAG、证据图谱和反向校验机制",
+            "source": "user_query",
+            "constraint_type_hint": "method_or_mechanism"
+          },
+          {
+            "phrase": "来源追溯、证据链",
+            "source": "user_query",
+            "constraint_type_hint": "evidence_requirement"
+          },
+          {
+            "phrase": "失败案例分析",
+            "source": "user_query",
+            "constraint_type_hint": "evidence_requirement"
+          }
+        ],
+        "research_context": {
+          "target": "trustworthy hypothesis generation in scientific discovery agents",
+          "metrics": [
+            "traceability",
+            "evidence chain quality",
+            "failure analysis"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "theory_001_perovskite_defect_tolerance_dft",
+      "domain_group": "theoretical_materials",
+      "difficulty": "medium",
+      "purpose": "Test theoretical/computational material constraints, including DFT and defect tolerance; avoid treating DFT as material constraint.",
+      "input": {
+        "user_query": "卤化物钙钛矿中，缺陷容忍性与载流子复合机制之间有什么关系？希望关注 DFT 计算、非辐射复合和带边态分析。",
+        "research_domain": "theoretical materials science",
+        "material_system": "halide perovskites",
+        "raw_constraints": [
+          {
+            "phrase": "卤化物钙钛矿",
+            "source": "user_query",
+            "constraint_type_hint": "material_system"
+          },
+          {
+            "phrase": "DFT 计算",
+            "source": "user_query",
+            "constraint_type_hint": "method"
+          },
+          {
+            "phrase": "非辐射复合和带边态分析",
+            "source": "user_query",
+            "constraint_type_hint": "mechanism_or_metric"
+          }
+        ],
+        "research_context": {
+          "target": "defect tolerance mechanisms in halide perovskites",
+          "methods": [
+            "DFT"
+          ],
+          "metrics": [
+            "nonradiative recombination",
+            "band-edge states"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "theory_002_high_entropy_alloy_phase_stability",
+      "domain_group": "theoretical_materials",
+      "difficulty": "hard",
+      "purpose": "Test composition family, thermodynamic stability, CALPHAD/DFT methods; handle broad alloy-system constraints.",
+      "input": {
+        "user_query": "高熵合金中，如何通过 CALPHAD 与 DFT 结合预测相稳定性？重点关注 Al-Co-Cr-Fe-Ni 体系、形成焓、混合熵和相分解风险。",
+        "research_domain": "theoretical materials science",
+        "material_system": "Al-Co-Cr-Fe-Ni high-entropy alloys",
+        "raw_constraints": [
+          {
+            "phrase": "Al-Co-Cr-Fe-Ni 体系",
+            "source": "user_query",
+            "constraint_type_hint": "material_system"
+          },
+          {
+            "phrase": "CALPHAD 与 DFT 结合",
+            "source": "user_query",
+            "constraint_type_hint": "method"
+          },
+          {
+            "phrase": "形成焓、混合熵和相分解风险",
+            "source": "user_query",
+            "constraint_type_hint": "metric_or_risk"
+          }
+        ],
+        "research_context": {
+          "target": "phase stability prediction in high-entropy alloys",
+          "methods": [
+            "CALPHAD",
+            "DFT"
+          ],
+          "metrics": [
+            "formation enthalpy",
+            "mixing entropy",
+            "phase decomposition"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "theory_003_topological_materials_spin_orbit",
+      "domain_group": "theoretical_materials",
+      "difficulty": "medium",
+      "purpose": "Test physics-heavy theoretical materials query; identify material class, method, and target properties without adding unmentioned compounds.",
+      "input": {
+        "user_query": "拓扑半金属中，自旋轨道耦合对能带反转和拓扑表面态有什么影响？希望重点检索第一性原理计算和 ARPES 验证相结合的研究。",
+        "research_domain": "theoretical materials science",
+        "material_system": "topological semimetals",
+        "raw_constraints": [
+          {
+            "phrase": "拓扑半金属",
+            "source": "user_query",
+            "constraint_type_hint": "material_system"
+          },
+          {
+            "phrase": "自旋轨道耦合",
+            "source": "user_query",
+            "constraint_type_hint": "mechanism"
+          },
+          {
+            "phrase": "第一性原理计算和 ARPES 验证",
+            "source": "user_query",
+            "constraint_type_hint": "method_or_evidence"
+          }
+        ],
+        "research_context": {
+          "target": "spin-orbit coupling effects in topological semimetals",
+          "methods": [
+            "first-principles calculations",
+            "ARPES"
+          ],
+          "metrics": [
+            "band inversion",
+            "topological surface states"
+          ]
+        }
+      }
+    }
+  ]
+}

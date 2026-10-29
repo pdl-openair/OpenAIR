@@ -1,0 +1,29 @@
+skill_id: reproduction_execution_input_validation
+claude_name: reproduction-execution-input-validation
+display_name: 复现执行输入真实条件核验
+version: 1.0.0
+stages:
+- execution_validation
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+runtime_contract:
+  kind: deterministic
+  requires_external_action: false
+  adapter_id: python_adapter:reproduction_execution_input_validation
+  evidence_contract_version: deterministic-output/v1
+auto_allowed: true
+review_required: false
+risk_level: low
+owner: TBD
+fixture_status: missing
+notes: 原确定性闭合代码的正式工具；逐项核验真实动作输入，不担任独立方法角色，不执行实验。
+capability_contract:
+  artifact_types:
+  - reproduction_execution_input
+  judgment_support:
+    deterministic: true
+    domain_professional: false

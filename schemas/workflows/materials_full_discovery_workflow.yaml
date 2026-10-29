@@ -1,0 +1,97 @@
+schemaVersion: workflow-definition.v2
+workflowId: materials_full_discovery_workflow
+workflowVersion: 2
+nameZh: 材料发现全流程
+nameEn: Materials Full Discovery Workflow
+description: 从文献调研到报告生成的材料发现全链路——文献调研与目标确认、MP 数据库检索、候选生成与演化、可制备性评估、制备参数推荐、DFT 带隙与热力学稳定性验证、湿实验指派与表征回收、最终报告生成。
+skillPack: materials
+planningPolicy:
+  responsibilityPlanning: project_adaptive
+  existingResultReuse: validated_existing_results
+  conditionalResponsibilities: planner_selected
+nodes:
+- nodeKey: literature_review
+  definitionId: materials:literature_review
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 10
+- nodeKey: database_search
+  definitionId: materials:database_search
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 20
+- nodeKey: candidate_generation
+  definitionId: materials:candidate_generation
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 30
+- nodeKey: synthesis_assessment
+  definitionId: materials:synthesis_assessment
+  definitionVersion: 1
+  requirement: optional
+  displayOrder: 40
+- nodeKey: parameter_recommendation
+  definitionId: materials:parameter_recommendation
+  definitionVersion: 1
+  requirement: optional
+  displayOrder: 50
+- nodeKey: band_gap_calculation
+  definitionId: materials:band_gap_calculation
+  definitionVersion: 1
+  requirement: optional
+  displayOrder: 60
+- nodeKey: stability_verification
+  definitionId: materials:stability_verification
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 70
+- nodeKey: synthesis_execution
+  definitionId: materials:synthesis_execution
+  definitionVersion: 1
+  requirement: optional
+  displayOrder: 80
+- nodeKey: report_generation
+  definitionId: materials:report_generation
+  definitionVersion: 1
+  requirement: required
+  displayOrder: 90
+dependencies:
+- upstreamNodeKey: literature_review
+  downstreamNodeKey: database_search
+  dependencyType: execution_prerequisite
+- upstreamNodeKey: database_search
+  downstreamNodeKey: candidate_generation
+  dependencyType: execution_prerequisite
+- upstreamNodeKey: candidate_generation
+  downstreamNodeKey: synthesis_assessment
+  dependencyType: execution_prerequisite
+- upstreamNodeKey: synthesis_assessment
+  downstreamNodeKey: parameter_recommendation
+  dependencyType: execution_prerequisite
+- upstreamNodeKey: candidate_generation
+  downstreamNodeKey: band_gap_calculation
+  dependencyType: execution_prerequisite
+- upstreamNodeKey: candidate_generation
+  downstreamNodeKey: stability_verification
+  dependencyType: execution_prerequisite
+- upstreamNodeKey: parameter_recommendation
+  downstreamNodeKey: synthesis_execution
+  dependencyType: execution_prerequisite
+- upstreamNodeKey: stability_verification
+  downstreamNodeKey: synthesis_execution
+  dependencyType: execution_prerequisite
+- upstreamNodeKey: synthesis_execution
+  downstreamNodeKey: report_generation
+  dependencyType: execution_prerequisite
+- upstreamNodeKey: stability_verification
+  downstreamNodeKey: report_generation
+  dependencyType: execution_prerequisite
+boundaryPolicy:
+  allowedExternalActions:
+  - external_read
+  - external_compute
+  - physical_action
+  confirmationRequiredActions:
+  - physical_action
+  prohibitedActions:
+  - external_write

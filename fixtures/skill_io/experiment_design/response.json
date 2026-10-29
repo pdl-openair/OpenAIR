@@ -1,0 +1,16 @@
+{
+  "status": "completed",
+  "summary": "设计 4 环境 × 7 OPE 方法的系统性基准实验，覆盖 RQ1(训练进度)、RQ2(时间窗口)、RQ3(数据量) 三个维度。",
+  "artifacts": [
+    {
+      "path": "openair/ope-benchmark/design/experiment_design-v2.md",
+      "type": "stage_summary",
+      "title": "实验设计方案 v2"
+    }
+  ],
+  "capability_calls": [],
+  "next_actions": [
+    "基于实验设计方案进行任务拆解"
+  ],
+  "error": null
+}

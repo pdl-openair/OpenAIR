@@ -1,0 +1,22 @@
+suite_id: component.modules.research-start-planner-interfaces
+protected_outcome: Homepage research input reaches the strict scientific Planner preparation boundary for freeform and explicitly selected Workflows without incompatible call arguments or losing the Query, and compiled planning rationale passes unchanged through Proposal and formal ResearchUnderstanding models.
+authority_refs:
+- docs/01_核心设计/研究生命周期与对象/OpenAIR 研究项目生命周期.md
+- spec/testing/OpenAIR 测试设计合同.md
+failure_class: research_start_planner_interface_mismatch
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/modules/research_start_planner.py
+- services/api/app/modules/research_design_freeform_semantic_provider.py
+- services/api/app/modules/research_design_workflow_semantic_provider.py
+- services/api/app/modules/research_design_service.py
+- services/api/app/models/research_orchestration.py
+test_responsibility: Exercise real Planner preparation with the current Chat Completions provider, strict production receivers and current frozen OT, PVD and CS definitions, and verify planning-rationale serialization across strict models, without network calls or research creation.
+execution_profiles:
+- deterministic
+required_dependencies: []
+evidence_required:
+- pytest_result
+verdict_rule: PASS only with valid deterministic execution and all assertions passing; FAIL for an observed contract violation; otherwise NO_VALID_EVIDENCE.
+triggers:
+- Research Start Planner or semantic provider interface changes

@@ -1,0 +1,32 @@
+suite_id: component.opentrajectory.research-lead-package.package-contract
+protected_outcome: >-
+  The research_lead_package production module independently preserves its
+  generic package contract, domain-field namespacing, and recorded-run mapping
+  honesty without promoting offline proposals into reproduced results.
+authority_refs:
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - docs/02_产品与Workflow/OpenTrajectory/OpenTrajectory_Workflow设计合同.md
+  - skills/opentrajectory/research_lead_package/schema.py
+  - skills/opentrajectory/research_lead_package/builder.py
+failure_class: research_lead_package_contract_namespace_or_mapping_honesty_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/opentrajectory/research_lead_package
+test_responsibility: >-
+  deterministic component checks for package schema keys, CS domain-field
+  isolation from generic contract slots, explicit domain-profile requirements,
+  and offline recorded-run mapping outcomes
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions prove
+  protected_outcome; FAIL when sufficient valid evidence proves protected_outcome
+  is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - research_lead_package schema or builder changes
+  - domain profile mapping contract changes

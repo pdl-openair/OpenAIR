@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goal"],
+  "properties": {
+    "goal": {
+      "type": "string",
+      "description": "用户的材料发现目标"
+    },
+    "mp_search_report": {
+      "type": "string",
+      "description": "S2 materials_mp_constraint_search 产出的 report_markdown"
+    },
+    "candidate_summary": {
+      "type": "string",
+      "description": "S3 crystal_design_structure_crossover_agent 产出的 top_k_table（CSV 格式）"
+    },
+    "stability_handoff": {
+      "type": "string",
+      "description": "S7 vasp_stability_durable 产出的 handoff_summary 自然语言摘要"
+    },
+    "experiment_handoff": {
+      "type": "string",
+      "description": "S8 flux_experiment 产出的 handoff_summary（云实验平台下发摘要）"
+    },
+    "work_dir": {
+      "type": "string",
+      "description": "任务工作区根路径，agent 用于探索前序产物文件"
+    }
+  }
+}

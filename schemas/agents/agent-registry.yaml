@@ -1,0 +1,854 @@
+schemaVersion: 1
+updatedAt: "2026-07-14"
+description: "OpenAIR Specialist Agent Registry MVP. Production orchestrators may call only registered agents or aliases."
+
+agents:
+  - agentId: general_research_agent
+    displayName: General Research Agent
+    visibility: internal
+    agentKind: general_research
+    candidateScope: all_enabled_substages
+    enabled: true
+    skillIds:
+      - intent_extraction
+      - question_formulation
+      - task_decomposition
+    aliases:
+      - generalist_research_agent
+    capability:
+      - Perform bounded reasoning, synthesis, critique, and drafting from task-authorized context when no specialist or registered Skill is a better fit.
+      - Review ordered Skill outputs and turn them into a cautious, source-bounded research handoff.
+    notFor:
+      - External retrieval, code execution, filesystem access, or evidence collection without an authorized Skill.
+      - Impersonating a missing specialist or Skill.
+      - Claiming external facts or completed actions that are absent from durable inputs.
+    inputContract:
+      required:
+        - user_goal
+      optional:
+        - role_brief
+        - input_memory_refs
+        - input_artifact_refs
+        - reasoning_profile
+      memoryScope:
+        - Read only task-authorized goal, constraints, confirmed decisions, and explicitly linked artifacts or memory references.
+    outputContract:
+      artifactKind: general_research_reasoning
+      artifactContract: general_research_reasoning_artifact_v1
+      artifactSchema: schemas/agents/artifacts/general_research_reasoning_artifact_v1.schema.json
+      requiredFields:
+        - scope
+        - reasoning_summary
+        - assumptions
+        - uncertainty
+        - next_action
+    failClosedRules:
+      - If the requested work requires an unavailable external capability, return required_capability_unavailable without fabricating a result.
+      - Preserve unresolved uncertainty and distinguish supplied facts from model reasoning.
+    budgetPolicy:
+      defaultMode: draft_only
+      allowedModes:
+        - draft_only
+        - critique_only
+      maxWallTimeSec: 120
+      maxToolCalls: 0
+      maxContextMaterials: 12
+    allowedProviders:
+      - openai_primary
+    defaultProvider: openai_primary
+    judgmentSupport:
+      domainProfessional: false
+      humanAuthority: false
+    toolRequirements:
+      requiresFilesystem: false
+      requiresNetwork: false
+    evaluator:
+      id: general_research_agent_validator
+      artifactValidator: validate_research_agent_artifact
+      requiredMetadata:
+        - assumption_status
+        - uncertainty
+      qualitySignals:
+        - scope_alignment
+        - uncertainty_labeling
+    sdr:
+      primaryStages:
+        - problem_modeling
+      mappings:
+        - pack: sdr
+          stage: problem_modeling
+          substage: intent_understanding
+          role: bounded_general_reasoning
+          supportedRole: support
+          enabled: true
+          artifactContract: general_research_reasoning_artifact_v1
+
+  - agentId: research_question_refinement
+    displayName: Research Question Refinement
+    visibility: internal_or_user_entry
+    agentKind: specialist
+    candidateScope: explicit_mappings
+    enabled: true
+    skillIds:
+      - intent_extraction
+      - question_formulation
+    aliases:
+      - agent_question_refinement_v0_3
+      - question_refinement_agent
+    capability:
+      - Convert a broad research direction, keywords, or advisor feedback into bounded and testable research-question candidates.
+      - Define scope boundaries, assumptions, exclusion criteria, and the evidence needed to choose among candidates.
+      - Assess whether each candidate is researchable and ready for literature positioning or validation design.
+    notFor:
+      - Literature retrieval, evidence extraction, experiments, or final scientific conclusions.
+      - Claiming novelty, field-wide absence, or validated findings from topic-only input.
+      - Building the four-stage execution plan, which remains the controller's responsibility.
+    inputContract:
+      required:
+        - user_goal
+      optional:
+        - domain_context
+        - advisor_feedback
+        - supplied_keywords
+        - constraints
+        - input_memory_refs
+      memoryScope:
+        - Read only task-authorized goal, constraints, confirmed decisions, and explicitly linked materials.
+        - Do not retrieve unrelated workspace or private Agent memory.
+    outputContract:
+      artifactKind: research_question_refinement
+      artifactContract: research_question_refinement_artifact_v1
+      artifactSchema: schemas/agents/artifacts/research_question_refinement_artifact_v1.schema.json
+    failClosedRules:
+      - If the goal is too ambiguous to form bounded candidates, return needs_input with focused clarification questions.
+      - Treat novelty and research-gap statements as hypotheses until supported by source-bounded evidence.
+      - Never imply that literature, experiments, or validation have already been completed.
+    budgetPolicy:
+      defaultMode: draft_only
+      allowedModes:
+        - draft_only
+        - critique_only
+      maxWallTimeSec: 90
+      maxToolCalls: 2
+      maxContextMaterials: 6
+    allowedProviders:
+      - openai_primary
+    defaultProvider: openai_primary
+    judgmentSupport:
+      domainProfessional: true
+      humanAuthority: false
+    toolRequirements:
+      requiresFilesystem: false
+      requiresNetwork: false
+    evaluator:
+      id: research_question_refinement_validator
+      artifactValidator: validate_research_agent_artifact
+      requiredMetadata:
+        - assumption_status
+        - verification_readiness
+      qualitySignals:
+        - question_specificity
+        - boundary_clarity
+        - verification_readiness
+    sdr:
+      primaryStages:
+        - problem_modeling
+      mappings:
+        - pack: sdr
+          stage: problem_modeling
+          substage: intent_understanding
+          role: scope_user_goal
+          supportedRole: support
+          enabled: true
+          artifactContract: research_question_scope_note_v1
+        - pack: sdr
+          stage: problem_modeling
+          substage: question_refinement
+          role: primary_question_refinement
+          supportedRole: primary
+          enabled: true
+          artifactContract: research_question_refinement_artifact_v1
+
+  - agentId: key_literature_positioning
+    displayName: Key Literature Positioning
+    visibility: internal_or_user_entry
+    agentKind: specialist
+    candidateScope: explicit_mappings
+    enabled: true
+    skillIds:
+      - intent_extraction
+      - literature_review
+      - academic_source_retrieval_skill
+    aliases:
+      - key_literature_agent
+      - literature_positioning_agent
+    capability:
+      - Turn a bounded research question into a reviewable search boundary, keyword families, source scope, and seed-paper strategy.
+      - Retrieve and screen candidate literature only after explicit execution authorization.
+      - Produce a traceable reading priority with source identifiers and stated coverage limits.
+    notFor:
+      - Treating candidate papers as a completed literature review or verified research conclusion.
+      - Extracting detailed claim-evidence rows from supplied papers.
+      - Claiming comprehensive coverage or novelty without a documented search boundary.
+    inputContract:
+      required:
+        - user_goal
+        - search_target
+      optional:
+        - refined_question
+        - supplied_keywords
+        - seed_sources
+        - year_or_source_constraints
+        - input_memory_refs
+      memoryScope:
+        - Read only task-authorized question, search constraints, confirmed decisions, and linked source records.
+        - Preserve source locators in every downstream handoff.
+    outputContract:
+      artifactKind: key_literature_positioning
+      artifactContract: key_literature_positioning_artifact_v1
+      artifactSchema: schemas/agents/artifacts/key_literature_positioning_artifact_v1.schema.json
+    failClosedRules:
+      - Before explicit execution authorization, emit only a search strategy and never claim retrieval occurred.
+      - If external retrieval is unavailable or uncertain, report the source result as unknown and do not invent papers.
+      - Every candidate paper must retain a stable source identifier or URL and an explicit screening rationale.
+    budgetPolicy:
+      defaultMode: retrieval_bound
+      allowedModes:
+        - draft_only
+        - retrieval_bound
+        - critique_only
+      maxWallTimeSec: 120
+      maxToolCalls: 5
+      maxContextMaterials: 12
+    allowedProviders:
+      - openai_primary
+    defaultProvider: openai_primary
+    judgmentSupport:
+      domainProfessional: true
+      humanAuthority: false
+    toolRequirements:
+      requiresFilesystem: false
+      requiresNetwork: true
+    evaluator:
+      id: key_literature_positioning_validator
+      artifactValidator: validate_research_agent_artifact
+      requiredMetadata:
+        - source_identifier
+        - screening_rationale
+        - coverage_limitations
+      qualitySignals:
+        - source_traceability
+        - boundary_alignment
+        - coverage_limit_clarity
+    sdr:
+      primaryStages:
+        - problem_modeling
+      mappings:
+        - pack: sdr
+          stage: problem_modeling
+          substage: intent_understanding
+          role: scope_search_goal
+          supportedRole: support
+          enabled: true
+          artifactContract: literature_search_scope_note_v1
+        - pack: sdr
+          stage: problem_modeling
+          substage: literature_search
+          role: primary_literature_positioning
+          supportedRole: primary
+          enabled: true
+          artifactContract: key_literature_positioning_artifact_v1
+
+  - agentId: mechanism_dispute_mapping
+    displayName: Mechanism Dispute Mapping
+    visibility: internal_or_user_entry
+    agentKind: specialist
+    candidateScope: explicit_mappings
+    enabled: true
+    skillIds:
+      - intent_extraction
+      - evidence_mining
+      - causal_reasoning
+      - gap_analysis
+    aliases:
+      - mechanism_mapping_agent
+      - mechanism_dispute_agent
+    capability:
+      - Build a source-bounded mechanism chain from supplied evidence rows and source records.
+      - Separate observed evidence edges, author inference, model inference, conflict edges, and unresolved gaps.
+      - Produce explicit validation needs for disputed or weakly supported mechanism links.
+    notFor:
+      - Topic-only mechanism invention without source-bounded evidence.
+      - Literature discovery or broad novelty claims.
+      - Presenting inferred causal edges as experimentally verified facts.
+    inputContract:
+      required:
+        - user_goal
+        - material_manifest
+        - source_or_evidence_summary
+      optional:
+        - prior_evidence_table
+        - candidate_mechanisms
+        - conflict_focus
+        - input_memory_refs
+      memoryScope:
+        - Read only task-authorized evidence, linked materials, confirmed decisions, and prior accepted artifacts.
+        - Every mechanism edge must preserve its source or upstream evidence reference.
+    outputContract:
+      artifactKind: mechanism_dispute_mapping
+      artifactContract: mechanism_dispute_mapping_artifact_v1
+      artifactSchema: schemas/agents/artifacts/mechanism_dispute_mapping_artifact_v1.schema.json
+      requiredFields:
+        - material_coverage
+        - mechanism_nodes
+        - evidence_edges
+        - inference_edges
+        - conflict_edges
+        - unresolved_gaps
+        - validation_needs
+        - handoff
+    failClosedRules:
+      - If no source-bounded evidence is available, return requires_existing_inputs and emit no mechanism claims.
+      - Mark every unsupported causal link as inference or gap rather than evidence.
+      - Cap conclusions at the coverage boundary of the supplied records.
+    budgetPolicy:
+      defaultMode: evidence_bound
+      allowedModes:
+        - evidence_bound
+        - critique_only
+      maxWallTimeSec: 90
+      maxToolCalls: 4
+      maxContextMaterials: 14
+    allowedProviders:
+      - openai_primary
+    defaultProvider: openai_primary
+    judgmentSupport:
+      domainProfessional: true
+      humanAuthority: false
+    toolRequirements:
+      requiresFilesystem: false
+      requiresNetwork: false
+    evaluator:
+      id: mechanism_dispute_mapping_validator
+      artifactValidator: validate_research_agent_artifact
+      requiredMetadata:
+        - linked_material_ids
+        - edge_type
+        - support_tier
+      qualitySignals:
+        - edge_provenance
+        - inference_separation
+        - conflict_coverage
+    sdr:
+      primaryStages:
+        - problem_modeling
+        - execution_validation
+      mappings:
+        - pack: sdr
+          stage: problem_modeling
+          substage: intent_understanding
+          role: scope_mechanism_question
+          supportedRole: support
+          enabled: true
+          artifactContract: mechanism_scope_note_v1
+        - pack: sdr
+          stage: execution_validation
+          substage: evidence_extraction
+          role: supporting_evidence_basis
+          supportedRole: support
+          enabled: true
+          artifactContract: mechanism_evidence_basis_v1
+        - pack: sdr
+          stage: execution_validation
+          substage: mechanism_explanation
+          role: primary_mechanism_mapping
+          supportedRole: primary
+          enabled: true
+          artifactContract: mechanism_dispute_mapping_artifact_v1
+        - pack: sdr
+          stage: problem_modeling
+          substage: gap_identification
+          role: supporting_gap_boundary
+          supportedRole: support
+          enabled: true
+          artifactContract: mechanism_gap_boundary_v1
+
+  - agentId: paper_evidence_extraction
+    displayName: Paper Evidence Extraction
+    visibility: internal_or_user_entry
+    agentKind: specialist
+    candidateScope: explicit_mappings
+    enabled: true
+    skillIds:
+      - intent_extraction
+      - evidence_mining
+    allowedProviders:
+      - openai_primary
+    defaultProvider: openai_primary
+    judgmentSupport:
+      domainProfessional: true
+      humanAuthority: false
+    aliases:
+      - agent_evidence_extraction_v0_3
+      - paper_evidence_extraction_agent
+    capability:
+      - Extract claim-evidence rows from supplied paper excerpts, figures, tables, captions, and experiment notes.
+      - Separate direct evidence, author inference, model inference, conflict points, and missing materials.
+      - Preserve material ids and source locators for every evidence row.
+    notFor:
+      - Literature search, retrieval, or source discovery.
+      - Creating evidence from topic-only input or unreadable material references.
+      - Writing final scientific conclusions, novelty claims, or validation plans.
+    inputContract:
+      required:
+        - user_goal
+        - material_manifest
+        - readable_paper_or_result_materials
+      optional:
+        - extraction_focus
+        - claim_filter
+        - prior_evidence_table
+      materialKinds:
+        - paper_excerpt
+        - result_table
+        - figure_caption
+        - experiment_note
+      minimumReadiness:
+        - At least one readable material record with a stable materialId and locator.
+        - The user goal identifies the extraction target or claim family.
+    outputContract:
+      artifactKind: paper_evidence_extraction
+      artifactContract: paper_evidence_extraction_artifact_v1
+      artifactSchema: schemas/agents/artifacts/paper_evidence_extraction_artifact_v1.schema.json
+      requiredFields:
+        - material_readiness
+        - claim_inventory
+        - claim_evidence_table
+        - unsupported_or_missing
+        - author_inference_or_model_inference
+        - handoff
+      rowRequirements:
+        - Every claim_evidence_table row must include evidence_id, claim_id, support_tier, evidence_quote_or_observation, source_locator, and uncertainty.
+        - linked_material_ids must reference only input material_manifest ids.
+    failClosedRules:
+      - If no readable material records are present, return status=requires_existing_inputs and do not emit claim_evidence_table rows.
+      - If a claim has no linked material locator, mark it unsupported_or_missing rather than inferring support.
+      - If the user asks for final conclusions or novelty, return an extraction artifact plus a handoff note instead of making the claim.
+    budgetPolicy:
+      defaultMode: evidence_bound
+      allowedModes:
+        - draft_only
+        - evidence_bound
+        - critique_only
+      maxWallTimeSec: 90
+      maxToolCalls: 3
+      maxContextMaterials: 12
+    evaluator:
+      id: paper_evidence_extraction_validator
+      artifactValidator: validate_research_agent_artifact
+      requiredMetadata:
+        - linked_material_ids
+        - source_locator
+        - support_tier
+      qualitySignals:
+        - locator_coverage
+        - unsupported_claim_separation
+        - inference_labeling
+    sdr:
+      primaryStages:
+        - execution_validation
+      mappings:
+        - pack: sdr
+          stage: problem_modeling
+          substage: intent_understanding
+          role: scope_extraction_goal
+          supportedRole: support
+          enabled: true
+          artifactContract: extraction_scope_note_v1
+        - pack: sdr
+          stage: execution_validation
+          substage: evidence_extraction
+          role: primary_execution
+          supportedRole: primary
+          enabled: true
+          artifactContract: paper_evidence_extraction_artifact_v1
+
+  - agentId: result_reliability_audit
+    displayName: Result Reliability Audit
+    visibility: internal_or_user_entry
+    agentKind: specialist
+    candidateScope: explicit_mappings
+    enabled: true
+    skillIds:
+      - question_formulation
+      - evidence_mining
+      - quality_audit
+    allowedProviders:
+      - openai_primary
+    defaultProvider: openai_primary
+    judgmentSupport:
+      domainProfessional: true
+      humanAuthority: false
+    aliases:
+      - agent_result_audit_v0_3
+      - result_audit
+    capability:
+      - Trace reported results, claims, metrics, and verdict requests to supplied records.
+      - Identify missing raw evidence, broken provenance, metric ambiguity, and reproducibility blockers.
+      - Produce a reliability verdict with explicit caveats and repair actions when the evidence permits.
+    notFor:
+      - Running experiments, rerunning code, or claiming reproduction from secondary summaries.
+      - Issuing pass or fail verdicts without inspected result records.
+      - Inventing raw predictions, logs, seeds, datasets, scripts, or missing metric definitions.
+    inputContract:
+      required:
+        - user_goal
+        - claim_or_result
+        - material_manifest
+      optional:
+        - raw_records
+        - run_logs
+        - metric_scripts
+        - config_files
+        - prior_evidence_table
+      materialKinds:
+        - result_table
+        - raw_record
+        - run_log
+        - metric_script
+        - figure
+      minimumReadiness:
+        - At least one inspected record, result table, log, or source-bounded metric artifact.
+        - The claim_or_result identifies what reliability question is being audited.
+    outputContract:
+      artifactKind: result_reliability_audit
+      artifactContract: result_reliability_audit_artifact_v1
+      artifactSchema: schemas/agents/artifacts/result_reliability_audit_artifact_v1.schema.json
+      requiredFields:
+        - audit_scope
+        - traceability_matrix
+        - missing_records
+        - reproducibility_checklist
+        - verdict
+        - next_record_to_inspect
+      rowRequirements:
+        - Every traceability_matrix row must include claim_id, trace_status, linked_material_ids, and caveat.
+        - verdict must be one of pass_with_caveats, needs_repair, insufficient_materials, or fail.
+    # Independent review WorkUnit conclusion. This is not a research Artifact and
+    # must not reuse outputContract / artifactContract / artifactSchema.
+    reviewContract:
+      kind: independent_result_review
+      contractId: independent_result_review_v1
+      semanticVersion: "1.0.0"
+      schemaRef: schemas/agents/reviews/independent_result_review_v1.schema.json
+      evaluationCriteria:
+        - Evaluate the supplied artifact against its own frozen artifact contract and stated work-unit objective, not against the reviewer's research Artifact input contract.
+        - Treat values explicitly declared by that contract as planning-only, candidate, unverified, assumptions, or future evidence needs as valid planning output rather than missing review evidence.
+        - Return usable when the artifact is contract-conformant, internally coherent, and its declared handoff can proceed; do not require research or external execution that belongs to a downstream WorkUnit.
+        - Return needs_revision for a defect in the artifact, and needs_input only when unavailable input is genuinely required to satisfy the reviewed contract or its declared handoff.
+      allowedVerdicts:
+        - usable
+        - needs_revision
+        - needs_input
+        - insufficient_materials
+        - human_decision_required
+        - external_result_unknown
+      requiredFields:
+        - verdict
+        - basis
+        - issues
+        - missingInputs
+    failClosedRules:
+      - If no inspected records exist, verdict must be insufficient_materials.
+      - If raw predictions, logs, or metric definitions are missing, do not issue pass.
+      - If the user asks for reproduction proof without execution records, return missing_records and repair_actions only.
+    budgetPolicy:
+      defaultMode: evidence_bound
+      allowedModes:
+        - draft_only
+        - evidence_bound
+        - critique_only
+      maxWallTimeSec: 90
+      maxToolCalls: 5
+      maxContextMaterials: 16
+    evaluator:
+      id: result_reliability_audit_validator
+      artifactValidator: validate_research_agent_artifact
+      requiredMetadata:
+        - trace_status
+        - linked_material_ids
+        - verdict
+      qualitySignals:
+        - traceability_coverage
+        - missing_record_detection
+        - verdict_caveat_alignment
+    sdr:
+      primaryStages:
+        - execution_validation
+        - insight_generation
+      mappings:
+        - pack: sdr
+          stage: execution_validation
+          substage: evidence_extraction
+          role: supporting_trace_collection
+          supportedRole: support
+          enabled: true
+          artifactContract: audit_evidence_trace_v1
+        - pack: sdr
+          stage: execution_validation
+          substage: result_acceptance
+          role: primary_audit
+          supportedRole: primary
+          enabled: true
+          artifactContract: result_reliability_audit_artifact_v1
+        - pack: sdr
+          stage: problem_modeling
+          substage: question_refinement
+          role: independent_question_refinement_review
+          supportedRole: reviewer
+          enabled: true
+          artifactContract: independent_result_review_v1
+
+  - agentId: validation_design
+    displayName: Validation Design
+    visibility: internal_or_user_entry
+    agentKind: specialist
+    candidateScope: explicit_mappings
+    enabled: true
+    skillIds:
+      - question_formulation
+      - variable_identification
+      - baseline_comparison
+      - ablation_planning
+      - analysis_plan_design
+    aliases:
+      - agent_validation_design_v0_3
+      - validation_design_planning
+    capability:
+      - Convert a research question, hypothesis, or method idea into a reviewable validation design.
+      - Define variables, controls, baselines, ablations, analysis plan, stop conditions, and confirmation gates.
+      - Mark provisional assumptions and minimum viable inputs before any experiment can run.
+    notFor:
+      - Executing experiments, training models, collecting data, or consuming compute resources.
+      - Claiming that validation succeeded or results exist.
+      - Hiding ethics, privacy, feasibility, or resource gates behind a protocol draft.
+    inputContract:
+      required:
+        - user_goal
+        - validation_target
+      optional:
+        - material_manifest
+        - candidate_hypothesis
+        - available_dataset
+        - method_description
+        - constraints
+        - evaluation_metric_preferences
+      materialKinds:
+        - hypothesis_note
+        - method_description
+        - dataset_description
+        - benchmark_spec
+        - prior_evidence_table
+      minimumReadiness:
+        - A validation target, research question, method idea, or hypothesis is stated.
+        - Unknown datasets, variables, or resources are represented as assumptions, not fixed protocol facts.
+    outputContract:
+      artifactKind: validation_design
+      artifactContract: validation_design_artifact_v1
+      artifactSchema: schemas/agents/artifacts/validation_design_artifact_v1.schema.json
+      requiredFields:
+        - testable_hypothesis
+        - variable_table
+        - controls_and_baselines
+        - ablation_or_comparison_matrix
+        - analysis_plan
+        - stop_conditions
+        - confirmation_gates
+        - execution_status
+      rowRequirements:
+        - variable_table rows must include type, name, operationalization, and assumption_status.
+        - execution_status must remain not_started unless a future orchestrator explicitly records approved execution.
+    failClosedRules:
+      - If the user asks to run an experiment, return design_only with execution_status=not_started.
+      - If measurable inputs are absent, emit minimum_viable_validation_inputs and clarification_questions rather than a fixed protocol.
+      - If concrete thresholds, sample sizes, or datasets are not supplied, mark them provisional and requires_confirmation.
+    budgetPolicy:
+      defaultMode: draft_only
+      allowedModes:
+        - draft_only
+        - evidence_bound
+        - critique_only
+      maxWallTimeSec: 90
+      maxToolCalls: 3
+      maxContextMaterials: 10
+    allowedProviders:
+      - openai_primary
+    defaultProvider: openai_primary
+    judgmentSupport:
+      domainProfessional: true
+      humanAuthority: false
+    toolRequirements:
+      requiresFilesystem: false
+      requiresNetwork: false
+    evaluator:
+      id: validation_design_validator
+      artifactValidator: validate_research_agent_artifact
+      requiredMetadata:
+        - execution_status
+        - assumption_status
+        - confirmation_gates
+      qualitySignals:
+        - variable_operationalization
+        - control_baseline_alignment
+        - provisional_assumption_marking
+    sdr:
+      primaryStages:
+        - solution_design
+        - execution_validation
+      mappings:
+        - pack: sdr
+          stage: problem_modeling
+          substage: question_refinement
+          role: clarify_validation_target
+          supportedRole: support
+          enabled: true
+          artifactContract: validation_scope_note_v1
+        - pack: sdr
+          stage: solution_design
+          substage: variable_definition
+          role: primary_variable_contract
+          supportedRole: primary
+          enabled: true
+          artifactContract: validation_design_artifact_v1
+        - pack: sdr
+          stage: solution_design
+          substage: baseline_selection
+          role: baseline_and_control_design
+          supportedRole: support
+          enabled: true
+          artifactContract: validation_baseline_plan_v1
+        - pack: sdr
+          stage: solution_design
+          substage: ablation_design
+          role: comparison_matrix_design
+          supportedRole: support
+          enabled: true
+          artifactContract: validation_comparison_matrix_v1
+        - pack: sdr
+          stage: solution_design
+          substage: analysis_planning
+          role: analysis_plan_design
+          supportedRole: support
+          enabled: true
+          artifactContract: validation_analysis_plan_v1
+
+  - agentId: research_gap_identification
+    displayName: Research Gap Identification
+    visibility: internal_or_user_entry
+    agentKind: specialist
+    candidateScope: explicit_mappings
+    enabled: true
+    skillIds:
+      - intent_extraction
+      - evidence_mining
+      - gap_analysis
+    allowedProviders:
+      - openai_primary
+    defaultProvider: openai_primary
+    judgmentSupport:
+      domainProfessional: true
+      humanAuthority: false
+    aliases:
+      - agent_gap_identification_v0_3
+      - gap_identification
+    capability:
+      - Identify candidate research gaps from supplied literature notes, source rows, and evidence tables.
+      - Distinguish true gaps, weakly supported candidate gaps, not-a-gap items, and evidence needed to upgrade confidence.
+      - Avoid field-wide absence or novelty claims unless the supplied coverage supports them.
+    notFor:
+      - Topic-only ideation without supplied source coverage.
+      - Literature retrieval, broad novelty search, or leaderboard ranking.
+      - Turning weak notes into publishable gap claims or proposal-ready claims.
+    inputContract:
+      required:
+        - user_goal
+        - material_manifest
+        - source_or_evidence_summary
+      optional:
+        - prior_evidence_table
+        - literature_coverage_summary
+        - advisor_constraints
+        - excluded_claims
+      materialKinds:
+        - literature_note
+        - source_table
+        - evidence_table
+        - review_excerpt
+        - benchmark_summary
+      minimumReadiness:
+        - At least one source-bounded material record or evidence table row.
+        - Coverage limits are known or explicitly marked unknown.
+    outputContract:
+      artifactKind: research_gap_identification
+      artifactContract: research_gap_identification_artifact_v1
+      artifactSchema: schemas/agents/artifacts/research_gap_identification_artifact_v1.schema.json
+      requiredFields:
+        - material_coverage
+        - gap_list
+        - not_a_gap
+        - needs_source
+        - evidence_needed
+        - evidence_upgrade_queue
+        - advisor_review_questions
+      rowRequirements:
+        - Every gap_list row must include G-ID, gap_statement, gap_type, confidence, and linked_material_ids or linked_evidence_ids.
+        - confidence must be high, medium, low, or insufficient_materials.
+    failClosedRules:
+      - If only a topic is supplied, return status=requires_existing_inputs and do not emit gap_list claims.
+      - If coverage is partial or unknown, cap confidence at medium and use candidate_gap language.
+      - If the user asks for novelty proof, require retrieval or coverage expansion instead of claiming field-wide absence.
+    budgetPolicy:
+      defaultMode: evidence_bound
+      allowedModes:
+        - draft_only
+        - evidence_bound
+        - critique_only
+      maxWallTimeSec: 90
+      maxToolCalls: 4
+      maxContextMaterials: 14
+    evaluator:
+      id: research_gap_identification_validator
+      artifactValidator: validate_research_agent_artifact
+      requiredMetadata:
+        - material_coverage
+        - confidence
+        - linked_material_ids
+      qualitySignals:
+        - coverage_boundary_clarity
+        - false_gap_risk_control
+        - evidence_upgrade_specificity
+    sdr:
+      primaryStages:
+        - problem_modeling
+      mappings:
+        - pack: sdr
+          stage: problem_modeling
+          substage: intent_understanding
+          role: scope_gap_question
+          supportedRole: support
+          enabled: true
+          artifactContract: gap_scope_note_v1
+        - pack: sdr
+          stage: execution_validation
+          substage: evidence_extraction
+          role: supporting_evidence_basis
+          supportedRole: support
+          enabled: true
+          artifactContract: gap_evidence_basis_v1
+        - pack: sdr
+          stage: problem_modeling
+          substage: gap_identification
+          role: primary_gap_identification
+          supportedRole: primary
+          enabled: true
+          artifactContract: research_gap_identification_artifact_v1

@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "candidate-tiering output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source_tiers", "tiering_report"],
+  "properties": {
+    "source_tiers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "candidate_id", "dedupe_key", "title", "final_score", "tier", "pool", "selection_reason", "downrank_reason",
+          "exclusion_reason", "core_ok", "score_breakdown", "matched_facets", "negative_hits", "provenance"
+        ],
+        "properties": {
+          "candidate_id": {"type": "string"},
+          "dedupe_key": {"type": "string"},
+          "title": {"type": "string"},
+          "final_score": {"type": "number", "minimum": 0, "maximum": 1},
+          "tier": {"type": "string", "enum": ["core", "mechanism_support", "method_inspiration", "benchmark_or_evaluation", "background", "excluded"]},
+          "pool": {"type": "string"},
+          "selection_reason": {"type": ["string", "null"]},
+          "downrank_reason": {"type": ["string", "null"]},
+          "exclusion_reason": {"type": ["string", "null"]},
+          "core_ok": {"type": "boolean"},
+          "score_breakdown": {"type": "object", "additionalProperties": true},
+          "matched_facets": {"type": "object", "additionalProperties": true},
+          "negative_hits": {"type": "array", "items": {"type": "string"}},
+          "provenance": {"type": "array", "items": {"type": "object"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "tiering_report": {
+      "type": "object",
+      "required": ["tier_counts", "negative_blocked_count", "metric_only_blocked_count", "degraded_input_count", "risk_flags"],
+      "properties": {
+        "tier_counts": {
+          "type": "object",
+          "required": ["core", "mechanism_support", "method_inspiration", "benchmark_or_evaluation", "background", "excluded"],
+          "properties": {
+            "core": {"type": "integer", "minimum": 0},
+            "mechanism_support": {"type": "integer", "minimum": 0},
+            "method_inspiration": {"type": "integer", "minimum": 0},
+            "benchmark_or_evaluation": {"type": "integer", "minimum": 0},
+            "background": {"type": "integer", "minimum": 0},
+            "excluded": {"type": "integer", "minimum": 0}
+          },
+          "additionalProperties": false
+        },
+        "negative_blocked_count": {"type": "integer", "minimum": 0},
+        "metric_only_blocked_count": {"type": "integer", "minimum": 0},
+        "off_domain_blocked_count": {"type": "integer", "minimum": 0},
+        "degraded_input_count": {"type": "integer", "minimum": 0},
+        "risk_flags": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    }
+  }
+}

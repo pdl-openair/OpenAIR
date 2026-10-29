@@ -1,0 +1,31 @@
+suite_id: component.pvd-skill.evidence-retrieval-design
+protected_outcome: >-
+  PVD retrieval design preserves the exact formal and pending parameter
+  identities, keeps pending parameters outside formal recommendation scope, and
+  fails closed on unknown parameter coverage without inventing supplemental
+  retrieval.
+authority_refs:
+  - docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - docs/02_产品与Workflow/PVD/OpenAIR PVD Workflow 设计合同.md
+  - skills/pvd/pvd-evidence-retrieval-design/skill.yaml
+failure_class: pvd_retrieval_parameter_scope_coverage_or_supplemental_invention_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/pvd/pvd-evidence-retrieval-design/scripts
+test_responsibility: >-
+  deterministic component behavior for formal/pending parameter coverage, stable
+  retrieval mode, output schema, and unknown-key rejection
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions prove
+  protected_outcome; FAIL when sufficient valid evidence proves protected_outcome
+  is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - PVD evidence retrieval design changes
+  - recommendation or pending-parameter coverage contract changes

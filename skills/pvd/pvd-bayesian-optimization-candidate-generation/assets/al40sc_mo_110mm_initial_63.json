@@ -1,0 +1,717 @@
+{
+  "dataset_id": "al40sc_mo_110mm_initial_63",
+  "dataset_version": 1,
+  "observations": [
+    {
+      "objective_value": -18.6,
+      "observation_id": "base-001",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 200.0,
+        "time_s": 1800.0
+      },
+      "source_record_id": 1
+    },
+    {
+      "objective_value": -18.5,
+      "observation_id": "base-002",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 250.0,
+        "time_s": 1600.0
+      },
+      "source_record_id": 2
+    },
+    {
+      "objective_value": -18.1,
+      "observation_id": "base-003",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 200.0,
+        "time_s": 2000.0
+      },
+      "source_record_id": 3
+    },
+    {
+      "objective_value": -16.8333333333333,
+      "observation_id": "base-004",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 175.0,
+        "time_s": 2200.0
+      },
+      "source_record_id": 4
+    },
+    {
+      "objective_value": -16.7,
+      "observation_id": "base-005",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 175.0,
+        "time_s": 2400.0
+      },
+      "source_record_id": 5
+    },
+    {
+      "objective_value": -15.7888888888889,
+      "observation_id": "base-006",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 200.0,
+        "time_s": 3000.0
+      },
+      "source_record_id": 6
+    },
+    {
+      "objective_value": -15.0555555555556,
+      "observation_id": "base-007",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 250.0,
+        "time_s": 1500.0
+      },
+      "source_record_id": 7
+    },
+    {
+      "objective_value": -14.9111111111111,
+      "observation_id": "base-008",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 150.0,
+        "time_s": 2500.0
+      },
+      "source_record_id": 8
+    },
+    {
+      "objective_value": -14.2222222222222,
+      "observation_id": "base-009",
+      "parameters": {
+        "ar_sccm": 31.0,
+        "n2_sccm": 19.0,
+        "power_w": 250.0,
+        "time_s": 1800.0
+      },
+      "source_record_id": 9
+    },
+    {
+      "objective_value": -14.2111111111111,
+      "observation_id": "base-010",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 250.0,
+        "time_s": 2000.0
+      },
+      "source_record_id": 10
+    },
+    {
+      "objective_value": -14.2,
+      "observation_id": "base-011",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 150.0,
+        "time_s": 2800.0
+      },
+      "source_record_id": 11
+    },
+    {
+      "objective_value": -13.8888888888889,
+      "observation_id": "base-012",
+      "parameters": {
+        "ar_sccm": 29.0,
+        "n2_sccm": 20.0,
+        "power_w": 185.0,
+        "time_s": 3000.0
+      },
+      "source_record_id": 12
+    },
+    {
+      "objective_value": 12.5222222222222,
+      "observation_id": "base-013",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 155.0,
+        "time_s": 3500.0
+      },
+      "source_record_id": 13
+    },
+    {
+      "objective_value": -12.3,
+      "observation_id": "base-014",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 150.0,
+        "time_s": 2000.0
+      },
+      "source_record_id": 14
+    },
+    {
+      "objective_value": -9.59111111111111,
+      "observation_id": "base-015",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 175.0,
+        "time_s": 3300.0
+      },
+      "source_record_id": 15
+    },
+    {
+      "objective_value": 8.09111111111111,
+      "observation_id": "base-016",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 170.0,
+        "time_s": 3300.0
+      },
+      "source_record_id": 16
+    },
+    {
+      "objective_value": -6.07,
+      "observation_id": "base-017",
+      "parameters": {
+        "ar_sccm": 48.0,
+        "n2_sccm": 37.0,
+        "power_w": 140.0,
+        "time_s": 4500.0
+      },
+      "source_record_id": 17
+    },
+    {
+      "objective_value": 4.19333333333333,
+      "observation_id": "base-018",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 150.0,
+        "time_s": 3500.0
+      },
+      "source_record_id": 18
+    },
+    {
+      "objective_value": -17.4111111111111,
+      "observation_id": "base-019",
+      "parameters": {
+        "ar_sccm": 33.0,
+        "n2_sccm": 17.0,
+        "power_w": 240.0,
+        "time_s": 2390.0
+      },
+      "source_record_id": 19
+    },
+    {
+      "objective_value": -16.4333333333333,
+      "observation_id": "base-020",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 185.0,
+        "time_s": 5800.0
+      },
+      "source_record_id": 20
+    },
+    {
+      "objective_value": -15.8555555555556,
+      "observation_id": "base-021",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 250.0,
+        "time_s": 300.0
+      },
+      "source_record_id": 21
+    },
+    {
+      "objective_value": -15.5444444444444,
+      "observation_id": "base-022",
+      "parameters": {
+        "ar_sccm": 30.0,
+        "n2_sccm": 18.0,
+        "power_w": 210.0,
+        "time_s": 4000.0
+      },
+      "source_record_id": 22
+    },
+    {
+      "objective_value": -15.3,
+      "observation_id": "base-023",
+      "parameters": {
+        "ar_sccm": 35.0,
+        "n2_sccm": 17.0,
+        "power_w": 220.0,
+        "time_s": 2400.0
+      },
+      "source_record_id": 23
+    },
+    {
+      "objective_value": -14.0666666666667,
+      "observation_id": "base-024",
+      "parameters": {
+        "ar_sccm": 28.0,
+        "n2_sccm": 13.0,
+        "power_w": 135.0,
+        "time_s": 3000.0
+      },
+      "source_record_id": 24
+    },
+    {
+      "objective_value": -13.5444444444444,
+      "observation_id": "base-025",
+      "parameters": {
+        "ar_sccm": 41.0,
+        "n2_sccm": 17.0,
+        "power_w": 155.0,
+        "time_s": 2700.0
+      },
+      "source_record_id": 25
+    },
+    {
+      "objective_value": -13.2222222222222,
+      "observation_id": "base-026",
+      "parameters": {
+        "ar_sccm": 30.0,
+        "n2_sccm": 24.0,
+        "power_w": 235.0,
+        "time_s": 4000.0
+      },
+      "source_record_id": 26
+    },
+    {
+      "objective_value": -12.4111111111111,
+      "observation_id": "base-027",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 230.0,
+        "time_s": 2200.0
+      },
+      "source_record_id": 27
+    },
+    {
+      "objective_value": -12.4,
+      "observation_id": "base-028",
+      "parameters": {
+        "ar_sccm": 41.0,
+        "n2_sccm": 20.0,
+        "power_w": 195.0,
+        "time_s": 2400.0
+      },
+      "source_record_id": 28
+    },
+    {
+      "objective_value": -12.1333333333333,
+      "observation_id": "base-029",
+      "parameters": {
+        "ar_sccm": 42.0,
+        "n2_sccm": 30.0,
+        "power_w": 180.0,
+        "time_s": 3700.0
+      },
+      "source_record_id": 29
+    },
+    {
+      "objective_value": -11.9777777777778,
+      "observation_id": "base-030",
+      "parameters": {
+        "ar_sccm": 33.0,
+        "n2_sccm": 17.0,
+        "power_w": 240.0,
+        "time_s": 2500.0
+      },
+      "source_record_id": 30
+    },
+    {
+      "objective_value": -11.7333333333333,
+      "observation_id": "base-031",
+      "parameters": {
+        "ar_sccm": 44.0,
+        "n2_sccm": 29.0,
+        "power_w": 205.0,
+        "time_s": 3780.0
+      },
+      "source_record_id": 31
+    },
+    {
+      "objective_value": -10.9333333333333,
+      "observation_id": "base-032",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 180.0,
+        "time_s": 3700.0
+      },
+      "source_record_id": 32
+    },
+    {
+      "objective_value": -10.6777777777778,
+      "observation_id": "base-033",
+      "parameters": {
+        "ar_sccm": 41.0,
+        "n2_sccm": 17.0,
+        "power_w": 135.0,
+        "time_s": 4500.0
+      },
+      "source_record_id": 33
+    },
+    {
+      "objective_value": -10.1,
+      "observation_id": "base-034",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 160.0,
+        "time_s": 900.0
+      },
+      "source_record_id": 34
+    },
+    {
+      "objective_value": -10.0977777777778,
+      "observation_id": "base-035",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 215.0,
+        "time_s": 2500.0
+      },
+      "source_record_id": 35
+    },
+    {
+      "objective_value": -10.0444444444444,
+      "observation_id": "base-036",
+      "parameters": {
+        "ar_sccm": 42.0,
+        "n2_sccm": 32.0,
+        "power_w": 215.0,
+        "time_s": 3930.0
+      },
+      "source_record_id": 36
+    },
+    {
+      "objective_value": -9.91,
+      "observation_id": "base-037",
+      "parameters": {
+        "ar_sccm": 60.0,
+        "n2_sccm": 24.0,
+        "power_w": 230.0,
+        "time_s": 3800.0
+      },
+      "source_record_id": 37
+    },
+    {
+      "objective_value": -8.45666666666667,
+      "observation_id": "base-038",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 250.0,
+        "time_s": 4700.0
+      },
+      "source_record_id": 38
+    },
+    {
+      "objective_value": -7.98888888888889,
+      "observation_id": "base-039",
+      "parameters": {
+        "ar_sccm": 44.0,
+        "n2_sccm": 17.0,
+        "power_w": 235.0,
+        "time_s": 2260.0
+      },
+      "source_record_id": 39
+    },
+    {
+      "objective_value": -7.54111111111111,
+      "observation_id": "base-040",
+      "parameters": {
+        "ar_sccm": 59.0,
+        "n2_sccm": 30.0,
+        "power_w": 190.0,
+        "time_s": 1660.0
+      },
+      "source_record_id": 40
+    },
+    {
+      "objective_value": -7.50444444444445,
+      "observation_id": "base-041",
+      "parameters": {
+        "ar_sccm": 47.0,
+        "n2_sccm": 36.0,
+        "power_w": 130.0,
+        "time_s": 1700.0
+      },
+      "source_record_id": 41
+    },
+    {
+      "objective_value": -7.36555555555555,
+      "observation_id": "base-042",
+      "parameters": {
+        "ar_sccm": 41.0,
+        "n2_sccm": 29.0,
+        "power_w": 240.0,
+        "time_s": 4900.0
+      },
+      "source_record_id": 42
+    },
+    {
+      "objective_value": 6.85888888888889,
+      "observation_id": "base-043",
+      "parameters": {
+        "ar_sccm": 52.0,
+        "n2_sccm": 38.0,
+        "power_w": 150.0,
+        "time_s": 3000.0
+      },
+      "source_record_id": 43
+    },
+    {
+      "objective_value": 5.38111111111111,
+      "observation_id": "base-044",
+      "parameters": {
+        "ar_sccm": 44.0,
+        "n2_sccm": 27.0,
+        "power_w": 225.0,
+        "time_s": 2420.0
+      },
+      "source_record_id": 44
+    },
+    {
+      "objective_value": 5.12555555555555,
+      "observation_id": "base-045",
+      "parameters": {
+        "ar_sccm": 42.0,
+        "n2_sccm": 35.0,
+        "power_w": 215.0,
+        "time_s": 2780.0
+      },
+      "source_record_id": 45
+    },
+    {
+      "objective_value": -4.50888888888889,
+      "observation_id": "base-046",
+      "parameters": {
+        "ar_sccm": 54.0,
+        "n2_sccm": 32.0,
+        "power_w": 180.0,
+        "time_s": 1180.0
+      },
+      "source_record_id": 46
+    },
+    {
+      "objective_value": -4.31111111111111,
+      "observation_id": "base-047",
+      "parameters": {
+        "ar_sccm": 54.0,
+        "n2_sccm": 27.0,
+        "power_w": 205.0,
+        "time_s": 1860.0
+      },
+      "source_record_id": 47
+    },
+    {
+      "objective_value": -4.07333333333333,
+      "observation_id": "base-048",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 130.0,
+        "time_s": 4100.0
+      },
+      "source_record_id": 48
+    },
+    {
+      "objective_value": -4.03888888888889,
+      "observation_id": "base-049",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 140.0,
+        "time_s": 5200.0
+      },
+      "source_record_id": 49
+    },
+    {
+      "objective_value": -3.67888888888889,
+      "observation_id": "base-050",
+      "parameters": {
+        "ar_sccm": 36.0,
+        "n2_sccm": 20.0,
+        "power_w": 180.0,
+        "time_s": 2480.0
+      },
+      "source_record_id": 50
+    },
+    {
+      "objective_value": 2.72666666666667,
+      "observation_id": "base-051",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 140.0,
+        "time_s": 1600.0
+      },
+      "source_record_id": 51
+    },
+    {
+      "objective_value": 2.68555555555556,
+      "observation_id": "base-052",
+      "parameters": {
+        "ar_sccm": 28.0,
+        "n2_sccm": 29.0,
+        "power_w": 130.0,
+        "time_s": 1700.0
+      },
+      "source_record_id": 52
+    },
+    {
+      "objective_value": -2.26666666666667,
+      "observation_id": "base-053",
+      "parameters": {
+        "ar_sccm": 46.0,
+        "n2_sccm": 50.0,
+        "power_w": 225.0,
+        "time_s": 3700.0
+      },
+      "source_record_id": 53
+    },
+    {
+      "objective_value": -2.24111111111111,
+      "observation_id": "base-054",
+      "parameters": {
+        "ar_sccm": 49.0,
+        "n2_sccm": 29.0,
+        "power_w": 160.0,
+        "time_s": 1460.0
+      },
+      "source_record_id": 54
+    },
+    {
+      "objective_value": 2.4,
+      "observation_id": "base-055",
+      "parameters": {
+        "ar_sccm": 56.0,
+        "n2_sccm": 43.0,
+        "power_w": 210.0,
+        "time_s": 3600.0
+      },
+      "source_record_id": 55
+    },
+    {
+      "objective_value": -14.13,
+      "observation_id": "base-056",
+      "parameters": {
+        "ar_sccm": 28.0,
+        "n2_sccm": 12.0,
+        "power_w": 145.0,
+        "time_s": 1700.0
+      },
+      "source_record_id": 56
+    },
+    {
+      "objective_value": -15.9,
+      "observation_id": "base-057",
+      "parameters": {
+        "ar_sccm": 30.0,
+        "n2_sccm": 20.0,
+        "power_w": 255.0,
+        "time_s": 5000.0
+      },
+      "source_record_id": 57
+    },
+    {
+      "objective_value": 4.95,
+      "observation_id": "base-058",
+      "parameters": {
+        "ar_sccm": 46.0,
+        "n2_sccm": 49.0,
+        "power_w": 135.0,
+        "time_s": 1500.0
+      },
+      "source_record_id": 58
+    },
+    {
+      "objective_value": -11.77,
+      "observation_id": "base-059",
+      "parameters": {
+        "ar_sccm": 59.0,
+        "n2_sccm": 24.0,
+        "power_w": 255.0,
+        "time_s": 1500.0
+      },
+      "source_record_id": 59
+    },
+    {
+      "objective_value": -14.38,
+      "observation_id": "base-060",
+      "parameters": {
+        "ar_sccm": 30.0,
+        "n2_sccm": 14.0,
+        "power_w": 130.0,
+        "time_s": 4600.0
+      },
+      "source_record_id": 60
+    },
+    {
+      "objective_value": 5.78,
+      "observation_id": "base-061",
+      "parameters": {
+        "ar_sccm": 44.0,
+        "n2_sccm": 45.0,
+        "power_w": 130.0,
+        "time_s": 4900.0
+      },
+      "source_record_id": 61
+    },
+    {
+      "objective_value": -3.08,
+      "observation_id": "base-062",
+      "parameters": {
+        "ar_sccm": 46.0,
+        "n2_sccm": 46.0,
+        "power_w": 255.0,
+        "time_s": 1600.0
+      },
+      "source_record_id": 62
+    },
+    {
+      "objective_value": -15.69,
+      "observation_id": "base-063",
+      "parameters": {
+        "ar_sccm": 39.0,
+        "n2_sccm": 17.0,
+        "power_w": 195.0,
+        "time_s": 2200.0
+      },
+      "source_record_id": 63
+    }
+  ],
+  "process_context": {
+    "power_supply_temperature": 200.0,
+    "substrate": "Mo",
+    "target_angle": "内偏30度",
+    "target_material": "40%AlSc",
+    "target_substrate_distance_mm": 110.0
+  },
+  "source_artifact": {
+    "original_filename": "initial_63_snapshot.xlsx",
+    "sha256": "5913bdbffd3709a594feafe714c07729a3a0ab9e928c7ad1dc779c1dc633ab94",
+    "sheet_name": "合并查重后"
+  },
+  "source_description": "Immutable JSON conversion of the supplied 63-row PVD observation snapshot. The Excel source is not read or mutated at Skill runtime.",
+  "target": {
+    "model_transform": "absolute_value",
+    "source_semantics": "signed_measured_value",
+    "target_metric": "d33"
+  }
+}

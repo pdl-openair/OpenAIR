@@ -1,0 +1,1980 @@
+{
+  "observedAt": "2026-10-14T18:24:11.668714+00:00",
+  "resources": [
+    {
+      "id": "train-620",
+      "specId": "620",
+      "group": "train",
+      "name": "GPU:1*A100(显存:40GiB),CPU:8,内存:50GiB",
+      "type": "GPU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 8,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 50,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 40,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-622",
+      "specId": "622",
+      "group": "train",
+      "name": "GPU:2*V100(显存:32GiB),CPU:16,内存:100GiB",
+      "type": "GPU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 2,
+      "totalCount": 2,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 16,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 100,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 2,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 32,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-621",
+      "specId": "621",
+      "group": "train",
+      "name": "GPU:1*V100(显存:32GiB),CPU:8,内存:50GiB",
+      "type": "GPU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 8,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 50,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 32,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-747462",
+      "specId": "747462",
+      "group": "train",
+      "name": "NPU:2*ASCEND910(显存:32GiB),CPU:48,内存:128GiB",
+      "type": "NPU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 2,
+      "totalCount": 2,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 48,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 128,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 2,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 32,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-13",
+      "specId": "13",
+      "group": "train",
+      "name": "NPU:8*Ascend-910C(显存:32GiB),CPU:320,内存:1024GiB",
+      "type": "NPU",
+      "clusterId": "1790300942428540928",
+      "region": "f107f69fc36d49e3b0f6277afe3720ab",
+      "availableCount": 8,
+      "totalCount": 8,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 320,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 8,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 32,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 500,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-10",
+      "specId": "10",
+      "group": "train",
+      "name": "NPU:1*Ascend-910(显存:32GiB),CPU:24,内存:256GiB",
+      "type": "NPU",
+      "clusterId": "1790300942428540928",
+      "region": "f107f69fc36d49e3b0f6277afe3720ab",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 24,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 256,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 32,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-10722818",
+      "specId": "10722818",
+      "group": "train",
+      "name": "NPU:8*ASCEND910(显存:32GiB),CPU:192,内存:720GiB",
+      "type": "NPU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 8,
+      "totalCount": 8,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 192,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 720,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 8,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 32,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-7047864",
+      "specId": "7047864",
+      "group": "train",
+      "name": "MLU:1*cambricon.com/mlu,CPU:16,内存:128GiB",
+      "type": "MLU",
+      "clusterId": "1865927992266462182",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 16,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 128,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-631",
+      "specId": "631",
+      "group": "train",
+      "name": "GCU:2*ENFLAME-T20(显存:32GiB),CPU:16,内存:60GiB",
+      "type": "GCU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 2,
+      "totalCount": 2,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 16,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 60,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 2,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 32,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-630",
+      "specId": "630",
+      "group": "train",
+      "name": "GCU:1*ENFLAME-T20(显存:32GiB),CPU:8,内存:30GiB",
+      "type": "GCU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 8,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 30,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 32,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-633",
+      "specId": "633",
+      "group": "train",
+      "name": "DCU:1*Z100L(显存:32GiB),CPU:10,内存:60GiB",
+      "type": "DCU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 10,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 60,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 32,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-632",
+      "specId": "632",
+      "group": "train",
+      "name": "DCU:1*K100_AI(显存:64GiB),CPU:25,内存:60GiB",
+      "type": "DCU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 25,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 60,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 64,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-7047858",
+      "specId": "7047858",
+      "group": "train",
+      "name": "DCU:1*hygon.com/dcu,CPU:10,内存:100GiB",
+      "type": "DCU",
+      "clusterId": "1865927992266462180",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 10,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 100,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-5",
+      "specId": "5",
+      "group": "train",
+      "name": "ILUVATAR-GPGPU:1*bi-v100,CPU:7,内存:30GiB",
+      "type": "ILUVATAR-GPGPU",
+      "clusterId": "1865927992266462181",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 7,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 30,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-634",
+      "specId": "634",
+      "group": "train",
+      "name": "ILUVATAR-GPGPU:1*BI-V100(显存:32GiB),CPU:30,内存:64GiB",
+      "type": "ILUVATAR-GPGPU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 30,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 64,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 32,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-7047870",
+      "specId": "7047870",
+      "group": "train",
+      "name": "ILUVATAR-GPGPU:2*BI-V100,CPU:60,内存:128GiB",
+      "type": "ILUVATAR-GPGPU",
+      "clusterId": "1865927992266462182",
+      "region": "default",
+      "availableCount": 2,
+      "totalCount": 2,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 60,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 128,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 2,
+          "totalUnit": "card"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "train-635",
+      "specId": "635",
+      "group": "train",
+      "name": "METAX-GPGPU:1*C500(显存:64GiB),CPU:20,内存:50GiB",
+      "type": "METAX-GPGPU",
+      "clusterId": "1865927992266461184",
+      "region": "shenzhen",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 20,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 50,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "GPU",
+          "totalValue": 1,
+          "totalUnit": "card"
+        },
+        {
+          "name": "VRAM",
+          "totalValue": 64,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "vm-341",
+      "specId": "341",
+      "group": "vm",
+      "name": "CPU:1,内存:0.5GiB",
+      "type": "CPU",
+      "clusterId": "1770703902472326666",
+      "region": "cn-zhangjiakou",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 1,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 0.5,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "vm-14500397",
+      "specId": "14500397",
+      "group": "vm",
+      "name": "CPU:16,内存:128GiB",
+      "type": "CPU",
+      "clusterId": "1865927992266462782",
+      "region": "ap-nanjing",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 16,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 128,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "vm-1055",
+      "specId": "1055",
+      "group": "vm",
+      "name": "CPU:2,内存:2GiB",
+      "type": "CPU",
+      "clusterId": "1865927992266462782",
+      "region": "ap-nanjing",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 2,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 2,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "vm-14447506",
+      "specId": "14447506",
+      "group": "vm",
+      "name": "CPU:4,内存:8GiB",
+      "type": "CPU",
+      "clusterId": "1668933992266986863",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 4,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 8,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "vm-14447505",
+      "specId": "14447505",
+      "group": "vm",
+      "name": "CPU:2,内存:4GiB",
+      "type": "CPU",
+      "clusterId": "1668933992266986863",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 2,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 4,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "vm-14447504",
+      "specId": "14447504",
+      "group": "vm",
+      "name": "CPU:1,内存:2GiB",
+      "type": "CPU",
+      "clusterId": "1668933992266986863",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 1,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 2,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "vm-14447503",
+      "specId": "14447503",
+      "group": "vm",
+      "name": "CPU:1,内存:1GiB",
+      "type": "CPU",
+      "clusterId": "1668933992266986863",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 1,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 1,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "container-14597585",
+      "specId": "14597585",
+      "group": "container",
+      "name": "CPU:0.1,内存:0.5GiB",
+      "type": "CPU",
+      "clusterId": "1865927992266462782",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 0.1,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 0.5,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "container-14596962",
+      "specId": "14596962",
+      "group": "container",
+      "name": "CPU:4,内存:8GiB",
+      "type": "CPU",
+      "clusterId": "1865927992266462782",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 4,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 8,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "container-497400",
+      "specId": "497400",
+      "group": "container",
+      "name": "CPU:1,内存:1GiB",
+      "type": "CPU",
+      "clusterId": "1770703902472146944",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 1,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 1,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "container-14597804",
+      "specId": "14597804",
+      "group": "container",
+      "name": "CPU:0.1,内存:0.5GiB",
+      "type": "CPU",
+      "clusterId": "1770703902472326666",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 0.1,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 0.5,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "container-14597182",
+      "specId": "14597182",
+      "group": "container",
+      "name": "CPU:4,内存:8GiB",
+      "type": "CPU",
+      "clusterId": "1770703902472326666",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 4,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 8,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "container-4865339",
+      "specId": "4865339",
+      "group": "container",
+      "name": "CPU:2,内存:2GiB",
+      "type": "CPU",
+      "clusterId": "1770703902472326666",
+      "region": "default",
+      "availableCount": 1,
+      "totalCount": 1,
+      "details": [
+        {
+          "name": "CPU",
+          "totalValue": 2,
+          "totalUnit": "core"
+        },
+        {
+          "name": "RAM",
+          "totalValue": 2,
+          "totalUnit": "gb"
+        },
+        {
+          "name": "DISK",
+          "totalValue": 1024,
+          "totalUnit": "gb"
+        }
+      ]
+    },
+    {
+      "id": "hpc-1830873578531228942",
+      "specId": "",
+      "group": "hpc",
+      "name": "长沙超算-ARM集群",
+      "type": "VASP",
+      "clusterId": "1830873578531228942",
+      "region": "cs",
+      "availableCount": null,
+      "totalCount": null,
+      "details": []
+    },
+    {
+      "id": "hpc-1830873903296155648",
+      "specId": "",
+      "group": "hpc",
+      "name": "长沙超算-X86集群",
+      "type": "VASP",
+      "clusterId": "1830873903296155648",
+      "region": "长沙",
+      "availableCount": null,
+      "totalCount": null,
+      "details": []
+    }
+  ],
+  "trainQuota": [
+    {
+      "type": "METAX-GPGPU",
+      "cpu": {
+        "max": 20,
+        "min": 0
+      },
+      "gpuNumber": 1,
+      "memory": {
+        "max": 64,
+        "min": 0
+      },
+      "storage": {
+        "max": 1024,
+        "min": 0
+      }
+    },
+    {
+      "type": "MLU",
+      "cpu": {
+        "max": 16,
+        "min": 0
+      },
+      "gpuNumber": 1,
+      "memory": {
+        "max": 128,
+        "min": 0
+      },
+      "storage": {
+        "max": 1024,
+        "min": 0
+      }
+    },
+    {
+      "type": "GCU",
+      "cpu": {
+        "max": 16,
+        "min": 0
+      },
+      "gpuNumber": 2,
+      "memory": {
+        "max": 32,
+        "min": 0
+      },
+      "storage": {
+        "max": 1024,
+        "min": 0
+      }
+    },
+    {
+      "type": "ILUVATAR-GPGPU",
+      "cpu": {
+        "max": 60,
+        "min": 0
+      },
+      "gpuNumber": 3,
+      "memory": {
+        "max": 128,
+        "min": 0
+      },
+      "storage": {
+        "max": 1024,
+        "min": 0
+      }
+    },
+    {
+      "type": "DCU",
+      "cpu": {
+        "max": 25,
+        "min": 0
+      },
+      "gpuNumber": 3,
+      "memory": {
+        "max": 100,
+        "min": 0
+      },
+      "storage": {
+        "max": 1024,
+        "min": 0
+      }
+    },
+    {
+      "type": "GPU",
+      "cpu": {
+        "max": 16,
+        "min": 0
+      },
+      "gpuNumber": 3,
+      "memory": {
+        "max": 40,
+        "min": 0
+      },
+      "storage": {
+        "max": 1024,
+        "min": 0
+      }
+    },
+    {
+      "type": "NPU",
+      "cpu": {
+        "max": 320,
+        "min": 0
+      },
+      "gpuNumber": 4,
+      "memory": {
+        "max": 32,
+        "min": 0
+      },
+      "storage": {
+        "max": 1024,
+        "min": 0
+      }
+    }
+  ],
+  "inferQuota": [
+    {
+      "type": "NPU",
+      "cpu": {
+        "max": 192,
+        "min": 0
+      },
+      "gpuNumber": 7,
+      "memory": {
+        "max": 128,
+        "min": 0
+      },
+      "storage": {
+        "max": 1024,
+        "min": 0
+      }
+    },
+    {
+      "type": "GPU",
+      "cpu": {
+        "max": 64,
+        "min": 0
+      },
+      "gpuNumber": 3,
+      "memory": {
+        "max": 40,
+        "min": 0
+      },
+      "storage": {
+        "max": 1024,
+        "min": 0
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "2108746056954023936",
+      "name": "my-train-task-2",
+      "status": "Succeeded",
+      "createdTime": "2026-10-10T10:26:53+08:00",
+      "startTime": "2026-10-10T10:27:09+08:00",
+      "endTime": "2026-10-10T10:28:09+08:00"
+    }
+  ],
+  "images": [
+    {
+      "id": "927",
+      "name": "aliyun_4_x64_20G_agentic_alibase_20260924.vhd",
+      "arch": "x86_64",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "926",
+      "name": "llama-torchfold-0914-910c",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "925",
+      "name": "ubuntu_24_04_x64_100G_with_gpu_driver_and_cuda_alibase_20260907.vhd",
+      "arch": "x86_64",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "924",
+      "name": "aliyun_4_x64_20G_pro_alibase_20260913.vhd",
+      "arch": "x86_64",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "923",
+      "name": "ubuntu_24_04_x64_100G_with_open_source_gpu_driver_and_cuda_alibase_20260907.vhd",
+      "arch": "x86_64",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "922",
+      "name": "aliyun_4_arm64_20G_pro_alibase_20260913.vhd",
+      "arch": "arm64",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "921",
+      "name": "mindnlp0.3.1_mindspore2.2.14_python3.9",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "920",
+      "name": "comfy-wan-light-0622",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "919",
+      "name": "ubuntu22.04-cuda12.4.0-py310-torch2.6.0",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "918",
+      "name": "adver_robust",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "917",
+      "name": "mindtorch0.3_mindspore2.3.0_torchnpu2.2.0_cann8.0_train",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "916",
+      "name": "zuizhong",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "915",
+      "name": "vllm-0.8.5-ubuntu22.04-dtk25.04.1-py3.10",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "914",
+      "name": "jeyjiytkuytkuy",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "913",
+      "name": "mindspore_2_2_cann7_cb2_caai_26",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "912",
+      "name": "ubuntu22.04-cuda11.8.0-py310-dophant-service",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "911",
+      "name": "ChatGLM3-6B-torch-2.2",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "910",
+      "name": "DiffSinger",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "909",
+      "name": "jittor-alignn-bandgap",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "908",
+      "name": "bi_corex3.2.0_pytorch2.1.0_py3.10",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "907",
+      "name": "jupyterlab-pytorch:1.10.0-centos7.6-dtk-22.10-py37-patch4",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "906",
+      "name": "cann8_0_opencode",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "905",
+      "name": "yjd-yolov8-train",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "904",
+      "name": "openmind_ms_nlp",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "903",
+      "name": "corex3.1.1-pytorch1.13.1-bi",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "902",
+      "name": "jupyterlab-pytorch:2.4.1-ubuntu22.04-dtk25.04-py3.10",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "901",
+      "name": "mindspore_2.3.0-cann_8.0.rc2-py_3.9",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "900",
+      "name": "mindspore_2_3_910b_cann8",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "899",
+      "name": "swr.cn-east-3.myhuaweicloud.com-llama-torchfold",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "898",
+      "name": "paddlepaddle252paddlenlp2.6.0.post_t4",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "896",
+      "name": "torch2.4.1-ubuntu22.04-dtk25.04.1-py3.10-train",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "895",
+      "name": "mindspore_2.4.10-cann_8.0.rc3-py_3.9-hce_2.0.2409-aarch64-snt9b23",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "894",
+      "name": "jittor_1.3.9.11",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "893",
+      "name": "jupyterlab-deepseek-r1-0528-qwen3-8b-api:pytorch2.4.1-py3.10-dtk25.04-model",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "892",
+      "name": "paddlepaddle_0.0.0_nightly_cann6.0.1",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "891",
+      "name": "mamba_ssm-2.3.2.post1",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "890",
+      "name": "maca2.32-py3.10-inference",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "889",
+      "name": "torch1.13.1-ubuntu20.04-dtk23.10-py38-notebook",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "888",
+      "name": "torch2.1.0-npu-pytorch-python3.9",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "887",
+      "name": "pytorch_2.1.0-cann_8.0.rc3-py_3.9",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "886",
+      "name": "ubuntu22-cuda12_8-py311-torch2_10_1",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "885",
+      "name": "my-pytorch-env-v001",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "884",
+      "name": "mindspore_2.4.10-cann_8.0.rc3-py_3.9-hce_2.0.2409-aarch64-snt9b23-train",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "883",
+      "name": "Llama3.1",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "882",
+      "name": "ubuntu22.04-cuda11.8.0-py310-material-dophant",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "881",
+      "name": "gemma-llama-cpp-cuda",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "880",
+      "name": "cann8_3_rc1",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "879",
+      "name": "paddle-3.0.0b2-gpu-cuda12.3-cudnn9.0-trt8.6",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "878",
+      "name": "torch2.8-metax3.7.1-py312-c500",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "877",
+      "name": "index-tts2-v1",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "876",
+      "name": "ganzhi_mindspore_2.1.0-cann_6.3.2-py_3.7-euler_2.8.3-aarch64-d910:20230727154652-7d74011",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "875",
+      "name": "v20260615-c2net",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "874",
+      "name": "openmind_ms_v8-notebook",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "873",
+      "name": "ComfyUIFast",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "872",
+      "name": "ChatGLM3-6B",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "871",
+      "name": "mindspore_2_2_cann7",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "870",
+      "name": "cann8_0_0beta_mindspore2_5",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "869",
+      "name": "ywd_GPUA100_PyTorch3.0.0_Python3.16_Cuda13.0",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "868",
+      "name": "qwen3-5",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "867",
+      "name": "jupyter-vllm0.8.5-ubuntu22.04:rc7-das1.5-py3.10-20250612-fixpy-rocblas0611-rc2",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "866",
+      "name": "jittor-alignn--service",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "865",
+      "name": "jittor-npu-910b",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "864",
+      "name": "pytorch_2.1.0-cann_8.1.rc2-py_3.10",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "863",
+      "name": "mindspore_2_2_cann7_train",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "862",
+      "name": "modelzoo.llm.vllm1.0.1-maca.ai3.3.0-torch2.8-py312",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "861",
+      "name": "py3.7_cuda11.1_mindspore2.2.0",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "860",
+      "name": "swr.cn-east-3.myhuaweicloud.com/llama/vllm0.15-n260:v3",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "859",
+      "name": "llamafactory_qwen3_4b_v4_train",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "858",
+      "name": "openclaw-feishu-qwen3.5",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "857",
+      "name": "Qwen3-Coder-30B",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "856",
+      "name": "bi_corex3.2.0_pytorch2.1.0_py3.10-notebook",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "855",
+      "name": "ubuntu22.04-cuda11.8.0-py310-torch2.1.0-tf2.14.0",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "854",
+      "name": "cann8_3_rc1_nnal",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "853",
+      "name": "jittor1.3.9.11-ubuntu20.04-dtk23.10-py38",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "852",
+      "name": "enflame-t20",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "851",
+      "name": "jittor-npu-910b_train",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "850",
+      "name": "ubuntu22.04-cuda12.1.0-py310-torch2.1.2",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "849",
+      "name": "cuda12.1.0-ubuntu22.04-py3.10-tensorflow2.14",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "848",
+      "name": "Llama3",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "847",
+      "name": "torch-npu2.1.0_910c",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "846",
+      "name": "CogVideo-2b",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "845",
+      "name": "py310-torch201-cu116-bertvits-sovits",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "844",
+      "name": "jittor-atom-position-recgonize",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "843",
+      "name": "pytorch:2.1-centos7.6-dtk23.10-py38-ds0.12.3",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "842",
+      "name": "jupyterlab:3.2.9-tensorflow1.15.1-centos7.6-dtk22.04.2-py37",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "841",
+      "name": "mos2-v3",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "840",
+      "name": "jittor-alignn-bandgap_trainJob",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "839",
+      "name": "qwen38-vllm023-cann91-a2",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "838",
+      "name": "comfyui_sdxl_svd_PyTorch2.10.0_Cuda12.8_Python3.11",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "837",
+      "name": "minmax3",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "836",
+      "name": "topsrider3.4-s60",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "835",
+      "name": "my-pytorch-env-v002",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "834",
+      "name": "cann8.2.rc2-ms2.7-py3.11-910b",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "833",
+      "name": "OpenSoraV2",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "832",
+      "name": "mindspore_2.6.0rc1-cann_8.1.rc2-py_3.10",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "831",
+      "name": "aitoolkit-krea2",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "830",
+      "name": "torch2.4.1-ubuntu22.04-dtk25.04.1-py3.10-notebook",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "829",
+      "name": "OpenClaw-WebUi-Qwen3.5-27B",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "828",
+      "name": "modelzoo.llm.sglang1.0.3-maca.ai3.8.1.4-torch2.10",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    },
+    {
+      "id": "827",
+      "name": "gemma-llama-cpp-cuda-gpu-a100",
+      "arch": "",
+      "computeType": "",
+      "workloadKind": "general",
+      "availabilityStatus": "available"
+    }
+  ],
+  "imageTotal": 897
+}

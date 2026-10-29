@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NewTaskPlanningInput",
+  "type": "object",
+  "required": ["userIntent"],
+  "properties": {
+    "userIntent": { "type": "string", "minLength": 1 },
+    "context": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

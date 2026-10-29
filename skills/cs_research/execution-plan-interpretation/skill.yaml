@@ -1,0 +1,45 @@
+skill_id: execution_plan_interpretation
+claude_name: execution-plan-interpretation
+display_name: 复现执行方案语义判断
+version: "0.1.0"
+stages:
+- solution_design
+- execution_validation
+substages:
+- execution_plan_acquisition
+packs:
+- cs_reproduction
+skill_type: atomic
+runtime: llm_structured
+status: ready
+source: manual
+input_schema: input.schema.json
+output_schema: output.schema.json
+output_file: result.json
+runtime_contract:
+  kind: llm_reasoning
+  requires_external_action: false
+  adapter_id: huiyan_chat_completions
+  evidence_contract_version: none
+structured_output:
+  contract_version: 1
+  guard_version: p06c-v1
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: execution_plan_acquisition
+owner: TBD
+fixture_status: missing
+notes: 只理解正式来源中的资源、环境、执行和结果读取语义；不得把来源未写的科研事实补成来源要求，也不得重定义 reference metric identity。
+capability_contract:
+  artifact_types:
+  - reproduction_execution_plan_interpretation
+  judgment_support:
+    deterministic: false
+    domain_professional: true
+execution_method_roles:
+- cs_reproduction_experiment_design_grounding:execution_source_interpretation

@@ -1,0 +1,16 @@
+suite_id: component.execution.frozen-agent-skill
+protected_outcome: Agent-internal Skill invocation preserves the frozen AgentSkill authorization, exact Skill version, canonical goal and supplied input without using Definition dependency-chain arguments or bypassing the production Skill entrypoint.
+authority_refs:
+- docs/01_核心设计/研究执行与能力/OpenAIR Agent 与 Skill 能力体系.md
+- spec/testing/OpenAIR 测试设计合同.md
+failure_class: frozen_agent_skill_interface_mismatch
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/execution/skill_dependency_runtime.py
+- services/api/app/execution/research_dispatch_huiyan_provider.py
+test_responsibility: Deterministic invocation-boundary tests with no Provider, research task, or business persistence.
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [pytest_result]
+verdict_rule: PASS only with valid deterministic execution and all assertions passing; FAIL for a proven contract violation; otherwise NO_VALID_EVIDENCE.
+triggers: [Agent-internal Skill invocation interface changes]

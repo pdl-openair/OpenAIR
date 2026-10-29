@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["user_query"],
+  "properties": {
+    "user_query": {
+      "type": "string",
+      "minLength": 1
+    },
+    "search_matrix": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "required": ["search_intent", "query_terms", "must_include_terms", "optional_terms", "exclude_terms", "priority"],
+        "properties": {
+          "search_intent": { "type": "string" },
+          "query_terms": { "type": "array", "items": { "type": "string" } },
+          "must_include_terms": { "type": "array", "items": { "type": "string" } },
+          "optional_terms": { "type": "array", "items": { "type": "string" } },
+          "exclude_terms": { "type": "array", "items": { "type": "string" } },
+          "source_constraints": { "type": "array", "items": { "type": "string" } },
+          "rationale": { "type": "string" },
+          "priority": { "type": "integer", "enum": [1, 2, 3] }
+        },
+        "additionalProperties": true
+      },
+      "default": null
+    },
+    "expanded_query_variants": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "required": ["query", "variant_type", "search_intent", "priority"],
+        "properties": {
+          "query": { "type": "string", "minLength": 1 },
+          "variant_type": { "type": "string", "enum": ["strict", "broad", "fallback", "exclusion", "targeted"] },
+          "search_intent": { "type": "string" },
+          "source_constraints": { "type": "array", "items": { "type": "string" } },
+          "rationale": { "type": "string" },
+          "priority": { "type": "integer", "enum": [1, 2, 3] }
+        },
+        "additionalProperties": true
+      },
+      "default": null
+    },
+    "quality_report": {
+      "type": ["object", "null"],
+      "description": "quality_report from retrieval-matrix-generation, passed through for provenance.",
+      "default": null
+    },
+    "research_evidence_contract": {
+      "type": ["object", "null"],
+      "description": "Optional profile/contract used for profile-guided query and candidate relevance diagnostics.",
+      "additionalProperties": true,
+      "default": null
+    },
+    "evidence_contract": {
+      "type": ["object", "null"],
+      "description": "Alias for research_evidence_contract.",
+      "additionalProperties": true,
+      "default": null
+    },
+    "contract": {
+      "type": ["object", "null"],
+      "description": "Alias for research_evidence_contract.",
+      "additionalProperties": true,
+      "default": null
+    },
+    "retrieval_config": {
+      "type": ["object", "null"],
+      "properties": {
+        "target_sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["openalex", "semantic_scholar", "arxiv", "deepxiv", "agentic_data"]
+          },
+          "default": ["openalex", "semantic_scholar", "arxiv"],
+          "description": "Default: openalex, semantic_scholar, arxiv. deepxiv and agentic_data are opt-in only (require token/SDK)."
+        },
+        "max_results_per_query": { "type": "integer", "minimum": 1, "maximum": 25, "default": 10 },
+        "max_total_candidates": { "type": "integer", "minimum": 1, "default": 200 },
+        "timeout_seconds": { "type": "integer", "minimum": 5, "maximum": 120, "default": 45 },
+        "allow_partial_success": { "type": "boolean", "default": true }
+      },
+      "additionalProperties": false,
+      "default": null
+    }
+  },
+  "additionalProperties": false
+}

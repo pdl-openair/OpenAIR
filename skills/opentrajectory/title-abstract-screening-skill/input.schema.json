@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TitleAbstractScreeningInput",
+  "type": "object",
+  "required": ["task_id", "skill_id", "candidates"],
+  "additionalProperties": false,
+  "properties": {
+    "task_id": { "type": "string" },
+    "skill_id": {
+      "type": "string",
+      "const": "title-abstract-screening-skill"
+    },
+    "run_id": { "type": "string" },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/AccessReadyCandidate" }
+    }
+  },
+  "$defs": {
+    "AccessReadyCandidate": {
+      "type": "object",
+      "required": [
+        "candidate_id",
+        "title",
+        "access_status",
+        "needs_acquisition",
+        "available_access_types",
+        "provenance"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "title": { "type": "string" },
+        "abstract": { "type": ["string", "null"] },
+        "access_status": {
+          "type": "string",
+          "enum": [
+            "structured_fulltext_ready",
+            "pdf_ready",
+            "landing_page_only",
+            "metadata_only",
+            "blocked",
+            "unknown"
+          ]
+        },
+        "needs_acquisition": { "type": "boolean" },
+        "preferred_access_type": {
+          "type": ["string", "null"],
+          "enum": ["html", "xml", "tei", "pdf", "landing_page", "metadata_only", null]
+        },
+        "available_access_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["html", "xml", "tei", "pdf", "landing_page", "metadata_only"]
+          }
+        },
+        "provenance": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ProvenanceRecord" }
+        }
+      }
+    },
+    "ProvenanceRecord": {
+      "type": "object",
+      "required": ["stage", "timestamp"],
+      "additionalProperties": true,
+      "properties": {
+        "stage": { "type": "string" },
+        "skill_id": { "type": "string" },
+        "timestamp": { "type": "string" }
+      }
+    }
+  }
+}

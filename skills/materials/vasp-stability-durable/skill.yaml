@@ -1,0 +1,73 @@
+skill_id: vasp_stability_durable
+claude_name: vasp-stability-durable
+display_name: VASP 热力学稳定性
+version: "0.1.0"
+stages:
+  - execution_validation
+skill_type: atomic
+runtime: claude_code
+status: ready
+source: manual
+substages:
+  - stability_verification
+packs:
+  - materials
+input_schema:
+  type: object
+  additionalProperties: false
+  required: [goal]
+  properties:
+    goal:
+      type: string
+    pareto_cif_paths:
+      type: array
+      items:
+        type: string
+    candidate_summary:
+      type: string
+output_schema:
+  type: object
+  additionalProperties: false
+  required: [state, target_formula, ehull_eV, formation_energy_eV_per_atom, stability_verdict, evidence]
+  properties:
+    state:
+      type: string
+      enum: [succeeded, partial_failure]
+    target_formula:
+      type: string
+    ehull_eV:
+      type: ["number", "null"]
+    formation_energy_eV_per_atom:
+      type: ["number", "null"]
+    stability_verdict:
+      type: string
+    jcc_task_name:
+      type: string
+    work_dir:
+      type: string
+    failure_reason:
+      type: string
+    evidence:
+      type: array
+      items:
+        type: object
+    handoff_summary:
+      type: string
+owner: TBD
+fixture_status: missing
+notes: >
+  确定性 skill_script 实现：读取 S3 Pareto CIF（取第一名），用
+  setup_competing_phases.py 生成 VASP 输入，通过 jcc CLI 提交
+  HPCSlurmArm，轮询等待结果（最多 550s），解析 OUTCAR 用
+  analyze_stability.py 计算 ehull，产出结构化 JSON 供 S9 消费。
+  凭证通过 JCC_BASE_URL / JCC_USERNAME / JCC_PASSWORD 环境变量注入。
+runtime_contract:
+  kind: skill_script
+  requires_external_action: true
+  adapter_id: skill_runtime:vasp_stability_durable
+  evidence_contract_version: skill-execution-evidence/v1
+  artifact_files:
+    - vasp-stability/stability_report.md
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only

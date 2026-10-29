@@ -1,0 +1,125 @@
+skill_id: crystal_design_structure_crossover_py
+claude_name: crystal-design-structure-crossover-py
+display_name: 晶体设计 · 结构交叉演化（python_adapter 批量版）
+version: 0.1.0
+stages:
+- problem_modeling
+- solution_design
+skill_type: atomic
+runtime: python_adapter
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:crystal_design_structure_crossover_py
+  evidence_contract_version: external-action-evidence/v1
+status: ready
+source: manual
+review_policy:
+  contract_version: 1
+  mode: schema_validated_only
+substages:
+- candidate_generation
+packs:
+- materials
+durable_execution:
+  adapter: python_adapter
+  entry_function: run_structure_crossover_mvp
+config:
+  pop_size: 10
+  max_generations: 3
+  noise_level: 0.3
+  crossover_rate: 0.0
+  top_n: 10
+  run_evaluate: false
+  enable_llm_steer: false
+input_schema:
+  type: object
+  properties:
+    goal:
+      type: string
+      minLength: 1
+      description: User natural-language goal.
+    candidates:
+      type: array
+      minItems: 1
+      items:
+        type: object
+        additionalProperties: true
+        required:
+        - material_id
+        - formula_pretty
+        - cif_text
+        properties:
+          material_id:
+            type: string
+            minLength: 1
+          formula_pretty:
+            type: string
+            minLength: 1
+          cif_text:
+            type: string
+            minLength: 1
+            pattern: ^[\s\uFEFF]*(?:#[^\r\n]*(?:\r?\n|\r)[\s\uFEFF]*)*data_[^\s\r\n]+
+            description: CIF content beginning with a CIF data block; host file paths are not accepted.
+    task_instruction:
+      description: Optional crossover overrides. Candidate/CIF interpretation is owned
+        by this Materials Skill.
+      type: object
+      not:
+        anyOf:
+        - required:
+          - seed_cifs
+        - required:
+          - seed_cif_paths
+        - required:
+          - seed_cif_files
+  required:
+  - goal
+  - candidates
+  additionalProperties: false
+output_schema:
+  type: object
+  properties:
+    state:
+      type: string
+      enum:
+      - succeeded
+      - partial_failure
+    run_dir:
+      type: string
+    objectives:
+      type: object
+    constraints:
+      type: object
+    top_k_table:
+      type: string
+      description: CSV from leaderboard.csv
+    iterations:
+      type: array
+    run_summary:
+      type: object
+    pareto_cif_paths:
+      type: array
+      items:
+        type: string
+    evaluate_report_path:
+      oneOf:
+      - type: string
+      - type: 'null'
+    partial_failure:
+      oneOf:
+      - type: array
+      - type: 'null'
+  required:
+  - state
+  - run_dir
+  - objectives
+  - top_k_table
+  - iterations
+  - run_summary
+owner: TBD
+fixture_status: missing
+notes: Python_adapter port of crystal-design-structure-crossover-agent. Runs the full
+  evolutionary loop in one subprocess call (Phase 0 LLM runplan + init + step x N
+  + finalize). Reuses the sibling skill's evolve_driver.py. Trades Claude-per-generation
+  steering for one-shot batch execution; lower token cost, no mid-run human intervention.

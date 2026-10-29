@@ -1,0 +1,37 @@
+skill_id: exploratory_run
+claude_name: exploratory-run
+display_name: 受控实验执行
+version: "0.2.1"
+stages:
+  - execution_validation
+skill_type: atomic
+runtime: python_adapter
+status: ready
+source: manual
+substages:
+  - exploratory_execution
+packs:
+  - sdr
+input_schema: input.schema.json
+output_schema: output.schema.json
+execution_method_roles:
+  - cs_reproduction_real_execution:experiment_execution
+runtime_contract:
+  kind: external_adapter
+  requires_external_action: true
+  adapter_id: python_adapter:exploratory_run
+  evidence_contract_version: external-action-evidence/v1
+auto_allowed: true
+review_required: false
+risk_level: low
+stage: execution_validation
+substage: exploratory_execution
+owner: TBD
+fixture_status: missing
+notes: 只负责使用已验证 environment 真实执行一个已明确实验并固定进程事实；正式 Resource 的 argv 路径绑定只证明 delivery，只有可确定性核验的实际消费证据才允许 verified；不做 Artifact、指标、比较、调度平台或正式 OpenAIR 集成。
+capability_contract:
+  artifact_types:
+    - raw_reproduction_execution
+  judgment_support:
+    deterministic: true
+    domain_professional: false

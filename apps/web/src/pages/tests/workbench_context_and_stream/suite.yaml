@@ -1,0 +1,22 @@
+suite_id: component.web.workbench-context-and-stream
+protected_outcome: >-
+  Workbench keeps saved names and original submitted input separate from generated
+  goals, presents one current planning summary with distinct history, and preserves
+  user reading state across background updates and task navigation.
+authority_refs:
+  - spec/collaboration/01_产品第一原则.md
+  - docs/01_核心设计/研究生命周期与对象/OpenAIR 核心对象与数据模型.md
+  - docs/task_specs/2026-10-09-fresh-workbench-ui-context-and-stream.md
+failure_class: workbench_context_or_collaboration_presentation_loss
+minimum_owner: 单个组件行为
+production_targets:
+  - apps/web/src/pages/WorkbenchPage.tsx
+  - apps/web/src/components/workbench/WorkbenchInteractionPanel.tsx
+  - apps/web/src/components/workbench/ResearchActivityStream.tsx
+  - apps/web/src/model/researchActivityStreamCore.mjs
+test_responsibility: Workbench page and collaboration component entry behavior with isolated HTTP/SSE dependencies
+execution_profiles: [deterministic]
+required_dependencies: []
+evidence_required: [vitest_result]
+verdict_rule: PASS only if declared tests pass; absent valid execution evidence is NO_VALID_EVIDENCE.
+triggers: [workbench_context_and_stream_changes]

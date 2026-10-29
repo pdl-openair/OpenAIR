@@ -1,0 +1,30 @@
+suite_id: component.execution.scientific-input-fidelity
+protected_outcome: Scientific Skill inputs retain original judgments, missing values and unrecognized context without default success; existing missing-key diagnostics remain available without content rejection.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/04_开发协作/产品开发经验/01_产品第一原则.md
+  - spec/testing/OpenAIR 测试设计合同.md
+failure_class: scientific_input_default_rejudgment_or_silent_loss
+minimum_owner: 跨组件与基础设施
+production_targets:
+  - services/api/app/execution/skill_contract_policy.py
+  - services/api/app/execution/durable_skill_runtime.py
+  - services/api/app/execution/scientific_input_fidelity.py
+  - services/api/app/execution/llm_structured_runner.py
+  - services/api/app/modules/historical_research_record_projection.py
+test_responsibility: Exercise shared input validation, real PVD input contracts and its recommendation finalizer, reasoning Provider message construction and persisted Artifact warning projection; isolate HTTP and metering, never scientific validation or completion decisions.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+  - canonical_skill_sources
+evidence_required:
+  - original_input_equality
+  - original_enum_value_preserved
+  - missing_key_diagnostics_retained
+  - original_output_value_preserved
+  - pytest_exit_code_and_raw_output
+verdict_rule: PASS only with valid scoped evidence and no default rejudgment or silent loss; FAIL for a valid counterexample; NO_VALID_EVIDENCE for missing conditions. Software controls do not prove actual model, PostgreSQL, Fresh or UI behavior.
+triggers:
+  - shared input policy or durable runtime changes
+placement_basis: Explicit user-approved SAFE allowlist places the shared runtime and direct consumer protection in execution/tests/scientific_input_fidelity.

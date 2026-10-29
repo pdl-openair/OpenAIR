@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpenTrajectory Gap-to-Action Input",
+  "type": "object",
+  "required": ["research_lead_package"],
+  "properties": {
+    "research_lead_package": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "Production ResearchLeadPackage object. The normal product path accepts research_lead_package_v0.1 directly; the legacy decision-oriented shape remains compatibility-only, and authentic_research_lead_package requires the explicit Track F normalizer hook."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,16 @@
+{
+  "task_id": "task_cs_ope_001",
+  "run_id": "run_cs_ope_001",
+  "stage": "execution_validation",
+  "user_goal": "管理实验任务池调度，跟踪 Set 10-14 的执行状态",
+  "context": {
+    "tasks_pool_ref": "tasks_pool.json",
+    "task_sets_state_ref": "openair/ope-benchmark/new_execute/.task_sets_state.json",
+    "resource_config_ref": "resources/resource_config.json"
+  },
+  "constraints": [
+    "三态模型：pending → running → completed",
+    "资源驱动调度：发现服务器空缺时自动取任务",
+    "定时巡检每小时检查一次"
+  ]
+}

@@ -1,0 +1,32 @@
+suite_id: component.skill.pvd.evidence-node-extraction
+protected_outcome: >-
+  PVD evidence-node finalization preserves grounded source identity, isolates
+  invalid sibling items, and assigns deterministic evidence identity without
+  fabricating source facts.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+  - docs/02_产品与Workflow/PVD/PVD Skill 合同.md
+  - skills/pvd/pvd-evidence-node-extraction/skill.yaml
+failure_class: pvd_evidence_node_grounding_identity_or_isolation_violation
+minimum_owner: 单个组件行为
+production_targets:
+  - skills/pvd/pvd-evidence-node-extraction/scripts
+test_responsibility: >-
+  deterministic component proof for grounded evidence finalization, sibling-failure
+  isolation, stable evidence identity, and registered provider-projection /
+  finalizer encoding boundaries that preserve source identity
+execution_profiles:
+  - deterministic
+required_dependencies: []
+evidence_required:
+  - pytest_result
+verdict_rule: >-
+  PASS only when the declared execution conditions are satisfied, all
+  evidence_required items are obtained, and the existing Suite assertions prove
+  protected_outcome; FAIL when sufficient valid evidence proves protected_outcome
+  is violated; otherwise the run is NO_VALID_EVIDENCE.
+triggers:
+  - PVD evidence-node finalization changes
+  - evidence identity or grounding contract changes

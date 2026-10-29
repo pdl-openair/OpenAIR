@@ -1,0 +1,42 @@
+suite_id: component.execution.structured-output-bounded-correction
+protected_outcome: >-
+  Structured output correction performs only deterministic, meaning-preserving
+  representation normalization and fails closed whenever the corrected value
+  does not satisfy its Formal Schema.
+authority_refs:
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_科研判断与结构化输出设计合同.md
+  - docs/01_核心设计/科研资料与结构化/OpenAIR_Schema基础设施与交接检查规范.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - structured_output_correction_invents_semantic_value
+  - structured_output_correction_accepts_schema_invalid_value
+  - structured_output_correction_rejects_unique_equivalent_representation
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/skill_contract_policy.py
+test_responsibility: >-
+  Deterministically prove that numeric strings and uniquely equivalent enum
+  spellings can be normalized for structured output, while unknown enums,
+  missing required scientific content, and values that remain schema-invalid
+  are rejected; preserve the adjacent established input tolerance.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - bounded_output_correction_assertions
+  - final_formal_schema_rejection_assertions
+  - adjacent_input_tolerance_assertion
+verdict_rule: >-
+  PASS only when the required execution conditions are satisfied, every
+  evidence_required item is obtained, and valid evidence proves that allowed
+  bounded corrections satisfy the Formal Schema. FAIL only when valid evidence
+  proves that protected_outcome is violated. Return NO_VALID_EVIDENCE when a
+  required execution condition or evidence item is absent, or the available
+  evidence cannot legitimately determine PASS or FAIL.
+triggers:
+  - structured output semantic correction changes
+  - shared Skill contract normalization changes
+  - Formal Schema acceptance behavior changes

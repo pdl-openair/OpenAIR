@@ -1,0 +1,2376 @@
+{
+  "unassociatedWorkflow": {
+    "input": {
+      "goal": "综合评估关于 LLM 评审器（LLM judge）受回答风格线索影响的研究证据，重点考察回答长度、解释充分性、完成式/自信式表述等因素是否会在任务质量相近时系统性抬高评分；界定该现象最明显的条件、当前可支持的结论、关键未知与最有判别价值的后续验证。",
+      "questions": [
+        "现有研究是否可靠地显示 LLM judge 会将与任务实质质量无关或仅弱相关的回答风格特征误当作更高质量的信号？",
+        "回答长度、详细解释、流畅性、格式、语气、自信或“已完成”式表述等具体特征的证据强度分别如何？",
+        "在何种评测任务、评审模型、提示词、评分协议、候选答案质量差距和答案呈现条件下，此类偏差最明显？",
+        "哪些研究设计能够区分合理地奖励有用解释或覆盖面，与在实质任务质量不变时的纯风格偏好？",
+        "目前能够对 LLM judge 的有效性、偏差风险及其在 agent 评测中的使用边界作出哪些校准结论？",
+        "哪些关键机制、因果关系、模型间差异和缓解措施仍不清楚？",
+        "下一步最值得通过何种对照实验验证这一现象及其可操作的缓解方法？"
+      ],
+      "targetOutputs": [
+        "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+        "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+        "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+        "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+        "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。"
+      ],
+      "constraints": [],
+      "unknowns": [
+        "在任务实质质量严格等价或受控时，长度、解释量和完成式措辞对不同 LLM judge 的独立因果效应大小。",
+        "观察到的长度偏好中，有多少来自合理的信息覆盖或可验证证据增加，多少来自与质量脱钩的表面风格线索。",
+        "该现象在 agent 轨迹、最终答案、工具调用记录、开放式生成和有标准答案任务之间的差异。",
+        "不同评审模型、提示模板、单点评分与成对比较、是否要求引用依据或逐项量表时的稳健性。",
+        "现有缓解策略（长度控制、成对比较、参考答案、分解式评分、盲化或对抗性改写）是否能在不显著损失评测效度的前提下降低偏差。"
+      ],
+      "risks": [
+        "将相关性研究中的“更长答案得分更高”直接解释为纯粹的风格偏差，忽略更长答案可能包含更多有用信息。",
+        "将特定模型、基准或提示设置下的发现泛化到所有 LLM judge 或所有 agent 评测。",
+        "把评审器与人类偏好的一致性误作任务真实性能或实际效用的有效测量。",
+        "混淆回答文本风格偏差、评审提示诱导、位置偏差、模型自偏好和候选质量分布造成的表观效应。"
+      ],
+      "responsibilityDeltas": [
+        {
+          "responsibilityChoice": "responsibility_1",
+          "currentProjectWorkContext": "整理与当前问题直接相关的原始研究材料，优先记录能够通过控制任务实质质量、答案长度、风格或呈现方式来检验 LLM judge 偏好的研究，以及 agent 评测场景中的适用证据。"
+        },
+        {
+          "responsibilityChoice": "responsibility_2",
+          "currentProjectWorkContext": "评估关于长度、冗长、解释性、表面风格与完成式表达影响 LLM judge 评分的证据，重点审查因果识别、真实质量控制、任务和模型异质性，以及对 agent 评测的可迁移性。"
+        },
+        {
+          "responsibilityChoice": "responsibility_3",
+          "currentProjectWorkContext": "在证据足以支持时，解释 LLM judge 可能依赖表面质量线索、信息量代理或提示诱导的机制，并严格区分实证结果、原作者解释与综合推断。"
+        },
+        {
+          "responsibilityChoice": "responsibility_4",
+          "currentProjectWorkContext": "形成关于该现象是否存在、证据可靠程度、最明显条件及 agent 评测使用边界的校准结论。"
+        },
+        {
+          "responsibilityChoice": "responsibility_5",
+          "currentProjectWorkContext": "识别尚未厘清的因果效应、条件异质性、机制和缓解措施，并提出能够区分真实质量增益与风格捷径效应的候选解释。"
+        },
+        {
+          "responsibilityChoice": "responsibility_6",
+          "currentProjectWorkContext": "提出下一步最值得进行的受控验证方向，例如在等价任务质量下系统操纵长度、解释和完成式措辞，并比较评审协议与缓解措施的判别价值。"
+        }
+      ]
+    },
+    "formalDesign": {
+      "researchDesignId": "design_e0202f82c85b7843ad07",
+      "taskId": "task_pv2",
+      "version": 1,
+      "supersedesVersion": null,
+      "status": "draft",
+      "planningMode": "sdr",
+      "planningComplexity": {
+        "problemClarity": "high",
+        "expectedStageSpan": "multiple",
+        "dependencyComplexity": "high",
+        "evidenceBurden": "high",
+        "externalActionRisk": "low",
+        "researchUncertainty": "high",
+        "rationale": "Server-computed from the compiled Definition graph, evidence boundaries, external actions, and missing inputs."
+      },
+      "goal": "综合评估关于 LLM 评审器（LLM judge）受回答风格线索影响的研究证据，重点考察回答长度、解释充分性、完成式/自信式表述等因素是否会在任务质量相近时系统性抬高评分；界定该现象最明显的条件、当前可支持的结论、关键未知与最有判别价值的后续验证。",
+      "understanding": {
+        "researchType": null,
+        "userIntent": "综合评估关于 LLM 评审器（LLM judge）受回答风格线索影响的研究证据，重点考察回答长度、解释充分性、完成式/自信式表述等因素是否会在任务质量相近时系统性抬高评分；界定该现象最明显的条件、当前可支持的结论、关键未知与最有判别价值的后续验证。",
+        "materialSummary": null,
+        "primaryResearchQuestions": [
+          "现有研究是否可靠地显示 LLM judge 会将与任务实质质量无关或仅弱相关的回答风格特征误当作更高质量的信号？",
+          "回答长度、详细解释、流畅性、格式、语气、自信或“已完成”式表述等具体特征的证据强度分别如何？",
+          "在何种评测任务、评审模型、提示词、评分协议、候选答案质量差距和答案呈现条件下，此类偏差最明显？",
+          "哪些研究设计能够区分合理地奖励有用解释或覆盖面，与在实质任务质量不变时的纯风格偏好？",
+          "目前能够对 LLM judge 的有效性、偏差风险及其在 agent 评测中的使用边界作出哪些校准结论？",
+          "哪些关键机制、因果关系、模型间差异和缓解措施仍不清楚？",
+          "下一步最值得通过何种对照实验验证这一现象及其可操作的缓解方法？"
+        ],
+        "auxiliaryResearchDimensions": [],
+        "targetOutputs": [
+          "可追溯的关键公开研究记录",
+          "按条件比较的记录驱动证据评估与综合",
+          "当前结论、关键未知与最具判别力的下一步建议",
+          "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+          "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+          "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+          "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+          "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。"
+        ],
+        "evidenceBoundaries": [],
+        "missingInputs": [],
+        "riskNotes": [
+          "目标尚无明确科研工作关联，保留待核对：可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+          "目标尚无明确科研工作关联，保留待核对：证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+          "目标尚无明确科研工作关联，保留待核对：对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+          "目标尚无明确科研工作关联，保留待核对：面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+          "目标尚无明确科研工作关联，保留待核对：会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。",
+          "待研究未知：在任务实质质量严格等价或受控时，长度、解释量和完成式措辞对不同 LLM judge 的独立因果效应大小。",
+          "待研究未知：观察到的长度偏好中，有多少来自合理的信息覆盖或可验证证据增加，多少来自与质量脱钩的表面风格线索。",
+          "待研究未知：该现象在 agent 轨迹、最终答案、工具调用记录、开放式生成和有标准答案任务之间的差异。",
+          "待研究未知：不同评审模型、提示模板、单点评分与成对比较、是否要求引用依据或逐项量表时的稳健性。",
+          "待研究未知：现有缓解策略（长度控制、成对比较、参考答案、分解式评分、盲化或对抗性改写）是否能在不显著损失评测效度的前提下降低偏差。",
+          "风险与取舍：将相关性研究中的“更长答案得分更高”直接解释为纯粹的风格偏差，忽略更长答案可能包含更多有用信息。",
+          "风险与取舍：将特定模型、基准或提示设置下的发现泛化到所有 LLM judge 或所有 agent 评测。",
+          "风险与取舍：把评审器与人类偏好的一致性误作任务真实性能或实际效用的有效测量。",
+          "风险与取舍：混淆回答文本风格偏差、评审提示诱导、位置偏差、模型自偏好和候选质量分布造成的表观效应。"
+        ],
+        "planningRationale": "Compiled from planner semantics against the frozen Definition catalog."
+      },
+      "constraints": [],
+      "scopeBoundary": {
+        "allowedObjectiveKinds": [
+          "substage_definition:opentrajectory:research_record_establishment",
+          "substage_definition:opentrajectory:evidence_assessment_synthesis",
+          "substage_definition:opentrajectory:mechanism_explanation",
+          "substage_definition:opentrajectory:current_research_conclusion",
+          "substage_definition:opentrajectory:key_unknowns_candidate_explanations",
+          "substage_definition:opentrajectory:next_research_recommendation"
+        ],
+        "excludedActions": [
+          "execute research work before ResearchDesign confirmation",
+          "expand the user-defined research scope without confirmation",
+          "external_write",
+          "physical_action"
+        ],
+        "allowedMaterialRefs": [
+          "research_goal",
+          "raw_research_materials",
+          "accepted_existing_research_records",
+          "current_judgment_target",
+          "research_records",
+          "accepted_existing_evidence",
+          "phenomenon_to_explain",
+          "relevant_research_records",
+          "accepted_evidence_assessment",
+          "current_research_question",
+          "accepted_evidence_assessment_and_findings",
+          "current_research_conclusion",
+          "material_conflicts_limitations_and_evidence_gaps",
+          "key_unknowns_and_candidate_explanations",
+          "confirmed_resource_time_cost_risk_boundaries"
+        ],
+        "maxSubstageInstances": 6
+      },
+      "budgetBoundary": {
+        "maxModelCalls": 48,
+        "maxToolCalls": 48,
+        "maxWallTimeSec": 26400,
+        "maxCostAmount": null,
+        "currency": null
+      },
+      "externalActionBoundary": {
+        "allowedActionKinds": [],
+        "confirmationRequiredKinds": [],
+        "allowedDestinations": []
+      },
+      "riskBoundary": {
+        "maxRiskClass": "medium",
+        "prohibitedActions": [
+          "execute research work before ResearchDesign confirmation",
+          "expand the user-defined research scope without confirmation",
+          "external_write",
+          "physical_action"
+        ],
+        "humanGateTriggers": []
+      },
+      "workflowProvenanceRef": {
+        "workflowId": "opentrajectory_research_workflow",
+        "workflowVersion": 4,
+        "contentHash": "sha256:7e20244e07890756a702ae7d0380386a62cc569ff2c85a7f71aba5a0e25dbc1f"
+      },
+      "workflowResponsibilityCoverage": [
+        {
+          "responsibilityKey": "research_record_establishment",
+          "definitionId": "opentrajectory:research_record_establishment",
+          "requirement": "conditional",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_67462cbd07f145c9179d",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Conditional responsibility selected by project-specific scientific need."
+        },
+        {
+          "responsibilityKey": "evidence_assessment_synthesis",
+          "definitionId": "opentrajectory:evidence_assessment_synthesis",
+          "requirement": "core",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Workflow core responsibility received project-specific scientific work."
+        },
+        {
+          "responsibilityKey": "mechanism_explanation",
+          "definitionId": "opentrajectory:mechanism_explanation",
+          "requirement": "conditional",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_9f72f2da7e2834571dd1",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Conditional responsibility selected by project-specific scientific need."
+        },
+        {
+          "responsibilityKey": "current_research_conclusion",
+          "definitionId": "opentrajectory:current_research_conclusion",
+          "requirement": "core",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_6e9e4388be59bf442de4",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Workflow core responsibility received project-specific scientific work."
+        },
+        {
+          "responsibilityKey": "key_unknowns_candidate_explanations",
+          "definitionId": "opentrajectory:key_unknowns_candidate_explanations",
+          "requirement": "core",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_4fe39c2b5a3697ea2a75",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Workflow core responsibility received project-specific scientific work."
+        },
+        {
+          "responsibilityKey": "next_research_recommendation",
+          "definitionId": "opentrajectory:next_research_recommendation",
+          "requirement": "core",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_7f5ccca05bba924e22e1",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Workflow core responsibility received project-specific scientific work."
+        }
+      ],
+      "projectCompletionRequirements": [
+        {
+          "completionRequirementId": "project-completion_ef381768dff78e28d615",
+          "targetOutputRef": "understanding.targetOutputs[0]",
+          "description": "可追溯的关键公开研究记录",
+          "workflowResponsibilityKey": "research_record_establishment"
+        },
+        {
+          "completionRequirementId": "project-completion_fa6e25f4736cb9b7dbc4",
+          "targetOutputRef": "understanding.targetOutputs[1]",
+          "description": "按条件比较的记录驱动证据评估与综合",
+          "workflowResponsibilityKey": "evidence_assessment_synthesis"
+        },
+        {
+          "completionRequirementId": "project-completion_9b916d3df9674fa34311",
+          "targetOutputRef": "understanding.targetOutputs[2]",
+          "description": "当前结论、关键未知与最具判别力的下一步建议",
+          "workflowResponsibilityKey": "next_research_recommendation"
+        },
+        {
+          "completionRequirementId": "project-completion_10d7f800b28bd122dbe6",
+          "targetOutputRef": "understanding.targetOutputs[3]",
+          "description": "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。"
+        },
+        {
+          "completionRequirementId": "project-completion_28998e29ba0684a82650",
+          "targetOutputRef": "understanding.targetOutputs[4]",
+          "description": "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。"
+        },
+        {
+          "completionRequirementId": "project-completion_6aea09756e6f6fe89b7d",
+          "targetOutputRef": "understanding.targetOutputs[5]",
+          "description": "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。"
+        },
+        {
+          "completionRequirementId": "project-completion_4263b46449f398aeb8bd",
+          "targetOutputRef": "understanding.targetOutputs[6]",
+          "description": "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。"
+        },
+        {
+          "completionRequirementId": "project-completion_aeecadb9bb27cdfca87a",
+          "targetOutputRef": "understanding.targetOutputs[7]",
+          "description": "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。"
+        }
+      ],
+      "instances": [
+        {
+          "substageInstanceId": "instance_67462cbd07f145c9179d",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:research_record_establishment",
+          "substageDefinitionVersion": 1,
+          "stageKey": "execution_validation",
+          "objective": "将当前问题需要使用的原始研究材料整理为可追溯 ResearchRecord；已有记录可在当前项目适用性检查通过后复用，缺失事实保持未知。当前项目科研重点：整理与当前问题直接相关的原始研究材料，优先记录能够通过控制任务实质质量、答案长度、风格或呈现方式来检验 LLM judge 偏好的研究，以及 agent 评测场景中的适用证据。。",
+          "inputRefs": [
+            "research_goal",
+            "raw_research_materials",
+            "accepted_existing_research_records",
+            "current_judgment_target"
+          ],
+          "expectedArtifactTypes": [
+            "research_records"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_7c1a03da8b6f87fb2067",
+              "description": "Produce the planned artifact for the requested output: 可追溯的关键公开研究记录",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_42fae5f3c6c920f8d5e8"
+              ],
+              "requiredArtifactType": "research_records",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_c875a0e82f1587e71667",
+              "description": "Respect the active boundary: execute research work before ResearchDesign confirmation",
+              "criterionKind": "risk_guard",
+              "coverageTargetIds": [
+                "target_75c9a637bbd0d136b70b"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_0b26c973fca46029f86a",
+              "description": "Respect the active boundary: expand the user-defined research scope without confirmation",
+              "criterionKind": "risk_guard",
+              "coverageTargetIds": [
+                "target_8b66082b220ee470e00f"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_e2f805dd6c015969d040",
+              "description": "Respect the active boundary: external_write",
+              "criterionKind": "risk_guard",
+              "coverageTargetIds": [
+                "target_5718c371c456d2ae91d7"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_7aef355c44183604f444",
+              "description": "Respect the active boundary: physical_action",
+              "criterionKind": "risk_guard",
+              "coverageTargetIds": [
+                "target_2ee5e7cbd5bf2c0a5b94"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [],
+          "sequenceHint": 0,
+          "repeatableReentryAuthority": null
+        },
+        {
+          "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:evidence_assessment_synthesis",
+          "substageDefinitionVersion": 1,
+          "stageKey": "execution_validation",
+          "objective": "围绕当前判断目标评估证据的支持、反驳、限制、来源质量、适用性、可比性、冲突与缺口，并形成研究综合。当前项目科研重点：评估关于长度、冗长、解释性、表面风格与完成式表达影响 LLM judge 评分的证据，重点审查因果识别、真实质量控制、任务和模型异质性，以及对 agent 评测的可迁移性。。",
+          "inputRefs": [
+            "research_goal",
+            "current_judgment_target",
+            "research_records",
+            "accepted_existing_evidence"
+          ],
+          "expectedArtifactTypes": [
+            "evidence_assessment_and_research_synthesis"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_94a429a911b801189580",
+              "description": "Produce the planned artifact for the requested output: 按条件比较的记录驱动证据评估与综合",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_1d5ce75a088b69c91051"
+              ],
+              "requiredArtifactType": "evidence_assessment_and_research_synthesis",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependencyId": "dependency_f4b2c5bd1692b3ea454c",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            }
+          ],
+          "sequenceHint": 1,
+          "repeatableReentryAuthority": null
+        },
+        {
+          "substageInstanceId": "instance_9f72f2da7e2834571dd1",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:mechanism_explanation",
+          "substageDefinitionVersion": 1,
+          "stageKey": "execution_validation",
+          "objective": "按需解释影响证据解读、当前结论、关键未知或下一步建议的作用机制，区分已有证据、作者解释和 OT 推断。当前项目科研重点：在证据足以支持时，解释 LLM judge 可能依赖表面质量线索、信息量代理或提示诱导的机制，并严格区分实证结果、原作者解释与综合推断。。",
+          "inputRefs": [
+            "research_goal",
+            "phenomenon_to_explain",
+            "relevant_research_records",
+            "accepted_evidence_assessment"
+          ],
+          "expectedArtifactTypes": [
+            "mechanism_explanation"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_27b3bc4ccc880a4b24ce",
+              "description": "Produce the planned output for this research responsibility.",
+              "criterionKind": "artifact_quality",
+              "coverageTargetIds": [],
+              "requiredArtifactType": "mechanism_explanation",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependencyId": "dependency_87105b52f392a25484b5",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            }
+          ],
+          "sequenceHint": 2,
+          "repeatableReentryAuthority": null
+        },
+        {
+          "substageInstanceId": "instance_6e9e4388be59bf442de4",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:current_research_conclusion",
+          "substageDefinitionVersion": 1,
+          "stageKey": "insight_generation",
+          "objective": "基于已接受的证据评估以及适用时的机制解释，直接回答主问题并校准结论强度、适用边界、冲突和不确定性。当前项目科研重点：形成关于该现象是否存在、证据可靠程度、最明显条件及 agent 评测使用边界的校准结论。。",
+          "inputRefs": [
+            "research_goal",
+            "current_research_question",
+            "accepted_evidence_assessment_and_findings"
+          ],
+          "expectedArtifactTypes": [
+            "current_research_conclusion"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_3de9bcdd5eaf897ce6c2",
+              "description": "Produce the planned output for this research responsibility.",
+              "criterionKind": "artifact_quality",
+              "coverageTargetIds": [],
+              "requiredArtifactType": "current_research_conclusion",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependencyId": "dependency_0e2b06d5f7472638c82c",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            },
+            {
+              "dependencyId": "dependency_1217b2e47e568f5794dd",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_9f72f2da7e2834571dd1",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            }
+          ],
+          "sequenceHint": 3,
+          "repeatableReentryAuthority": null
+        },
+        {
+          "substageInstanceId": "instance_4fe39c2b5a3697ea2a75",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:key_unknowns_candidate_explanations",
+          "substageDefinitionVersion": 1,
+          "stageKey": "insight_generation",
+          "objective": "识别会实质改变当前判断或下一步行动的关键未知，并在有合理依据时形成可区分的候选解释或假说。当前项目科研重点：识别尚未厘清的因果效应、条件异质性、机制和缓解措施，并提出能够区分真实质量增益与风格捷径效应的候选解释。。",
+          "inputRefs": [
+            "research_goal",
+            "current_research_conclusion",
+            "material_conflicts_limitations_and_evidence_gaps"
+          ],
+          "expectedArtifactTypes": [
+            "key_unknowns_and_candidate_explanations"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_3604e0375a7d6c88f7a9",
+              "description": "Produce the planned output for this research responsibility.",
+              "criterionKind": "artifact_quality",
+              "coverageTargetIds": [],
+              "requiredArtifactType": "key_unknowns_and_candidate_explanations",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependencyId": "dependency_71eb7b24bdc66cef800a",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            },
+            {
+              "dependencyId": "dependency_3682217b7ac9b10c7db4",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_6e9e4388be59bf442de4",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            }
+          ],
+          "sequenceHint": 4,
+          "repeatableReentryAuthority": null
+        },
+        {
+          "substageInstanceId": "instance_7f5ccca05bba924e22e1",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:next_research_recommendation",
+          "substageDefinitionVersion": 1,
+          "stageKey": "insight_generation",
+          "objective": "根据当前结论、关键未知和已确认资源边界，给出下一步最值得获得的证据或推进方向及其判别价值。当前项目科研重点：提出下一步最值得进行的受控验证方向，例如在等价任务质量下系统操纵长度、解释和完成式措辞，并比较评审协议与缓解措施的判别价值。。",
+          "inputRefs": [
+            "research_goal",
+            "current_research_conclusion",
+            "key_unknowns_and_candidate_explanations",
+            "confirmed_resource_time_cost_risk_boundaries"
+          ],
+          "expectedArtifactTypes": [
+            "next_research_recommendation"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_1a2dcb1bf56eb64862ac",
+              "description": "Produce the planned artifact for the requested output: 当前结论、关键未知与最具判别力的下一步建议",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_1aa592f3c18d826f2fd8"
+              ],
+              "requiredArtifactType": "next_research_recommendation",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependencyId": "dependency_89489e8ac52d5dbdbad9",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_6e9e4388be59bf442de4",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            },
+            {
+              "dependencyId": "dependency_bc34fda2597ce6610c1a",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_4fe39c2b5a3697ea2a75",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            }
+          ],
+          "sequenceHint": 5,
+          "repeatableReentryAuthority": null
+        }
+      ],
+      "coverageReport": {
+        "coverageReportId": "coverage_5151a7f33e55024eaf30",
+        "designRef": {
+          "researchDesignId": "design_e0202f82c85b7843ad07",
+          "version": 1
+        },
+        "planningAttemptId": "pv2-planning",
+        "targets": [
+          {
+            "targetId": "target_42fae5f3c6c920f8d5e8",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[0]",
+            "description": "可追溯的关键公开研究记录",
+            "requiredArtifactTypes": [
+              "research_records"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_1d5ce75a088b69c91051",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[1]",
+            "description": "按条件比较的记录驱动证据评估与综合",
+            "requiredArtifactTypes": [
+              "evidence_assessment_and_research_synthesis"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_1aa592f3c18d826f2fd8",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[2]",
+            "description": "当前结论、关键未知与最具判别力的下一步建议",
+            "requiredArtifactTypes": [
+              "next_research_recommendation"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_44e21c1c29add6276066",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[3]",
+            "description": "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+            "requiredArtifactTypes": [],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_754a6e2725ce129d37c9",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[4]",
+            "description": "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+            "requiredArtifactTypes": [],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_03fabe40612637396572",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[5]",
+            "description": "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+            "requiredArtifactTypes": [],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_f20741e9cccfae712ac2",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[6]",
+            "description": "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+            "requiredArtifactTypes": [],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_0ca6b1e80786b2316c29",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[7]",
+            "description": "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。",
+            "requiredArtifactTypes": [],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_75c9a637bbd0d136b70b",
+            "sourceType": "risk_boundary",
+            "sourcePath": "riskBoundary.prohibitedActions[0]",
+            "description": "execute research work before ResearchDesign confirmation",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "risk-boundary:execute research work before ResearchDesign confirmation",
+            "required": true
+          },
+          {
+            "targetId": "target_8b66082b220ee470e00f",
+            "sourceType": "risk_boundary",
+            "sourcePath": "riskBoundary.prohibitedActions[1]",
+            "description": "expand the user-defined research scope without confirmation",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "risk-boundary:expand the user-defined research scope without confirmation",
+            "required": true
+          },
+          {
+            "targetId": "target_5718c371c456d2ae91d7",
+            "sourceType": "risk_boundary",
+            "sourcePath": "riskBoundary.prohibitedActions[2]",
+            "description": "external_write",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "risk-boundary:external_write",
+            "required": true
+          },
+          {
+            "targetId": "target_2ee5e7cbd5bf2c0a5b94",
+            "sourceType": "risk_boundary",
+            "sourcePath": "riskBoundary.prohibitedActions[3]",
+            "description": "physical_action",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "risk-boundary:physical_action",
+            "required": true
+          }
+        ],
+        "claims": [
+          {
+            "targetId": "target_42fae5f3c6c920f8d5e8",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_7c1a03da8b6f87fb2067"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_1d5ce75a088b69c91051",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_94a429a911b801189580"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_1aa592f3c18d826f2fd8",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_7f5ccca05bba924e22e1",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_1a2dcb1bf56eb64862ac"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_44e21c1c29add6276066",
+            "instanceRefs": [],
+            "coverageMode": "none",
+            "acceptanceCriterionRefs": [],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_754a6e2725ce129d37c9",
+            "instanceRefs": [],
+            "coverageMode": "none",
+            "acceptanceCriterionRefs": [],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_03fabe40612637396572",
+            "instanceRefs": [],
+            "coverageMode": "none",
+            "acceptanceCriterionRefs": [],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_f20741e9cccfae712ac2",
+            "instanceRefs": [],
+            "coverageMode": "none",
+            "acceptanceCriterionRefs": [],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_0ca6b1e80786b2316c29",
+            "instanceRefs": [],
+            "coverageMode": "none",
+            "acceptanceCriterionRefs": [],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_75c9a637bbd0d136b70b",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_c875a0e82f1587e71667"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "risk-boundary:execute research work before ResearchDesign confirmation"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_8b66082b220ee470e00f",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_0b26c973fca46029f86a"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "risk-boundary:expand the user-defined research scope without confirmation"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_5718c371c456d2ae91d7",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_e2f805dd6c015969d040"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "risk-boundary:external_write"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_2ee5e7cbd5bf2c0a5b94",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_7aef355c44183604f444"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "risk-boundary:physical_action"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          }
+        ],
+        "uncoveredRequiredTargetIds": [
+          "target_44e21c1c29add6276066",
+          "target_754a6e2725ce129d37c9",
+          "target_03fabe40612637396572",
+          "target_f20741e9cccfae712ac2",
+          "target_0ca6b1e80786b2316c29"
+        ],
+        "overloadedInstanceRefs": [],
+        "missingDependencyRefs": [],
+        "status": "needs_revision",
+        "evaluationTier": "sdr",
+        "evaluationMode": "deterministic",
+        "semanticEvaluationRef": null,
+        "automaticRepairCount": 0,
+        "policyVersion": "coverage-policy.v1",
+        "evaluatedAt": "2026-10-09T00:00:00Z"
+      },
+      "createdAt": "2026-10-09T00:00:00Z",
+      "confirmedAt": null,
+      "confirmationRef": null
+    },
+    "coverageStatus": "needs_revision",
+    "instanceCount": 6,
+    "targets": [
+      "可追溯的关键公开研究记录",
+      "按条件比较的记录驱动证据评估与综合",
+      "当前结论、关键未知与最具判别力的下一步建议",
+      "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+      "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+      "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+      "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+      "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。"
+    ],
+    "confirmation": {
+      "stage": "ResearchDesignService.confirm/_confirmation_target",
+      "exception": "ResearchDesignConfirmationError",
+      "message": "Design coverage is incomplete"
+    },
+    "contentReadable": true
+  },
+  "unassociatedFreeform": {
+    "input": {
+      "researchGoal": "我最近在做 agent 评测，发现 LLM judge 有时候很容易被回答风格带偏：任务本身做得差不多，但如果回答更长、解释得更多，或者写得更像已经完成了，分数反而会更高。我想知道这个现象现在有没有比较可靠的研究证据，通常在什么情况下最明显，我们目前到底能下什么结论，还有哪些关键问题没搞清楚，下一步最值得验证什么？",
+      "targetOutputs": [
+        "有当前合法工作关联的成果。",
+        "关联缺口的成果。"
+      ],
+      "constraints": [
+        "不将未知条件视为已确认",
+        "保留所有可追溯来源"
+      ],
+      "workItems": [
+        {
+          "workTypeChoice": "work_type_1",
+          "scientificObjective": "核查当前证据的贡献1。",
+          "targetOutputNumbers": [
+            1
+          ]
+        }
+      ]
+    },
+    "formalDesign": {
+      "researchDesignId": "design_e0202f82c85b7843ad07",
+      "taskId": "task_pv2",
+      "version": 1,
+      "supersedesVersion": null,
+      "status": "draft",
+      "planningMode": "lightweight",
+      "planningComplexity": {
+        "problemClarity": "high",
+        "expectedStageSpan": "one",
+        "dependencyComplexity": "low",
+        "evidenceBurden": "low",
+        "externalActionRisk": "low",
+        "researchUncertainty": "low",
+        "rationale": "Server-computed from the compiled Definition graph, evidence boundaries, external actions, and missing inputs."
+      },
+      "goal": "我最近在做 agent 评测，发现 LLM judge 有时候很容易被回答风格带偏：任务本身做得差不多，但如果回答更长、解释得更多，或者写得更像已经完成了，分数反而会更高。我想知道这个现象现在有没有比较可靠的研究证据，通常在什么情况下最明显，我们目前到底能下什么结论，还有哪些关键问题没搞清楚，下一步最值得验证什么？",
+      "understanding": {
+        "researchType": null,
+        "userIntent": "我最近在做 agent 评测，发现 LLM judge 有时候很容易被回答风格带偏：任务本身做得差不多，但如果回答更长、解释得更多，或者写得更像已经完成了，分数反而会更高。我想知道这个现象现在有没有比较可靠的研究证据，通常在什么情况下最明显，我们目前到底能下什么结论，还有哪些关键问题没搞清楚，下一步最值得验证什么？",
+        "materialSummary": null,
+        "primaryResearchQuestions": [
+          "我最近在做 agent 评测，发现 LLM judge 有时候很容易被回答风格带偏：任务本身做得差不多，但如果回答更长、解释得更多，或者写得更像已经完成了，分数反而会更高。我想知道这个现象现在有没有比较可靠的研究证据，通常在什么情况下最明显，我们目前到底能下什么结论，还有哪些关键问题没搞清楚，下一步最值得验证什么？"
+        ],
+        "auxiliaryResearchDimensions": [],
+        "targetOutputs": [
+          "有当前合法工作关联的成果。",
+          "关联缺口的成果。"
+        ],
+        "evidenceBoundaries": [],
+        "missingInputs": [],
+        "riskNotes": [],
+        "planningRationale": "Compiled from planner semantics against the frozen Definition catalog."
+      },
+      "constraints": [
+        "不将未知条件视为已确认",
+        "保留所有可追溯来源"
+      ],
+      "scopeBoundary": {
+        "allowedObjectiveKinds": [
+          "substage_definition:opentrajectory:current_research_conclusion"
+        ],
+        "excludedActions": [
+          "execute research work before ResearchDesign confirmation",
+          "expand the user-defined research scope without confirmation"
+        ],
+        "allowedMaterialRefs": [
+          "current_research_question",
+          "accepted_evidence_assessment_and_findings"
+        ],
+        "maxSubstageInstances": 1
+      },
+      "budgetBoundary": {
+        "maxModelCalls": 8,
+        "maxToolCalls": 8,
+        "maxWallTimeSec": 3600,
+        "maxCostAmount": null,
+        "currency": null
+      },
+      "externalActionBoundary": {
+        "allowedActionKinds": [],
+        "confirmationRequiredKinds": [],
+        "allowedDestinations": []
+      },
+      "riskBoundary": {
+        "maxRiskClass": "low",
+        "prohibitedActions": [
+          "execute research work before ResearchDesign confirmation",
+          "expand the user-defined research scope without confirmation"
+        ],
+        "humanGateTriggers": []
+      },
+      "workflowProvenanceRef": null,
+      "workflowResponsibilityCoverage": [],
+      "projectCompletionRequirements": [
+        {
+          "completionRequirementId": "project-completion_f5ce7fc97472490bc6bc",
+          "targetOutputRef": "understanding.targetOutputs[0]",
+          "description": "有当前合法工作关联的成果。"
+        },
+        {
+          "completionRequirementId": "project-completion_77d0699611abd01dab2d",
+          "targetOutputRef": "understanding.targetOutputs[1]",
+          "description": "关联缺口的成果。"
+        }
+      ],
+      "instances": [
+        {
+          "substageInstanceId": "instance_1437ee2485a459961af8",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:current_research_conclusion",
+          "substageDefinitionVersion": 1,
+          "stageKey": "insight_generation",
+          "objective": "核查当前证据的贡献1。",
+          "inputRefs": [
+            "current_research_question",
+            "accepted_evidence_assessment_and_findings"
+          ],
+          "expectedArtifactTypes": [
+            "current_research_conclusion"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_64802f14014cd15286e6",
+              "description": "Produce the planned artifact for the requested output: 有当前合法工作关联的成果。",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_42fae5f3c6c920f8d5e8"
+              ],
+              "requiredArtifactType": "current_research_conclusion",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_cdd0e3cf26152d2bf02e",
+              "description": "Respect the active boundary: 不将未知条件视为已确认",
+              "criterionKind": "constraint_compliance",
+              "coverageTargetIds": [
+                "target_1892ae9e1beae7a0dac0"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_889eb0a61dd40b812137",
+              "description": "Respect the active boundary: 保留所有可追溯来源",
+              "criterionKind": "constraint_compliance",
+              "coverageTargetIds": [
+                "target_b1bd9296e546f6fb0246"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_632e9e296e7fac9a353e",
+              "description": "Respect the active boundary: execute research work before ResearchDesign confirmation",
+              "criterionKind": "risk_guard",
+              "coverageTargetIds": [
+                "target_75c9a637bbd0d136b70b"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_ab6321a75c5dd2a14ef6",
+              "description": "Respect the active boundary: expand the user-defined research scope without confirmation",
+              "criterionKind": "risk_guard",
+              "coverageTargetIds": [
+                "target_8b66082b220ee470e00f"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [],
+          "sequenceHint": 0,
+          "repeatableReentryAuthority": null
+        }
+      ],
+      "coverageReport": {
+        "coverageReportId": "coverage_5151a7f33e55024eaf30",
+        "designRef": {
+          "researchDesignId": "design_e0202f82c85b7843ad07",
+          "version": 1
+        },
+        "planningAttemptId": "pv2-planning",
+        "targets": [
+          {
+            "targetId": "target_42fae5f3c6c920f8d5e8",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[0]",
+            "description": "有当前合法工作关联的成果。",
+            "requiredArtifactTypes": [
+              "current_research_conclusion"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_1d5ce75a088b69c91051",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[1]",
+            "description": "关联缺口的成果。",
+            "requiredArtifactTypes": [],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_1892ae9e1beae7a0dac0",
+            "sourceType": "constraint",
+            "sourcePath": "constraints[0]",
+            "description": "不将未知条件视为已确认",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "constraint:不将未知条件视为已确认",
+            "required": true
+          },
+          {
+            "targetId": "target_b1bd9296e546f6fb0246",
+            "sourceType": "constraint",
+            "sourcePath": "constraints[1]",
+            "description": "保留所有可追溯来源",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "constraint:保留所有可追溯来源",
+            "required": true
+          },
+          {
+            "targetId": "target_75c9a637bbd0d136b70b",
+            "sourceType": "risk_boundary",
+            "sourcePath": "riskBoundary.prohibitedActions[0]",
+            "description": "execute research work before ResearchDesign confirmation",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "risk-boundary:execute research work before ResearchDesign confirmation",
+            "required": true
+          },
+          {
+            "targetId": "target_8b66082b220ee470e00f",
+            "sourceType": "risk_boundary",
+            "sourcePath": "riskBoundary.prohibitedActions[1]",
+            "description": "expand the user-defined research scope without confirmation",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "risk-boundary:expand the user-defined research scope without confirmation",
+            "required": true
+          }
+        ],
+        "claims": [
+          {
+            "targetId": "target_42fae5f3c6c920f8d5e8",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_1437ee2485a459961af8",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_64802f14014cd15286e6"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_1d5ce75a088b69c91051",
+            "instanceRefs": [],
+            "coverageMode": "none",
+            "acceptanceCriterionRefs": [],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_1892ae9e1beae7a0dac0",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_1437ee2485a459961af8",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_cdd0e3cf26152d2bf02e"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "constraint:不将未知条件视为已确认"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_b1bd9296e546f6fb0246",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_1437ee2485a459961af8",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_889eb0a61dd40b812137"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "constraint:保留所有可追溯来源"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_75c9a637bbd0d136b70b",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_1437ee2485a459961af8",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_632e9e296e7fac9a353e"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "risk-boundary:execute research work before ResearchDesign confirmation"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_8b66082b220ee470e00f",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_1437ee2485a459961af8",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_ab6321a75c5dd2a14ef6"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "risk-boundary:expand the user-defined research scope without confirmation"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          }
+        ],
+        "uncoveredRequiredTargetIds": [
+          "target_1d5ce75a088b69c91051"
+        ],
+        "overloadedInstanceRefs": [],
+        "missingDependencyRefs": [],
+        "status": "needs_revision",
+        "evaluationTier": "lightweight",
+        "evaluationMode": "deterministic",
+        "semanticEvaluationRef": null,
+        "automaticRepairCount": 0,
+        "policyVersion": "coverage-policy.v1",
+        "evaluatedAt": "2026-10-09T00:00:00Z"
+      },
+      "createdAt": "2026-10-09T00:00:00Z",
+      "confirmedAt": null,
+      "confirmationRef": null
+    },
+    "coverageStatus": "needs_revision",
+    "instanceCount": 1,
+    "targets": [
+      "有当前合法工作关联的成果。",
+      "关联缺口的成果。"
+    ],
+    "confirmation": {
+      "stage": "ResearchDesignService.confirm/_confirmation_target",
+      "exception": "ResearchDesignConfirmationError",
+      "message": "Design coverage is incomplete"
+    },
+    "contentReadable": true
+  },
+  "compositeReuse": {
+    "input": {
+      "goal": "综合评估关于 LLM 评审器（LLM judge）受回答风格线索影响的研究证据，重点考察回答长度、解释充分性、完成式/自信式表述等因素是否会在任务质量相近时系统性抬高评分；界定该现象最明显的条件、当前可支持的结论、关键未知与最有判别价值的后续验证。",
+      "questions": [
+        "现有研究是否可靠地显示 LLM judge 会将与任务实质质量无关或仅弱相关的回答风格特征误当作更高质量的信号？",
+        "回答长度、详细解释、流畅性、格式、语气、自信或“已完成”式表述等具体特征的证据强度分别如何？",
+        "在何种评测任务、评审模型、提示词、评分协议、候选答案质量差距和答案呈现条件下，此类偏差最明显？",
+        "哪些研究设计能够区分合理地奖励有用解释或覆盖面，与在实质任务质量不变时的纯风格偏好？",
+        "目前能够对 LLM judge 的有效性、偏差风险及其在 agent 评测中的使用边界作出哪些校准结论？",
+        "哪些关键机制、因果关系、模型间差异和缓解措施仍不清楚？",
+        "下一步最值得通过何种对照实验验证这一现象及其可操作的缓解方法？"
+      ],
+      "targetOutputs": [
+        "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+        "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+        "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+        "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+        "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。"
+      ],
+      "constraints": [],
+      "unknowns": [
+        "在任务实质质量严格等价或受控时，长度、解释量和完成式措辞对不同 LLM judge 的独立因果效应大小。",
+        "观察到的长度偏好中，有多少来自合理的信息覆盖或可验证证据增加，多少来自与质量脱钩的表面风格线索。",
+        "该现象在 agent 轨迹、最终答案、工具调用记录、开放式生成和有标准答案任务之间的差异。",
+        "不同评审模型、提示模板、单点评分与成对比较、是否要求引用依据或逐项量表时的稳健性。",
+        "现有缓解策略（长度控制、成对比较、参考答案、分解式评分、盲化或对抗性改写）是否能在不显著损失评测效度的前提下降低偏差。"
+      ],
+      "risks": [
+        "将相关性研究中的“更长答案得分更高”直接解释为纯粹的风格偏差，忽略更长答案可能包含更多有用信息。",
+        "将特定模型、基准或提示设置下的发现泛化到所有 LLM judge 或所有 agent 评测。",
+        "把评审器与人类偏好的一致性误作任务真实性能或实际效用的有效测量。",
+        "混淆回答文本风格偏差、评审提示诱导、位置偏差、模型自偏好和候选质量分布造成的表观效应。"
+      ],
+      "responsibilityDeltas": [
+        {
+          "responsibilityChoice": "responsibility_1",
+          "currentProjectWorkContext": "整理与当前问题直接相关的原始研究材料，优先记录能够通过控制任务实质质量、答案长度、风格或呈现方式来检验 LLM judge 偏好的研究，以及 agent 评测场景中的适用证据。",
+          "targetOutputNumbers": [
+            1
+          ]
+        },
+        {
+          "responsibilityChoice": "responsibility_2",
+          "currentProjectWorkContext": "评估关于长度、冗长、解释性、表面风格与完成式表达影响 LLM judge 评分的证据，重点审查因果识别、真实质量控制、任务和模型异质性，以及对 agent 评测的可迁移性。",
+          "targetOutputNumbers": [
+            2
+          ]
+        },
+        {
+          "responsibilityChoice": "responsibility_3",
+          "currentProjectWorkContext": "在证据足以支持时，解释 LLM judge 可能依赖表面质量线索、信息量代理或提示诱导的机制，并严格区分实证结果、原作者解释与综合推断。",
+          "targetOutputNumbers": [
+            3
+          ]
+        },
+        {
+          "responsibilityChoice": "responsibility_4",
+          "currentProjectWorkContext": "形成关于该现象是否存在、证据可靠程度、最明显条件及 agent 评测使用边界的校准结论。",
+          "targetOutputNumbers": [
+            4
+          ]
+        },
+        {
+          "responsibilityChoice": "responsibility_5",
+          "targetOutputNumbers": [
+            5
+          ],
+          "reuseCandidateKey": "planning_source_1"
+        },
+        {
+          "responsibilityChoice": "responsibility_6",
+          "currentProjectWorkContext": "提出下一步最值得进行的受控验证方向，例如在等价任务质量下系统操纵长度、解释和完成式措辞，并比较评审协议与缓解措施的判别价值。",
+          "targetOutputNumbers": [
+            5
+          ]
+        }
+      ],
+      "planningSourceUses": [
+        {
+          "sourceChoice": "planning_source_1",
+          "adoptedUnitNumbers": [
+            1
+          ],
+          "notAdoptedUnitNumbers": [],
+          "revalidationUnitNumbers": []
+        }
+      ]
+    },
+    "formalDesign": {
+      "researchDesignId": "design_e0202f82c85b7843ad07",
+      "taskId": "task_pv2",
+      "version": 1,
+      "supersedesVersion": null,
+      "status": "draft",
+      "planningMode": "sdr",
+      "planningComplexity": {
+        "problemClarity": "high",
+        "expectedStageSpan": "multiple",
+        "dependencyComplexity": "high",
+        "evidenceBurden": "high",
+        "externalActionRisk": "low",
+        "researchUncertainty": "high",
+        "rationale": "Server-computed from the compiled Definition graph, evidence boundaries, external actions, and missing inputs."
+      },
+      "goal": "综合评估关于 LLM 评审器（LLM judge）受回答风格线索影响的研究证据，重点考察回答长度、解释充分性、完成式/自信式表述等因素是否会在任务质量相近时系统性抬高评分；界定该现象最明显的条件、当前可支持的结论、关键未知与最有判别价值的后续验证。",
+      "understanding": {
+        "researchType": null,
+        "userIntent": "综合评估关于 LLM 评审器（LLM judge）受回答风格线索影响的研究证据，重点考察回答长度、解释充分性、完成式/自信式表述等因素是否会在任务质量相近时系统性抬高评分；界定该现象最明显的条件、当前可支持的结论、关键未知与最有判别价值的后续验证。",
+        "materialSummary": "当前方案显式复用既有正式结果：key_unknowns_candidate_explanations←artifact:pv2-prior",
+        "primaryResearchQuestions": [
+          "现有研究是否可靠地显示 LLM judge 会将与任务实质质量无关或仅弱相关的回答风格特征误当作更高质量的信号？",
+          "回答长度、详细解释、流畅性、格式、语气、自信或“已完成”式表述等具体特征的证据强度分别如何？",
+          "在何种评测任务、评审模型、提示词、评分协议、候选答案质量差距和答案呈现条件下，此类偏差最明显？",
+          "哪些研究设计能够区分合理地奖励有用解释或覆盖面，与在实质任务质量不变时的纯风格偏好？",
+          "目前能够对 LLM judge 的有效性、偏差风险及其在 agent 评测中的使用边界作出哪些校准结论？",
+          "哪些关键机制、因果关系、模型间差异和缓解措施仍不清楚？",
+          "下一步最值得通过何种对照实验验证这一现象及其可操作的缓解方法？"
+        ],
+        "auxiliaryResearchDimensions": [],
+        "targetOutputs": [
+          "可追溯的关键公开研究记录",
+          "按条件比较的记录驱动证据评估与综合",
+          "当前结论、关键未知与最具判别力的下一步建议",
+          "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+          "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+          "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+          "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+          "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。"
+        ],
+        "evidenceBoundaries": [],
+        "missingInputs": [],
+        "riskNotes": [
+          "组合目标包含非当前执行贡献，现有复用接受合同尚不能完整表达：会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。；职责：['key_unknowns_candidate_explanations', 'next_research_recommendation']",
+          "待研究未知：在任务实质质量严格等价或受控时，长度、解释量和完成式措辞对不同 LLM judge 的独立因果效应大小。",
+          "待研究未知：观察到的长度偏好中，有多少来自合理的信息覆盖或可验证证据增加，多少来自与质量脱钩的表面风格线索。",
+          "待研究未知：该现象在 agent 轨迹、最终答案、工具调用记录、开放式生成和有标准答案任务之间的差异。",
+          "待研究未知：不同评审模型、提示模板、单点评分与成对比较、是否要求引用依据或逐项量表时的稳健性。",
+          "待研究未知：现有缓解策略（长度控制、成对比较、参考答案、分解式评分、盲化或对抗性改写）是否能在不显著损失评测效度的前提下降低偏差。",
+          "风险与取舍：将相关性研究中的“更长答案得分更高”直接解释为纯粹的风格偏差，忽略更长答案可能包含更多有用信息。",
+          "风险与取舍：将特定模型、基准或提示设置下的发现泛化到所有 LLM judge 或所有 agent 评测。",
+          "风险与取舍：把评审器与人类偏好的一致性误作任务真实性能或实际效用的有效测量。",
+          "风险与取舍：混淆回答文本风格偏差、评审提示诱导、位置偏差、模型自偏好和候选质量分布造成的表观效应。"
+        ],
+        "planningRationale": "Compiled from planner semantics against the frozen Definition catalog."
+      },
+      "constraints": [],
+      "scopeBoundary": {
+        "allowedObjectiveKinds": [
+          "substage_definition:opentrajectory:research_record_establishment",
+          "substage_definition:opentrajectory:evidence_assessment_synthesis",
+          "substage_definition:opentrajectory:mechanism_explanation",
+          "substage_definition:opentrajectory:current_research_conclusion",
+          "substage_definition:opentrajectory:next_research_recommendation"
+        ],
+        "excludedActions": [
+          "execute research work before ResearchDesign confirmation",
+          "expand the user-defined research scope without confirmation",
+          "external_write",
+          "physical_action"
+        ],
+        "allowedMaterialRefs": [
+          "research_goal",
+          "raw_research_materials",
+          "accepted_existing_research_records",
+          "current_judgment_target",
+          "research_records",
+          "accepted_existing_evidence",
+          "phenomenon_to_explain",
+          "relevant_research_records",
+          "accepted_evidence_assessment",
+          "current_research_question",
+          "accepted_evidence_assessment_and_findings",
+          "artifact:pv2-prior",
+          "current_research_conclusion",
+          "key_unknowns_and_candidate_explanations",
+          "confirmed_resource_time_cost_risk_boundaries"
+        ],
+        "maxSubstageInstances": 5
+      },
+      "budgetBoundary": {
+        "maxModelCalls": 40,
+        "maxToolCalls": 40,
+        "maxWallTimeSec": 21000,
+        "maxCostAmount": null,
+        "currency": null
+      },
+      "externalActionBoundary": {
+        "allowedActionKinds": [],
+        "confirmationRequiredKinds": [],
+        "allowedDestinations": []
+      },
+      "riskBoundary": {
+        "maxRiskClass": "medium",
+        "prohibitedActions": [
+          "execute research work before ResearchDesign confirmation",
+          "expand the user-defined research scope without confirmation",
+          "external_write",
+          "physical_action"
+        ],
+        "humanGateTriggers": []
+      },
+      "workflowProvenanceRef": {
+        "workflowId": "opentrajectory_research_workflow",
+        "workflowVersion": 4,
+        "contentHash": "sha256:7e20244e07890756a702ae7d0380386a62cc569ff2c85a7f71aba5a0e25dbc1f"
+      },
+      "workflowResponsibilityCoverage": [
+        {
+          "responsibilityKey": "research_record_establishment",
+          "definitionId": "opentrajectory:research_record_establishment",
+          "requirement": "conditional",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_67462cbd07f145c9179d",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Conditional responsibility selected by project-specific scientific need."
+        },
+        {
+          "responsibilityKey": "evidence_assessment_synthesis",
+          "definitionId": "opentrajectory:evidence_assessment_synthesis",
+          "requirement": "core",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Workflow core responsibility received project-specific scientific work."
+        },
+        {
+          "responsibilityKey": "mechanism_explanation",
+          "definitionId": "opentrajectory:mechanism_explanation",
+          "requirement": "conditional",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_9f72f2da7e2834571dd1",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Conditional responsibility selected by project-specific scientific need."
+        },
+        {
+          "responsibilityKey": "current_research_conclusion",
+          "definitionId": "opentrajectory:current_research_conclusion",
+          "requirement": "core",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_6e9e4388be59bf442de4",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Workflow core responsibility received project-specific scientific work."
+        },
+        {
+          "responsibilityKey": "key_unknowns_candidate_explanations",
+          "definitionId": "opentrajectory:key_unknowns_candidate_explanations",
+          "requirement": "core",
+          "coverageMode": "reused_result",
+          "instanceRefs": [],
+          "reusedResultRefs": [
+            "artifact:pv2-prior"
+          ],
+          "rationale": "Provider selected an eligible prior-result candidate; code restored its formal artifact reference."
+        },
+        {
+          "responsibilityKey": "next_research_recommendation",
+          "definitionId": "opentrajectory:next_research_recommendation",
+          "requirement": "core",
+          "coverageMode": "planned_work",
+          "instanceRefs": [
+            {
+              "substageInstanceId": "instance_7f5ccca05bba924e22e1",
+              "instanceRevision": 1
+            }
+          ],
+          "reusedResultRefs": [],
+          "rationale": "Workflow core responsibility received project-specific scientific work."
+        }
+      ],
+      "projectCompletionRequirements": [
+        {
+          "completionRequirementId": "project-completion_ef381768dff78e28d615",
+          "targetOutputRef": "understanding.targetOutputs[0]",
+          "description": "可追溯的关键公开研究记录",
+          "workflowResponsibilityKey": "research_record_establishment"
+        },
+        {
+          "completionRequirementId": "project-completion_fa6e25f4736cb9b7dbc4",
+          "targetOutputRef": "understanding.targetOutputs[1]",
+          "description": "按条件比较的记录驱动证据评估与综合",
+          "workflowResponsibilityKey": "evidence_assessment_synthesis"
+        },
+        {
+          "completionRequirementId": "project-completion_9b916d3df9674fa34311",
+          "targetOutputRef": "understanding.targetOutputs[2]",
+          "description": "当前结论、关键未知与最具判别力的下一步建议",
+          "workflowResponsibilityKey": "next_research_recommendation"
+        },
+        {
+          "completionRequirementId": "project-completion_10d7f800b28bd122dbe6",
+          "targetOutputRef": "understanding.targetOutputs[3]",
+          "description": "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+          "workflowResponsibilityKey": "research_record_establishment"
+        },
+        {
+          "completionRequirementId": "project-completion_28998e29ba0684a82650",
+          "targetOutputRef": "understanding.targetOutputs[4]",
+          "description": "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+          "workflowResponsibilityKey": "evidence_assessment_synthesis"
+        },
+        {
+          "completionRequirementId": "project-completion_6aea09756e6f6fe89b7d",
+          "targetOutputRef": "understanding.targetOutputs[5]",
+          "description": "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+          "workflowResponsibilityKey": "mechanism_explanation"
+        },
+        {
+          "completionRequirementId": "project-completion_4263b46449f398aeb8bd",
+          "targetOutputRef": "understanding.targetOutputs[6]",
+          "description": "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+          "workflowResponsibilityKey": "current_research_conclusion"
+        },
+        {
+          "completionRequirementId": "project-completion_aeecadb9bb27cdfca87a",
+          "targetOutputRef": "understanding.targetOutputs[7]",
+          "description": "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。"
+        }
+      ],
+      "instances": [
+        {
+          "substageInstanceId": "instance_67462cbd07f145c9179d",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:research_record_establishment",
+          "substageDefinitionVersion": 1,
+          "stageKey": "execution_validation",
+          "objective": "将当前问题需要使用的原始研究材料整理为可追溯 ResearchRecord；已有记录可在当前项目适用性检查通过后复用，缺失事实保持未知。当前项目科研重点：整理与当前问题直接相关的原始研究材料，优先记录能够通过控制任务实质质量、答案长度、风格或呈现方式来检验 LLM judge 偏好的研究，以及 agent 评测场景中的适用证据。。",
+          "inputRefs": [
+            "research_goal",
+            "raw_research_materials",
+            "accepted_existing_research_records",
+            "current_judgment_target"
+          ],
+          "expectedArtifactTypes": [
+            "research_records"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_7c1a03da8b6f87fb2067",
+              "description": "Produce the planned artifact for the requested output: 可追溯的关键公开研究记录",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_42fae5f3c6c920f8d5e8"
+              ],
+              "requiredArtifactType": "research_records",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_461ec3d258e6e346fd58",
+              "description": "Produce the planned artifact for the requested output: 可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_44e21c1c29add6276066"
+              ],
+              "requiredArtifactType": "research_records",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_c875a0e82f1587e71667",
+              "description": "Respect the active boundary: execute research work before ResearchDesign confirmation",
+              "criterionKind": "risk_guard",
+              "coverageTargetIds": [
+                "target_75c9a637bbd0d136b70b"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_0b26c973fca46029f86a",
+              "description": "Respect the active boundary: expand the user-defined research scope without confirmation",
+              "criterionKind": "risk_guard",
+              "coverageTargetIds": [
+                "target_8b66082b220ee470e00f"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_e2f805dd6c015969d040",
+              "description": "Respect the active boundary: external_write",
+              "criterionKind": "risk_guard",
+              "coverageTargetIds": [
+                "target_5718c371c456d2ae91d7"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_7aef355c44183604f444",
+              "description": "Respect the active boundary: physical_action",
+              "criterionKind": "risk_guard",
+              "coverageTargetIds": [
+                "target_2ee5e7cbd5bf2c0a5b94"
+              ],
+              "requiredArtifactType": null,
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [],
+          "sequenceHint": 0,
+          "repeatableReentryAuthority": null
+        },
+        {
+          "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:evidence_assessment_synthesis",
+          "substageDefinitionVersion": 1,
+          "stageKey": "execution_validation",
+          "objective": "围绕当前判断目标评估证据的支持、反驳、限制、来源质量、适用性、可比性、冲突与缺口，并形成研究综合。当前项目科研重点：评估关于长度、冗长、解释性、表面风格与完成式表达影响 LLM judge 评分的证据，重点审查因果识别、真实质量控制、任务和模型异质性，以及对 agent 评测的可迁移性。。",
+          "inputRefs": [
+            "research_goal",
+            "current_judgment_target",
+            "research_records",
+            "accepted_existing_evidence"
+          ],
+          "expectedArtifactTypes": [
+            "evidence_assessment_and_research_synthesis"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_94a429a911b801189580",
+              "description": "Produce the planned artifact for the requested output: 按条件比较的记录驱动证据评估与综合",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_1d5ce75a088b69c91051"
+              ],
+              "requiredArtifactType": "evidence_assessment_and_research_synthesis",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            },
+            {
+              "criterionId": "criterion_d30fbd11f7c9b3a1c1b2",
+              "description": "Produce the planned artifact for the requested output: 证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_754a6e2725ce129d37c9"
+              ],
+              "requiredArtifactType": "evidence_assessment_and_research_synthesis",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependencyId": "dependency_f4b2c5bd1692b3ea454c",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            }
+          ],
+          "sequenceHint": 1,
+          "repeatableReentryAuthority": null
+        },
+        {
+          "substageInstanceId": "instance_9f72f2da7e2834571dd1",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:mechanism_explanation",
+          "substageDefinitionVersion": 1,
+          "stageKey": "execution_validation",
+          "objective": "按需解释影响证据解读、当前结论、关键未知或下一步建议的作用机制，区分已有证据、作者解释和 OT 推断。当前项目科研重点：在证据足以支持时，解释 LLM judge 可能依赖表面质量线索、信息量代理或提示诱导的机制，并严格区分实证结果、原作者解释与综合推断。。",
+          "inputRefs": [
+            "research_goal",
+            "phenomenon_to_explain",
+            "relevant_research_records",
+            "accepted_evidence_assessment"
+          ],
+          "expectedArtifactTypes": [
+            "mechanism_explanation"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_efbfce9ced257ac68f11",
+              "description": "Produce the planned artifact for the requested output: 对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_03fabe40612637396572"
+              ],
+              "requiredArtifactType": "mechanism_explanation",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependencyId": "dependency_87105b52f392a25484b5",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            }
+          ],
+          "sequenceHint": 2,
+          "repeatableReentryAuthority": null
+        },
+        {
+          "substageInstanceId": "instance_6e9e4388be59bf442de4",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:current_research_conclusion",
+          "substageDefinitionVersion": 1,
+          "stageKey": "insight_generation",
+          "objective": "基于已接受的证据评估以及适用时的机制解释，直接回答主问题并校准结论强度、适用边界、冲突和不确定性。当前项目科研重点：形成关于该现象是否存在、证据可靠程度、最明显条件及 agent 评测使用边界的校准结论。。",
+          "inputRefs": [
+            "research_goal",
+            "current_research_question",
+            "accepted_evidence_assessment_and_findings"
+          ],
+          "expectedArtifactTypes": [
+            "current_research_conclusion"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_0f26abfeee86a078ac5a",
+              "description": "Produce the planned artifact for the requested output: 面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_f20741e9cccfae712ac2"
+              ],
+              "requiredArtifactType": "current_research_conclusion",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependencyId": "dependency_0e2b06d5f7472638c82c",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            },
+            {
+              "dependencyId": "dependency_1217b2e47e568f5794dd",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_9f72f2da7e2834571dd1",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            }
+          ],
+          "sequenceHint": 3,
+          "repeatableReentryAuthority": null
+        },
+        {
+          "substageInstanceId": "instance_7f5ccca05bba924e22e1",
+          "instanceRevision": 1,
+          "substageDefinitionId": "opentrajectory:next_research_recommendation",
+          "substageDefinitionVersion": 1,
+          "stageKey": "insight_generation",
+          "objective": "根据当前结论、关键未知和已确认资源边界，给出下一步最值得获得的证据或推进方向及其判别价值。当前项目科研重点：提出下一步最值得进行的受控验证方向，例如在等价任务质量下系统操纵长度、解释和完成式措辞，并比较评审协议与缓解措施的判别价值。。",
+          "inputRefs": [
+            "research_goal",
+            "artifact:pv2-prior",
+            "current_research_conclusion",
+            "key_unknowns_and_candidate_explanations",
+            "confirmed_resource_time_cost_risk_boundaries"
+          ],
+          "expectedArtifactTypes": [
+            "next_research_recommendation"
+          ],
+          "acceptanceCriteria": [
+            {
+              "criterionId": "criterion_1a2dcb1bf56eb64862ac",
+              "description": "Produce the planned artifact for the requested output: 当前结论、关键未知与最具判别力的下一步建议",
+              "criterionKind": "target_output",
+              "coverageTargetIds": [
+                "target_1aa592f3c18d826f2fd8"
+              ],
+              "requiredArtifactType": "next_research_recommendation",
+              "judgmentRequirement": "deterministic",
+              "evaluatorType": "deterministic",
+              "evaluatorRef": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependencyId": "dependency_89489e8ac52d5dbdbad9",
+              "upstreamInstanceRef": {
+                "substageInstanceId": "instance_6e9e4388be59bf442de4",
+                "instanceRevision": 1
+              },
+              "conditionType": "instance_completed",
+              "requiredArtifactTypes": [],
+              "confirmationTargetRef": null
+            }
+          ],
+          "sequenceHint": 4,
+          "repeatableReentryAuthority": null
+        }
+      ],
+      "coverageReport": {
+        "coverageReportId": "coverage_5151a7f33e55024eaf30",
+        "designRef": {
+          "researchDesignId": "design_e0202f82c85b7843ad07",
+          "version": 1
+        },
+        "planningAttemptId": "pv2-planning",
+        "targets": [
+          {
+            "targetId": "target_42fae5f3c6c920f8d5e8",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[0]",
+            "description": "可追溯的关键公开研究记录",
+            "requiredArtifactTypes": [
+              "research_records"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_1d5ce75a088b69c91051",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[1]",
+            "description": "按条件比较的记录驱动证据评估与综合",
+            "requiredArtifactTypes": [
+              "evidence_assessment_and_research_synthesis"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_1aa592f3c18d826f2fd8",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[2]",
+            "description": "当前结论、关键未知与最具判别力的下一步建议",
+            "requiredArtifactTypes": [
+              "next_research_recommendation"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_44e21c1c29add6276066",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[3]",
+            "description": "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+            "requiredArtifactTypes": [
+              "research_records"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_754a6e2725ce129d37c9",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[4]",
+            "description": "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+            "requiredArtifactTypes": [
+              "evidence_assessment_and_research_synthesis"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_03fabe40612637396572",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[5]",
+            "description": "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+            "requiredArtifactTypes": [
+              "mechanism_explanation"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_f20741e9cccfae712ac2",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[6]",
+            "description": "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+            "requiredArtifactTypes": [
+              "current_research_conclusion"
+            ],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_0ca6b1e80786b2316c29",
+            "sourceType": "target_output",
+            "sourcePath": "understanding.targetOutputs[7]",
+            "description": "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。",
+            "requiredArtifactTypes": [],
+            "enforcementRef": null,
+            "required": true
+          },
+          {
+            "targetId": "target_75c9a637bbd0d136b70b",
+            "sourceType": "risk_boundary",
+            "sourcePath": "riskBoundary.prohibitedActions[0]",
+            "description": "execute research work before ResearchDesign confirmation",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "risk-boundary:execute research work before ResearchDesign confirmation",
+            "required": true
+          },
+          {
+            "targetId": "target_8b66082b220ee470e00f",
+            "sourceType": "risk_boundary",
+            "sourcePath": "riskBoundary.prohibitedActions[1]",
+            "description": "expand the user-defined research scope without confirmation",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "risk-boundary:expand the user-defined research scope without confirmation",
+            "required": true
+          },
+          {
+            "targetId": "target_5718c371c456d2ae91d7",
+            "sourceType": "risk_boundary",
+            "sourcePath": "riskBoundary.prohibitedActions[2]",
+            "description": "external_write",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "risk-boundary:external_write",
+            "required": true
+          },
+          {
+            "targetId": "target_2ee5e7cbd5bf2c0a5b94",
+            "sourceType": "risk_boundary",
+            "sourcePath": "riskBoundary.prohibitedActions[3]",
+            "description": "physical_action",
+            "requiredArtifactTypes": [],
+            "enforcementRef": "risk-boundary:physical_action",
+            "required": true
+          }
+        ],
+        "claims": [
+          {
+            "targetId": "target_42fae5f3c6c920f8d5e8",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_7c1a03da8b6f87fb2067"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_1d5ce75a088b69c91051",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_94a429a911b801189580"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_1aa592f3c18d826f2fd8",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_7f5ccca05bba924e22e1",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_1a2dcb1bf56eb64862ac"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_44e21c1c29add6276066",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_461ec3d258e6e346fd58"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_754a6e2725ce129d37c9",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_fb3be633f7c875ca76f9",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_d30fbd11f7c9b3a1c1b2"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_03fabe40612637396572",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_9f72f2da7e2834571dd1",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_efbfce9ced257ac68f11"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_f20741e9cccfae712ac2",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_6e9e4388be59bf442de4",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_0f26abfeee86a078ac5a"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_0ca6b1e80786b2316c29",
+            "instanceRefs": [],
+            "coverageMode": "none",
+            "acceptanceCriterionRefs": [],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_75c9a637bbd0d136b70b",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_c875a0e82f1587e71667"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "risk-boundary:execute research work before ResearchDesign confirmation"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_8b66082b220ee470e00f",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_0b26c973fca46029f86a"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "risk-boundary:expand the user-defined research scope without confirmation"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_5718c371c456d2ae91d7",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_e2f805dd6c015969d040"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "risk-boundary:external_write"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          },
+          {
+            "targetId": "target_2ee5e7cbd5bf2c0a5b94",
+            "instanceRefs": [
+              {
+                "substageInstanceId": "instance_67462cbd07f145c9179d",
+                "instanceRevision": 1
+              }
+            ],
+            "coverageMode": "full",
+            "acceptanceCriterionRefs": [
+              "criterion_7aef355c44183604f444"
+            ],
+            "derivationRuleRefs": [
+              "coverage-policy.v1:server-derived",
+              "risk-boundary:physical_action"
+            ],
+            "rationale": "Deterministically compiled from semantic target ownership and server boundary policy."
+          }
+        ],
+        "uncoveredRequiredTargetIds": [
+          "target_0ca6b1e80786b2316c29"
+        ],
+        "overloadedInstanceRefs": [],
+        "missingDependencyRefs": [],
+        "status": "needs_revision",
+        "evaluationTier": "sdr",
+        "evaluationMode": "deterministic",
+        "semanticEvaluationRef": null,
+        "automaticRepairCount": 0,
+        "policyVersion": "coverage-policy.v1",
+        "evaluatedAt": "2026-10-09T00:00:00Z"
+      },
+      "createdAt": "2026-10-09T00:00:00Z",
+      "confirmedAt": null,
+      "confirmationRef": null
+    },
+    "coverageStatus": "needs_revision",
+    "instanceCount": 5,
+    "targets": [
+      "可追溯的关键公开研究记录",
+      "按条件比较的记录驱动证据评估与综合",
+      "当前结论、关键未知与最具判别力的下一步建议",
+      "可追溯的相关原始研究材料记录，覆盖 LLM judge 偏好、长度/冗长偏差、风格偏差、位置偏差及 agent 或任务执行评测中的相关证据。",
+      "证据评估与研究综合：比较研究设计、操纵变量、任务与模型条件、结果一致性、局限、可比性和冲突。",
+      "对可能机制的审慎解释，明确哪些属于实证发现、作者解释或推断，并区分真实信息量效应与风格捷径效应。",
+      "面向 agent 评测实践的当前结论，说明证据支持程度、适用边界、何时应警惕评分被风格带偏，以及不能据此断言的内容。",
+      "会改变结论或实践选择的关键未知、可区分候选解释，以及下一步最值得验证的实验问题和判别价值。"
+    ],
+    "confirmation": {
+      "stage": "ResearchDesignService.confirm/_confirmation_target",
+      "exception": "ResearchDesignConfirmationError",
+      "message": "Design coverage is incomplete"
+    },
+    "contentReadable": true
+  }
+}
