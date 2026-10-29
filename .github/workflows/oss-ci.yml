@@ -25,9 +25,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # 直跑 gitleaks 二进制（MIT，无 org 许可限制）：与私有仓导出门禁完全同构
+      # （同版本 8.24.3、同一份 .gitleaks.toml 规则级白名单）。
+      - name: Install gitleaks 8.24.3
+        run: >-
+          curl -sSL
+          https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz
+          | tar -xz -C /usr/local/bin gitleaks
+      - name: Scan full history
+        run: gitleaks detect --redact -v
 
   # python lint 棘轮与后端测试随 v0.2 引入：当前代码基线含历史违规，
   # 私有仓以增量门禁（diff_gate --ruff）管理，公开仓待建立同等棘轮后再启用。
