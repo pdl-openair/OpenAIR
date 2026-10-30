@@ -129,6 +129,8 @@ OPENAIR_BOOTSTRAP_ADMIN_USERNAME=ops             # 默认 ops
 docker compose up -d --build     # 首次构建约几分钟；改 .env 后重跑 docker compose up -d 生效
 ```
 
+> 🇨🇳 国内网络拉取镜像慢/失败？先看[部署指南 · 国内网络环境配置](#-部署指南)。
+
 ### 3. 验证
 
 | 服务 | 地址 |
@@ -149,6 +151,38 @@ OPENAIR_DEV_SEED_FIXTURES=1     # 启动时灌入演示任务
 ```
 
 ## 📦 部署指南
+
+<details>
+<summary><b>国内网络环境配置（Docker 镜像加速）</b></summary>
+
+`docker compose up` 拉取镜像缓慢或失败（中国大陆网络常见），先为 Docker 配置镜像加速：
+
+- **Docker Desktop**：Settings → Docker Engine，编辑 JSON 后 Apply & Restart
+- **Linux**：编辑 `/etc/docker/daemon.json`，然后 `sudo systemctl restart docker`
+
+```json
+{
+  "builder": { "gc": { "defaultKeepStorage": "20GB", "enabled": true } },
+  "registry-mirrors": [
+    "https://docker.1panel.live",
+    "https://hub.rat.dev",
+    "https://docker.mirrors.ustc.edu.cn",
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com"
+  ]
+}
+```
+
+> 镜像加速地址时效性强，若全部失效，请搜索「docker 镜像加速 可用」更换最新地址。
+
+手动部署路径的依赖换源：
+
+```bash
+pnpm config set registry https://registry.npmmirror.com            # npm 源
+export UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple   # PyPI 源（uv）
+```
+
+</details>
 
 <details>
 <summary><b>按需配置分组</b>（完整逐项注释见 <code>.env.example</code>）</summary>

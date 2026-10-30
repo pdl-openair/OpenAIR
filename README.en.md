@@ -129,6 +129,8 @@ OPENAIR_BOOTSTRAP_ADMIN_USERNAME=ops             # defaults to ops
 docker compose up -d --build     # first build takes a few minutes; re-run docker compose up -d after .env edits
 ```
 
+> Slow/failing image pulls on mainland-China networks? See [Deployment Guide · Network configuration](#-deployment-guide).
+
 ### 3. Verify
 
 | Service | URL |
@@ -149,6 +151,38 @@ OPENAIR_DEV_SEED_FIXTURES=1     # seed demo tasks at startup
 ```
 
 ## 📦 Deployment Guide
+
+<details>
+<summary><b>Network configuration (mainland China)</b></summary>
+
+If image pulls are slow or fail, configure Docker registry mirrors:
+
+- **Docker Desktop**: Settings → Docker Engine, edit the JSON, then Apply & Restart
+- **Linux**: edit `/etc/docker/daemon.json`, then `sudo systemctl restart docker`
+
+```json
+{
+  "builder": { "gc": { "defaultKeepStorage": "20GB", "enabled": true } },
+  "registry-mirrors": [
+    "https://docker.1panel.live",
+    "https://hub.rat.dev",
+    "https://docker.mirrors.ustc.edu.cn",
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com"
+  ]
+}
+```
+
+> Mirror availability changes over time — replace with currently working mirrors if all fail.
+
+For the manual (no-Docker) path, you can also switch package indexes:
+
+```bash
+pnpm config set registry https://registry.npmmirror.com
+export UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+</details>
 
 <details>
 <summary><b>Configuration groups</b> (full per-variable notes in <code>.env.example</code>)</summary>
