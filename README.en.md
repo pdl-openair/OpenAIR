@@ -95,6 +95,21 @@ Research suffers from **long cycles, fragmented tooling, untraceable evidence, a
 
 - Docker 24+ (Docker Desktop or Engine with compose v2); for a manual setup see the [Deployment Guide](#-deployment-guide)
 
+<details>
+<summary><b>Option 1: one command via the openair CLI (recommended)</b></summary>
+
+```bash
+pipx install openair-cli        # or: pip install --user openair-cli
+openair up                      # clone → generate .env (randomized secrets) → start the stack → open the browser
+openair up --mode replay        # zero-key replay demo — recommended first run
+```
+
+The first run generates and prints the login credentials **exactly once** (also written to `.env`). Before the PyPI package is published, install locally from this repo with `uv tool install --force ./cli`. More: `openair status / seed / down` (see [cli/README.md](cli/README.md)).
+
+</details>
+
+### Option 2: manual, three steps
+
 ### 1. Clone & configure
 
 ```bash
@@ -241,7 +256,7 @@ Windows note: if `uv sync` fails with an SSL error, rebuild the venv with a sign
 | Version | Scope |
 |---|---|
 | **v0.2** | polish materials-domain skills; public benchmark table with one-command reproduction; python lint ratchet & backend tests in public CI |
-| **v0.3** | `openair` CLI (init / run / replay); domestic-accelerator validation (MXMACA / Ascend) |
+| **v0.3** | `openair` CLI enhancements (initial `up/status/seed/down` already shipped with v0.1.x, see [cli/](cli/)); domestic-accelerator validation (MXMACA / Ascend) |
 | **v1.0** | multi-user & production deployment guide |
 
 ## 🤝 Contributing

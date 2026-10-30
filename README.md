@@ -95,6 +95,21 @@
 
 - Docker 24+（Docker Desktop 或 Engine，含 compose v2）；或手动部署见[部署指南](#-部署指南)
 
+<details>
+<summary><b>方式一：openair CLI 一键启动（推荐新用户）</b></summary>
+
+```bash
+pipx install openair-cli        # 或 pip install --user openair-cli
+openair up                      # 克隆 → 生成 .env（安全项随机化）→ 启动全栈 → 打开浏览器
+openair up --mode replay        # 零密钥回放演示，推荐第一次这样跑
+```
+
+首次运行自动生成并**仅打印一次**登录账号（同时写入 `.env`）；PyPI 包发布前的本地安装：克隆本仓库后执行 `uv tool install --force ./cli`。其他命令：`openair status / seed / down`（详见 [cli/README.md](cli/README.md)）。
+
+</details>
+
+### 方式二：手动三步
+
 ### 1. 克隆并配置
 
 ```bash
@@ -241,7 +256,7 @@ Windows：`uv sync` 报 SSL 错误时用已签名 Python 重建 venv（`uv venv 
 | 版本 | 内容 |
 |---|---|
 | **v0.2** | materials 域 skill 全量打磨；benchmark 公开对比表与一键复现脚本；公开仓 python lint 棘轮与后端测试 |
-| **v0.3** | `openair` CLI（init / run / replay）；国产算力适配验证（MXMACA / 昇腾） |
+| **v0.3** | `openair` CLI 增强（初版 `up/status/seed/down` 已随 v0.1.x 交付，见 [cli/](cli/)）；国产算力适配验证（MXMACA / 昇腾） |
 | **v1.0** | 多用户与生产部署指南 |
 
 ## 🤝 贡献

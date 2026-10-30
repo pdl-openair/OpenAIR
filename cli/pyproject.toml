@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openair-cli"
+version = "0.1.0"
+description = "One-command launcher for the OpenAIR research-agent platform (openair up/down/seed)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+keywords = ["openair", "research-agent", "ai4science", "docker"]
+classifiers = [
+  "Environment :: Console",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Homepage = "https://github.com/pdl-openair/OpenAIR"
+Documentation = "https://github.com/pdl-openair/OpenAIR#readme"
+
+[project.scripts]
+openair = "openair_cli.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
