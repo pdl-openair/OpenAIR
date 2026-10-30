@@ -50,9 +50,15 @@ services:
     build:
       context: .
       dockerfile: services/api/Dockerfile
+      # 本机（k8s-node02）实测：docker 桥接网络出口对大文件传输（apt deb /
+      # pip wheel / npm tarball）注入 RST，整文件下载必败；走宿主网络则正常
+      # （2026-10-29 排查，scripts/install_claude_cli.mjs 头注释有细节）。
+      # 默认 host，其他环境可 .env 设 OPENAIR_BUILD_NETWORK=default 改回。
+      network: ${OPENAIR_BUILD_NETWORK:-host}
     image: openair-api:latest
     ports:
-      - "8000:8000"
+      # 宿主机端口可配（默认 8000）：共享节点上 8000/8080 常被其他常驻服务占用。
+      - "${OPENAIR_API_PORT:-8000}:8000"
     # Docker 内嵌 DNS 转发在本机间歇故障（外部名解析翻脸：IPv6-only 或直接失败，
     # task_50c4197a S7 竞争相生成的 MP 查询即栽于此）。固定公共 IPv4 DNS 上游，
     # 并禁用容器 IPv6（无 v6 出路，避免 AAAA 优先导致 Cloudflare 域连不上）。
@@ -216,6 +222,7 @@ services:
     build:
       context: .
       dockerfile: services/api/Dockerfile
+      network: ${OPENAIR_BUILD_NETWORK:-host}
     image: openair-api:latest
     # 与 api 同款 DNS 固定 + 禁 IPv6：durable worker 是 materials 链 skill_script 的
     # 实际执行体，外部域名（MP/jcc 网关）解析必须稳定。
@@ -323,6 +330,7 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+      network: ${OPENAIR_BUILD_NETWORK:-host}
     image: openair-web:latest
     ports:
       - "${OPENAIR_WEB_PORT:-8080}:80"
@@ -342,6 +350,7 @@ services:
     build:
       context: .
       dockerfile: services/worker/Dockerfile
+      network: ${OPENAIR_BUILD_NETWORK:-host}
     image: openair-worker:latest
     profiles:
       - build

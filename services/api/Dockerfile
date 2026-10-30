@@ -8,6 +8,16 @@
 #   docker build -f services/api/Dockerfile -t openair-api:latest .
 # ===========================================================================
 
+# Claude Code CLI 2.x 的 npm 包是自包含原生 ELF 二进制（运行时不依赖 node）。
+# 平台子包 tarball（~130MB）在本网络路径上整文件下载必然 ECONNRESET，且 npm
+# 会静默跳过失败的 optional dependency，留下不可用的占位桩 —— 因此用
+# scripts/install_claude_cli.mjs 分块下载 + shasum 校验安装（见脚本头注释）。
+# 最终镜像只拷 /usr/local/bin/claude 二进制，与仓库根 Dockerfile.api 同一模式。
+FROM node:22-bookworm-slim AS claude-cli
+
+COPY scripts/install_claude_cli.mjs /tmp/install_claude_cli.mjs
+RUN node /tmp/install_claude_cli.mjs
+
 FROM python:3.12-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -20,20 +30,21 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g; s/security.debian.org/mirrors.tuna.tsinghua.edu.cn/g' \
         /etc/apt/sources.list.d/debian.sources
 
-# System deps (nodejs is required by the claude CLI spawned by claude_agent_sdk
-# stdio transport — the durable claude channel and health check resolve `claude`
-# on PATH; see scripts/claude-cli-smoke.sh for post-boot verification).
+# System deps. claude CLI 由 claude_agent_sdk stdio transport 拉起（durable
+# claude channel 与健康检查在 PATH 上找 `claude`，见 scripts/claude-cli-smoke.sh
+# 的开机后验证）；CLI 为原生二进制，无需 nodejs/npm。
 # jq: vasp-stability run_hpc.sh 解析 jcc CLI JSON 输出。
 # fonts-noto-cjk: S9 matplotlib 数据图的中文字形（无 CJK 字体时标注为方框）。
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends bash git curl ca-certificates nodejs npm jq fonts-noto-cjk \
+    && apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+        bash git curl ca-certificates jq fonts-noto-cjk \
     && rm -rf /var/lib/apt/lists/*
 
-# Claude Code CLI (npm global; npmmirror keeps the build reproducible in CN
-# networks). Authentication is env-only (ANTHROPIC_AUTH_TOKEN/ANTHROPIC_BASE_URL
-# injected by compose) — no login/onboarding happens inside the container.
-RUN npm install -g @anthropic-ai/claude-code --registry=https://registry.npmmirror.com \
-    && claude --version
+# Claude Code CLI（自 claude-cli 阶段拷贝原生二进制）。认证仅走环境变量
+# （ANTHROPIC_AUTH_TOKEN/ANTHROPIC_BASE_URL 由 compose 注入）——容器内无
+# login/onboarding。
+COPY --from=claude-cli /usr/local/bin/claude /usr/local/bin/claude
+RUN claude --version
 
 WORKDIR /app
 
@@ -72,10 +83,14 @@ COPY schemas/ /app/schemas/
 COPY skills/ /app/skills/
 
 # Linux jcc CLI into PATH（vasp_stability_durable S7 提交 HPC 用）。
-# 源文件是仓库内静态链接 ELF（vasp-band-gap/assets/jcc）；git 不保留
-# 可执行位，镜像内显式 chmod。
-RUN chmod +x /app/skills/materials/vasp-band-gap/assets/jcc \
-    && ln -sf /app/skills/materials/vasp-band-gap/assets/jcc /usr/local/bin/jcc
+# 源文件是静态链接 ELF（vasp-band-gap/assets/jcc），git 不保留可执行位，
+# 镜像内显式 chmod。v0.1.0 公开仓库剥离了该二进制资产——存在才链接，
+# 缺失则跳过（容器内 JCC 采集本就依赖 JCC_CLI_PATH 指向外部构建，
+# 见 docker-compose.yml 对应注释）。
+RUN if [ -e /app/skills/materials/vasp-band-gap/assets/jcc ]; then \
+        chmod +x /app/skills/materials/vasp-band-gap/assets/jcc \
+        && ln -sf /app/skills/materials/vasp-band-gap/assets/jcc /usr/local/bin/jcc; \
+    fi
 
 # Expose API port
 EXPOSE 8000
