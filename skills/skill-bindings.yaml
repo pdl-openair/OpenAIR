@@ -3211,12 +3211,6 @@ bindings:
   definitionVersion: 1
   skillId: figure_spec
   skillDefinitionVersion: 1
-- bindingId: bind:materials:database_search:skill:deploy_mcp_service
-  bindingVersion: 1
-  definitionId: materials:database_search
-  definitionVersion: 1
-  skillId: deploy_mcp_service
-  skillDefinitionVersion: 1
 - bindingId: bind:ope:research_conclusion_recommendation:skill:question_formulation_l3
   bindingVersion: 1
   definitionId: ope:research_conclusion_recommendation
