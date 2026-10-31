@@ -109,7 +109,7 @@ Health http://localhost:8000/health
 启动：
 
 ```powershell
-.\OpenAIR-Start-All-Single.cmd
+docker compose up -d
 ```
 
 当前只支持无参数启动和 `stop`；`quick` 已禁用。
@@ -126,13 +126,13 @@ Health http://localhost:8000/health
 → 执行启动自检
 ```
 
-当前 `.env` 还必须包含：
+材料 MCP 类 skill 需要时额外配置（见 `.env.example`）：
 
 ```text
-MATERIALS_MCP_BASE_URL=http://mcp.example.internal:22222/mcp
+# MATERIALS_MCP_BASE_URL=<your-mcp-endpoint>
 ```
 
-否则 launcher 会判定启动失败。
+不配置则材料 MCP 类 skill 不可用，其余功能不受影响。
 
 runtime worktree 是一次性运行环境，启动器可能执行：
 
@@ -151,7 +151,7 @@ clean -ffdx
 
 任一检查失败都会使启动失败。
 
-如果构建期间 `origin/test` 更新，launcher 会停止并要求重新运行。
+如遇网络波动导致构建失败，重跑启动命令即可。
 
 当前固定探测 API `8000`、Web `8080`，不要修改这两个端口。
 
@@ -181,7 +181,7 @@ Invoke-RestMethod http://localhost:8000/health
 docker compose -p openair ps
 ```
 
-全 Docker launcher 固定使用 Compose 项目 `openair`。
+Compose 项目名由目录名决定（默认 `openair`）。
 
 ## 5. 怎么停止
 
@@ -208,7 +208,7 @@ docker compose down
 全 Docker：
 
 ```powershell
-.\OpenAIR-Start-All-Single.cmd stop
+docker compose stop api durable-worker web
 ```
 
 这个命令只停止 `api`、`durable-worker`、`web`。
@@ -244,7 +244,6 @@ docker compose -p openair down -v
 ```text
 docker-compose.yml
 .env.example
-OpenAIR-Start-All-Single.cmd
 services/api/pyproject.toml
 package.json
 apps/web/vite.config.ts

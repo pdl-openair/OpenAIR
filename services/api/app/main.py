@@ -318,19 +318,23 @@ async def lifespan(_app: FastAPI):
         is_transient_provider_error,
         resolve_model_binding,
     )
-    try:
-        bindings = [resolve_model_binding(role) for role in ("planner", "execution")]
-        log.info("MODEL_BINDING_VALIDATION=PASS bindings=%s", [(b.role, b.provider, b.model) for b in bindings])
-    except ProviderRegistryError as exc:
-        if is_transient_provider_error(exc):
-            # Provider availability is runtime state; do not prevent the API
-            # from serving health/configuration endpoints when upstream is
-            # temporarily unreachable. Runtime request paths retain their
-            # normal provider error handling and will report the outage.
-            log.warning("MODEL_BINDING_VALIDATION=DEFERRED provider temporarily unavailable: %s", exc)
-        else:
-            log.error("MODEL_BINDING_VALIDATION=FAIL %s", exc)
-            raise SystemExit(str(exc)) from exc
+    if settings.skill_exec_mode == "replay":
+        # replay 模式不发起真实 LLM 调用，缺网关密钥不应阻断启动（零密钥演示）
+        log.info("MODEL_BINDING_VALIDATION=SKIPPED reason=SKILL_EXEC_MODE_replay")
+    else:
+        try:
+            bindings = [resolve_model_binding(role) for role in ("planner", "execution")]
+            log.info("MODEL_BINDING_VALIDATION=PASS bindings=%s", [(b.role, b.provider, b.model) for b in bindings])
+        except ProviderRegistryError as exc:
+            if is_transient_provider_error(exc):
+                # Provider availability is runtime state; do not prevent the API
+                # from serving health/configuration endpoints when upstream is
+                # temporarily unreachable. Runtime request paths retain their
+                # normal provider error handling and will report the outage.
+                log.warning("MODEL_BINDING_VALIDATION=DEFERRED provider temporarily unavailable: %s", exc)
+            else:
+                log.error("MODEL_BINDING_VALIDATION=FAIL %s", exc)
+                raise SystemExit(str(exc)) from exc
 
     # MinIO artifact storage initialization
     if settings.artifact_storage == "minio":

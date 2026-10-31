@@ -76,6 +76,10 @@ COPY packages/ /app/packages/
 # Schemas (spec templates, pack configs)
 COPY schemas/ /app/schemas/
 
+# Replay fixtures (replay_runner reads repo_root()/fixtures/skill_io/<skill>;
+# without this COPY the container cannot replay skills)
+COPY fixtures/ /app/fixtures/
+
 # Skills source tree (registry + per-skill skill.yaml). _load_skill_meta reads
 # each skill.yaml for output_file / claude_name / input_skills etc., so the API
 # needs the full tree — copying only registry.yaml leaves output_file unresolved
