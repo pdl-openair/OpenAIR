@@ -128,7 +128,7 @@ openair up                      # clone → generate .env (randomized secrets) �
 openair up --mode replay        # zero-key replay demo — recommended first run
 ```
 
-The first run generates and prints the login credentials **exactly once** (also written to `.env`). Before the PyPI package is published, install locally from this repo with `uv tool install --force ./cli`. More: `openair status / seed / down` (see [cli/README.md](cli/README.md)).
+The first run generates and prints the login credentials **exactly once** (also written to `.env`). For local development: `uv tool install --force ./cli`. More: `openair status / seed / down` (see [cli/README.md](cli/README.md)).
 
 </details>
 

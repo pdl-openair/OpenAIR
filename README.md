@@ -128,7 +128,7 @@ openair up                      # 克隆 → 生成 .env（安全项随机化）
 openair up --mode replay        # 零密钥回放演示，推荐第一次这样跑
 ```
 
-首次运行自动生成并**仅打印一次**登录账号（同时写入 `.env`）；PyPI 包发布前的本地安装：克隆本仓库后执行 `uv tool install --force ./cli`。其他命令：`openair status / seed / down`（详见 [cli/README.md](cli/README.md)）。
+首次运行自动生成并**仅打印一次**登录账号（同时写入 `.env`）；本地开发安装：`uv tool install --force ./cli`。其他命令：`openair status / seed / down`（详见 [cli/README.md](cli/README.md)）。
 
 </details>
 
