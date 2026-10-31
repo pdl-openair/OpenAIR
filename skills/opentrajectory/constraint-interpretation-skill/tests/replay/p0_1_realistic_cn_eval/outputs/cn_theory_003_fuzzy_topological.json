@@ -1,0 +1,91 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "material_class",
+      "original_phrase": "拓扑材料",
+      "constraint_type": "material_property",
+      "interpreted_value": "topological materials",
+      "candidate_values": ["topological insulator", "topological semimetal", "Weyl semimetal", "Dirac semimetal"],
+      "domain_rationale": "User specifies topological materials as the broad material class. No specific compound is named; the class covers topological insulators, semimetals, etc.",
+      "confidence": 0.72,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["topological materials", "topological insulator", "topological semimetal", "Weyl semimetal"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers on topological materials broadly; do not restrict to specific compound"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["material_class_broad: topological materials covers many subclasses; specific compound not given"]
+    },
+    {
+      "constraint_name": "mechanism_soc",
+      "original_phrase": "自旋轨道耦合",
+      "constraint_type": "condition",
+      "interpreted_value": "spin-orbit coupling",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly asks how spin-orbit coupling (SOC) affects band inversion. SOC is the key mechanism driving topological phase transitions.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["spin-orbit coupling topological", "SOC band inversion", "spin-orbit interaction topological insulator"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying spin-orbit coupling effects on band structure"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "mechanism_band_inversion",
+      "original_phrase": "能带反转",
+      "constraint_type": "condition",
+      "interpreted_value": "band inversion",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly asks about band inversion as the key topological phenomenon driven by SOC.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["band inversion topological", "band inversion spin-orbit coupling", "topological band inversion mechanism"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying band inversion mechanisms"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "theory_experiment_alignment",
+      "original_phrase": "理论计算和实验验证能对应上",
+      "constraint_type": "source_preference",
+      "interpreted_value": "theory-experiment correspondence",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly wants papers where theoretical calculations and experimental validation are aligned. This is a qualitative preference for papers with both computational and experimental components.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["theory experiment agreement topological", "first-principles ARPES topological", "calculation experimental validation band inversion"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers combining theoretical calculation with experimental validation; do not require ARPES specifically"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["experimental_method_unspecified: ARPES/STM/transport not specified by user"]
+    },
+    {
+      "constraint_name": "content_depth_preference",
+      "original_phrase": "不要只讲概念",
+      "constraint_type": "boundary_condition",
+      "interpreted_value": null,
+      "candidate_values": [],
+      "domain_rationale": "User wants papers with substantive analysis beyond conceptual introduction. This is a soft exclusion of purely review/introductory papers.",
+      "confidence": 0.40,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["quantitative analysis topological", "numerical calculation band inversion"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "deprioritize purely conceptual or introductory review papers"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["depth_criterion_subjective: conceptual vs substantive is not a filterable criterion"]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.68,
+    "coverage_level": "moderate",
+    "missing_inputs": ["specific_material_compound", "experimental_method"],
+    "risk_flags": ["material_class_broad", "experimental_method_unspecified"],
+    "needs_manual_review": true
+  }
+}

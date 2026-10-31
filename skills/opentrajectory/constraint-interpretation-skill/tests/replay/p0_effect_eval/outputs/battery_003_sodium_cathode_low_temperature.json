@@ -1,0 +1,129 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "sodium_ion_layered_oxide_cathode",
+      "original_phrase": "层状氧化物正极",
+      "constraint_type": "material_system",
+      "interpreted_value": "sodium-ion layered oxide cathode",
+      "candidate_values": [
+        "P2-type layered oxide",
+        "O3-type layered oxide",
+        "P3-type layered oxide"
+      ],
+      "domain_rationale": "Layered oxide cathodes are a major material class in sodium-ion battery research. The user does not specify a particular polymorph (P2, O3, etc.), so the constraint covers the broader class. Combined with the research_domain and material_system context, this maps to sodium-ion layered oxide cathodes.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "sodium-ion layered oxide cathode",
+        "layered oxide cathode sodium",
+        "Na layered oxide",
+        "P2-type cathode sodium",
+        "O3-type cathode sodium"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "layered_oxide_polymorph_unspecified: P2, O3, or P3 structure not stated; broad class assumed"
+      ]
+    },
+    {
+      "constraint_name": "low_temperature_condition",
+      "original_phrase": "低温环境",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "-20°C",
+        "-10°C",
+        "0°C",
+        "below 0°C"
+      ],
+      "domain_rationale": "Low temperature is a qualitative condition. In sodium-ion battery literature, low-temperature testing commonly refers to sub-zero conditions, but the exact threshold varies. The user later specifies -20°C as a reference point, which provides additional context but does not fully define the range.",
+      "confidence": 0.45,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "low temperature",
+        "low-temperature performance",
+        "sub-zero temperature battery",
+        "cold temperature sodium-ion"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "low_temperature_range_approximate: exact lower bound not fixed; -20°C mentioned as reference, not hard cutoff"
+      ]
+    },
+    {
+      "constraint_name": "low_temperature_test_reference",
+      "original_phrase": "-20°C 附近测试",
+      "constraint_type": "numerical_range",
+      "interpreted_value": "approximately -20°C",
+      "candidate_values": [
+        "-20°C",
+        "-25°C",
+        "-15°C"
+      ],
+      "domain_rationale": "User explicitly mentions -20°C as a reference test temperature with the qualifier '附近' (approximately), indicating this is a soft anchor rather than a strict cutoff. This is a recognized low-temperature test point in battery research.",
+      "confidence": 0.75,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "-20°C",
+        "low-temperature testing",
+        "low temperature electrochemical performance",
+        "subzero temperature cycling"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed"
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": [
+        "low_temperature_range_approximate: '附近' indicates approximate; not a strict hard filter boundary"
+      ]
+    },
+    {
+      "constraint_name": "doping_coating_strategy",
+      "original_phrase": "掺杂或包覆策略",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "elemental doping",
+        "surface coating",
+        "concentration gradient",
+        "co-doping"
+      ],
+      "domain_rationale": "Doping and coating are improvement strategies, not material filters. The user is looking for papers that employ these strategies to address low-temperature performance. These should not be treated as hard material filters.",
+      "confidence": 0.60,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "doping strategy sodium cathode",
+        "surface coating cathode",
+        "elemental doping layered oxide",
+        "low-temperature rate capability improvement"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "strategy_scope_broad: doping and coating cover a wide range of approaches; specific elements or coating materials not specified"
+      ]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.61,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [
+      "low_temperature_range_approximate",
+      "layered_oxide_polymorph_unspecified",
+      "strategy_scope_broad"
+    ],
+    "needs_manual_review": true
+  }
+}

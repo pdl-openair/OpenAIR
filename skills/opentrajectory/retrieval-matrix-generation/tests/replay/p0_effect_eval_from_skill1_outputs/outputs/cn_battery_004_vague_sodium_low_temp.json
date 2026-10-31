@@ -1,0 +1,186 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["sodium-ion cathode", "Na-ion cathode", "sodium battery cathode material", "low temperature sodium cathode", "sodium cathode performance"],
+      "must_include_terms": ["sodium-ion cathode"],
+      "optional_terms": ["Na-ion cathode", "sodium battery cathode", "low temperature"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["battery_system"],
+      "rationale": "Core entry covering sodium-ion cathode as the primary material system with low-temperature performance focus.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["low temperature performance sodium battery", "cold temperature cathode", "sub-zero electrochemistry sodium", "layered oxide sodium cathode", "layered transition metal oxide Na-ion", "P2 O3 sodium cathode"],
+      "must_include_terms": ["sodium-ion cathode"],
+      "optional_terms": ["low temperature", "cold temperature", "sub-zero", "layered oxide", "P2", "O3"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["low_temperature_performance", "material_scope_layered_oxide"],
+      "rationale": "Encodes low-temperature performance and layered oxide scope as soft constraints; no specific temperature threshold invented.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["Na-ion transport mechanism low temperature", "structural degradation sodium cathode", "phase transition sodium cathode low temperature", "sodium diffusion kinetics cathode", "Jahn-Teller distortion sodium layered oxide"],
+      "must_include_terms": ["sodium cathode"],
+      "optional_terms": ["Na-ion transport", "structural degradation", "phase transition", "sodium diffusion", "kinetics"],
+      "exclude_terms": [],
+      "expected_paper_type": "mechanism study",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["structural_stability", "low_temperature_performance"],
+      "rationale": "Covers Na-ion transport and structural degradation mechanisms in sodium cathodes at low temperature.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["doping sodium cathode", "surface coating Na-ion cathode", "structural engineering sodium cathode", "modification strategy sodium cathode", "elemental substitution layered oxide sodium"],
+      "must_include_terms": ["sodium cathode"],
+      "optional_terms": ["doping", "surface coating", "structural engineering", "modification strategy", "elemental substitution"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["modification_strategies"],
+      "rationale": "Covers modification strategies without restricting to specific approach type.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["rate capability sodium cathode", "rate performance Na-ion cathode", "structural stability sodium cathode", "phase stability Na-ion", "capacity retention low temperature sodium"],
+      "must_include_terms": ["sodium cathode"],
+      "optional_terms": ["rate capability", "rate performance", "structural stability", "phase stability", "capacity retention"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["rate_capability", "structural_stability"],
+      "rationale": "Targets papers reporting rate capability and structural stability metrics for sodium cathodes.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["Prussian blue analog sodium cathode low temperature", "polyanionic sodium cathode rate capability", "sodium-ion battery electrolyte low temperature", "hard carbon anode sodium low temperature"],
+      "must_include_terms": [],
+      "optional_terms": ["Prussian blue analog", "polyanionic", "sodium-ion battery electrolyte", "hard carbon"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["battery_system"],
+      "rationale": "Adjacent sodium cathode classes and electrolyte optimization for low-temperature performance.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": ["sodium-ion cathode low temperature"],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope or user exclusions provided. Risk flags not converted to exclude_terms.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"sodium-ion cathode\" AND \"low temperature\" AND (\"rate capability\" OR \"structural stability\")",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["battery_system", "low_temperature_performance", "rate_capability"],
+      "rationale": "Strict query combining sodium cathode with low-temperature performance and key metrics.",
+      "priority": 1
+    },
+    {
+      "query": "\"Na-ion cathode\" AND (\"low temperature\" OR \"cold temperature\" OR \"sub-zero\") AND (\"rate\" OR \"structural stability\" OR \"modification\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["battery_system", "low_temperature_performance"],
+      "rationale": "Broad variant expanding temperature terminology without inventing specific threshold.",
+      "priority": 1
+    },
+    {
+      "query": "\"layered oxide\" AND \"sodium cathode\" AND \"low temperature\" AND (\"rate capability\" OR \"structural stability\")",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["material_scope_layered_oxide", "low_temperature_performance"],
+      "rationale": "Strict query targeting layered oxide sodium cathodes at low temperature with key metrics.",
+      "priority": 1
+    },
+    {
+      "query": "\"sodium cathode\" AND (\"layered oxide\" OR \"P2\" OR \"O3\") AND (\"low temperature\" OR \"rate performance\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["material_scope_layered_oxide"],
+      "rationale": "Broad query covering P2 and O3 layered oxide phases without restricting to either.",
+      "priority": 1
+    },
+    {
+      "query": "\"Na-ion transport\" AND \"sodium cathode\" AND \"low temperature\" AND \"mechanism\"",
+      "variant_type": "strict",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["low_temperature_performance", "structural_stability"],
+      "rationale": "Strict mechanistic query targeting Na-ion transport at low temperature.",
+      "priority": 2
+    },
+    {
+      "query": "\"structural degradation\" AND \"sodium cathode\" AND (\"phase transition\" OR \"phase stability\" OR \"structural stability\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["structural_stability"],
+      "rationale": "Broad structural degradation mechanism query covering phase transition and stability.",
+      "priority": 2
+    },
+    {
+      "query": "\"doping\" AND \"sodium cathode\" AND (\"low temperature\" OR \"rate capability\" OR \"structural stability\")",
+      "variant_type": "strict",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["modification_strategies"],
+      "rationale": "Strict query targeting doping as a modification strategy for sodium cathode improvement.",
+      "priority": 2
+    },
+    {
+      "query": "\"sodium cathode\" AND (\"doping\" OR \"surface coating\" OR \"structural engineering\") AND (\"low temperature\" OR \"rate performance\" OR \"structural stability\")",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["modification_strategies"],
+      "rationale": "Broad modification strategy query covering doping, coating, and structural engineering.",
+      "priority": 2
+    },
+    {
+      "query": "\"sodium cathode\" AND \"rate capability\" AND (\"layered oxide\" OR \"Na-ion\") AND \"low temperature\"",
+      "variant_type": "strict",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["rate_capability", "material_scope_layered_oxide"],
+      "rationale": "Strict performance query targeting rate capability in layered oxide sodium cathodes at low temperature.",
+      "priority": 2
+    },
+    {
+      "query": "\"Prussian blue\" AND \"sodium\" AND (\"low temperature\" OR \"rate capability\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["battery_system"],
+      "rationale": "Prussian blue analogs are an adjacent sodium cathode class with distinct low-temperature behavior.",
+      "priority": 3
+    },
+    {
+      "query": "\"sodium-ion cathode\" AND \"low temperature\"",
+      "variant_type": "fallback",
+      "search_intent": "core_topic",
+      "source_constraints": ["battery_system"],
+      "rationale": "Minimal fallback when specific material class or metric filters are too restrictive.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 11,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["battery_system", "low_temperature_performance", "rate_capability", "structural_stability", "material_scope_layered_oxide", "modification_strategies"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used", "manual_review_recommended"]
+  }
+}

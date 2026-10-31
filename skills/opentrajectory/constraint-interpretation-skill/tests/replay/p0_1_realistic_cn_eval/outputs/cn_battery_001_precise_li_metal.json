@@ -1,0 +1,123 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "battery_system",
+      "original_phrase": "锂金属电池",
+      "constraint_type": "material_property",
+      "interpreted_value": "lithium metal battery",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies lithium metal battery as the target system, distinguishing from lithium-ion batteries with graphite anodes.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["lithium metal battery", "Li metal anode", "lithium metal electrode"],
+      "downstream_filter_rules": [
+        {"type": "hard_filter", "field": "battery_type", "condition": "lithium metal"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "voltage_threshold",
+      "original_phrase": "4.5V 以上高电压",
+      "constraint_type": "numerical_range",
+      "interpreted_value": ">4.5V",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly states voltage above 4.5V as a high-voltage condition. This is a clear numerical threshold for the operating voltage window.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["high voltage 4.5V", "voltage window above 4.5V", "high voltage electrolyte", "4.5V cutoff"],
+      "downstream_filter_rules": [
+        {"type": "hard_filter", "field": "voltage_min", "condition": ">= 4.5"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["explicit_value_from_user_input_only"]
+    },
+    {
+      "constraint_name": "charge_rate",
+      "original_phrase": "2C 以上快充",
+      "constraint_type": "numerical_range",
+      "interpreted_value": ">2C",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly states fast charging above 2C rate. 2C is a clear numerical threshold in battery literature.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["fast charging", "2C rate", "high rate charging", "C-rate above 2C"],
+      "downstream_filter_rules": [
+        {"type": "hard_filter", "field": "charge_rate", "condition": ">= 2C"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["explicit_value_from_user_input_only"]
+    },
+    {
+      "constraint_name": "electrolyte_type",
+      "original_phrase": "醚类电解液",
+      "constraint_type": "material_property",
+      "interpreted_value": "ether-based electrolyte",
+      "candidate_values": ["DME-based", "DOL/DME", "glyme-based", "ether solvent electrolyte"],
+      "domain_rationale": "User explicitly specifies ether-based electrolytes as the design focus. Ether solvents (DME, DOL, glymes) are commonly studied for lithium metal batteries due to their compatibility with Li metal.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["ether electrolyte", "ether-based electrolyte", "glyme electrolyte", "DME electrolyte", "ether solvent lithium"],
+      "downstream_filter_rules": [
+        {"type": "hard_filter", "field": "electrolyte_type", "condition": "ether-based"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "performance_metric_coulombic_efficiency",
+      "original_phrase": "库伦效率",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": "Coulombic efficiency",
+      "candidate_values": [],
+      "domain_rationale": "Coulombic efficiency (CE) is a standard metric for lithium metal battery performance, measuring the ratio of charge extracted to charge stored per cycle.",
+      "confidence": 0.87,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["Coulombic efficiency", "CE lithium metal", "first cycle efficiency"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers reporting Coulombic efficiency as a key metric"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "performance_metric_cycle_life",
+      "original_phrase": "循环寿命",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": "cycle life",
+      "candidate_values": [],
+      "domain_rationale": "Cycle life is a standard electrochemical performance metric indicating how many charge-discharge cycles a battery can sustain before significant capacity fade.",
+      "confidence": 0.87,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["cycle life", "cycling stability", "capacity retention", "long-term cycling"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers reporting cycle life or cycling stability data"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "performance_metric_interfacial_stability",
+      "original_phrase": "界面稳定性",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": "interfacial stability",
+      "candidate_values": [],
+      "domain_rationale": "Interfacial stability refers to the stability of the electrode-electrolyte interface (SEI on Li metal), a critical factor for lithium metal battery performance.",
+      "confidence": 0.85,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["interfacial stability", "SEI stability", "electrode-electrolyte interface", "solid electrolyte interphase"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying interfacial stability or SEI characterization"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.88,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": ["explicit_value_from_user_input_only"],
+    "needs_manual_review": false
+  }
+}

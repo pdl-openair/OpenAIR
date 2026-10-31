@@ -1,0 +1,194 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["scientific discovery agent", "AI discovery agent", "autonomous scientific discovery", "RAG scientific discovery", "retrieval-augmented generation scientific agent"],
+      "must_include_terms": ["agent", "scientific discovery"],
+      "optional_terms": ["autonomous", "RAG", "retrieval-augmented", "AI discovery"],
+      "exclude_terms": [],
+      "expected_paper_type": "empirical or survey paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["agent_system_type", "rag_mechanism"],
+      "rationale": "Core entry covering scientific discovery agents with RAG as a key mechanism.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["retrieval-augmented generation", "RAG agent research", "evidence graph", "knowledge graph scientific discovery", "evidence network hypothesis", "source traceability agent", "evidence provenance", "traceable reasoning AI"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["RAG", "retrieval-augmented", "evidence graph", "knowledge graph", "evidence network", "source traceability", "evidence provenance"],
+      "exclude_terms": [],
+      "expected_paper_type": "empirical paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["rag_mechanism", "evidence_graph", "traceability"],
+      "rationale": "Encodes the highest-confidence constraints: RAG (0.90), evidence graph (0.82), and source traceability (0.85).",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["RAG hypothesis generation mechanism", "evidence graph reasoning", "knowledge graph hypothesis agent", "structured evidence representation", "counterfactual validation agent", "backward verification hypothesis", "hypothesis falsification agent"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["RAG mechanism", "evidence graph reasoning", "knowledge graph hypothesis", "structured evidence", "counterfactual", "backward verification", "hypothesis falsification"],
+      "exclude_terms": [],
+      "expected_paper_type": "mechanism or architecture paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["rag_mechanism", "evidence_graph", "reverse_validation"],
+      "rationale": "Covers mechanisms of RAG-based evidence retrieval, evidence graph construction, and reverse/counterfactual validation.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["negative results agent", "failure case handling", "negative result scientific AI", "failed experiment agent", "citation traceability", "chain of evidence AI", "reasoning chain completeness"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["negative results", "failure case", "failed experiment", "citation traceability", "chain of evidence", "reasoning chain"],
+      "exclude_terms": [],
+      "expected_paper_type": "methods or system paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["negative_results_handling", "evidence_chain_completeness", "traceability"],
+      "rationale": "Covers methods for handling negative results and maintaining evidence chain completeness.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["hypothesis credibility agent", "hypothesis trustworthiness AI", "agent hypothesis accuracy", "scientific agent evaluation", "RAG precision recall scientific", "evidence-grounded hypothesis evaluation"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["hypothesis credibility", "trustworthiness", "accuracy", "evaluation", "RAG precision", "evidence-grounded"],
+      "exclude_terms": [],
+      "expected_paper_type": "evaluation or benchmark paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["agent_system_type", "rag_mechanism"],
+      "rationale": "Targets papers reporting measurable outcomes for hypothesis generation credibility.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["knowledge graph reasoning scientific", "automated fact verification AI", "scientific claim verification", "provenance tracking AI", "explainable AI scientific discovery", "citation network analysis agent"],
+      "must_include_terms": [],
+      "optional_terms": ["knowledge graph reasoning", "fact verification", "claim verification", "provenance tracking", "explainable AI", "citation network"],
+      "exclude_terms": [],
+      "expected_paper_type": "survey or empirical paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["traceability", "evidence_graph"],
+      "rationale": "Expands recall to adjacent directions: knowledge graph reasoning, fact verification, and provenance tracking.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": ["scientific discovery agent"],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope or user exclusions provided. Risk flags not converted to exclude_terms.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"scientific discovery\" AND \"agent\" AND \"retrieval-augmented generation\" AND (\"hypothesis\" OR \"evidence\")",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["agent_system_type", "rag_mechanism"],
+      "rationale": "Strict query combining scientific discovery agent with RAG and hypothesis/evidence focus.",
+      "priority": 1
+    },
+    {
+      "query": "\"scientific discovery agent\" AND (\"RAG\" OR \"retrieval-augmented\" OR \"knowledge graph\") AND (\"hypothesis\" OR \"evidence graph\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["agent_system_type", "rag_mechanism", "evidence_graph"],
+      "rationale": "Broad variant expanding retrieval mechanism synonyms and evidence representation types.",
+      "priority": 1
+    },
+    {
+      "query": "\"RAG\" AND \"scientific discovery\" AND \"hypothesis generation\" AND \"agent\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["rag_mechanism", "agent_system_type"],
+      "rationale": "Strict query targeting RAG applied to hypothesis generation in scientific discovery agents.",
+      "priority": 1
+    },
+    {
+      "query": "\"evidence graph\" AND \"agent\" AND (\"hypothesis\" OR \"scientific discovery\" OR \"knowledge graph\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["evidence_graph"],
+      "rationale": "Broad query for evidence graph usage in scientific agents, covering knowledge graph synonyms.",
+      "priority": 1
+    },
+    {
+      "query": "\"source traceability\" AND \"agent\" AND (\"evidence provenance\" OR \"citation traceability\" OR \"traceable reasoning\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["traceability"],
+      "rationale": "Broad query for source traceability and evidence provenance in scientific agents.",
+      "priority": 1
+    },
+    {
+      "query": "\"reverse validation\" AND \"agent\" AND (\"hypothesis\" OR \"scientific discovery\")",
+      "variant_type": "strict",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["reverse_validation"],
+      "rationale": "Targets reverse validation mechanism; kept as optional since confidence is 0.65.",
+      "priority": 2
+    },
+    {
+      "query": "\"agent\" AND (\"counterfactual validation\" OR \"backward verification\" OR \"hypothesis falsification\") AND \"scientific\"",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["reverse_validation"],
+      "rationale": "Broad query covering multiple interpretations of reverse validation mechanism.",
+      "priority": 2
+    },
+    {
+      "query": "\"negative results\" AND \"agent\" AND (\"scientific\" OR \"research\") AND (\"failure case\" OR \"failed experiment\")",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["negative_results_handling"],
+      "rationale": "Broad query for negative results handling in scientific agents.",
+      "priority": 2
+    },
+    {
+      "query": "\"evidence chain\" AND \"agent\" AND (\"reasoning chain\" OR \"chain of evidence\" OR \"evidence trail\")",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["evidence_chain_completeness"],
+      "rationale": "Broad query for evidence chain completeness in agent reasoning.",
+      "priority": 2
+    },
+    {
+      "query": "\"scientific agent\" AND (\"credibility\" OR \"trustworthiness\" OR \"accuracy\") AND (\"hypothesis\" OR \"evidence\")",
+      "variant_type": "broad",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["agent_system_type"],
+      "rationale": "Broad performance query for hypothesis credibility metrics in scientific agents.",
+      "priority": 2
+    },
+    {
+      "query": "\"knowledge graph\" AND \"scientific reasoning\" AND (\"agent\" OR \"AI\") AND (\"provenance\" OR \"traceability\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["evidence_graph", "traceability"],
+      "rationale": "Adjacent direction: knowledge graph reasoning with provenance tracking.",
+      "priority": 3
+    },
+    {
+      "query": "\"autonomous scientific discovery\" AND (\"RAG\" OR \"evidence\" OR \"hypothesis\") AND \"agent\"",
+      "variant_type": "fallback",
+      "search_intent": "core_topic",
+      "source_constraints": ["agent_system_type"],
+      "rationale": "Fallback broad query for autonomous scientific discovery agents.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 12,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["agent_system_type", "rag_mechanism", "evidence_graph", "reverse_validation", "traceability", "evidence_chain_completeness", "negative_results_handling"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used"]
+  }
+}

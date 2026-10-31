@@ -1,0 +1,112 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "battery_system",
+      "original_phrase": "锂电池",
+      "constraint_type": "material_property",
+      "interpreted_value": "lithium-ion battery",
+      "candidate_values": ["lithium-ion battery", "lithium metal battery"],
+      "domain_rationale": "User says '锂电池' without specifying lithium metal vs lithium-ion. Most fast-charging literature covers lithium-ion; lithium metal is not stated.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["lithium battery", "lithium-ion battery", "Li-ion battery"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "treat_as_soft_constraint_until_confirmed: lithium-ion or lithium metal not specified"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["battery_subtype_ambiguous: lithium-ion vs lithium metal not specified"]
+    },
+    {
+      "constraint_name": "fast_charging_instability",
+      "original_phrase": "快充的时候电解液不稳定",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": "electrolyte instability under fast charging",
+      "candidate_values": [],
+      "domain_rationale": "User identifies electrolyte instability during fast charging as the core problem. This is a qualitative condition without specific rate or voltage threshold.",
+      "confidence": 0.60,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["electrolyte instability fast charging", "electrolyte decomposition high rate", "fast charging electrolyte degradation"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "avoid_strong_filter_on_low_confidence: no specific rate or voltage threshold given"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["fast_charging_rate_undefined: specific C-rate not specified by user", "voltage_threshold_undefined: no voltage window given"]
+    },
+    {
+      "constraint_name": "solution_type_additive_or_solvation",
+      "original_phrase": "添加剂或者溶剂化结构设计思路",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": ["electrolyte additive", "solvation structure design", "co-solvent design"],
+      "domain_rationale": "User is interested in either additive-based or solvation structure design approaches. These are two distinct but related research directions for electrolyte stabilization.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["electrolyte additive", "solvation structure", "solvation sheath design", "co-solvent electrolyte", "electrolyte formulation"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers on additive design or solvation structure engineering"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["approach_scope_broad: additive vs solvation structure are distinct research directions"]
+    },
+    {
+      "constraint_name": "recency_preference",
+      "original_phrase": "比较新的",
+      "constraint_type": "source_preference",
+      "interpreted_value": null,
+      "candidate_values": ["recent 3 years", "recent 5 years"],
+      "domain_rationale": "User prefers recent literature but does not specify a year range. 'New' is subjective; in fast-charging electrolyte research, recent typically means within 3-5 years.",
+      "confidence": 0.40,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["recent electrolyte design", "novel electrolyte additive"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "treat_as_soft_constraint_until_confirmed: recency preference without year range"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["recency_undefined: no year range specified"]
+    },
+    {
+      "constraint_name": "mechanistic_clarity_preference",
+      "original_phrase": "机理比较清楚的论文",
+      "constraint_type": "source_preference",
+      "interpreted_value": null,
+      "candidate_values": [],
+      "domain_rationale": "User explicitly prefers papers with clear mechanistic explanation over engineering application papers. This is a qualitative preference that cannot be converted to a hard filter.",
+      "confidence": 0.45,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["mechanism electrolyte", "mechanistic study fast charging", "fundamental mechanism electrolyte stability"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "avoid_strong_filter_on_low_confidence: mechanistic clarity is not a quantifiable filter criterion"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["mechanistic_clarity_not_filterable: subjective quality criterion cannot be used as hard filter"]
+    },
+    {
+      "constraint_name": "application_scope_exclusion",
+      "original_phrase": "别太偏工程应用",
+      "constraint_type": "boundary_condition",
+      "interpreted_value": null,
+      "candidate_values": [],
+      "domain_rationale": "User wants to exclude papers that are primarily engineering-application focused, preferring fundamental/mechanistic research. This is a soft exclusion preference.",
+      "confidence": 0.42,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["fundamental study", "mechanistic investigation", "basic research electrolyte"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "deprioritize engineering application papers; prefer fundamental mechanistic studies"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["exclusion_criterion_subjective: engineering vs fundamental distinction is not always clear-cut"]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.52,
+    "coverage_level": "moderate",
+    "missing_inputs": ["specific_charge_rate", "voltage_window", "battery_subtype"],
+    "risk_flags": [
+      "fast_charging_rate_undefined",
+      "battery_subtype_ambiguous",
+      "recency_undefined",
+      "mechanistic_clarity_not_filterable"
+    ],
+    "needs_manual_review": true
+  }
+}

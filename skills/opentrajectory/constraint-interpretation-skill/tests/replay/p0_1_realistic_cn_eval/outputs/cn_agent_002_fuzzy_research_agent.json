@@ -1,0 +1,95 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "research_agent_scope",
+      "original_phrase": "科研智能体",
+      "constraint_type": "condition",
+      "interpreted_value": "scientific research agent",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly asks about scientific research agents as the target system. This is a specific subfield of AI agent research.",
+      "confidence": 0.82,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["scientific research agent", "AI research agent", "autonomous research agent", "science agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers on AI agents designed for scientific research tasks"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "non_chatbot_distinction",
+      "original_phrase": "不是简单套壳聊天机器人的研究",
+      "constraint_type": "boundary_condition",
+      "interpreted_value": null,
+      "candidate_values": [],
+      "domain_rationale": "User wants to exclude papers that are merely chatbot wrappers without genuine research capability. This is a qualitative exclusion criterion that cannot be converted to a hard filter.",
+      "confidence": 0.38,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["autonomous research agent", "agentic AI research", "beyond chatbot research agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "avoid_strong_filter_on_low_confidence: chatbot vs genuine agent distinction is not quantifiable"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["exclusion_criterion_subjective: chatbot wrapper vs genuine agent is not a filterable criterion"]
+    },
+    {
+      "constraint_name": "literature_analysis_capability",
+      "original_phrase": "真的参与文献分析",
+      "constraint_type": "condition",
+      "interpreted_value": "literature analysis capability",
+      "candidate_values": [],
+      "domain_rationale": "User wants agents that genuinely perform literature analysis, not just retrieval. This implies active reading, synthesis, and reasoning over papers.",
+      "confidence": 0.55,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["literature analysis agent", "automated literature review", "paper analysis AI", "scientific literature agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers demonstrating literature analysis capability in agents"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["capability_depth_undefined: 'genuine' literature analysis is subjective"]
+    },
+    {
+      "constraint_name": "hypothesis_generation",
+      "original_phrase": "假设生成",
+      "constraint_type": "condition",
+      "interpreted_value": "hypothesis generation",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly wants agents capable of hypothesis generation, a key step in the scientific discovery process.",
+      "confidence": 0.80,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["hypothesis generation agent", "automated hypothesis generation", "scientific hypothesis AI", "hypothesis discovery"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying hypothesis generation in AI agents"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "validation_involvement",
+      "original_phrase": "验证",
+      "constraint_type": "condition",
+      "interpreted_value": "validation",
+      "candidate_values": ["experimental validation", "computational validation", "logical verification"],
+      "domain_rationale": "User wants agents that participate in validation of hypotheses. The type of validation (experimental, computational, logical) is not specified.",
+      "confidence": 0.58,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["hypothesis validation agent", "automated validation research", "agent verification scientific"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers where agents participate in hypothesis validation"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["validation_type_undefined: experimental vs computational vs logical validation not specified"]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.55,
+    "coverage_level": "moderate",
+    "missing_inputs": ["specific_research_domain", "validation_type"],
+    "risk_flags": [
+      "exclusion_criterion_subjective",
+      "capability_depth_undefined",
+      "validation_type_undefined"
+    ],
+    "needs_manual_review": true
+  }
+}

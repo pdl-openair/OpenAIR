@@ -1,0 +1,178 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["scientific research agent", "AI research agent", "autonomous research agent", "science agent", "agentic AI scientific discovery"],
+      "must_include_terms": ["agent", "research"],
+      "optional_terms": ["scientific", "autonomous", "agentic", "science", "discovery"],
+      "exclude_terms": [],
+      "expected_paper_type": "empirical or survey paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["research_agent_scope"],
+      "rationale": "Core entry covering the primary research object: AI agents for scientific research.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["hypothesis generation agent", "automated hypothesis generation", "scientific hypothesis AI", "hypothesis discovery", "literature analysis agent", "automated literature review", "paper analysis AI"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["hypothesis generation", "automated hypothesis", "literature analysis", "literature review", "paper analysis"],
+      "exclude_terms": [],
+      "expected_paper_type": "empirical paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["hypothesis_generation", "literature_analysis_capability"],
+      "rationale": "Encodes the two highest-confidence constraints: hypothesis generation (0.80) and literature analysis (0.55). Non-chatbot distinction is not filterable.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["agent reasoning mechanism scientific", "knowledge synthesis agent", "iterative hypothesis refinement", "evidence-based reasoning agent", "scientific workflow automation", "agent planning scientific task"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["reasoning mechanism", "knowledge synthesis", "iterative refinement", "evidence-based", "scientific workflow", "planning"],
+      "exclude_terms": [],
+      "expected_paper_type": "mechanism or architecture paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["research_agent_scope", "hypothesis_generation"],
+      "rationale": "Covers internal mechanisms enabling genuine scientific reasoning beyond simple chat.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["autonomous research agent pipeline", "multi-step scientific reasoning agent", "agent tool use scientific", "scientific agent framework", "LLM scientific discovery pipeline", "agent experiment design"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["pipeline", "multi-step", "tool use", "framework", "experiment design", "scientific discovery"],
+      "exclude_terms": [],
+      "expected_paper_type": "methods or system paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["research_agent_scope"],
+      "rationale": "Covers methods and system designs that distinguish genuine research agents from simple chatbot wrappers.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["hypothesis validation agent", "automated validation research", "agent verification scientific", "scientific agent evaluation", "research agent benchmark", "agent hypothesis accuracy"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["hypothesis validation", "automated validation", "verification", "evaluation", "benchmark", "accuracy"],
+      "exclude_terms": [],
+      "expected_paper_type": "evaluation or benchmark paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["validation_involvement"],
+      "rationale": "Targets papers reporting measurable validation outcomes; validation type not specified so kept broad.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["AI-assisted scientific discovery", "knowledge graph scientific reasoning", "automated experiment planning", "LLM literature synthesis", "scientific question answering agent", "research automation AI"],
+      "must_include_terms": [],
+      "optional_terms": ["AI-assisted", "knowledge graph", "automated experiment", "literature synthesis", "question answering", "research automation"],
+      "exclude_terms": [],
+      "expected_paper_type": "survey or empirical paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["research_agent_scope"],
+      "rationale": "Expands recall to adjacent directions: knowledge graphs, automated experiments, literature synthesis.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": ["scientific research agent"],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope or user exclusions provided. Non-chatbot distinction is subjective and not filterable; no exclude_terms generated.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"scientific research agent\" AND (\"hypothesis generation\" OR \"literature analysis\" OR \"hypothesis validation\")",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["research_agent_scope", "hypothesis_generation", "literature_analysis_capability"],
+      "rationale": "Strict intersection of the core topic with the two highest-confidence constraints.",
+      "priority": 1
+    },
+    {
+      "query": "\"autonomous research agent\" AND (\"hypothesis\" OR \"literature review\" OR \"scientific discovery\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["research_agent_scope"],
+      "rationale": "Broad variant using synonyms for scientific research agent with relaxed constraint conjunction.",
+      "priority": 1
+    },
+    {
+      "query": "\"hypothesis generation\" AND \"agent\" AND (\"automated\" OR \"AI\" OR \"LLM\") AND \"scientific\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["hypothesis_generation"],
+      "rationale": "Strict query targeting hypothesis generation, the highest-confidence constraint (0.80).",
+      "priority": 1
+    },
+    {
+      "query": "\"literature analysis\" AND \"agent\" AND (\"automated literature review\" OR \"paper analysis\" OR \"scientific literature\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["literature_analysis_capability"],
+      "rationale": "Broad query for literature analysis capability, a medium-confidence constraint (0.55).",
+      "priority": 1
+    },
+    {
+      "query": "\"agent\" AND \"hypothesis validation\" AND (\"scientific\" OR \"research\") AND (\"verification\" OR \"validation\")",
+      "variant_type": "broad",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["validation_involvement"],
+      "rationale": "Broad validation query covering multiple validation types since the constraint type is undefined.",
+      "priority": 2
+    },
+    {
+      "query": "\"agentic AI\" AND \"scientific discovery\" AND (\"reasoning\" OR \"planning\" OR \"workflow\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["research_agent_scope"],
+      "rationale": "Broad mechanism query using 'agentic AI' to capture papers distinguishing genuine agency from simple chat.",
+      "priority": 2
+    },
+    {
+      "query": "\"AI agent\" AND \"scientific research\" AND (\"pipeline\" OR \"framework\" OR \"multi-step\")",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["research_agent_scope"],
+      "rationale": "Broad method query targeting system-level descriptions of scientific research agents.",
+      "priority": 2
+    },
+    {
+      "query": "\"research automation\" AND (\"AI\" OR \"LLM\") AND (\"hypothesis\" OR \"experiment\" OR \"literature\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["research_agent_scope"],
+      "rationale": "Adjacent direction: research automation systems that may inform genuine scientific agent design.",
+      "priority": 3
+    },
+    {
+      "query": "\"science agent\" AND (\"evaluation\" OR \"benchmark\") AND (\"hypothesis\" OR \"discovery\")",
+      "variant_type": "strict",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["validation_involvement"],
+      "rationale": "Strict evaluation query for science agents with measurable outcomes.",
+      "priority": 2
+    },
+    {
+      "query": "\"autonomous agent\" AND (\"scientific\" OR \"research\") AND (\"literature\" OR \"hypothesis\" OR \"experiment\")",
+      "variant_type": "fallback",
+      "search_intent": "core_topic",
+      "source_constraints": ["research_agent_scope"],
+      "rationale": "Fallback using broader autonomous agent terms combined with scientific research keywords.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 10,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["research_agent_scope", "literature_analysis_capability", "hypothesis_generation", "validation_involvement"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used", "manual_review_recommended"]
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "rag_evidence_graph_reverse_validation",
+      "original_phrase": "RAG、证据图谱和反向校验机制",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "retrieval-augmented generation",
+        "evidence graph",
+        "reverse validation",
+        "knowledge graph RAG"
+      ],
+      "domain_rationale": "RAG, evidence graphs, and reverse validation are distinct but related mechanisms for improving hypothesis generation trustworthiness in scientific discovery agents. These are method/mechanism constraints, not material filters. They define the technical approach the user wants to study.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "retrieval-augmented generation",
+        "evidence graph",
+        "reverse validation",
+        "RAG scientific discovery",
+        "knowledge graph hypothesis generation"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "trustworthiness_metric_ambiguous: 'trustworthiness' has no single agreed metric in scientific discovery context"
+      ]
+    },
+    {
+      "constraint_name": "traceability_evidence_chain",
+      "original_phrase": "来源追溯、证据链",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "source traceability",
+        "evidence chain",
+        "citation tracing",
+        "provenance tracking"
+      ],
+      "domain_rationale": "Traceability and evidence chain are evidence quality requirements. The user wants papers that demonstrate how sources can be traced and how evidence chains are constructed. These are qualitative evidence requirements, not hard filters.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "traceability",
+        "evidence chain",
+        "source attribution",
+        "provenance scientific agent",
+        "citation tracing"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "traceability_metric_undefined: no quantitative measure of traceability specified"
+      ]
+    },
+    {
+      "constraint_name": "failure_case_analysis",
+      "original_phrase": "失败案例分析",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "failure analysis",
+        "negative results",
+        "error analysis",
+        "ablation study"
+      ],
+      "domain_rationale": "Failure case analysis is an evidence requirement indicating the user wants papers that include analysis of failure modes or negative results, not just successful outcomes. This is a qualitative evidence standard.",
+      "confidence": 0.55,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "failure analysis",
+        "negative results",
+        "failure case",
+        "error analysis agent",
+        "failure mode scientific discovery"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "failure_case_availability_uncertain: papers explicitly reporting failure cases in scientific discovery agents may be limited"
+      ]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.60,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [
+      "trustworthiness_metric_ambiguous",
+      "failure_case_availability_uncertain",
+      "traceability_metric_undefined"
+    ],
+    "needs_manual_review": true
+  }
+}

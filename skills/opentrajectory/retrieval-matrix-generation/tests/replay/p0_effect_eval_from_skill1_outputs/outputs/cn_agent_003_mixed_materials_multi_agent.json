@@ -1,0 +1,186 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["multi-agent system materials research", "multi-agent materials science", "collaborative agent materials discovery", "AI agent materials science", "autonomous agent materials research"],
+      "must_include_terms": ["agent", "materials"],
+      "optional_terms": ["multi-agent", "collaborative", "autonomous", "materials science", "materials discovery"],
+      "exclude_terms": [],
+      "expected_paper_type": "empirical or system paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["system_type"],
+      "rationale": "Core entry covering the primary research object: multi-agent systems for materials research tasks.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["literature retrieval agent", "automated literature search", "hypothesis generation materials", "candidate hypothesis agent", "closed-loop optimization agent", "iterative agent materials", "evidence organization agent", "evidence synthesis AI"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["literature retrieval", "hypothesis generation", "closed-loop", "iterative", "evidence organization", "materials"],
+      "exclude_terms": [],
+      "expected_paper_type": "empirical paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["literature_retrieval_component", "hypothesis_generation", "closed_loop_optimization", "evidence_organization"],
+      "rationale": "Encodes the highest-confidence constraints: literature retrieval (0.87), hypothesis generation (0.85), and closed-loop optimization (0.72).",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["agent workflow orchestration materials", "evidence synthesis mechanism agent", "knowledge integration multi-agent", "agent coordination materials discovery", "closed-loop feedback mechanism agent", "self-improving agent materials"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["workflow orchestration", "evidence synthesis", "knowledge integration", "agent coordination", "closed-loop feedback", "self-improving"],
+      "exclude_terms": [],
+      "expected_paper_type": "mechanism or architecture paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["system_type", "closed_loop_optimization"],
+      "rationale": "Covers mechanisms enabling multi-agent coordination, evidence synthesis, and closed-loop optimization.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["computational tool agent", "simulation tool calling", "DFT tool agent", "agent computational workflow", "experimental feedback agent", "closed-loop experiment agent", "experiment-in-the-loop AI"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["computational tool", "simulation", "DFT", "MD", "ML", "experimental feedback", "closed-loop experiment", "experiment-in-the-loop"],
+      "exclude_terms": [],
+      "expected_paper_type": "methods or system paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["computational_tool_invocation", "experimental_feedback"],
+      "rationale": "Covers methods for computational tool invocation and experimental feedback integration in materials research agent workflows.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["materials discovery efficiency agent", "agent performance materials optimization", "closed-loop optimization convergence", "autonomous materials design success rate", "agent benchmark materials science"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["discovery efficiency", "optimization performance", "convergence", "success rate", "benchmark"],
+      "exclude_terms": [],
+      "expected_paper_type": "evaluation or benchmark paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["system_type", "closed_loop_optimization"],
+      "rationale": "Targets papers reporting measurable outcomes for multi-agent materials research systems.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["AI-driven materials discovery", "active learning materials", "Bayesian optimization materials", "robot scientist materials", "automated synthesis planning", "self-driving laboratory"],
+      "must_include_terms": [],
+      "optional_terms": ["AI-driven", "active learning", "Bayesian optimization", "robot scientist", "automated synthesis", "self-driving laboratory"],
+      "exclude_terms": [],
+      "expected_paper_type": "survey or empirical paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["system_type"],
+      "rationale": "Expands recall to adjacent directions: self-driving laboratories and active learning systems that inform closed-loop multi-agent materials research.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": ["multi-agent materials research"],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope or user exclusions provided. Risk flags not converted to exclude_terms.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"multi-agent\" AND \"materials\" AND (\"literature retrieval\" OR \"hypothesis generation\" OR \"closed-loop\")",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["system_type", "literature_retrieval_component", "hypothesis_generation", "closed_loop_optimization"],
+      "rationale": "Strict intersection of multi-agent materials research with the three highest-confidence workflow constraints.",
+      "priority": 1
+    },
+    {
+      "query": "\"agent\" AND \"materials science\" AND (\"literature\" OR \"hypothesis\" OR \"computational tool\" OR \"experimental feedback\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["system_type"],
+      "rationale": "Broad variant covering the full workflow pipeline with OR across all major components.",
+      "priority": 1
+    },
+    {
+      "query": "\"multi-agent\" AND \"materials discovery\" AND (\"closed-loop\" OR \"iterative optimization\" OR \"continuous learning\")",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["closed_loop_optimization"],
+      "rationale": "Strict query targeting closed-loop optimization in multi-agent materials discovery.",
+      "priority": 1
+    },
+    {
+      "query": "\"agent\" AND \"materials\" AND (\"DFT\" OR \"molecular dynamics\" OR \"machine learning potential\") AND (\"tool\" OR \"simulation\")",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["computational_tool_invocation"],
+      "rationale": "Broad computational tool query covering DFT, MD, and ML potentials without over-specifying the tool type.",
+      "priority": 2
+    },
+    {
+      "query": "\"closed-loop\" AND \"experiment\" AND \"agent\" AND (\"materials\" OR \"chemistry\" OR \"synthesis\")",
+      "variant_type": "strict",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["experimental_feedback"],
+      "rationale": "Strict query targeting closed-loop experimental feedback in materials or chemistry agent systems.",
+      "priority": 2
+    },
+    {
+      "query": "\"evidence organization\" AND \"agent\" AND (\"materials\" OR \"scientific\") AND (\"synthesis\" OR \"knowledge graph\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["evidence_organization"],
+      "rationale": "Broad mechanism query for evidence organization and knowledge synthesis in scientific agents.",
+      "priority": 2
+    },
+    {
+      "query": "\"self-driving laboratory\" AND (\"agent\" OR \"AI\") AND (\"materials\" OR \"chemistry\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["system_type"],
+      "rationale": "Self-driving laboratories are closely related to closed-loop multi-agent materials research.",
+      "priority": 3
+    },
+    {
+      "query": "\"agent\" AND \"materials\" AND (\"literature retrieval\" OR \"automated literature search\") AND (\"hypothesis\" OR \"discovery\")",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["literature_retrieval_component", "hypothesis_generation"],
+      "rationale": "Strict query combining literature retrieval with hypothesis generation in materials agent workflows.",
+      "priority": 1
+    },
+    {
+      "query": "\"multi-agent system\" AND (\"materials\" OR \"chemistry\") AND (\"workflow\" OR \"pipeline\" OR \"orchestration\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["system_type"],
+      "rationale": "Broad mechanism query for multi-agent workflow orchestration in materials science.",
+      "priority": 2
+    },
+    {
+      "query": "\"autonomous agent\" AND (\"materials\" OR \"chemistry\") AND (\"optimization\" OR \"discovery\") AND (\"benchmark\" OR \"evaluation\")",
+      "variant_type": "fallback",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["system_type"],
+      "rationale": "Fallback performance query using broader autonomous agent terms with materials optimization and evaluation.",
+      "priority": 3
+    },
+    {
+      "query": "\"active learning\" AND \"materials\" AND (\"agent\" OR \"autonomous\") AND (\"closed-loop\" OR \"iterative\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["closed_loop_optimization"],
+      "rationale": "Adjacent direction: active learning for materials discovery, closely related to closed-loop multi-agent optimization.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 11,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["system_type", "literature_retrieval_component", "evidence_organization", "hypothesis_generation", "computational_tool_invocation", "experimental_feedback", "closed_loop_optimization"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used"]
+  }
+}

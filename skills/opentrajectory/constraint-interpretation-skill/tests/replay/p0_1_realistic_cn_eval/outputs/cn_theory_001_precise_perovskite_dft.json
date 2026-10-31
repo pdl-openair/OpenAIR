@@ -1,0 +1,107 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "material_system",
+      "original_phrase": "卤化物钙钛矿",
+      "constraint_type": "material_property",
+      "interpreted_value": "halide perovskite",
+      "candidate_values": ["lead halide perovskite", "tin halide perovskite", "mixed halide perovskite"],
+      "domain_rationale": "User explicitly specifies halide perovskites as the material system. This is a well-defined class of materials in photovoltaics and optoelectronics research.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["halide perovskite", "lead halide perovskite", "perovskite semiconductor", "ABX3 perovskite"],
+      "downstream_filter_rules": [
+        {"type": "hard_filter", "field": "material_class", "condition": "halide perovskite"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "research_topic",
+      "original_phrase": "缺陷容忍性",
+      "constraint_type": "material_property",
+      "interpreted_value": "defect tolerance",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies defect tolerance as the research topic. Defect tolerance is a key property of halide perovskites explaining their high performance despite high defect densities.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["defect tolerance perovskite", "defect tolerant semiconductor", "defect physics perovskite"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying defect tolerance in halide perovskites"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "computational_method",
+      "original_phrase": "DFT 计算",
+      "constraint_type": "condition",
+      "interpreted_value": "DFT calculation",
+      "candidate_values": ["density functional theory", "hybrid DFT", "GW calculation"],
+      "domain_rationale": "User explicitly specifies DFT as the computational method of interest. DFT is the standard first-principles method for studying defect physics in perovskites.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["DFT calculation perovskite", "density functional theory defect", "first-principles perovskite defect"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers using DFT calculations; do not treat as material filter"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "nonradiative_recombination",
+      "original_phrase": "非辐射复合",
+      "constraint_type": "condition",
+      "interpreted_value": "nonradiative recombination",
+      "candidate_values": ["Shockley-Read-Hall recombination", "Auger recombination", "trap-assisted recombination"],
+      "domain_rationale": "User explicitly specifies nonradiative recombination as a key mechanism to study. This is directly linked to defect states in perovskites.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["nonradiative recombination perovskite", "trap-assisted recombination", "Shockley-Read-Hall perovskite", "non-radiative recombination defect"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying nonradiative recombination mechanisms"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "band_edge_states",
+      "original_phrase": "带边态",
+      "constraint_type": "condition",
+      "interpreted_value": "band-edge states",
+      "candidate_values": ["valence band maximum", "conduction band minimum", "shallow defect states"],
+      "domain_rationale": "User explicitly mentions band-edge states as a focus. In perovskite defect physics, band-edge states are associated with shallow defects that are less harmful than deep trap states.",
+      "confidence": 0.87,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["band-edge states perovskite", "shallow defect states", "band edge defect", "valence band maximum defect"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers analyzing band-edge states and their relation to defect tolerance"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "carrier_recombination_mechanism",
+      "original_phrase": "载流子复合机制",
+      "constraint_type": "condition",
+      "interpreted_value": "carrier recombination mechanism",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly wants to understand the relationship between carrier recombination mechanisms and defect tolerance/band-edge states.",
+      "confidence": 0.85,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["carrier recombination mechanism perovskite", "recombination dynamics perovskite", "charge carrier recombination defect"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying carrier recombination mechanisms in halide perovskites"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.88,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [],
+    "needs_manual_review": false
+  }
+}

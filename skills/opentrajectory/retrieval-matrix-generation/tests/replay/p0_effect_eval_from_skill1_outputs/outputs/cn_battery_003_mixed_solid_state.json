@@ -1,0 +1,194 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["solid-state lithium battery", "all-solid-state battery", "solid electrolyte lithium", "sulfide electrolyte", "sulfide solid electrolyte"],
+      "must_include_terms": ["solid-state lithium battery", "sulfide electrolyte"],
+      "optional_terms": ["all-solid-state battery", "thiophosphate electrolyte", "Li-S-P electrolyte"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["battery_system", "electrolyte_type"],
+      "rationale": "Core entry combining solid-state lithium battery and sulfide electrolyte as the primary material system.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["ionic conductivity 10-3 S/cm", "room temperature ionic conductivity", "high ionic conductivity sulfide", "mS/cm solid electrolyte", "lithium metal anode compatibility", "Li metal interface", "anode-electrolyte interface"],
+      "must_include_terms": ["sulfide electrolyte"],
+      "optional_terms": ["ionic conductivity", "room temperature", "high ionic conductivity", "lithium metal anode", "Li metal interface"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["ionic_conductivity_threshold", "anode_compatibility"],
+      "rationale": "Encodes the ionic conductivity target (>=1e-3 S/cm, treated as soft target) and Li metal anode compatibility.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["ion transport mechanism sulfide electrolyte", "interfacial reaction lithium metal sulfide", "Li-ion conduction pathway sulfide", "space charge layer sulfide electrolyte", "electrochemical decomposition sulfide electrolyte"],
+      "must_include_terms": ["sulfide electrolyte"],
+      "optional_terms": ["ion transport mechanism", "interfacial reaction", "Li-ion conduction", "space charge layer", "electrochemical decomposition"],
+      "exclude_terms": [],
+      "expected_paper_type": "mechanism study",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["ionic_conductivity_threshold", "interface_quality"],
+      "rationale": "Covers ion transport mechanisms and interfacial reaction mechanisms in sulfide electrolyte / Li metal systems.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["interface engineering sulfide electrolyte lithium metal", "artificial SEI lithium metal sulfide", "interlayer coating sulfide electrolyte", "interface modification lithium metal solid-state", "buffer layer sulfide electrolyte"],
+      "must_include_terms": ["sulfide electrolyte", "lithium metal"],
+      "optional_terms": ["interface engineering", "artificial SEI", "interlayer coating", "interface modification", "buffer layer"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["anode_compatibility", "interface_quality"],
+      "rationale": "Interface engineering is the primary strategy for improving Li metal / sulfide compatibility.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["ionic conductivity sulfide electrolyte", "interfacial resistance lithium metal solid-state", "cycling performance solid-state lithium battery", "capacity retention solid electrolyte", "area specific resistance sulfide"],
+      "must_include_terms": ["sulfide electrolyte"],
+      "optional_terms": ["ionic conductivity", "interfacial resistance", "cycling performance", "capacity retention", "area specific resistance"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["ionic_conductivity_threshold", "interface_quality"],
+      "rationale": "Targets papers reporting the three key metrics: ionic conductivity, interfacial resistance, and cycling performance.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["argyrodite sulfide electrolyte high ionic conductivity", "LGPS lithium metal solid-state", "Li6PS5Cl lithium metal anode", "oxide solid electrolyte comparison lithium metal"],
+      "must_include_terms": [],
+      "optional_terms": ["argyrodite", "LGPS", "Li6PS5Cl", "oxide solid electrolyte"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["electrolyte_type"],
+      "rationale": "Argyrodite and LGPS are the highest-conductivity sulfide electrolyte families — adjacent and highly relevant.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": ["sulfide solid electrolyte lithium battery"],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope or user exclusions provided. Risk flags not converted to exclude_terms.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"sulfide electrolyte\" AND \"solid-state lithium battery\" AND \"ionic conductivity\" AND \"lithium metal\"",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["battery_system", "electrolyte_type", "ionic_conductivity_threshold"],
+      "rationale": "Strict intersection of core material system, electrolyte class, and ionic conductivity focus.",
+      "priority": 1
+    },
+    {
+      "query": "\"sulfide solid electrolyte\" AND (\"solid-state\" OR \"all-solid-state\") AND \"lithium\" AND (\"ionic conductivity\" OR \"Li metal anode\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["battery_system", "electrolyte_type"],
+      "rationale": "Broad variant expanding battery type terminology and combining conductivity/anode constraints with OR.",
+      "priority": 1
+    },
+    {
+      "query": "\"sulfide electrolyte\" AND \"room temperature ionic conductivity\" AND \"lithium metal\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["ionic_conductivity_threshold"],
+      "rationale": "Targets room-temperature ionic conductivity as a soft target for sulfide electrolytes with Li metal.",
+      "priority": 1
+    },
+    {
+      "query": "\"sulfide electrolyte\" AND (\"ionic conductivity\" OR \"mS/cm\" OR \"10-3 S/cm\") AND (\"lithium metal\" OR \"Li metal anode\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["ionic_conductivity_threshold", "anode_compatibility"],
+      "rationale": "Broad query expanding conductivity notation and anode terminology.",
+      "priority": 1
+    },
+    {
+      "query": "\"ion transport\" AND \"sulfide electrolyte\" AND \"solid-state lithium battery\"",
+      "variant_type": "strict",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["ionic_conductivity_threshold"],
+      "rationale": "Strict query targeting ion transport mechanism studies in sulfide electrolytes.",
+      "priority": 2
+    },
+    {
+      "query": "\"interfacial reaction\" AND \"lithium metal\" AND \"sulfide electrolyte\" AND (\"mechanism\" OR \"decomposition\" OR \"space charge\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["interface_quality", "anode_compatibility"],
+      "rationale": "Broad interfacial reaction mechanism query covering decomposition and space charge effects.",
+      "priority": 2
+    },
+    {
+      "query": "\"interface engineering\" AND \"sulfide electrolyte\" AND \"lithium metal anode\"",
+      "variant_type": "strict",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["anode_compatibility"],
+      "rationale": "Strict query targeting interface engineering strategies for Li metal / sulfide compatibility.",
+      "priority": 2
+    },
+    {
+      "query": "\"lithium metal\" AND \"sulfide electrolyte\" AND (\"interface modification\" OR \"coating\" OR \"artificial SEI\" OR \"interlayer\")",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["anode_compatibility", "interface_quality"],
+      "rationale": "Broad interface modification query covering coating, interlayer, and artificial SEI approaches.",
+      "priority": 2
+    },
+    {
+      "query": "\"sulfide electrolyte\" AND \"ionic conductivity\" AND \"interfacial resistance\" AND \"cycling\"",
+      "variant_type": "strict",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["ionic_conductivity_threshold", "interface_quality"],
+      "rationale": "Strict query targeting papers reporting all three key metrics together.",
+      "priority": 2
+    },
+    {
+      "query": "\"argyrodite\" AND \"lithium metal\" AND (\"ionic conductivity\" OR \"interface\" OR \"solid-state battery\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["electrolyte_type"],
+      "rationale": "Argyrodite is the most studied high-conductivity sulfide electrolyte family.",
+      "priority": 3
+    },
+    {
+      "query": "\"LGPS\" AND (\"lithium metal\" OR \"solid-state battery\") AND (\"ionic conductivity\" OR \"interface\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["electrolyte_type"],
+      "rationale": "LGPS is the benchmark high-conductivity sulfide electrolyte; adjacent and highly relevant.",
+      "priority": 3
+    },
+    {
+      "query": "\"sulfide solid electrolyte\" AND \"lithium metal\" AND \"interface\"",
+      "variant_type": "fallback",
+      "search_intent": "core_topic",
+      "source_constraints": ["battery_system", "electrolyte_type"],
+      "rationale": "Minimal fallback when conductivity threshold filters are too restrictive.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 12,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["battery_system", "electrolyte_type", "ionic_conductivity_threshold", "interface_quality", "anode_compatibility"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used"]
+  }
+}

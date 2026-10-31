@@ -1,0 +1,123 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "agent_system_type",
+      "original_phrase": "科研发现智能体",
+      "constraint_type": "condition",
+      "interpreted_value": "scientific discovery agent",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies scientific discovery agents as the target system.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["scientific discovery agent", "AI discovery agent", "autonomous scientific discovery"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers on AI agents for scientific discovery"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "rag_mechanism",
+      "original_phrase": "RAG",
+      "constraint_type": "condition",
+      "interpreted_value": "retrieval-augmented generation",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly mentions RAG as a mechanism of interest in scientific discovery agents.",
+      "confidence": 0.90,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["retrieval-augmented generation", "RAG scientific discovery", "RAG agent research"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying RAG in scientific discovery agents"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "evidence_graph",
+      "original_phrase": "证据图谱",
+      "constraint_type": "condition",
+      "interpreted_value": "evidence graph",
+      "candidate_values": ["knowledge graph", "evidence network", "citation graph"],
+      "domain_rationale": "User explicitly mentions evidence graphs as a mechanism for improving hypothesis credibility. This refers to structured representations of evidence relationships.",
+      "confidence": 0.82,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["evidence graph", "knowledge graph scientific discovery", "evidence network hypothesis", "structured evidence representation"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers using evidence graphs or structured evidence representations"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "reverse_validation",
+      "original_phrase": "反向校验机制",
+      "constraint_type": "condition",
+      "interpreted_value": "reverse validation mechanism",
+      "candidate_values": ["backward verification", "counterfactual checking", "hypothesis falsification"],
+      "domain_rationale": "User explicitly mentions reverse validation as a mechanism. This likely refers to checking hypotheses against known negative results or falsification approaches.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["reverse validation agent", "backward verification hypothesis", "counterfactual validation", "hypothesis falsification agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers with reverse validation or backward verification mechanisms"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["reverse_validation_definition_ambiguous: multiple interpretations possible"]
+    },
+    {
+      "constraint_name": "traceability",
+      "original_phrase": "来源可追溯",
+      "constraint_type": "source_preference",
+      "interpreted_value": "source traceability",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly requires that evidence sources be traceable, meaning the origin of each piece of evidence can be identified.",
+      "confidence": 0.85,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["source traceability agent", "evidence provenance", "traceable reasoning AI", "citation traceability"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers emphasizing source traceability or evidence provenance"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "evidence_chain_completeness",
+      "original_phrase": "证据链完整",
+      "constraint_type": "source_preference",
+      "interpreted_value": "complete evidence chain",
+      "candidate_values": [],
+      "domain_rationale": "User wants papers with complete evidence chains, meaning the reasoning from evidence to conclusion is fully documented.",
+      "confidence": 0.72,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["evidence chain", "reasoning chain completeness", "full evidence trail", "chain of evidence AI"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "avoid_strong_filter_on_low_confidence: evidence chain completeness is qualitative"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["evidence_chain_completeness_not_filterable: qualitative criterion"]
+    },
+    {
+      "constraint_name": "negative_results_handling",
+      "original_phrase": "能处理失败案例或负结果",
+      "constraint_type": "source_preference",
+      "interpreted_value": "failure cases or negative results handling",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly wants papers that handle failure cases or negative results, indicating interest in robust and honest scientific agents.",
+      "confidence": 0.78,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["negative results agent", "failure case handling", "negative result scientific AI", "failed experiment agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers that address failure cases or negative results in agent reasoning"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.80,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": ["reverse_validation_definition_ambiguous", "evidence_chain_completeness_not_filterable"],
+    "needs_manual_review": false
+  }
+}

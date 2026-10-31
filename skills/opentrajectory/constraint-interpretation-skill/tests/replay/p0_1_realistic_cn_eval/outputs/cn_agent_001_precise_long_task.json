@@ -1,0 +1,107 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "agent_task_scope",
+      "original_phrase": "面向长任务软件开发的 AI Agent",
+      "constraint_type": "condition",
+      "interpreted_value": "long-horizon software development AI agent",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly specifies AI agents for long-horizon software development tasks. This defines the application domain and agent type.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["long-horizon software development agent", "AI agent software engineering", "autonomous coding agent", "long-task agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers on AI agents for software development or long-horizon task completion"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "memory_management",
+      "original_phrase": "记忆管理",
+      "constraint_type": "condition",
+      "interpreted_value": "memory management",
+      "candidate_values": ["context window management", "external memory", "episodic memory", "working memory"],
+      "domain_rationale": "User explicitly lists memory management as a key mechanism of interest. In agent systems, this covers context management, external memory stores, and memory retrieval.",
+      "confidence": 0.85,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["memory management agent", "agent memory", "context management LLM agent", "external memory agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying memory management in AI agents"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "tool_use",
+      "original_phrase": "工具调用",
+      "constraint_type": "condition",
+      "interpreted_value": "tool use / tool calling",
+      "candidate_values": ["function calling", "API tool use", "code execution tools"],
+      "domain_rationale": "User explicitly lists tool use as a key mechanism. Tool calling is a standard capability in modern LLM-based agents.",
+      "confidence": 0.87,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["tool use agent", "tool calling LLM", "function calling agent", "tool-augmented agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying tool use or tool calling in AI agents"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "reflection_mechanism",
+      "original_phrase": "反思机制",
+      "constraint_type": "condition",
+      "interpreted_value": "reflection mechanism",
+      "candidate_values": ["self-reflection", "self-critique", "iterative refinement", "chain-of-thought reflection"],
+      "domain_rationale": "User explicitly lists reflection mechanism as a key component. Reflection in agents refers to self-evaluation and iterative improvement of outputs.",
+      "confidence": 0.85,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["reflection mechanism agent", "self-reflection LLM", "agent self-critique", "iterative refinement agent"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers studying reflection or self-improvement mechanisms in agents"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "performance_metrics",
+      "original_phrase": "任务成功率和稳定性",
+      "constraint_type": "experimental_condition",
+      "interpreted_value": "task success rate and stability",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly wants papers measuring task success rate and stability as evaluation metrics.",
+      "confidence": 0.85,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": ["task success rate agent", "agent stability", "task completion rate", "agent reliability"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers reporting task success rate or stability metrics"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "benchmark_requirement",
+      "original_phrase": "最好有 benchmark 或可复现实验",
+      "constraint_type": "source_preference",
+      "interpreted_value": null,
+      "candidate_values": ["SWE-bench", "HumanEval", "reproducible experiments"],
+      "domain_rationale": "User prefers papers with benchmark evaluation or reproducible experiments. '最好有' indicates a preference, not a hard requirement.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": ["benchmark evaluation agent", "reproducible experiment agent", "SWE-bench", "agent evaluation benchmark"],
+      "downstream_filter_rules": [
+        {"type": "soft_rule", "description": "prefer papers with benchmark evaluation or reproducible experimental results"}
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": ["benchmark_not_specified: user did not name a specific benchmark"]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.83,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": ["benchmark_not_specified"],
+    "needs_manual_review": false
+  }
+}

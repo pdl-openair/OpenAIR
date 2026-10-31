@@ -1,0 +1,194 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["high-entropy alloy", "HEA", "multi-principal element alloy", "phase stability", "Al-Co-Cr-Fe-Ni"],
+      "must_include_terms": ["high-entropy alloy", "phase stability"],
+      "optional_terms": ["HEA", "multi-principal element alloy", "Al-Co-Cr-Fe-Ni", "AlCoCrFeNi"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["material_system", "research_topic"],
+      "rationale": "Core entry covering phase stability prediction in high-entropy alloys as the primary topic.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["CALPHAD high-entropy alloy", "DFT CALPHAD combined HEA", "Al-Co-Cr-Fe-Ni phase stability", "AlCoCrFeNi thermodynamic modeling", "first-principles HEA phase diagram"],
+      "must_include_terms": ["high-entropy alloy", "CALPHAD"],
+      "optional_terms": ["DFT", "first-principles", "Al-Co-Cr-Fe-Ni", "thermodynamic modeling"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["method_calphad", "method_dft", "composition_system"],
+      "rationale": "Targets the combined CALPHAD+DFT methodology applied to the specific Al-Co-Cr-Fe-Ni system.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["phase decomposition mechanism HEA", "spinodal decomposition high-entropy alloy", "phase separation mechanism multi-principal element", "ordering tendency HEA", "intermetallic formation HEA"],
+      "must_include_terms": ["high-entropy alloy", "phase decomposition"],
+      "optional_terms": ["spinodal decomposition", "phase separation", "ordering", "intermetallic"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["phase_decomposition_risk", "research_topic"],
+      "rationale": "Focuses on mechanisms driving phase decomposition and separation in HEAs.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["CALPHAD thermodynamic database HEA", "DFT special quasi-random structure HEA", "SQS calculation high-entropy alloy", "ab initio thermodynamics HEA", "CALPHAD DFT integration alloy"],
+      "must_include_terms": ["CALPHAD", "DFT"],
+      "optional_terms": ["special quasi-random structure", "SQS", "ab initio thermodynamics", "thermodynamic database"],
+      "exclude_terms": [],
+      "expected_paper_type": "computational study",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["method_calphad", "method_dft"],
+      "rationale": "Targets specific computational strategies combining CALPHAD and DFT, including SQS approaches.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["formation enthalpy high-entropy alloy", "mixing enthalpy HEA", "configurational entropy alloy", "entropy stabilization HEA", "phase stability criterion HEA"],
+      "must_include_terms": ["high-entropy alloy"],
+      "optional_terms": ["formation enthalpy", "mixing enthalpy", "configurational entropy", "entropy stabilization", "phase stability criterion"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["formation_enthalpy", "mixing_entropy"],
+      "rationale": "Captures quantitative thermodynamic metrics: formation enthalpy, mixing enthalpy, and configurational entropy.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["medium-entropy alloy phase stability", "complex concentrated alloy thermodynamics", "multi-component alloy phase diagram prediction", "Cantor alloy phase stability"],
+      "must_include_terms": ["alloy", "phase stability"],
+      "optional_terms": ["medium-entropy", "complex concentrated", "multi-component", "Cantor alloy"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["material_system", "research_topic"],
+      "rationale": "Extends to related alloy classes for comparative phase stability context.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": [],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope items or user exclusions provided. No exclude_terms generated.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"high-entropy alloy\" AND \"phase stability\" AND \"CALPHAD\" AND \"DFT\"",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["material_system", "research_topic", "method_calphad", "method_dft"],
+      "rationale": "Highest-precision query combining all four core constraints.",
+      "priority": 1
+    },
+    {
+      "query": "\"high-entropy alloy\" AND \"phase stability\" AND (\"CALPHAD\" OR \"thermodynamic modeling\") AND (\"DFT\" OR \"first-principles\" OR \"ab initio\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["material_system", "research_topic", "method_calphad", "method_dft"],
+      "rationale": "Broadens method synonyms to improve recall across varied terminology.",
+      "priority": 1
+    },
+    {
+      "query": "\"Al-Co-Cr-Fe-Ni\" AND \"phase stability\" AND \"CALPHAD\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["composition_system", "method_calphad"],
+      "rationale": "Targets the specific composition system with CALPHAD methodology.",
+      "priority": 1
+    },
+    {
+      "query": "\"AlCoCrFeNi\" AND (\"phase stability\" OR \"phase diagram\") AND (\"DFT\" OR \"first-principles\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["composition_system", "method_dft"],
+      "rationale": "Alternative composition notation with broadened method terms.",
+      "priority": 1
+    },
+    {
+      "query": "\"high-entropy alloy\" AND \"formation enthalpy\" AND \"DFT\"",
+      "variant_type": "strict",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["formation_enthalpy", "method_dft"],
+      "rationale": "Targets DFT-computed formation enthalpy as a key thermodynamic metric.",
+      "priority": 2
+    },
+    {
+      "query": "\"high-entropy alloy\" AND (\"mixing enthalpy\" OR \"formation enthalpy\") AND (\"configurational entropy\" OR \"mixing entropy\")",
+      "variant_type": "broad",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["formation_enthalpy", "mixing_entropy"],
+      "rationale": "Combines enthalpy and entropy metrics to capture thermodynamic stability analyses.",
+      "priority": 2
+    },
+    {
+      "query": "\"high-entropy alloy\" AND \"phase decomposition\" AND \"CALPHAD\"",
+      "variant_type": "strict",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["phase_decomposition_risk", "method_calphad"],
+      "rationale": "Targets CALPHAD-based analysis of phase decomposition risk.",
+      "priority": 2
+    },
+    {
+      "query": "\"high-entropy alloy\" AND (\"spinodal decomposition\" OR \"phase separation\" OR \"phase instability\") AND (\"DFT\" OR \"CALPHAD\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["phase_decomposition_risk", "method_calphad", "method_dft"],
+      "rationale": "Broadens decomposition mechanism terminology for comprehensive coverage.",
+      "priority": 2
+    },
+    {
+      "query": "\"CALPHAD\" AND \"DFT\" AND \"special quasi-random structure\" AND \"alloy\"",
+      "variant_type": "strict",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["method_calphad", "method_dft"],
+      "rationale": "Targets the SQS+CALPHAD+DFT combined methodology common in HEA phase stability studies.",
+      "priority": 2
+    },
+    {
+      "query": "\"multi-principal element alloy\" AND \"thermodynamic modeling\" AND (\"phase stability\" OR \"phase diagram\")",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["material_system", "method_calphad"],
+      "rationale": "Uses alternative material nomenclature with thermodynamic modeling focus.",
+      "priority": 2
+    },
+    {
+      "query": "\"Cantor alloy\" AND \"phase stability\" AND (\"CALPHAD\" OR \"first-principles\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["material_system", "research_topic"],
+      "rationale": "Cantor alloy (CoCrFeMnNi) is the canonical HEA reference; Al-containing variants are closely related.",
+      "priority": 3
+    },
+    {
+      "query": "\"multi-component alloy\" AND \"entropy stabilization\" AND \"phase diagram\"",
+      "variant_type": "fallback",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["mixing_entropy", "research_topic"],
+      "rationale": "Fallback broad query for entropy-stabilized multi-component alloy phase diagrams.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 12,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["material_system", "research_topic", "method_calphad", "method_dft", "composition_system", "formation_enthalpy", "mixing_entropy", "phase_decomposition_risk"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used"]
+  }
+}

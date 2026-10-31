@@ -1,0 +1,93 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "high_voltage_cutoff",
+      "original_phrase": "4.5 V 以上",
+      "constraint_type": "numerical_range",
+      "interpreted_value": ">=4.5V",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly states '>4.5V' as the voltage threshold. In lithium metal battery research, 4.5V is a recognized high-voltage boundary for ether-based electrolytes, which typically degrade above 4.0V. The direction (lower bound) and unit are unambiguous.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": [
+        "high voltage electrolyte",
+        "4.5V cutoff voltage",
+        "voltage window above 4.5V",
+        "high-voltage lithium metal battery",
+        "oxidative stability electrolyte"
+      ],
+      "downstream_filter_rules": [
+        "filter: voltage_cutoff >= 4.5"
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": [
+        "high_voltage_cutoff_context_needed: upper cutoff vs. operating window not specified"
+      ]
+    },
+    {
+      "constraint_name": "fast_charging_rate",
+      "original_phrase": "2C 以上倍率",
+      "constraint_type": "numerical_range",
+      "interpreted_value": ">=2C",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly states '>2C rate'. In battery literature, C-rate is a standard unit; 2C means full charge in 30 minutes. The direction (lower bound) and unit are unambiguous.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": [
+        "fast charging",
+        "2C rate",
+        "high rate charging",
+        "C-rate",
+        "rapid charging lithium metal"
+      ],
+      "downstream_filter_rules": [
+        "filter: charge_rate >= 2C"
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": [
+        "fast_charging_definition_may_vary: 2C is the stated lower bound but some literature uses different fast-charge thresholds"
+      ]
+    },
+    {
+      "constraint_name": "ether_based_electrolyte",
+      "original_phrase": "醚类电解液",
+      "constraint_type": "material_system",
+      "interpreted_value": "ether-based electrolyte",
+      "candidate_values": [
+        "DOL/DME electrolyte",
+        "ether solvent electrolyte",
+        "glyme-based electrolyte",
+        "localized high-concentration ether electrolyte"
+      ],
+      "domain_rationale": "Ether-based electrolytes are a well-defined material class in lithium metal battery research, known for compatibility with lithium metal anodes but limited oxidative stability at high voltage. The user specifies this as the design target.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "ether electrolyte",
+        "ether-based electrolyte",
+        "glyme electrolyte",
+        "DOL DME electrolyte",
+        "ether solvent lithium metal"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "ether_electrolyte_subtype_unspecified: specific ether solvent system (DOL/DME, glyme, LHCE) not stated by user"
+      ]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.80,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [
+      "high_voltage_cutoff_context_needed",
+      "fast_charging_definition_may_vary",
+      "ether_electrolyte_subtype_unspecified"
+    ],
+    "needs_manual_review": true
+  }
+}

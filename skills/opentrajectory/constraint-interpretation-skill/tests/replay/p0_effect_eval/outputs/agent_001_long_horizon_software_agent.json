@@ -1,0 +1,106 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "long_horizon_software_engineering_task",
+      "original_phrase": "长任务软件开发",
+      "constraint_type": "condition",
+      "interpreted_value": "long-horizon software engineering tasks",
+      "candidate_values": [
+        "multi-step coding tasks",
+        "repository-level software engineering",
+        "long-context programming tasks"
+      ],
+      "domain_rationale": "Long-horizon software engineering tasks refer to complex, multi-step programming challenges that require sustained context and planning. This is a recognized task category in AI agent research, distinct from single-turn code generation.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "long-horizon agents",
+        "software engineering agents",
+        "long-horizon software engineering",
+        "multi-step coding agent",
+        "repository-level agent"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "task_horizon_definition_ambiguous: 'long-horizon' has no fixed definition; varies by benchmark"
+      ]
+    },
+    {
+      "constraint_name": "memory_tool_reflection_mechanisms",
+      "original_phrase": "记忆管理、工具调用和反思机制",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "memory management",
+        "tool use",
+        "reflection",
+        "self-correction"
+      ],
+      "domain_rationale": "Memory management, tool use, and reflection are agent capability mechanisms, not material or hard filter conditions. They describe the research focus area. These must not be treated as hard filters; they are qualitative scope constraints indicating which agent capabilities the user wants to study.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "memory management",
+        "tool use",
+        "reflection",
+        "agent memory",
+        "self-reflection agent",
+        "tool-augmented agent"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "mechanism_scope_broad: three distinct mechanisms listed; papers may cover only one or two"
+      ]
+    },
+    {
+      "constraint_name": "benchmark_reproducibility_requirement",
+      "original_phrase": "可复现实验和 benchmark",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "SWE-bench",
+        "HumanEval",
+        "reproducible evaluation",
+        "standardized benchmark"
+      ],
+      "domain_rationale": "The user requires benchmark-based, reproducible evaluation as an evidence standard. This is a qualitative evidence requirement — papers should report results on recognized benchmarks with reproducible methodology. No specific benchmark is named.",
+      "confidence": 0.60,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "benchmark",
+        "reproducibility",
+        "reproducible evaluation",
+        "benchmark evaluation agent",
+        "standardized evaluation"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "benchmark_scope_unspecified: no specific benchmark named; SWE-bench, HumanEval, etc. all possible",
+        "stability_metric_ambiguous: 'stability' not defined quantitatively"
+      ]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.61,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [
+      "benchmark_scope_unspecified",
+      "stability_metric_ambiguous",
+      "mechanism_scope_broad"
+    ],
+    "needs_manual_review": true
+  }
+}

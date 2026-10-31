@@ -1,0 +1,102 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "halide_perovskite_material",
+      "original_phrase": "卤化物钙钛矿",
+      "constraint_type": "material_system",
+      "interpreted_value": "halide perovskites",
+      "candidate_values": [
+        "lead halide perovskite",
+        "tin halide perovskite",
+        "mixed halide perovskite"
+      ],
+      "domain_rationale": "Halide perovskites are a well-defined material class (ABX3 structure, X = halide) studied extensively for optoelectronic applications. The user does not specify a particular composition, so the constraint covers the broader class.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "halide perovskite",
+        "lead halide perovskite",
+        "perovskite defect tolerance",
+        "ABX3 perovskite"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "composition_unspecified: specific halide perovskite composition (MAPbI3, CsPbBr3, etc.) not stated"
+      ]
+    },
+    {
+      "constraint_name": "dft_calculation_method",
+      "original_phrase": "DFT 计算",
+      "constraint_type": "condition",
+      "interpreted_value": "DFT calculations",
+      "candidate_values": [
+        "density functional theory",
+        "hybrid DFT",
+        "GW calculations",
+        "HSE06"
+      ],
+      "domain_rationale": "DFT is a computational method, not a material filter. The user specifies DFT as the methodological approach for studying defect tolerance. It should be treated as a method constraint, not a material system filter.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "DFT",
+        "density functional theory",
+        "first-principles defect calculation",
+        "DFT perovskite defect"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "dft_functional_unspecified: specific DFT functional (PBE, HSE06, GW) not stated"
+      ]
+    },
+    {
+      "constraint_name": "nonradiative_recombination_band_edge_states",
+      "original_phrase": "非辐射复合和带边态分析",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "nonradiative recombination rate",
+        "trap-assisted recombination",
+        "band-edge defect states",
+        "Shockley-Read-Hall recombination"
+      ],
+      "domain_rationale": "Nonradiative recombination and band-edge state analysis are the target mechanisms/metrics of the study. These are qualitative research targets, not hard filters. They define what the user wants to understand about defect tolerance.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "nonradiative recombination",
+        "band-edge states",
+        "defect tolerance perovskite",
+        "trap states perovskite",
+        "carrier recombination mechanism"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "mechanism_scope_broad: nonradiative recombination encompasses multiple pathways (SRH, Auger, surface)"
+      ]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.64,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [
+      "composition_unspecified",
+      "mechanism_scope_broad",
+      "dft_functional_unspecified"
+    ],
+    "needs_manual_review": true
+  }
+}

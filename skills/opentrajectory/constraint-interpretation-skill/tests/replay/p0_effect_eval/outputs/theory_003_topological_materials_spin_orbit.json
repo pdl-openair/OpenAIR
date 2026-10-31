@@ -1,0 +1,101 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "topological_semimetal_material",
+      "original_phrase": "拓扑半金属",
+      "constraint_type": "material_system",
+      "interpreted_value": "topological semimetals",
+      "candidate_values": [
+        "Weyl semimetal",
+        "Dirac semimetal",
+        "nodal-line semimetal"
+      ],
+      "domain_rationale": "Topological semimetals are a well-defined material class in condensed matter physics, characterized by topologically protected band crossings. The user does not specify a particular compound or subtype, so the constraint covers the broader class.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "topological semimetal",
+        "Weyl semimetal",
+        "Dirac semimetal",
+        "topological surface states",
+        "topological band structure"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "specific_material_unspecified: no specific compound (TaAs, WTe2, Cd3As2, etc.) named by user"
+      ]
+    },
+    {
+      "constraint_name": "spin_orbit_coupling_mechanism",
+      "original_phrase": "自旋轨道耦合",
+      "constraint_type": "condition",
+      "interpreted_value": "spin-orbit coupling",
+      "candidate_values": [
+        "strong spin-orbit coupling",
+        "SOC-driven band inversion",
+        "relativistic effects"
+      ],
+      "domain_rationale": "Spin-orbit coupling (SOC) is the key physical mechanism driving topological band inversion in topological semimetals. It is a mechanism constraint, not a material filter. The user wants to understand its role in band inversion and surface states.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "spin-orbit coupling",
+        "SOC band inversion",
+        "spin-orbit interaction topological",
+        "relativistic band structure"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "soc_strength_unspecified: degree of SOC (weak vs. strong) not quantified"
+      ]
+    },
+    {
+      "constraint_name": "first_principles_arpes_evidence",
+      "original_phrase": "第一性原理计算和 ARPES 验证",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "first-principles calculations",
+        "ARPES measurements",
+        "combined theory-experiment"
+      ],
+      "domain_rationale": "First-principles calculations and ARPES (angle-resolved photoemission spectroscopy) are complementary methods: the former is computational, the latter is experimental. The user wants studies combining both. ARPES is an experimental technique, not a computational method — it must not be treated as such.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "first-principles calculations",
+        "ARPES",
+        "angle-resolved photoemission spectroscopy",
+        "first-principles ARPES",
+        "band structure calculation ARPES"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "combined_theory_experiment_scope: requiring both first-principles and ARPES may significantly narrow the paper pool"
+      ]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.64,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [
+      "specific_material_unspecified",
+      "combined_theory_experiment_scope",
+      "soc_strength_unspecified"
+    ],
+    "needs_manual_review": true
+  }
+}

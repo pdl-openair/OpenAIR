@@ -1,0 +1,194 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["halide perovskite", "defect tolerance", "lead halide perovskite", "perovskite semiconductor", "ABX3 perovskite"],
+      "must_include_terms": ["halide perovskite", "defect tolerance"],
+      "optional_terms": ["lead halide perovskite", "ABX3 perovskite", "perovskite semiconductor"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["material_system", "research_topic"],
+      "rationale": "Core entry covering halide perovskite defect tolerance as the primary material system and research topic.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["DFT calculation perovskite defect", "density functional theory defect", "first-principles perovskite defect", "nonradiative recombination perovskite", "trap-assisted recombination", "band-edge states perovskite", "shallow defect states"],
+      "must_include_terms": ["halide perovskite", "DFT"],
+      "optional_terms": ["nonradiative recombination", "band-edge states", "first-principles", "defect tolerance"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["computational_method", "nonradiative_recombination", "band_edge_states"],
+      "rationale": "Targets papers combining DFT calculations with defect physics in halide perovskites.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["Shockley-Read-Hall recombination perovskite", "trap-assisted recombination mechanism", "defect-induced recombination pathway", "carrier lifetime defect perovskite", "non-radiative recombination defect mechanism"],
+      "must_include_terms": ["recombination mechanism", "perovskite"],
+      "optional_terms": ["Shockley-Read-Hall", "trap-assisted", "carrier lifetime", "defect states"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["nonradiative_recombination", "carrier_recombination_mechanism"],
+      "rationale": "Focuses on mechanistic understanding of how defects drive nonradiative recombination in halide perovskites.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["density functional theory defect calculation", "first-principles defect formation energy", "hybrid functional perovskite defect", "GW calculation perovskite", "DFT+U perovskite defect"],
+      "must_include_terms": ["first-principles", "defect"],
+      "optional_terms": ["hybrid functional", "GW calculation", "DFT+U", "formation energy", "defect level"],
+      "exclude_terms": [],
+      "expected_paper_type": "computational study",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["computational_method"],
+      "rationale": "Targets specific DFT methodologies used to study defects in perovskites, including hybrid functionals and beyond-DFT approaches.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["defect formation energy perovskite", "defect transition level perovskite", "carrier recombination rate perovskite", "nonradiative recombination rate defect", "valence band maximum defect perovskite"],
+      "must_include_terms": ["perovskite", "defect"],
+      "optional_terms": ["formation energy", "transition level", "recombination rate", "band edge", "carrier lifetime"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["band_edge_states", "carrier_recombination_mechanism", "nonradiative_recombination"],
+      "rationale": "Captures quantitative metrics: formation energies, transition levels, and recombination rates.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["defect tolerant semiconductor solar cell", "point defect photovoltaic material", "intrinsic defect ionic semiconductor", "defect physics thin film solar cell"],
+      "must_include_terms": ["defect tolerant", "semiconductor"],
+      "optional_terms": ["solar cell", "photovoltaic", "ionic semiconductor", "thin film"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["material_system", "research_topic"],
+      "rationale": "Broadens to defect tolerance in related semiconductor classes for comparative context.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": [],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope items or user exclusions provided. No exclude_terms generated.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"halide perovskite\" AND \"defect tolerance\" AND \"DFT\"",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["material_system", "research_topic", "computational_method"],
+      "rationale": "High-precision entry combining material, topic, and method.",
+      "priority": 1
+    },
+    {
+      "query": "\"halide perovskite\" AND \"defect tolerance\" AND (\"first-principles\" OR \"density functional theory\" OR \"ab initio\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["material_system", "research_topic", "computational_method"],
+      "rationale": "Broadens computational method synonyms to improve recall.",
+      "priority": 1
+    },
+    {
+      "query": "\"halide perovskite\" AND \"nonradiative recombination\" AND \"defect\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["nonradiative_recombination", "material_system"],
+      "rationale": "Directly targets nonradiative recombination constraint in halide perovskites.",
+      "priority": 1
+    },
+    {
+      "query": "\"perovskite\" AND (\"trap-assisted recombination\" OR \"Shockley-Read-Hall\" OR \"non-radiative recombination\") AND \"defect\"",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["nonradiative_recombination", "carrier_recombination_mechanism"],
+      "rationale": "Expands recombination mechanism synonyms to capture varied terminology.",
+      "priority": 1
+    },
+    {
+      "query": "\"halide perovskite\" AND \"band-edge states\" AND \"defect tolerance\"",
+      "variant_type": "strict",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["band_edge_states", "research_topic"],
+      "rationale": "Targets the specific mechanism linking band-edge states to defect tolerance.",
+      "priority": 2
+    },
+    {
+      "query": "\"perovskite\" AND (\"shallow defect\" OR \"band edge defect\" OR \"valence band maximum defect\") AND \"first-principles\"",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["band_edge_states", "computational_method"],
+      "rationale": "Broadens band-edge state terminology to capture shallow defect studies.",
+      "priority": 2
+    },
+    {
+      "query": "\"halide perovskite\" AND \"defect formation energy\" AND \"DFT\"",
+      "variant_type": "strict",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["computational_method"],
+      "rationale": "Targets the standard DFT metric for defect characterization: formation energy calculations.",
+      "priority": 2
+    },
+    {
+      "query": "\"perovskite\" AND (\"hybrid functional\" OR \"HSE06\" OR \"GW approximation\") AND \"defect\"",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["computational_method"],
+      "rationale": "Captures beyond-standard-DFT methods for accurate defect level calculations.",
+      "priority": 2
+    },
+    {
+      "query": "\"halide perovskite\" AND \"carrier recombination\" AND \"defect level\"",
+      "variant_type": "strict",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["carrier_recombination_mechanism", "band_edge_states"],
+      "rationale": "Targets quantitative defect level metrics linked to carrier recombination.",
+      "priority": 2
+    },
+    {
+      "query": "\"perovskite\" AND (\"defect transition level\" OR \"charge transition level\" OR \"trap depth\") AND \"recombination\"",
+      "variant_type": "broad",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["band_edge_states", "nonradiative_recombination"],
+      "rationale": "Expands defect level terminology to capture varied nomenclature.",
+      "priority": 2
+    },
+    {
+      "query": "\"defect tolerant\" AND \"semiconductor\" AND (\"solar cell\" OR \"photovoltaic\") AND \"first-principles\"",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["material_system", "research_topic"],
+      "rationale": "Extends to defect tolerance in related photovoltaic semiconductors.",
+      "priority": 3
+    },
+    {
+      "query": "\"point defect\" AND \"ionic semiconductor\" AND \"nonradiative recombination\"",
+      "variant_type": "fallback",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["nonradiative_recombination", "material_system"],
+      "rationale": "Fallback broad query for defect physics in ionic semiconductors related to perovskite class.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 12,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["material_system", "research_topic", "computational_method", "nonradiative_recombination", "band_edge_states", "carrier_recombination_mechanism"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used"]
+  }
+}

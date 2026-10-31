@@ -1,0 +1,122 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "sulfide_solid_electrolyte",
+      "original_phrase": "硫化物固态电解质",
+      "constraint_type": "material_system",
+      "interpreted_value": "sulfide solid electrolyte",
+      "candidate_values": [
+        "Li6PS5Cl argyrodite",
+        "Li10GeP2S12 (LGPS)",
+        "Li3PS4",
+        "Li7P3S11"
+      ],
+      "domain_rationale": "Sulfide solid electrolytes are a well-defined material class in solid-state battery research, distinguished from oxide and polymer electrolytes by their high ionic conductivity and processing characteristics. The user explicitly names this class.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "sulfide solid electrolyte",
+        "sulfide-based solid electrolyte",
+        "thiophosphate electrolyte",
+        "argyrodite electrolyte",
+        "LGPS electrolyte"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "sulfide_subtype_unspecified: specific sulfide composition (argyrodite, LGPS, Li3PS4) not stated"
+      ]
+    },
+    {
+      "constraint_name": "room_temperature_condition",
+      "original_phrase": "室温",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "25°C",
+        "20-25°C",
+        "ambient temperature"
+      ],
+      "domain_rationale": "Room temperature is a qualitative condition with domain consensus around 20-25°C, but the exact value is not specified by the user. In solid electrolyte literature, room temperature performance is a standard benchmark but the precise temperature is often not fixed.",
+      "confidence": 0.45,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "room temperature",
+        "ambient temperature",
+        "room temperature ionic conductivity"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "domain convention",
+      "risk_flags": [
+        "room_temperature_value_unspecified: exact temperature not given; typically 20-25°C but varies by lab"
+      ]
+    },
+    {
+      "constraint_name": "ionic_conductivity_threshold",
+      "original_phrase": "10^-3 S/cm 以上",
+      "constraint_type": "numerical_range",
+      "interpreted_value": ">=1e-3 S/cm",
+      "candidate_values": [],
+      "domain_rationale": "User explicitly states '>10^-3 S/cm' as the ionic conductivity lower bound. This is a recognized benchmark in solid electrolyte research (comparable to liquid electrolytes). Direction and unit are unambiguous.",
+      "confidence": 0.88,
+      "needs_user_confirmation": false,
+      "downstream_search_terms": [
+        "ionic conductivity",
+        "10^-3 S/cm",
+        "1 mS/cm ionic conductivity",
+        "high ionic conductivity solid electrolyte",
+        "room temperature conductivity mS/cm"
+      ],
+      "downstream_filter_rules": [
+        "filter: ionic_conductivity >= 1e-3 S/cm"
+      ],
+      "evidence_basis": "user_query explicit value",
+      "risk_flags": []
+    },
+    {
+      "constraint_name": "interfacial_stability",
+      "original_phrase": "界面稳定性较好",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "low interfacial resistance",
+        "stable SEI at electrolyte-electrode interface",
+        "no dendrite penetration"
+      ],
+      "domain_rationale": "Interfacial stability is a qualitative property with no single agreed metric. It encompasses multiple phenomena (resistance, chemical compatibility, mechanical contact). The user uses a relative qualifier ('较好') without specifying a threshold.",
+      "confidence": 0.40,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "interfacial stability solid electrolyte",
+        "electrode electrolyte interface",
+        "interfacial resistance solid-state battery",
+        "solid electrolyte interphase"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "interfacial_stability_metric_ambiguous: no quantitative threshold given; multiple possible metrics (ASR, impedance, cycle retention)"
+      ]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.60,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [
+      "room_temperature_value_unspecified",
+      "interfacial_stability_metric_ambiguous",
+      "sulfide_subtype_unspecified"
+    ],
+    "needs_manual_review": true
+  }
+}

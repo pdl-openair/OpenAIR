@@ -1,0 +1,99 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "al_co_cr_fe_ni_alloy_system",
+      "original_phrase": "Al-Co-Cr-Fe-Ni 体系",
+      "constraint_type": "material_system",
+      "interpreted_value": "Al-Co-Cr-Fe-Ni high-entropy alloy",
+      "candidate_values": [],
+      "domain_rationale": "Al-Co-Cr-Fe-Ni is an explicitly named quinary high-entropy alloy system. The composition is fully specified by the user. This is a well-studied HEA system in the literature.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "Al-Co-Cr-Fe-Ni",
+        "high-entropy alloy",
+        "AlCoCrFeNi",
+        "quinary high-entropy alloy",
+        "Cantor alloy variant"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "composition_space_broad: Al-Co-Cr-Fe-Ni covers many sub-compositions and stoichiometries"
+      ]
+    },
+    {
+      "constraint_name": "calphad_dft_combined_method",
+      "original_phrase": "CALPHAD 与 DFT 结合",
+      "constraint_type": "condition",
+      "interpreted_value": "CALPHAD combined with DFT",
+      "candidate_values": [
+        "CALPHAD-DFT integrated approach",
+        "first-principles informed CALPHAD",
+        "DFT-assisted thermodynamic modeling"
+      ],
+      "domain_rationale": "CALPHAD and DFT are computational methods for thermodynamic modeling. The user specifies their combination as the methodological approach. These are method constraints, not material filters.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "CALPHAD",
+        "DFT",
+        "CALPHAD DFT",
+        "first-principles thermodynamics",
+        "ab initio CALPHAD"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "method_integration_scope_unclear: degree of CALPHAD-DFT coupling (sequential vs. iterative) not specified"
+      ]
+    },
+    {
+      "constraint_name": "phase_stability_metrics",
+      "original_phrase": "形成焓、混合熵和相分解风险",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "formation enthalpy",
+        "mixing entropy",
+        "phase decomposition risk",
+        "Gibbs free energy"
+      ],
+      "domain_rationale": "Formation enthalpy, mixing entropy, and phase decomposition risk are thermodynamic metrics for phase stability assessment. These are target metrics/outputs of the study, not hard filter conditions. They define what the user wants to predict or analyze.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "formation enthalpy",
+        "mixing entropy",
+        "phase decomposition",
+        "phase stability high-entropy alloy",
+        "thermodynamic stability HEA"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "phase_stability_metric_multi_factor: three metrics listed; papers may address only a subset"
+      ]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.64,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [
+      "composition_space_broad",
+      "phase_stability_metric_multi_factor",
+      "method_integration_scope_unclear"
+    ],
+    "needs_manual_review": true
+  }
+}

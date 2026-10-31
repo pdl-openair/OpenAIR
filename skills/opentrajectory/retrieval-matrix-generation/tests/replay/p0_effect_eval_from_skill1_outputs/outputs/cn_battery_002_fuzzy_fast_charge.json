@@ -1,0 +1,186 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["electrolyte instability fast charging lithium battery", "fast charging electrolyte degradation", "electrolyte decomposition high rate", "lithium battery electrolyte stability"],
+      "must_include_terms": ["electrolyte", "fast charging"],
+      "optional_terms": ["lithium battery", "lithium-ion battery", "instability", "degradation"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["fast_charging_instability", "battery_system"],
+      "rationale": "Core entry covering electrolyte instability under fast charging — the central problem stated by the user.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["electrolyte additive", "solvation structure", "solvation sheath design", "co-solvent electrolyte", "electrolyte formulation", "novel electrolyte additive"],
+      "must_include_terms": ["electrolyte"],
+      "optional_terms": ["additive", "solvation structure", "solvation sheath", "co-solvent", "formulation"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["solution_type_additive_or_solvation"],
+      "rationale": "Encodes the two design directions explicitly mentioned by the user: additive design and solvation structure engineering.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["mechanism electrolyte fast charging", "mechanistic study fast charging electrolyte", "fundamental mechanism electrolyte stability", "solvation sheath mechanism lithium", "electrolyte decomposition mechanism high rate"],
+      "must_include_terms": ["electrolyte", "mechanism"],
+      "optional_terms": ["fast charging", "solvation sheath", "decomposition", "fundamental", "mechanistic study"],
+      "exclude_terms": [],
+      "expected_paper_type": "mechanistic study",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["mechanistic_clarity_preference", "fast_charging_instability"],
+      "rationale": "Covers fundamental mechanistic studies of electrolyte decomposition and solvation sheath behavior at high rates.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["electrolyte additive design lithium battery", "solvation structure engineering electrolyte", "co-solvent design fast charging", "electrolyte formulation strategy", "concentrated electrolyte fast charging"],
+      "must_include_terms": ["electrolyte"],
+      "optional_terms": ["additive design", "solvation structure engineering", "co-solvent", "formulation strategy", "concentrated"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["solution_type_additive_or_solvation"],
+      "rationale": "Covers electrolyte design strategies: additive design and solvation structure engineering for fast charging stability.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["electrolyte oxidative stability fast charging", "electrolyte decomposition onset", "impedance growth fast charging", "electrolyte stability window", "SEI formation fast charging"],
+      "must_include_terms": ["electrolyte"],
+      "optional_terms": ["oxidative stability", "decomposition onset", "impedance growth", "stability window", "SEI formation"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["fast_charging_instability"],
+      "rationale": "Targets measurable stability metrics relevant to fast charging electrolyte performance.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["concentrated electrolyte solvation structure lithium", "SEI engineering fast charging lithium", "fluorinated electrolyte fast charging", "weakly solvating electrolyte lithium battery"],
+      "must_include_terms": [],
+      "optional_terms": ["concentrated electrolyte", "SEI engineering", "fluorinated electrolyte", "weakly solvating"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["solution_type_additive_or_solvation"],
+      "rationale": "Adjacent strategies: concentrated electrolytes and SEI engineering that alter solvation structure for fast charging.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": ["electrolyte fast charging lithium battery"],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope list provided. Engineering application exclusion is subjective and not filterable; no exclude_terms generated.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"electrolyte\" AND \"fast charging\" AND \"lithium battery\" AND \"mechanism\"",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["fast_charging_instability", "mechanistic_clarity_preference"],
+      "rationale": "Strict query capturing electrolyte instability under fast charging with mechanistic focus.",
+      "priority": 1
+    },
+    {
+      "query": "\"electrolyte\" AND (\"fast charging\" OR \"high rate\" OR \"rate capability\") AND (\"lithium battery\" OR \"Li-ion battery\") AND (\"instability\" OR \"degradation\" OR \"decomposition\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["fast_charging_instability", "battery_system"],
+      "rationale": "Broad variant expanding rate and battery subtype terminology; battery subtype kept ambiguous per constraint.",
+      "priority": 1
+    },
+    {
+      "query": "\"electrolyte additive\" AND \"fast charging\" AND \"lithium battery\" AND \"stability\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["solution_type_additive_or_solvation"],
+      "rationale": "Strict query targeting additive design for fast charging electrolyte stabilization.",
+      "priority": 1
+    },
+    {
+      "query": "\"solvation structure\" AND \"electrolyte\" AND (\"fast charging\" OR \"high rate\" OR \"lithium battery\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["solution_type_additive_or_solvation"],
+      "rationale": "Broad query for solvation structure design, the second design direction mentioned by the user.",
+      "priority": 1
+    },
+    {
+      "query": "\"solvation sheath\" AND \"electrolyte\" AND \"mechanism\" AND (\"fast charging\" OR \"high rate\")",
+      "variant_type": "strict",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["solution_type_additive_or_solvation", "mechanistic_clarity_preference"],
+      "rationale": "Strict mechanistic query targeting solvation sheath behavior under fast charging conditions.",
+      "priority": 2
+    },
+    {
+      "query": "\"electrolyte\" AND (\"mechanistic study\" OR \"fundamental mechanism\" OR \"mechanistic investigation\") AND (\"fast charging\" OR \"high rate\" OR \"electrolyte stability\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["mechanistic_clarity_preference"],
+      "rationale": "Broad mechanism query capturing fundamental studies without specifying C-rate or voltage.",
+      "priority": 2
+    },
+    {
+      "query": "\"electrolyte additive\" AND (\"solvation structure\" OR \"solvation sheath\" OR \"co-solvent\") AND \"lithium battery\"",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["solution_type_additive_or_solvation"],
+      "rationale": "Broad coverage of electrolyte design approaches combining additive and solvation structure directions.",
+      "priority": 2
+    },
+    {
+      "query": "\"electrolyte\" AND (\"oxidative stability\" OR \"decomposition onset\" OR \"stability window\") AND (\"fast charging\" OR \"high rate\")",
+      "variant_type": "broad",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["fast_charging_instability"],
+      "rationale": "Broad performance query covering multiple stability metrics for fast charging electrolytes.",
+      "priority": 2
+    },
+    {
+      "query": "\"concentrated electrolyte\" AND \"lithium battery\" AND (\"fast charging\" OR \"solvation structure\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["solution_type_additive_or_solvation"],
+      "rationale": "Concentrated electrolytes alter solvation structure and are adjacent to additive design.",
+      "priority": 3
+    },
+    {
+      "query": "\"SEI formation\" AND \"fast charging\" AND \"lithium battery\" AND \"electrolyte\"",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["fast_charging_instability"],
+      "rationale": "SEI formation under fast charging is mechanistically adjacent to electrolyte instability.",
+      "priority": 3
+    },
+    {
+      "query": "\"electrolyte\" AND \"fast charging\" AND \"lithium battery\" AND (\"additive\" OR \"solvation\")",
+      "variant_type": "fallback",
+      "search_intent": "core_topic",
+      "source_constraints": ["solution_type_additive_or_solvation"],
+      "rationale": "Fallback combining core topic with design direction without specifying C-rate or voltage.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 11,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["battery_system", "fast_charging_instability", "solution_type_additive_or_solvation", "mechanistic_clarity_preference"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used", "manual_review_recommended"]
+  }
+}

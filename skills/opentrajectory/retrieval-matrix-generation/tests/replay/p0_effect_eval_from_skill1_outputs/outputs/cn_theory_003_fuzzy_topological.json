@@ -1,0 +1,186 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["topological insulator", "topological semimetal", "Weyl semimetal", "spin-orbit coupling", "band inversion"],
+      "must_include_terms": ["topological", "band inversion"],
+      "optional_terms": ["topological insulator", "topological semimetal", "Weyl semimetal", "spin-orbit coupling"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["material_class", "mechanism_band_inversion"],
+      "rationale": "Core entry covering topological materials broadly with band inversion as the central phenomenon.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["spin-orbit coupling band inversion topological", "SOC topological insulator band structure", "spin-orbit interaction band inversion mechanism", "topological phase transition spin-orbit coupling"],
+      "must_include_terms": ["spin-orbit coupling", "band inversion"],
+      "optional_terms": ["topological insulator", "topological semimetal", "topological phase transition"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["mechanism_soc", "mechanism_band_inversion"],
+      "rationale": "Directly targets the relationship between spin-orbit coupling and band inversion as the core constraint.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["band inversion mechanism topological insulator", "parity inversion spin-orbit coupling", "topological phase transition mechanism", "Z2 topological invariant band inversion", "bulk band gap inversion SOC"],
+      "must_include_terms": ["band inversion", "topological"],
+      "optional_terms": ["parity inversion", "Z2 invariant", "topological phase transition", "bulk band gap"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["mechanism_band_inversion", "mechanism_soc"],
+      "rationale": "Focuses on mechanistic details of how SOC drives band inversion and topological phase transitions.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["first-principles ARPES topological insulator", "DFT band structure topological", "ARPES band inversion experimental", "tight-binding model topological insulator", "calculation experimental validation topological"],
+      "must_include_terms": ["topological", "first-principles"],
+      "optional_terms": ["ARPES", "DFT", "tight-binding", "experimental validation", "band structure calculation"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["theory_experiment_alignment", "mechanism_soc"],
+      "rationale": "Targets papers combining theoretical calculations with experimental validation; ARPES kept as optional per constraint.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["topological surface states ARPES", "band gap inversion magnitude SOC", "topological invariant Z2 calculation", "surface state dispersion topological insulator", "spin texture topological surface state"],
+      "must_include_terms": ["topological", "band inversion"],
+      "optional_terms": ["surface states", "Z2 invariant", "spin texture", "band gap", "ARPES"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["mechanism_band_inversion", "theory_experiment_alignment"],
+      "rationale": "Captures measurable and calculable metrics: topological invariants, surface state dispersions, and band gap inversion magnitudes.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["topological crystalline insulator spin-orbit coupling", "magnetic topological insulator band inversion", "higher-order topological insulator SOC", "nodal line semimetal band inversion"],
+      "must_include_terms": ["topological", "spin-orbit coupling"],
+      "optional_terms": ["topological crystalline insulator", "magnetic topological insulator", "higher-order topological", "nodal line semimetal"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["material_class"],
+      "rationale": "Extends to related topological subclasses where SOC-driven band inversion is also central.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": [],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope items or user exclusions provided. Risk flags not converted to exclude_terms.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"spin-orbit coupling\" AND \"band inversion\" AND \"topological insulator\"",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["mechanism_soc", "mechanism_band_inversion", "material_class"],
+      "rationale": "Highest-precision query for the core topic.",
+      "priority": 1
+    },
+    {
+      "query": "\"spin-orbit coupling\" AND \"band inversion\" AND (\"topological insulator\" OR \"topological semimetal\" OR \"Weyl semimetal\" OR \"topological material\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["mechanism_soc", "mechanism_band_inversion", "material_class"],
+      "rationale": "Broadens material subclass to cover the full topological materials landscape.",
+      "priority": 1
+    },
+    {
+      "query": "\"spin-orbit coupling\" AND \"band inversion\" AND \"first-principles\" AND \"experiment\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["mechanism_soc", "mechanism_band_inversion", "theory_experiment_alignment"],
+      "rationale": "Targets papers with both computational and experimental components on SOC-driven band inversion.",
+      "priority": 1
+    },
+    {
+      "query": "\"topological insulator\" AND \"spin-orbit coupling\" AND (\"ARPES\" OR \"transport measurement\" OR \"STM\") AND (\"DFT\" OR \"first-principles\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["theory_experiment_alignment", "mechanism_soc"],
+      "rationale": "Broadens experimental validation methods while requiring both theory and experiment; ARPES as optional.",
+      "priority": 1
+    },
+    {
+      "query": "\"band inversion\" AND \"parity\" AND \"spin-orbit coupling\" AND \"topological\"",
+      "variant_type": "strict",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["mechanism_band_inversion", "mechanism_soc"],
+      "rationale": "Targets parity-based band inversion mechanism, a key theoretical concept.",
+      "priority": 2
+    },
+    {
+      "query": "\"topological\" AND (\"Z2 invariant\" OR \"topological phase transition\" OR \"band gap inversion\") AND \"spin-orbit coupling\"",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["mechanism_band_inversion", "mechanism_soc"],
+      "rationale": "Broad mechanism query covering topological invariants and phase transitions driven by SOC.",
+      "priority": 2
+    },
+    {
+      "query": "\"topological insulator\" AND \"first-principles\" AND \"band inversion\" AND (\"ARPES\" OR \"experimental\")",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["theory_experiment_alignment"],
+      "rationale": "Broad method query combining first-principles calculation with experimental validation.",
+      "priority": 2
+    },
+    {
+      "query": "\"topological surface states\" AND (\"ARPES\" OR \"STM\") AND \"band inversion\" AND \"first-principles\"",
+      "variant_type": "strict",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["theory_experiment_alignment", "mechanism_band_inversion"],
+      "rationale": "Strict query targeting surface state measurements correlated with first-principles band inversion.",
+      "priority": 2
+    },
+    {
+      "query": "\"topological\" AND (\"Z2 invariant\" OR \"topological invariant\") AND (\"calculation\" OR \"first-principles\") AND \"experiment\"",
+      "variant_type": "broad",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["mechanism_band_inversion", "theory_experiment_alignment"],
+      "rationale": "Broad performance query for topological invariant calculations with experimental verification.",
+      "priority": 2
+    },
+    {
+      "query": "\"magnetic topological insulator\" AND \"band inversion\" AND \"spin-orbit coupling\"",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["material_class"],
+      "rationale": "Magnetic topological insulators are an adjacent subclass with SOC-driven band inversion.",
+      "priority": 3
+    },
+    {
+      "query": "\"topological material\" AND \"spin-orbit coupling\" AND \"band inversion\"",
+      "variant_type": "fallback",
+      "search_intent": "core_topic",
+      "source_constraints": ["material_class"],
+      "rationale": "Minimal fallback using broadest material class term.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 11,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["material_class", "mechanism_soc", "mechanism_band_inversion", "theory_experiment_alignment"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used", "manual_review_recommended"]
+  }
+}

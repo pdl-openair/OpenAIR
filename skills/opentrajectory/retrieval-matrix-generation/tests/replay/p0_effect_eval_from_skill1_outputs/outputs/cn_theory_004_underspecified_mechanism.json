@@ -1,0 +1,178 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["mechanism explanation materials", "mechanistic study materials science", "structure-property relationship materials", "computational validation mechanism", "mechanism materials research"],
+      "must_include_terms": ["mechanism", "materials"],
+      "optional_terms": ["mechanistic study", "structure-property", "computational validation", "materials science"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus, Semantic Scholar",
+      "source_constraints": ["research_topic", "computational_validation_requirement"],
+      "rationale": "Core entry covering the user's stated interest: materials research with clear mechanism explanation and computational validation. No specific material or method is specified, so terms are kept broad.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["structure-property relationship first-principles", "structural change performance improvement materials", "structure-property correlation computational", "mechanism computational evidence materials", "computationally validated mechanism materials"],
+      "must_include_terms": ["mechanism"],
+      "optional_terms": ["structure-property", "first-principles", "computational", "performance improvement", "structural change"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["structure_property_relationship", "computational_validation_requirement"],
+      "rationale": "Encodes the two medium-confidence constraints: structure-to-property reasoning and computational validation. No specific method or material is forced.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["mechanistic understanding structure-property materials", "mechanism clarity computational study", "atomic mechanism performance materials", "electronic structure mechanism materials", "microstructure mechanism property"],
+      "must_include_terms": ["mechanism", "computational"],
+      "optional_terms": ["structure-property", "atomic mechanism", "electronic structure", "microstructure", "performance"],
+      "exclude_terms": [],
+      "expected_paper_type": "mechanism study",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["research_topic", "computational_validation_requirement"],
+      "rationale": "Covers mechanistic clarity as a research quality criterion without specifying material class or computational method.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["first-principles mechanism validation materials", "DFT mechanism materials", "molecular dynamics mechanism materials", "simulation validated mechanism", "ab initio structure-property materials"],
+      "must_include_terms": ["mechanism"],
+      "optional_terms": ["first-principles", "DFT", "molecular dynamics", "simulation", "ab initio", "structure-property"],
+      "exclude_terms": [],
+      "expected_paper_type": "computational study",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["computational_validation_requirement"],
+      "rationale": "Covers candidate computational methods (DFT, MD, ML) without forcing any single method as a hard requirement.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["structure-property correlation quantitative", "mechanism-performance link materials", "computational prediction experimental validation", "property improvement mechanism materials", "performance enhancement mechanism study"],
+      "must_include_terms": ["mechanism", "materials"],
+      "optional_terms": ["structure-property correlation", "quantitative", "computational prediction", "experimental validation", "performance enhancement"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["structure_property_relationship", "computational_validation_requirement"],
+      "rationale": "Targets papers that quantitatively link structural changes to performance improvements via computation.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["machine learning structure-property materials", "data-driven mechanism materials", "interpretable model materials science", "physics-informed model materials", "explainable AI materials mechanism"],
+      "must_include_terms": [],
+      "optional_terms": ["machine learning", "data-driven", "interpretable", "physics-informed", "explainable AI", "structure-property"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["computational_validation_requirement"],
+      "rationale": "Adjacent direction: data-driven and ML-based approaches to mechanism explanation and structure-property relationships.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": [],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope items or user exclusions provided. Query is highly underspecified; no exclude_terms generated. Risk flags not converted to exclude_terms.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"mechanism\" AND \"materials\" AND \"computational\" AND \"structure-property\"",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["research_topic", "computational_validation_requirement", "structure_property_relationship"],
+      "rationale": "Strict intersection of the three core constraints without specifying material or method.",
+      "priority": 1
+    },
+    {
+      "query": "\"mechanism\" AND \"materials\" AND (\"first-principles\" OR \"DFT\" OR \"molecular dynamics\" OR \"simulation\") AND \"structure-property\"",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["research_topic", "computational_validation_requirement"],
+      "rationale": "Broad variant expanding computational method synonyms to improve recall.",
+      "priority": 1
+    },
+    {
+      "query": "\"structure-property relationship\" AND \"mechanism\" AND \"computational\" AND \"materials science\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["structure_property_relationship", "computational_validation_requirement"],
+      "rationale": "Strict query targeting structure-property relationship with computational mechanism validation.",
+      "priority": 1
+    },
+    {
+      "query": "\"mechanism explanation\" AND \"materials\" AND (\"computational\" OR \"simulation\" OR \"first-principles\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["research_topic", "computational_validation_requirement"],
+      "rationale": "Broad query for mechanism explanation with computational evidence, no material class specified.",
+      "priority": 1
+    },
+    {
+      "query": "\"mechanistic study\" AND \"materials\" AND \"computational validation\"",
+      "variant_type": "strict",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["research_topic", "computational_validation_requirement"],
+      "rationale": "Strict query targeting mechanistic studies with explicit computational validation.",
+      "priority": 2
+    },
+    {
+      "query": "\"materials\" AND (\"mechanism\" OR \"mechanistic\") AND (\"DFT\" OR \"ab initio\" OR \"molecular dynamics\") AND (\"structure\" OR \"property\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["computational_validation_requirement", "structure_property_relationship"],
+      "rationale": "Broad mechanism query covering multiple computational methods and structure-property framing.",
+      "priority": 2
+    },
+    {
+      "query": "\"structure-property\" AND \"first-principles\" AND \"mechanism\" AND \"performance\"",
+      "variant_type": "strict",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["structure_property_relationship", "computational_validation_requirement"],
+      "rationale": "Strict query linking first-principles computation to structure-property-performance chain.",
+      "priority": 2
+    },
+    {
+      "query": "\"computational prediction\" AND \"experimental validation\" AND \"mechanism\" AND \"materials\"",
+      "variant_type": "broad",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["computational_validation_requirement"],
+      "rationale": "Broad query for papers combining computational prediction with experimental validation of mechanisms.",
+      "priority": 2
+    },
+    {
+      "query": "\"machine learning\" AND \"structure-property\" AND \"mechanism\" AND \"materials\"",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["computational_validation_requirement"],
+      "rationale": "Adjacent direction: ML-based structure-property mechanism studies.",
+      "priority": 3
+    },
+    {
+      "query": "\"mechanism\" AND \"materials\" AND (\"structure\" OR \"property\") AND (\"computational\" OR \"simulation\")",
+      "variant_type": "fallback",
+      "search_intent": "core_topic",
+      "source_constraints": ["research_topic"],
+      "rationale": "Minimal fallback for highly underspecified query; keeps all terms broad and optional.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 10,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["research_topic", "structure_property_relationship", "computational_validation_requirement"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used", "manual_review_recommended", "query_highly_underspecified_broad_terms_used"]
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["lithium metal battery", "Li metal anode", "lithium metal electrode", "ether electrolyte", "ether-based electrolyte"],
+      "must_include_terms": ["lithium metal battery", "ether electrolyte"],
+      "optional_terms": ["Li metal anode", "lithium metal electrode", "glyme electrolyte", "DME electrolyte"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["battery_system", "electrolyte_type"],
+      "rationale": "Core entry combining the primary material system (Li metal battery) and electrolyte class (ether-based).",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["high voltage 4.5V", "voltage window above 4.5V", "high voltage electrolyte", "fast charging", "2C rate", "high rate charging", "C-rate above 2C"],
+      "must_include_terms": ["lithium metal battery"],
+      "optional_terms": ["high voltage", "4.5V", "fast charging", "2C rate", "high rate"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["voltage_threshold", "charge_rate"],
+      "rationale": "Encodes the two explicit numerical constraints from the user: >4.5V voltage and >2C fast charging.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["SEI stability ether electrolyte", "solid electrolyte interphase lithium metal", "electrode-electrolyte interface high voltage", "interfacial reaction ether lithium", "SEI formation mechanism fast charging"],
+      "must_include_terms": ["lithium metal"],
+      "optional_terms": ["SEI stability", "solid electrolyte interphase", "electrode-electrolyte interface", "interfacial reaction", "SEI formation"],
+      "exclude_terms": [],
+      "expected_paper_type": "mechanism study",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["performance_metric_interfacial_stability"],
+      "rationale": "Covers SEI formation and interfacial stability mechanisms in ether electrolytes at high voltage.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["ether electrolyte additive design", "high concentration ether electrolyte", "localized high concentration electrolyte", "electrolyte formulation lithium metal", "co-solvent ether lithium battery"],
+      "must_include_terms": ["ether electrolyte"],
+      "optional_terms": ["additive design", "high concentration", "localized high concentration", "co-solvent", "electrolyte formulation"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["electrolyte_type"],
+      "rationale": "Covers electrolyte formulation strategies: additive design, concentration tuning, co-solvent engineering for ether systems.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["Coulombic efficiency lithium metal", "CE lithium metal", "cycle life ether electrolyte", "cycling stability lithium metal", "capacity retention long-term cycling", "interfacial stability lithium metal"],
+      "must_include_terms": ["lithium metal"],
+      "optional_terms": ["Coulombic efficiency", "cycle life", "cycling stability", "capacity retention", "interfacial stability"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["performance_metric_coulombic_efficiency", "performance_metric_cycle_life", "performance_metric_interfacial_stability"],
+      "rationale": "Targets papers reporting the three key metrics: Coulombic efficiency, cycle life, and interfacial stability.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["localized high concentration electrolyte lithium metal", "fluorinated ether electrolyte lithium", "dilute ether electrolyte high voltage", "argyrodite sulfide electrolyte comparison"],
+      "must_include_terms": [],
+      "optional_terms": ["localized high concentration", "fluorinated ether", "dilute ether", "high voltage lithium metal"],
+      "exclude_terms": [],
+      "expected_paper_type": "research article",
+      "target_database": "Web of Science, Scopus",
+      "source_constraints": ["electrolyte_type"],
+      "rationale": "Adjacent strategies: LHCE and fluorinated ether electrolytes for high-voltage Li metal batteries.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": ["lithium metal battery ether electrolyte"],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope or user exclusions provided. Risk flags (explicit_value_from_user_input_only) are not converted to exclude_terms.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"lithium metal battery\" AND \"ether electrolyte\" AND \"high voltage\" AND (\"Coulombic efficiency\" OR \"cycle life\")",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["battery_system", "electrolyte_type", "performance_metric_coulombic_efficiency", "performance_metric_cycle_life"],
+      "rationale": "Strict intersection of core material system, electrolyte class, voltage constraint, and performance metrics.",
+      "priority": 1
+    },
+    {
+      "query": "\"Li metal anode\" AND (\"ether electrolyte\" OR \"glyme electrolyte\" OR \"DME electrolyte\") AND (\"high voltage\" OR \"fast charging\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["battery_system", "electrolyte_type", "voltage_threshold", "charge_rate"],
+      "rationale": "Broad variant expanding ether electrolyte synonyms and combining voltage/rate constraints with OR.",
+      "priority": 1
+    },
+    {
+      "query": "\"lithium metal battery\" AND \"ether electrolyte\" AND \"4.5V\" AND \"fast charging\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["voltage_threshold", "charge_rate"],
+      "rationale": "Strict query preserving both explicit numerical constraints from the user.",
+      "priority": 1
+    },
+    {
+      "query": "\"ether electrolyte\" AND \"lithium metal\" AND (\"high voltage\" OR \"4.5V\" OR \"voltage window\") AND (\"2C\" OR \"fast charging\" OR \"high rate\")",
+      "variant_type": "broad",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["voltage_threshold", "charge_rate"],
+      "rationale": "Broad variant expanding voltage and rate terminology to improve recall.",
+      "priority": 1
+    },
+    {
+      "query": "\"SEI stability\" AND \"ether electrolyte\" AND \"lithium metal\" AND \"high voltage\"",
+      "variant_type": "strict",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["performance_metric_interfacial_stability"],
+      "rationale": "Strict query targeting SEI stability mechanism in ether electrolytes at high voltage.",
+      "priority": 2
+    },
+    {
+      "query": "\"lithium metal\" AND (\"solid electrolyte interphase\" OR \"SEI\" OR \"electrode-electrolyte interface\") AND (\"ether\" OR \"glyme\") AND (\"high voltage\" OR \"fast charging\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["performance_metric_interfacial_stability"],
+      "rationale": "Broad SEI mechanism query covering multiple interface terminology variants.",
+      "priority": 2
+    },
+    {
+      "query": "\"ether electrolyte\" AND \"additive\" AND \"lithium metal\" AND (\"Coulombic efficiency\" OR \"cycle life\")",
+      "variant_type": "strict",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["electrolyte_type", "performance_metric_coulombic_efficiency"],
+      "rationale": "Strict query targeting additive-based ether electrolyte design with performance metrics.",
+      "priority": 2
+    },
+    {
+      "query": "\"lithium metal\" AND \"ether electrolyte\" AND (\"Coulombic efficiency\" OR \"CE\" OR \"first cycle efficiency\") AND (\"cycle life\" OR \"cycling stability\" OR \"capacity retention\")",
+      "variant_type": "broad",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["performance_metric_coulombic_efficiency", "performance_metric_cycle_life"],
+      "rationale": "Broad performance query covering all three key metrics with synonym expansion.",
+      "priority": 2
+    },
+    {
+      "query": "\"high concentration ether electrolyte\" AND \"lithium metal\" AND (\"high voltage\" OR \"fast charging\")",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["electrolyte_type"],
+      "rationale": "High-concentration ether electrolytes are a key strategy for enabling high-voltage stability.",
+      "priority": 2
+    },
+    {
+      "query": "\"localized high concentration electrolyte\" AND \"lithium metal\" AND (\"ether\" OR \"glyme\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["electrolyte_type"],
+      "rationale": "LHCE is an adjacent strategy combining ether solvents with diluents for high-voltage Li metal.",
+      "priority": 3
+    },
+    {
+      "query": "\"lithium metal battery\" AND \"ether electrolyte\" AND \"interfacial stability\"",
+      "variant_type": "strict",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["performance_metric_interfacial_stability"],
+      "rationale": "Strict query targeting interfacial stability as a key performance metric.",
+      "priority": 2
+    },
+    {
+      "query": "\"lithium metal\" AND \"ether electrolyte\" AND (\"high voltage\" OR \"fast charging\")",
+      "variant_type": "fallback",
+      "search_intent": "core_topic",
+      "source_constraints": ["battery_system", "electrolyte_type"],
+      "rationale": "Fallback without specific numerical thresholds for broader coverage.",
+      "priority": 3
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 12,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["battery_system", "voltage_threshold", "charge_rate", "electrolyte_type", "performance_metric_coulombic_efficiency", "performance_metric_cycle_life", "performance_metric_interfacial_stability"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used"]
+  }
+}

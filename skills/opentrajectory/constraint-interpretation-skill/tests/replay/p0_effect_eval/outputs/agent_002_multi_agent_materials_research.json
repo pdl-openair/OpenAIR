@@ -1,0 +1,103 @@
+{
+  "interpreted_constraints": [
+    {
+      "constraint_name": "materials_research_application_domain",
+      "original_phrase": "材料科研任务",
+      "constraint_type": "condition",
+      "interpreted_value": "materials research tasks",
+      "candidate_values": [
+        "computational materials research",
+        "experimental materials discovery",
+        "materials informatics"
+      ],
+      "domain_rationale": "Materials research tasks define the application domain for the multi-agent system. This is a broad domain constraint, not a specific material system. The user is interested in agents applied to materials science broadly, not a specific material.",
+      "confidence": 0.62,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "materials research",
+        "materials science agent",
+        "AI for materials discovery",
+        "materials informatics agent"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "research_gap_query_is_broad: materials research covers many subfields; no specific material system specified"
+      ]
+    },
+    {
+      "constraint_name": "multi_agent_system_type",
+      "original_phrase": "多智能体系统",
+      "constraint_type": "condition",
+      "interpreted_value": "multi-agent systems",
+      "candidate_values": [
+        "collaborative multi-agent",
+        "hierarchical multi-agent",
+        "decentralized multi-agent"
+      ],
+      "domain_rationale": "Multi-agent systems is a well-defined system architecture type in AI research. The user specifies this as the system type of interest, distinguishing from single-agent approaches.",
+      "confidence": 0.65,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "multi-agent systems",
+        "multi-agent framework",
+        "collaborative agents",
+        "agent coordination"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "multi_agent_architecture_unspecified: collaborative, hierarchical, or decentralized not specified"
+      ]
+    },
+    {
+      "constraint_name": "literature_to_validation_workflow",
+      "original_phrase": "文献检索、证据整理、假说生成、计算工具调用和实验反馈",
+      "constraint_type": "condition",
+      "interpreted_value": null,
+      "candidate_values": [
+        "literature retrieval",
+        "evidence synthesis",
+        "hypothesis generation",
+        "tool use",
+        "experimental feedback"
+      ],
+      "domain_rationale": "This constraint describes a multi-component workflow scope: from literature retrieval through hypothesis generation to experimental feedback. It is a workflow scope constraint, not a single hard filter. The user wants papers covering the integration of these components.",
+      "confidence": 0.60,
+      "needs_user_confirmation": true,
+      "downstream_search_terms": [
+        "literature retrieval",
+        "evidence synthesis",
+        "hypothesis generation",
+        "tool use",
+        "experimental feedback",
+        "scientific workflow agent"
+      ],
+      "downstream_filter_rules": [
+        "treat_as_soft_constraint_until_confirmed",
+        "avoid_strong_filter_on_low_confidence"
+      ],
+      "evidence_basis": "user_query explicit phrase",
+      "risk_flags": [
+        "workflow_scope_multi_component: five workflow components listed; papers covering all five simultaneously may be rare"
+      ]
+    }
+  ],
+  "quality_report": {
+    "confidence": 0.62,
+    "coverage_level": "complete",
+    "missing_inputs": [],
+    "risk_flags": [
+      "research_gap_query_is_broad",
+      "workflow_scope_multi_component",
+      "multi_agent_architecture_unspecified"
+    ],
+    "needs_manual_review": true
+  }
+}

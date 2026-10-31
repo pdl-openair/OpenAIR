@@ -1,0 +1,194 @@
+{
+  "search_matrix": [
+    {
+      "search_intent": "core_topic",
+      "query_terms": ["long-horizon software development agent", "AI agent software engineering", "autonomous coding agent", "long-task agent", "LLM agent software development"],
+      "must_include_terms": ["agent", "software development"],
+      "optional_terms": ["long-horizon", "autonomous", "coding", "long-task"],
+      "exclude_terms": [],
+      "expected_paper_type": "empirical or survey paper",
+      "target_database": "Semantic Scholar, arXiv, ACL Anthology",
+      "source_constraints": ["agent_task_scope"],
+      "rationale": "Core entry point covering the primary research object: AI agents applied to long-horizon software development tasks.",
+      "priority": 1
+    },
+    {
+      "search_intent": "constraint_focused",
+      "query_terms": ["memory management agent", "agent memory", "context management LLM agent", "external memory agent", "tool use agent", "tool calling LLM", "function calling agent", "reflection mechanism agent", "self-reflection LLM", "agent self-critique", "iterative refinement agent"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["memory management", "tool use", "tool calling", "reflection", "self-critique", "iterative refinement", "context management"],
+      "exclude_terms": [],
+      "expected_paper_type": "empirical paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["memory_management", "tool_use", "reflection_mechanism"],
+      "rationale": "Directly encodes the three core constraints: memory management, tool use/calling, and reflection mechanisms in AI agents.",
+      "priority": 1
+    },
+    {
+      "search_intent": "mechanism_focused",
+      "query_terms": ["agent memory architecture", "working memory LLM", "episodic memory agent", "tool-augmented LLM mechanism", "chain-of-thought reflection", "self-improvement loop agent", "context window management", "retrieval-augmented agent memory"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["memory architecture", "episodic memory", "working memory", "tool-augmented", "chain-of-thought", "self-improvement", "context window", "retrieval-augmented"],
+      "exclude_terms": [],
+      "expected_paper_type": "mechanism or architecture paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["memory_management", "reflection_mechanism"],
+      "rationale": "Covers internal mechanisms enabling memory, tool use, and reflection in long-horizon agents.",
+      "priority": 2
+    },
+    {
+      "search_intent": "method_or_strategy",
+      "query_terms": ["SWE-bench agent evaluation", "benchmark evaluation agent", "reproducible experiment agent", "agent evaluation benchmark", "scaffold agent software engineering", "ReAct agent framework", "tool-use strategy LLM"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["SWE-bench", "benchmark", "evaluation", "scaffold", "ReAct", "tool-use strategy", "reproducible"],
+      "exclude_terms": [],
+      "expected_paper_type": "benchmark or methods paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["benchmark_requirement"],
+      "rationale": "Covers methods, frameworks, and benchmarks used to evaluate or implement long-horizon software development agents.",
+      "priority": 2
+    },
+    {
+      "search_intent": "metric_or_performance",
+      "query_terms": ["task success rate agent", "agent stability", "task completion rate", "agent reliability", "pass rate software agent", "agent performance evaluation", "long-horizon task completion metric"],
+      "must_include_terms": ["agent"],
+      "optional_terms": ["task success rate", "task completion rate", "stability", "reliability", "pass rate", "performance evaluation"],
+      "exclude_terms": [],
+      "expected_paper_type": "empirical evaluation paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["performance_metrics"],
+      "rationale": "Targets papers that report measurable outcomes: task success rate and stability.",
+      "priority": 2
+    },
+    {
+      "search_intent": "adjacent_but_relevant",
+      "query_terms": ["multi-agent software development", "LLM planning long-horizon task", "autonomous agent debugging", "code generation agent evaluation", "agent error recovery", "program synthesis agent"],
+      "must_include_terms": [],
+      "optional_terms": ["multi-agent", "planning", "debugging", "code generation", "error recovery", "program synthesis"],
+      "exclude_terms": [],
+      "expected_paper_type": "survey or empirical paper",
+      "target_database": "Semantic Scholar, arXiv",
+      "source_constraints": ["agent_task_scope"],
+      "rationale": "Expands recall to adjacent directions: planning, debugging, multi-agent collaboration for long-horizon software tasks.",
+      "priority": 3
+    },
+    {
+      "search_intent": "noise_exclusion",
+      "query_terms": ["AI agent software development"],
+      "must_include_terms": [],
+      "optional_terms": [],
+      "exclude_terms": [],
+      "expected_paper_type": null,
+      "target_database": null,
+      "source_constraints": [],
+      "rationale": "No explicit out-of-scope or user exclusions provided. No exclude_terms generated.",
+      "priority": 3
+    }
+  ],
+  "expanded_query_variants": [
+    {
+      "query": "\"long-horizon\" AND \"software development\" AND \"agent\" AND (\"memory management\" OR \"tool use\" OR \"reflection\")",
+      "variant_type": "strict",
+      "search_intent": "core_topic",
+      "source_constraints": ["agent_task_scope", "memory_management", "tool_use", "reflection_mechanism"],
+      "rationale": "Strict intersection of the three core constraints with the primary research scope.",
+      "priority": 1
+    },
+    {
+      "query": "\"AI agent\" AND \"software engineering\" AND (\"memory\" OR \"tool calling\" OR \"self-reflection\")",
+      "variant_type": "broad",
+      "search_intent": "core_topic",
+      "source_constraints": ["agent_task_scope"],
+      "rationale": "Broad variant using synonyms for software development and relaxing constraint conjunction to OR.",
+      "priority": 1
+    },
+    {
+      "query": "\"autonomous coding agent\" AND (\"memory management\" OR \"context management\") AND \"task completion\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["memory_management", "performance_metrics"],
+      "rationale": "Strict query combining autonomous coding agent with memory management and task completion metric.",
+      "priority": 1
+    },
+    {
+      "query": "\"LLM agent\" AND \"tool use\" AND (\"task success\" OR \"task completion rate\" OR \"agent reliability\")",
+      "variant_type": "strict",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["tool_use", "performance_metrics"],
+      "rationale": "Strict query linking tool use to measurable performance outcomes.",
+      "priority": 1
+    },
+    {
+      "query": "\"agent\" AND \"reflection\" AND (\"self-critique\" OR \"iterative refinement\" OR \"self-improvement\") AND \"software development\"",
+      "variant_type": "strict",
+      "search_intent": "constraint_focused",
+      "source_constraints": ["reflection_mechanism"],
+      "rationale": "Strict query targeting reflection mechanisms specifically in software development agents.",
+      "priority": 1
+    },
+    {
+      "query": "\"SWE-bench\" AND \"agent\" AND (\"memory\" OR \"tool\" OR \"reflection\")",
+      "variant_type": "strict",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["benchmark_requirement"],
+      "rationale": "Targets papers using SWE-bench, the most prominent software engineering agent evaluation suite.",
+      "priority": 2
+    },
+    {
+      "query": "\"agent\" AND (\"memory architecture\" OR \"episodic memory\" OR \"working memory\" OR \"retrieval-augmented memory\") AND (\"long-horizon\" OR \"long-task\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["memory_management"],
+      "rationale": "Broad mechanism query covering multiple memory architecture types for long-horizon agents.",
+      "priority": 2
+    },
+    {
+      "query": "\"agent\" AND (\"tool-augmented\" OR \"function calling\" OR \"tool-use strategy\") AND (\"benchmark\" OR \"evaluation\" OR \"reproducible\")",
+      "variant_type": "broad",
+      "search_intent": "method_or_strategy",
+      "source_constraints": ["tool_use", "benchmark_requirement"],
+      "rationale": "Broad query linking tool-use strategies to benchmark evaluation.",
+      "priority": 2
+    },
+    {
+      "query": "\"agent\" AND (\"task success rate\" OR \"task completion rate\" OR \"pass rate\" OR \"agent stability\") AND (\"software\" OR \"coding\" OR \"programming\")",
+      "variant_type": "broad",
+      "search_intent": "metric_or_performance",
+      "source_constraints": ["performance_metrics"],
+      "rationale": "Broad performance query covering multiple metric synonyms in the software/coding domain.",
+      "priority": 2
+    },
+    {
+      "query": "\"multi-agent\" AND \"software development\" AND (\"planning\" OR \"debugging\" OR \"code generation\")",
+      "variant_type": "broad",
+      "search_intent": "adjacent_but_relevant",
+      "source_constraints": ["agent_task_scope"],
+      "rationale": "Adjacent direction: multi-agent systems for software development tasks.",
+      "priority": 3
+    },
+    {
+      "query": "\"autonomous agent\" AND (\"long-horizon task\" OR \"long-range planning\") AND (\"LLM\" OR \"large language model\")",
+      "variant_type": "fallback",
+      "search_intent": "core_topic",
+      "source_constraints": ["agent_task_scope"],
+      "rationale": "Fallback using broader terms for long-horizon autonomous agents without domain-specific constraints.",
+      "priority": 3
+    },
+    {
+      "query": "\"agent\" AND \"error recovery\" AND (\"software\" OR \"code\") AND (\"reflection\" OR \"retry\" OR \"self-correction\")",
+      "variant_type": "broad",
+      "search_intent": "mechanism_focused",
+      "source_constraints": ["reflection_mechanism"],
+      "rationale": "Covers error recovery and self-correction mechanisms in software agents.",
+      "priority": 2
+    }
+  ],
+  "quality_report": {
+    "search_matrix_count": 7,
+    "expanded_query_variants_count": 12,
+    "search_intent_coverage": ["core_topic", "constraint_focused", "mechanism_focused", "method_or_strategy", "metric_or_performance", "adjacent_but_relevant", "noise_exclusion"],
+    "constraints_utilized": ["agent_task_scope", "memory_management", "tool_use", "reflection_mechanism", "performance_metrics", "benchmark_requirement"],
+    "fallback_used": true,
+    "validation_flags": ["risk_flags_not_used_as_exclude_terms", "fallback_terms_used"]
+  }
+}
