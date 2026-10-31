@@ -34,9 +34,21 @@
 
 ## 🗞️ News
 
-- **2026-10-31**　🏁 **v1.0.0 发布（版本号校准）**：平台已在真实科研战役中生产使用（晶体发现 mSUN 58.0%、AlN PVD 四轮湿实验反馈 d33 15.9→18.6），按 SemVer「生产使用即应 1.0」惯例自 v0.1.0 校准至 v1.0.0；随版本交付 openair-cli 源码入库、演示视频与在线工作台快照。[Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v1.0.0)
+- **2026-10-31**　🏁 **v1.0.0 首个稳定版发布**：四阶段科研编排运行时、200+ 契约化科研 skill、双执行模式（live / replay 零密钥回放）、证据链全程可追溯、多用户与配额、Docker 一键部署与 [openair-cli](https://pypi.org/project/openair-cli/)。[Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v1.0.0)
 - **2026-10-31**　🧰 [openair-cli 0.2.0](https://pypi.org/project/openair-cli/)：Docker 构建进度实时透传、环境配置引导向导（`openair config`）、环境体检（`openair doctor`）、日志跟踪（`openair logs`）
 - **2026-10-29**　🚀 v0.1.0 首个公开版本发布：四阶段编排运行时、200+ 科研 skill、评测与回放资产、双执行模式（live / replay）。[Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0)
+
+<details>
+<summary><b>开源前研发历程</b>（2026-05 起，私有仓 2600+ 提交，精编）</summary>
+
+| 时间 | 里程碑 |
+|---|---|
+| 2026-05 | 项目启动：monorepo 工程骨架、skill 注册与契约化机制 |
+| 2026-06 | 确定性回放（replay）与评测、证据链基础设施 |
+| 2026-07 | 四阶段材料场景端到端跑通，首个可演示全流程 |
+| 2026-08 至 10 | 真实科研战役验证与生产化：晶体发现全链路（终评 mSUN 58.0%）、AlN PVD 干湿闭环四轮反馈（d33 15.9→18.6）、CI 必过门禁与契约测试、openair-cli 上架 PyPI |
+
+</details>
 
 > 完整版本历史见 [Releases](https://github.com/pdl-openair/OpenAIR/releases)。
 

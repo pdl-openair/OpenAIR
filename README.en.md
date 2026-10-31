@@ -34,9 +34,21 @@
 
 ## 🗞️ News
 
-- **2026-10-31**　🏁 **v1.0.0 — version calibration**: the platform has already been used in production research campaigns (crystal-discovery search mSUN 58.0%; AlN PVD d33 15.9 → 18.6 over four wet-lab feedback rounds), so per SemVer's "production use → 1.0.0" guidance the version is calibrated from v0.1.0 to v1.0.0. Also ships: openair-cli source in-repo, demo video & live workbench snapshot. [Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v1.0.0)
+- **2026-10-31**　🏁 **v1.0.0 — first stable release**: four-stage research orchestration runtime, 200+ contract-based research skills, dual execution mode (live / keyless replay), fully traceable evidence chains, multi-user & quotas, one-command Docker deployment with [openair-cli](https://pypi.org/project/openair-cli/). [Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v1.0.0)
 - **2026-10-31**　🧰 [openair-cli 0.2.0](https://pypi.org/project/openair-cli/): live Docker build progress, interactive env-config wizard (`openair config`), environment checkup (`openair doctor`), log tailing (`openair logs`)
 - **2026-10-29**　🚀 v0.1.0 — first public release: four-stage orchestration runtime, 200+ research skills, evaluation & replay assets, dual execution mode (live / replay). [Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0)
+
+<details>
+<summary><b>Pre-OSS development history</b> (since 2026-05, 2,600+ commits, condensed)</summary>
+
+| Period | Milestone |
+|---|---|
+| 2026-05 | project bootstrapped: monorepo skeleton, skill registry & contract mechanism |
+| 2026-06 | deterministic replay, evaluation & evidence-chain infrastructure |
+| 2026-07 | four-stage materials scenario runs end-to-end — first demonstrable full loop |
+| 2026-08 → 10 | validated in real research campaigns & hardened for production: crystal-discovery full chain (final mSUN 58.0%), AlN PVD wet-lab closed loop over four feedback rounds (d33 15.9 → 18.6), CI required gates & contract tests, openair-cli on PyPI |
+
+</details>
 
 > Full version history: [Releases](https://github.com/pdl-openair/OpenAIR/releases).
 
