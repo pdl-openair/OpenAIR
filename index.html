@@ -3,138 +3,253 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="google-site-verification" content="tAxWQiJkr0D7N4l3odbYURCUlo7qe7i5TvPmv5rsp1w" />
-<title>OpenAIR 智研星河 — 面向材料科研的智能体平台 | 科研智能体</title>
-<meta name="description" content="OpenAIR 把科研过程建模为可编排、可验证、可追溯的四阶段流水线（问题建模→方案设计→执行验证→洞察生成）。晶体材料发现 mSUN 58.0%，AlN PVD 参数寻优 d33 15.9→18.6。开源协议 Apache-2.0。">
-<meta name="keywords" content="OpenAIR, 智研星河, 科研智能体, AI4Science, research agent, 科研平台, 材料发现, 晶体设计, PVD, LLM Agent">
+<title>OpenAIR 智研星河 — 面向科学发现的可信闭环智能体平台</title>
+<meta name="description" content="OpenAIR 把科研过程建模为可编排、可验证、可追溯的四阶段闭环（问题建模→方案设计→执行验证→洞察生成），材料发现为首个验证场景：晶体发现 mSUN 58.0%，AlN PVD 寻优 d33 15.9→18.6。开源 Apache-2.0。">
+<meta name="keywords" content="OpenAIR, 智研星河, 科学发现, 科研智能体, 可信闭环, AI4Science, research agent, 材料发现, 晶体设计, PVD">
 <link rel="canonical" href="https://pdl-openair.github.io/OpenAIR/">
 <link rel="alternate" hreflang="zh-CN" href="https://pdl-openair.github.io/OpenAIR/">
 <link rel="alternate" hreflang="en" href="https://pdl-openair.github.io/OpenAIR/en/">
 <link rel="alternate" hreflang="x-default" href="https://pdl-openair.github.io/OpenAIR/en/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="OpenAIR 智研星河 — 面向材料科研的智能体平台">
-<meta property="og:description" content="四阶段可编排、可验证、可追溯的科研流水线。晶体发现 mSUN 58.0%，PVD 寻优 d33 15.9→18.6。">
+<meta property="og:title" content="OpenAIR 智研星河 — 面向科学发现的可信闭环智能体平台">
+<meta property="og:description" content="可编排、可验证、可追溯的科研闭环。材料发现为首个验证场景：mSUN 58.0%，PVD d33 15.9→18.6。">
 <meta property="og:url" content="https://pdl-openair.github.io/OpenAIR/">
 <meta property="og:image" content="https://pdl-openair.github.io/OpenAIR/assets/og-cover.png">
 <meta property="og:site_name" content="OpenAIR">
 <meta property="og:locale" content="zh_CN">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="OpenAIR 智研星河 — 面向材料科研的智能体平台">
-<meta name="twitter:description" content="四阶段可编排、可验证、可追溯的科研流水线。">
+<meta name="twitter:title" content="OpenAIR 智研星河 — 面向科学发现的可信闭环智能体平台">
+<meta name="twitter:description" content="可编排、可验证、可追溯的科研闭环。">
 <meta name="twitter:image" content="https://pdl-openair.github.io/OpenAIR/assets/og-cover.png">
-<link rel="icon" type="image/png" href="https://pdl-openair.github.io/OpenAIR/assets/openair-logo.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/openair-icon.png">
+<meta name="google-site-verification" content="tAxWQiJkr0D7N4l3odbYURCUlo7qe7i5TvPmv5rsp1w" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenAIR","alternateName":"OpenAIR 智研星河","applicationCategory":"ScientificApplication","operatingSystem":"Web, Linux, Windows, macOS","description":"面向材料科研的智能体平台：四阶段可编排、可验证、可追溯的科研流水线。","url":"https://pdl-openair.github.io/OpenAIR/","downloadUrl":"https://github.com/pdl-openair/OpenAIR/releases","license":"https://spdx.org/licenses/Apache-2.0.html","offers":{"@type":"Offer","price":"0"},"author":{"@type":"Organization","name":"pdl-openair","url":"https://github.com/pdl-openair"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenAIR","alternateName":"OpenAIR 智研星河","applicationCategory":"ScientificApplication","operatingSystem":"Web, Linux, Windows, macOS","description":"面向科学发现的可信闭环智能体平台：可编排、可验证、可追溯的四阶段科研闭环。","url":"https://pdl-openair.github.io/OpenAIR/","downloadUrl":"https://github.com/pdl-openair/OpenAIR/releases","license":"https://spdx.org/licenses/Apache-2.0.html","offers":{"@type":"Offer","price":"0"},"author":{"@type":"Organization","name":"pdl-openair","url":"https://github.com/pdl-openair"}}
 </script>
 <style>
-:root{--bg:#f8fafc;--fg:#0f172a;--muted:#475569;--card:#ffffff;--line:#e2e8f0;--brand:#2563eb;--brand2:#7c3aed}
-@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--card:#111a2e;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa}}
+:root{--bg:#f8fafc;--fg:#0f172a;--muted:#475569;--soft:#64748b;--card:#ffffff;--line:#e2e8f0;--brand:#2563eb;--brand2:#7c3aed;--ok:#059669;--chip:#eef2ff}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--soft:#8b9db4;--card:#111a2e;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa;--ok:#34d399;--chip:#16233d}}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--fg);line-height:1.7}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--fg);line-height:1.75;font-size:16px}
 a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}
-.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
-header{border-bottom:1px solid var(--line)}
-header .wrap{display:flex;align-items:center;gap:12px;padding-top:18px;padding-bottom:18px}
-header img{height:34px;width:34px}
-header .name{font-weight:700;font-size:18px}
-header nav{margin-left:auto;display:flex;gap:18px;font-size:14px}
-.hero{text-align:center;padding:84px 24px 64px;background:linear-gradient(180deg,transparent,rgba(37,99,235,.06))}
-.hero .logo{height:88px;width:88px;margin-bottom:18px}
-.hero h1{font-size:44px;letter-spacing:.5px}
-.hero h1 span{background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p.tag{margin-top:10px;font-size:20px;color:var(--muted)}
-.hero p.sub{margin-top:8px;font-size:15px;color:var(--muted)}
-.btns{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:10px;height:60px}
+header .wordmark{display:flex;align-items:center;gap:9px;font-weight:700;font-size:17px;color:var(--fg)}
+header .wordmark img{height:30px;width:30px}
+header nav{margin-left:auto;display:flex;gap:20px;font-size:14px;align-items:center}
+header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
+.hero{position:relative;text-align:center;padding:88px 24px 56px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:
+ radial-gradient(600px 300px at 20% 0%,rgba(37,99,235,.14),transparent 60%),
+ radial-gradient(600px 300px at 80% 10%,rgba(124,58,237,.12),transparent 60%);pointer-events:none}
+.hero .logo{height:76px;width:76px;margin-bottom:20px}
+.hero .eyebrow{font-size:13px;letter-spacing:.35em;color:var(--soft);text-transform:uppercase;margin-bottom:14px}
+.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.25;letter-spacing:.5px}
+.hero h1 span{background:linear-gradient(92deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{margin-top:14px;font-size:17px;color:var(--muted)}
+.hero .rot{margin-top:10px;font-size:15px;color:var(--soft)}
+.hero .rot b{color:var(--brand);font-weight:600}
+.flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin-top:26px;font-size:14px;color:var(--muted)}
+.flow .node{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 16px}
+.flow .arr{color:var(--soft)}
+.flow .loop{width:100%;margin-top:6px;font-size:12.5px;color:var(--soft)}
+.btns{margin-top:30px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 .btn{padding:11px 22px;border-radius:10px;font-size:15px;font-weight:600}
-.btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
-.btn.primary:hover{text-decoration:none;opacity:.92}
-.btn.ghost{border:1px solid var(--line);color:var(--fg)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:56px}
-.stat{background:var(--card);padding:22px 16px;text-align:center}
-.stat b{display:block;font-size:26px;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.stat span{font-size:13px;color:var(--muted)}
-section{padding:64px 0}
-h2{font-size:28px;text-align:center;margin-bottom:8px}
-p.lead{text-align:center;color:var(--muted);max-width:720px;margin:0 auto 36px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
-.card h3{font-size:17px;margin-bottom:8px}
-.card p{font-size:14px;color:var(--muted)}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;counter-reset:s}
-.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative}
-.step::before{counter-increment:s;content:counter(s);display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-weight:700;margin-bottom:10px}
-.step b{display:block;font-size:15px}.step span{font-size:13px;color:var(--muted)}
-pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:18px 20px;overflow:auto;font-size:14px;font-family:Consolas,monospace}
-footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13px;text-align:center}
+.btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 20px rgba(37,99,235,.25)}
+.btn.primary:hover{text-decoration:none;transform:translateY(-1px)}
+.btn.ghost{border:1px solid var(--line);color:var(--fg);background:var(--card)}
+.btn.ghost:hover{text-decoration:none;border-color:var(--brand);color:var(--brand)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:48px}
+.stat{background:var(--card);padding:20px 14px;text-align:center}
+.stat b{display:block;font-size:24px;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:12.5px;color:var(--soft)}
+section{padding:72px 0}
+section.alt{background:color-mix(in srgb,var(--card) 55%,var(--bg))}
+.kicker{text-align:center;font-size:13px;letter-spacing:.3em;color:var(--brand);font-weight:600;text-transform:uppercase;margin-bottom:10px}
+h2{font-size:clamp(22px,3.4vw,30px);text-align:center;margin-bottom:10px}
+p.lead{text-align:center;color:var(--muted);max-width:760px;margin:0 auto 40px}
+.pairs{display:grid;gap:14px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
+.pair .pain,.pair .gain{border-radius:14px;padding:18px 20px;font-size:14.5px}
+.pair .pain{background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px dashed var(--line);color:var(--muted)}
+.pair .gain{background:var(--card);border:1px solid var(--line)}
+.pair .tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.08em;border-radius:6px;padding:2px 8px;margin-bottom:8px}
+.pair .pain .tag{background:color-mix(in srgb,#ef4444 12%,transparent);color:#dc2626}
+.pair .gain .tag{background:var(--chip);color:var(--brand)}
+@media(max-width:680px){.pair{grid-template-columns:1fr}}
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.case{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+.case:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(2,8,23,.10)}
+.case .badge{align-self:flex-start;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:999px;padding:3px 12px;margin-bottom:12px}
+.case h3{font-size:19px;margin-bottom:6px}
+.case p{font-size:14px;color:var(--muted);flex:1}
+.case .metric{margin:14px 0 6px;font-size:26px;font-weight:700;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.case .metric small{display:block;font-size:12.5px;color:var(--soft);font-weight:400;-webkit-text-fill-color:var(--soft)}
+.case .chain{font-size:12.5px;color:var(--soft);margin-bottom:16px}
+.case .cta{font-size:14px;font-weight:600}
+.videobox{max-width:860px;margin:0 auto;background:#000;border-radius:18px;overflow:hidden;box-shadow:0 18px 50px rgba(2,8,23,.35)}
+.videobox video{display:block;width:100%;height:auto}
+.videocap{text-align:center;font-size:13px;color:var(--soft);margin-top:12px}
+.mech{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.mech .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+.mech .card h3{font-size:17px;margin-bottom:8px}
+.mech .card p{font-size:14px;color:var(--muted)}
+.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.path{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.path .pt{font-size:12px;font-weight:700;color:var(--brand);letter-spacing:.1em;margin-bottom:8px}
+.path b{display:block;font-size:15.5px;margin-bottom:6px}
+.path span{font-size:13.5px;color:var(--muted)}
+pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:16px 18px;overflow:auto;font-size:13.5px;font-family:Consolas,monospace;margin-top:22px;text-align:left}
+footer{border-top:1px solid var(--line);padding:34px 0;color:var(--soft);font-size:13px}
 footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+@keyframes swap{0%,30%{opacity:1;transform:none}36%,96%{opacity:0;transform:translateY(-6px)}100%{opacity:0}}
+.rot b{display:inline-block;animation:swap 9s infinite}
+.rot b:nth-of-type(2){animation-delay:3s}.rot b:nth-of-type(3){animation-delay:6s}
+.rot .slot{display:inline-block;min-width:7em;text-align:left;vertical-align:bottom}
 </style>
 </head>
 <body>
 <header>
   <div class="wrap">
-    <img src="assets/openair-logo.png" alt="OpenAIR">
-    <div class="name">OpenAIR 智研星河</div>
+    <div class="wordmark"><img src="assets/openair-icon.png" alt="OpenAIR icon"><span>OpenAIR 智研星河</span></div>
     <nav>
+      <a href="#why">定位</a>
+      <a href="#cases">验证场景</a>
+      <a href="#demo">演示</a>
+      <a href="#quickstart">快速开始</a>
       <a href="https://github.com/pdl-openair/OpenAIR">GitHub</a>
-      <a href="https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0">Release</a>
-      <a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">演示视频</a>
       <a href="en/">English</a>
     </nav>
   </div>
 </header>
 
-<div class="hero">
+<div class="hero" id="top">
   <img class="logo" src="assets/openair-logo.png" alt="OpenAIR logo">
-  <h1><span>OpenAIR</span> 智研星河</h1>
-  <p class="tag">把科研过程，建模为可编排、可验证、可追溯的流水线</p>
-  <p class="sub">问题建模 → 方案设计 → 执行验证 → 洞察生成 —— AI 与人协同推进科学发现</p>
+  <div class="eyebrow">Open · AI · Research</div>
+  <h1>面向科学发现的<br><span>可信闭环智能体平台</span></h1>
+  <p class="sub">让 AI 在完整科研闭环中推进科学发现 —— 人始终掌握决策，证据全程可核验</p>
+  <p class="rot">已在
+    <span class="slot"><b>晶体材料发现</b><b>薄膜制备寻优</b><b>更多科学场景</b></span>
+    得到验证 · 场景由 skill 扩展</p>
+  <div class="flow">
+    <span class="node">问题建模</span><span class="arr">→</span>
+    <span class="node">方案设计</span><span class="arr">→</span>
+    <span class="node">执行验证</span><span class="arr">→</span>
+    <span class="node">洞察生成</span>
+    <span class="loop">⟲ 新的计算结果与实验反馈可回注任意阶段，形成可信闭环</span>
+  </div>
   <div class="btns">
     <a class="btn primary" href="https://github.com/pdl-openair/OpenAIR">⭐ GitHub 开源仓库</a>
     <a class="btn ghost" href="https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425">👀 在线演示（免登录）</a>
-    <a class="btn ghost" href="https://github.com/pdl-openair/OpenAIR#-快速开始">5 分钟快速开始</a>
-    <a class="btn ghost" href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">▶ 演示视频</a>
+    <a class="btn ghost" href="#quickstart">5 分钟跑起来</a>
   </div>
   <div class="stats wrap">
-    <div class="stat"><b>4 阶段</b><span>科研生命周期编排</span></div>
-    <div class="stat"><b>200+</b><span>可回放的科研 skill</span></div>
-    <div class="stat"><b>mSUN 58.0%</b><span>晶体材料发现 · 搜索终评</span></div>
-    <div class="stat"><b>d33 15.9→18.6</b><span>AlN PVD 四轮湿实验迭代</span></div>
+    <div class="stat"><b>4 阶段</b><span>科研闭环编排</span></div>
+    <div class="stat"><b>200+</b><span>可回放科研 skill</span></div>
+    <div class="stat"><b>mSUN 58.0%</b><span>晶体发现 · 搜索终评</span></div>
+    <div class="stat"><b>d33 +17%</b><span>AlN PVD · 四轮湿实验</span></div>
   </div>
 </div>
 
-<section>
+<section id="why">
   <div class="wrap">
-    <h2>三大核心机制</h2>
-    <p class="lead">针对科研任务周期长、工具分散、证据难追溯、实验反馈利用不足的痛点</p>
-    <div class="grid">
-      <div class="card"><h3>🔁 可编排</h3><p>四阶段是科研活动的组织框架而非固定串行流水线——新的计算结果或实验反馈，可触发平台回到相关阶段补充分析与决策。</p></div>
-      <div class="card"><h3>🔍 可验证</h3><p>能力以 Markdown 形态的 skill 承载（SKILL.md + 输入输出契约），registry 统一注册，可独立测试、可回放（replay 模式零密钥跑通全流程）。</p></div>
-      <div class="card"><h3>🧾 可追溯</h3><p>每一步产物的来源链全程可回看：哪个 skill、什么输入、什么版本——形成从自主实验到科学发现的可信闭环。</p></div>
+    <div class="kicker">Why OpenAIR</div>
+    <h2>科研的四个老问题，闭环的四个新答案</h2>
+    <p class="lead">OpenAIR 把「科研怎么做」建模为可编排、可验证、可追溯的四阶段过程模型，而非一条写死的流水线</p>
+    <div class="pairs">
+      <div class="pair">
+        <div class="pain"><span class="tag">痛点</span>周期长、工具分散：文献、计算、实验、写作各在一套工具里，人在中间当「胶水」</div>
+        <div class="gain"><span class="tag">可编排</span>四阶段过程模型统一编排；skill 承载能力、registry 统一调度，长程任务持续执行</div>
+      </div>
+      <div class="pair">
+        <div class="pain"><span class="tag">痛点</span>结果难复现：换个人、换台机器，流程跑不出来，谁也说不清哪步出了偏差</div>
+        <div class="gain"><span class="tag">可验证</span>skill 以 SKILL.md + 输入输出契约定义，可独立测试、可回放（replay 模式零密钥复现全流程）</div>
+      </div>
+      <div class="pair">
+        <div class="pain"><span class="tag">痛点</span>证据难追溯：结论出自哪个输入、哪个版本、哪次计算，事后无从核验</div>
+        <div class="gain"><span class="tag">可追溯</span>每步产物的来源链全程可回看——哪个 skill、什么输入、什么版本，形成可信证据链</div>
+      </div>
+      <div class="pair">
+        <div class="pain"><span class="tag">痛点</span>反馈利用不足：实验结果回来了，却难回流到下一轮设计与决策</div>
+        <div class="gain"><span class="tag">闭环迭代</span>干实验（计算验证）与湿实验（制备反馈）在同一闭环内回注迭代，持续逼近科学发现</div>
+      </div>
     </div>
   </div>
 </section>
 
-<section>
+<section class="alt" id="cases">
   <div class="wrap">
-    <h2>四阶段流水线</h2>
-    <p class="lead">干实验（计算验证）与湿实验（制备反馈）在同一流水线内协同闭环</p>
-    <div class="steps">
-      <div class="step"><b>问题建模</b><span>problem_modeling：从自然语言研究意图到结构化问题</span></div>
-      <div class="step"><b>方案设计</b><span>solution_design：规划器生成候选方案，人在工作台确认</span></div>
-      <div class="step"><b>执行验证</b><span>execution_validation：skill 执行、计算与实验、证据采集</span></div>
-      <div class="step"><b>洞察生成</b><span>insight_generation：证据汇聚、报告撰写、下一轮建议</span></div>
+    <div class="kicker">Validated Scenarios</div>
+    <h2>验证场景：材料科学（首个领域）</h2>
+    <p class="lead">平台能力领域无关，材料发现与制备是当前完成全链路验证的场景；更多领域通过新增 skill 接入</p>
+    <div class="cases">
+      <div class="case">
+        <span class="badge">材料发现</span>
+        <h3>晶体材料发现</h3>
+        <p>从目标性能出发，候选生成 → 进化搜索 → 计算验证（VASP 能带 / 稳定性）全链路自动推进，产出带数据支撑的候选清单与分析报告。</p>
+        <div class="metric">mSUN 58.0%<small>搜索终评指标</small></div>
+        <div class="chain">候选生成 → 进化搜索 → 计算验证 → 洞察报告</div>
+        <a class="cta" href="https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425">查看完整工作台快照 →</a>
+      </div>
+      <div class="case">
+        <span class="badge">材料制备</span>
+        <h3>AlN 薄膜 PVD 参数寻优</h3>
+        <p>文献证据结构化 → 制备参数推荐 → 湿实验制备 → 结果反馈再设计的四轮迭代闭环，最大压电性能持续提升。</p>
+        <div class="metric">d33 15.9 → 18.6<small>四轮湿实验反馈迭代</small></div>
+        <div class="chain">证据结构化 → 参数推荐 → 湿实验 → 反馈迭代 ×4</div>
+        <a class="cta" href="#demo">观看闭环演示 →</a>
+      </div>
     </div>
   </div>
 </section>
 
-<section>
+<section id="demo">
   <div class="wrap">
-    <h2>5 分钟跑起来</h2>
-    <p class="lead">Docker 一键启动；replay 模式无需任何模型密钥</p>
-<pre>git clone https://github.com/pdl-openair/OpenAIR.git
+    <div class="kicker">Demo</div>
+    <h2>45 秒看懂可信闭环</h2>
+    <p class="lead">从自然语言发起到四阶段推进、产物与证据链回看的完整链路</p>
+    <div class="videobox">
+      <video controls preload="metadata" poster="assets/video-poster.jpg">
+        <source src="assets/openair-demo.mp4" type="video/mp4">
+        您的浏览器不支持视频播放，<a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">下载演示视频</a>
+      </video>
+    </div>
+    <p class="videocap">完整版及更多材料：<a href="https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0">GitHub Release v0.1.0</a></p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="kicker">Mechanisms</div>
+    <h2>可信闭环的三块基石</h2>
+    <div class="mech" style="margin-top:36px">
+      <div class="card"><h3>🔁 过程编排</h3><p>四阶段是组织框架而非固定串行：新的计算结果或实验反馈可触发回到相关阶段补充分析，人在工作台确认方案与关键决策。</p></div>
+      <div class="card"><h3>🧾 证据链</h3><p>任务、产物、能力调用与来源版本全程留痕，任意结论可沿证据链回溯核验；回放（replay）让任何人在零密钥下复现同一过程。</p></div>
+      <div class="card"><h3>🧩 skill 生态</h3><p>200+ Markdown 形态科研 skill（契约化输入输出），registry 统一注册；新领域 = 新增 skill 包，平台无需改代码。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="quickstart">
+  <div class="wrap">
+    <div class="kicker">Quick Start</div>
+    <h2>三种方式开始</h2>
+    <div class="paths" style="margin-top:36px">
+      <div class="path"><div class="pt">A · 零安装</div><b>在线演示</b><span>浏览器直接打开<a href="https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425">完整工作台快照</a>，免登录只读。</span></div>
+      <div class="path"><div class="pt">B · 本地零密钥</div><b>openair CLI</b><span>pipx install openair-cli && openair up，约 10 分钟得到本地实例与 replay 回放。</span></div>
+      <div class="path"><div class="pt">C · 完整能力</div><b>Docker 手动部署</b><span>git clone + docker compose up，配置模型网关与外部账号进入 live 模式。</span></div>
+    </div>
+<pre># 方式 B：openair CLI
+pipx install openair-cli
+openair up            # 克隆 → 配置（随机密钥+管理员）→ 启动 → 打开浏览器
+
+# 方式 C：Docker
+git clone https://github.com/pdl-openair/OpenAIR.git
 cd OpenAIR &amp;&amp; cp .env.example .env
 docker compose up -d --build
-# 工作台: http://localhost:8080　·　API: http://localhost:8000/health</pre>
+# 工作台 http://localhost:8080 · API http://localhost:8000/health</pre>
   </div>
 </section>
 
@@ -142,10 +257,11 @@ docker compose up -d --build
   <div class="links">
     <a href="https://github.com/pdl-openair/OpenAIR">GitHub</a>
     <a href="https://github.com/pdl-openair/OpenAIR/releases">Releases</a>
+    <a href="https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425">在线演示</a>
     <a href="https://github.com/pdl-openair/OpenAIR/blob/main/CONTRIBUTING.md">参与贡献</a>
     <a href="en/">English</a>
   </div>
-  <div>Apache-2.0 · © 2026 OpenAIR Contributors · 智研星河</div>
+  <div>Apache-2.0 · © 2026 OpenAIR Contributors · 智研星河 · A trustworthy closed-loop agent platform for scientific discovery</div>
 </footer>
 </body>
 </html>

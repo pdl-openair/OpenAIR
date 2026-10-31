@@ -3,138 +3,253 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="google-site-verification" content="tAxWQiJkr0D7N4l3odbYURCUlo7qe7i5TvPmv5rsp1w" />
-<title>OpenAIR — A Research-Agent Platform for Materials Discovery</title>
-<meta name="description" content="OpenAIR models the research process as an orchestrable, verifiable, and traceable four-stage pipeline: problem modeling → solution design → execution & validation → insight generation. Crystalline discovery mSUN 58.0%; AlN PVD optimization d33 15.9→18.6. Apache-2.0.">
-<meta name="keywords" content="OpenAIR, research agent, AI4Science, scientific discovery, materials discovery, LLM agents, crystal design, PVD">
+<title>OpenAIR — A Trustworthy Closed-Loop Agent Platform for Scientific Discovery</title>
+<meta name="description" content="OpenAIR models research as an orchestrable, verifiable, traceable four-stage closed loop: problem modeling → solution design → execution & validation → insight generation. First validated in materials discovery: mSUN 58.0% (crystals), d33 15.9→18.6 (AlN PVD). Apache-2.0.">
+<meta name="keywords" content="OpenAIR, scientific discovery, research agent, trustworthy closed loop, AI4Science, materials discovery, crystal design, PVD">
 <link rel="canonical" href="https://pdl-openair.github.io/OpenAIR/en/">
 <link rel="alternate" hreflang="zh-CN" href="https://pdl-openair.github.io/OpenAIR/">
 <link rel="alternate" hreflang="en" href="https://pdl-openair.github.io/OpenAIR/en/">
 <link rel="alternate" hreflang="x-default" href="https://pdl-openair.github.io/OpenAIR/en/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="OpenAIR — A Research-Agent Platform for Materials Discovery">
-<meta property="og:description" content="An orchestrable, verifiable, traceable research pipeline. Crystalline discovery mSUN 58.0%; AlN PVD d33 15.9→18.6.">
+<meta property="og:title" content="OpenAIR — A Trustworthy Closed-Loop Agent Platform for Scientific Discovery">
+<meta property="og:description" content="Orchestrable, verifiable, traceable research loop. First validated in materials discovery: mSUN 58.0%, PVD d33 15.9→18.6.">
 <meta property="og:url" content="https://pdl-openair.github.io/OpenAIR/en/">
 <meta property="og:image" content="https://pdl-openair.github.io/OpenAIR/assets/og-cover.png">
 <meta property="og:site_name" content="OpenAIR">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="OpenAIR — A Research-Agent Platform for Materials Discovery">
-<meta name="twitter:description" content="An orchestrable, verifiable, traceable research pipeline.">
+<meta name="twitter:title" content="OpenAIR — A Trustworthy Closed-Loop Agent Platform for Scientific Discovery">
+<meta name="twitter:description" content="Orchestrable, verifiable, traceable research loop.">
 <meta name="twitter:image" content="https://pdl-openair.github.io/OpenAIR/assets/og-cover.png">
-<link rel="icon" type="image/png" href="https://pdl-openair.github.io/OpenAIR/assets/openair-logo.png">
+<link rel="icon" type="image/png" sizes="64x64" href="../assets/openair-icon.png">
+<meta name="google-site-verification" content="tAxWQiJkr0D7N4l3odbYURCUlo7qe7i5TvPmv5rsp1w" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenAIR","applicationCategory":"ScientificApplication","operatingSystem":"Web, Linux, Windows, macOS","description":"A research-agent platform for materials discovery: an orchestrable, verifiable, traceable research pipeline.","url":"https://pdl-openair.github.io/OpenAIR/en/","downloadUrl":"https://github.com/pdl-openair/OpenAIR/releases","license":"https://spdx.org/licenses/Apache-2.0.html","offers":{"@type":"Offer","price":"0"},"author":{"@type":"Organization","name":"pdl-openair","url":"https://github.com/pdl-openair"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OpenAIR","applicationCategory":"ScientificApplication","operatingSystem":"Web, Linux, Windows, macOS","description":"A trustworthy closed-loop agent platform for scientific discovery: an orchestrable, verifiable, traceable four-stage research loop.","url":"https://pdl-openair.github.io/OpenAIR/en/","downloadUrl":"https://github.com/pdl-openair/OpenAIR/releases","license":"https://spdx.org/licenses/Apache-2.0.html","offers":{"@type":"Offer","price":"0"},"author":{"@type":"Organization","name":"pdl-openair","url":"https://github.com/pdl-openair"}}
 </script>
 <style>
-:root{--bg:#f8fafc;--fg:#0f172a;--muted:#475569;--card:#ffffff;--line:#e2e8f0;--brand:#2563eb;--brand2:#7c3aed}
-@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--card:#111a2e;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa}}
+:root{--bg:#f8fafc;--fg:#0f172a;--muted:#475569;--soft:#64748b;--card:#ffffff;--line:#e2e8f0;--brand:#2563eb;--brand2:#7c3aed;--chip:#eef2ff}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--soft:#8b9db4;--card:#111a2e;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa;--chip:#16233d}}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--fg);line-height:1.7}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--fg);line-height:1.75;font-size:16px}
 a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}
-.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
-header{border-bottom:1px solid var(--line)}
-header .wrap{display:flex;align-items:center;gap:12px;padding-top:18px;padding-bottom:18px}
-header img{height:34px;width:34px}
-header .name{font-weight:700;font-size:18px}
-header nav{margin-left:auto;display:flex;gap:18px;font-size:14px}
-.hero{text-align:center;padding:84px 24px 64px;background:linear-gradient(180deg,transparent,rgba(37,99,235,.06))}
-.hero .logo{height:88px;width:88px;margin-bottom:18px}
-.hero h1{font-size:44px;letter-spacing:.5px}
-.hero h1 span{background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p.tag{margin-top:10px;font-size:20px;color:var(--muted)}
-.hero p.sub{margin-top:8px;font-size:15px;color:var(--muted)}
-.btns{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:10px;height:60px}
+header .wordmark{display:flex;align-items:center;gap:9px;font-weight:700;font-size:17px;color:var(--fg)}
+header .wordmark img{height:30px;width:30px}
+header nav{margin-left:auto;display:flex;gap:20px;font-size:14px;align-items:center}
+header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
+.hero{position:relative;text-align:center;padding:88px 24px 56px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:
+ radial-gradient(600px 300px at 20% 0%,rgba(37,99,235,.14),transparent 60%),
+ radial-gradient(600px 300px at 80% 10%,rgba(124,58,237,.12),transparent 60%);pointer-events:none}
+.hero .logo{height:76px;width:76px;margin-bottom:20px}
+.hero .eyebrow{font-size:13px;letter-spacing:.35em;color:var(--soft);text-transform:uppercase;margin-bottom:14px}
+.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.25;letter-spacing:.5px}
+.hero h1 span{background:linear-gradient(92deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{margin-top:14px;font-size:17px;color:var(--muted)}
+.hero .rot{margin-top:10px;font-size:15px;color:var(--soft)}
+.hero .rot b{color:var(--brand);font-weight:600}
+.flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin-top:26px;font-size:14px;color:var(--muted)}
+.flow .node{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 16px}
+.flow .arr{color:var(--soft)}
+.flow .loop{width:100%;margin-top:6px;font-size:12.5px;color:var(--soft)}
+.btns{margin-top:30px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 .btn{padding:11px 22px;border-radius:10px;font-size:15px;font-weight:600}
-.btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff}
-.btn.primary:hover{text-decoration:none;opacity:.92}
-.btn.ghost{border:1px solid var(--line);color:var(--fg)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:56px}
-.stat{background:var(--card);padding:22px 16px;text-align:center}
-.stat b{display:block;font-size:26px;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.stat span{font-size:13px;color:var(--muted)}
-section{padding:64px 0}
-h2{font-size:28px;text-align:center;margin-bottom:8px}
-p.lead{text-align:center;color:var(--muted);max-width:720px;margin:0 auto 36px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
-.card h3{font-size:17px;margin-bottom:8px}
-.card p{font-size:14px;color:var(--muted)}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;counter-reset:s}
-.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative}
-.step::before{counter-increment:s;content:counter(s);display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-weight:700;margin-bottom:10px}
-.step b{display:block;font-size:15px}.step span{font-size:13px;color:var(--muted)}
-pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:18px 20px;overflow:auto;font-size:14px;font-family:Consolas,monospace}
-footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13px;text-align:center}
+.btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 20px rgba(37,99,235,.25)}
+.btn.primary:hover{text-decoration:none;transform:translateY(-1px)}
+.btn.ghost{border:1px solid var(--line);color:var(--fg);background:var(--card)}
+.btn.ghost:hover{text-decoration:none;border-color:var(--brand);color:var(--brand)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:48px}
+.stat{background:var(--card);padding:20px 14px;text-align:center}
+.stat b{display:block;font-size:24px;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:12.5px;color:var(--soft)}
+section{padding:72px 0}
+section.alt{background:color-mix(in srgb,var(--card) 55%,var(--bg))}
+.kicker{text-align:center;font-size:13px;letter-spacing:.3em;color:var(--brand);font-weight:600;text-transform:uppercase;margin-bottom:10px}
+h2{font-size:clamp(22px,3.4vw,30px);text-align:center;margin-bottom:10px}
+p.lead{text-align:center;color:var(--muted);max-width:760px;margin:0 auto 40px}
+.pairs{display:grid;gap:14px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
+.pair .pain,.pair .gain{border-radius:14px;padding:18px 20px;font-size:14.5px}
+.pair .pain{background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px dashed var(--line);color:var(--muted)}
+.pair .gain{background:var(--card);border:1px solid var(--line)}
+.pair .tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.08em;border-radius:6px;padding:2px 8px;margin-bottom:8px}
+.pair .pain .tag{background:color-mix(in srgb,#ef4444 12%,transparent);color:#dc2626}
+.pair .gain .tag{background:var(--chip);color:var(--brand)}
+@media(max-width:680px){.pair{grid-template-columns:1fr}}
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.case{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+.case:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(2,8,23,.10)}
+.case .badge{align-self:flex-start;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:999px;padding:3px 12px;margin-bottom:12px}
+.case h3{font-size:19px;margin-bottom:6px}
+.case p{font-size:14px;color:var(--muted);flex:1}
+.case .metric{margin:14px 0 6px;font-size:26px;font-weight:700;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.case .metric small{display:block;font-size:12.5px;color:var(--soft);font-weight:400;-webkit-text-fill-color:var(--soft)}
+.case .chain{font-size:12.5px;color:var(--soft);margin-bottom:16px}
+.case .cta{font-size:14px;font-weight:600}
+.videobox{max-width:860px;margin:0 auto;background:#000;border-radius:18px;overflow:hidden;box-shadow:0 18px 50px rgba(2,8,23,.35)}
+.videobox video{display:block;width:100%;height:auto}
+.videocap{text-align:center;font-size:13px;color:var(--soft);margin-top:12px}
+.mech{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.mech .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+.mech .card h3{font-size:17px;margin-bottom:8px}
+.mech .card p{font-size:14px;color:var(--muted)}
+.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.path{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.path .pt{font-size:12px;font-weight:700;color:var(--brand);letter-spacing:.1em;margin-bottom:8px}
+.path b{display:block;font-size:15.5px;margin-bottom:6px}
+.path span{font-size:13.5px;color:var(--muted)}
+pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:16px 18px;overflow:auto;font-size:13.5px;font-family:Consolas,monospace;margin-top:22px;text-align:left}
+footer{border-top:1px solid var(--line);padding:34px 0;color:var(--soft);font-size:13px}
 footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+@keyframes swap{0%,30%{opacity:1;transform:none}36%,96%{opacity:0;transform:translateY(-6px)}100%{opacity:0}}
+.rot b{display:inline-block;animation:swap 9s infinite}
+.rot b:nth-of-type(2){animation-delay:3s}.rot b:nth-of-type(3){animation-delay:6s}
+.rot .slot{display:inline-block;min-width:9.5em;text-align:left;vertical-align:bottom}
 </style>
 </head>
 <body>
 <header>
   <div class="wrap">
-    <img src="../assets/openair-logo.png" alt="OpenAIR">
-    <div class="name">OpenAIR</div>
+    <div class="wordmark"><img src="../assets/openair-icon.png" alt="OpenAIR icon"><span>OpenAIR</span></div>
     <nav>
+      <a href="#why">Why</a>
+      <a href="#cases">Scenarios</a>
+      <a href="#demo">Demo</a>
+      <a href="#quickstart">Quick Start</a>
       <a href="https://github.com/pdl-openair/OpenAIR">GitHub</a>
-      <a href="https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0">Release</a>
-      <a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">Demo</a>
       <a href="../">简体中文</a>
     </nav>
   </div>
 </header>
 
-<div class="hero">
+<div class="hero" id="top">
   <img class="logo" src="../assets/openair-logo.png" alt="OpenAIR logo">
-  <h1><span>OpenAIR</span></h1>
-  <p class="tag">Research, modeled as an orchestrable, verifiable, traceable pipeline</p>
-  <p class="sub">problem modeling → solution design → execution &amp; validation → insight generation</p>
+  <div class="eyebrow">Open · AI · Research</div>
+  <h1>A Trustworthy Closed-Loop<br><span>Agent Platform for Scientific Discovery</span></h1>
+  <p class="sub">AI advances scientific discovery inside a complete research loop — humans stay in command, evidence stays verifiable</p>
+  <p class="rot">Validated in
+    <span class="slot"><b>crystalline discovery</b><b>thin-film PVD optimization</b><b>more science domains</b></span>
+    · new domains arrive as skills</p>
+  <div class="flow">
+    <span class="node">Problem Modeling</span><span class="arr">→</span>
+    <span class="node">Solution Design</span><span class="arr">→</span>
+    <span class="node">Execution &amp; Validation</span><span class="arr">→</span>
+    <span class="node">Insight Generation</span>
+    <span class="loop">⟲ new computational results and experimental feedback re-enter any stage — a trustworthy closed loop</span>
+  </div>
   <div class="btns">
     <a class="btn primary" href="https://github.com/pdl-openair/OpenAIR">⭐ GitHub Repository</a>
     <a class="btn ghost" href="https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425">👀 Live Demo (no login)</a>
-    <a class="btn ghost" href="https://github.com/pdl-openair/OpenAIR#-quick-start">Quick Start</a>
-    <a class="btn ghost" href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">▶ Demo Video</a>
+    <a class="btn ghost" href="#quickstart">Up in 5 minutes</a>
   </div>
   <div class="stats wrap">
-    <div class="stat"><b>4 stages</b><span>research lifecycle orchestration</span></div>
+    <div class="stat"><b>4 stages</b><span>orchestrated research loop</span></div>
     <div class="stat"><b>200+</b><span>replayable research skills</span></div>
-    <div class="stat"><b>mSUN 58.0%</b><span>crystalline discovery, final search eval</span></div>
-    <div class="stat"><b>d33 15.9→18.6</b><span>AlN PVD, four wet-lab feedback rounds</span></div>
+    <div class="stat"><b>mSUN 58.0%</b><span>crystalline discovery · final eval</span></div>
+    <div class="stat"><b>d33 +17%</b><span>AlN PVD · four wet-lab rounds</span></div>
   </div>
 </div>
 
-<section>
+<section id="why">
   <div class="wrap">
-    <h2>Three Core Mechanisms</h2>
-    <p class="lead">For research that suffers from long cycles, fragmented tooling, untraceable evidence, and underused experimental feedback</p>
-    <div class="grid">
-      <div class="card"><h3>🔁 Orchestrable</h3><p>The four stages are an organizational frame, not a rigid pipeline — new computational results or experimental feedback re-enter earlier stages for supplementary analysis and decisions.</p></div>
-      <div class="card"><h3>🔍 Verifiable</h3><p>Capabilities ship as Markdown-shaped skills (SKILL.md + I/O contracts) in a unified registry — independently testable, and replayable with zero API keys.</p></div>
-      <div class="card"><h3>🧾 Traceable</h3><p>Every artifact's provenance chain is inspectable end-to-end — which skill, which inputs, which version — closing the loop from autonomous experiments to scientific discovery.</p></div>
+    <div class="kicker">Why OpenAIR</div>
+    <h2>Four old research problems, four closed-loop answers</h2>
+    <p class="lead">OpenAIR models "how research gets done" as an orchestrable, verifiable, traceable four-stage process — not a hard-coded pipeline</p>
+    <div class="pairs">
+      <div class="pair">
+        <div class="pain"><span class="tag">Pain</span>Long cycles, fragmented tooling: literature, compute, experiments and writing each live in their own silos, with humans as the glue</div>
+        <div class="gain"><span class="tag">Orchestrable</span>One four-stage process model; capabilities ship as skills, scheduled by a unified registry; long-horizon tasks run continuously</div>
+      </div>
+      <div class="pair">
+        <div class="pain"><span class="tag">Pain</span>Results that don't reproduce: different person, different machine, different outcome — nobody can pinpoint the deviation</div>
+        <div class="gain"><span class="tag">Verifiable</span>Skills are defined by SKILL.md + I/O contracts, independently testable and replayable (replay mode reproduces the full pipeline with zero keys)</div>
+      </div>
+      <div class="pair">
+        <div class="pain"><span class="tag">Pain</span>Untraceable evidence: which input, which version, which run produced this conclusion? No way to audit afterwards</div>
+        <div class="gain"><span class="tag">Traceable</span>Every artifact carries a provenance chain — which skill, which inputs, which version — forming a trustworthy evidence chain</div>
+      </div>
+      <div class="pair">
+        <div class="pain"><span class="tag">Pain</span>Underused feedback: experimental results come back but rarely flow into the next round of design and decisions</div>
+        <div class="gain"><span class="tag">Closed-loop iteration</span>Dry-lab (computational) and wet-lab (fabrication) feedback iterate in one loop, converging toward discovery</div>
+      </div>
     </div>
   </div>
 </section>
 
-<section>
+<section class="alt" id="cases">
   <div class="wrap">
-    <h2>The Four-Stage Pipeline</h2>
-    <p class="lead">Dry-lab (computational validation) and wet-lab (fabrication feedback) iterate in one closed loop</p>
-    <div class="steps">
-      <div class="step"><b>Problem Modeling</b><span>problem_modeling: from a one-line research intent to a structured problem</span></div>
-      <div class="step"><b>Solution Design</b><span>solution_design: planner proposes; humans confirm at the workbench</span></div>
-      <div class="step"><b>Execution &amp; Validation</b><span>execution_validation: skills execute; computation, experiments, evidence capture</span></div>
-      <div class="step"><b>Insight Generation</b><span>insight_generation: evidence synthesis, reporting, next-round suggestions</span></div>
+    <div class="kicker">Validated Scenarios</div>
+    <h2>Validated scenarios: materials science (first domain)</h2>
+    <p class="lead">The platform is domain-agnostic; materials discovery and fabrication are the first fully validated scenarios — more domains arrive as skill packs</p>
+    <div class="cases">
+      <div class="case">
+        <span class="badge">Materials Discovery</span>
+        <h3>Crystalline Material Discovery</h3>
+        <p>From target properties through candidate generation, evolutionary search and computational validation (VASP band gap / stability), producing a data-backed candidate list and analysis report.</p>
+        <div class="metric">mSUN 58.0%<small>final search evaluation</small></div>
+        <div class="chain">candidates → evolutionary search → DFT validation → insight report</div>
+        <a class="cta" href="https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425">Open the full workbench snapshot →</a>
+      </div>
+      <div class="case">
+        <span class="badge">Materials Fabrication</span>
+        <h3>AlN Thin-Film PVD Optimization</h3>
+        <p>Literature evidence structuring → fabrication-parameter recommendation → wet-lab fabrication → feedback-driven redesign, iterated over four rounds with rising piezoelectric performance.</p>
+        <div class="metric">d33 15.9 → 18.6<small>four wet-lab feedback rounds</small></div>
+        <div class="chain">evidence → parameter recommendation → wet lab → feedback ×4</div>
+        <a class="cta" href="#demo">Watch the closed loop in action →</a>
+      </div>
     </div>
   </div>
 </section>
 
-<section>
+<section id="demo">
   <div class="wrap">
-    <h2>Up in 5 Minutes</h2>
-    <p class="lead">One-command Docker start; replay mode needs no API keys at all</p>
-<pre>git clone https://github.com/pdl-openair/OpenAIR.git
+    <div class="kicker">Demo</div>
+    <h2>The trustworthy loop in 45 seconds</h2>
+    <p class="lead">From a natural-language start to four-stage progress, artifacts and the evidence chain</p>
+    <div class="videobox">
+      <video controls preload="metadata" poster="../assets/video-poster.jpg">
+        <source src="../assets/openair-demo.mp4" type="video/mp4">
+        Your browser cannot play this video — <a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">download it instead</a>
+      </video>
+    </div>
+    <p class="videocap">Full release and more: <a href="https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0">GitHub Release v0.1.0</a></p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="kicker">Mechanisms</div>
+    <h2>Three pillars of the trustworthy loop</h2>
+    <div class="mech" style="margin-top:36px">
+      <div class="card"><h3>🔁 Process Orchestration</h3><p>The four stages are an organizational frame, not a rigid pipeline: new results or feedback re-enter earlier stages, with humans confirming plans and key decisions at the workbench.</p></div>
+      <div class="card"><h3>🧾 Evidence Chain</h3><p>Tasks, artifacts, capability calls and source versions are recorded end-to-end; any conclusion can be audited along its evidence chain, and replay lets anyone reproduce it key-free.</p></div>
+      <div class="card"><h3>🧩 Skill Ecosystem</h3><p>200+ Markdown-shaped research skills with contracted inputs/outputs in a unified registry; a new domain is a new skill pack — no platform code changes.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="quickstart">
+  <div class="wrap">
+    <div class="kicker">Quick Start</div>
+    <h2>Three ways to begin</h2>
+    <div class="paths" style="margin-top:36px">
+      <div class="path"><div class="pt">A · Zero install</div><b>Live demo</b><span>Open the <a href="https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425">full workbench snapshot</a> in a browser — no login, read-only.</span></div>
+      <div class="path"><div class="pt">B · Local, zero keys</div><b>openair CLI</b><span>pipx install openair-cli && openair up — a local instance with replay in about 10 minutes.</span></div>
+      <div class="path"><div class="pt">C · Full capability</div><b>Manual Docker deploy</b><span>git clone + docker compose up; configure a model gateway and external accounts for live mode.</span></div>
+    </div>
+<pre># Option B: openair CLI
+pipx install openair-cli
+openair up            # clone → configure (random secrets + admin) → start → open browser
+
+# Option C: Docker
+git clone https://github.com/pdl-openair/OpenAIR.git
 cd OpenAIR &amp;&amp; cp .env.example .env
 docker compose up -d --build
-# Workbench: http://localhost:8080 · API: http://localhost:8000/health</pre>
+# Workbench http://localhost:8080 · API http://localhost:8000/health</pre>
   </div>
 </section>
 
@@ -142,10 +257,11 @@ docker compose up -d --build
   <div class="links">
     <a href="https://github.com/pdl-openair/OpenAIR">GitHub</a>
     <a href="https://github.com/pdl-openair/OpenAIR/releases">Releases</a>
+    <a href="https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425">Live Demo</a>
     <a href="https://github.com/pdl-openair/OpenAIR/blob/main/CONTRIBUTING.md">Contributing</a>
     <a href="../">简体中文</a>
   </div>
-  <div>Apache-2.0 · © 2026 OpenAIR Contributors</div>
+  <div>Apache-2.0 · © 2026 OpenAIR Contributors · A trustworthy closed-loop agent platform for scientific discovery</div>
 </footer>
 </body>
 </html>
