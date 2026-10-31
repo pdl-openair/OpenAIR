@@ -28,7 +28,9 @@
 </script>
 <style>
 :root{--bg:#f8fafc;--fg:#0f172a;--muted:#475569;--soft:#64748b;--card:#ffffff;--line:#e2e8f0;--brand:#2563eb;--brand2:#7c3aed;--ok:#059669;--chip:#eef2ff}
-@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--soft:#8b9db4;--card:#111a2e;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa;--ok:#34d399;--chip:#16233d}}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--soft:#8b9db4;--card:#111a2e;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa;--ok:#34d399;--chip:#16233d}
+ .case:hover{box-shadow:0 14px 34px rgba(0,0,0,.5)}
+ .pair .pain .tag{color:#f87171}}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 section[id]{scroll-margin-top:72px}
@@ -42,7 +44,7 @@ body{font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif
 a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
 header{position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line)}
-header .wrap{display:flex;align-items:center;gap:10px;height:60px}
+header .wrap{display:flex;align-items:center;gap:10px;min-height:60px;height:auto}
 header .wordmark{display:flex;align-items:center;gap:9px;font-weight:700;font-size:17px;color:var(--fg)}
 header .wordmark img{height:30px;width:30px}
 header nav{margin-left:auto;display:flex;gap:16px;font-size:14px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
@@ -51,7 +53,8 @@ header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
 .hero::before{content:"";position:absolute;inset:0;background:
  radial-gradient(600px 300px at 20% 0%,rgba(37,99,235,.14),transparent 60%),
  radial-gradient(600px 300px at 80% 10%,rgba(124,58,237,.12),transparent 60%);pointer-events:none}
-.hero .logo{height:76px;width:76px;margin-bottom:32px}
+.hero .logo{height:68px;width:auto;margin-bottom:30px}
+@media(max-width:360px){.hero .logo{height:54px}}
 .hero .eyebrow{font-size:13px;letter-spacing:.35em;color:var(--soft);text-transform:uppercase;margin-bottom:18px}
 .hero h1{font-size:clamp(30px,5vw,46px);line-height:1.32;letter-spacing:.5px}
 .hero h1 span{background:linear-gradient(92deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -62,14 +65,15 @@ header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
 .flow .node{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 16px}
 .flow .arr{color:var(--soft)}
 .flow .loop{width:100%;margin-top:6px;font-size:12.5px;color:var(--soft)}
+@media(max-width:560px){.flow{flex-direction:column;gap:6px}.flow .arr{transform:rotate(90deg);line-height:1}}
 .btns{margin-top:30px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 .btn{padding:11px 22px;border-radius:10px;font-size:15px;font-weight:600}
 .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 20px rgba(37,99,235,.25)}
 .btn.primary:hover{text-decoration:none;transform:translateY(-1px)}
 .btn.ghost{border:1px solid var(--line);color:var(--fg);background:var(--card)}
 .btn.ghost:hover{text-decoration:none;border-color:var(--brand);color:var(--brand)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:58px}
-.stat{background:var(--card);padding:20px 14px;text-align:center}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:46px}
+.stat{background:var(--card);padding:22px 16px;text-align:center}
 .stat b{display:block;font-size:24px;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .stat span{font-size:12.5px;color:var(--soft)}
 section{padding:72px 0}
@@ -94,29 +98,33 @@ p.lead{text-align:center;color:var(--muted);max-width:760px;margin:0 auto 40px}
 .case .badge{align-self:flex-start;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:999px;padding:3px 12px;margin-bottom:12px}
 .case h3{font-size:19px;margin-bottom:6px}
 .case p{font-size:14px;color:var(--muted);flex:1}
-.case .metric{margin:14px 0 6px;font-size:26px;font-weight:700;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.case .metric{margin:18px 0 8px;font-size:26px;font-weight:700;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .case .metric small{display:block;font-size:12.5px;color:var(--soft);font-weight:400;-webkit-text-fill-color:var(--soft)}
 .case .chain{font-size:12.5px;color:var(--soft);margin-bottom:16px}
 .case .cta{font-size:14px;font-weight:600}
 .videobox{max-width:860px;margin:0 auto;background:#000;border-radius:18px;overflow:hidden;box-shadow:0 18px 50px rgba(2,8,23,.35)}
 .videobox video{display:block;width:100%;height:auto}
 .videocap{text-align:center;font-size:13px;color:var(--soft);margin-top:12px}
-.mech{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.mech .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
-.mech .card h3{font-size:17px;margin-bottom:8px}
-.mech .card p{font-size:14px;color:var(--muted)}
+.mech{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:760px){.mech{grid-template-columns:1fr 1fr}}
+.mech .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px}
+.mech .card h3{font-size:17px;margin-bottom:10px}
+.mech .card .lead{font-size:14px;font-weight:600;color:var(--fg);margin-bottom:12px}
+.mech .card ul{list-style:none;display:grid;gap:9px}
+.mech .card li{font-size:13.5px;color:var(--muted);line-height:1.65;padding-left:17px;position:relative}
+.mech .card li::before{content:"";position:absolute;left:1px;top:.6em;width:7px;height:7px;border-radius:2px;background:linear-gradient(135deg,var(--brand),var(--brand2))}
 .paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
 .path{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
 .path .pt{font-size:12px;font-weight:700;color:var(--brand);letter-spacing:.1em;margin-bottom:8px}
 .path b{display:block;font-size:15.5px;margin-bottom:6px}
 .path span{font-size:13.5px;color:var(--muted)}
-pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:16px 18px;overflow:auto;font-size:13.5px;font-family:Consolas,monospace;margin-top:22px;text-align:left}
+pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:16px 18px;overflow:auto;font-size:13.5px;font-family:Consolas,monospace;margin:26px auto 0;max-width:760px;text-align:left}
 footer{border-top:1px solid var(--line);padding:34px 0;color:var(--soft);font-size:13px;text-align:center}
 footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
 @keyframes swap{0%,30%{opacity:1;transform:none}36%,96%{opacity:0;transform:translateY(-6px)}100%{opacity:0}}
 .rot b{display:inline-block;animation:swap 9s infinite}
 .rot b:nth-of-type(2){animation-delay:3s}.rot b:nth-of-type(3){animation-delay:6s}
-.rot .slot{position:relative;display:inline-block;min-width:7em;height:1.6em;text-align:left;vertical-align:bottom}
+.rot .slot{position:relative;display:inline-block;min-width:7.5em;height:1.6em;text-align:left;vertical-align:bottom}
 .rot .slot b{position:absolute;left:0;top:0;white-space:nowrap}
 </style>
 </head>
@@ -238,10 +246,42 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
     <h2>四层机制：从约束执行到证据复核<a class="hanchor" href="#mechanisms" aria-label="链接到本节">#</a></h2>
     <p class="lead">直面科研智能体从演示走向可复用应用的三类工程挑战——<b>执行难约束 · 反馈难闭环 · 过程难复核</b></p>
     <div class="mech">
-      <div class="card"><h3>🔁 四阶段任务编排</h3><p>problem_modeling → solution_design → execution_validation → insight_generation，支持阶段状态管理与检查点回退；L2 通用编排与 L3 领域原子 Skill 分层，结构化输入输出约束与契约测试落实到每次能力调用——保留编排灵活性，同时提高执行可控性。</p></div>
-      <div class="card"><h3>🧩 契约化 Skill 管理</h3><p>按标准化 frontmatter、目录结构与 Schema 组织 200+ 多领域技能，支持注册、检索、组合、版本管理与契约测试；新领域即新增 skill 包、平台无需改代码，replay 回放可零密钥复现同一执行过程。</p></div>
-      <div class="card"><h3>🧾 分层证据追溯</h3><p>记录 Skill 来源、许可证、阶段映射与迁移记录，并关联任务执行与数据产物；追溯链从来源与版本逐步扩展到计算参数、实验数据、运行环境与结论验证依据，支撑过程审查与复现。</p></div>
-      <div class="card"><h3>🧪 干湿实验反馈衔接</h3><p>适配云际计算平台与云实验平台，实测数据回传后直接进入下一轮方案修订与任务编排，支持基于反馈的阶段回退与迭代；反馈驱动的自动策略学习列为后续研发方向。</p></div>
+      <div class="card">
+        <h3>🔁 四阶段任务编排</h3>
+        <p class="lead">以过程模型统一编排长程科研任务——保留灵活性，同时提高可控性</p>
+        <ul>
+          <li>problem_modeling → solution_design → execution_validation → insight_generation，支持阶段状态管理与检查点回退</li>
+          <li>L2 通用编排与 L3 领域原子 Skill 分层调用</li>
+          <li>结构化输入输出约束与契约测试落实到每次能力调用</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🧩 契约化 Skill 管理</h3>
+        <p class="lead">能力以契约化 skill 承载——新领域即新增 skill 包，平台无需改代码</p>
+        <ul>
+          <li>标准化 frontmatter、目录结构与 Schema，已组织 200+ 多领域技能</li>
+          <li>支持注册、检索、组合、版本管理与契约测试</li>
+          <li>replay 回放可零密钥复现同一执行过程</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🧾 分层证据追溯</h3>
+        <p class="lead">每一步结论都能回溯到来源、版本与执行记录</p>
+        <ul>
+          <li>记录 Skill 来源、许可证、阶段映射与迁移记录</li>
+          <li>关联任务执行与数据产物：计算参数、实验数据、运行环境</li>
+          <li>追溯链扩展至结论验证依据，支撑过程审查与复现</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🧪 干湿实验反馈衔接</h3>
+        <p class="lead">实测数据回传后直接驱动下一轮方案修订与任务编排</p>
+        <ul>
+          <li>适配云际计算平台与云实验平台，实测数据自动回传</li>
+          <li>支持基于反馈的阶段回退与迭代</li>
+          <li>反馈驱动的自动策略学习列为后续研发方向</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>

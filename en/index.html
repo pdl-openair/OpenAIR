@@ -28,7 +28,9 @@
 </script>
 <style>
 :root{--bg:#f8fafc;--fg:#0f172a;--muted:#475569;--soft:#64748b;--card:#ffffff;--line:#e2e8f0;--brand:#2563eb;--brand2:#7c3aed;--chip:#eef2ff}
-@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--soft:#8b9db4;--card:#111a2e;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa;--chip:#16233d}}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--soft:#8b9db4;--card:#111a2e;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa;--chip:#16233d}
+ .case:hover{box-shadow:0 14px 34px rgba(0,0,0,.5)}
+ .pair .pain .tag{color:#f87171}}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 section[id]{scroll-margin-top:72px}
@@ -42,7 +44,7 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--
 a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
 header{position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line)}
-header .wrap{display:flex;align-items:center;gap:10px;height:60px}
+header .wrap{display:flex;align-items:center;gap:10px;min-height:60px;height:auto}
 header .wordmark{display:flex;align-items:center;gap:9px;font-weight:700;font-size:17px;color:var(--fg)}
 header .wordmark img{height:30px;width:30px}
 header nav{margin-left:auto;display:flex;gap:16px;font-size:14px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
@@ -51,7 +53,8 @@ header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
 .hero::before{content:"";position:absolute;inset:0;background:
  radial-gradient(600px 300px at 20% 0%,rgba(37,99,235,.14),transparent 60%),
  radial-gradient(600px 300px at 80% 10%,rgba(124,58,237,.12),transparent 60%);pointer-events:none}
-.hero .logo{height:76px;width:76px;margin-bottom:32px}
+.hero .logo{height:68px;width:auto;margin-bottom:30px}
+@media(max-width:360px){.hero .logo{height:54px}}
 .hero .eyebrow{font-size:13px;letter-spacing:.35em;color:var(--soft);text-transform:uppercase;margin-bottom:18px}
 .hero h1{font-size:clamp(30px,5vw,46px);line-height:1.32;letter-spacing:.5px}
 .hero h1 span{background:linear-gradient(92deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -62,14 +65,15 @@ header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
 .flow .node{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 16px}
 .flow .arr{color:var(--soft)}
 .flow .loop{width:100%;margin-top:6px;font-size:12.5px;color:var(--soft)}
+@media(max-width:560px){.flow{flex-direction:column;gap:6px}.flow .arr{transform:rotate(90deg);line-height:1}}
 .btns{margin-top:30px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 .btn{padding:11px 22px;border-radius:10px;font-size:15px;font-weight:600}
 .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 20px rgba(37,99,235,.25)}
 .btn.primary:hover{text-decoration:none;transform:translateY(-1px)}
 .btn.ghost{border:1px solid var(--line);color:var(--fg);background:var(--card)}
 .btn.ghost:hover{text-decoration:none;border-color:var(--brand);color:var(--brand)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:58px}
-.stat{background:var(--card);padding:20px 14px;text-align:center}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:46px}
+.stat{background:var(--card);padding:22px 16px;text-align:center}
 .stat b{display:block;font-size:24px;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .stat span{font-size:12.5px;color:var(--soft)}
 section{padding:72px 0}
@@ -94,29 +98,33 @@ p.lead{text-align:center;color:var(--muted);max-width:760px;margin:0 auto 40px}
 .case .badge{align-self:flex-start;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:999px;padding:3px 12px;margin-bottom:12px}
 .case h3{font-size:19px;margin-bottom:6px}
 .case p{font-size:14px;color:var(--muted);flex:1}
-.case .metric{margin:14px 0 6px;font-size:26px;font-weight:700;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.case .metric{margin:18px 0 8px;font-size:26px;font-weight:700;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .case .metric small{display:block;font-size:12.5px;color:var(--soft);font-weight:400;-webkit-text-fill-color:var(--soft)}
 .case .chain{font-size:12.5px;color:var(--soft);margin-bottom:16px}
 .case .cta{font-size:14px;font-weight:600}
 .videobox{max-width:860px;margin:0 auto;background:#000;border-radius:18px;overflow:hidden;box-shadow:0 18px 50px rgba(2,8,23,.35)}
 .videobox video{display:block;width:100%;height:auto}
 .videocap{text-align:center;font-size:13px;color:var(--soft);margin-top:12px}
-.mech{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.mech .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
-.mech .card h3{font-size:17px;margin-bottom:8px}
-.mech .card p{font-size:14px;color:var(--muted)}
+.mech{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:760px){.mech{grid-template-columns:1fr 1fr}}
+.mech .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px}
+.mech .card h3{font-size:17px;margin-bottom:10px}
+.mech .card .lead{font-size:14px;font-weight:600;color:var(--fg);margin-bottom:12px}
+.mech .card ul{list-style:none;display:grid;gap:9px}
+.mech .card li{font-size:13.5px;color:var(--muted);line-height:1.65;padding-left:17px;position:relative}
+.mech .card li::before{content:"";position:absolute;left:1px;top:.6em;width:7px;height:7px;border-radius:2px;background:linear-gradient(135deg,var(--brand),var(--brand2))}
 .paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
 .path{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
 .path .pt{font-size:12px;font-weight:700;color:var(--brand);letter-spacing:.1em;margin-bottom:8px}
 .path b{display:block;font-size:15.5px;margin-bottom:6px}
 .path span{font-size:13.5px;color:var(--muted)}
-pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:16px 18px;overflow:auto;font-size:13.5px;font-family:Consolas,monospace;margin-top:22px;text-align:left}
+pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:16px 18px;overflow:auto;font-size:13.5px;font-family:Consolas,monospace;margin:26px auto 0;max-width:760px;text-align:left}
 footer{border-top:1px solid var(--line);padding:34px 0;color:var(--soft);font-size:13px;text-align:center}
 footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
 @keyframes swap{0%,30%{opacity:1;transform:none}36%,96%{opacity:0;transform:translateY(-6px)}100%{opacity:0}}
 .rot b{display:inline-block;animation:swap 9s infinite}
 .rot b:nth-of-type(2){animation-delay:3s}.rot b:nth-of-type(3){animation-delay:6s}
-.rot .slot{position:relative;display:inline-block;min-width:12em;height:1.6em;text-align:left;vertical-align:bottom}
+.rot .slot{position:relative;display:inline-block;min-width:14em;height:1.6em;text-align:left;vertical-align:bottom}
 .rot .slot b{position:absolute;left:0;top:0;white-space:nowrap}
 </style>
 </head>
@@ -238,10 +246,42 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
     <h2>Four mechanisms: from constrained execution to auditable evidence<a class="hanchor" href="#mechanisms" aria-label="Link to this section">#</a></h2>
     <p class="lead">Meeting the three engineering challenges of taking research agents from demo to reusable application — <b>hard-to-constrain execution · hard-to-close feedback · hard-to-audit process</b></p>
     <div class="mech">
-      <div class="card"><h3>🔁 Four-Stage Task Orchestration</h3><p>problem_modeling → solution_design → execution_validation → insight_generation, with stage-state management and checkpoint rollback. L2 generic orchestration layered over L3 domain-atomic skills pushes structured I/O constraints and contract tests down to every capability call — keeping flexibility while raising controllability.</p></div>
-      <div class="card"><h3>🧩 Contracted Skill Management</h3><p>200+ multi-domain skills organized by standardized frontmatter, directory structure and schemas — with registry, retrieval, composition, versioning and contract testing. A new domain is a new skill pack (no platform code changes), and replay reproduces an entire run with zero keys.</p></div>
-      <div class="card"><h3>🧾 Layered Evidence Tracing</h3><p>Skill provenance, licenses, stage mappings and migration records are linked to task executions and artifacts; the trace chain extends from sources and versions to computation parameters, experimental data, runtime environments and conclusion-verification grounds — supporting audit and reproduction.</p></div>
-      <div class="card"><h3>🧪 Dry/Wet-Lab Feedback Linkage</h3><p>Adapts to the cloud computing and cloud-lab platforms so measured data flows directly into the next round of plan revision and orchestration, with feedback-driven stage rollback and iteration; automatic feedback-driven policy learning is on the roadmap.</p></div>
+      <div class="card">
+        <h3>🔁 Four-Stage Task Orchestration</h3>
+        <p class="lead">One process model orchestrates long-horizon research — flexible, yet controllable</p>
+        <ul>
+          <li>problem_modeling → solution_design → execution_validation → insight_generation, with stage-state management and checkpoint rollback</li>
+          <li>L2 generic orchestration layered over L3 domain-atomic skills</li>
+          <li>Structured I/O constraints and contract tests enforced on every capability call</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🧩 Contracted Skill Management</h3>
+        <p class="lead">Capabilities ship as contracted skills — a new domain is a skill pack, not a platform change</p>
+        <ul>
+          <li>200+ multi-domain skills organized by standardized frontmatter, directory structure and schemas</li>
+          <li>Registry, retrieval, composition, versioning and contract testing</li>
+          <li>Replay reproduces an entire run with zero keys</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🧾 Layered Evidence Tracing</h3>
+        <p class="lead">Every conclusion traces back to sources, versions and run records</p>
+        <ul>
+          <li>Skill provenance, licenses, stage mappings and migration records</li>
+          <li>Linked to task executions and artifacts: computation parameters, experimental data, runtime environments</li>
+          <li>The trace chain extends to conclusion-verification grounds, supporting audit and reproduction</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🧪 Dry/Wet-Lab Feedback Linkage</h3>
+        <p class="lead">Measured data flows directly into the next round of plan revision and orchestration</p>
+        <ul>
+          <li>Adapts to the cloud computing and cloud-lab platforms for measurement ingest</li>
+          <li>Feedback-driven stage rollback and iteration</li>
+          <li>Automatic feedback-driven policy learning is on the roadmap</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
