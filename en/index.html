@@ -31,6 +31,13 @@
 @media(prefers-color-scheme:dark){:root{--bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--soft:#8b9db4;--card:#111a2e;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa;--chip:#16233d}}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:72px}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .rot .slot b{animation:none;position:static;opacity:1}
+ .rot .slot b:nth-of-type(n+2)::before{content:"·";margin:0 4px;color:var(--soft)}
+ .btn,.case{transition:none;transform:none}
+}
 body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--fg);line-height:1.75;font-size:16px}
 a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
@@ -38,7 +45,7 @@ header{position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);background:col
 header .wrap{display:flex;align-items:center;gap:10px;height:60px}
 header .wordmark{display:flex;align-items:center;gap:9px;font-weight:700;font-size:17px;color:var(--fg)}
 header .wordmark img{height:30px;width:30px}
-header nav{margin-left:auto;display:flex;gap:20px;font-size:14px;align-items:center}
+header nav{margin-left:auto;display:flex;gap:16px;font-size:14px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
 .hero{position:relative;text-align:center;padding:88px 24px 56px;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;background:
@@ -107,7 +114,8 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
 @keyframes swap{0%,30%{opacity:1;transform:none}36%,96%{opacity:0;transform:translateY(-6px)}100%{opacity:0}}
 .rot b{display:inline-block;animation:swap 9s infinite}
 .rot b:nth-of-type(2){animation-delay:3s}.rot b:nth-of-type(3){animation-delay:6s}
-.rot .slot{display:inline-block;min-width:9.5em;text-align:left;vertical-align:bottom}
+.rot .slot{position:relative;display:inline-block;min-width:12em;height:1.6em;text-align:left;vertical-align:bottom}
+.rot .slot b{position:absolute;left:0;top:0;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -125,6 +133,7 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
   </div>
 </header>
 
+<main>
 <div class="hero" id="top">
   <img class="logo" src="../assets/openair-logo.png" alt="OpenAIR logo">
   <div class="eyebrow">Open · AI · Research</div>
@@ -252,6 +261,7 @@ docker compose up -d --build
 # Workbench http://localhost:8080 · API http://localhost:8000/health</pre>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="links">
