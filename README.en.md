@@ -89,7 +89,7 @@ Research suffers from **long cycles, fragmented tooling, untraceable evidence, a
 
 ![OpenAIR demo](assets/demo-overview.gif)
 
-🎬 Full 45-second narrated demo: [openair-demo-v0.1.0.mp4](https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4)
+🎬 Full 45-second narrated demo: [watch inline on GitHub](https://github.com/pdl-openair/OpenAIR/blob/main/assets/openair-demo.mp4) · [download mp4](https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4) · [play on the project site](https://pdl-openair.github.io/OpenAIR/#demo)
 
 <details>
 <summary><b>External accounts needed to reproduce these scenarios</b></summary>
