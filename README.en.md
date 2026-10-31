@@ -2,9 +2,12 @@
   <img src="apps/web/public/brand/openair-logo.png" alt="OpenAIR" width="200"/>
 </p>
 
-<h3 align="center">A Research-Agent Platform for Materials Discovery</h3>
+<h3 align="center">A Trustworthy Closed-Loop Agent Platform for Scientific Discovery</h3>
 <p align="center">
-  Modeling the research process — <b>problem modeling → solution design → execution & validation → insight generation</b> — as an <b>orchestrable, verifiable, and traceable</b> pipeline
+  Modeling the research process — <b>problem modeling → solution design → execution & validation → insight generation</b> — as an <b>orchestrable, verifiable, and traceable</b> closed loop; materials discovery as the first validated scenario
+</p>
+<p align="center">
+  面向科学发现的可信闭环智能体平台 · 材料发现为首个验证场景
 </p>
 
 <p align="center">
@@ -35,7 +38,7 @@
 
 ## 📖 Overview
 
-Research suffers from **long cycles, fragmented tooling, untraceable evidence, and underused experimental feedback**. OpenAIR models the research process as a four-stage lifecycle orchestrated by the platform: AI provides capabilities as *skills* at every stage, while researchers confirm plans, track progress, and verify evidence from a unified workbench.
+Research suffers from **long cycles, fragmented tooling, untraceable evidence, and underused experimental feedback**. OpenAIR models the research process as a four-stage lifecycle orchestrated by the platform: AI provides capabilities as *skills* at every stage, while researchers confirm plans, track progress, and verify evidence from a unified workbench. The platform is domain-agnostic — materials discovery and fabrication are the first fully validated scenarios; more domains arrive as skill packs.
 
 **Highlights**
 

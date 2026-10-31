@@ -2,9 +2,12 @@
   <img src="apps/web/public/brand/openair-logo.png" alt="OpenAIR" width="200"/>
 </p>
 
-<h3 align="center">面向材料干湿实验的科研智能体平台</h3>
+<h3 align="center">面向科学发现的可信闭环智能体平台</h3>
 <p align="center">
-  把「问题建模 — 方案设计 — 执行验证 — 洞察生成」的科研过程，建模为<b>可编排、可验证、可追溯</b>的流水线
+  把「问题建模 — 方案设计 — 执行验证 — 洞察生成」的科研过程，建模为<b>可编排、可验证、可追溯</b>的可信闭环；材料发现为首个验证场景
+</p>
+<p align="center">
+  A trustworthy closed-loop agent platform for scientific discovery — materials discovery as the first validated scenario.
 </p>
 
 <p align="center">
