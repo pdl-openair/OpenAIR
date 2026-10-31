@@ -14,7 +14,7 @@
   <a href="https://github.com/pdl-openair/OpenAIR/releases"><img alt="Release" src="https://img.shields.io/github/v/release/pdl-openair/OpenAIR?color=blue"></a>
   <a href="https://github.com/pdl-openair/OpenAIR/actions/workflows/oss-ci.yml"><img alt="CI" src="https://github.com/pdl-openair/OpenAIR/actions/workflows/oss-ci.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-Apache--2.0-blue"></a>
-  <a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">Demo Video</a> ·
+  <a href="https://github.com/pdl-openair/OpenAIR/releases/download/v1.0.0/openair-demo.mp4">Demo Video</a> ·
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
@@ -34,8 +34,11 @@
 
 ## 🗞️ News
 
+- **2026-10-31**　🏁 **v1.0.0 — version calibration**: the platform has already been used in production research campaigns (crystal-discovery search mSUN 58.0%; AlN PVD d33 15.9 → 18.6 over four wet-lab feedback rounds), so per SemVer's "production use → 1.0.0" guidance the version is calibrated from v0.1.0 to v1.0.0. Also ships: openair-cli source in-repo, demo video & live workbench snapshot. [Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v1.0.0)
 - **2026-10-31**　🧰 [openair-cli 0.2.0](https://pypi.org/project/openair-cli/): live Docker build progress, interactive env-config wizard (`openair config`), environment checkup (`openair doctor`), log tailing (`openair logs`)
 - **2026-10-29**　🚀 v0.1.0 — first public release: four-stage orchestration runtime, 200+ research skills, evaluation & replay assets, dual execution mode (live / replay). [Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0)
+
+> Full version history: [Releases](https://github.com/pdl-openair/OpenAIR/releases).
 
 ## 📖 Overview
 
@@ -90,7 +93,7 @@ Research suffers from **long cycles, fragmented tooling, untraceable evidence, a
 
 ![OpenAIR demo](assets/demo-overview.gif)
 
-🎬 Full 45-second narrated demo: [watch inline on GitHub](https://github.com/pdl-openair/OpenAIR/blob/main/assets/openair-demo.mp4) · [download mp4](https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4) · [play on the project site](https://pdl-openair.github.io/OpenAIR/#demo)
+🎬 Full 45-second narrated demo: [watch inline on GitHub](https://github.com/pdl-openair/OpenAIR/blob/main/assets/openair-demo.mp4) · [download mp4](https://github.com/pdl-openair/OpenAIR/releases/download/v1.0.0/openair-demo.mp4) · [play on the project site](https://pdl-openair.github.io/OpenAIR/#demo)
 
 <details>
 <summary><b>External accounts needed to reproduce these scenarios</b></summary>
@@ -292,9 +295,9 @@ Windows note: if `uv sync` fails with an SSL error, rebuild the venv with a sign
 
 | Version | Scope |
 |---|---|
-| **v0.2** | polish materials-domain skills; public benchmark table with one-command reproduction; python lint ratchet & backend tests in public CI |
-| **v0.3** | domestic-accelerator validation (MXMACA / Ascend); continued `openair` CLI iteration (config wizard / doctor / logs / live progress shipped with [openair-cli 0.2.0](https://pypi.org/project/openair-cli/), see [cli/](cli/)) |
-| **v1.0** | multi-user & production deployment guide |
+| **v1.1** | polish materials-domain skills; public benchmark table with one-command reproduction; python lint ratchet & backend tests in public CI |
+| **v1.2** | domestic-accelerator validation (MXMACA / Ascend); continued `openair` CLI iteration (config wizard / doctor / logs / live progress shipped with [openair-cli 0.2.0](https://pypi.org/project/openair-cli/), see [cli/](cli/)) |
+| **v1.x+** | more domains onboarded as skill packs (the platform is domain-agnostic); advanced production-deployment & ops guide |
 
 ## 🤝 Contributing
 

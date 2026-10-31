@@ -14,7 +14,7 @@
   <a href="https://github.com/pdl-openair/OpenAIR/releases"><img alt="Release" src="https://img.shields.io/github/v/release/pdl-openair/OpenAIR?color=blue"></a>
   <a href="https://github.com/pdl-openair/OpenAIR/actions/workflows/oss-ci.yml"><img alt="CI" src="https://github.com/pdl-openair/OpenAIR/actions/workflows/oss-ci.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-Apache--2.0-blue"></a>
-  <a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">演示视频</a> ·
+  <a href="https://github.com/pdl-openair/OpenAIR/releases/download/v1.0.0/openair-demo.mp4">演示视频</a> ·
   <a href="CONTRIBUTING.md">参与贡献</a>
 </p>
 
@@ -34,8 +34,11 @@
 
 ## 🗞️ News
 
+- **2026-10-31**　🏁 **v1.0.0 发布（版本号校准）**：平台已在真实科研战役中生产使用（晶体发现 mSUN 58.0%、AlN PVD 四轮湿实验反馈 d33 15.9→18.6），按 SemVer「生产使用即应 1.0」惯例自 v0.1.0 校准至 v1.0.0；随版本交付 openair-cli 源码入库、演示视频与在线工作台快照。[Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v1.0.0)
 - **2026-10-31**　🧰 [openair-cli 0.2.0](https://pypi.org/project/openair-cli/)：Docker 构建进度实时透传、环境配置引导向导（`openair config`）、环境体检（`openair doctor`）、日志跟踪（`openair logs`）
 - **2026-10-29**　🚀 v0.1.0 首个公开版本发布：四阶段编排运行时、200+ 科研 skill、评测与回放资产、双执行模式（live / replay）。[Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0)
+
+> 完整版本历史见 [Releases](https://github.com/pdl-openair/OpenAIR/releases)。
 
 ## 📖 概述
 
@@ -90,7 +93,7 @@
 
 ![OpenAIR 演示](assets/demo-overview.gif)
 
-🎬 完整 45 秒演示视频（含讲解）：[GitHub 页内直接观看](https://github.com/pdl-openair/OpenAIR/blob/main/assets/openair-demo.mp4) · [下载 mp4](https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4) · [项目主页在线播放](https://pdl-openair.github.io/OpenAIR/#demo)
+🎬 完整 45 秒演示视频（含讲解）：[GitHub 页内直接观看](https://github.com/pdl-openair/OpenAIR/blob/main/assets/openair-demo.mp4) · [下载 mp4](https://github.com/pdl-openair/OpenAIR/releases/download/v1.0.0/openair-demo.mp4) · [项目主页在线播放](https://pdl-openair.github.io/OpenAIR/#demo)
 
 <details>
 <summary><b>复现上述场景所需的外部账号</b></summary>
@@ -292,9 +295,9 @@ Windows：`uv sync` 报 SSL 错误时用已签名 Python 重建 venv（`uv venv 
 
 | 版本 | 内容 |
 |---|---|
-| **v0.2** | materials 域 skill 全量打磨；benchmark 公开对比表与一键复现脚本；公开仓 python lint 棘轮与后端测试 |
-| **v0.3** | 国产算力适配验证（MXMACA / 昇腾）；`openair` CLI 持续迭代（配置引导 / doctor / logs / 进度显示已随 [openair-cli 0.2.0](https://pypi.org/project/openair-cli/) 交付，见 [cli/](cli/)） |
-| **v1.0** | 多用户与生产部署指南 |
+| **v1.1** | materials 域 skill 全量打磨；benchmark 公开对比表与一键复现脚本；公开仓 python lint 棘轮与后端测试 |
+| **v1.2** | 国产算力适配验证（MXMACA / 昇腾）；`openair` CLI 持续迭代（配置引导 / doctor / logs / 进度显示已随 [openair-cli 0.2.0](https://pypi.org/project/openair-cli/) 交付，见 [cli/](cli/)） |
+| **v1.x+** | 更多领域以 skill 域包接入（平台能力领域无关）；生产部署进阶指南与运维资产 |
 
 ## 🤝 贡献
 
