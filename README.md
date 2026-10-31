@@ -82,14 +82,38 @@
 | **晶体材料发现** | 候选生成 → 进化搜索 → 计算验证（VASP 能带/稳定性） | 搜索终评 **mSUN 58.0%** |
 | **AlN 薄膜 PVD 参数寻优** | 文献证据 → 参数推荐 → 湿实验制备 → 反馈迭代 | 四轮反馈，d33 从 15.9 提升至 **18.6** |
 
-🎬 完整链路演示：[openair-demo-v0.1.0.mp4](https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4)
+**👀 在线演示（免部署、免登录）**：[Mg-O 宽带隙半导体筛选 · 完整四阶段工作台快照](https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425)——真实前端 + 请求级回放，可查看阶段进度、全部产物与证据链（只读）。
+
+![OpenAIR 演示](assets/demo-overview.gif)
+
+🎬 完整 45 秒演示视频（含讲解）：[openair-demo-v0.1.0.mp4](https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4)
+
+<details>
+<summary><b>复现上述场景所需的外部账号</b></summary>
+
+| 能力 | 环境变量 | 说明 |
+|---|---|---|
+| 模型网关（Skill 执行 + 开题规划） | `ANTHROPIC_*` / `LLM_PROVIDER_*` | 任意 Anthropic / OpenAI 兼容网关 |
+| Materials Project | `MP_API_KEY` | **免费申请**：https://next-gen.materialsproject.org/api |
+| 材料 MCP 服务 | `MATERIALS_MCP_BASE_URL` | 自建或对接现有 MCP 端点 |
+| 超算 DFT（VASP） | `JCC_*` | 有超算账号时配置 |
+| 云实验平台 | `FLUX_BASE_URL` / `FLUX_API_KEY` | 需机构 VPN 与平台账号 |
+
+不配置以上账号时：平台本身（登录、建任务、看板、产物库）与 replay 回放完全可用，涉及外部数据/算力的节点会如实报告 `partial_failure`。
+
+</details>
 
 ---
 
 ## 🚀 快速开始
 
-> [!TIP]
-> 只想先看看？跳过所有密钥配置，直接看下面的[零密钥回放演示](#零密钥回放演示推荐新用户第一步)。
+三种体验路径，按投入递增：
+
+| 路径 | 需要什么 | 得到什么 |
+|---|---|---|
+| **A. 在线演示** | 只需浏览器 | [完整四阶段工作台快照](https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425)（免登录、只读） |
+| **B. 本地零密钥** | Docker + 约 10 分钟 | 自部署平台 + replay 回放演示（见下方[零密钥回放演示](#零密钥回放演示推荐新用户第一步)） |
+| **C. 完整能力** | B + 模型网关 / 外部账号 | live 模式真实科研流水线（所需账号见[已验证场景](#-已验证场景)的外部账号表） |
 
 ### 前置
 
@@ -119,6 +143,9 @@ cp .env.example .env
 ```
 
 `.env` 中 compose 硬性要求的 **4 个变量**（模板已带本地默认值，开箱能跑）：
+
+> [!NOTE]
+> `.env.example` 的所有注释均为独立行，可放心整份复制——行内注释（`KEY= # 说明`）在部分 Compose 版本会被并入变量值，本仓库已从模板侧规避该坑。
 
 | 变量 | 用途 |
 |---|---|
@@ -158,12 +185,18 @@ docker compose up -d --build     # 首次构建约几分钟；改 .env 后重跑
 
 #### 零密钥回放演示（推荐新用户第一步）
 
-`.env` 中设置后重启（`docker compose up -d`）：
+`.env` 中设置 `SKILL_EXEC_MODE=replay` 后重启（`docker compose up -d`）：启动不再校验模型网关，skill 执行走仓库内 fixtures 回放，**不需要任何模型密钥**。
 
 ```bash
-SKILL_EXEC_MODE=replay          # 执行走 fixtures 回放，不发起任何真实 LLM 调用
-OPENAIR_DEV_SEED_FIXTURES=1     # 启动时灌入演示任务
+# .env 中设置：
+SKILL_EXEC_MODE=replay
 ```
+
+当前边界（如实说明）：
+
+- **材料全流程**为确定性编排（不依赖 LLM 规划器），可直接发起；其中「MP 候选检索」等外部数据节点未配 `MP_API_KEY` 时会如实报告 `partial_failure`（免费申请见上方外部账号表）
+- **通用研究任务**的开题/出方案由规划器（`LLM_PROVIDER_*`）驱动，replay 模式暂不覆盖该环节——需要真实网关密钥
+- `OPENAIR_DEV_SEED_FIXTURES=1` 演示种子当前仅在 `json` 存储后端生效（compose 默认 postgres 下不生效）；想直接看完整效果，用上面的**在线演示快照**
 
 ## 📦 部署指南
 

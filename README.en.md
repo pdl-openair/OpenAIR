@@ -82,14 +82,38 @@ Research suffers from **long cycles, fragmented tooling, untraceable evidence, a
 | **Crystalline material discovery** | candidate generation → evolutionary search → computational validation (VASP band gap / stability) | search final evaluation **mSUN 58.0%** |
 | **AlN thin-film PVD parameter optimization** | literature evidence → parameter recommendation → wet-lab fabrication → feedback iteration | four feedback rounds, d33 improved from 15.9 to **18.6** |
 
-🎬 Full pipeline demo: [openair-demo-v0.1.0.mp4](https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4)
+**👀 Live demo (no deploy, no login)**: [Mg-O wide-gap semiconductor screening · full four-stage workbench snapshot](https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425) — the real frontend with request-level replay; browse stage progress, all artifacts and the evidence chain (read-only).
+
+![OpenAIR demo](assets/demo-overview.gif)
+
+🎬 Full 45-second narrated demo: [openair-demo-v0.1.0.mp4](https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4)
+
+<details>
+<summary><b>External accounts needed to reproduce these scenarios</b></summary>
+
+| Capability | Environment variables | Notes |
+|---|---|---|
+| Model gateway (skill execution + planning) | `ANTHROPIC_*` / `LLM_PROVIDER_*` | any Anthropic / OpenAI-compatible gateway |
+| Materials Project | `MP_API_KEY` | **free**: https://next-gen.materialsproject.org/api |
+| Materials MCP service | `MATERIALS_MCP_BASE_URL` | self-hosted or an existing MCP endpoint |
+| HPC DFT (VASP) | `JCC_*` | when you have an HPC account |
+| Cloud lab platform | `FLUX_BASE_URL` / `FLUX_API_KEY` | requires institutional VPN and a platform account |
+
+Without these accounts: the platform itself (login, tasks, board, artifact library) and replay mode remain fully usable; nodes requiring external data/compute report an honest `partial_failure`.
+
+</details>
 
 ---
 
 ## 🚀 Quick Start
 
-> [!TIP]
-> Just want to look around? Skip all key configuration and jump to the [zero-key replay demo](#zero-key-replay-demo-recommended-first-step).
+Three paths, by increasing effort:
+
+| Path | What you need | What you get |
+|---|---|---|
+| **A. Live demo** | a browser only | [full four-stage workbench snapshot](https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425) (no login, read-only) |
+| **B. Local, zero keys** | Docker + ~10 minutes | self-hosted platform + replay demo (see [zero-key replay demo](#zero-key-replay-demo-recommended-first-step)) |
+| **C. Full capability** | B + model gateway / external accounts | live-mode research pipelines (accounts table under [Validated Scenarios](#-validated-scenarios)) |
 
 ### Prerequisites
 
@@ -119,6 +143,9 @@ cp .env.example .env
 ```
 
 The **4 variables compose hard-requires** in `.env` (the template ships local defaults, so it boots out of the box):
+
+> [!NOTE]
+> All comments in `.env.example` are on their own lines — copy the whole file safely. Inline comments (`KEY= # note`) get folded into the value by some Compose versions; this repo avoids that pitfall at the template level.
 
 | Variable | Purpose |
 |---|---|
@@ -158,12 +185,18 @@ Log in to the workbench with the bootstrap admin account and start your first ta
 
 #### Zero-key replay demo (recommended first step)
 
-Set the following in `.env` and restart (`docker compose up -d`):
+Set `SKILL_EXEC_MODE=replay` in `.env` and restart (`docker compose up -d`): startup no longer validates the model gateway, and skill execution replays in-repo fixtures — **no API keys needed**.
 
 ```bash
-SKILL_EXEC_MODE=replay          # execution replays fixtures; no real LLM calls
-OPENAIR_DEV_SEED_FIXTURES=1     # seed demo tasks at startup
+# in .env:
+SKILL_EXEC_MODE=replay
 ```
+
+Current boundaries (stated honestly):
+
+- The **materials full workflow** is deterministic (no LLM planner involved) and can be started directly; external-data nodes such as "MP candidate search" report an honest `partial_failure` without `MP_API_KEY` (free — see the accounts table above)
+- **Generic research tasks** are driven by the planner (`LLM_PROVIDER_*`), which replay mode does not yet cover — a real gateway key is required there
+- `OPENAIR_DEV_SEED_FIXTURES=1` demo seeding currently works only with the `json` storage backend (not the compose default postgres); to see a fully populated workbench, use the **online snapshot demo** above
 
 ## 📦 Deployment Guide
 
