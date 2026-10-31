@@ -51,14 +51,14 @@ header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
 .hero::before{content:"";position:absolute;inset:0;background:
  radial-gradient(600px 300px at 20% 0%,rgba(37,99,235,.14),transparent 60%),
  radial-gradient(600px 300px at 80% 10%,rgba(124,58,237,.12),transparent 60%);pointer-events:none}
-.hero .logo{height:76px;width:76px;margin-bottom:20px}
-.hero .eyebrow{font-size:13px;letter-spacing:.35em;color:var(--soft);text-transform:uppercase;margin-bottom:14px}
-.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.25;letter-spacing:.5px}
+.hero .logo{height:76px;width:76px;margin-bottom:32px}
+.hero .eyebrow{font-size:13px;letter-spacing:.35em;color:var(--soft);text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.32;letter-spacing:.5px}
 .hero h1 span{background:linear-gradient(92deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .sub{margin-top:14px;font-size:17px;color:var(--muted)}
-.hero .rot{margin-top:10px;font-size:15px;color:var(--soft)}
+.hero .sub{margin-top:20px;font-size:17px;color:var(--muted)}
+.hero .rot{margin-top:14px;font-size:15px;color:var(--soft)}
 .hero .rot b{color:var(--brand);font-weight:600}
-.flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin-top:26px;font-size:14px;color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin-top:36px;font-size:14px;color:var(--muted)}
 .flow .node{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 16px}
 .flow .arr{color:var(--soft)}
 .flow .loop{width:100%;margin-top:6px;font-size:12.5px;color:var(--soft)}
@@ -68,7 +68,7 @@ header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
 .btn.primary:hover{text-decoration:none;transform:translateY(-1px)}
 .btn.ghost{border:1px solid var(--line);color:var(--fg);background:var(--card)}
 .btn.ghost:hover{text-decoration:none;border-color:var(--brand);color:var(--brand)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:48px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:58px}
 .stat{background:var(--card);padding:20px 14px;text-align:center}
 .stat b{display:block;font-size:24px;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .stat span{font-size:12.5px;color:var(--soft)}
@@ -111,7 +111,7 @@ p.lead{text-align:center;color:var(--muted);max-width:760px;margin:0 auto 40px}
 .path b{display:block;font-size:15.5px;margin-bottom:6px}
 .path span{font-size:13.5px;color:var(--muted)}
 pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:16px 18px;overflow:auto;font-size:13.5px;font-family:Consolas,monospace;margin-top:22px;text-align:left}
-footer{border-top:1px solid var(--line);padding:34px 0;color:var(--soft);font-size:13px}
+footer{border-top:1px solid var(--line);padding:34px 0;color:var(--soft);font-size:13px;text-align:center}
 footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
 @keyframes swap{0%,30%{opacity:1;transform:none}36%,96%{opacity:0;transform:translateY(-6px)}100%{opacity:0}}
 .rot b{display:inline-block;animation:swap 9s infinite}
@@ -158,10 +158,10 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
     <a class="btn ghost" href="#quickstart">5 分钟跑起来</a>
   </div>
   <div class="stats wrap">
-    <div class="stat"><b>4 阶段</b><span>科研闭环编排</span></div>
-    <div class="stat"><b>200+</b><span>可回放科研 skill</span></div>
-    <div class="stat"><b>mSUN 58.0%</b><span>晶体发现 · 搜索终评</span></div>
-    <div class="stat"><b>d33 +17%</b><span>AlN PVD · 四轮湿实验</span></div>
+    <div class="stat"><b>四阶段编排</b><span>状态管理 · 检查点回退</span></div>
+    <div class="stat"><b>契约化 Skill</b><span>注册 · 组合 · 契约测试</span></div>
+    <div class="stat"><b>分层证据</b><span>来源 · 版本 · 执行记录</span></div>
+    <div class="stat"><b>干湿闭环</b><span>实测回传 · 方案迭代</span></div>
   </div>
 </div>
 
@@ -209,7 +209,7 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
 <section id="cases">
   <div class="wrap">
     <div class="kicker">Validated Scenarios</div>
-    <h2>验证场景：材料科学（首个领域）<a class="hanchor" href="#cases" aria-label="链接到本节">#</a></h2>
+    <h2>验证场景：材料科学<a class="hanchor" href="#cases" aria-label="链接到本节">#</a></h2>
     <p class="lead">平台能力领域无关，材料发现与制备是当前完成全链路验证的场景；更多领域通过新增 skill 接入</p>
     <div class="cases">
       <div class="case">
@@ -235,11 +235,13 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
 <section class="alt" id="mechanisms">
   <div class="wrap">
     <div class="kicker">Mechanisms</div>
-    <h2>可信闭环的三块基石<a class="hanchor" href="#mechanisms" aria-label="链接到本节">#</a></h2>
-    <div class="mech" style="margin-top:36px">
-      <div class="card"><h3>🔁 过程编排</h3><p>四阶段是组织框架而非固定串行：新的计算结果或实验反馈可触发回到相关阶段补充分析，人在工作台确认方案与关键决策。</p></div>
-      <div class="card"><h3>🧾 证据链</h3><p>任务、产物、能力调用与来源版本全程留痕，任意结论可沿证据链回溯核验；回放（replay）让任何人在零密钥下复现同一过程。</p></div>
-      <div class="card"><h3>🧩 skill 生态</h3><p>200+ Markdown 形态科研 skill（契约化输入输出），registry 统一注册；新领域 = 新增 skill 包，平台无需改代码。</p></div>
+    <h2>四层机制：从约束执行到证据复核<a class="hanchor" href="#mechanisms" aria-label="链接到本节">#</a></h2>
+    <p class="lead">直面科研智能体从演示走向可复用应用的三类工程挑战——<b>执行难约束 · 反馈难闭环 · 过程难复核</b></p>
+    <div class="mech">
+      <div class="card"><h3>🔁 四阶段任务编排</h3><p>problem_modeling → solution_design → execution_validation → insight_generation，支持阶段状态管理与检查点回退；L2 通用编排与 L3 领域原子 Skill 分层，结构化输入输出约束与契约测试落实到每次能力调用——保留编排灵活性，同时提高执行可控性。</p></div>
+      <div class="card"><h3>🧩 契约化 Skill 管理</h3><p>按标准化 frontmatter、目录结构与 Schema 组织 200+ 多领域技能，支持注册、检索、组合、版本管理与契约测试；新领域即新增 skill 包、平台无需改代码，replay 回放可零密钥复现同一执行过程。</p></div>
+      <div class="card"><h3>🧾 分层证据追溯</h3><p>记录 Skill 来源、许可证、阶段映射与迁移记录，并关联任务执行与数据产物；追溯链从来源与版本逐步扩展到计算参数、实验数据、运行环境与结论验证依据，支撑过程审查与复现。</p></div>
+      <div class="card"><h3>🧪 干湿实验反馈衔接</h3><p>适配云际计算平台与云实验平台，实测数据回传后直接进入下一轮方案修订与任务编排，支持基于反馈的阶段回退与迭代；反馈驱动的自动策略学习列为后续研发方向。</p></div>
     </div>
   </div>
 </section>

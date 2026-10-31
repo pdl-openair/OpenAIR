@@ -51,14 +51,14 @@ header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
 .hero::before{content:"";position:absolute;inset:0;background:
  radial-gradient(600px 300px at 20% 0%,rgba(37,99,235,.14),transparent 60%),
  radial-gradient(600px 300px at 80% 10%,rgba(124,58,237,.12),transparent 60%);pointer-events:none}
-.hero .logo{height:76px;width:76px;margin-bottom:20px}
-.hero .eyebrow{font-size:13px;letter-spacing:.35em;color:var(--soft);text-transform:uppercase;margin-bottom:14px}
-.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.25;letter-spacing:.5px}
+.hero .logo{height:76px;width:76px;margin-bottom:32px}
+.hero .eyebrow{font-size:13px;letter-spacing:.35em;color:var(--soft);text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.32;letter-spacing:.5px}
 .hero h1 span{background:linear-gradient(92deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .sub{margin-top:14px;font-size:17px;color:var(--muted)}
-.hero .rot{margin-top:10px;font-size:15px;color:var(--soft)}
+.hero .sub{margin-top:20px;font-size:17px;color:var(--muted)}
+.hero .rot{margin-top:14px;font-size:15px;color:var(--soft)}
 .hero .rot b{color:var(--brand);font-weight:600}
-.flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin-top:26px;font-size:14px;color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin-top:36px;font-size:14px;color:var(--muted)}
 .flow .node{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 16px}
 .flow .arr{color:var(--soft)}
 .flow .loop{width:100%;margin-top:6px;font-size:12.5px;color:var(--soft)}
@@ -68,7 +68,7 @@ header nav a{color:var(--muted)}header nav a:hover{color:var(--brand)}
 .btn.primary:hover{text-decoration:none;transform:translateY(-1px)}
 .btn.ghost{border:1px solid var(--line);color:var(--fg);background:var(--card)}
 .btn.ghost:hover{text-decoration:none;border-color:var(--brand);color:var(--brand)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:48px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:58px}
 .stat{background:var(--card);padding:20px 14px;text-align:center}
 .stat b{display:block;font-size:24px;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .stat span{font-size:12.5px;color:var(--soft)}
@@ -111,7 +111,7 @@ p.lead{text-align:center;color:var(--muted);max-width:760px;margin:0 auto 40px}
 .path b{display:block;font-size:15.5px;margin-bottom:6px}
 .path span{font-size:13.5px;color:var(--muted)}
 pre{background:#0d1117;color:#e6edf3;border-radius:12px;padding:16px 18px;overflow:auto;font-size:13.5px;font-family:Consolas,monospace;margin-top:22px;text-align:left}
-footer{border-top:1px solid var(--line);padding:34px 0;color:var(--soft);font-size:13px}
+footer{border-top:1px solid var(--line);padding:34px 0;color:var(--soft);font-size:13px;text-align:center}
 footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
 @keyframes swap{0%,30%{opacity:1;transform:none}36%,96%{opacity:0;transform:translateY(-6px)}100%{opacity:0}}
 .rot b{display:inline-block;animation:swap 9s infinite}
@@ -158,10 +158,10 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
     <a class="btn ghost" href="#quickstart">Up in 5 minutes</a>
   </div>
   <div class="stats wrap">
-    <div class="stat"><b>4 stages</b><span>orchestrated research loop</span></div>
-    <div class="stat"><b>200+</b><span>replayable research skills</span></div>
-    <div class="stat"><b>mSUN 58.0%</b><span>crystalline discovery · final eval</span></div>
-    <div class="stat"><b>d33 +17%</b><span>AlN PVD · four wet-lab rounds</span></div>
+    <div class="stat"><b>4-stage orchestration</b><span>state management · checkpoint rollback</span></div>
+    <div class="stat"><b>Contracted skills</b><span>registry · composition · contract tests</span></div>
+    <div class="stat"><b>Layered evidence</b><span>provenance · versions · run records</span></div>
+    <div class="stat"><b>Dry/wet loop</b><span>measurement ingest · plan iteration</span></div>
   </div>
 </div>
 
@@ -209,7 +209,7 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
 <section id="cases">
   <div class="wrap">
     <div class="kicker">Validated Scenarios</div>
-    <h2>Validated scenarios: materials science (first domain)<a class="hanchor" href="#cases" aria-label="Link to this section">#</a></h2>
+    <h2>Validated scenarios: materials science<a class="hanchor" href="#cases" aria-label="Link to this section">#</a></h2>
     <p class="lead">The platform is domain-agnostic; materials discovery and fabrication are the first fully validated scenarios — more domains arrive as skill packs</p>
     <div class="cases">
       <div class="case">
@@ -235,11 +235,13 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
 <section class="alt" id="mechanisms">
   <div class="wrap">
     <div class="kicker">Mechanisms</div>
-    <h2>Three pillars of the trustworthy loop<a class="hanchor" href="#mechanisms" aria-label="Link to this section">#</a></h2>
-    <div class="mech" style="margin-top:36px">
-      <div class="card"><h3>🔁 Process Orchestration</h3><p>The four stages are an organizational frame, not a rigid pipeline: new results or feedback re-enter earlier stages, with humans confirming plans and key decisions at the workbench.</p></div>
-      <div class="card"><h3>🧾 Evidence Chain</h3><p>Tasks, artifacts, capability calls and source versions are recorded end-to-end; any conclusion can be audited along its evidence chain, and replay lets anyone reproduce it key-free.</p></div>
-      <div class="card"><h3>🧩 Skill Ecosystem</h3><p>200+ Markdown-shaped research skills with contracted inputs/outputs in a unified registry; a new domain is a new skill pack — no platform code changes.</p></div>
+    <h2>Four mechanisms: from constrained execution to auditable evidence<a class="hanchor" href="#mechanisms" aria-label="Link to this section">#</a></h2>
+    <p class="lead">Meeting the three engineering challenges of taking research agents from demo to reusable application — <b>hard-to-constrain execution · hard-to-close feedback · hard-to-audit process</b></p>
+    <div class="mech">
+      <div class="card"><h3>🔁 Four-Stage Task Orchestration</h3><p>problem_modeling → solution_design → execution_validation → insight_generation, with stage-state management and checkpoint rollback. L2 generic orchestration layered over L3 domain-atomic skills pushes structured I/O constraints and contract tests down to every capability call — keeping flexibility while raising controllability.</p></div>
+      <div class="card"><h3>🧩 Contracted Skill Management</h3><p>200+ multi-domain skills organized by standardized frontmatter, directory structure and schemas — with registry, retrieval, composition, versioning and contract testing. A new domain is a new skill pack (no platform code changes), and replay reproduces an entire run with zero keys.</p></div>
+      <div class="card"><h3>🧾 Layered Evidence Tracing</h3><p>Skill provenance, licenses, stage mappings and migration records are linked to task executions and artifacts; the trace chain extends from sources and versions to computation parameters, experimental data, runtime environments and conclusion-verification grounds — supporting audit and reproduction.</p></div>
+      <div class="card"><h3>🧪 Dry/Wet-Lab Feedback Linkage</h3><p>Adapts to the cloud computing and cloud-lab platforms so measured data flows directly into the next round of plan revision and orchestration, with feedback-driven stage rollback and iteration; automatic feedback-driven policy learning is on the roadmap.</p></div>
     </div>
   </div>
 </section>
