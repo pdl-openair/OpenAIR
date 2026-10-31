@@ -34,6 +34,7 @@
 
 ## 🗞️ News
 
+- **2026-10-31**　🧰 [openair-cli 0.2.0](https://pypi.org/project/openair-cli/): live Docker build progress, interactive env-config wizard (`openair config`), environment checkup (`openair doctor`), log tailing (`openair logs`)
 - **2026-10-29**　🚀 v0.1.0 — first public release: four-stage orchestration runtime, 200+ research skills, evaluation & replay assets, dual execution mode (live / replay). [Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0)
 
 ## 📖 Overview
@@ -127,11 +128,11 @@ Three paths, by increasing effort:
 
 ```bash
 pipx install openair-cli        # or: pip install --user openair-cli
-openair up                      # clone → generate .env (randomized secrets) → start the stack → open the browser
+openair up                      # checkup → clone → generate .env → env-config wizard → start the stack → open the browser
 openair up --mode replay        # zero-key replay demo — recommended first run
 ```
 
-The first run generates and prints the login credentials **exactly once** (also written to `.env`). For local development: `uv tool install --force ./cli`. More: `openair status / seed / down` (see [cli/README.md](cli/README.md)).
+The first run walks you through environment config (execution mode replay/live; for live, the `ANTHROPIC_*` skill gateway and `LLM_PROVIDER_*` planner, keys hidden on input) and prints the login credentials **exactly once** (also written to `.env`); Docker build progress is streamed live. For local development: `uv tool install --force ./cli`. More: `openair config / status / logs / doctor / seed / down` (see [cli/README.md](cli/README.md)).
 
 </details>
 
@@ -292,7 +293,7 @@ Windows note: if `uv sync` fails with an SSL error, rebuild the venv with a sign
 | Version | Scope |
 |---|---|
 | **v0.2** | polish materials-domain skills; public benchmark table with one-command reproduction; python lint ratchet & backend tests in public CI |
-| **v0.3** | `openair` CLI enhancements (initial `up/status/seed/down` already shipped with v0.1.x, see [cli/](cli/)); domestic-accelerator validation (MXMACA / Ascend) |
+| **v0.3** | domestic-accelerator validation (MXMACA / Ascend); continued `openair` CLI iteration (config wizard / doctor / logs / live progress shipped with [openair-cli 0.2.0](https://pypi.org/project/openair-cli/), see [cli/](cli/)) |
 | **v1.0** | multi-user & production deployment guide |
 
 ## 🤝 Contributing

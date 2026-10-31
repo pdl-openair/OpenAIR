@@ -34,6 +34,7 @@
 
 ## 🗞️ News
 
+- **2026-10-31**　🧰 [openair-cli 0.2.0](https://pypi.org/project/openair-cli/)：Docker 构建进度实时透传、环境配置引导向导（`openair config`）、环境体检（`openair doctor`）、日志跟踪（`openair logs`）
 - **2026-10-29**　🚀 v0.1.0 首个公开版本发布：四阶段编排运行时、200+ 科研 skill、评测与回放资产、双执行模式（live / replay）。[Release Notes](https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0)
 
 ## 📖 概述
@@ -127,11 +128,11 @@
 
 ```bash
 pipx install openair-cli        # 或 pip install --user openair-cli
-openair up                      # 克隆 → 生成 .env（安全项随机化）→ 启动全栈 → 打开浏览器
+openair up                      # 体检 → 克隆 → 生成 .env → 环境配置引导 → 启动全栈 → 打开浏览器
 openair up --mode replay        # 零密钥回放演示，推荐第一次这样跑
 ```
 
-首次运行自动生成并**仅打印一次**登录账号（同时写入 `.env`）；本地开发安装：`uv tool install --force ./cli`。其他命令：`openair status / seed / down`（详见 [cli/README.md](cli/README.md)）。
+首次运行进入环境配置引导（执行模式 replay/live；live 时引导填 `ANTHROPIC_*` 网关与 `LLM_PROVIDER_*` 规划器，密钥不回显），并**仅打印一次**登录账号（同时写入 `.env`）；Docker 构建进度实时输出。本地开发安装：`uv tool install --force ./cli`。其他命令：`openair config`（重配环境）/ `status` / `logs` / `doctor` / `seed` / `down`（详见 [cli/README.md](cli/README.md)）。
 
 </details>
 
@@ -292,7 +293,7 @@ Windows：`uv sync` 报 SSL 错误时用已签名 Python 重建 venv（`uv venv 
 | 版本 | 内容 |
 |---|---|
 | **v0.2** | materials 域 skill 全量打磨；benchmark 公开对比表与一键复现脚本；公开仓 python lint 棘轮与后端测试 |
-| **v0.3** | `openair` CLI 增强（初版 `up/status/seed/down` 已随 v0.1.x 交付，见 [cli/](cli/)）；国产算力适配验证（MXMACA / 昇腾） |
+| **v0.3** | 国产算力适配验证（MXMACA / 昇腾）；`openair` CLI 持续迭代（配置引导 / doctor / logs / 进度显示已随 [openair-cli 0.2.0](https://pypi.org/project/openair-cli/) 交付，见 [cli/](cli/)） |
 | **v1.0** | 多用户与生产部署指南 |
 
 ## 🤝 贡献
