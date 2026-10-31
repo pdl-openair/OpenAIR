@@ -76,6 +76,8 @@ section{padding:72px 0}
 section.alt{background:color-mix(in srgb,var(--card) 55%,var(--bg))}
 .kicker{text-align:center;font-size:13px;letter-spacing:.3em;color:var(--brand);font-weight:600;text-transform:uppercase;margin-bottom:10px}
 h2{font-size:clamp(22px,3.4vw,30px);text-align:center;margin-bottom:10px}
+.hanchor{opacity:0;margin-left:10px;font-size:.62em;color:var(--soft);text-decoration:none;vertical-align:middle;transition:opacity .15s}
+h2:hover .hanchor,.hanchor:focus-visible{opacity:1}
 p.lead{text-align:center;color:var(--muted);max-width:760px;margin:0 auto 40px}
 .pairs{display:grid;gap:14px}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
@@ -123,9 +125,10 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
   <div class="wrap">
     <div class="wordmark"><img src="assets/openair-icon.png" alt="OpenAIR icon"><span>OpenAIR 智研星河</span></div>
     <nav>
+      <a href="#demo">演示</a>
       <a href="#why">定位</a>
       <a href="#cases">验证场景</a>
-      <a href="#demo">演示</a>
+      <a href="#mechanisms">机制</a>
       <a href="#quickstart">快速开始</a>
       <a href="https://github.com/pdl-openair/OpenAIR">GitHub</a>
       <a href="en/">English</a>
@@ -162,10 +165,25 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
   </div>
 </div>
 
-<section id="why">
+<section id="demo">
+  <div class="wrap">
+    <div class="kicker">Demo</div>
+    <h2>45 秒看懂可信闭环<a class="hanchor" href="#demo" aria-label="链接到本节">#</a></h2>
+    <p class="lead">从自然语言发起到四阶段推进、产物与证据链回看的完整链路</p>
+    <div class="videobox">
+      <video controls preload="metadata" poster="assets/video-poster.jpg">
+        <source src="assets/openair-demo.mp4" type="video/mp4">
+        您的浏览器不支持视频播放，<a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">下载演示视频</a>
+      </video>
+    </div>
+    <p class="videocap">完整版及更多材料：<a href="https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0">GitHub Release v0.1.0</a> · 直达本节：<a href="https://pdl-openair.github.io/OpenAIR/#demo">pdl-openair.github.io/OpenAIR/#demo</a></p>
+  </div>
+</section>
+
+<section class="alt" id="why">
   <div class="wrap">
     <div class="kicker">Why OpenAIR</div>
-    <h2>科研的四个老问题，闭环的四个新答案</h2>
+    <h2>科研的四个老问题，闭环的四个新答案<a class="hanchor" href="#why" aria-label="链接到本节">#</a></h2>
     <p class="lead">OpenAIR 把「科研怎么做」建模为可编排、可验证、可追溯的四阶段过程模型，而非一条写死的流水线</p>
     <div class="pairs">
       <div class="pair">
@@ -188,10 +206,10 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
   </div>
 </section>
 
-<section class="alt" id="cases">
+<section id="cases">
   <div class="wrap">
     <div class="kicker">Validated Scenarios</div>
-    <h2>验证场景：材料科学（首个领域）</h2>
+    <h2>验证场景：材料科学（首个领域）<a class="hanchor" href="#cases" aria-label="链接到本节">#</a></h2>
     <p class="lead">平台能力领域无关，材料发现与制备是当前完成全链路验证的场景；更多领域通过新增 skill 接入</p>
     <div class="cases">
       <div class="case">
@@ -214,25 +232,10 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
   </div>
 </section>
 
-<section id="demo">
-  <div class="wrap">
-    <div class="kicker">Demo</div>
-    <h2>45 秒看懂可信闭环</h2>
-    <p class="lead">从自然语言发起到四阶段推进、产物与证据链回看的完整链路</p>
-    <div class="videobox">
-      <video controls preload="metadata" poster="assets/video-poster.jpg">
-        <source src="assets/openair-demo.mp4" type="video/mp4">
-        您的浏览器不支持视频播放，<a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">下载演示视频</a>
-      </video>
-    </div>
-    <p class="videocap">完整版及更多材料：<a href="https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0">GitHub Release v0.1.0</a></p>
-  </div>
-</section>
-
-<section class="alt">
+<section class="alt" id="mechanisms">
   <div class="wrap">
     <div class="kicker">Mechanisms</div>
-    <h2>可信闭环的三块基石</h2>
+    <h2>可信闭环的三块基石<a class="hanchor" href="#mechanisms" aria-label="链接到本节">#</a></h2>
     <div class="mech" style="margin-top:36px">
       <div class="card"><h3>🔁 过程编排</h3><p>四阶段是组织框架而非固定串行：新的计算结果或实验反馈可触发回到相关阶段补充分析，人在工作台确认方案与关键决策。</p></div>
       <div class="card"><h3>🧾 证据链</h3><p>任务、产物、能力调用与来源版本全程留痕，任意结论可沿证据链回溯核验；回放（replay）让任何人在零密钥下复现同一过程。</p></div>
@@ -244,7 +247,7 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
 <section id="quickstart">
   <div class="wrap">
     <div class="kicker">Quick Start</div>
-    <h2>三种方式开始</h2>
+    <h2>三种方式开始<a class="hanchor" href="#quickstart" aria-label="链接到本节">#</a></h2>
     <div class="paths" style="margin-top:36px">
       <div class="path"><div class="pt">A · 零安装</div><b>在线演示</b><span>浏览器直接打开<a href="https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425">完整工作台快照</a>，免登录只读。</span></div>
       <div class="path"><div class="pt">B · 本地零密钥</div><b>openair CLI</b><span>pipx install openair-cli && openair up，约 10 分钟得到本地实例与 replay 回放。</span></div>

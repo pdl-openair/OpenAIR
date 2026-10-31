@@ -76,6 +76,8 @@ section{padding:72px 0}
 section.alt{background:color-mix(in srgb,var(--card) 55%,var(--bg))}
 .kicker{text-align:center;font-size:13px;letter-spacing:.3em;color:var(--brand);font-weight:600;text-transform:uppercase;margin-bottom:10px}
 h2{font-size:clamp(22px,3.4vw,30px);text-align:center;margin-bottom:10px}
+.hanchor{opacity:0;margin-left:10px;font-size:.62em;color:var(--soft);text-decoration:none;vertical-align:middle;transition:opacity .15s}
+h2:hover .hanchor,.hanchor:focus-visible{opacity:1}
 p.lead{text-align:center;color:var(--muted);max-width:760px;margin:0 auto 40px}
 .pairs{display:grid;gap:14px}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:stretch}
@@ -123,9 +125,10 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
   <div class="wrap">
     <div class="wordmark"><img src="../assets/openair-icon.png" alt="OpenAIR icon"><span>OpenAIR</span></div>
     <nav>
+      <a href="#demo">Demo</a>
       <a href="#why">Why</a>
       <a href="#cases">Scenarios</a>
-      <a href="#demo">Demo</a>
+      <a href="#mechanisms">Mechanisms</a>
       <a href="#quickstart">Quick Start</a>
       <a href="https://github.com/pdl-openair/OpenAIR">GitHub</a>
       <a href="../">简体中文</a>
@@ -162,10 +165,25 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
   </div>
 </div>
 
-<section id="why">
+<section id="demo">
+  <div class="wrap">
+    <div class="kicker">Demo</div>
+    <h2>The trustworthy loop in 45 seconds<a class="hanchor" href="#demo" aria-label="Link to this section">#</a></h2>
+    <p class="lead">From a natural-language start to four-stage progress, artifacts and the evidence chain</p>
+    <div class="videobox">
+      <video controls preload="metadata" poster="../assets/video-poster.jpg">
+        <source src="../assets/openair-demo.mp4" type="video/mp4">
+        Your browser cannot play this video — <a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">download it instead</a>
+      </video>
+    </div>
+    <p class="videocap">Full release and more: <a href="https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0">GitHub Release v0.1.0</a> · Direct link: <a href="https://pdl-openair.github.io/OpenAIR/en/#demo">pdl-openair.github.io/OpenAIR/en/#demo</a></p>
+  </div>
+</section>
+
+<section class="alt" id="why">
   <div class="wrap">
     <div class="kicker">Why OpenAIR</div>
-    <h2>Four old research problems, four closed-loop answers</h2>
+    <h2>Four old research problems, four closed-loop answers<a class="hanchor" href="#why" aria-label="Link to this section">#</a></h2>
     <p class="lead">OpenAIR models "how research gets done" as an orchestrable, verifiable, traceable four-stage process — not a hard-coded pipeline</p>
     <div class="pairs">
       <div class="pair">
@@ -188,10 +206,10 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
   </div>
 </section>
 
-<section class="alt" id="cases">
+<section id="cases">
   <div class="wrap">
     <div class="kicker">Validated Scenarios</div>
-    <h2>Validated scenarios: materials science (first domain)</h2>
+    <h2>Validated scenarios: materials science (first domain)<a class="hanchor" href="#cases" aria-label="Link to this section">#</a></h2>
     <p class="lead">The platform is domain-agnostic; materials discovery and fabrication are the first fully validated scenarios — more domains arrive as skill packs</p>
     <div class="cases">
       <div class="case">
@@ -214,25 +232,10 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
   </div>
 </section>
 
-<section id="demo">
-  <div class="wrap">
-    <div class="kicker">Demo</div>
-    <h2>The trustworthy loop in 45 seconds</h2>
-    <p class="lead">From a natural-language start to four-stage progress, artifacts and the evidence chain</p>
-    <div class="videobox">
-      <video controls preload="metadata" poster="../assets/video-poster.jpg">
-        <source src="../assets/openair-demo.mp4" type="video/mp4">
-        Your browser cannot play this video — <a href="https://github.com/pdl-openair/OpenAIR/releases/download/v0.1.0/openair-demo-v0.1.0.mp4">download it instead</a>
-      </video>
-    </div>
-    <p class="videocap">Full release and more: <a href="https://github.com/pdl-openair/OpenAIR/releases/tag/v0.1.0">GitHub Release v0.1.0</a></p>
-  </div>
-</section>
-
-<section class="alt">
+<section class="alt" id="mechanisms">
   <div class="wrap">
     <div class="kicker">Mechanisms</div>
-    <h2>Three pillars of the trustworthy loop</h2>
+    <h2>Three pillars of the trustworthy loop<a class="hanchor" href="#mechanisms" aria-label="Link to this section">#</a></h2>
     <div class="mech" style="margin-top:36px">
       <div class="card"><h3>🔁 Process Orchestration</h3><p>The four stages are an organizational frame, not a rigid pipeline: new results or feedback re-enter earlier stages, with humans confirming plans and key decisions at the workbench.</p></div>
       <div class="card"><h3>🧾 Evidence Chain</h3><p>Tasks, artifacts, capability calls and source versions are recorded end-to-end; any conclusion can be audited along its evidence chain, and replay lets anyone reproduce it key-free.</p></div>
@@ -244,7 +247,7 @@ footer .links{display:flex;gap:20px;justify-content:center;margin-bottom:12px;fl
 <section id="quickstart">
   <div class="wrap">
     <div class="kicker">Quick Start</div>
-    <h2>Three ways to begin</h2>
+    <h2>Three ways to begin<a class="hanchor" href="#quickstart" aria-label="Link to this section">#</a></h2>
     <div class="paths" style="margin-top:36px">
       <div class="path"><div class="pt">A · Zero install</div><b>Live demo</b><span>Open the <a href="https://pdl-openair.github.io/workbench/task_25047b1d994e4b6aa91578d595d75425">full workbench snapshot</a> in a browser — no login, read-only.</span></div>
       <div class="path"><div class="pt">B · Local, zero keys</div><b>openair CLI</b><span>pipx install openair-cli && openair up — a local instance with replay in about 10 minutes.</span></div>
