@@ -146,7 +146,7 @@ def test_selected_workflow_planner_prepares_bounded_semantic_enrichment(
 
     monkeypatch.setattr(planner.settings, "research_orchestration_v1", True)
     monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_PROVIDER", "huiyan_chat_completions")
-    monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL", "gpt-5.6-terra")
+    monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL", "gpt-4o-mini")
     monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_TIMEOUT_SECONDS", "77")
     monkeypatch.setenv("LLM_PROVIDER_API_KEY", "test-key")
     monkeypatch.setenv("LLM_PROVIDER_BASE_URL", "https://provider.test")
@@ -160,7 +160,7 @@ def test_selected_workflow_planner_prepares_bounded_semantic_enrichment(
     )
 
     assert prepared.provider == "huiyan_chat_completions"
-    assert prepared.model == "gpt-5.6-terra"
+    assert prepared.model == "gpt-4o-mini"
     assert prepared.timeout_seconds == 77.0
     assert prepared.payload["max_tokens"] > 0
     assert prepared.payload["thinking"] == {"type": "disabled"}
@@ -200,7 +200,7 @@ def test_deterministic_workflow_planner_fails_closed_on_unresolvable_required_no
 
     monkeypatch.setattr(planner.settings, "research_orchestration_v1", True)
     monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_PROVIDER", "huiyan_chat_completions")
-    monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL", "gpt-5.6-terra")
+    monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL", "gpt-4o-mini")
     monkeypatch.setenv("LLM_PROVIDER_API_KEY", "test-key")
     monkeypatch.setenv("LLM_PROVIDER_BASE_URL", "https://provider.test")
     context = _workflow_context()

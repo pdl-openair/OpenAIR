@@ -3,6 +3,8 @@ import { AppstoreOutlined, BgColorsOutlined, GlobalOutlined } from "@ant-design/
 import { Alert, Card, Col, Descriptions, Radio, Row, Space, Typography } from "antd";
 import { fetchHealth, getApiBaseUrl, type RuntimeVersion } from "../api/client";
 import { useAppPreferences } from "../context/AppPreferencesContext";
+import { useAuth } from "../context/AuthContext";
+import { LlmGatewaySettingsSection } from "../components/settings/LlmGatewaySettingsSection";
 import QuotaCard from "../components/QuotaCard";
 import { cn } from "../lib/cn";
 import { webRuntimeVersion } from "../lib/runtimeVersion";
@@ -10,7 +12,7 @@ import { webRuntimeVersion } from "../lib/runtimeVersion";
 const COPY = {
   "zh-CN": {
     title: "设置",
-    subtitle: "管理系统语言与主题偏好，修改后立即生效。",
+    subtitle: "管理语言、主题与额度偏好；管理员可在此配置模型网关。",
     languageTitle: "系统语言",
     languageDesc: "控制导航、工作台、看板和详情页的界面文案。",
     themeTitle: "系统主题",
@@ -24,7 +26,7 @@ const COPY = {
   },
   "en-US": {
     title: "Settings",
-    subtitle: "Manage language and theme preferences. Changes apply immediately.",
+    subtitle: "Manage language, theme and quota preferences; admins can also configure model gateways here.",
     languageTitle: "Language",
     languageDesc: "Controls UI copy across navigation, workbench, board, and detail pages.",
     themeTitle: "Theme",
@@ -49,6 +51,7 @@ function versionValue(value: string | null | undefined): string {
 
 export default function SettingsPage() {
   const { preferences, setLanguage, setTheme } = useAppPreferences();
+  const { isAdmin } = useAuth();
   const copy = COPY[preferences.language];
   const [apiVersion, setApiVersion] = useState<RuntimeVersion | null>(null);
   const [apiVersionError, setApiVersionError] = useState(false);
@@ -117,6 +120,8 @@ export default function SettingsPage() {
           </Card>
         </Col>
       </Row>
+
+      {isAdmin ? <LlmGatewaySettingsSection /> : null}
 
       <Card
         className={cn(settingsCardClass)}

@@ -223,6 +223,16 @@ class UserRepository:
                 )
         return self.get_user_by_id(user_id)
 
+    def has_active_admin(self) -> bool:
+        """Whether at least one active admin exists (first-user bootstrap guard)."""
+        with self._connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "SELECT 1 FROM openair_users"
+                    " WHERE role = 'admin' AND is_active = TRUE LIMIT 1"
+                )
+                return cur.fetchone() is not None
+
     def list_users(self, *, query: str | None = None, limit: int = 50, offset: int = 0) -> list[dict[str, Any]]:
         """List users for admin views; optional email/username fuzzy match."""
         with self._connect() as conn:

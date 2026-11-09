@@ -133,7 +133,7 @@ def _prepare(monkeypatch: pytest.MonkeyPatch, query: str):
 
     monkeypatch.setattr(planner.settings, "research_orchestration_v1", True)
     monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_PROVIDER", "huiyan_chat_completions")
-    monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL", "gpt-5.6-terra")
+    monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL", "gpt-4o-mini")
     monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_TIMEOUT_SECONDS", "77")
     monkeypatch.setenv("LLM_PROVIDER_API_KEY", "test-key")
     monkeypatch.setenv("LLM_PROVIDER_BASE_URL", "https://provider.test")
@@ -170,7 +170,7 @@ def _brief(
 def _execute(planner, prepared, brief: dict, *, call_id: str = "provider-semantic-1"):
     transport = _Transport(_Response({
         "id": call_id,
-        "model": "gpt-5.6-terra",
+        "model": "gpt-4o-mini",
         "choices": [{"message": {"content": json.dumps(brief, ensure_ascii=False)}}],
     }))
     return planner.execute_planner_attempt(prepared, transport=transport), transport
@@ -476,7 +476,7 @@ def test_invalid_semantic_payload_is_not_converted_into_generic_plan(
     planner, prepared = _prepare(monkeypatch, "研究一个需要科研判断的问题。")
     transport = _Transport(_Response({
         "id": "provider-invalid-semantic",
-        "model": "gpt-5.6-terra",
+        "model": "gpt-4o-mini",
         "choices": [{"message": {"content": "not-json"}}],
     }))
     with pytest.raises(ProviderContractError):

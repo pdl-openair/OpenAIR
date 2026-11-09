@@ -352,6 +352,44 @@ def blocker_user_explanation(fact: ResearchBlocker) -> dict[str, str]:
             "kind": "dependency", "reason": "当前步骤正在等待前置研究结果或外部条件，后续工作暂未继续；你现在无需操作。",
             "reasonCode": "dependency_pending",
         }
+    if fact.reason_code.startswith("dispatch_continuation_suspended:"):
+        return {
+            "kind": "runtime_unavailable",
+            "reason": (
+                "后续步骤遇到系统执行问题，自动重试已暂停。已保存"
+                "成果仍可查看；系统修复后从原进度继续，无需重新提"
+                "交研究。"
+            ),
+            "reasonCode": "system_execution_interrupted",
+        }
+    if fact.reason_code == "quota_exhausted":
+        return {
+            "kind": "runtime_unavailable",
+            "reasonCode": "quota_exhausted",
+            "reason": (
+                "账号额度不足，已停止新增付费请求。已有成果保留；"
+                "额度恢复后可从未完成步骤继续。"
+            ),
+        }
+    if fact.reason_code == "provider_configuration_unavailable":
+        return {
+            "kind": "runtime_unavailable",
+            "reasonCode": "provider_configuration_unavailable",
+            "reason": (
+                "模型网关配置不可用（地址或密钥无效），本次执行已停"
+                "止。请管理员在设置中检查模型配置并测试连接；已有成"
+                "果保留，配置修复后可从原进度继续。"
+            ),
+        }
+    if fact.reason_code == "skill_runtime_unavailable":
+        return {
+            "kind": "runtime_unavailable",
+            "reasonCode": "skill_runtime_unavailable",
+            "reason": (
+                "研究执行运行时暂不可用，本次执行已停止。请管理员检"
+                "查服务状态；已有成果保留，恢复后可从原进度继续。"
+            ),
+        }
     if fact.reason_code == "budget_exceeded":
         reason = "当前资源预算不足，执行已安全暂停。"
     elif fact.reason_code in {"semantic_material_insufficient", "upstream_semantic_material_insufficient", "acceptance_criteria_unresolved", "review_insufficient_materials"}:

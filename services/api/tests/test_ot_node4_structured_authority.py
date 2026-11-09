@@ -30,8 +30,8 @@ NODE4_OUTPUT_SCHEMA = (
 def test_node4_registry_publishes_structured_output_authority(monkeypatch) -> None:
     monkeypatch.setenv("LLM_PROVIDER_API_KEY", "test-key")
     monkeypatch.setenv("LLM_PROVIDER_BASE_URL", "https://example.invalid")
-    monkeypatch.setenv("LLM_PROVIDER_MODEL", "gpt-5.6-terra")
-    monkeypatch.setenv("LLM_PROVIDER_MODEL_TERRA", "gpt-5.6-terra")
+    monkeypatch.setenv("LLM_PROVIDER_MODEL", "gpt-4o-mini")
+    monkeypatch.setenv("LLM_PROVIDER_MODEL_TERRA", "gpt-4o-mini")
 
     skill = resolve_registered_durable_skill("evidence_schema_design")
     assert skill is not None

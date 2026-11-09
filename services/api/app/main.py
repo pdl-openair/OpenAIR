@@ -24,7 +24,7 @@ from app.modules.task_store import TaskStorePostgresMutationForbidden, store
 from app.modules.user_repository import get_user_repository
 from app.modules.user_dev_seed import ADMIN_EMAIL, DEV_EMAIL, seed_admin_user, seed_dev_user
 from app.modules.admin_bootstrap import ensure_bootstrap_admin
-from app.routes import admin, admin_quota, admin_users, agent, agent_sessions, artifacts, audit as audit_routes, auth as auth_routes, collaboration, community, contributions, controller_commands, execution_runs, health, internal, model_jobs, oauth as oauth_routes, platform_inventory, pvd_feedback, quota as quota_routes, recovery, research_packages, research_start, resource_saves, resources, skills as skill_routes, starters, tasks
+from app.routes import admin, admin_quota, admin_llm_settings, admin_users, agent, agent_sessions, artifacts, audit as audit_routes, auth as auth_routes, collaboration, community, contributions, controller_commands, execution_runs, health, internal, model_jobs, oauth as oauth_routes, platform_inventory, pvd_feedback, quota as quota_routes, recovery, research_packages, research_start, resource_saves, resources, skills as skill_routes, starters, tasks
 from app.modules.rate_limit import RateLimitMiddleware
 from app.routes.audit import ExceptionAuditMiddleware
 
@@ -286,6 +286,14 @@ async def lifespan(_app: FastAPI):
     bootstrapped = ensure_bootstrap_admin(user_repo)
     if bootstrapped:
         log.info("bootstrap admin ready: %s", bootstrapped.get("email"))
+
+    # Admin-managed LLM gateway overlay: applied before any runtime reads env.
+    try:
+        from app.modules.llm_settings import apply_to_environ
+
+        apply_to_environ()
+    except Exception as exc:
+        log.warning("[startup] llm settings overlay apply failed: %s", exc)
 
     # S04-01 governance stores (audit / password-reset / contributions)
     from app.modules.audit_repository import get_audit_repository
@@ -685,6 +693,7 @@ app.include_router(internal.router)
 app.include_router(skill_routes.router, prefix="/api")
 app.include_router(admin.router, prefix="/api")
 app.include_router(admin_quota.router, prefix="/api")
+app.include_router(admin_llm_settings.router, prefix="/api")
 app.include_router(admin_users.router, prefix="/api")
 app.include_router(contributions.router, prefix="/api")
 app.include_router(community.router, prefix="/api")

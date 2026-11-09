@@ -2,6 +2,7 @@ import asyncio
 import logging
 from copy import deepcopy
 from typing import Annotated, Any, Literal, Mapping
+from urllib.parse import quote
 from uuid import uuid4
 
 import psycopg
@@ -124,6 +125,7 @@ from app.modules.research_external_recovery_service import (
 from app.modules.research_start_task import create_research_start_draft_task
 from app.modules.production_definition_source import ProductionDefinitionSource
 from app.modules.task_store import build_stage_catalog, normalize_task_result_source, store
+from app.modules.task_export_archive import TaskExportError, build_task_export_zip
 from app.modules.task_public_projection import (
     _filter_public_artifact_surface,
     _public_timestamp,
@@ -1382,6 +1384,54 @@ def get_task(task_id: str, identity: RequestIdentity = Depends(resolve_request_i
     public = project_public_task_read_only(task)
     _merge_catalog_artifacts_into_public(task, public, identity)
     return public
+
+
+@router.get("/{task_id}/export", response_model=None)
+def export_task(
+    task_id: str,
+    identity: RequestIdentity = Depends(resolve_request_identity),
+) -> Response:
+    """Zip of every artifact body plus manifest.json for offline use."""
+    task = (
+        TaskRepository().get_task_for_public_read(task_id)
+        if settings.persistence_backend == "postgres"
+        else store.get_task(task_id)
+    )
+    task = ensure_task_in_scope(task, identity)
+
+    def _with_storage_reference(artifact: dict[str, Any]) -> dict[str, Any]:
+        from app.routes.artifacts import _artifact_with_current_storage_reference
+
+        return _artifact_with_current_storage_reference(artifact)
+
+    try:
+        blob, zip_name = build_task_export_zip(
+            task=task,
+            prepare_artifact=(
+                _with_storage_reference
+                if settings.persistence_backend == "postgres"
+                else None
+            ),
+        )
+    except TaskExportError as exc:
+        raise HTTPException(
+            status_code=404, detail={"code": "task_export_empty", "taskId": task_id}
+        ) from exc
+    # Headers are latin-1: ship an ASCII fallback plus RFC 5987 UTF-8 name
+    # (the frontend prefers the encoded form when present).
+    ascii_name = zip_name.encode("ascii", errors="ignore").decode("ascii") or "task_export.zip"
+    quoted_name = quote(zip_name, safe="")
+    return Response(
+        content=blob,
+        media_type="application/zip",
+        headers={
+            "Content-Disposition": (
+                f'attachment; filename="{ascii_name}"; '
+                f"filename*=UTF-8''{quoted_name}"
+            ),
+            "Content-Length": str(len(blob)),
+        },
+    )
 
 
 @router.get("/{task_id}/token-usage", response_model=TaskTokenUsageOut)

@@ -27,6 +27,7 @@ import { getStatusLabels } from "@openair/shared";
 import { useAppPreferences } from "../context/AppPreferencesContext";
 import { useAuth } from "../context/AuthContext";
 import { fetchTaskTokenUsage, renameTask } from "../api/client";
+import { TaskExportButton } from "../components/workbench/TaskExportButton";
 import { publishToCommunity } from "../api/community";
 import { loadTaskForPages } from "../lib/loadTask";
 import {
@@ -532,6 +533,7 @@ export default function TaskDetailPage() {
             >
               {language === "en-US" ? "Publish to community" : "发布到社区"}
             </Button>
+            {bench.taskId ? <TaskExportButton taskId={bench.taskId} size="middle" label={language === "en-US" ? "Export project" : "导出项目"} /> : null}
             <Button type="primary" icon={<ArrowRightOutlined />} iconPosition="end" onClick={handleOpenWorkbench}>
               {copy.openWorkbench}
             </Button>

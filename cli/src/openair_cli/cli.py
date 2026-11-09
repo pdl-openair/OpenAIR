@@ -299,6 +299,85 @@ def mask(v):
     return f"{v[:4]}…{v[-2:]}" if len(v) > 8 else "***"
 
 
+def _http_json(url, *, headers, timeout=15, data=None):
+    """小工具：GET/POST JSON；返回 (status_code, parsed_or_none, err_kind)。"""
+    import json as _json
+    body = _json.dumps(data).encode("utf-8") if data is not None else None
+    req = urllib.request.Request(url, data=body, headers=headers,
+                                 method="POST" if body else "GET")
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            payload = None
+            try:
+                payload = _json.loads(resp.read().decode("utf-8", "replace"))
+            except ValueError:
+                pass
+            return resp.status, payload, None
+    except urllib.error.HTTPError as exc:
+        return exc.code, None, "http"
+    except (urllib.error.URLError, TimeoutError, OSError):
+        return None, None, "transport"
+
+
+def probe_openai_gateway(base_url, api_key, model, timeout=15):
+    """探测 OpenAI 兼容网关：拉模型列表并核对配置的模型是否在列。
+
+    返回 (ok, message, available_models)。ok=False 时 message 给出可行动原因。
+    """
+    if not base_url or not api_key:
+        return False, "地址或密钥为空，跳过探测", None
+    base = base_url.rstrip("/")
+    url = f"{base}/models" if base.endswith("/v1") else f"{base}/v1/models"
+    status, payload, err = _http_json(
+        url, headers={"Authorization": f"Bearer {api_key}"}, timeout=timeout)
+    if err == "transport":
+        return False, f"网络不通或超时（{url}）；请检查地址与网络", None
+    if status in (401, 403):
+        return False, f"密钥无效或无权限（HTTP {status}）", None
+    if status in (404, 405):
+        return False, "网关不支持模型列表接口（/v1/models 404）；可继续，但建议改用支持该接口的地址", None
+    if status is None or status >= 400:
+        return False, f"网关返回异常状态 HTTP {status}", None
+    models = []
+    if isinstance(payload, dict) and isinstance(payload.get("data"), list):
+        models = [str(row.get("id")) for row in payload["data"]
+                  if isinstance(row, dict) and row.get("id")]
+    if not models:
+        return False, "模型列表为空或格式异常；可继续，但启动校验可能失败", None
+    if model and model not in models:
+        sample = "、".join(sorted(models)[:8])
+        return False, f"模型 {model} 不在网关列表中。可用示例：{sample}", models
+    return True, f"连接正常，模型 {model} 在列表中（共 {len(models)} 个）", models
+
+
+def probe_anthropic_gateway(base_url, api_key, auth_token, model, timeout=15):
+    """探测 Anthropic 兼容网关：发一条 1-token 消息验证地址与密钥。"""
+    if not base_url:
+        return False, "地址为空，跳过探测"
+    headers = {"anthropic-version": "2023-06-01", "Content-Type": "application/json"}
+    if api_key:
+        headers["x-api-key"] = api_key
+    if auth_token:
+        headers["Authorization"] = f"Bearer {auth_token}"
+    if "x-api-key" not in headers and "Authorization" not in headers:
+        return False, "未配置密钥，跳过探测"
+    url = f"{base_url.rstrip('/')}/v1/messages"
+    status, _payload, err = _http_json(
+        url, headers=headers, timeout=timeout,
+        data={"model": model or "", "max_tokens": 1,
+              "messages": [{"role": "user", "content": "OK"}]})
+    if err == "transport":
+        return False, f"网络不通或超时（{url}）；请检查地址与网络"
+    if status in (200, 400):
+        # 400 多为极小探测载荷/模型名被网关拒绝——地址与认证已验证可用。
+        return True, f"连接正常（HTTP {status}）"
+    if status in (401, 403):
+        return False, f"密钥无效或无权限（HTTP {status}）"
+    if status == 404:
+        return False, "端点不存在（404）；检查地址是否为 Anthropic 兼容路径"
+    return False, f"网关返回异常状态 HTTP {status}"
+
+
 def config_wizard(d: Path):
     """环境配置引导（对应公开仓 README「按需配置分组」），实时写入 .env。"""
     cur_mode = get_env(d, "SKILL_EXEC_MODE", "live")
@@ -327,6 +406,18 @@ def config_wizard(d: Path):
             default=get_env(d, "OPENAIR_CLAUDE_MODEL", "claude-sonnet-4-5"))
     set_env(d, "OPENAIR_CLAUDE_MODEL", m)
     say(f"  → OPENAIR_CLAUDE_MODEL={m}")
+    # Docker compose 不透传裸 ANTHROPIC_*：写入 OPENAIR_ANTHROPIC_* 覆盖位，
+    # 否则容器内会静默回落到规划器网关（task_be7ae934）。
+    if v:
+        set_env(d, "OPENAIR_ANTHROPIC_BASE_URL", v)
+        eff_key = k or get_env(d, "ANTHROPIC_API_KEY")
+        if eff_key:
+            set_env(d, "OPENAIR_ANTHROPIC_API_KEY", eff_key)
+        note("已同步写 OPENAIR_ANTHROPIC_BASE_URL/KEY（compose 容器实际读取的覆盖位）")
+    eff_key = k or get_env(d, "ANTHROPIC_API_KEY")
+    eff_token = get_env(d, "ANTHROPIC_AUTH_TOKEN")
+    ok, msg = probe_anthropic_gateway(v, eff_key, eff_token, m)
+    note(f"网关探测：{msg}")
 
     say("\n③ 开题规划器（OpenAI 兼容端点；live 模式必填）")
     note("不要填 ANTHROPIC 那种 …/api/anthropic 路径，规划请求会 404")
@@ -339,9 +430,23 @@ def config_wizard(d: Path):
         set_env(d, "LLM_PROVIDER_API_KEY", k)
     say(f"  → LLM_PROVIDER_API_KEY={mask(k) if k else '（保持现值）'}")
     m = ask("   LLM_PROVIDER_MODEL（规划模型名）",
-            default=get_env(d, "LLM_PROVIDER_MODEL", "gpt-5.6-terra"))
+            default=get_env(d, "LLM_PROVIDER_MODEL", "gpt-4o-mini"))
+    eff_key = k or get_env(d, "LLM_PROVIDER_API_KEY")
+    for _ in range(3):
+        ok, msg, _models = probe_openai_gateway(v, eff_key, m)
+        note(f"网关探测：{msg}")
+        if ok:
+            break
+        retry = ask("   换一个模型名再试（回车=保持当前值继续）",
+                    default=m)
+        if retry == m:
+            break
+        m = retry
     set_env(d, "LLM_PROVIDER_MODEL", m)
     say(f"  → LLM_PROVIDER_MODEL={m}")
+    # 规划器模型独立于执行模型；默认与执行模型保持一致，避免只改其一导致启动校验失败。
+    set_env(d, "OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL", m)
+    note(f"已同步 OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL={m}（开题规划专用，独立变量）")
 
     say(f"\n④ 可选外部账号（都可回车跳过；Materials Project 免费 key：{MP_APPLY_URL}）")
     k = ask("   MP_API_KEY（材料候选检索用）", secret=True)
@@ -609,6 +714,20 @@ def cmd_doctor(args):
         gw = "已配" if gw_cfg else "未配"
         planner = "已配" if get_env(d, "LLM_PROVIDER_API_KEY") else "未配"
         say(f"✓ {d}（SKILL_EXEC_MODE={mode}；Skill 网关{gw}；规划器{planner}）")
+        if mode == "live":
+            say("── 网关连通性（live 模式；探测会产生真实请求）──")
+            ok_a, msg_a = probe_anthropic_gateway(
+                get_env(d, "ANTHROPIC_BASE_URL"),
+                get_env(d, "ANTHROPIC_API_KEY"),
+                get_env(d, "ANTHROPIC_AUTH_TOKEN"),
+                get_env(d, "OPENAIR_CLAUDE_MODEL"))
+            say(f"{'✓' if ok_a else '✗'} Skill 网关：{msg_a}")
+            ok_p, msg_p, _m = probe_openai_gateway(
+                get_env(d, "LLM_PROVIDER_BASE_URL"),
+                get_env(d, "LLM_PROVIDER_API_KEY"),
+                get_env(d, "OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL")
+                or get_env(d, "LLM_PROVIDER_MODEL"))
+            say(f"{'✓' if ok_p else '✗'} 规划器网关：{msg_p}")
     else:
         say(f"ℹ {d} 尚未初始化（openair up 会克隆并生成 .env）")
 

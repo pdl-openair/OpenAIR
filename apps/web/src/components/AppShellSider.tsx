@@ -4,6 +4,7 @@ import { Avatar, Dropdown, Layout, Menu, Typography } from "antd";
 import type { MenuProps } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import {
+  Bot,
   ChevronsUpDown,
   FolderOpen,
   Home,
@@ -120,6 +121,7 @@ export default function AppShellSider() {
     if (p.startsWith("/settings")) return "settings";
     if (p.startsWith("/admin/quotas")) return "admin-quotas";
     if (p.startsWith("/admin/governance")) return "admin-governance";
+    if (p.startsWith("/admin/model-settings")) return "admin-model-settings";
     if (p.startsWith("/artifacts")) return "artifacts";
     if (p.startsWith("/workbench") || p.startsWith("/tasks/"))
       return "workbench";
@@ -137,6 +139,7 @@ export default function AppShellSider() {
     else if (key === "settings") navigate("/settings");
     else if (key === "admin-quotas") navigate("/admin/quotas");
     else if (key === "admin-governance") navigate("/admin/governance");
+    else if (key === "admin-model-settings") navigate("/admin/model-settings");
   };
 
   const userInitial = (
@@ -244,6 +247,15 @@ export default function AppShellSider() {
     },
     ...(isAdmin
       ? [
+          {
+            key: "admin-model-settings",
+            icon: (
+              <MenuIcon>
+                <Bot />
+              </MenuIcon>
+            ),
+            label: "模型与网关"
+          },
           {
             key: "admin-quotas",
             icon: (

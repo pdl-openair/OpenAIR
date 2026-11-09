@@ -168,6 +168,16 @@ _REASON_CODE_COPY = {
     "policy_prohibited": "当前步骤触及已确认的风险或安全边界，需要你决定是否调整范围。",
     "authorization_required": "当前步骤需要你补充授权后才能继续。",
     "needs_input": "当前研究无法安全继续，需要你补充缺失信息。",
+    "quota_exhausted": (
+        "账号额度不足，已停止新增付费请求。已有成果保留；"
+        "可在设置中查看额度，额度恢复后从原进度继续。"
+    ),
+    "provider_configuration_unavailable": (
+        "模型网关配置不可用（地址或密钥无效）。请管理员在设置中检查模型配置；已有成果保留。"
+    ),
+    "skill_runtime_unavailable": (
+        "研究执行运行时暂不可用。请管理员检查服务状态；已有成果保留，恢复后可继续。"
+    ),
 }
 
 

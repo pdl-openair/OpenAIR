@@ -1,5 +1,5 @@
 import { planningProgressUserCopy } from "./planningProgressUserCopy";
-import { userFacingDynamicText } from "./userFacingLanguage";
+import { hasInternalEngineeringLanguage, userFacingDynamicText } from "./userFacingLanguage";
 import type { ResearchStartSessionStatus } from "../api/client";
 
 const BASE_RETRY_MS = 1_500;
@@ -29,9 +29,17 @@ function phaseMessage(phase: ResearchStartSessionStatus["currentPhase"]): string
 
 function safeUserMessage(value: string | null | undefined): string | null {
   const message = value?.trim();
-  if (!message || !/[\u4e00-\u9fff]/.test(message)) return null;
-  const safe = userFacingDynamicText(message, "");
-  return safe || null;
+  if (!message) return null;
+  // 中文与英文的用户话术都放行；只拦截工程细节（内部术语、JSON、URL、堆栈）。
+  if (
+    /[\r\n]/.test(message)
+    || /^(?:\{|\[)/.test(message)
+    || /https?:\/\//i.test(message)
+    || hasInternalEngineeringLanguage(message)
+  ) {
+    return null;
+  }
+  return userFacingDynamicText(message, "");
 }
 
 function progressCodeOf(snapshot: ResearchStartSessionStatus): string | null {

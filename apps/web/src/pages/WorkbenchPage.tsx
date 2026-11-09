@@ -1,3 +1,4 @@
+import { TaskExportButton } from "../components/workbench/TaskExportButton";
 import { useResearchStartDisplayContext } from "../hooks/useResearchStartDisplayContext";
 import { WorkbenchOriginalInput } from "../components/workbench/WorkbenchOriginalInput";
 /**
@@ -4047,11 +4048,7 @@ function WorkbenchTaskSession({
                       </Tag>
                     </div>
                     <ResultSourceTag source={m.resultSource} />
-                    <Tooltip title="导出将在产物稳定后开放">
-                      <Button size="small" disabled>
-                        导出
-                      </Button>
-                    </Tooltip>
+                    <TaskExportButton taskId={m.taskId} />
                   </div>
                 ) : null}
               </div>

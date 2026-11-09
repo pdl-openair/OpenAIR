@@ -73,7 +73,14 @@ def register(
     request: Request,
     repo: UserRepositoryBackend = Depends(_user_repo),
 ) -> RegisterPendingResponse:
-    """Create a new user account. It stays inactive until an admin activates it."""
+    """Create a new user account.
+
+    Default governance keeps the account inactive until an admin activates it.
+    First-user bootstrap: when the deployment has no active admin at all
+    (e.g. OPENAIR_BOOTSTRAP_ADMIN_* was never configured), the first registrant
+    is activated and promoted so a fresh self-hosted instance is never locked
+    out with no one able to activate accounts.
+    """
     ip, ua = _client_meta(request)
     verify_captcha(body.captchaId, body.captchaCode)
 
@@ -96,14 +103,32 @@ def register(
         owner_id=user["user_id"],
         is_personal=True,
     )
+
+    first_admin_bootstrap = False
+    if not repo.has_active_admin():
+        user = repo.set_is_active(user["user_id"], True) or user
+        user = repo.update_user_quota_fields(user["user_id"], role="admin") or user
+        first_admin_bootstrap = True
+
     record_audit(
         "register",
         actor_id=user["user_id"],
         outcome="success",
-        detail={"pendingActivation": True},
+        detail={"pendingActivation": not first_admin_bootstrap, "firstAdminBootstrap": first_admin_bootstrap},
         ip=ip,
         user_agent=ua,
     )
+    if first_admin_bootstrap:
+        logger.info(
+            "first user registered and promoted to admin (no active admin existed): %s (%s)",
+            user["username"],
+            user["user_id"],
+        )
+        return RegisterPendingResponse(
+            pendingActivation=False,
+            message="已创建首个管理员账号，可直接登录使用",
+            user=_to_user_info(user, ws["workspace_id"]),
+        )
     logger.info("user registered pending activation: %s (%s)", user["username"], user["user_id"])
 
     return RegisterPendingResponse(

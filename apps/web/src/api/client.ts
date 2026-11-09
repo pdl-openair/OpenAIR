@@ -1853,6 +1853,38 @@ export async function downloadArtifact(artifactId: string): Promise<void> {
   URL.revokeObjectURL(url);
 }
 
+/** 导出整个研究任务：后端打包全部产物为 zip（含 manifest.json），前端以鉴权 blob 触发下载。 */
+export async function exportTaskArchive(taskId: string): Promise<void> {
+  const res = await fetch(
+    `${getApiBaseUrl()}/api/tasks/${encodeURIComponent(taskId)}/export`,
+    { headers: buildAuthHeaders() },
+  );
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(text || `导出失败：HTTP ${res.status}`);
+  }
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  const disposition = res.headers.get("content-disposition") ?? "";
+  const encoded = /filename\*\s*=\s*UTF-8''([^;]+)/i.exec(disposition);
+  const regular = /filename="?([^";]+)"?/i.exec(disposition);
+  let filename = regular?.[1] ?? `openair_task_${taskId}.zip`;
+  if (encoded) {
+    try {
+      filename = decodeURIComponent(encoded[1]);
+    } catch {
+      // A malformed filename never changes the authenticated downloaded bytes.
+    }
+  }
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
 /** 用户上传产物（multipart）。不要手设 Content-Type —— 浏览器自动带 multipart boundary。 */
 export async function uploadArtifact(
   targetTaskId: string,

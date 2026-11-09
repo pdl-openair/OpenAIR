@@ -190,7 +190,7 @@ def test_agent_meters_real_usage_with_cache_detail(monkeypatch):
     agent._meter_llm_call(
         response,
         meter_context={"user_id": "user_meter", "task_id": "task_meter_1", "workspace_id": "ws_meter"},
-        model="gpt-5.6-terra",
+        model="gpt-4o-mini",
     )
     assert len(calls) == 1
     entry = calls[0]
@@ -198,7 +198,7 @@ def test_agent_meters_real_usage_with_cache_detail(monkeypatch):
     assert entry["user_id"] == "user_meter"
     assert entry["task_id"] == "task_meter_1"
     assert entry["provider"] == "anthropic"
-    assert entry["model"] == "gpt-5.6-terra"
+    assert entry["model"] == "gpt-4o-mini"
     assert entry["usage_wire"]["inputTokens"] == 1200
     assert entry["usage_wire"]["outputTokens"] == 350
     assert entry["usage_wire"]["totalTokens"] == 1550
@@ -259,8 +259,8 @@ def test_formula_crossover_meters_internal_llm_usage(monkeypatch):
     calls = []
     monkeypatch.setattr(ledger_repo, "meter_call", lambda **kwargs: calls.append(kwargs))
     adapter._meter_llm_call(
-        model="gpt-5.6-terra",
-        body={"model": "gpt-5.6-terra", "messages": []},
+        model="gpt-4o-mini",
+        body={"model": "gpt-4o-mini", "messages": []},
         resp={
             "choices": [{"message": {"content": "{\"formulas\": []}"}}],
             "usage": {"prompt_tokens": 321, "completion_tokens": 45},

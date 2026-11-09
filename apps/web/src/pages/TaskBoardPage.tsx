@@ -731,7 +731,28 @@ export default function TaskBoardPage() {
                   <Empty
                     image={Empty.PRESENTED_IMAGE_SIMPLE}
                     description={
-                      statusFilter === "all" ? "暂无项目" : "暂无符合条件的项目"
+                      statusFilter === "all" ? (
+                        <div className="flex flex-col items-center gap-3 py-2">
+                          <span>还没有项目——在首页描述一个研究问题即可开始</span>
+                          <div className="flex items-center gap-2">
+                            <Button size="small" type="primary" onClick={() => navigate("/")}>
+                              去首页发起项目
+                            </Button>
+                            <Button
+                              size="small"
+                              onClick={() =>
+                                navigate(
+                                  "/starter-samples/project_research_direction_review_v0_3",
+                                )
+                              }
+                            >
+                              先看一个示例项目
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        "暂无符合条件的项目"
+                      )
                     }
                   />
                 ),

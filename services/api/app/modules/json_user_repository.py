@@ -169,6 +169,13 @@ class JsonUserRepository:
         self._write_json(self._users_dir / f"{user_id}.json", user)
         return user
 
+    def has_active_admin(self) -> bool:
+        """Whether at least one active admin exists (first-user bootstrap guard)."""
+        return any(
+            u.get("role") == "admin" and u.get("is_active")
+            for u in self._iter_users()
+        )
+
     def list_users(self, *, query: str | None = None, limit: int = 50, offset: int = 0) -> list[dict[str, Any]]:
         users = self._iter_users()
         if query:

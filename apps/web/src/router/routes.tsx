@@ -3,6 +3,7 @@ import AppLayout from "../components/AppLayout";
 import { AdminGuard } from "../components/AdminGuard";
 import { AuthLayout, AuthPageShell } from "../components/RouteLayouts";
 import AdminQuotasPage from "../pages/AdminQuotasPage";
+import AdminModelSettingsPage from "../pages/AdminModelSettingsPage";
 import ArtifactLibraryPage from "../pages/ArtifactLibraryPage";
 import CommunityPage from "../pages/CommunityPage";
 import CommunityDetailPage from "../pages/CommunityDetailPage";
@@ -252,6 +253,15 @@ export const router = createBrowserRouter([
               </AdminGuard>
             ),
             handle: { breadcrumbTitle: "用户与治理" }
+          },
+          {
+            path: "admin/model-settings",
+            element: (
+              <AdminGuard>
+                <AdminModelSettingsPage />
+              </AdminGuard>
+            ),
+            handle: { breadcrumbTitle: "模型与网关" },
           },
           {
             path: "tasks",

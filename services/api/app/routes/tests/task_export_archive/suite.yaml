@@ -1,0 +1,24 @@
+suite_id: component.services.api.app.routes.tests.task-export-archive
+protected_outcome: Task export zips verified artifact bytes plus manifest.json and never silently
+  drops content.
+authority_refs:
+- personal/features/面向用户/2026-11-09-用户视角产品审视-基础中层高级三层.md
+failure_class: task_export_contract_regression
+minimum_owner: 单个组件行为
+production_targets:
+- services/api/app/modules/task_export_archive.py
+- services/api/app/routes/tasks.py
+test_responsibility: Task export packs every loadable artifact body, records skipped artifacts with
+  a reason in manifest.json, fails closed on artifact-less tasks, and enforces task scope.
+execution_profiles:
+- deterministic
+required_dependencies:
+- project_test_dependencies
+evidence_required:
+- test_exit_code_0
+- all_declared_assertions_evaluated
+verdict_rule: PASS only when the declared deterministic assertions pass; failures remain FAIL. No live
+  execution, scientific quality or user acceptance claim.
+triggers:
+- Changes to services/api/app/modules/task_export_archive.py
+- Changes to services/api/app/routes/tasks.py export endpoint

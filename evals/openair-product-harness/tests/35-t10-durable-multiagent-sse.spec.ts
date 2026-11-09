@@ -173,7 +173,7 @@ test("T10: flag-on Web starts the durable multi-Agent flow from the same revisio
     const latestDesign = designs.at(-1)!;
     expect(latestDesign.status).toBe("draft");
     expect(latestDesign.coverageReport?.status).toMatch(/^passed_/);
-    expect(process.env.HUIYAN_LLM_MODEL_TERRA).toBe("gpt-5.6-terra");
+    expect(process.env.HUIYAN_LLM_MODEL_TERRA).toBe("gpt-4o-mini");
 
     const firstEvent = await readFirstTaskEvent(taskId!, devSession!.token);
     expect(firstEvent.type).toBe("snapshot");
