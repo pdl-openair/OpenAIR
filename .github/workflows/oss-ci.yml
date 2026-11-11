@@ -1,4 +1,11 @@
-# OpenAIR 公开仓精简 CI（源头：私有仓 scripts/oss/overlays，公开仓侧勿手改）
+# OpenAIR 公开仓轻量 CI：前端构建与全历史密钥扫描。
+# 完整 PR 门禁在 required-checks.yml；tag 发布在 release.yml。
+# action 全部按 commit SHA 固定，gitleaks 下载校验 SHA-256。
+#
+# 源头：私有仓 scripts/oss/overlays/oss-ci.yml。
+# 本文件已在公开仓手工加固（action SHA 固定、gitleaks 校验和），同一改动尚未回灌私有
+# overlay；在回灌完成前以公开仓版本为准，后续改动须两边同时落地，否则下次导出会冲突回退。
+# 同步方式与迁移说明见 docs/03_工程/待专项更新/CI_RELEASE.md 第 6 节。
 name: ci
 on:
   push:
@@ -6,13 +13,16 @@ on:
     tags: ['v*']
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   web-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4 # pnpm 版本读 package.json 的 packageManager（pnpm@9.15.0）
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 20
           cache: pnpm
@@ -22,20 +32,20 @@ jobs:
   secrets-scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      # 直跑 gitleaks 二进制（MIT，无 org 许可限制）：与私有仓导出门禁完全同构
-      # （同版本 8.24.3、同一份 .gitleaks.toml 规则级白名单）。
-      - name: Install gitleaks 8.24.3
-        run: >-
-          curl -sSL
-          https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz
-          | tar -xz -C /usr/local/bin gitleaks
+      - name: Install gitleaks 8.24.3 with checksum verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="https://github.com/gitleaks/gitleaks/releases/download/v8.24.3"
+          asset="gitleaks_8.24.3_linux_x64.tar.gz"
+          curl -sSL "${base}/${asset}" -o "$RUNNER_TEMP/${asset}"
+          curl -sSL "${base}/gitleaks_8.24.3_checksums.txt" -o "$RUNNER_TEMP/gitleaks-checksums.txt"
+          (cd "$RUNNER_TEMP" && grep "${asset}" gitleaks-checksums.txt | sha256sum -c -)
+          tar -xzf "$RUNNER_TEMP/${asset}" -C "$RUNNER_TEMP" gitleaks
+          sudo install -m 0755 "$RUNNER_TEMP/gitleaks" /usr/local/bin/gitleaks
+          gitleaks version
       - name: Scan full history
         run: gitleaks detect --redact -v
-
-  # python lint 棘轮与后端测试随 v0.2 引入：当前代码基线含历史违规，
-  # 私有仓以增量门禁（diff_gate --ruff）管理，公开仓待建立同等棘轮后再启用。
-  #
-  # TODO(v0.2)：打 tag 时构建并推送镜像到 ghcr.io，Release 附 docker-compose 拉取版与复现脚本。

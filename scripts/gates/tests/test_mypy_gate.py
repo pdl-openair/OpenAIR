@@ -334,3 +334,43 @@ class TestFreezeAndGateLoop:
         repo, base = git_repo
         code = mypy_gate.main(["--base", base, "--root", repo, "--scope-file", "nope.txt"])
         assert code == mypy_gate.EXIT_ERROR
+
+
+class TestChangedOnly:
+    def test_changed_filter_ignores_untouched_files(self, monkeypatch, tmp_path):
+        def fake_run_mypy(_python, _root, _run_root, _files, _config):
+            return subprocess.CompletedProcess(
+                args=["mypy"],
+                returncode=1,
+                stdout="app/keep.py:7: error: bad types  [assignment]\n",
+                stderr="",
+            )
+
+        monkeypatch.setattr(mypy_gate, "run_mypy", fake_run_mypy)
+        problems = mypy_gate.check_out_of_scope(
+            "python",
+            str(tmp_path),
+            {"services/api": ["app/keep.py"]},
+            "mypy.ini",
+            {"services/api/other.py"},
+        )
+        assert problems == []
+
+    def test_changed_filter_keeps_touched_file_errors(self, monkeypatch, tmp_path):
+        def fake_run_mypy(_python, _root, _run_root, _files, _config):
+            return subprocess.CompletedProcess(
+                args=["mypy"],
+                returncode=1,
+                stdout="app/keep.py:7: error: bad types  [assignment]\n",
+                stderr="",
+            )
+
+        monkeypatch.setattr(mypy_gate, "run_mypy", fake_run_mypy)
+        problems = mypy_gate.check_out_of_scope(
+            "python",
+            str(tmp_path),
+            {"services/api": ["app/keep.py"]},
+            "mypy.ini",
+            {"services/api/app/keep.py"},
+        )
+        assert len(problems) == 1

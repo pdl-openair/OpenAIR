@@ -1,0 +1,311 @@
+# 公开仓 PR 必过门禁：web / python / unit-test / platform / windows / canary / docker-build。
+# 规则正文在 spec/；本文件只做接线。action 全部按 commit SHA 固定。
+name: required-checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+
+concurrency:
+  group: required-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "20"
+  UV_VERSION: "0.12.17"
+
+jobs:
+  web:
+    name: web
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+      - name: Resolve diff base
+        id: base
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="${{ github.event.pull_request.base.sha || github.event.before }}"
+          if [ -z "${base}" ] || [[ "${base}" =~ ^0+$ ]]; then
+            base="$(git rev-parse HEAD^)"
+          fi
+          echo "sha=${base}" >> "$GITHUB_OUTPUT"
+      - run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm --filter @openair/web typecheck
+      - name: Build
+        run: pnpm --filter @openair/web build
+      - name: Incremental eslint
+        run: python3 scripts/gates/diff_gate.py --eslint --base "${{ steps.base.outputs.sha }}"
+      - name: Vitest full suite
+        id: vitest
+        continue-on-error: true
+        run: >-
+          pnpm --filter @openair/web exec vitest run --reporter=json
+          --outputFile="$RUNNER_TEMP/vitest-report.json"
+      - name: Web test ratchet
+        run: >-
+          python3 scripts/gates/check_web_test_ratchet.py
+          --report "$RUNNER_TEMP/vitest-report.json"
+      - name: Upload web reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: web-reports
+          path: |
+            ${{ runner.temp }}/vitest-report.json
+          if-no-files-found: warn
+
+  python-gates:
+    name: python-gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+      - name: Install backend dependencies
+        run: uv sync --frozen --python ${{ env.PYTHON_VERSION }} --project services/api
+      - name: Resolve diff base
+        id: base
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="${{ github.event.pull_request.base.sha || github.event.before }}"
+          if [ -z "${base}" ] || [[ "${base}" =~ ^0+$ ]]; then
+            base="$(git rev-parse HEAD^)"
+          fi
+          echo "sha=${base}" >> "$GITHUB_OUTPUT"
+      - name: Incremental ruff
+        run: >-
+          python scripts/gates/diff_gate.py --ruff
+          --base "${{ steps.base.outputs.sha }}"
+          --python services/api/.venv/bin/python
+      - name: mypy scope ratchet
+        run: >-
+          python scripts/gates/mypy_gate.py --changed-only
+          --base "${{ steps.base.outputs.sha }}"
+          --python services/api/.venv/bin/python
+      - name: Placement guard
+        run: python scripts/gates/placement_guard.py --base "${{ steps.base.outputs.sha }}"
+      - name: Pointer integrity
+        run: python scripts/gates/check_pointer_integrity.py --base "${{ steps.base.outputs.sha }}"
+      - name: Test asset architecture guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --name-only "${{ steps.base.outputs.sha }}...HEAD" > "$RUNNER_TEMP/changed-paths.txt"
+          services/api/.venv/bin/python verification/suites/test_asset_architecture/guard.py \
+            --changed-paths-file "$RUNNER_TEMP/changed-paths.txt"
+      - name: Known failures ratchet
+        run: >-
+          python scripts/gates/check_known_failures_ratchet.py
+          --base "${{ steps.base.outputs.sha }}"
+      - name: Commit message
+        shell: bash
+        run: |
+          set -euo pipefail
+          for sha in $(git rev-list --no-merges "${{ steps.base.outputs.sha }}..HEAD"); do
+            git show -s --format=%B "$sha" > "$RUNNER_TEMP/commit-msg"
+            python scripts/gates/check_commit_msg.py --file "$RUNNER_TEMP/commit-msg"
+          done
+      - name: STATUS staleness notice
+        run: python scripts/gates/check_hygiene.py --mode staleness
+      - name: PR evidence, issue link, risk paths
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PR_FILES="$(git diff --name-only "${{ steps.base.outputs.sha }}...HEAD" | tr '\n' ',')"
+          python scripts/gates/validate_pr_evidence.py --from-env
+          python scripts/gates/check_issue_link.py --from-env
+          python scripts/gates/check_risk_paths.py --from-env
+          if [[ ",${PR_LABELS}," == *",release,"* ]]; then
+            python scripts/gates/check_hygiene.py --mode release --from-env
+          fi
+
+  unit-test:
+    name: unit-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+      - name: Install backend dependencies
+        run: uv sync --frozen --python ${{ env.PYTHON_VERSION }} --project services/api
+      - name: Stable unit suite
+        env:
+          PYTHONPATH: services/api
+        run: |
+          set -euo pipefail
+          (cd scripts/gates && ../../services/api/.venv/bin/python -m pytest tests -q)
+          services/api/.venv/bin/python -m pytest -q \
+            verification/suites/test_asset_architecture \
+            testkit/tests \
+            services/api/tests/test_quota_service.py
+
+  unit-test-full:
+    name: unit-test-full-informational
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+      - name: Install backend dependencies
+        run: uv sync --frozen --python ${{ env.PYTHON_VERSION }} --project services/api
+      - name: Resolve diff base
+        id: base
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="${{ github.event.pull_request.base.sha || github.event.before }}"
+          if [ -z "${base}" ] || [[ "${base}" =~ ^0+$ ]]; then
+            base="$(git rev-parse HEAD^)"
+          fi
+          echo "sha=${base}" >> "$GITHUB_OUTPUT"
+      - name: Select unit tests
+        run: >-
+          PYTHONPATH=services/api python scripts/gates/select_unit_tests.py
+          --json > selection.json
+      - name: Run unit test groups
+        id: run
+        continue-on-error: true
+        env:
+          PYTHONPATH: services/api
+        run: >-
+          python scripts/gates/run_unit_suite.py run
+          --selection selection.json
+      - name: Ratchet against known failures
+        continue-on-error: true
+        run: python scripts/gates/run_unit_suite.py ratchet
+      - name: Diff coverage
+        continue-on-error: true
+        run: >-
+          python scripts/gates/diff_gate.py --coverage
+          --base "${{ steps.base.outputs.sha }}"
+          --coverage-file coverage.json
+      - name: Upload unit-test evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: unit-test-evidence
+          path: |
+            unit-test-output.log
+            unit-test-groups.json
+            selection.json
+            coverage.json
+          if-no-files-found: warn
+
+  platform:
+    name: platform
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Resolve diff base
+        id: base
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="${{ github.event.pull_request.base.sha || github.event.before }}"
+          if [ -z "${base}" ] || [[ "${base}" =~ ^0+$ ]]; then
+            base="$(git rev-parse HEAD^)"
+          fi
+          echo "sha=${base}" >> "$GITHUB_OUTPUT"
+      - name: LF, case, executable bit, bash syntax
+        run: >-
+          python3 scripts/gates/check_platform_consistency.py
+          --base "${{ steps.base.outputs.sha }}"
+      - name: Compose config
+        run: |
+          cp .env.example .env
+          docker compose config --quiet
+
+  windows:
+    name: windows
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+      - name: Install backend dependencies
+        run: uv sync --frozen --python ${{ env.PYTHON_VERSION }} --project services/api
+      - name: Path and line-ending sensitive tests
+        shell: bash
+        env:
+          PYTHONPATH: services/api
+        run: |
+          set -euo pipefail
+          services/api/.venv/Scripts/python.exe -m pytest -q \
+            services/api/tests/test_research_orchestration_resolver.py::test_spec_content_changes_snapshot_hash_but_line_endings_do_not \
+            services/api/tests/test_exploratory_run_canonical_integration.py::test_real_process_success_and_non_zero_remain_actual_execution_facts
+
+  gate-canary:
+    name: gate-canary
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+      - name: Install backend dependencies
+        run: uv sync --frozen --python ${{ env.PYTHON_VERSION }} --project services/api
+      - name: Canary gates
+        run: services/api/.venv/bin/python -m pytest scripts/gates/canary -q
+
+  docker-build:
+    name: docker-build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Prepare env
+        run: cp .env.example .env
+      - name: Build compose images
+        run: docker compose build --progress=plain api web

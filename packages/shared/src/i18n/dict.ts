@@ -225,9 +225,7 @@ const SUB_STAGE_LABELS_ZH: Record<string, string> = {
   result_acceptance: "结果验收",
   research_lead_generation: "研究线索生成",
   hypothesis_update: "假说更新",
-  report_generation: "报告生成",
   // Legacy skill labels (still used in some places)
-  literature_review: "文献调研",
   question_formulation: "问题凝练",
   hypothesis_construction: "假说构建",
   experiment_design: "实验设计",
@@ -347,8 +345,6 @@ const SUB_STAGE_LABELS_EN: Record<string, string> = {
   result_acceptance: "Result Acceptance",
   research_lead_generation: "Research Lead Generation",
   hypothesis_update: "Hypothesis Update",
-  report_generation: "Report Generation",
-  literature_review: "Literature Review",
   question_formulation: "Question Formulation",
   hypothesis_construction: "Hypothesis Construction",
   experiment_design: "Experiment Design",

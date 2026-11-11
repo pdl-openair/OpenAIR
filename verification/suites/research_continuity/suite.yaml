@@ -4,13 +4,13 @@ protected_outcome: >-
   failed or unknown actions cannot become successful goal evidence. Internal pending
   outcomes retain their original owner and do not create a final result.
 authority_refs:
-  - docs/task_specs/20261010_research_continuity_architecture_SPEC.md
-  - docs/task_specs/20261011_research_continuity_INTEGRATION_SPEC.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行机制.md
+  - docs/01_核心设计/研究执行与能力/OpenAIR 研究执行资源使用与核验设计.md
 failure_class:
   - scientific_content_blocks_research_delivery
   - failed_action_becomes_goal_evidence
   - unresolved_goal_is_reported_complete
-minimum_owner: 跨组件行为
+minimum_owner: 跨组件与基础设施
 production_targets:
   - services/api/app/execution/research_input_contract_gate.py
   - services/api/app/execution/research_dispatch_worker.py

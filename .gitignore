@@ -43,9 +43,13 @@ Thumbs.db
 
 # Test / coverage
 coverage/
+coverage.json
 .nyc_output/
 .coverage
 .coverage.*
+unit-test-output.log
+unit-test-groups.json
+selection.json
 
 # Misc
 *.swp

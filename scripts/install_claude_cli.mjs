@@ -20,7 +20,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
 
-const REGISTRY = process.env.NPM_REGISTRY || 'https://registry.npmmirror.com'
 const VERSION = process.env.CLAUDE_CODE_VERSION || 'latest'
 const PREFIX = process.env.INSTALL_PREFIX || '/usr/local'
 const CHUNK = 4 * 1024 * 1024
@@ -33,8 +32,31 @@ function die(msg) {
 
 async function getJSON(url) {
   const r = await fetch(url)
-  if (!r.ok) die(`manifest 请求失败 ${r.status}: ${url}`)
+  if (!r.ok) throw new Error(`manifest 请求失败 ${r.status}: ${url}`)
   return r.json()
+}
+
+/** 依次尝试配置的 npm 源；某个源不可用时落到官方 registry。 */
+async function loadManifest(path) {
+  const registries = [
+    ...new Set([
+      process.env.NPM_REGISTRY || 'https://registry.npmmirror.com',
+      'https://registry.npmjs.org',
+    ]),
+  ]
+  let lastError
+  for (const registry of registries) {
+    const url = `${registry}/${path}`
+    try {
+      const manifest = await getJSON(url)
+      console.log(`manifest 来源: ${registry}`)
+      return manifest
+    } catch (err) {
+      lastError = err
+      console.error(`install_claude_cli: ${err.message}`)
+    }
+  }
+  die(`所有 npm 源均不可用: ${lastError?.message || 'unknown'}`)
 }
 
 /** musl 检测与官方 install.cjs 保持一致（glibc 缺失 glibcVersionRuntime）。 */
@@ -58,10 +80,41 @@ function platformPkgName() {
   return `@anthropic-ai/claude-code-${suffix}`
 }
 
+/** 不支持 Range 时退回整文件下载；仍逐次重试并用 manifest shasum 校验。 */
+async function downloadFull(url, shasum) {
+  const urls = [url]
+  if (url.includes('https://registry.npmmirror.com/')) {
+    urls.push(url.replace('https://registry.npmmirror.com/', 'https://registry.npmjs.org/'))
+  }
+  let lastError
+  for (const candidate of urls) {
+    for (let attempt = 1; attempt <= TRIES; attempt++) {
+      try {
+        const r = await fetch(candidate)
+        if (!r.ok) throw new Error(`status ${r.status}`)
+        const buf = Buffer.from(await r.arrayBuffer())
+        const actual = createHash('sha1').update(buf).digest('hex')
+        if (actual !== shasum) throw new Error(`shasum 不匹配: 期望 ${shasum}，实际 ${actual}`)
+        process.stdout.write(`下载 ${buf.length} bytes（整文件）\n`)
+        return buf
+      } catch (err) {
+        lastError = err
+        if (attempt < TRIES) await new Promise((r) => setTimeout(r, 1000 * attempt))
+      }
+    }
+  }
+  die(`整文件下载失败: ${lastError?.message || 'unknown'}`)
+}
+
 /** 分块下载；每块独立重试（指数退避），整体用 manifest shasum (sha1) 校验。 */
 async function chunkedDownload(url, shasum) {
   const probe = await fetch(url, { headers: { Range: 'bytes=0-0' } })
-  if (probe.status !== 206) die(`服务器不支持 Range（status ${probe.status}）: ${url}`)
+  if (probe.status !== 206) {
+    console.error(
+      `install_claude_cli: 服务器不支持 Range（status ${probe.status}），改为整文件下载`,
+    )
+    return downloadFull(url, shasum)
+  }
   const contentRange = probe.headers.get('content-range') || ''
   const total = Number((contentRange.match(/\/(\d+)$/) || [])[1])
   if (!total) die(`无法解析文件大小: ${contentRange}`)
@@ -104,11 +157,11 @@ function extractTo(tarball, destDir) {
 async function main() {
   const mainName = '@anthropic-ai/claude-code'
   const enc = encodeURIComponent
-  const mainManifest = await getJSON(`${REGISTRY}/${enc(mainName)}/${VERSION}`)
+  const mainManifest = await loadManifest(`${enc(mainName)}/${VERSION}`)
   const platName = platformPkgName()
   const platVersion = (mainManifest.optionalDependencies || {})[platName]
   if (!platVersion) die(`${mainName}@${mainManifest.version} 未声明 ${platName}`)
-  const platManifest = await getJSON(`${REGISTRY}/${enc(platName)}/${platVersion}`)
+  const platManifest = await loadManifest(`${enc(platName)}/${platVersion}`)
   console.log(`安装 ${mainName}@${mainManifest.version} + ${platName}@${platVersion}`)
 
   const mainTgz = await chunkedDownload(

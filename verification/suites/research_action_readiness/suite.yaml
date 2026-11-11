@@ -9,7 +9,7 @@ authority_refs:
 failure_class:
   - stage_readiness_prevents_preparation
   - structural_readiness_misrepresented_as_execution_authority
-minimum_owner: 跨组件行为
+minimum_owner: 跨组件与基础设施
 production_targets:
   - services/api/app/modules/research_execution_decision_service.py
   - skills/cs_research/reproduction-execution-input-closure/adapter/reproduction_execution_input_closure_adapter.py

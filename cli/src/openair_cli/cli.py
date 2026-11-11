@@ -228,7 +228,7 @@ def prepare_env(d: Path, args) -> str:
     if not example.exists():
         die(f"仓库里没有 .env.example（{example}），仓库不完整？")
     say("· 首次生成 .env（安全项已随机化）")
-    admin_email = args.admin_email or "admin@openair.local"
+    admin_email = args.admin_email or "admin@example.com"
     admin_password = args.admin_password or secrets.token_urlsafe(12)
     out = []
     for line in read_env(example):
@@ -539,7 +539,7 @@ def cmd_up(args):
     if admin_pw:
         say("")
         say("┌────────────── 登录账号（仅此一次展示，已写入 .env）──────────────")
-        say(f"│  邮箱: {(args.admin_email or 'admin@openair.local')}")
+        say(f"│  邮箱: {(args.admin_email or 'admin@example.com')}")
         say(f"│  密码: {admin_pw}")
         say("│  用户名: ops（.env 中 OPENAIR_BOOTSTRAP_ADMIN_* 可改）")
         say("└──────────────────────────────────────────────────────────")

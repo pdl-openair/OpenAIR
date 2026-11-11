@@ -147,3 +147,10 @@ def test_main_exit_codes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys
     out = capsys.readouterr().out
     assert "broken link -> docs/missing.md" in out
     assert "1 broken pointer(s)" in out
+
+
+def test_collect_targets_incremental_filter(repo, tmp_path):
+    (tmp_path / "spec" / "other.md").write_text("# other\n", encoding="utf-8")
+    changed = repo.collect_targets({"spec/README.md"})
+    assert [p.name for p in changed] == ["README.md"]
+    assert {p.name for p in repo.collect_targets(None)} == {"README.md", "other.md"}

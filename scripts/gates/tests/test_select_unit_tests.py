@@ -243,3 +243,14 @@ def test_select_over_tmp_path_directory_tree(tmp_path: Path) -> None:
         "services/api/tests/integration/test_transactions.py"
     ]
     assert selection.unselected == ["services/api/app/modules/test_embedded.py"]
+
+
+def test_uncollectable_files_are_excluded_with_reason() -> None:
+    path = (
+        "skills/materials/crystal-design-structure-crossover-agent/scripts/tests/"
+        "test_memory_store.py"
+    )
+    selection = _select([path])
+    assert selection.selected == {}
+    assert any(item[0] == path for item in selection.excluded)
+    assert select_unit_tests.UNCOLLECTABLE_FILES[path]

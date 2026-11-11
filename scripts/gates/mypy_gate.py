@@ -230,6 +230,20 @@ def ref_exists(ref: str, cwd: str) -> bool:
     return proc.returncode == 0
 
 
+def changed_paths(base: str, cwd: str) -> set[str]:
+    """Repository-relative paths changed since ``base`` (three-dot diff)."""
+    proc = subprocess.run(
+        ["git", "diff", "--name-only", "-z", "--diff-filter=ACMR", f"{base}...HEAD"],
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=True,
+    )
+    return {item for item in proc.stdout.split("\0") if item}
+
+
 def scope_diff(base: str, cwd: str, scope_file: str) -> str:
     """Diff of the scope file between base and HEAD/working tree."""
     sep = f"{base}...HEAD" if has_head(cwd) else base
@@ -276,9 +290,17 @@ def head_commit(cwd: str) -> str:
 
 
 def check_out_of_scope(
-    python: str, root: str, checked: dict[str, list[str]], config_file: str
+    python: str,
+    root: str,
+    checked: dict[str, list[str]],
+    config_file: str,
+    changed: set[str] | None = None,
 ) -> list[str]:
-    """Run mypy on every non-exempt file; return violation message lines."""
+    """Run mypy on every non-exempt file; return violation message lines.
+
+    ``changed`` limits findings to files touched by the diff (incremental CI
+    mode): historical baseline errors stay visible but do not block.
+    """
     problems: list[str] = []
     for run_root, rel_files in sorted(checked.items()):
         proc = run_mypy(python, root, run_root, rel_files, config_file)
@@ -288,7 +310,9 @@ def check_out_of_scope(
                 f"{(proc.stderr or proc.stdout).strip()[:500]}"
             )
             continue
-        for _path, lines in sorted(parse_mypy_errors(proc.stdout, run_root).items()):
+        for path, lines in sorted(parse_mypy_errors(proc.stdout, run_root).items()):
+            if changed is not None and path not in changed:
+                continue
             for line in lines:
                 problems.append(f"out-of-scope mypy error: {line}")
     return problems
@@ -385,6 +409,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="(re)generate the scope file from the current error baseline",
     )
+    parser.add_argument(
+        "--changed-only",
+        action="store_true",
+        help="only fail on mypy errors in files changed since --base (incremental CI)",
+    )
     return parser
 
 
@@ -448,7 +477,10 @@ def main(argv: list[str] | None = None) -> int:
 
     all_files = discover_scope_files(root)
     checked, exempt_count = split_checked(all_files, exempted)
-    problems.extend(check_out_of_scope(args.python, root, checked, config_file))
+    changed = changed_paths(args.base, root) if args.changed_only else None
+    problems.extend(
+        check_out_of_scope(args.python, root, checked, config_file, changed)
+    )
 
     total_files = sum(len(files) for files in all_files.values())
     checked_count = sum(len(files) for files in checked.values())

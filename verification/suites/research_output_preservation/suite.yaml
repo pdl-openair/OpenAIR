@@ -19,7 +19,7 @@ failure_class:
   - json_fallback_discards_scientific_fields
   - json_fallback_truncation_breaks_payload
   - preserved_invalid_payload_reaches_machine_consumer
-minimum_owner: 跨组件行为
+minimum_owner: 跨组件与基础设施
 production_targets:
   - services/api/app/execution/skill_contract_policy.py
   - services/api/app/execution/research_input_contract_gate.py

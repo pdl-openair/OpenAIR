@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import subprocess
 import sys
 import urllib.parse
 from collections.abc import Iterable
@@ -139,16 +140,17 @@ def scan_file(path: Path) -> list[tuple[int, str, str]]:
     return findings
 
 
-def collect_targets() -> list[Path]:
+def collect_targets(changed: set[str] | None = None) -> list[Path]:
     files: list[Path] = []
 
     def add(p: Path) -> None:
         if p.is_file():
-            files.append(p)
+            if changed is None or p.relative_to(REPO_ROOT).as_posix() in changed:
+                files.append(p)
 
     for p in sorted(REPO_ROOT.glob("spec/**/*")):
         if p.is_file() and p.suffix.lower() in SPEC_TEXT_SUFFIXES:
-            files.append(p)
+            add(p)
     add(REPO_ROOT / "CLAUDE.md")
     add(REPO_ROOT / "AGENTS.md")
     add(REPO_ROOT / "README.md")
@@ -159,6 +161,20 @@ def collect_targets() -> list[Path]:
     return sorted(set(files))
 
 
+def changed_files(base: str) -> set[str]:
+    proc = subprocess.run(
+        ["git", "diff", "--name-only", "-z", "--diff-filter=ACMR", f"{base}...HEAD"],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    if proc.returncode != 0:
+        raise ValueError(proc.stderr.strip() or f"git diff failed for base {base}")
+    return {item for item in proc.stdout.split("\0") if item}
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument(
@@ -166,13 +182,24 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="print a repair suggestion per finding (never edits files)",
     )
+    parser.add_argument(
+        "--base",
+        default=None,
+        help="only scan files changed since this git ref (incremental mode)",
+    )
     args = parser.parse_args(argv)
 
     if hasattr(sys.stdout, "reconfigure"):  # Windows console mojibake guard
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+    try:
+        targets = collect_targets(changed_files(args.base) if args.base else None)
+    except ValueError as exc:
+        print(f"pointer integrity: {exc}", file=sys.stderr)
+        return 2
+
     broken_total = 0
-    for path in collect_targets():
+    for path in targets:
         for line_no, kind, target in scan_file(path):
             rel = path.relative_to(REPO_ROOT).as_posix()
             print(f"{rel}:{line_no}: broken {kind} -> {target}")

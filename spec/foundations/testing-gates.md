@@ -11,15 +11,17 @@
 | 条目 | 强制载体 | 状态与证据 |
 |---|---|---|
 | Suite 合同元数据（suite.yaml 必填字段） | `verification/suites/test_asset_architecture/guard.py`（已在 test 基线 c1f15592） | 新增/变更 suite.yaml 全量校验 12 必填字段；存量 Suite 豁免全量字段校验，仍受 YAML 合法性、live profile 身份一致性、suite_id 唯一性、平行 manifest 禁令、"有内容无合同 Suite 目录"检查。4 个 Suite 在案（durable_child_policy_handoff、materials_workflow_admission、opentrajectory_v3_research_record_handoff、test_asset_architecture）。B4 实测：guard 全仓扫描通过（exit 0） |
-| required-checks 手挑 P0 快信号（5 条 + build） | `.github/workflows/required-checks.yml` | 过渡态，tg 合入后由 unit-test job 承接运行面（§13-5 配方③）。**B4 实测发现**：第 5 条节点 test_post_confirmation_central_guard_never_projects_provide_input（`services/api/tests/test_workbench_user_actions.py` 中已不存在，该文件现为 test_post_confirmation_human_authority_projects_a_real_input_entry）——pytest 对不存在的 node id 整场 exit 4，该 CI 步骤当前必红；修正属 B5 域（.github 禁改本批次） |
-| SPEC-COV-01：产品代码新增/修改行 diff-coverage ≥50% | `scripts/gates/diff_gate.py`（B1 交付）+ pytest-cov | 工具随 Wave 1 落地；CI 接线在 B5（本分支不含工具本体） |
-| SPEC-TEST-01：CI 单测套件按目录选择 | `scripts/gates/select_unit_tests.py`（B4 交付）+ B5 unit-test job | 选择器已交付：341 文件 / 44 个可共跑组（runs）；收录与排除边界（含 services/api 集成边界、节点级 deselect 清单）见脚本 docstring 与 `docs/dev_plans/2026-09-ai4se-harness/ledger/b4.md`。调用契约：**逐组** `PYTHONPATH=services/api python -m pytest <组内文件> --deselect <节点>`（跨 skill 同进程收集物理不可行——adapter 包名/sys.modules 污染+同名模块，详见账本）；CI 接线在 B5 |
+| PR 必过门禁（web / python / unit / platform / windows / canary / docker） | `.github/workflows/required-checks.yml` | 已接线：`web`、`python-gates`、`unit-test`、`platform`、`windows`、`gate-canary`、`docker-build` 七个必过 job。`unit-test` 必过范围只有：`scripts/gates/tests` 门禁自测、测试资产守卫自测（`verification/suites/test_asset_architecture`）、`testkit/tests`，以及单个后端产品测试文件 `services/api/tests/test_quota_service.py`；其余后端套件不在必过范围。`web` 用 Vitest JSON 报告与 `.github/web-test-known-failures.json` 棘轮判定。 |
+| 完整后端单测选面（informational） | `.github/workflows/required-checks.yml` 的 `unit-test-full-informational` job | `select_unit_tests.py` 全量选面 + `run_unit_suite.py` 分组执行 + known-failures 棘轮，整 job `continue-on-error: true`，只出证据不阻断合并；基线转绿后再并入必过 job。 |
+| SPEC-COV-01：产品代码新增/修改行 diff-coverage ≥50% | `scripts/gates/diff_gate.py`（B1 交付）+ pytest-cov | 已接线：`unit-test-full-informational` 在分组跑完后执行 `diff_gate --coverage`，覆盖率 JSON 由 `run_unit_suite.py` 生成；当前位于 `continue-on-error` job 内，不阻断合并，基线转绿后并入必过 job。 |
+| SPEC-TEST-01：CI 单测套件按目录选择 | `scripts/gates/select_unit_tests.py`（B4 交付）+ required-checks `unit-test-full-informational` job | 已接线：`select_unit_tests.py --json` 生成分组，`run_unit_suite.py run` 逐组执行，`ratchet` 对照 `.github/unit-test-known-failures.json`。当前完整选面存在历史失败，先以 informational 运行，避免阻断所有 PR。 |
+| 平台一致性（Linux/Windows 路径、换行、权限） | `scripts/gates/check_platform_consistency.py` + required-checks `platform` job | 已接线：增量检查变更文件的 CRLF、大小写冲突、可执行位、bash 语法；Windows job 跑 CRLF 与盘符路径敏感用例。 |
 
 ## 二、tg 合入接线（已接线，sync 批 2026-09-26）
 
 **SPEC-TEST-02：测试资产放置守卫。**
 
-- **已接线（sync 批）**：guard 两步（Collect changed paths for Architecture Guard → Enforce test-asset architecture）随配方③融合进 required-checks.yml 的 test job（fetch-depth: 0）；运行面（guard 自测）由 unit-test job 的选面承接（verification/suites 在选面内）。
+- **已接线（sync 批）**：guard 两步（Collect changed paths for Architecture Guard → Enforce test-asset architecture）融合进 `required-checks.yml` 的 `python-gates` job（fetch-depth: 0）；运行面（guard 自测）由 `unit-test` job 的选面承接（verification/suites 在选面内）。
 - **组件根扩展（debt ① 裁决：扩根非豁免）**：guard 的 `PRODUCTION_COMPONENT_ROOTS` 增加 `scripts/gates`——门禁实现是生产组件，其 `tests/` 遵循组件配对原则（tests/ 放置＋拥有 suite.yaml），`scripts/` 其余位置仍禁。`scripts/gates/tests/suite.yaml` 与 `scripts/gates/canary/tests/suite.yaml` 为配对合同。
 - **二波 authority_refs 改写**：28 个组件级 suite.yaml 的 `docs/01_核心设计/测试体系/*` → `spec/testing/*`（B2 迁移补链），幻锚点（guard 无锚点语法，ref 按纯路径校验）已去除后缀。
 - 历史（接线前状态，B4 只读实证 2026-09-24）：

@@ -142,6 +142,74 @@ DOMAIN_EXCLUDED_PREFIXES: tuple[tuple[str, str], ...] = (
 #: files are hermetic, so this table is intentionally empty.
 API_EXCLUDED_FILES: dict[str, str] = {}
 
+#: Files that cannot be collected under the canonical CI invocation (one
+#: pytest process per run group, repo-root cwd). Collection errors abort a
+#: whole group and the D-15 node-level known-failures channel cannot express
+#: them, so this file-level channel is the designed escape hatch. Every entry
+#: must name the concrete import/collection failure.
+UNCOLLECTABLE_FILES: dict[str, str] = {
+    "verification/suites/research_action_readiness/tests/test_action_scoped_readiness.py": (
+        "adapter module imported by file path performs a relative import "
+        "(from .repair_entry import ...) with no package context"
+    ),
+    (
+        "skills/cs_research/reproduction-comparison-closure/tests/"
+        "test_partial_comparison_closure.py"
+    ): (
+        "adapter import requires repository-root package context; canonical "
+        "group invocation raises ModuleNotFoundError"
+    ),
+    (
+        "skills/cs_research/reproduction-execution-input-closure/tests/"
+        "test_reproduction_execution_input_closure_adapter.py"
+    ): (
+        "adapter module imported by file path performs a relative import "
+        "(from .repair_entry import ...) with no package context"
+    ),
+    (
+        "skills/cs_research/reproduction-record-assembly/tests/"
+        "test_registered_code_identity_handoff.py"
+    ): (
+        "imports bare 'adapter' package that is not on sys.path under the "
+        "canonical root-cwd invocation"
+    ),
+    (
+        "skills/materials/crystal-design-structure-crossover-agent/scripts/tests/"
+        "test_ablation_runner.py"
+    ): "script-directory test imports runtime modules without a package path",
+    (
+        "skills/materials/crystal-design-structure-crossover-agent/scripts/tests/"
+        "test_agent_prompt.py"
+    ): "script-directory test imports runtime modules without a package path",
+    (
+        "skills/materials/crystal-design-structure-crossover-agent/scripts/tests/"
+        "test_bandgap_parity2.py"
+    ): "script-directory test imports runtime modules without a package path",
+    (
+        "skills/materials/crystal-design-structure-crossover-agent/scripts/tests/"
+        "test_evaluators_batch_eval.py"
+    ): "script-directory test imports runtime modules without a package path",
+    (
+        "skills/materials/crystal-design-structure-crossover-agent/scripts/tests/"
+        "test_evaluators_rmsd.py"
+    ): "script-directory test imports runtime modules without a package path",
+    (
+        "skills/materials/crystal-design-structure-crossover-agent/scripts/tests/"
+        "test_goal_evolving.py"
+    ): "script-directory test imports runtime modules without a package path",
+    (
+        "skills/materials/crystal-design-structure-crossover-agent/scripts/tests/"
+        "test_memory_store.py"
+    ): "script-directory test imports runtime modules without a package path",
+    (
+        "skills/materials/vasp-thermodynamic-stability/tests/"
+        "test_pipeline_fixes.py"
+    ): "imports skill runtime modules that are not importable from repo root",
+    (
+        "services/api/tests/test_t0_2_hybrid_workflow_planner.py"
+    ): "stale test imports WORKFLOW_SEMANTIC_MAX_TOTAL_CHARS, which was removed",
+}
+
 #: File-level exclusions inside the skills domain. Each entry was empirically
 #: shown to be uncollectable under the canonical invocation (one pytest
 #: process per run group, repo-root cwd) during the B4 investigation, or (D-19
@@ -429,6 +497,8 @@ def _domain_exclusion_reason(path: str) -> str | None:
             return reason
     if path in API_EXCLUDED_FILES:
         return API_EXCLUDED_FILES[path]
+    if path in UNCOLLECTABLE_FILES:
+        return UNCOLLECTABLE_FILES[path]
     return None
 
 

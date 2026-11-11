@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "policy": "前端测试 known-failures 棘轮。CI 跑全量 Vitest 后由 scripts/gates/check_web_test_ratchet.py 对比 nodes[]：新失败阻断，已列失败出现通过时提示收缩列表。新增节点必须记录原因与跟踪 issue，不能用来吞掉新失败。",
+  "source": {
+    "generated": "2026-11-09",
+    "branch": "feat/ci-release-pipeline 工作分支（未在 main 上重新采集）",
+    "command": "pnpm --filter @openair/web exec vitest run --reporter=json",
+    "environment": {
+      "local": "Node 24 / pnpm 9.15.0",
+      "ci": "Node 20（oss-ci.yml 与 required-checks.yml 的 setup-node）"
+    },
+    "note": "共 8 条失败节点：6 条为产品行为与测试断言漂移，Node 24 本机与 Node 20 CI 均稳定复现；另 2 条只在 Node 20 CI 稳定复现，Node 24 本机不复现（见各节点 reason），属环境差异、未归因为产品行为。CI 先用棘轮阻止新增失败，修复这些存量用例作为独立任务。"
+  },
+  "nodes": [
+    {
+      "id": "apps/web/src/pages/TaskDetailPage.test.tsx::TaskDetailPage compact overview sends a concrete artifact to the filtered artifact library",
+      "status": "failed",
+      "reason": "仅 Node 20 CI 稳定复现，Node 24 本机（pnpm 9.15.0）不复现；疑与 Node 版本相关，待单独定位，未归因为产品行为。"
+    },
+    {
+      "id": "apps/web/src/pages/tests/workbench_context_and_stream/WorkbenchPage.context.test.tsx::distinguishes missing historical input from unavailable reads without substituting goal",
+      "status": "failed",
+      "reason": "仅 Node 20 CI 稳定复现，Node 24 本机（pnpm 9.15.0）不复现；疑与 Node 版本相关，待单独定位，未归因为产品行为。"
+    },
+    {
+      "id": "apps/web/src/components/workbench/WorkbenchFlowNav.test.tsx::WorkbenchFlowNav substage display keeps the semantic title, number, status, and active state while omitting the secondary objective",
+      "status": "failed",
+      "reason": "组件 title 现在拼接 objective（researchWorkProgressTitle 的设计行为），测试仍按只含 semanticTitle 查询。"
+    },
+    {
+      "id": "apps/web/src/pages/tests/workbench_current_version_truth/WorkbenchPage.current-version-truth.test.tsx::Workbench Artifact route identity wiring retains a pinned artifact across model revision and artifact reordering",
+      "status": "failed",
+      "reason": "Artifact 路由身份用例与当前 WorkbenchPage 投影不一致，待产品行为确认后修复。"
+    },
+    {
+      "id": "apps/web/src/pages/tests/workbench_current_version_truth/WorkbenchPage.current-version-truth.test.tsx::Workbench Artifact route identity wiring drops a removed substage from navigation while preserving other current task data",
+      "status": "failed",
+      "reason": "Artifact 路由身份用例与当前 WorkbenchPage 投影不一致，待产品行为确认后修复。"
+    },
+    {
+      "id": "apps/web/src/pages/tests/workbench_current_version_truth/WorkbenchPage.current-version-truth.test.tsx::Workbench Artifact route identity wiring writes a user-selected Artifact to the URL and restores it through back/forward",
+      "status": "failed",
+      "reason": "Artifact 路由身份用例与当前 WorkbenchPage 投影不一致，待产品行为确认后修复。"
+    },
+    {
+      "id": "apps/web/src/pages/tests/workbench_current_version_truth/WorkbenchPage.current-version-truth.test.tsx::Workbench Artifact route identity wiring fails closed when Task B receives Task A's Artifact query",
+      "status": "failed",
+      "reason": "Artifact 路由身份用例与当前 WorkbenchPage 投影不一致，待产品行为确认后修复。"
+    },
+    {
+      "id": "apps/web/src/pages/tests/workbench_start_operation_safety/WorkbenchPage.start-operation-safety.test.tsx::Workbench start and operation safety fixture tasks cannot confirm or start even when task data resembles a real confirmed plan",
+      "status": "failed",
+      "reason": "fixture 任务仍渲染确认按钮，与 start-operation safety 断言不一致，待产品行为确认后修复。"
+    }
+  ]
+}

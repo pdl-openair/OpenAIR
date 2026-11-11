@@ -50,6 +50,7 @@ COVERAGE_ARGS = [
     "--cov=services/worker",
     "--cov=packages",
     "--cov-report=",
+    "--cov-report=json:coverage.json",
     "--cov-append",
 ]
 
