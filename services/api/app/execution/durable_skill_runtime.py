@@ -39,6 +39,20 @@ from app.execution.durable_skill_transport_guards import (
     _llm_task_deadline,
     mark_skill_provider_io_started,
 )
+from app.execution.provider_protocol import (
+    PROTOCOL_ANTHROPIC_MESSAGES,
+    PROTOCOL_OPENAI_CHAT_COMPLETIONS,
+    PROTOCOL_OPENAI_RESPONSES,
+    ProviderProtocolError,
+    apply_protocol_structured_output_with_prompt_fallback,
+    build_protocol_chat_payload,
+    extract_protocol_structured_text,
+    extract_protocol_text,
+    normalize_protocol,
+    protocol_endpoint,
+    protocol_headers,
+    protocol_supports_stream,
+)
 
 from app.modules.yaml_source_cache import SAFE_LOADER, read_yaml_source
 
@@ -178,11 +192,7 @@ from datetime import datetime
 from datetime import timezone
 
 
-_HUIYAN_DURABLE_ADAPTER = "huiyan_chat_completions"
-_STRUCTURED_OUTPUT_PROVIDER_ADAPTERS = frozenset({
-    "huiyan_chat_completions",
-    "openai_responses",
-})
+_DURABLE_STRUCTURED_SCHEMA_NAME = "openair_structured_output"
 _DURABLE_LLM_MODEL_PROFILES = frozenset({"terra", "sol"})
 _DEFAULT_DURABLE_LLM_MODEL_PROFILE = "terra"
 _RUNTIME_KIND_LLM_REASONING = "llm_reasoning"
@@ -469,6 +479,15 @@ def _frozen_finalization_contract(skill: dict[str, Any] | None) -> dict[str, Any
     return validate_frozen_finalization_contract(raw)
 
 
+def _is_provider_protocol_adapter(adapter: str) -> bool:
+    """Return whether an adapter id names one of the three Provider protocols."""
+    try:
+        normalize_protocol(adapter)
+    except ProviderProtocolError:
+        return False
+    return True
+
+
 def registered_durable_skill_provider_schema_executable(
     skill: Mapping[str, Any],
     *,
@@ -485,11 +504,14 @@ def registered_durable_skill_provider_schema_executable(
     ``structured_output``, blocking confirmed research from starting.
     """
     normalized_adapter = str(adapter_id or "").strip().lower()
-    if normalized_adapter == "huiyan_chat_completions":
-        # Huiyan receives JSON object mode only. Formal Schema completeness is
-        # not a Provider capability gate and must never block readiness.
+    try:
+        canonical = normalize_protocol(normalized_adapter)
+    except ProviderProtocolError:
         return True
-    if normalized_adapter not in _STRUCTURED_OUTPUT_PROVIDER_ADAPTERS:
+    if protocol_supports_stream(canonical):
+        # Chat-completions receives JSON object mode only. Formal Schema
+        # completeness is not a Provider capability gate and must never block
+        # readiness.
         return True
     try:
         normalized_skill = dict(skill)
@@ -507,18 +529,16 @@ def registered_durable_skill_provider_schema_executable(
             if frozen_finalization is not None
             else json_contract["output"]["schema"]
         )
-        response_format = {"type": "json_object"}
-        apply_provider_schema_transport(
-            normalized_adapter,
-            payload={
-                "model": "openair-admission-check",
-                "messages": [],
-                "response_format": dict(response_format),
-            },
-            response_format=response_format,
+        # Mirror the execution path: a schema that cannot ride the native
+        # envelope still executes in degraded prompt mode, so a capability gap
+        # must not block readiness. Local contract errors still fail closed.
+        apply_protocol_structured_output_with_prompt_fallback(
+            canonical,
+            payload={"model": "openair-admission-check", "messages": []},
             provider_schema=deepcopy(provider_schema),
+            schema_name=_DURABLE_STRUCTURED_SCHEMA_NAME,
         )
-    except (OSError, yaml.YAMLError, ValueError, ProviderSchemaCapabilityError):
+    except (OSError, yaml.YAMLError, ValueError):
         return False
     return True
 
@@ -588,13 +608,16 @@ def _structured_correction_payload(
     base_payload: dict[str, Any],
     previous_output: str,
     *,
+    protocol: str = PROTOCOL_OPENAI_CHAT_COMPLETIONS,
     correction_hint: str = "json_parse_failed",
 ) -> dict[str, Any]:
     """Build one bounded structured-contract correction request.
 
     The correction is still the same frozen scientific task.  Code supplies only
     a deterministic failure label; the model remains responsible for scientific
-    meaning and may use only the original frozen inputs.
+    meaning and may use only the original frozen inputs. Turns extend the
+    protocol-native turn list (``messages`` for chat/Messages, ``input`` for
+    Responses) so every protocol keeps its frozen envelope and settings.
     """
     previous = str(previous_output or "")
     if not previous.strip() or len(previous.encode("utf-8")) > _STRUCTURED_CORRECTION_SOURCE_LIMIT:
@@ -602,10 +625,14 @@ def _structured_correction_payload(
     hint = str(correction_hint or "structured_contract_invalid").strip()
     if re.fullmatch(r"[A-Za-z0-9._:/-]{1,160}", hint) is None:
         hint = "structured_contract_invalid"
-    messages = [dict(item) for item in base_payload.get("messages", []) if isinstance(item, dict)]
-    if len(messages) != 2:
+    canonical = normalize_protocol(protocol)
+    turns_key = "input" if canonical == PROTOCOL_OPENAI_RESPONSES else "messages"
+    turns = [
+        dict(item) for item in base_payload.get(turns_key, []) if isinstance(item, dict)
+    ]
+    if not turns:
         raise ValueError("structured correction base messages are invalid")
-    messages.extend([
+    turns.extend([
         {"role": "assistant", "content": previous},
         {
             "role": "user",
@@ -626,7 +653,7 @@ def _structured_correction_payload(
             ),
         },
     ])
-    return {**base_payload, "messages": messages}
+    return {**base_payload, turns_key: turns}
 
 
 def _request_structured_correction(
@@ -645,7 +672,10 @@ def _request_structured_correction(
 ) -> tuple[Any, dict[str, Any] | None]:
     """Issue one side-effect-free correction sub-call after a known response."""
     payload = _structured_correction_payload(
-        base_payload, previous_output, correction_hint=correction_hint
+        base_payload,
+        previous_output,
+        protocol=runtime_config.adapter,
+        correction_hint=correction_hint,
     )
     request_body = json.dumps(payload, ensure_ascii=True, separators=(",", ":")).encode("utf-8")
     attempt = attempt_repository.begin_sub_attempt(
@@ -1170,7 +1200,7 @@ def resolve_registered_durable_skill_runtime(
             and skill["sourceContract"].get(DURABLE_LLM_EXECUTION_POLICY_KEY) is not None
         )
         if has_frozen_execution_policy:
-            if runtime_contract["adapter_id"] != _HUIYAN_DURABLE_ADAPTER:
+            if not _is_provider_protocol_adapter(runtime_contract["adapter_id"]):
                 return None
         else:
             model_profile = _registered_durable_model_profile(skill)
@@ -1185,12 +1215,14 @@ def resolve_registered_durable_skill_runtime(
                     model_profile=model_profile,
                     registry=registry,
                 )
+                provider_protocol = normalize_protocol(provider.adapter)
+                config_protocol = normalize_protocol(config.adapter)
             except (ProviderRegistryError, OSError, ValueError):
                 return None
-            if (
-                runtime_contract["adapter_id"] != _HUIYAN_DURABLE_ADAPTER
-                or provider.adapter != _HUIYAN_DURABLE_ADAPTER
-                or config.adapter != _HUIYAN_DURABLE_ADAPTER
+            if not (
+                _is_provider_protocol_adapter(runtime_contract["adapter_id"])
+                and normalize_protocol(runtime_contract["adapter_id"]) == provider_protocol
+                and provider_protocol == config_protocol
             ):
                 return None
             runtime["logicalProviderId"] = provider_id
@@ -1944,16 +1976,20 @@ def _narrow_evidence_batch_schema(
 def _payload_for_evidence_paper(
     base_payload: dict[str, Any],
     *,
+    adapter_id: str,
     parameters: dict[str, Any],
     packet: dict[str, Any],
     draft_schema: dict[str, Any],
     retry: bool,
 ) -> dict[str, Any]:
     payload = deepcopy(base_payload)
-    messages = payload.get("messages")
-    if not isinstance(messages, list) or len(messages) != 2:
+    canonical = normalize_protocol(adapter_id)
+    turns_key = "input" if canonical == PROTOCOL_OPENAI_RESPONSES else "messages"
+    turns = payload.get(turns_key)
+    user_index = 0 if canonical == PROTOCOL_ANTHROPIC_MESSAGES else 1
+    if not isinstance(turns, list) or len(turns) <= user_index:
         raise ValueError("evidence batch base payload is invalid")
-    user_content = json.loads(str(messages[1].get("content") or "{}"))
+    user_content = json.loads(str(turns[user_index].get("content") or "{}"))
     scientific_input = user_content.get("scientificInput")
     if isinstance(scientific_input, dict):
         per_paper_input = dict(scientific_input)
@@ -1963,14 +1999,18 @@ def _payload_for_evidence_paper(
         per_paper_parameters = dict(parameters)
         per_paper_parameters["paper_packets"] = [deepcopy(packet)]
         user_content["selectedParameters"] = per_paper_parameters
+    retry_note = (
+        " This is the one allowed recovery attempt for the same paper after a transient "
+        "transport or structured-output failure. Return only the same scientific judgment "
+        "in the required JSON schema. Do not add facts, citations, measurements, or causal "
+        "claims merely to satisfy the format."
+    )
     if retry:
-        messages[0]["content"] = str(messages[0].get("content") or "") + (
-            " This is the one allowed recovery attempt for the same paper after a transient "
-            "transport or structured-output failure. Return only the same scientific judgment "
-            "in the required JSON schema. Do not add facts, citations, measurements, or causal "
-            "claims merely to satisfy the format."
-        )
-    messages[1]["content"] = json.dumps(
+        if canonical == PROTOCOL_ANTHROPIC_MESSAGES:
+            payload["system"] = str(payload.get("system") or "") + retry_note
+        else:
+            turns[0]["content"] = str(turns[0].get("content") or "") + retry_note
+    turns[user_index]["content"] = json.dumps(
         user_content, ensure_ascii=False, separators=(",", ":")
     )
     return payload
@@ -2044,6 +2084,7 @@ def _execute_evidence_batch_requests(
     def request_bytes(index: int, attempt_index: int) -> tuple[dict[str, Any], bytes]:
         payload = _payload_for_evidence_paper(
             base_payload,
+            adapter_id=runtime_config.adapter,
             parameters=parameters,
             packet=dict(provider_packets[index]),
             draft_schema=narrowed_schema,
@@ -2280,15 +2321,19 @@ def _narrow_top_level_array_schema(
 def _payload_for_structured_batch(
     base_payload: dict[str, Any],
     *,
+    adapter_id: str,
     provider_message_contract: str | None,
     input_field: str,
     items: list[dict[str, Any]],
 ) -> dict[str, Any]:
     payload = deepcopy(base_payload)
-    messages = payload.get("messages")
-    if not isinstance(messages, list) or len(messages) != 2:
+    canonical = normalize_protocol(adapter_id)
+    turns_key = "input" if canonical == PROTOCOL_OPENAI_RESPONSES else "messages"
+    turns = payload.get(turns_key)
+    user_index = 0 if canonical == PROTOCOL_ANTHROPIC_MESSAGES else 1
+    if not isinstance(turns, list) or len(turns) <= user_index:
         raise ValueError("durable_llm_batch_base_payload_invalid")
-    user_content = json.loads(str(messages[1].get("content") or "{}"))
+    user_content = json.loads(str(turns[user_index].get("content") or "{}"))
     parameter_key = (
         "scientificInput"
         if provider_message_contract == SCIENTIFIC_MINIMAL_V1
@@ -2300,7 +2345,7 @@ def _payload_for_structured_batch(
     visible = deepcopy(visible)
     visible[input_field] = deepcopy(items)
     user_content[parameter_key] = visible
-    messages[1]["content"] = json.dumps(
+    turns[user_index]["content"] = json.dumps(
         user_content, ensure_ascii=False, separators=(",", ":")
     )
     return payload
@@ -2442,6 +2487,7 @@ def _execute_structured_batch_requests(
         )
         payload = _payload_for_structured_batch(
             base_payload,
+            adapter_id=runtime_config.adapter,
             provider_message_contract=provider_message_contract,
             input_field=input_field,
             items=batches[index],
@@ -2646,6 +2692,99 @@ def _provider_visible_parameters(
     return project_provider_parameters(metadata, parameters)
 
 
+def _apply_durable_structured_output(
+    protocol: str,
+    *,
+    payload: dict[str, Any],
+    provider_schema: dict[str, Any],
+    provider_id: str,
+) -> dict[str, Any]:
+    """Attach the structured-output envelope the selected protocol can carry.
+
+    Chat-completions keeps JSON object mode. Responses and Messages carry the
+    executable schema natively; when the frozen schema has no approved lowering
+    for that envelope the request still runs with prompt guidance (the schema
+    stays in the system prompt and the canonical validator stays authoritative),
+    so a protocol capability gap never becomes a configuration error.
+    """
+    canonical = normalize_protocol(protocol)
+    try:
+        return apply_provider_schema_transport(
+            canonical,
+            payload=payload,
+            response_format=structured_response_format(
+                canonical, schema_name=_DURABLE_STRUCTURED_SCHEMA_NAME
+            ),
+            provider_schema=provider_schema,
+        )
+    except ProviderSchemaCapabilityError as exc:
+        if protocol_supports_stream(canonical):
+            raise
+        if canonical == PROTOCOL_OPENAI_RESPONSES:
+            logger.warning(
+                "provider_structured_output_native_schema_unsupported provider=%s protocol=%s "
+                "fallback=json_object reason=%s",
+                provider_id,
+                canonical,
+                str(exc)[:200],
+            )
+            fallback = dict(payload)
+            fallback["text"] = {"format": {"type": "json_object"}}
+            return fallback
+        logger.warning(
+            "provider_structured_output_native_schema_unsupported provider=%s protocol=%s "
+            "fallback=prompt_only reason=%s",
+            provider_id,
+            canonical,
+            str(exc)[:200],
+        )
+        return {**payload}
+
+
+def _protocol_text_body(protocol: str, text: str) -> dict[str, Any]:
+    """Wrap completed provider text in the selected protocol's response shape."""
+    canonical = normalize_protocol(protocol)
+    if canonical == PROTOCOL_OPENAI_RESPONSES:
+        return {"output_text": text}
+    if canonical == PROTOCOL_ANTHROPIC_MESSAGES:
+        return {"content": [{"type": "text", "text": text}]}
+    return {"choices": [{"message": {"content": text}}]}
+
+
+def _structured_text_from_protocol_body(protocol: str, body: Mapping[str, Any]) -> str:
+    """Return one completed response's structured text for the selected protocol.
+
+    Anthropic answers the forced tool with ``tool_use.input``; text blocks are
+    the attempted answer when the model did not call the tool. The other
+    protocols carry the structured document directly.
+    """
+    try:
+        return extract_protocol_structured_text(
+            protocol, body, schema_name=_DURABLE_STRUCTURED_SCHEMA_NAME
+        )
+    except (KeyError, IndexError, TypeError, ValueError, RuntimeError) as exc:
+        raise ValueError("provider structured content is invalid") from exc
+
+
+def _durable_reasoning_effort(
+    model: str, execution_policy: Mapping[str, Any] | None
+) -> str | None:
+    """Return the frozen reasoning effort, or ``None`` for non-reasoning models.
+
+    Mirrors the planner chain's ``_planner_reasoning_effort`` gate: only
+    reasoning models accept a reasoning budget, and every other model answers
+    4xx for ``reasoning``/``reasoning_effort``. Non-reasoning models therefore
+    keep the temperature path instead of receiving an effort.
+    """
+    if execution_policy is None:
+        return None
+    from app.execution.llm_structured_runner import _is_reasoning_model
+
+    if not _is_reasoning_model(model):
+        return None
+    return str(execution_policy["reasoningEffort"])
+
+
 def _execute_durable_huiyan_skill(
     request: dict[str, Any], skill: dict[str, Any], *, runtime: dict[str, Any]
 ) -> dict[str, Any]:
@@ -2723,7 +2862,7 @@ def _execute_durable_huiyan_skill(
                 return _failed("The frozen provider adapter is not supported.", "provider_configuration")
             if execution_policy["loadReferences"] is not False:
                 return _failed("The frozen reference-loading policy is unsupported.", "provider_configuration")
-        if runtime_config.adapter != "huiyan_chat_completions":
+        if not _is_provider_protocol_adapter(runtime_config.adapter):
             return _failed("The frozen provider adapter is not supported.", "provider_configuration")
         if runtime.get("runtimeKind") != _RUNTIME_KIND_LLM_REASONING:
             return _failed("The frozen Skill runtime is invalid.", "provider_configuration")
@@ -2864,9 +3003,12 @@ def _execute_durable_huiyan_skill(
             "provider_configuration",
         )
 
-    payload = {
-        "model": runtime_config.model,
-        "messages": [
+    protocol = normalize_protocol(runtime_config.adapter)
+    reasoning_effort = _durable_reasoning_effort(runtime_config.model, execution_policy)
+    payload = build_protocol_chat_payload(
+        protocol,
+        model=runtime_config.model,
+        messages=[
             {
                 "role": "system",
                 "content": (
@@ -2881,44 +3023,44 @@ def _execute_durable_huiyan_skill(
                 ),
             },
         ],
-        "temperature": temperature,
-        "max_tokens": max_tokens,
-        "response_format": {
+        max_tokens=max_tokens,
+        temperature=temperature,
+        # ``reasoning_effort`` is already gated to reasoning models.
+        # Responses carries the effort as its native ``reasoning`` object;
+        # chat-completions gateways take the historical top-level keyword.
+        reasoning_effort=(
+            reasoning_effort if not protocol_supports_stream(protocol) else None
+        ),
+    )
+    if protocol_supports_stream(protocol):
+        # Every durable reasoning shape returns one JSON document, so the
+        # chat-completions protocol always asks for its JSON response mode;
+        # Responses and Messages select format through their own envelope.
+        payload["response_format"] = {
             "type": (
                 str(execution_policy["responseMode"])
                 if execution_policy is not None
                 else "json_object"
             )
-        },
-        **(
-            {"reasoning_effort": str(execution_policy["reasoningEffort"])}
-            if execution_policy is not None
-            else {}
-        ),
-    }
+        }
+    if reasoning_effort is not None and protocol_supports_stream(protocol):
+        payload["reasoning_effort"] = reasoning_effort
     if json_contract is not None:
         try:
-            payload = apply_provider_schema_transport(
-                runtime_config.adapter,
+            payload = _apply_durable_structured_output(
+                protocol,
                 payload=payload,
-                response_format=payload.get("response_format"),
                 provider_schema=provider_output_schema,
-            )
-        except ProviderSchemaCapabilityError:
-            return _failed(
-                "The selected Provider cannot natively enforce the frozen output Schema.",
-                "provider_configuration",
-                failed_stage="provider_schema_compatibility",
-                first_mismatch=PROVIDER_SCHEMA_UNSUPPORTED,
+                provider_id=provider_id,
             )
         except ValueError:
             return _failed(
                 "The frozen provider or Skill contract is unavailable.",
                 "provider_configuration",
             )
-    endpoint = f"{runtime_config.baseUrl.rstrip('/')}/v1/chat/completions"
+    endpoint = protocol_endpoint(protocol, runtime_config.baseUrl)
     request_body = json.dumps(payload, ensure_ascii=True, separators=(",", ":")).encode("utf-8")
-    headers = {"Authorization": f"Bearer {runtime_config.apiKey}", "Content-Type": "application/json"}
+    headers = protocol_headers(protocol, runtime_config.apiKey)
     provider_body_warnings: list[str] = []
     evidence_batch_failures: list[dict[str, Any]] = []
     structured_batch_failures: list[dict[str, Any]] = []
@@ -2955,10 +3097,7 @@ def _execute_durable_huiyan_skill(
                 draft_schema=frozen_finalization["draftSchema"]["schema"],
                 runtime_config=runtime_config,
                 endpoint=endpoint,
-                base_headers={
-                    "Authorization": f"Bearer {runtime_config.apiKey}",
-                    "Content-Type": "application/json",
-                },
+                base_headers=protocol_headers(protocol, runtime_config.apiKey),
                 provider_id=provider_id,
                 execution_policy=execution_policy,
                 task_deadline=task_deadline,
@@ -2987,9 +3126,10 @@ def _execute_durable_huiyan_skill(
             )
             return _structured_batch_failure_result(structured_batch_failures)
         body = {
-            "choices": [{"message": {"content": json.dumps(
-                batch["draft"], ensure_ascii=False, separators=(",", ":")
-            )}}],
+            **_protocol_text_body(
+                protocol,
+                json.dumps(batch["draft"], ensure_ascii=False, separators=(",", ":")),
+            ),
             "model": runtime_config.model,
         }
         provider_content_is_synthetic_aggregate = True
@@ -3022,10 +3162,7 @@ def _execute_durable_huiyan_skill(
                 draft_schema=frozen_finalization["draftSchema"]["schema"],
                 runtime_config=runtime_config,
                 endpoint=endpoint,
-                base_headers={
-                    "Authorization": f"Bearer {runtime_config.apiKey}",
-                    "Content-Type": "application/json",
-                },
+                base_headers=protocol_headers(protocol, runtime_config.apiKey),
                 provider_id=provider_id,
                 max_output_chars=max_output_chars,
             )
@@ -3077,9 +3214,10 @@ def _execute_durable_huiyan_skill(
                 first_mismatch="no_usable_paper_result",
             )
         body = {
-            "choices": [{"message": {"content": json.dumps(
-                batch["draft"], ensure_ascii=False, separators=(",", ":")
-            )}}],
+            **_protocol_text_body(
+                protocol,
+                json.dumps(batch["draft"], ensure_ascii=False, separators=(",", ":")),
+            ),
             "model": runtime_config.model,
         }
         provider_content_is_synthetic_aggregate = True
@@ -3194,7 +3332,7 @@ def _execute_durable_huiyan_skill(
                         failed_stage="empty_semantic_content",
                         first_mismatch="empty_semantic_content",
                     )
-                body = {"choices": [{"message": {"content": raw_text}}]}
+                body = _protocol_text_body(protocol, raw_text)
                 provider_body_warnings.append("provider_body_text_fallback")
         except httpx.HTTPStatusError as exc:
             status_code = int(exc.response.status_code)
@@ -3277,7 +3415,7 @@ def _execute_durable_huiyan_skill(
             parsed: Any = None
             structured_recovery_used = False
             try:
-                raw = body["choices"][0]["message"]["content"]
+                raw = _structured_text_from_protocol_body(protocol, body)
                 if not provider_content_is_synthetic_aggregate and len(str(raw or "")) > max_output_chars:
                     artifact_warnings.append("output_contract_gap:$:max_output_chars")
                 parsed = _parse_structured_output(raw)
@@ -3318,7 +3456,7 @@ def _execute_durable_huiyan_skill(
                     )
                     structured_recovery_used = True
                     usage_wire = _combine_usage_wires([usage_wire, correction_usage])
-                    raw = correction_body["choices"][0]["message"]["content"]
+                    raw = _structured_text_from_protocol_body(protocol, correction_body)
                     if len(str(raw or "")) > max_output_chars:
                         artifact_warnings.append("output_contract_gap:$:max_output_chars")
                     parsed = _parse_structured_output(raw)
@@ -3480,6 +3618,7 @@ def _execute_durable_huiyan_skill(
         else:
             artifact = _parse_huiyan_artifact(
                 body,
+                protocol=protocol,
                 skill_id=skill["skillId"],
                 max_output_chars=max_output_chars,
                 output_contract=output_contract,
@@ -3569,7 +3708,7 @@ def _durable_output_contract(
         or metadata.get("auto_allowed") is not True
         or not isinstance(durable, dict)
         or set(durable) != {"adapter"}
-        or durable.get("adapter") != _HUIYAN_DURABLE_ADAPTER
+        or not _is_provider_protocol_adapter(str(durable.get("adapter") or ""))
         or not isinstance(output_file, str)
         or not output_file.strip()
         or not isinstance(spec, str)
@@ -3607,6 +3746,7 @@ def _durable_output_contract(
 def _parse_huiyan_artifact(
     body: Any,
     *,
+    protocol: str = PROTOCOL_OPENAI_CHAT_COMPLETIONS,
     skill_id: str,
     max_output_chars: int,
     output_contract: dict[str, str] | None = None,
@@ -3616,9 +3756,16 @@ def _parse_huiyan_artifact(
 
     if not isinstance(body, dict):
         raise ValueError("provider body is not an object")
+    canonical = normalize_protocol(protocol)
     try:
-        raw = body["choices"][0]["message"]["content"]
-    except (KeyError, IndexError, TypeError) as exc:
+        if canonical == PROTOCOL_OPENAI_CHAT_COMPLETIONS:
+            # Chat-completions artifacts are the final answer field only; the
+            # shared extractor also accepts reasoning fields that must never be
+            # materialized as the artifact.
+            raw = body["choices"][0]["message"]["content"]
+        else:
+            raw = extract_protocol_text(canonical, body)
+    except (KeyError, IndexError, TypeError, ValueError, RuntimeError) as exc:
         raise ValueError("provider content is invalid") from exc
     contract = output_contract or {
         "artifact": "research-config.yaml",
@@ -4550,7 +4697,7 @@ def _runtime_contract(skill: dict[str, Any] | None) -> dict[str, Any] | None:
     if kind == _RUNTIME_KIND_LLM_REASONING:
         if (
             requires_external
-            or adapter_id != _HUIYAN_DURABLE_ADAPTER
+            or not _is_provider_protocol_adapter(adapter_id)
             or evidence_version != _NO_EXTERNAL_EVIDENCE_CONTRACT
         ):
             return None

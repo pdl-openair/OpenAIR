@@ -20,7 +20,9 @@ minimum_owner: 单个组件行为
 production_targets:
   - services/api/app/execution/structured_output_provider_adapter.py
 test_responsibility: >-
-  Deterministically prove shared invariants across Huiyan and OpenAI Responses:
+  Deterministically prove shared invariants across chat-completions providers
+  (Huiyan alias and openai_chat_completions), OpenAI Responses, and Anthropic
+  Messages forced tool_use:
   position-safe business property preservation, recursive object integrity
   including nullable objects, closed-reference integrity and resource-scope
   safety, exact final native schema admission, preservation of proven

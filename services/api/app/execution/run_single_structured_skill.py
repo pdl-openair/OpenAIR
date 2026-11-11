@@ -13,7 +13,6 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import os
 import sys
 import time
 from pathlib import Path
@@ -208,7 +207,9 @@ def main() -> int:
             source_contract = _frozen_registry_source_contract(relative_skill_path)
             # LLM input/output validation is owned by run_skill_with_llm so the
             # file-backed schema document context is established exactly once.
-            os.environ.setdefault("OPENTRAJECTORY_LLM_PROVIDER", "huiyan_chat_completions")
+            # No selector default is injected here: the provider registry adapter
+            # is the protocol authority, and a hardcoded chat-completions default
+            # would contradict a Responses/Anthropic adapter.
             output, elapsed, diagnostics = run_skill_with_llm(
                 skill_dir=skill_dir,
                 input_payload=input_payload,
@@ -218,7 +219,6 @@ def main() -> int:
             )
             diagnostics = {
                 **diagnostics,
-                "provider": os.environ.get("OPENTRAJECTORY_LLM_PROVIDER", "huiyan_chat_completions"),
                 "runtime_mode": "llm_structured",
                 "input_schema_passed": True,
                 "output_schema_passed": True,

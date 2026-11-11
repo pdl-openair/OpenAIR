@@ -5,6 +5,7 @@ The provider-neutral layer shared by the API process and the container worker:
   conversion + the request-scoped usage collector.
 - ``openai_compatible_client``: thin HTTP transport for OpenAI-compatible
   chat-completions / responses calls.
+- ``anthropic_client``: thin HTTP transport for Anthropic Messages calls.
 - ``claude_turn``: shared Claude Agent SDK turn (non-stream + stream).
 
 These modules depend only on each other + stdlib + httpx (+ claude_agent_sdk,

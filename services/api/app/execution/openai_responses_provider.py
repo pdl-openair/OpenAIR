@@ -1,4 +1,10 @@
-"""Fail-closed HUIYAN chat-completions adapter for one frozen orchestration request."""
+"""Fail-closed durable provider adapter for one frozen orchestration request.
+
+The adapter speaks all three registry protocols (``openai_chat_completions``,
+``openai_responses``, ``anthropic_messages``) through
+``app.execution.provider_protocol``; transport classification, attempt evidence
+and artifact contract validation stay protocol-independent.
+"""
 
 from __future__ import annotations
 
@@ -20,13 +26,25 @@ from app.execution.durable_orchestrator_runtime import (
     FrozenArtifactContract,
     validate_frozen_artifact_content,
 )
+from app.execution.provider_protocol import (
+    PROTOCOL_ANTHROPIC_MESSAGES,
+    PROTOCOL_OPENAI_CHAT_COMPLETIONS,
+    PROTOCOL_OPENAI_RESPONSES,
+    ProviderProtocolError,
+    apply_protocol_structured_output,
+    build_protocol_chat_payload,
+    extract_protocol_structured_text,
+    normalize_protocol,
+    protocol_endpoint,
+    protocol_finish_reason,
+    protocol_headers,
+    protocol_supports_stream,
+)
 from app.execution.provider_schema_projection import (
     schema_for_provider_prompt as _schema_for_provider_prompt,
 )
 from app.execution.structured_output_provider_adapter import (
     ProviderSchemaCapabilityError,
-    apply_provider_schema_transport,
-    structured_response_format,
 )
 from app.modules.provider_registry import (
     ProviderRegistry,
@@ -46,11 +64,7 @@ from app.modules.provider_transport_evidence import (
     ProviderHttpAttempt,
     ProviderHttpAttemptRepository,
 )
-from llm_core.openai_compatible_client import (
-    apply_openai_compatible_thinking,
-    chat_completions_url,
-    openai_compatible_headers,
-)
+from llm_core.openai_compatible_client import apply_openai_compatible_thinking
 
 _logger = logging.getLogger("openair.openai_responses_provider")
 
@@ -64,6 +78,22 @@ _TITLE_LIMIT = 240
 _RAW_RESPONSE_LIMIT = 64 * 1024
 _CORRECTION_FEEDBACK_LIMIT = 2_000
 _CORRECTION_SOURCE_LIMIT = 32 * 1024
+_DURABLE_STRUCTURED_SCHEMA_NAME = "openair_durable_research_result"
+_PROTOCOL_SUCCESS_FINISH_REASONS = {
+    PROTOCOL_OPENAI_RESPONSES: {
+        "completed": "stop",
+        "incomplete": "length",
+        "failed": "other",
+        "cancelled": "other",
+    },
+    PROTOCOL_ANTHROPIC_MESSAGES: {
+        "end_turn": "stop",
+        "stop_sequence": "stop",
+        "tool_use": "stop",
+        "max_tokens": "length",
+        "refusal": "content_filter",
+    },
+}
 _SYSTEM_INSTRUCTIONS_WITH_SKILL_REQUESTS = (
     "You are executing exactly one API-owned frozen research orchestration request. "
     "Do not re-route, select another provider, agent, or skill, invoke tools, or claim that "
@@ -244,7 +274,7 @@ class HttpOpenAIResponsesTransport:
     ) -> tuple[Mapping[str, Any], Mapping[str, Any] | None]:
         url, payload = self._build_payload(request, runtime_config)
         body_bytes = json.dumps(payload, ensure_ascii=True, separators=(",", ":")).encode("utf-8")
-        headers = dict(openai_compatible_headers(runtime_config.apiKey))
+        headers = protocol_headers(runtime_config.protocol, runtime_config.apiKey)
         attempt = self._begin_attempt(request, url=url, request_body=body_bytes)
         headers.update(attempt.headers)
         raw: bytes | None = None
@@ -353,6 +383,7 @@ class HttpOpenAIResponsesTransport:
         try:
             structured = _structured_response_from_chat_completions_body(
                 body,
+                protocol=runtime_config.protocol,
                 artifact_contract=request.artifactContract,
                 required_fields=request.artifactRequiredFields,
             )
@@ -381,33 +412,36 @@ class HttpOpenAIResponsesTransport:
         request: OpenAIResponsesTransportRequest,
         runtime_config: ProviderRuntimeConfig,
     ) -> tuple[str, dict[str, Any]]:
-        payload: dict[str, Any] = {
-            "model": request.model,
-            "messages": _request_messages(request),
-        }
+        protocol = runtime_config.protocol
+        max_tokens = 0
         max_tokens_raw = (os.environ.get("OPENAIR_DURABLE_ORCHESTRATE_LLM_MAX_TOKENS") or "").strip()
         if max_tokens_raw:
             try:
                 max_tokens = int(max_tokens_raw)
             except ValueError:
                 max_tokens = 0
-            if max_tokens > 0:
-                payload["max_tokens"] = max_tokens
-        payload = apply_openai_compatible_thinking(
-            payload, "OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING"
-        )
-        provider_schema = _durable_research_provider_schema(request)
-        response_format = structured_response_format(
-            "huiyan_chat_completions",
-            schema_name="openair_durable_research_result",
-        )
-        payload = apply_provider_schema_transport(
-            "huiyan_chat_completions",
+        try:
+            payload = build_protocol_chat_payload(
+                protocol,
+                model=request.model,
+                messages=_request_messages(request),
+                max_tokens=max_tokens if max_tokens > 0 else None,
+            )
+        except ProviderProtocolError as exc:
+            raise ProviderConfigurationError(str(exc)) from exc
+        if protocol_supports_stream(protocol):
+            # Thinking controls are a chat-completions gateway feature; the
+            # Responses and Messages protocols reject unknown top-level fields.
+            payload = apply_openai_compatible_thinking(
+                payload, "OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING"
+            )
+        payload = _apply_durable_structured_output(
+            protocol,
             payload=payload,
-            response_format=response_format,
-            provider_schema=provider_schema,
+            provider_schema=_durable_research_provider_schema(request),
+            provider_id=request.providerId,
         )
-        return _chat_completions_url(runtime_config.baseUrl), payload
+        return protocol_endpoint(protocol, runtime_config.baseUrl), payload
 
     def _begin_attempt(
         self,
@@ -551,8 +585,12 @@ class OpenAIResponsesProviderAdapter:
             prior = None
         try:
             definition = self._registry.require(provider_id)
-            if definition.adapter != "huiyan_chat_completions":
-                raise ProviderExecutionError("Provider adapter is not supported by this executor")
+            try:
+                normalize_protocol(definition.adapter)
+            except ValueError:
+                raise ProviderExecutionError(
+                    "Provider adapter is not supported by this executor"
+                ) from None
             runtime_config = resolve_provider_runtime_config(
                 provider_id,
                 model_profile=request.modelProfile,
@@ -707,6 +745,55 @@ class OpenAIResponsesProviderAdapter:
     def physical_submission_capabilities(self, provider_id: str) -> ProviderSubmissionSafety:
         """Expose registry truth; HUIYAN cannot be used by the fenced outbox worker."""
         return self._registry.require(provider_id).submissionSafety
+
+
+def _apply_durable_structured_output(
+    protocol: str,
+    *,
+    payload: Mapping[str, Any],
+    provider_schema: Mapping[str, Any],
+    provider_id: str,
+) -> dict[str, Any]:
+    """Attach the structured-output envelope the selected protocol can carry.
+
+    Chat-completions gateways only accept JSON object mode, so the frozen
+    schema reaches the model through the system prompt. Responses and Messages
+    can carry the executable schema natively; when the schema has no approved
+    lowering for that envelope the call still runs with prompt guidance
+    (``json_object`` for Responses, no envelope for Messages). The canonical
+    validator remains the only acceptance authority, so a protocol capability
+    gap must never surface as a configuration error.
+    """
+    canonical = normalize_protocol(protocol)
+    try:
+        return apply_protocol_structured_output(
+            canonical,
+            payload=payload,
+            provider_schema=provider_schema,
+            schema_name=_DURABLE_STRUCTURED_SCHEMA_NAME,
+        )
+    except ProviderSchemaCapabilityError as exc:
+        if canonical == PROTOCOL_OPENAI_RESPONSES:
+            _logger.warning(
+                "provider_structured_output_native_schema_unsupported provider=%s protocol=%s "
+                "fallback=json_object reason=%s",
+                provider_id,
+                canonical,
+                str(exc)[:200],
+            )
+            fallback = dict(payload)
+            fallback["text"] = {"format": {"type": "json_object"}}
+            return fallback
+        if canonical == PROTOCOL_ANTHROPIC_MESSAGES:
+            _logger.warning(
+                "provider_structured_output_native_schema_unsupported provider=%s protocol=%s "
+                "fallback=prompt_only reason=%s",
+                provider_id,
+                canonical,
+                str(exc)[:200],
+            )
+            return dict(payload)
+        raise
 
 
 def _durable_research_provider_schema(
@@ -962,23 +1049,36 @@ def _mechanically_complete_provider_document(
 def _structured_response_from_chat_completions_body(
     body: Any,
     *,
+    protocol: str = PROTOCOL_OPENAI_CHAT_COMPLETIONS,
     artifact_contract: str = "",
     required_fields: tuple[str, ...] = (),
 ) -> Mapping[str, Any]:
     if not isinstance(body, Mapping):
         raise ProviderContractError("Provider response is malformed")
-    choices = body.get("choices")
-    if not isinstance(choices, list) or len(choices) != 1:
-        raise ProviderContractError("Provider response is malformed")
-    choice = choices[0]
-    if not isinstance(choice, Mapping) or not isinstance(choice.get("message"), Mapping):
-        raise ProviderContractError("Provider response is malformed")
-    text = choice["message"].get("content")
+    canonical = normalize_protocol(protocol)
+    if canonical == PROTOCOL_OPENAI_CHAT_COMPLETIONS:
+        # Legacy chat-completions structure errors stay part of the frozen
+        # contract, and the final answer is ``message.content`` only: the shared
+        # text extractor also accepts reasoning fields that must never be
+        # accepted as a structured result here.
+        choices = body.get("choices")
+        if not isinstance(choices, list) or len(choices) != 1:
+            raise ProviderContractError("Provider response is malformed")
+        choice = choices[0]
+        if not isinstance(choice, Mapping) or not isinstance(choice.get("message"), Mapping):
+            raise ProviderContractError("Provider response is malformed")
+        text = choice["message"].get("content")
+    else:
+        try:
+            text = extract_protocol_structured_text(
+                canonical, body, schema_name=_DURABLE_STRUCTURED_SCHEMA_NAME
+            )
+        except (KeyError, IndexError, TypeError, ValueError, RuntimeError) as exc:
+            raise ProviderContractError("Provider response is malformed") from exc
     if not isinstance(text, str) or not text.strip():
         raise ProviderContractError("Provider response has no single structured output")
-    finish_reason = choice.get("finish_reason")
     normalized_text = _safe_structured_text_candidate(text)
-    normalized_finish = "stop" if finish_reason is None else str(finish_reason)
+    normalized_finish = _structured_finish_reason(canonical, body)
     if normalized_text is None:
         diagnosis = diagnose_rejected_response(
             text.encode("utf-8"),
@@ -1095,8 +1195,18 @@ def _bounded_http_body(raw: bytes) -> bytes:
     raise error
 
 
-def _chat_completions_url(base_url: str) -> str:
-    return chat_completions_url(base_url)
+def _structured_finish_reason(protocol: str, body: Mapping[str, Any]) -> str:
+    """Translate a protocol-native completion marker into the chat vocabulary.
+
+    ``diagnose_rejected_response`` classifies against chat-completions
+    ``finish_reason`` values, so Responses statuses and Messages stop reasons
+    must land on the same words before a result can be judged successful.
+    """
+    canonical = normalize_protocol(protocol)
+    reason = protocol_finish_reason(canonical, body)
+    if not reason:
+        return "stop"
+    return _PROTOCOL_SUCCESS_FINISH_REASONS.get(canonical, {}).get(reason, reason)
 
 
 def diagnose_rejected_response(

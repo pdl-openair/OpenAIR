@@ -262,12 +262,14 @@ export UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple   # PyPI 源（
 | 执行模式 | `SKILL_EXEC_MODE=live \| replay` | 默认 `live`；`replay` 零密钥体验全流程 |
 | 演示数据 | `OPENAIR_DEV_SEED_FIXTURES=1` | 新手体验建议开；日常保持 0 |
 | Skill/Agent 网关 | `LLM_PROVIDER_BASE_URL`、`LLM_PROVIDER_API_KEY`、`OPENAIR_CLAUDE_MODEL` | `live` 模式必填；compose 下容器内 `ANTHROPIC_*` 自动回退到 `LLM_PROVIDER_*`，填同一套即可。需分离网关时用 `OPENAIR_ANTHROPIC_*` 覆盖（`.env` 直填 `ANTHROPIC_*` 不会进容器） |
-| 规划器（开题/出方案） | `LLM_PROVIDER_BASE_URL`、`LLM_PROVIDER_API_KEY`、`LLM_PROVIDER_MODEL` | `live` 模式必填；OpenAI 兼容端点（勿填 `…/api/anthropic` 路径，会 404） |
+| 规划器（开题/出方案） | `LLM_PROVIDER_BASE_URL`、`LLM_PROVIDER_API_KEY`、`LLM_PROVIDER_MODEL` | `live` 模式必填。默认走 OpenAI 兼容 chat completions（勿填 `…/api/anthropic` 路径，会 404）；要改走 OpenAI Responses 或 Anthropic Messages 协议，在 `schemas/providers/provider-registry.yaml` 把 adapter 换成 `openai_responses` 或 `anthropic_messages`，凭证仍用这套 `LLM_PROVIDER_*` |
 | 文献检索 | `OT_DEEPXIV_TOKEN`、`SEMANTIC_SCHOLAR_API_KEY` | 用到文献类 skill 才填 |
 | 材料 MCP | `MATERIALS_MCP_BASE_URL`、`MP_API_KEY` | 晶体设计链 live 执行时填 |
 | 超算（JCC） | `JCC_BASE_URL / JCC_USERNAME / JCC_PASSWORD / JCC_CLUSTER_NAME / JCC_CLI_PATH` | 接入超算才填（已同时传给 api 与 durable-worker）。`jcc` CLI 不随仓库分发：安装 Linux 版后经 `JCC_CLI_PATH` 指向，或挂到容器 PATH（如 `/usr/local/bin/jcc`） |
 | 赝势库（VASP） | `VASP_PSP_DIR` | 跑 DFT 稳定性验证需要；填 durable-worker 容器内真实路径（先把宿主机 POTCAR 目录挂载进容器）；缺失时尝试经 jcc vaspkit 生成 |
 | 云实验平台 | `FLUX_BASE_URL`、`FLUX_API_KEY` | 需机构 VPN 与平台账号；不配置时资源广场自动展示本地演示快照 |
+
+> 计费口径：走 Anthropic Messages 协议时，`cache_creation_input_tokens`（以及 `cache_read_input_tokens`）只保留在用量原始字段里，不计入 `input_tokens` / `output_tokens` 计费——与全仓既有约定一致，因此本地记录的 token 用量会略低于供应商账单。
 
 </details>
 

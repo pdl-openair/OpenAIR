@@ -58,8 +58,6 @@ def test_home_input_reaches_strict_planner_receiver(monkeypatch, filename):
     monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL", "test-model")
     monkeypatch.setenv("LLM_PROVIDER_API_KEY", "test-key")
     monkeypatch.setenv("LLM_PROVIDER_BASE_URL", "https://provider.invalid")
-    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
-    monkeypatch.setenv("OPENAI_API_BASE_URL", "https://provider.invalid")
     monkeypatch.setattr(
         planner, "resolve_model_binding",
         lambda *args, **kwargs: ModelBinding(
@@ -80,6 +78,62 @@ def test_home_input_reaches_strict_planner_receiver(monkeypatch, filename):
     semantic_attempt = getattr(prepared, "semantic_attempt", prepared)
     assert query in semantic_attempt.user_prompt
     assert prepared.provider_schema
+
+
+@pytest.mark.parametrize(
+    "provider,endpoint",
+    [
+        ("openai_responses", "https://provider.invalid/v1/responses"),
+        ("anthropic_messages", "https://provider.invalid/v1/messages"),
+    ],
+)
+def test_prepare_attempt_freezes_protocol_native_payload(monkeypatch, provider, endpoint):
+    monkeypatch.setattr(planner.settings, "research_orchestration_v1", False)
+    # Isolate the protocol envelope from Provider Schema admission, which the
+    # shared structured-output suite owns.
+    monkeypatch.setattr(planner, "PLANNER_PLAN_SCHEMA", {
+        "type": "object",
+        "properties": {"accepted": {"type": "boolean"}},
+        "required": ["accepted"],
+        "additionalProperties": False,
+    })
+    monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL", "test-model")
+    monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_MAX_TOKENS", "1800")
+    monkeypatch.setattr(
+        planner, "resolve_model_binding",
+        lambda *args, **kwargs: ModelBinding(
+            "planner", provider, "https://provider.invalid", "test-model",
+        ),
+    )
+    monkeypatch.setattr(planner, "provider_api_key", lambda: "test-key")
+    query = "核查一种科研方法的证据、适用条件与尚待验证的问题。"
+    prepared = planner.prepare_planner_attempt(
+        {"input": query, "sourcePage": "home", "selectedHint": None},
+        None,
+        1,
+        definition_catalog=_catalog(None),
+    )
+    assert prepared.provider == provider
+    assert prepared.endpoint == endpoint
+    payload = prepared.payload
+    if provider == "openai_responses":
+        assert [turn["role"] for turn in payload["input"]] == ["system", "user"]
+        assert payload["max_output_tokens"] == 1800
+        assert payload["store"] is False
+        assert payload["text"]["format"]["type"] == "json_schema"
+        assert payload["text"]["format"]["name"] == "research_start_draft_plan"
+    else:
+        assert payload["system"]
+        assert [turn["role"] for turn in payload["messages"]] == ["user"]
+        assert payload["max_tokens"] == 1800
+        assert payload["tools"][0]["name"] == "research_start_draft_plan"
+        assert payload["tool_choice"] == {
+            "type": "tool", "name": "research_start_draft_plan",
+        }
+        assert "response_format" not in payload
+    assert query in prepared.user_prompt
+    assert prepared.system_prompt
+    assert prepared.response_format is not None
 
 
 def test_compiled_understanding_round_trips_without_renaming_planning_rationale():

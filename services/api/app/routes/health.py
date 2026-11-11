@@ -35,7 +35,17 @@ def health_agent() -> dict[str, str | bool | None]:
     anthropic_key = (os.environ.get("ANTHROPIC_API_KEY") or "").strip()
     anthropic_base = (os.environ.get("ANTHROPIC_BASE_URL") or "").strip()
     huiyan_key = (os.environ.get("LLM_PROVIDER_API_KEY") or "").strip()
+    provider_adapter: str | None = None
+    provider_protocol: str | None = None
+    try:
+        from app.modules.provider_registry import adapter_protocol, load_provider_registry
 
+        registry = load_provider_registry()
+        definition = registry.require(registry.defaultProviderId)
+        provider_adapter = definition.adapter
+        provider_protocol = adapter_protocol(definition.adapter)
+    except (OSError, ValueError):
+        pass
     try:
         running_as_root = os.getuid() == 0
     except AttributeError:
@@ -54,6 +64,8 @@ def health_agent() -> dict[str, str | bool | None]:
         "anthropicApiKeyConfigured": bool(anthropic_key),
         "anthropicBaseUrlConfigured": bool(anthropic_base),
         "huiyanApiKeyConfigured": bool(huiyan_key),
+        "providerAdapter": provider_adapter,
+        "providerProtocol": provider_protocol,
         "openairClaudeModel": (os.environ.get("OPENAIR_CLAUDE_MODEL") or os.environ.get("ANTHROPIC_MODEL") or None),
     }
 

@@ -114,10 +114,12 @@ def structured_response_format(
     if not enabled:
         return None
     normalized = str(provider or "").strip().lower()
-    if normalized == "huiyan_chat_completions":
+    if normalized in {"huiyan_chat_completions", "openai_chat_completions"}:
         return {"type": "json_object"}
     if normalized == "openai_responses":
         return {"type": "json_schema", "name": schema_name}
+    if normalized == "anthropic_messages":
+        return {"type": "tool_use", "name": schema_name}
     raise ValueError(f"unsupported structured-output provider: {provider}")
 
 
@@ -607,6 +609,31 @@ def _apply_huiyan_schema_transport(
     return payload
 
 
+_ANTHROPIC_TOOL_DESCRIPTION = "Emit the structured result for this task as JSON."
+
+
+def _apply_anthropic_schema_transport(
+    payload: dict[str, Any],
+    *,
+    provider_schema: Mapping[str, Any],
+    response_format: Mapping[str, Any] | None,
+) -> dict[str, Any]:
+    if not isinstance(response_format, Mapping) or response_format.get("type") != "tool_use":
+        raise ValueError("Anthropic Messages structured output requires tool_use mode")
+    tool_name = str(response_format.get("name") or "").strip()
+    if not tool_name:
+        raise ValueError("Anthropic Messages structured output requires tool name")
+    payload["tools"] = [
+        {
+            "name": tool_name,
+            "description": _ANTHROPIC_TOOL_DESCRIPTION,
+            "input_schema": deepcopy(dict(provider_schema)),
+        }
+    ]
+    payload["tool_choice"] = {"type": "tool", "name": tool_name}
+    return payload
+
+
 def _apply_responses_schema_transport(
     payload: dict[str, Any],
     *,
@@ -670,6 +697,11 @@ def _assert_final_executable_schema(
         )
     if provider == "openai_responses":
         _assert_openai_responses_strict_compatible(provider_schema)
+    elif provider == "anthropic_messages":
+        # Anthropic input_schema accepts standard JSON Schema; projection and
+        # lowering above already produced an executable object schema, so only
+        # the shared base admission applies (no OpenAI strict gate).
+        return
     else:  # pragma: no cover - guarded by the public dispatcher
         raise ValueError(f"unsupported structured-output provider: {provider}")
 
@@ -682,6 +714,10 @@ def _schema_from_final_payload(
         text = payload.get("text")
         format_value = text.get("format") if isinstance(text, Mapping) else None
         schema = format_value.get("schema") if isinstance(format_value, Mapping) else None
+    elif provider == "anthropic_messages":
+        tools = payload.get("tools")
+        first_tool = tools[0] if isinstance(tools, list) and tools else None
+        schema = first_tool.get("input_schema") if isinstance(first_tool, Mapping) else None
     else:
         raise ValueError(f"unsupported structured-output provider: {provider}")
     if not isinstance(schema, Mapping):
@@ -700,14 +736,22 @@ def apply_provider_schema_transport(
 ) -> dict[str, Any]:
     """Apply Provider Schema through the shared provider-specific transport layer.
 
-    Huiyan's stable contract is JSON object mode; its request never carries the
-    Formal Schema. OpenAI Responses keeps its native strict-schema transport.
+    Chat-completions providers (``huiyan_chat_completions`` and
+    ``openai_chat_completions``) keep JSON object mode; their request never
+    carries the Formal Schema. OpenAI Responses keeps its native strict-schema
+    transport. Anthropic Messages forces a ``tool_use`` tool whose
+    ``input_schema`` carries the projected schema.
     """
     normalized_provider = str(provider or "").strip().lower()
-    if normalized_provider not in {"huiyan_chat_completions", "openai_responses"}:
+    if normalized_provider not in {
+        "huiyan_chat_completions",
+        "openai_chat_completions",
+        "openai_responses",
+        "anthropic_messages",
+    }:
         raise ValueError(f"unsupported structured-output provider: {provider}")
     request_payload = deepcopy(dict(payload))
-    if normalized_provider == "huiyan_chat_completions":
+    if normalized_provider in {"huiyan_chat_completions", "openai_chat_completions"}:
         return _apply_huiyan_schema_transport(
             request_payload,
             response_format=response_format,
@@ -715,11 +759,18 @@ def apply_provider_schema_transport(
     _assert_projection_preserves_resource_scope(provider_schema)
     projected = _project_provider_schema(provider_schema)
     final_schema = _prepare_strict_schema(normalized_provider, projected)
-    admitted = _apply_responses_schema_transport(
-        request_payload,
-        provider_schema=final_schema,
-        response_format=response_format,
-    )
+    if normalized_provider == "anthropic_messages":
+        admitted = _apply_anthropic_schema_transport(
+            request_payload,
+            provider_schema=final_schema,
+            response_format=response_format,
+        )
+    else:
+        admitted = _apply_responses_schema_transport(
+            request_payload,
+            provider_schema=final_schema,
+            response_format=response_format,
+        )
     _assert_final_executable_schema(
         normalized_provider,
         _schema_from_final_payload(normalized_provider, admitted),

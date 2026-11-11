@@ -11,6 +11,7 @@ import yaml
 
 from app.execution import durable_skill_runtime, skill_finalization_runtime
 from app.modules.durable_execution import _validated_skill_presentation
+from app.modules.provider_registry import build_provider_registry
 from app.modules.provider_transport_evidence import ProviderAttemptEvidenceError, ProviderHttpAttempt
 
 
@@ -2833,3 +2834,335 @@ def test_finalizer_runtime_failure_does_not_trigger_model_recovery(
     assert any("finalizer_execution_failed" in warning for warning in protocol["warnings"])
     assert len(requests) == 1
     assert [row["kind"] for row in evidence] == ["primary"]
+
+
+def _protocol_provider_registry(adapter_id: str):
+    return build_provider_registry({
+        "schemaVersion": 1,
+        "defaultProviderId": "openai_primary",
+        "providers": [{
+        "providerId": "openai_primary",
+        "adapter": adapter_id,
+        "maxOutputChars": 50_000,
+        "submissionSafety": {
+            "submissionMode": "single_attempt_no_replay",
+            "acceptsIdempotencyKey": False,
+            "returnsReceiptOrRemoteRunId": False,
+            "queryByIdempotencyKey": False,
+            "queryByReceiptOrRemoteRunId": False,
+        },
+        "environment": {
+            "model": "LLM_PROVIDER_MODEL",
+            "baseUrl": "LLM_PROVIDER_BASE_URL",
+            "apiKey": "LLM_PROVIDER_API_KEY",
+        },
+    }]})
+
+
+def _protocol_reasoning_skill(adapter_id: str, *, output_schema: dict | None = None) -> dict:
+    input_schema = {
+        "type": "object",
+        "required": ["source"],
+        "properties": {"source": {"type": "string", "minLength": 1}},
+        "additionalProperties": False,
+    }
+    if output_schema is None:
+        output_schema = {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["result"],
+            "properties": {
+                "result": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "required": ["status"],
+                    "properties": {"status": {"type": "string", "const": "ok"}},
+                },
+            },
+        }
+    return {
+        "skillId": "protocol_structured_skill",
+        "displayName": "Protocol Structured Skill",
+        "skillPath": "skills/test/protocol-structured-skill",
+        "runtimeKind": "llm_reasoning",
+        "adapterId": adapter_id,
+        "modelProfile": "terra",
+        "sourceContract": {
+            "structured_output": {
+                "contract_version": 1,
+                "guard_version": durable_skill_runtime.OPENTRAJECTORY_STRUCTURED_GUARD_VERSION,
+            },
+            "frozenSchemas": {
+                "input": {
+                    "sha256": _canonical_schema_sha256(input_schema),
+                    "schema": input_schema,
+                },
+                "output": {
+                    "sha256": _canonical_schema_sha256(output_schema),
+                    "schema": output_schema,
+                },
+            },
+        },
+    }
+
+
+def _execute_protocol_reasoning_skill(
+    monkeypatch: pytest.MonkeyPatch,
+    *,
+    adapter_id: str,
+    response_body: dict,
+    output_schema: dict | None = None,
+) -> tuple[dict, list[dict]]:
+    requests: list[dict] = []
+    registry = _protocol_provider_registry(adapter_id)
+
+    class Response(_ResponseEvidence):
+        def raise_for_status(self) -> None:
+            return None
+
+        def json(self) -> dict:
+            return response_body
+
+    class Client:
+        def __init__(self, *args, **kwargs) -> None:
+            return None
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args) -> None:
+            return None
+
+        def post(self, url: str, *, headers: dict, content: bytes) -> Response:
+            requests.append({"url": url, "headers": headers, "json": json.loads(content)})
+            return Response()
+
+    monkeypatch.setattr(durable_skill_runtime, "load_provider_registry", lambda: registry)
+    monkeypatch.setattr(
+        durable_skill_runtime,
+        "_read_skill_contract",
+        lambda _skill: (
+            {"output_file": "result.json", "llm": {"max_completion_tokens": 1000}},
+            "Execute.",
+        ),
+    )
+    monkeypatch.setattr(
+        durable_skill_runtime,
+        "httpx",
+        SimpleNamespace(
+            Client=Client,
+            Timeout=httpx.Timeout,
+            HTTPStatusError=httpx.HTTPStatusError,
+            HTTPError=httpx.HTTPError,
+        ),
+    )
+    monkeypatch.setenv("LLM_PROVIDER_API_KEY", "test-key")
+    monkeypatch.setenv("LLM_PROVIDER_BASE_URL", "https://provider.test")
+    monkeypatch.setenv("LLM_PROVIDER_MODEL_TERRA", "frozen-terra-model")
+
+    skill = _protocol_reasoning_skill(adapter_id, output_schema=output_schema)
+    result = durable_skill_runtime.execute_production_durable_skill(
+        {
+            "skillId": skill["skillId"],
+            "parameters": {"source": "frozen input"},
+            "frozenGoal": "Return one structured result.",
+            "logicalProviderId": "openai_primary",
+            "modelProfile": "terra",
+            "providerEvidence": {
+                "capabilityCallId": "call-protocol-unit",
+                "attemptNumber": 1,
+            },
+        },
+        prepared_runtime=skill,
+    )
+    return result, requests
+
+
+def _ok_artifact_text() -> str:
+    return json.dumps({"result": {"status": "ok"}})
+
+
+def test_durable_reasoning_skill_keeps_chat_completions_request_and_parse(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    result, requests = _execute_protocol_reasoning_skill(
+        monkeypatch,
+        adapter_id="huiyan_chat_completions",
+        response_body={
+            "choices": [{"message": {"content": _ok_artifact_text()}}],
+            "usage": {"prompt_tokens": 11, "completion_tokens": 5},
+        },
+    )
+
+    assert result["state"] == "succeeded"
+    assert json.loads(base64.b64decode(result["artifactPayload"]["contentBase64"])) == {
+        "result": {"status": "ok"}
+    }
+    assert len(requests) == 1
+    assert requests[0]["url"] == "https://provider.test/v1/chat/completions"
+    assert requests[0]["headers"]["Authorization"] == "Bearer test-key"
+    payload = requests[0]["json"]
+    assert list(payload) == ["model", "messages", "max_tokens", "temperature", "response_format"]
+    assert payload["model"] == "frozen-terra-model"
+    assert payload["max_tokens"] == 1000
+    assert payload["temperature"] == 0
+    assert payload["response_format"] == {"type": "json_object"}
+    assert [turn["role"] for turn in payload["messages"]] == ["system", "user"]
+
+
+def test_durable_reasoning_skill_posts_openai_responses_native_payload(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    result, requests = _execute_protocol_reasoning_skill(
+        monkeypatch,
+        adapter_id="openai_responses",
+        response_body={
+            "status": "completed",
+            "output": [{
+                "type": "message",
+                "content": [{"type": "output_text", "text": _ok_artifact_text()}],
+            }],
+            "usage": {"input_tokens": 11, "output_tokens": 5},
+        },
+    )
+
+    assert result["state"] == "succeeded"
+    assert json.loads(base64.b64decode(result["artifactPayload"]["contentBase64"])) == {
+        "result": {"status": "ok"}
+    }
+    assert len(requests) == 1
+    assert requests[0]["url"] == "https://provider.test/v1/responses"
+    assert requests[0]["headers"]["Authorization"] == "Bearer test-key"
+    assert "x-api-key" not in requests[0]["headers"]
+    payload = requests[0]["json"]
+    assert payload["model"] == "frozen-terra-model"
+    assert payload["store"] is False
+    assert payload["max_output_tokens"] == 1000
+    assert [turn["role"] for turn in payload["input"]] == ["system", "user"]
+    assert "messages" not in payload
+    assert "max_tokens" not in payload
+    assert "response_format" not in payload
+    assert payload["text"]["format"]["type"] == "json_schema"
+    assert payload["text"]["format"]["name"] == "openair_structured_output"
+
+
+def test_durable_reasoning_skill_posts_anthropic_messages_native_payload(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    result, requests = _execute_protocol_reasoning_skill(
+        monkeypatch,
+        adapter_id="anthropic_messages",
+        response_body={
+            "type": "message",
+            "stop_reason": "tool_use",
+            "content": [{
+                "type": "tool_use",
+                "name": "openair_structured_output",
+                "input": {"result": {"status": "ok"}},
+            }],
+            "usage": {"input_tokens": 11, "output_tokens": 5},
+        },
+    )
+
+    assert result["state"] == "succeeded"
+    assert json.loads(base64.b64decode(result["artifactPayload"]["contentBase64"])) == {
+        "result": {"status": "ok"}
+    }
+    assert len(requests) == 1
+    assert requests[0]["url"] == "https://provider.test/v1/messages"
+    assert requests[0]["headers"]["x-api-key"] == "test-key"
+    assert requests[0]["headers"]["anthropic-version"]
+    assert "Authorization" not in requests[0]["headers"]
+    payload = requests[0]["json"]
+    assert payload["model"] == "frozen-terra-model"
+    assert payload["max_tokens"] == 1000
+    assert isinstance(payload["system"], str) and payload["system"].strip()
+    assert [turn["role"] for turn in payload["messages"]] == ["user"]
+    assert "response_format" not in payload
+    assert "thinking" not in payload
+    assert "temperature" in payload
+    assert payload["tools"][0]["name"] == "openair_structured_output"
+    assert payload["tool_choice"] == {"type": "tool", "name": "openair_structured_output"}
+
+
+def test_durable_reasoning_skill_responses_schema_gap_falls_back_to_json_object(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    result, requests = _execute_protocol_reasoning_skill(
+        monkeypatch,
+        adapter_id="openai_responses",
+        response_body={
+            "status": "completed",
+            "output": [{
+                "type": "message",
+                "content": [{"type": "output_text", "text": json.dumps({"result": "ok"})}],
+            }],
+            "usage": {"input_tokens": 11, "output_tokens": 5},
+        },
+        output_schema={
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["result"],
+            "properties": {"result": {"type": "string"}},
+            "not": {"required": ["forbidden"]},
+        },
+    )
+
+    assert result["state"] == "succeeded"
+    assert json.loads(base64.b64decode(result["artifactPayload"]["contentBase64"])) == {
+        "result": "ok"
+    }
+    payload = requests[0]["json"]
+    assert payload["text"]["format"] == {"type": "json_object"}
+    assert "response_format" not in payload
+
+
+def test_structured_correction_payload_extends_protocol_native_turns() -> None:
+    chat_base = {
+        "model": "m",
+        "messages": [
+            {"role": "system", "content": "SYS"},
+            {"role": "user", "content": "USER"},
+        ],
+        "max_tokens": 8,
+    }
+    chat_out = durable_skill_runtime._structured_correction_payload(
+        chat_base, "上一轮答案", protocol="huiyan_chat_completions"
+    )
+    assert [t["role"] for t in chat_out["messages"]] == [
+        "system", "user", "assistant", "user",
+    ]  # noqa: S101 - test assertion
+
+    responses_base = {
+        "model": "m",
+        "input": [
+            {"role": "system", "content": "SYS"},
+            {"role": "user", "content": "USER"},
+        ],
+        "max_output_tokens": 8,
+        "text": {"format": {"type": "json_object"}},
+    }
+    responses_out = durable_skill_runtime._structured_correction_payload(
+        responses_base, "上一轮答案", protocol="openai_responses"
+    )
+    assert "messages" not in responses_out  # noqa: S101 - test assertion
+    assert [t["role"] for t in responses_out["input"]] == [
+        "system", "user", "assistant", "user",
+    ]  # noqa: S101 - test assertion
+    assert responses_out["text"]["format"] == {"type": "json_object"}  # noqa: S101 - test assertion
+
+    anthropic_base = {
+        "model": "m",
+        "system": "SYS",
+        "messages": [{"role": "user", "content": "USER"}],
+        "max_tokens": 8,
+        "tools": [{"name": "t", "input_schema": {}}],
+    }
+    anthropic_out = durable_skill_runtime._structured_correction_payload(
+        anthropic_base, "上一轮答案", protocol="anthropic_messages"
+    )
+    assert anthropic_out["system"] == "SYS"  # noqa: S101 - test assertion
+    assert [t["role"] for t in anthropic_out["messages"]] == [
+        "user", "assistant", "user",
+    ]  # noqa: S101 - test assertion
+    assert anthropic_out["tools"] == [{"name": "t", "input_schema": {}}]  # noqa: S101 - test assertion

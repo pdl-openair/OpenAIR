@@ -329,6 +329,27 @@ def test_final_content_failures_are_provider_output_not_assembly(provider, body)
     assert transport.calls == 1
 
 
+def test_anthropic_refusal_is_provider_output_not_assembly():
+    """An Anthropic ``stop_reason=refusal`` is model output, never a local fault."""
+    from app.execution.research_start_processing import read_protocol_provider_content
+
+    def decode(received):
+        return read_protocol_provider_content(
+            "anthropic_messages", received, schema_name="research_start_draft_plan",
+        )
+
+    transport = Transport(
+        {"content": [{"type": "text", "text": "private refusal"}], "stop_reason": "refusal"}
+    )
+    with pytest.raises(ProviderContractError) as caught:
+        execute_prepared_attempt(prepared(decode), transport=transport)
+    assert caught.value.safe_error_code == "provider_final_content_unavailable"
+    failure = _failure_result(caught.value)
+    assert failure["plannerDiagnostic"]["stage"] == "provider_content"
+    assert "private" not in json.dumps(failure)
+    assert transport.calls == 1
+
+
 def test_public_session_projection_never_exposes_internal_response_evidence():
     from app.modules.research_start_repository import _session_public
     payload = _session_public({

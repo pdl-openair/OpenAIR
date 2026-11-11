@@ -246,7 +246,7 @@ def provider_request_identity(headers: Mapping[str, Any] | None) -> str | None:
 
 def execute_observed_openai_compatible_json(
     *,
-    protocol: Literal["chat_completions", "responses"],
+    protocol: Literal["chat_completions", "responses", "anthropic_messages"],
     base_url: str,
     api_key: str,
     timeout_seconds: float,
@@ -260,16 +260,18 @@ def execute_observed_openai_compatible_json(
     evidence_kind: str = EVIDENCE_KIND_PROVIDER_SUBMISSION,
     adapter_name: str | None = None,
 ) -> dict[str, Any]:
-    """Execute one OpenAI-compatible HTTP call through the physical-attempt ledger.
+    """Execute one Provider HTTP call through the physical-attempt ledger.
 
     The raw HTTP response is settled before status/JSON interpretation. Therefore
     a later local decode/schema/staging failure cannot rewrite Provider completion.
     """
+    from llm_core.anthropic_client import messages_url, post_messages
     from llm_core.openai_compatible_client import (
         ProviderEndpoint,
         chat_completions_url,
         post_chat_completions,
         post_responses,
+        responses_url,
     )
 
     body = json.dumps(dict(payload), ensure_ascii=True, separators=(",", ":"), sort_keys=True).encode("utf-8")
@@ -278,8 +280,11 @@ def execute_observed_openai_compatible_json(
         endpoint = chat_completions_url(base)
         submit = post_chat_completions
     elif protocol == "responses":
-        endpoint = f"{base}/responses" if base.endswith("/v1") else f"{base}/v1/responses"
+        endpoint = responses_url(base)
         submit = post_responses
+    elif protocol == "anthropic_messages":
+        endpoint = messages_url(base)
+        submit = post_messages
     else:
         raise ProviderAttemptEvidenceError("provider_protocol_invalid")
 

@@ -13,6 +13,7 @@ from app.models.result_protocol import (
     result_protocol_usable,
 )
 from app.modules.provider_registry import (
+    PROVIDER_PROTOCOLS,
     ProviderRegistry,
     ProviderSubmissionSafety,
     load_provider_registry,
@@ -258,7 +259,7 @@ class RegistryDispatchProviderFactory:
         definition = self._registry.require(provider_id)
         require_safe_submission(definition.submissionSafety)
         provider = self._adapters.get(definition.adapter)
-        if provider is None and definition.adapter == "huiyan_chat_completions":
+        if provider is None and definition.protocol in PROVIDER_PROTOCOLS:
             from app.execution.research_dispatch_huiyan_provider import (
                 HuiyanResearchDispatchProvider,
             )

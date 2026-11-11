@@ -202,38 +202,6 @@ def test_parse_llm_json_content_raises_for_truncated_json():
         _parse_llm_json_content('{"interpreted_constraints": [{"downstream_search_terms": ["fast charging",')
 
 
-def test_responses_payload_uses_strict_json_schema_and_store_false():
-    from app.execution.llm_structured_runner import _build_responses_payload
-
-    payload = _build_responses_payload(
-        model="gpt-5-mini",
-        system_prompt="system",
-        user_prompt="user",
-        output_schema={
-            "$schema": "draft",
-            "title": "Example",
-            "type": "object",
-            "properties": {},
-            "required": [],
-            "additionalProperties": False,
-        },
-        schema_name="example_output",
-        max_completion_tokens=700,
-        reasoning_effort="minimal",
-        temperature=0,
-    )
-
-    assert payload["text"]["format"]["type"] == "json_schema"
-    assert payload["text"]["format"]["strict"] is True
-    assert payload["text"]["format"]["name"] == "example_output"
-    assert "$schema" not in payload["text"]["format"]["schema"]
-    assert "title" not in payload["text"]["format"]["schema"]
-    assert payload["store"] is False
-    assert payload["max_output_tokens"] == 700
-    assert payload["reasoning"] == {"effort": "minimal"}
-    assert "temperature" not in payload
-
-
 def test_extract_responses_output_text_from_message_content():
     from app.execution.llm_structured_runner import _extract_responses_output_text
 
@@ -479,3 +447,209 @@ def test_cli_preserves_finalizer_rejection_diagnostics(
         "code": "finalizer_rejected",
         "errors": [finalizer_error, structured_error],
     }
+
+
+# ---------------------------------------------------------------------------
+# Protocol-dimension provider support (openai_chat_completions alias,
+# openai_responses via provider config, anthropic_messages tool use).
+# ---------------------------------------------------------------------------
+
+
+def _install_protocol_fake_client(
+    monkeypatch: pytest.MonkeyPatch,
+    responses: list[dict[str, Any]],
+    provider: str,
+) -> list[dict[str, Any]]:
+    from llm_core import anthropic_client
+
+    calls: list[dict[str, Any]] = []
+    factory = lambda timeout, trust_env=False: _FakeClient(responses, calls)  # noqa: E731
+    monkeypatch.setattr(openai_compatible_client.httpx, "Client", factory)
+    monkeypatch.setattr(anthropic_client.httpx, "Client", factory)
+    monkeypatch.setenv("LLM_PROVIDER_API_KEY", "test-key")
+    monkeypatch.setenv("LLM_PROVIDER_BASE_URL", "https://example.test")
+    monkeypatch.setenv("OPENTRAJECTORY_LLM_PROVIDER", provider)
+    # These tests pin the wire protocol through the selector, so they run on the
+    # legacy credential path: without a registry-resolvable model variable the
+    # registry adapter is unknown and the selector is the sole protocol
+    # authority (a real .env in a developer checkout must not change that).
+    monkeypatch.delenv("LLM_PROVIDER_MODEL", raising=False)
+    return calls
+
+
+def test_openai_chat_completions_alias_sends_chat_request(monkeypatch, tmp_path) -> None:
+    calls = _install_protocol_fake_client(
+        monkeypatch, [_completion('{"value": 0.9}')], "openai_chat_completions"
+    )
+
+    output, _elapsed, meta = runner.run_skill_with_llm(
+        _skill(tmp_path), {}, tmp_path / "workspace", "task",
+    )
+
+    assert output == {"value": 0.9}  # noqa: S101 - test assertion
+    assert calls[0]["url"].endswith("/v1/chat/completions")  # noqa: S101 - test assertion
+    assert calls[0]["headers"]["Authorization"] == "Bearer test-key"  # noqa: S101 - test assertion
+    assert calls[0]["json"]["response_format"] == {"type": "json_object"}  # noqa: S101 - test assertion
+    assert meta["provider"] == "openai_chat_completions"  # noqa: S101 - test assertion
+
+
+def test_openai_responses_reads_provider_configured_credentials(monkeypatch, tmp_path) -> None:
+    responses_body = {
+        "output": [
+            {"content": [{"type": "output_text", "text": '{"value": 0.9}'}]},
+        ],
+        "status": "completed",
+        "usage": {"input_tokens": 11, "output_tokens": 7},
+    }
+    calls = _install_protocol_fake_client(monkeypatch, [responses_body], "openai_responses")
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    monkeypatch.delenv("OPENAI_API_BASE_URL", raising=False)
+
+    output, _elapsed, meta = runner.run_skill_with_llm(
+        _skill(tmp_path), {}, tmp_path / "workspace", "task",
+    )
+
+    assert output == {"value": 0.9}  # noqa: S101 - test assertion
+    assert calls[0]["url"].endswith("/v1/responses")  # noqa: S101 - test assertion
+    assert calls[0]["headers"]["Authorization"] == "Bearer test-key"  # noqa: S101 - test assertion
+    assert calls[0]["json"]["input"][0]["role"] == "system"  # noqa: S101 - test assertion
+    assert calls[0]["json"]["text"]["format"]["type"] == "json_schema"  # noqa: S101 - test assertion
+    assert meta["provider"] == "openai_responses"  # noqa: S101 - test assertion
+    assert meta["prompt_tokens"] == 11  # noqa: S101 - test assertion
+    assert meta["completion_tokens"] == 7  # noqa: S101 - test assertion
+
+
+def _anthropic_tool_response(*, input_tokens: int = 9, output_tokens: int = 4) -> dict[str, Any]:
+    return {
+        "stop_reason": "tool_use",
+        "content": [
+            {
+                "type": "tool_use",
+                "id": "t1",
+                "name": "synthetic_skill_output",
+                "input": {"value": 0.9},
+            },
+        ],
+        "usage": {"input_tokens": input_tokens, "output_tokens": output_tokens},
+    }
+
+
+def test_anthropic_messages_sends_native_request_and_reads_tool_input(
+    monkeypatch, tmp_path
+) -> None:
+    calls = _install_protocol_fake_client(
+        monkeypatch, [_anthropic_tool_response()], "anthropic_messages"
+    )
+
+    output, _elapsed, meta = runner.run_skill_with_llm(
+        _skill(tmp_path), {}, tmp_path / "workspace", "task",
+    )
+
+    assert output == {"value": 0.9}  # noqa: S101 - test assertion
+    request = calls[0]
+    assert request["url"].endswith("/v1/messages")  # noqa: S101 - test assertion
+    assert request["headers"]["x-api-key"] == "test-key"  # noqa: S101 - test assertion
+    assert request["headers"]["anthropic-version"] == "2023-06-01"  # noqa: S101 - test assertion
+    payload = request["json"]
+    assert payload["system"].startswith("You are an executor")  # noqa: S101 - test assertion
+    assert payload["max_tokens"] >= 1  # noqa: S101 - test assertion
+    assert payload["tool_choice"] == {"type": "tool", "name": "synthetic_skill_output"}  # noqa: S101 - test assertion
+    assert payload["tools"][0]["input_schema"]["properties"] == {"value": {"type": "number"}}  # noqa: S101 - test assertion
+    assert meta["provider"] == "anthropic_messages"  # noqa: S101 - test assertion
+    assert meta["prompt_tokens"] == 9  # noqa: S101 - test assertion
+    assert meta["completion_tokens"] == 4  # noqa: S101 - test assertion
+    assert meta["choice_finish_reason"] == "tool_use"  # noqa: S101 - test assertion
+
+
+def test_anthropic_messages_correction_retry_keeps_assistant_turn(monkeypatch, tmp_path) -> None:
+    non_json_reply = {"stop_reason": "end_turn", "content": [{"type": "text", "text": "不是 JSON"}]}
+    calls = _install_protocol_fake_client(
+        monkeypatch,
+        [non_json_reply, _anthropic_tool_response()],
+        "anthropic_messages",
+    )
+    skill_dir = _skill(tmp_path)
+    (skill_dir / "skill.yaml").write_text(
+        "output_file: output.json\nllm:\n  structured_output_max_attempts: 2\n",
+        encoding="utf-8",
+    )
+
+    output, _elapsed, meta = runner.run_skill_with_llm(
+        skill_dir, {}, tmp_path / "workspace", "task",
+    )
+
+    assert output == {"value": 0.9}  # noqa: S101 - test assertion
+    assert len(calls) == 2  # noqa: S101 - test assertion
+    assert calls[0]["json"]["messages"][0]["role"] == "user"  # noqa: S101 - test assertion
+    assert calls[1]["json"]["messages"][1]["role"] == "assistant"  # noqa: S101 - test assertion
+    assert meta["structured_output_retries"] == 1  # noqa: S101 - test assertion
+
+
+def test_anthropic_messages_empty_reply_routes_to_correction_retry(monkeypatch, tmp_path) -> None:
+    truncated_reply = {"stop_reason": "max_tokens", "content": []}
+    calls = _install_protocol_fake_client(
+        monkeypatch,
+        [truncated_reply, _anthropic_tool_response()],
+        "anthropic_messages",
+    )
+    skill_dir = _skill(tmp_path)
+    (skill_dir / "skill.yaml").write_text(
+        "output_file: output.json\nllm:\n  structured_output_max_attempts: 2\n",
+        encoding="utf-8",
+    )
+
+    output, _elapsed, meta = runner.run_skill_with_llm(
+        skill_dir, {}, tmp_path / "workspace", "task",
+    )
+
+    assert output == {"value": 0.9}  # noqa: S101 - test assertion
+    assert len(calls) == 2  # noqa: S101 - test assertion
+    assert meta["structured_output_retries"] == 1  # noqa: S101 - test assertion
+
+
+# ---------------------------------------------------------------------------
+# Selector/registry protocol consistency (fail closed before Provider I/O).
+# ---------------------------------------------------------------------------
+
+
+def test_selector_conflicting_with_registry_adapter_fails_before_provider_io(
+    monkeypatch, tmp_path
+) -> None:
+    # A resolvable registry supplies the credentials from the default provider
+    # (schemas/providers/provider-registry.yaml: huiyan_chat_completions), while
+    # the selector asks for the Anthropic wire protocol. Previously the request
+    # would be sent with the chat gateway's key; the path must fail closed.
+    calls = _install_protocol_fake_client(
+        monkeypatch, [_completion('{"value": 0.9}')], "anthropic_messages"
+    )
+    monkeypatch.setenv("LLM_PROVIDER_MODEL", "registry-model")
+
+    with pytest.raises(RuntimeError) as raised:
+        runner.run_skill_with_llm(
+            _skill(tmp_path), {}, tmp_path / "workspace", "task",
+        )
+
+    message = str(raised.value)
+    assert "OPENTRAJECTORY_LLM_PROVIDER=anthropic_messages" in message  # noqa: S101 - test assertion
+    assert "registry adapter huiyan_chat_completions" in message  # noqa: S101 - test assertion
+    assert calls == []  # noqa: S101 - test assertion
+
+
+def test_selector_matching_registry_adapter_protocol_still_executes(
+    monkeypatch, tmp_path
+) -> None:
+    # The same protocol under two names (the huiyan alias and the canonical
+    # protocol name) is not a mismatch.
+    calls = _install_protocol_fake_client(
+        monkeypatch, [_completion('{"value": 0.9}')], "openai_chat_completions"
+    )
+    monkeypatch.setenv("LLM_PROVIDER_MODEL", "registry-model")
+
+    output, _elapsed, meta = runner.run_skill_with_llm(
+        _skill(tmp_path), {}, tmp_path / "workspace", "task",
+    )
+
+    assert output == {"value": 0.9}  # noqa: S101 - test assertion
+    assert len(calls) == 1  # noqa: S101 - test assertion
+    assert calls[0]["url"].endswith("/v1/chat/completions")  # noqa: S101 - test assertion
+    assert meta["provider"] == "openai_chat_completions"  # noqa: S101 - test assertion

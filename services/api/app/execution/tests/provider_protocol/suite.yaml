@@ -1,0 +1,45 @@
+suite_id: component.execution.provider-protocol
+protected_outcome: >-
+  三种 Provider 协议（openai_chat_completions、openai_responses、
+  anthropic_messages）的端点、认证头、请求体、结构化输出封装、响应提取与
+  usage 归一化只经 provider_protocol 一层表达；huiyan_chat_completions 保持
+  为 chat completions 的兼容别名；未知协议名在发出任何 Provider I/O 前失败。
+authority_refs:
+  - docs/task_specs/provider-protocol-adapters.md
+  - spec/testing/OpenAIR 测试设计合同.md
+  - spec/testing/OpenAIR 测试代码架构.md
+failure_class:
+  - protocol_branch_leaks_into_call_sites
+  - alias_or_protocol_name_is_rejected
+  - anthropic_request_missing_required_max_tokens_or_system_field
+  - structured_output_envelope_does_not_match_protocol
+  - anthropic_structured_output_ignored_tool_input
+  - usage_shape_differs_across_protocols
+minimum_owner: 单个组件行为
+production_targets:
+  - services/api/app/execution/provider_protocol.py
+  - packages/llm_core/llm_core/anthropic_client.py
+test_responsibility: >-
+  Deterministically prove per-protocol wire contracts: endpoint resolution for
+  bare and /v1 bases, protocol-native auth headers, payload shapes (messages
+  vs input vs top-level system with required max_tokens), structured-output
+  envelopes (json_object / json_schema / forced tool_use), text and tool-input
+  extraction including refusal, finish-reason mapping, and unified billable
+  usage with estimation fallback.
+execution_profiles:
+  - deterministic
+required_dependencies:
+  - project_python_dependencies
+evidence_required:
+  - pytest_exit_code_0
+  - per_protocol_payload_assertions
+  - per_protocol_extraction_assertions
+  - alias_normalization_assertions
+verdict_rule: >-
+  PASS only when every protocol's endpoint, headers, payload, envelope and
+  extraction assertions hold and unknown protocols fail closed before any I/O;
+  FAIL when a wire difference leaks outside this layer or a protocol produces a
+  non-native request; otherwise NO_VALID_EVIDENCE.
+triggers:
+  - provider protocol adapter behavior changes
+  - new provider protocol support

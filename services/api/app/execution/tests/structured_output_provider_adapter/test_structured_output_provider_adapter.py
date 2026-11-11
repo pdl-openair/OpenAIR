@@ -163,3 +163,91 @@ def test_openai_losslessly_lowers_disjoint_oneof_and_typed_const() -> None:
     assert transported["properties"]["rationale"] == {
         "anyOf": [{"type": "string"}, {"type": "boolean"}],
     }
+
+
+def test_structured_response_format_admits_all_three_protocols() -> None:
+    assert structured_response_format(
+        "openai_chat_completions",
+        schema_name="ignored",
+    ) == {"type": "json_object"}
+    assert structured_response_format(
+        "anthropic_messages",
+        schema_name="emit_v1",
+    ) == {"type": "tool_use", "name": "emit_v1"}
+
+
+def test_openai_chat_completions_keeps_json_mode_without_serializing_schema() -> None:
+    payload = {
+        "model": "test-model",
+        "messages": [
+            {"role": "system", "content": "SYS"},
+            {"role": "user", "content": "USER"},
+        ],
+    }
+
+    adapted = apply_provider_schema_transport(
+        "openai_chat_completions",
+        payload=payload,
+        response_format={"type": "json_object"},
+        provider_schema=_closed_schema(),
+    )
+
+    assert adapted["response_format"] == {"type": "json_object"}
+    assert "schema" not in adapted["response_format"]
+    assert payload["messages"][1]["content"] == "USER"
+
+
+def test_anthropic_messages_uses_forced_tool_with_projected_schema() -> None:
+    payload = {
+        "model": "claude-sonnet-4-5",
+        "system": "SYS",
+        "max_tokens": 512,
+        "messages": [{"role": "user", "content": "USER"}],
+    }
+
+    adapted = apply_provider_schema_transport(
+        "anthropic_messages",
+        payload=payload,
+        response_format={"type": "tool_use", "name": "emit_v1"},
+        provider_schema=_closed_schema(),
+    )
+
+    assert adapted["tool_choice"] == {"type": "tool", "name": "emit_v1"}
+    assert len(adapted["tools"]) == 1
+    tool = adapted["tools"][0]
+    assert tool["name"] == "emit_v1"
+    assert tool["input_schema"]["type"] == "object"
+    assert tool["input_schema"]["required"] == ["selectedId", "rationale"]
+    assert tool["input_schema"]["properties"]["selectedId"] == {
+        "type": "string",
+        "enum": ["a", "b"],
+    }
+    assert "response_format" not in adapted
+    assert payload["messages"][0]["content"] == "USER"
+
+
+def test_anthropic_messages_accepts_pattern_constraint_without_openai_strict_gate() -> None:
+    schema = _closed_schema()
+    schema["properties"]["rationale"] = {"type": "string", "pattern": "^[A-Za-z]+$"}
+
+    adapted = apply_provider_schema_transport(
+        "anthropic_messages",
+        payload={"model": "m", "max_tokens": 8, "messages": [{"role": "user", "content": "u"}]},
+        response_format={"type": "tool_use", "name": "emit_v1"},
+        provider_schema=schema,
+    )
+
+    assert (
+        adapted["tools"][0]["input_schema"]["properties"]["rationale"]["pattern"]
+        == "^[A-Za-z]+$"
+    )
+
+
+def test_anthropic_messages_requires_tool_use_envelope() -> None:
+    with pytest.raises(ValueError, match="tool_use"):
+        apply_provider_schema_transport(
+            "anthropic_messages",
+            payload={"model": "m", "max_tokens": 8, "messages": []},
+            response_format={"type": "json_object"},
+            provider_schema=_closed_schema(),
+        )

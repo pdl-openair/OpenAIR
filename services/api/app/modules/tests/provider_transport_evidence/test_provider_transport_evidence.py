@@ -339,3 +339,121 @@ def test_sub_call_finish_does_not_touch_capability_checkpoint(monkeypatch) -> No
 
     assert stage_calls == []
     assert mark_not_submitted_calls == []
+
+
+class _AnthropicResponse:
+    def __init__(self, status_code: int, body: dict) -> None:
+        self.status_code = status_code
+        self.content = json.dumps(body).encode("utf-8")
+        self.headers = {"content-type": "application/json"}
+
+    def raise_for_status(self) -> None:
+        import httpx
+
+        if self.status_code >= 400:
+            raise httpx.HTTPStatusError(
+                "provider rejected request",
+                request=httpx.Request("POST", "https://gateway.example/v1/messages"),
+                response=httpx.Response(self.status_code, request=httpx.Request("POST", "https://gateway.example/v1/messages")),
+            )
+
+    def json(self) -> dict:
+        return json.loads(self.content)
+
+
+def _anthropic_submission(monkeypatch, *, status_code: int, response_body: dict):
+    from types import SimpleNamespace
+
+    import httpx
+    from app.modules import provider_transport_evidence as evidence
+    from llm_core import anthropic_client
+
+    begins: list[dict] = []
+    finishes: list[dict] = []
+    sent: list[dict] = []
+
+    class Repository:
+        def __init__(self, **_kwargs) -> None:
+            pass
+
+        def begin(self, **values):
+            begins.append(values)
+            return SimpleNamespace(headers={"x-openair-attempt": "anthropic-attempt"})
+
+        def mark_io_started(self, _attempt) -> None:
+            return None
+
+        def finish(self, _attempt, **values) -> None:
+            finishes.append(values)
+
+    class Client:
+        def __init__(self, **_options) -> None:
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args) -> None:
+            return None
+
+        def post(self, url, headers=None, json=None):
+            sent.append({"url": url, "headers": dict(headers or {})})
+            return _AnthropicResponse(status_code, response_body)
+
+    monkeypatch.setattr(evidence, "ProviderHttpAttemptRepository", Repository)
+    monkeypatch.setattr(anthropic_client.httpx, "Client", Client)
+    kwargs = dict(
+        protocol="anthropic_messages",
+        base_url="https://gateway.example/v1",
+        api_key="anthropic-secret",
+        timeout_seconds=5.0,
+        payload={
+            "model": "claude-test",
+            "max_tokens": 64,
+            "messages": [{"role": "user", "content": "hi"}],
+        },
+        adapter="anthropic_messages",
+        provider="anthropic_messages",
+        model="claude-test",
+        operation_identity="research_start:research_planner",
+    )
+    error: Exception | None = None
+    result = None
+    try:
+        result = evidence.execute_observed_openai_compatible_json(**kwargs)
+    except httpx.HTTPStatusError as exc:
+        error = exc
+    return result, error, begins, finishes, sent
+
+
+def test_anthropic_submission_records_native_endpoint_and_response_evidence(monkeypatch) -> None:
+    result, error, begins, finishes, sent = _anthropic_submission(
+        monkeypatch,
+        status_code=200,
+        response_body={
+            "content": [{"type": "text", "text": "ok"}],
+            "usage": {"input_tokens": 1, "output_tokens": 1},
+        },
+    )
+
+    assert error is None
+    assert result["content"][0]["text"] == "ok"
+    assert sent[-1]["url"] == "https://gateway.example/v1/messages"
+    assert sent[-1]["headers"]["x-api-key"] == "anthropic-secret"
+    assert "Authorization" not in sent[-1]["headers"]
+    assert begins[0]["endpoint"] == "https://gateway.example/v1/messages"
+    assert finishes[0]["outcome"] == "response_received"
+
+
+def test_anthropic_rejection_keeps_existing_provider_error_evidence(monkeypatch) -> None:
+    _, error, begins, finishes, sent = _anthropic_submission(
+        monkeypatch,
+        status_code=400,
+        response_body={"error": {"type": "invalid_request_error", "message": "bad schema"}},
+    )
+
+    assert error is not None
+    assert sent[-1]["url"] == "https://gateway.example/v1/messages"
+    assert begins[0]["endpoint"] == "https://gateway.example/v1/messages"
+    assert finishes[0]["outcome"] == "provider_http_error"
+    assert finishes[0]["http_status"] == 400

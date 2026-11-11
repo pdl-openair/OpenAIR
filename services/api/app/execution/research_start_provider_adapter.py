@@ -22,6 +22,11 @@ from typing import Any, Callable, Generic, Mapping, Protocol, TypeVar
 
 import httpx
 
+from app.execution.provider_protocol import (
+    protocol_chat_prompts,
+    protocol_headers,
+    protocol_supports_stream,
+)
 from app.execution.structured_output_provider_adapter import apply_provider_schema_transport
 
 _logger = logging.getLogger("openair.research_start.provider")
@@ -177,8 +182,8 @@ class HttpxResearchStartTransport:
             write=min(10.0, request_budget),
             read=None,
         )
-        writer = _live_thinking_writer(endpoint)
         payload = dict(json)
+        writer = _live_thinking_writer() if payload.get("stream") is True else None
         with httpx.Client(timeout=transport_timeout) as client:
             if writer is None:
                 return client.post(endpoint, headers=dict(headers), json=payload)
@@ -221,9 +226,7 @@ class HttpxResearchStartTransport:
         )
 
 
-def _live_thinking_writer(endpoint: str) -> Any:
-    if "/chat/completions" not in endpoint:
-        return None
+def _live_thinking_writer() -> Any:
     from app.modules.research_start_thinking_store import current_thinking_writer
 
     return current_thinking_writer()
@@ -231,12 +234,16 @@ def _live_thinking_writer(endpoint: str) -> Any:
 
 def _transport_payload(
     transport: ResearchStartHttpTransport,
-    endpoint: str,
+    protocol: str,
     payload: Mapping[str, Any],
 ) -> dict[str, Any]:
     """Freeze transport options before recording the actual submitted payload."""
     actual = dict(payload)
-    if isinstance(transport, HttpxResearchStartTransport) and _live_thinking_writer(endpoint):
+    if (
+        isinstance(transport, HttpxResearchStartTransport)
+        and protocol_supports_stream(protocol)
+        and _live_thinking_writer()
+    ):
         actual["stream"] = True
     return actual
 
@@ -359,40 +366,11 @@ class _PreparedAttempt(Generic[T]):
 
     @property
     def system_prompt(self) -> str:
-        payload = self._thaw_payload()
-        if self.provider == "openai_responses":
-            return self._responses_role_prompt(payload, "system")
-        messages = payload.get("messages") or []
-        return str(messages[0].get("content") or "") if messages else ""
+        return protocol_chat_prompts(self.provider, self._thaw_payload())[0]
 
     @property
     def user_prompt(self) -> str:
-        payload = self._thaw_payload()
-        if self.provider == "openai_responses":
-            return self._responses_role_prompt(payload, "user")
-        messages = payload.get("messages") or []
-        return str(messages[1].get("content") or "") if len(messages) > 1 else ""
-
-    @staticmethod
-    def _responses_role_prompt(payload: Mapping[str, Any], role: str) -> str:
-        input_items = payload.get("input")
-        if not isinstance(input_items, list):
-            return ""
-        for item in input_items:
-            if not isinstance(item, Mapping) or item.get("role") != role:
-                continue
-            content = item.get("content")
-            if isinstance(content, str):
-                return content
-            if isinstance(content, list):
-                text_parts = [
-                    str(part.get("text"))
-                    for part in content
-                    if isinstance(part, Mapping) and isinstance(part.get("text"), str)
-                ]
-                return "".join(text_parts)
-            return ""
-        return ""
+        return protocol_chat_prompts(self.provider, self._thaw_payload())[1]
 
     def _thaw_payload(self) -> dict[str, Any]:
         return json.loads(self._request_bytes.decode("utf-8"))
@@ -422,11 +400,42 @@ class PreparedPlannerAttempt(_PreparedAttempt[T], Generic[T]):
 
 
 
+def resolve_provider_transport() -> tuple[str, str]:
+    """Resolve Provider credentials for one physical submission.
+
+    The provider registry owns the per-provider environment mapping; only the
+    ``apiKey``/``baseUrl`` variables are read here (a role-scoped model
+    variable may be the only model configuration present). ``LLM_PROVIDER_*``
+    remains the fallback for environments without a resolvable registry. Both
+    values are empty when neither source is complete.
+    """
+    from app.modules.provider_registry import ProviderRegistryError, load_provider_registry
+
+    try:
+        registry = load_provider_registry()
+        environment = registry.require(registry.defaultProviderId).environment
+        api_key = os.environ.get(environment.get("apiKey", "")) or ""
+        base_url = os.environ.get(environment.get("baseUrl", "")) or ""
+        if api_key and base_url:
+            return api_key, base_url
+    except (ProviderRegistryError, OSError, ValueError):
+        pass
+    return (
+        os.environ.get("LLM_PROVIDER_API_KEY") or "",
+        os.environ.get("LLM_PROVIDER_BASE_URL") or "",
+    )
+
+
+def provider_api_key() -> str:
+    """Return the resolved Provider credential ("" when unavailable)."""
+    return resolve_provider_transport()[0]
+
+
 def _authorization_headers(provider: str) -> dict[str, str]:
-    key = os.environ.get("OPENAI_API_KEY") if provider == "openai_responses" else os.environ.get("LLM_PROVIDER_API_KEY")
+    key = provider_api_key()
     if not key:
         raise _ProviderConfigurationError() from None
-    return {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
+    return protocol_headers(provider, key)
 
 
 
@@ -515,7 +524,7 @@ def execute_prepared_attempt(
                 prepared.provider, payload=request_payload,
                 response_format=prepared.response_format, provider_schema=provider_schema,
             )
-        request_payload = _transport_payload(active_transport, prepared.endpoint, request_payload)
+        request_payload = _transport_payload(active_transport, prepared.provider, request_payload)
     # Local preparation/configuration failures happen before a physical attempt exists.
     headers = _authorization_headers(prepared.provider)
     request_body = _PreparedAttempt._encode(request_payload)

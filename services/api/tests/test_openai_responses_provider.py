@@ -708,8 +708,17 @@ def test_production_parser_rejects_mixed_extra_or_malformed_actions(response: Ma
         _parse(response)
 
 
-def _adapter(transport: Any, *, environ: Mapping[str, str] | None = None) -> OpenAIResponsesProviderAdapter:
-    return OpenAIResponsesProviderAdapter(transport=transport, registry=_registry(), environ=environ or _environment())
+def _adapter(
+    transport: Any,
+    *,
+    environ: Mapping[str, str] | None = None,
+    registry: Any | None = None,
+) -> OpenAIResponsesProviderAdapter:
+    return OpenAIResponsesProviderAdapter(
+        transport=transport,
+        registry=registry or _registry(),
+        environ=environ or _environment(),
+    )
 
 
 def _execute_http(base_url: str):
@@ -734,8 +743,12 @@ def _parse(response: Mapping[str, Any]):
 
 
 def _registry() -> Any:
+    return _protocol_registry("huiyan_chat_completions")
+
+
+def _protocol_registry(adapter: str) -> Any:
     return build_provider_registry({"schemaVersion": 1, "defaultProviderId": "openai_primary", "providers": [{
-        "providerId": "openai_primary", "adapter": "huiyan_chat_completions", "maxOutputChars": 64,
+        "providerId": "openai_primary", "adapter": adapter, "maxOutputChars": 64,
         "submissionSafety": {
             "submissionMode": "single_attempt_no_replay",
             "acceptsIdempotencyKey": False,
@@ -869,3 +882,262 @@ def test_mechanical_normalizer_refuses_ambiguous_multiple_objects() -> None:
             artifact_contract="test_artifact_v1",
             required_fields=("result",),
         )
+
+
+def _unlowerable_schema_request() -> FrozenOrchestrationExecutionRequest:
+    return _request_with_schema({
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "contractId": "test_artifact_v1",
+        "semanticVersion": "1.0.0",
+        "type": "object",
+        "additionalProperties": False,
+        "required": ["result"],
+        "properties": {"result": {"type": "string"}},
+        "not": {"required": ["forbidden"]},
+    })
+
+
+def _protocol_loopback(
+    adapter_name: str,
+    response_body: Mapping[str, Any],
+    *,
+    request: FrozenOrchestrationExecutionRequest | None = None,
+):
+    captured: dict[str, Any] = {}
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_POST(self) -> None:  # noqa: N802
+            captured["path"] = self.path
+            captured["headers"] = dict(self.headers)
+            captured["raw"] = self.rfile.read(int(self.headers["Content-Length"]))
+            captured["json"] = json.loads(captured["raw"])
+            body = json.dumps(response_body).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, format: str, *args: Any) -> None:
+            return
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        transport = HttpOpenAIResponsesTransport(ReservedAttemptRepository())
+        adapter = _adapter(
+            transport,
+            environ=_environment(f"http://127.0.0.1:{server.server_port}"),
+            registry=_protocol_registry(adapter_name),
+        )
+        prepared = adapter.prepare(request or _request())
+        prepared = replace(
+            prepared,
+            request=replace(
+                prepared.request,
+                capabilityCallId="call-http-unit",
+                attemptNumber=1,
+            ),
+        )
+        return adapter.execute_prepared(prepared), captured
+    finally:
+        server.shutdown()
+        thread.join()
+        server.server_close()
+
+
+def test_chat_completions_request_is_unchanged_by_the_protocol_layer(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING", "disabled")
+    monkeypatch.setenv("OPENAIR_DURABLE_ORCHESTRATE_LLM_MAX_TOKENS", "2400")
+    response = {
+        "choices": [{
+            "finish_reason": "stop",
+            "message": {
+                "content": json.dumps({
+                    "title": "Chat",
+                    "mimeType": "text/plain",
+                    "content": {"result": {}},
+                })
+            },
+        }],
+    }
+
+    result, captured = _protocol_loopback("huiyan_chat_completions", response)
+
+    assert captured["path"] == "/v1/chat/completions"
+    assert captured["headers"]["Authorization"] == "Bearer test-key"
+    payload = captured["json"]
+    # The chat-completions request keeps its historical field set and order.
+    assert list(payload) == [
+        "model", "messages", "max_tokens", "thinking", "reasoning_effort", "response_format",
+    ]
+    assert [turn["role"] for turn in payload["messages"]] == ["system", "user"]
+    assert payload["max_tokens"] == 2400
+    assert payload["thinking"] == {"type": "disabled"}
+    assert payload["reasoning_effort"] == "none"
+    assert payload["response_format"] == {"type": "json_object"}
+    assert json.loads(result.content) == {"result": {}}
+    assert result.usage is not None
+
+
+def test_openai_responses_protocol_posts_native_payload_and_parses_output_text() -> None:
+    response = {
+        "id": "resp_unit",
+        "status": "completed",
+        "output": [{
+            "type": "message",
+            "content": [{
+                "type": "output_text",
+                "text": json.dumps({
+                    "title": "Native",
+                    "mimeType": "text/plain",
+                    "content": {"result": {"status": "ok"}},
+                }),
+            }],
+        }],
+        "usage": {"input_tokens": 7, "output_tokens": 3, "total_tokens": 10},
+    }
+
+    result, captured = _protocol_loopback(
+        "openai_responses",
+        response,
+        request=_nested_schema_request(),
+    )
+
+    assert captured["path"] == "/v1/responses"
+    assert captured["headers"]["Authorization"] == "Bearer test-key"
+    assert "x-api-key" not in captured["headers"]
+    payload = captured["json"]
+    assert payload["model"] == "terra-model"
+    assert payload["store"] is False
+    assert [turn["role"] for turn in payload["input"]] == ["system", "user"]
+    assert "messages" not in payload
+    assert "max_tokens" not in payload
+    assert payload["text"]["format"]["type"] == "json_schema"
+    assert payload["text"]["format"]["name"] == "openair_durable_research_result"
+    assert payload["text"]["format"]["strict"] is True
+    assert json.loads(result.content) == {"result": {"status": "ok"}}
+    assert {
+        key: result.usage[key] for key in ("inputTokens", "outputTokens", "totalTokens")
+    } == {"inputTokens": 7, "outputTokens": 3, "totalTokens": 10}
+
+
+def test_openai_responses_protocol_falls_back_to_json_object_when_strict_schema_is_unsupported(
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    response = {
+        "status": "completed",
+        "output": [{
+            "type": "message",
+            "content": [{
+                "type": "output_text",
+                "text": json.dumps({
+                    "title": "Fallback",
+                    "mimeType": "text/plain",
+                    "content": {"result": "ok"},
+                }),
+            }],
+        }],
+        "usage": {"input_tokens": 5, "output_tokens": 2},
+    }
+
+    with caplog.at_level("WARNING", logger="openair.openai_responses_provider"):
+        result, captured = _protocol_loopback(
+            "openai_responses",
+            response,
+            request=_unlowerable_schema_request(),
+        )
+
+    payload = captured["json"]
+    assert payload["text"]["format"] == {"type": "json_object"}
+    assert json.loads(result.content) == {"result": "ok"}
+    assert any(
+        "native_schema_unsupported" in record.getMessage()
+        and "fallback=json_object" in record.getMessage()
+        for record in caplog.records
+    )
+
+
+def test_anthropic_messages_protocol_posts_native_payload_and_parses_tool_use(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("OPENAIR_DURABLE_ORCHESTRATE_LLM_MAX_TOKENS", "2400")
+    monkeypatch.setenv("OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING", "disabled")
+    response = {
+        "id": "msg_unit",
+        "type": "message",
+        "role": "assistant",
+        "stop_reason": "tool_use",
+        "content": [{
+            "type": "tool_use",
+            "id": "toolu_unit",
+            "name": "openair_durable_research_result",
+            "input": {"title": "Messages", "mimeType": "text/plain", "content": {"result": {}}},
+        }],
+        "usage": {"input_tokens": 9, "output_tokens": 4},
+    }
+
+    result, captured = _protocol_loopback(
+        "anthropic_messages",
+        response,
+    )
+
+    assert captured["path"] == "/v1/messages"
+    assert captured["headers"]["x-api-key"] == "test-key"
+    assert captured["headers"]["anthropic-version"]
+    assert "Authorization" not in captured["headers"]
+    payload = captured["json"]
+    assert payload["model"] == "terra-model"
+    assert payload["max_tokens"] == 2400
+    assert isinstance(payload["system"], str) and payload["system"].strip()
+    assert [turn["role"] for turn in payload["messages"]] == ["user"]
+    assert "thinking" not in payload
+    assert payload["tools"][0]["name"] == "openair_durable_research_result"
+    assert payload["tools"][0]["input_schema"]["type"] == "object"
+    assert payload["tool_choice"] == {"type": "tool", "name": "openair_durable_research_result"}
+    assert json.loads(result.content) == {"result": {}}
+    assert {
+        key: result.usage[key] for key in ("inputTokens", "outputTokens", "totalTokens")
+    } == {"inputTokens": 9, "outputTokens": 4, "totalTokens": 13}
+
+
+def test_anthropic_messages_protocol_falls_back_to_prompt_only_and_reads_text_blocks(
+    monkeypatch: pytest.MonkeyPatch,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    monkeypatch.setenv("OPENAIR_DURABLE_ORCHESTRATE_LLM_MAX_TOKENS", "2400")
+    response = {
+        "id": "msg_text",
+        "type": "message",
+        "role": "assistant",
+        "stop_reason": "end_turn",
+        "content": [{
+            "type": "text",
+            "text": json.dumps({
+                "title": "Text",
+                "mimeType": "text/plain",
+                "content": {"result": "ok"},
+            }),
+        }],
+        "usage": {"input_tokens": 6, "output_tokens": 2},
+    }
+
+    with caplog.at_level("WARNING", logger="openair.openai_responses_provider"):
+        result, captured = _protocol_loopback(
+            "anthropic_messages",
+            response,
+            request=_unlowerable_schema_request(),
+        )
+
+    payload = captured["json"]
+    assert "tools" not in payload
+    assert "tool_choice" not in payload
+    assert "text" not in payload
+    assert json.loads(result.content) == {"result": "ok"}
+    assert any(
+        "native_schema_unsupported" in record.getMessage()
+        and "fallback=prompt_only" in record.getMessage()
+        for record in caplog.records
+    )

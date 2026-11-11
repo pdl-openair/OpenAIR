@@ -262,12 +262,14 @@ export UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
 | Execution mode | `SKILL_EXEC_MODE=live \| replay` | default `live`; `replay` for a zero-key walkthrough |
 | Demo data | `OPENAIR_DEV_SEED_FIXTURES=1` | great for first-time users; keep 0 for daily use |
 | Skill/Agent gateway | `LLM_PROVIDER_BASE_URL`, `LLM_PROVIDER_API_KEY`, `OPENAIR_CLAUDE_MODEL` | required for `live`; under compose the in-container `ANTHROPIC_*` falls back to `LLM_PROVIDER_*` — fill the same set. Use `OPENAIR_ANTHROPIC_*` overrides to split gateways (plain `ANTHROPIC_*` in `.env` does not reach the containers) |
-| Planner (proposal/solution) | `LLM_PROVIDER_BASE_URL`, `LLM_PROVIDER_API_KEY`, `LLM_PROVIDER_MODEL` | required for `live`; OpenAI-compatible endpoint (avoid `…/api/anthropic` paths — they 404) |
+| Planner (proposal/solution) | `LLM_PROVIDER_BASE_URL`, `LLM_PROVIDER_API_KEY`, `LLM_PROVIDER_MODEL` | required for `live`. Defaults to OpenAI-compatible chat completions (avoid `…/api/anthropic` paths — they 404); to use the OpenAI Responses or Anthropic Messages protocol, switch the adapter in `schemas/providers/provider-registry.yaml` to `openai_responses` or `anthropic_messages` — credentials stay in the same `LLM_PROVIDER_*` set |
 | Literature retrieval | `OT_DEEPXIV_TOKEN`, `SEMANTIC_SCHOLAR_API_KEY` | only for literature skills |
 | Materials MCP | `MATERIALS_MCP_BASE_URL`, `MP_API_KEY` | for live crystal-design pipelines |
 | HPC (JCC) | `JCC_BASE_URL / JCC_USERNAME / JCC_PASSWORD / JCC_CLUSTER_NAME / JCC_CLI_PATH` | only when connecting HPC (passed to both api and durable-worker); the `jcc` CLI is not distributed in this repo — install the Linux build and point `JCC_CLI_PATH` at it, or mount it onto the container PATH (e.g. `/usr/local/bin/jcc`) |
 | Pseudopotential library (VASP) | `VASP_PSP_DIR` | for DFT stability verification; must be a real path inside the durable-worker container (mount your host POTCAR dir first); when absent, POTCARs are generated via jcc vaspkit |
 | Cloud lab platform | `FLUX_BASE_URL`, `FLUX_API_KEY` | requires institutional VPN and a platform account; without it, the resource plaza falls back to a local demo snapshot |
+
+> Billing: on the Anthropic Messages protocol, `cache_creation_input_tokens` (and `cache_read_input_tokens`) stay in the raw usage payload only — they are not counted toward billed `input_tokens` / `output_tokens`, matching the repository-wide convention, so locally recorded usage runs slightly below the provider invoice.
 
 </details>
 

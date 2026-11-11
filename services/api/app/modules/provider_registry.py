@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 import re
 from math import isfinite
@@ -11,20 +12,27 @@ from typing import Any, Literal, Mapping
 from urllib.parse import urlsplit
 from uuid import uuid4
 
-import yaml
 import httpx
+import yaml
+
+from llm_core.anthropic_client import anthropic_headers, messages_url
+from llm_core.openai_compatible_client import chat_completions_url, responses_url
 
 from app.modules.repo_paths import repo_root
 
 
 REGISTRY_PATH = repo_root() / "schemas" / "providers" / "provider-registry.yaml"
-VALID_ADAPTERS = {"huiyan_chat_completions"}
-REQUIRED_ENVIRONMENT_KEYS = ("model", "baseUrl", "apiKey")
-REQUIRED_HUIYAN_ENVIRONMENT = {
-    "model": "LLM_PROVIDER_MODEL",
-    "baseUrl": "LLM_PROVIDER_BASE_URL",
-    "apiKey": "LLM_PROVIDER_API_KEY",
+VALID_ADAPTERS = {
+    "openai_chat_completions",
+    "openai_responses",
+    "anthropic_messages",
+    # Compatibility alias: the historical Huiyan gateway adapter speaks the
+    # plain OpenAI-compatible chat-completions wire protocol.
+    "huiyan_chat_completions",
 }
+PROVIDER_PROTOCOLS = ("openai_chat_completions", "openai_responses", "anthropic_messages")
+ADAPTER_PROTOCOL_ALIASES = {"huiyan_chat_completions": "openai_chat_completions"}
+REQUIRED_ENVIRONMENT_KEYS = ("model", "baseUrl", "apiKey")
 MODEL_PROFILE_ENVIRONMENT = {
     "terra": "LLM_PROVIDER_MODEL_TERRA",
     "sol": "LLM_PROVIDER_MODEL_SOL",
@@ -34,6 +42,21 @@ _PROVIDER_ID_PATTERN = re.compile(r"^[a-z][a-z0-9_]*$")
 
 class ProviderRegistryError(ValueError):
     """Raised for invalid provider policy or unavailable provider configuration."""
+
+
+def adapter_protocol(adapter: str) -> str:
+    """Return the canonical wire protocol for an adapter identifier.
+
+    ``huiyan_chat_completions`` is a compatibility alias for the plain
+    OpenAI-compatible chat-completions protocol; every other accepted adapter
+    name is itself a protocol name.
+    """
+    value = _clean(adapter)
+    if value in ADAPTER_PROTOCOL_ALIASES:
+        return ADAPTER_PROTOCOL_ALIASES[value]
+    if value in PROVIDER_PROTOCOLS:
+        return value
+    raise ProviderRegistryError(f"Unsupported provider adapter: {adapter}")
 
 
 def is_transient_provider_error(exc: ProviderRegistryError) -> bool:
@@ -78,6 +101,10 @@ class ProviderDefinition:
     environment: dict[str, str]
     submissionSafety: ProviderSubmissionSafety
 
+    @property
+    def protocol(self) -> str:
+        return adapter_protocol(self.adapter)
+
 
 @dataclass(frozen=True)
 class ProviderRuntimeConfig:
@@ -87,6 +114,10 @@ class ProviderRuntimeConfig:
     baseUrl: str = field(repr=False)
     apiKey: str = field(repr=False)
     timeoutSeconds: float = 0.0
+
+    @property
+    def protocol(self) -> str:
+        return adapter_protocol(self.adapter)
 
 
 @dataclass(frozen=True)
@@ -148,9 +179,13 @@ def validate_provider_registry_payload(payload: dict[str, Any]) -> None:
         environment = raw.get("environment")
         if not isinstance(environment, dict):
             raise ProviderRegistryError(f"Provider environment must be a mapping: {provider_id}")
-        for key, expected_variable in REQUIRED_HUIYAN_ENVIRONMENT.items():
-            if _clean(environment.get(key)) != expected_variable:
-                raise ProviderRegistryError(f"Provider {provider_id} requires HUIYAN environment key: {key}")
+        missing_environment = [
+            key for key in REQUIRED_ENVIRONMENT_KEYS if not _clean(environment.get(key))
+        ]
+        if missing_environment:
+            raise ProviderRegistryError(
+                f"Provider {provider_id} requires environment key: {', '.join(missing_environment)}"
+            )
         submission_safety = raw.get("submissionSafety")
         expected_safety_keys = {
             "acceptsIdempotencyKey",
@@ -175,11 +210,10 @@ def validate_provider_registry_payload(payload: dict[str, Any]) -> None:
             for key in expected_safety_keys
             if key != "submissionMode"
         )
-        if _clean(raw.get("adapter")) == "huiyan_chat_completions" and (
-            submission_mode != "single_attempt_no_replay" or claimed_safety
-        ):
+        if submission_mode != "single_attempt_no_replay" or claimed_safety:
             raise ProviderRegistryError(
-                f"Provider {provider_id} cannot claim unsupported HUIYAN submission safety"
+                f"Provider {provider_id} cannot claim unsupported submission safety "
+                "for a plain-HTTP provider protocol"
             )
     default_provider_id = _clean(payload.get("defaultProviderId"))
     if not _PROVIDER_ID_PATTERN.fullmatch(default_provider_id):
@@ -284,6 +318,41 @@ def _probe_context(*, authority: str):
     )
 
 
+def _probe_auth_headers(config: ProviderRuntimeConfig) -> dict[str, str]:
+    """Protocol-native authentication headers for registry readiness probes."""
+    if config.protocol == "anthropic_messages":
+        return anthropic_headers(config.apiKey)
+    return {"Authorization": f"Bearer {config.apiKey}"}
+
+
+def _preflight_probe(config: ProviderRuntimeConfig, model: str) -> tuple[str, dict[str, Any]]:
+    """Minimal protocol-native probe request for model routability checks."""
+    prompt = "Reply with OK."
+    protocol = config.protocol
+    if protocol == "openai_responses":
+        endpoint = responses_url(config.baseUrl)
+        payload = {
+            "model": model,
+            "input": [{"role": "user", "content": prompt}],
+            "max_output_tokens": 16,
+        }
+    elif protocol == "anthropic_messages":
+        endpoint = messages_url(config.baseUrl)
+        payload = {
+            "model": model,
+            "max_tokens": 16,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+    else:
+        endpoint = chat_completions_url(config.baseUrl)
+        payload = {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": 1,
+        }
+    return endpoint, payload
+
+
 def _finish_probe_transport_error(repository, attempt, request_body: bytes, exc: BaseException) -> None:
     definitely_not_submitted = isinstance(
         exc, (httpx.ConnectTimeout, httpx.ConnectError, httpx.PoolTimeout)
@@ -318,7 +387,7 @@ def discover_provider_models(config: ProviderRuntimeConfig) -> frozenset[str]:
             model=config.model,
         )
         headers = {
-            "Authorization": f"Bearer {config.apiKey}",
+            **_probe_auth_headers(config),
             **attempt.headers,
         }
         repository.mark_io_started(attempt)
@@ -380,9 +449,8 @@ def _preflight_model(config: ProviderRuntimeConfig, binding: ModelBinding) -> No
     """Verify routability while preserving the physical probe result separately."""
     from app.modules.provider_transport_evidence import ProviderHttpAttemptRepository
 
-    endpoint = f"{config.baseUrl.rstrip('/')}/v1/chat/completions"
-    payload = {"model": binding.model, "messages": [{"role": "user", "content": "Reply with OK."}], "max_tokens": 1}
-    request_body = __import__("json").dumps(payload, ensure_ascii=True, separators=(",", ":")).encode("utf-8")
+    endpoint, payload = _preflight_probe(config, binding.model)
+    request_body = json.dumps(payload, ensure_ascii=True, separators=(",", ":")).encode("utf-8")
     with _probe_context(authority="provider_registry:model_preflight"):
         repository = ProviderHttpAttemptRepository(checkpoint_repository=None)
         attempt = repository.begin(
@@ -396,7 +464,7 @@ def _preflight_model(config: ProviderRuntimeConfig, binding: ModelBinding) -> No
             model=binding.model,
         )
         headers = {
-            "Authorization": f"Bearer {config.apiKey}",
+            **_probe_auth_headers(config),
             **attempt.headers,
         }
         repository.mark_io_started(attempt)
@@ -446,18 +514,23 @@ def resolve_model_binding(role: str, *, environ: Mapping[str, str] | None = None
     configured_provider = _clean(values.get(f"{prefix}_LLM_PROVIDER" if role_key != "execution" else "OPENTRAJECTORY_LLM_PROVIDER"))
     provider_id = active_registry.defaultProviderId
     provider = active_registry.require(provider_id)
-    if configured_provider and configured_provider != provider.adapter:
+    accepted_providers = {provider.adapter, adapter_protocol(provider.adapter)}
+    if configured_provider and configured_provider not in accepted_providers:
         raise ProviderRegistryError(
             f"Invalid model binding: role={role_key} provider={configured_provider} "
             f"reason=provider is not the configured adapter ({provider.adapter})"
         )
-    model_var = f"{prefix}_LLM_MODEL" if role_key != "execution" else "LLM_PROVIDER_MODEL"
+    if role_key != "execution":
+        model_var = f"{prefix}_LLM_MODEL"
+    else:
+        # The execution role reads the provider's own model variable, which a
+        # custom registry provider may have renamed.
+        model_var = provider.environment["model"]
     model = _clean(values.get(model_var))
     if not model:
         raise ProviderRegistryError(f"Invalid model binding: role={role_key} provider={provider.adapter} model=<missing> reason=explicit model configuration is required")
     env = dict(values)
-    if model:
-        env["LLM_PROVIDER_MODEL"] = model
+    env[provider.environment["model"]] = model
     try:
         config = resolve_provider_runtime_config(provider_id, environ=env, registry=active_registry)
     except ProviderRegistryError as exc:

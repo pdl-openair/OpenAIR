@@ -11,7 +11,7 @@ from __future__ import annotations
 from app.execution.research_start_processing import (
     PlannerSemanticInputError,
     local_planning_step,
-    read_provider_content,
+    read_protocol_provider_content,
 )
 
 import json
@@ -19,14 +19,17 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
 
+from app.execution.provider_protocol import (
+    PROTOCOL_OPENAI_CHAT_COMPLETIONS,
+    apply_protocol_structured_output_with_prompt_fallback,
+    build_protocol_chat_payload,
+    normalize_protocol,
+    protocol_response_format,
+)
 from app.execution.llm_structured_runner import (
-    _build_responses_payload,
-    _extract_responses_output_text,
     _prepare_payload_for_http,
     apply_openai_compatible_thinking,
-    extract_final_chat_content,
 )
-from app.execution.structured_output_provider_adapter import structured_response_format
 from app.execution.research_start_provider_adapter import (
     PreparedPlannerAttempt,
 )
@@ -131,64 +134,43 @@ def prepare_freeform_research_design_attempt(
         planning_sources=planning_sources,
     )
     config = provider_config
-    response_format = structured_response_format(
-        config.provider,
-        schema_name="freeform_project_scientific_brief_v1",
-    )
+    schema_name = "freeform_project_scientific_brief_v1"
+    protocol = normalize_protocol(config.provider)
+    response_format = protocol_response_format(protocol, schema_name=schema_name)
 
-    if config.provider == "huiyan_chat_completions":
-        payload: dict[str, Any] = {
-            "model": config.model,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            "temperature": config.temperature,
-            "max_tokens": config.max_tokens,
-            "response_format": response_format,
-        }
+    payload = build_protocol_chat_payload(
+        protocol,
+        model=config.model,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        max_tokens=config.max_tokens,
+        temperature=config.temperature,
+    )
+    if protocol == PROTOCOL_OPENAI_CHAT_COMPLETIONS:
         payload = apply_openai_compatible_thinking(
             payload,
             "OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING",
         )
-        payload, _ = _prepare_payload_for_http(payload)
+    payload, structured_output_mode = apply_protocol_structured_output_with_prompt_fallback(
+        protocol,
+        payload=payload,
+        provider_schema=output_schema,
+        schema_name=schema_name,
+    )
+    payload, _ = _prepare_payload_for_http(payload)
 
-        def decode(body: Mapping[str, Any]):
-            content, _choice = read_provider_content(extract_final_chat_content, body)
-            with local_planning_step("freeform_assembly_compile"):
-                return _compile_brief(
-                    _json_object(content),
-                    raw_input=raw_input,
-                    definition_catalog=definition_catalog,
-                    response_body=body,
-                    planning_sources=planning_sources,
-                )
-
-    elif config.provider == "openai_responses":
-        payload = _build_responses_payload(
-            model=config.model,
-            system_prompt=system_prompt,
-            user_prompt=user_prompt,
-            output_schema=output_schema,
-            schema_name="freeform_project_scientific_brief_v1",
-            max_completion_tokens=config.max_tokens,
-            reasoning_effort=None,
-            temperature=config.temperature,
-        )
-        payload, _ = _prepare_payload_for_http(payload)
-
-        def decode(body: Mapping[str, Any]):
-            with local_planning_step("freeform_assembly_compile"):
-                return _compile_brief(
-                    _json_object(read_provider_content(_extract_responses_output_text, body)),
-                    raw_input=raw_input,
-                    definition_catalog=definition_catalog,
-                    response_body=body,
-                    planning_sources=planning_sources,
-                )
-
-    else:
-        raise ValueError(f"unsupported freeform Planner provider: {config.provider}")
+    def decode(body: Mapping[str, Any]):
+        content = read_protocol_provider_content(protocol, body, schema_name=schema_name)
+        with local_planning_step("freeform_assembly_compile"):
+            return _compile_brief(
+                _json_object(content),
+                raw_input=raw_input,
+                definition_catalog=definition_catalog,
+                response_body=body,
+                planning_sources=planning_sources,
+            )
 
     return PreparedPlannerAttempt(
         phase="research_planner",
@@ -197,10 +179,10 @@ def prepare_freeform_research_design_attempt(
         model=config.model,
         endpoint=config.endpoint,
         payload=payload,
-        response_format=response_format,
+        response_format=response_format if structured_output_mode == "native" else None,
         timeout_seconds=config.timeout_seconds,
         decode=decode,
-        provider_schema=output_schema,
+        provider_schema=output_schema if structured_output_mode == "native" else None,
     )
 
 

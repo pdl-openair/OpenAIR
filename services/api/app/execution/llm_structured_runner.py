@@ -28,9 +28,16 @@ from app.execution.skill_finalization_runtime import (
     finalize_and_validate_registered_output,
     validate_frozen_finalization_contract,
 )
-from app.execution.structured_output_provider_adapter import (
-    apply_provider_schema_transport,
-    structured_response_format,
+from app.execution.provider_protocol import (
+    PROTOCOL_ANTHROPIC_MESSAGES,
+    PROTOCOL_OPENAI_RESPONSES,
+    ProviderProtocolError,
+    apply_protocol_structured_output,
+    build_protocol_chat_payload,
+    extract_protocol_structured_text,
+    extract_protocol_text,
+    protocol_finish_reason,
+    reconcile_provider_protocol,
 )
 
 # U-02: the pure content extractors now live in openai_compatible_client (to
@@ -38,11 +45,15 @@ from app.execution.structured_output_provider_adapter import (
 # here so existing `from llm_structured_runner import _extract_chat_content`
 # callers such as research_start_planner keep working.
 from llm_core.openai_compatible_client import (  # noqa: E402,F401
+    ProviderEndpoint,
     _extract_chat_content,
     _extract_responses_output_text,
     apply_openai_compatible_thinking,
     extract_final_chat_content,
+    post_chat_completions,
+    post_responses,
 )
+from llm_core.anthropic_client import post_messages  # noqa: E402
 
 # Load .env from repo root (best-effort; config.py also loads .env robustly).
 # Guard the parents index: in the container the module sits at /app/app/execution/
@@ -689,42 +700,6 @@ def _schema_name(skill_dir: Path) -> str:
     return f"{name}_output"[:64]
 
 
-def _build_responses_payload(
-    *,
-    model: str,
-    system_prompt: str,
-    user_prompt: str,
-    output_schema: dict[str, Any],
-    schema_name: str,
-    max_completion_tokens: int,
-    reasoning_effort: str | None,
-    temperature: float | int | None,
-) -> dict[str, Any]:
-    payload: dict[str, Any] = {
-        "model": model,
-        "input": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ],
-        "max_output_tokens": max_completion_tokens,
-        "store": False,
-    }
-    if reasoning_effort is not None and _is_reasoning_model(model):
-        payload["reasoning"] = {"effort": reasoning_effort}
-    elif temperature is not None:
-        payload["temperature"] = temperature
-    response_format = structured_response_format(
-        "openai_responses",
-        schema_name=schema_name,
-    )
-    return apply_provider_schema_transport(
-        "openai_responses",
-        payload=payload,
-        response_format=response_format,
-        provider_schema=output_schema,
-    )
-
-
 def _assert_schema_unchanged_by_payload_preflight(
     diagnostics: Mapping[str, Any],
 ) -> None:
@@ -745,6 +720,36 @@ def _assert_schema_unchanged_by_payload_preflight(
         )
 
 
+def _resolve_structured_skill_transport() -> tuple[str, str, str, str]:
+    """Resolve provider credentials and model for one structured-skill submission.
+
+    Values come from the provider registry (per-provider environment mapping).
+    ``LLM_PROVIDER_API_KEY`` / ``LLM_PROVIDER_BASE_URL`` remain as the legacy
+    fallback for environments without a resolvable registry.
+    Returns ``(api_key, api_base, registry_adapter, registry_model)`` where the
+    registry fields are empty strings on the legacy fallback path.
+    """
+    from app.modules.provider_registry import (
+        ProviderRegistryError,
+        load_provider_registry,
+        resolve_provider_runtime_config,
+    )
+
+    try:
+        config = resolve_provider_runtime_config(load_provider_registry().defaultProviderId)
+        return config.apiKey, config.baseUrl, config.adapter, config.model
+    except (ProviderRegistryError, OSError, ValueError):
+        pass
+    api_key = os.environ.get("LLM_PROVIDER_API_KEY")
+    api_base = os.environ.get("LLM_PROVIDER_BASE_URL")
+    if not api_key or not api_base:
+        raise RuntimeError(
+            "LLM provider credentials are unavailable: provider registry resolution failed and "
+            "LLM_PROVIDER_API_KEY / LLM_PROVIDER_BASE_URL are not set"
+        )
+    return api_key, api_base, "", ""
+
+
 def run_skill_with_llm(
     skill_dir: Path,
     input_payload: dict[str, Any],
@@ -761,21 +766,23 @@ def run_skill_with_llm(
     start_time = time.time()
     _require_jsonschema()
 
-    provider = os.environ.get("OPENTRAJECTORY_LLM_PROVIDER", "huiyan_chat_completions").strip().lower()
-    if provider == "openai_responses":
-        api_key = os.environ.get("OPENAI_API_KEY")
-        api_base = os.environ.get("OPENAI_API_BASE_URL", "https://api.openai.com")
-        if not api_key:
-            raise RuntimeError("OPENAI_API_KEY environment variable not set")
-    elif provider == "huiyan_chat_completions":
-        api_key = os.environ.get("LLM_PROVIDER_API_KEY")
-        api_base = os.environ.get("LLM_PROVIDER_BASE_URL")
-        if not api_key:
-            raise RuntimeError("LLM_PROVIDER_API_KEY environment variable not set")
-        if not api_base:
-            raise RuntimeError("LLM_PROVIDER_BASE_URL environment variable not set")
-    else:
-        raise RuntimeError(f"Unsupported OPENTRAJECTORY_LLM_PROVIDER: {provider}")
+    configured_provider = os.environ.get("OPENTRAJECTORY_LLM_PROVIDER", "").strip().lower()
+    api_key, api_base, registry_adapter, registry_model = _resolve_structured_skill_transport()
+    # The registry adapter is the protocol authority; the environment selector
+    # stays as an explicit per-deployment override. Both must name the same
+    # protocol, otherwise the selected wire shape would be sent with the
+    # registry gateway's key. Checked here (not only at startup) so the
+    # ``validate=False`` binding path cannot bypass it.
+    try:
+        protocol = reconcile_provider_protocol(
+            configured_provider,
+            registry_adapter,
+            selector="OPENTRAJECTORY_LLM_PROVIDER",
+            default_provider="huiyan_chat_completions",
+        )
+    except ProviderProtocolError as exc:
+        raise RuntimeError(str(exc)) from exc
+    provider = configured_provider or registry_adapter or "huiyan_chat_completions"
 
     skill_md_path = skill_dir / "SKILL.md"
     input_schema_path = skill_dir / "input.schema.json"
@@ -831,14 +838,20 @@ def run_skill_with_llm(
     if not isinstance(llm_cfg, dict):
         llm_cfg = {}
 
-    if provider == "openai_responses":
-        model = os.environ.get("OPENTRAJECTORY_LIVE_LLM_MODEL") or llm_cfg.get("model") or "gpt-5-mini"
+    if protocol == PROTOCOL_OPENAI_RESPONSES:
+        model = (
+            os.environ.get("OPENTRAJECTORY_LIVE_LLM_MODEL")
+            or llm_cfg.get("model")
+            or registry_model
+            or "gpt-5-mini"
+        )
     else:
         model = (
             os.environ.get("OPENTRAJECTORY_LIVE_LLM_MODEL")
             or llm_cfg.get("model")
             or os.environ.get("OPENTRAJECTORY_REVIEW_LLM_MODEL")
             or os.environ.get("VITE_TEXT_LLM_MODEL")
+            or registry_model
             or os.environ.get("LLM_PROVIDER_MODEL")
             or "gpt-4o-mini"
         )
@@ -874,7 +887,6 @@ Generate the output JSON now (raw JSON only, no markdown):"""
 
     system_prompt = with_input_limits(system_prompt, input_diagnostics.get("warnings") or [])
 
-    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     fallback_attempts: list[dict[str, Any]] = []
     retry_reasons: list[dict[str, Any]] = []
     result: dict[str, Any] | None = None
@@ -898,23 +910,29 @@ Generate the output JSON now (raw JSON only, no markdown):"""
         request_timeout_seconds = _request_timeout_seconds(candidate_model)
         model_succeeded = False
 
-        if provider == "openai_responses":
-            payload = _build_responses_payload(
+        if protocol == PROTOCOL_OPENAI_RESPONSES:
+            payload = build_protocol_chat_payload(
+                protocol,
                 model=candidate_model,
-                system_prompt=system_prompt,
-                user_prompt=user_prompt,
-                output_schema=generation_schema,
-                schema_name=_schema_name(skill_dir),
-                max_completion_tokens=max_completion_tokens,
-                reasoning_effort=reasoning_effort,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                max_tokens=max_completion_tokens,
+                reasoning_effort=(
+                    reasoning_effort if _is_reasoning_model(candidate_model) else None
+                ),
                 temperature=temperature,
             )
-            endpoint = f"{api_base.rstrip('/')}/v1/responses"
+            payload = apply_protocol_structured_output(
+                protocol,
+                payload=payload,
+                provider_schema=generation_schema,
+                schema_name=_schema_name(skill_dir),
+            )
             payload, payload_preflight = _prepare_payload_for_http(payload)
 
             try:
-                from llm_core.openai_compatible_client import ProviderEndpoint, post_responses
-
                 result = post_responses(
                     ProviderEndpoint(
                         base_url=api_base,
@@ -961,8 +979,8 @@ Generate the output JSON now (raw JSON only, no markdown):"""
                 raise RuntimeError(f"LLM API returned non-retryable provider error: {non_retryable_error}")
 
             try:
-                content = _extract_responses_output_text(result)
-                choice = {"finish_reason": result.get("status") if isinstance(result, dict) else None}
+                content = extract_protocol_text(protocol, result)
+                choice = {"finish_reason": protocol_finish_reason(protocol, result) or None}
                 prompt_tokens, completion_tokens, total_tokens = _billable_token_counts(
                     result,
                     response_text=content,
@@ -1017,42 +1035,31 @@ Generate the output JSON now (raw JSON only, no markdown):"""
             ]
 
             for correction_attempt in range(1, structured_output_max_attempts + 1):
-                payload = {
-                    "model": candidate_model,
-                    "messages": messages,
-                    "temperature": temperature,
-                    "max_tokens": max_completion_tokens,
-                }
-                if (
-                    provider != "huiyan_chat_completions"
-                    and reasoning_effort is not None
-                    and _is_reasoning_model(candidate_model)
-                ):
-                    payload["reasoning_effort"] = reasoning_effort
-                endpoint = f"{api_base.rstrip('/')}/v1/chat/completions"
-                payload, payload_preflight = _prepare_payload_for_http(payload)
-                response_format = structured_response_format(
-                    provider,
-                    schema_name=_schema_name(skill_dir),
+                payload = build_protocol_chat_payload(
+                    protocol,
+                    model=candidate_model,
+                    messages=messages,
+                    max_tokens=max_completion_tokens,
+                    temperature=temperature,
                 )
-                payload = apply_provider_schema_transport(
-                    provider,
+                payload, payload_preflight = _prepare_payload_for_http(payload)
+                payload = apply_protocol_structured_output(
+                    protocol,
                     payload=payload,
-                    response_format=response_format,
                     provider_schema=generation_schema,
+                    schema_name=_schema_name(skill_dir),
                 )
 
                 try:
-                    from llm_core.openai_compatible_client import ProviderEndpoint, post_chat_completions
-
-                    result = post_chat_completions(
-                        ProviderEndpoint(
-                            base_url=api_base,
-                            api_key=api_key,
-                            timeout_seconds=request_timeout_seconds,
-                        ),
-                        payload,
+                    endpoint_transport = ProviderEndpoint(
+                        base_url=api_base,
+                        api_key=api_key,
+                        timeout_seconds=request_timeout_seconds,
                     )
+                    if protocol == PROTOCOL_ANTHROPIC_MESSAGES:
+                        result = post_messages(endpoint_transport, payload)
+                    else:
+                        result = post_chat_completions(endpoint_transport, payload)
                 except httpx.HTTPStatusError as exc:
                     status_code = exc.response.status_code
                     response_text = exc.response.text
@@ -1111,7 +1118,15 @@ Generate the output JSON now (raw JSON only, no markdown):"""
                     raise RuntimeError(f"LLM API returned non-retryable provider error: {non_retryable_error}")
 
                 try:
-                    content, choice = extract_final_chat_content(result)
+                    if protocol == PROTOCOL_ANTHROPIC_MESSAGES:
+                        content = extract_protocol_structured_text(
+                            protocol,
+                            result,
+                            schema_name=_schema_name(skill_dir),
+                        )
+                        choice = {"finish_reason": protocol_finish_reason(protocol, result) or None}
+                    else:
+                        content, choice = extract_final_chat_content(result)
                 except ValueError as exc:
                     # Empty/truncated provider replies are transient; route them
                     # through the existing correction-retry path instead of
@@ -1138,17 +1153,30 @@ Generate the output JSON now (raw JSON only, no markdown):"""
                             break
                         raise
                 except RuntimeError as exc:
-                    fallback_attempts.append(
-                        {
-                            "model": candidate_model,
-                            "attempt": attempt_index,
-                            "correction_attempt": correction_attempt,
-                            "error": str(exc)[:500],
-                        }
+                    emptiness_is_retryable = (
+                        protocol == PROTOCOL_ANTHROPIC_MESSAGES
+                        and "missing text content" in str(exc)
                     )
-                    if attempt_index < len(model_fallback_chain):
-                        break
-                    raise
+                    if emptiness_is_retryable:
+                        # Truncated replies with no text block are retryable
+                        # emptiness, not a hard provider failure; refusals
+                        # (raised with a different message) stay fatal.
+                        content = ""
+                        choice = {
+                            "finish_reason": protocol_finish_reason(protocol, result) or None
+                        }
+                    else:
+                        fallback_attempts.append(
+                            {
+                                "model": candidate_model,
+                                "attempt": attempt_index,
+                                "correction_attempt": correction_attempt,
+                                "error": str(exc)[:500],
+                            }
+                        )
+                        if attempt_index < len(model_fallback_chain):
+                            break
+                        raise
 
                 in_tokens, out_tokens, tot_tokens = _billable_token_counts(
                     result,
@@ -1225,19 +1253,25 @@ Generate the output JSON now (raw JSON only, no markdown):"""
                 )
                 if correction_attempt >= structured_output_max_attempts:
                     break
-                messages = [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt},
-                    {"role": "assistant", "content": content[:_RETRY_EXCERPT_CHARS]},
-                    {
-                        "role": "user",
-                        "content": _retry_prompt(
-                            failure_type=failure_type,
-                            detail=failure_detail,
-                            previous_content=content,
-                        ),
-                    },
-                ]
+                retry_prompt = _retry_prompt(
+                    failure_type=failure_type,
+                    detail=failure_detail,
+                    previous_content=content,
+                )
+                if content or protocol != PROTOCOL_ANTHROPIC_MESSAGES:
+                    messages = [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt},
+                        {"role": "assistant", "content": content[:_RETRY_EXCERPT_CHARS]},
+                        {"role": "user", "content": retry_prompt},
+                    ]
+                else:
+                    # Anthropic rejects empty text blocks; fold the correction
+                    # into the trailing user turn instead of an empty assistant turn.
+                    messages = [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": f"{user_prompt}\n\n{retry_prompt}"},
+                    ]
 
         if model_succeeded:
             break

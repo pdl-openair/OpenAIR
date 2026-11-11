@@ -10,6 +10,7 @@ from app.execution import durable_skill_runtime as runtime
 from app.execution import skill_finalization_runtime
 from app.models.result_protocol import result_protocol_usable
 from app.modules.artifact_repository import _row_to_dict
+from app.modules.provider_registry import ProviderRuntimeConfig
 from app.modules.provider_transport_evidence import ProviderHttpAttempt
 
 
@@ -158,3 +159,163 @@ def test_real_reasoning_runtime_delivers_gaps_without_mutating_input(
     assert public_artifact["warnings"] == presentation["resultProtocol"]["warnings"]
     assert result_protocol_usable(public_artifact["resultProtocol"])
     assert finalized[0]["input_payload"] == expected
+
+
+def _resolved_execution_policy(*, adapter: str, model: str) -> dict[str, object]:
+    return {
+        "contractVersion": 1,
+        "providerId": "openai_primary",
+        "adapterId": adapter,
+        "model": model,
+        "modelProfile": None,
+        "reasoningEffort": "low",
+        "maxOutputTokens": 4000,
+        "readTimeoutSeconds": 60.0,
+        "responseMode": "json_object",
+        "loadReferences": False,
+        "structuredOutputRecoveryAttempts": 0,
+    }
+
+
+@pytest.mark.parametrize(
+    ("model", "expects_reasoning"),
+    [("gpt-5-mini", True), ("offline-chat-model", False)],
+)
+def test_responses_reasoning_effort_is_gated_by_model_class(
+    monkeypatch,
+    model: str,
+    expects_reasoning: bool,
+) -> None:
+    """Only reasoning models receive ``reasoning.effort`` on the Responses wire.
+
+    A non-reasoning model answers 4xx for ``reasoning``/``reasoning_effort``
+    (planner chain parity: ``_planner_reasoning_effort`` returns ``None`` for
+    the same models), so it keeps the temperature path instead.
+    """
+    input_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": ["finding"],
+        "properties": {"finding": {"type": "string"}},
+    }
+    output_schema = {
+        "type": "object",
+        "required": ["finding"],
+        "properties": {"finding": {"type": "string"}},
+        "additionalProperties": False,
+    }
+    skill = {
+        "skillId": "responses_reasoning_gate",
+        "skillPath": "skills/test/responses-reasoning-gate",
+        "sourceContract": {
+            "frozenSchemas": {
+                "input": frozen_schema(input_schema),
+                "output": frozen_schema(output_schema),
+            },
+            "frozenFinalization": {
+                "contractVersion": 1,
+                "codeSha256": "a" * 64,
+                "entrypoint": {"module": "scripts.finalize", "callable": "finalize"},
+                "draftSchema": {"path": "draft.schema.json", **frozen_schema(output_schema)},
+            },
+        },
+    }
+    captured: list[dict] = []
+    config = ProviderRuntimeConfig(
+        providerId="openai_primary",
+        adapter="openai_responses",
+        model=model,
+        timeoutSeconds=60,
+        baseUrl="https://offline.invalid",
+        apiKey="offline-only",
+    )
+    monkeypatch.setattr(
+        runtime,
+        "load_provider_registry",
+        lambda: SimpleNamespace(require=lambda _id: SimpleNamespace(maxOutputChars=12000)),
+    )
+    monkeypatch.setattr(
+        runtime, "resolve_provider_runtime_config", lambda *_args, **_kwargs: config
+    )
+    monkeypatch.setattr(
+        runtime,
+        "_read_skill_contract",
+        lambda _skill: ({"output_file": "result.json"}, "Preserve scientific uncertainty."),
+    )
+    monkeypatch.setattr(runtime, "_record_durable_skill_usage", lambda **_kwargs: None)
+
+    class EvidenceRepository:
+        def begin(self, **kwargs):
+            return ProviderHttpAttempt(
+                attempt_id="offline-responses",
+                capability_call_id="offline-call",
+                attempt_number=1,
+                request_hash=hashlib.sha256(kwargs["request_body"]).hexdigest(),
+                provider_endpoint_identity="offline",
+            )
+
+        def mark_io_started(self, _attempt):
+            return None
+
+        def finish(self, _attempt, **_kwargs):
+            return None
+
+    class Client:
+        def __init__(self, **_kwargs):
+            return None
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return None
+
+        def post(self, _url, *, content, **_kwargs):
+            captured.append(json.loads(content))
+            body = json.dumps(
+                {
+                    "output": [
+                        {"content": [{"type": "output_text", "text": '{"finding":"valid"}'}]}
+                    ],
+                    "status": "completed",
+                    "usage": {"input_tokens": 7, "output_tokens": 3},
+                }
+            ).encode()
+            return SimpleNamespace(
+                status_code=200, headers={}, content=body, raise_for_status=lambda: None
+            )
+
+    monkeypatch.setattr(runtime, "ProviderHttpAttemptRepository", EvidenceRepository)
+    monkeypatch.setattr(runtime.httpx, "Client", Client)
+    monkeypatch.setattr(
+        skill_finalization_runtime,
+        "finalize_and_validate_registered_output",
+        lambda **_kwargs: skill_finalization_runtime.FinalizedSkillOutput(
+            output={"finding": "valid"}, status="succeeded"
+        ),
+    )
+    result = runtime._execute_durable_huiyan_skill(
+        {
+            "parameters": {"finding": "valid"},
+            "logicalProviderId": "openai_primary",
+            "resolvedExecutionPolicy": _resolved_execution_policy(
+                adapter="openai_responses", model=model
+            ),
+            "providerEvidence": {"capabilityCallId": "offline-call", "attemptNumber": 1},
+        },
+        skill,
+        runtime={
+            "runtimeKind": "llm_reasoning",
+            "adapterId": "openai_responses",
+            "modelProfile": None,
+        },
+    )
+
+    assert result["state"] == "succeeded", result
+    assert len(captured) == 1
+    if expects_reasoning:
+        assert captured[0]["reasoning"] == {"effort": "low"}
+        assert "temperature" not in captured[0]
+    else:
+        assert "reasoning" not in captured[0]
+        assert captured[0]["temperature"] == 0

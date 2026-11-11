@@ -98,3 +98,34 @@ def read_provider_content(extract: Callable[[dict[str, Any]], Any], body: Mappin
         )
         error.processing_stage = "provider_content"
         raise error from None
+
+
+def read_protocol_provider_content(
+    protocol: str,
+    body: Mapping[str, Any],
+    *,
+    schema_name: str,
+) -> str:
+    """Read protocol-native final content for a structured Planner call.
+
+    Chat-completions keeps the strict ``content``-only extractor: a reasoning-only
+    reply is not an answer. Responses and Anthropic Messages read through the
+    protocol layer, where an Anthropic ``tool_use`` input is the answer and a
+    text-only reply remains readable so the caller's correction loop can run.
+    """
+    from llm_core.openai_compatible_client import extract_final_chat_content
+
+    from app.execution.provider_protocol import (
+        PROTOCOL_OPENAI_CHAT_COMPLETIONS,
+        extract_protocol_structured_text,
+    )
+
+    if protocol == PROTOCOL_OPENAI_CHAT_COMPLETIONS:
+        content, _choice = read_provider_content(extract_final_chat_content, body)
+        return content
+    return read_provider_content(
+        lambda received: extract_protocol_structured_text(
+            protocol, received, schema_name=schema_name
+        ),
+        body,
+    )

@@ -322,11 +322,44 @@ def _bounded_float_env(name: str, default: float, minimum: float, maximum: float
 
 
 def _agent_revision_provider() -> str:
-    return (
+    override = (
         os.environ.get("OPENAIR_RESEARCH_START_PLANNER_PROVIDER")
         or os.environ.get("OPENTRAJECTORY_LLM_PROVIDER")
-        or "huiyan_chat_completions"
+        or ""
     ).strip().lower()
+    # Without an explicit selector the registry adapter is the protocol
+    # authority, so credentials and wire shape cannot point at different
+    # gateways.
+    registry_provider = ""
+    try:
+        from app.modules.provider_registry import resolve_model_binding
+
+        registry_provider = resolve_model_binding("planner", validate=False).provider
+    except (OSError, ValueError):
+        registry_provider = ""
+    if not override:
+        return registry_provider or "huiyan_chat_completions"
+    # An explicit selector must agree with the registry adapter that supplies
+    # the credentials; otherwise one protocol's body would carry another
+    # gateway's key. Checked on every request because ``validate=False``
+    # bindings skip the startup network check.
+    from app.execution.provider_protocol import (
+        ProviderProtocolError,
+        reconcile_provider_protocol,
+    )
+
+    try:
+        reconcile_provider_protocol(
+            override,
+            registry_provider,
+            selector="OPENAIR_RESEARCH_START_PLANNER_PROVIDER/OPENTRAJECTORY_LLM_PROVIDER",
+            default_provider="huiyan_chat_completions",
+        )
+    except ProviderProtocolError as exc:
+        raise ResearchDesignRevisionSaveUnavailable(
+            "本次研究方案修改服务暂不可用，请重试。"
+        ) from exc
+    return override
 
 
 def _agent_revision_chat_model() -> str:
@@ -336,15 +369,6 @@ def _agent_revision_chat_model() -> str:
         or os.environ.get("LLM_PROVIDER_MODEL")
         or os.environ.get("OPENTRAJECTORY_LIVE_LLM_MODEL")
         or "gpt-4o-mini"
-    ).strip()
-
-
-def _agent_revision_openai_model() -> str:
-    return (
-        os.environ.get("OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL")
-        or os.environ.get("LLM_PROVIDER_MODEL_SOL")
-        or os.environ.get("OPENTRAJECTORY_LIVE_LLM_MODEL")
-        or "gpt-5-mini"
     ).strip()
 
 
@@ -365,81 +389,84 @@ def _invoke_targeted_model_patch(instruction: str, latest_design: Any) -> tuple[
     # Reuse the same low-level provider transport/config primitives as Research Start,
     # without entering the research-start Planner path.
     from app.execution.llm_structured_runner import (
-        _build_responses_payload,
-        _extract_responses_output_text,
+        _is_reasoning_model,
         _prepare_payload_for_http,
         apply_openai_compatible_thinking,
-        extract_final_chat_content,
     )
-    from app.execution.research_start_provider_adapter import PreparedPlannerAttempt, execute_prepared_attempt
-    from app.execution.structured_output_provider_adapter import structured_response_format
+    from app.execution.provider_protocol import (
+        PROTOCOL_OPENAI_CHAT_COMPLETIONS,
+        ProviderProtocolError,
+        apply_protocol_structured_output_with_prompt_fallback,
+        build_protocol_chat_payload,
+        normalize_protocol,
+        protocol_endpoint,
+        protocol_response_format,
+    )
+    from app.execution.research_start_processing import read_protocol_provider_content
+    from app.execution.research_start_provider_adapter import (
+        PreparedPlannerAttempt,
+        execute_prepared_attempt,
+        resolve_provider_transport,
+    )
 
     system_prompt, user_prompt, output_schema = _patch_prompt(instruction, latest_design)
     provider = _agent_revision_provider()
-    if provider == "huiyan_chat_completions":
-        api_key = os.environ.get("LLM_PROVIDER_API_KEY")
-        api_base = os.environ.get("LLM_PROVIDER_BASE_URL")
-        if not api_key or not api_base:
-            raise ResearchDesignRevisionSaveUnavailable("本次研究方案修改服务暂不可用，请重试。")
-        model = _agent_revision_chat_model()
-        response_format = structured_response_format(
-            provider,
-            schema_name="research_design_targeted_revision_v1",
-            enabled=_agent_revision_response_format_enabled(),
-        )
-        payload: dict[str, Any] = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            "temperature": _agent_revision_temperature(),
-            "max_tokens": min(_agent_revision_max_tokens(), 2200),
-        }
-        if response_format is not None:
-            payload["response_format"] = response_format
-        payload = apply_openai_compatible_thinking(payload, "OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING")
-        endpoint = f"{api_base.rstrip('/')}/v1/chat/completions"
-
-        def decode(body: Mapping[str, Any]) -> tuple[_AgentResearchDesignPatch, str]:
-            content, _choice = extract_final_chat_content(dict(body))
-            provider_ref = body.get("id")
-            if not isinstance(provider_ref, str) or not provider_ref.strip():
-                raise ValueError("agent revision provider response is missing a call identity")
-            return _validate_targeted_patch(_json_object(content), latest_design), provider_ref.strip()
-
-    elif provider == "openai_responses":
-        api_key = os.environ.get("OPENAI_API_KEY")
-        if not api_key:
-            raise ResearchDesignRevisionSaveUnavailable("本次研究方案修改服务暂不可用，请重试。")
-        model = _agent_revision_openai_model()
-        response_format = structured_response_format(
-            provider,
-            schema_name="research_design_targeted_revision_v1",
-        )
-        payload = _build_responses_payload(
-            model=model,
-            system_prompt=system_prompt,
-            user_prompt=user_prompt,
-            output_schema=output_schema,
-            schema_name="research_design_targeted_revision_v1",
-            max_completion_tokens=min(_agent_revision_max_tokens(), 2200),
-            reasoning_effort=os.environ.get("OPENAIR_RESEARCH_START_PLANNER_REASONING_EFFORT") or None,
-            temperature=_agent_revision_temperature(),
-        )
-        endpoint = f"{os.environ.get('OPENAI_API_BASE_URL', 'https://api.openai.com').rstrip('/')}/v1/responses"
-
-        def decode(body: Mapping[str, Any]) -> tuple[_AgentResearchDesignPatch, str]:
-            provider_ref = body.get("id")
-            if not isinstance(provider_ref, str) or not provider_ref.strip():
-                raise ValueError("agent revision provider response is missing a call identity")
-            content = _extract_responses_output_text(dict(body))
-            return _validate_targeted_patch(_json_object(content), latest_design), provider_ref.strip()
-
-    else:
+    try:
+        protocol = normalize_protocol(provider)
+    except ProviderProtocolError as exc:
+        raise ResearchDesignRevisionSaveUnavailable(
+            "本次研究方案修改服务暂不可用，请重试。"
+        ) from exc
+    api_key, api_base = resolve_provider_transport()
+    if not api_key or not api_base:
         raise ResearchDesignRevisionSaveUnavailable("本次研究方案修改服务暂不可用，请重试。")
 
+    model = _agent_revision_chat_model()
+    schema_name = "research_design_targeted_revision_v1"
+    format_enabled = (
+        _agent_revision_response_format_enabled()
+        if protocol == PROTOCOL_OPENAI_CHAT_COMPLETIONS
+        else True
+    )
+    response_format = protocol_response_format(
+        protocol, schema_name=schema_name, enabled=format_enabled
+    )
+    payload = build_protocol_chat_payload(
+        protocol,
+        model=model,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        max_tokens=min(_agent_revision_max_tokens(), 2200),
+        temperature=_agent_revision_temperature(),
+        reasoning_effort=(
+            (os.environ.get("OPENAIR_RESEARCH_START_PLANNER_REASONING_EFFORT") or None)
+            if _is_reasoning_model(model)
+            else None
+        ),
+    )
+    if protocol == PROTOCOL_OPENAI_CHAT_COMPLETIONS:
+        payload = apply_openai_compatible_thinking(
+            payload, "OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING"
+        )
+    payload, structured_output_mode = apply_protocol_structured_output_with_prompt_fallback(
+        protocol,
+        payload=payload,
+        provider_schema=output_schema,
+        schema_name=schema_name,
+        enabled=format_enabled,
+    )
     payload, _ = _prepare_payload_for_http(payload)
+    endpoint = protocol_endpoint(protocol, api_base)
+
+    def decode(body: Mapping[str, Any]) -> tuple[_AgentResearchDesignPatch, str]:
+        provider_ref = body.get("id")
+        if not isinstance(provider_ref, str) or not provider_ref.strip():
+            raise ValueError("agent revision provider response is missing a call identity")
+        content = read_protocol_provider_content(protocol, body, schema_name=schema_name)
+        return _validate_targeted_patch(_json_object(content), latest_design), provider_ref.strip()
+
     prepared = PreparedPlannerAttempt(
         phase="research_design_agent_revision",
         ordinal=1,
@@ -447,10 +474,10 @@ def _invoke_targeted_model_patch(instruction: str, latest_design: Any) -> tuple[
         model=model,
         endpoint=endpoint,
         payload=payload,
-        response_format=response_format,
+        response_format=response_format if structured_output_mode == "native" else None,
         timeout_seconds=research_start_planner_task_budget_seconds(),
         decode=decode,
-        provider_schema=output_schema,
+        provider_schema=output_schema if structured_output_mode == "native" else None,
     )
     return execute_prepared_attempt(prepared)
 
@@ -468,23 +495,29 @@ def _legacy_query_associations(
     Its graph is not applied: the targeted revision still owns identity/dependencies.
     Only validated scientific target associations feed the deterministic compiler.
     """
+    from app.execution.provider_protocol import (
+        ProviderProtocolError,
+        normalize_protocol,
+        protocol_endpoint,
+    )
+    from app.execution.research_start_provider_adapter import resolve_provider_transport
     from app.modules.research_design_workflow_semantic_provider import (
         WorkflowSemanticProviderConfig,
         prepare_hybrid_workflow_planner_attempt,
     )
 
     provider = _agent_revision_provider()
-    model = (
-        _agent_revision_chat_model()
-        if provider == "huiyan_chat_completions"
-        else _agent_revision_openai_model()
-    )
-    base = os.environ.get("LLM_PROVIDER_BASE_URL", "")
-    endpoint = (
-        f"{base.rstrip('/')}/v1/chat/completions"
-        if provider == "huiyan_chat_completions"
-        else f"{os.environ.get('OPENAI_API_BASE_URL', 'https://api.openai.com').rstrip('/')}/v1/responses"
-    )
+    try:
+        protocol = normalize_protocol(provider)
+    except ProviderProtocolError as exc:
+        raise ResearchDesignRevisionSaveUnavailable(
+            "本次研究方案修改服务暂不可用，请重试。"
+        ) from exc
+    _, base_url = resolve_provider_transport()
+    if not base_url:
+        raise ResearchDesignRevisionSaveUnavailable("本次研究方案修改服务暂不可用，请重试。")
+    model = _agent_revision_chat_model()
+    endpoint = protocol_endpoint(protocol, base_url)
     raw_input = json.dumps(
         {
             "researchGoal": patch.goal,

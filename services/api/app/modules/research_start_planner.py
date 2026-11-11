@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from app.execution.research_start_processing import (
     PlannerSemanticInputError,
-    read_provider_content,
+    read_protocol_provider_content,
 )
 
 from app.modules.research_planning_stage_framework import research_stage_framework
@@ -39,23 +39,29 @@ from app.modules.research_design_workflow_semantic_provider import (
     prepare_hybrid_workflow_planner_attempt,
 )
 
+from app.execution.provider_protocol import (
+    PROTOCOL_ANTHROPIC_MESSAGES,
+    PROTOCOL_OPENAI_CHAT_COMPLETIONS,
+    PROTOCOL_OPENAI_RESPONSES,
+    ProviderProtocolError,
+    apply_protocol_structured_output_with_prompt_fallback,
+    build_protocol_chat_payload,
+    normalize_protocol,
+    protocol_endpoint,
+    protocol_response_format,
+)
 from app.execution.llm_structured_runner import (
-    _build_responses_payload,
-    _extract_responses_output_text,
+    _is_reasoning_model,
     _openai_model_fallback_chain,
     _parse_llm_json_content,
     _prepare_payload_for_http,
     apply_openai_compatible_thinking,
-    extract_final_chat_content,
-)
-from app.execution.structured_output_provider_adapter import (
-    apply_provider_schema_transport,
-    structured_response_format,
 )
 from app.execution.research_start_provider_adapter import (
     PreparedPlannerAttempt,
     ResearchStartHttpTransport,
     execute_prepared_attempt,
+    provider_api_key,
 )
 from app.modules.pvd_deterministic_design import (
     PVD_WORKFLOW_ID,
@@ -1174,19 +1180,11 @@ def _bounded_float_env(name: str, default: float, minimum: float, maximum: float
     return default
 
 
-def _planner_provider() -> str:
-    return resolve_model_binding("planner", validate=False).provider
-
-
 def _planner_chat_model() -> str:
     # ResearchDesign is the controller's highest-leverage reasoning boundary.
     # Prefer the dedicated planner model, then the deployment's SOL/controller
     # model. A workflow selection or generic low-cost model may remain as a compatibility
     # fallback, but must not silently outrank the controller model.
-    return resolve_model_binding("planner", validate=False).model
-
-
-def _planner_openai_model() -> str:
     return resolve_model_binding("planner", validate=False).model
 
 
@@ -1215,68 +1213,51 @@ def research_start_planner_wait_seconds() -> float:
     return research_start_planner_task_budget_seconds() + 5.0
 
 
+def _planner_runtime_binding() -> tuple[str, str, str, str] | None:
+    """Resolve adapter, model, canonical protocol and base URL for the Planner.
+
+    Returns ``None`` when the registry binding is unavailable or names an
+    unknown protocol; callers then keep their existing "no live Provider"
+    behavior instead of guessing a wire contract.
+    """
+    try:
+        binding = resolve_model_binding("planner", validate=False)
+        protocol = normalize_protocol(binding.provider)
+    except (ProviderRegistryError, ProviderProtocolError):
+        return None
+    if not binding.endpoint:
+        return None
+    return binding.provider, binding.model, protocol, binding.endpoint
+
+
 def _freeform_semantic_provider_config() -> FreeformSemanticProviderConfig | None:
     """Resolve the single Provider boundary for freeform scientific planning."""
-    try:
-        provider = _planner_provider()
-    except ProviderRegistryError:
+    binding = _planner_runtime_binding()
+    if binding is None or not provider_api_key():
         return None
-    if provider == "huiyan_chat_completions":
-        api_base = os.environ.get("LLM_PROVIDER_BASE_URL")
-        if not api_base or not os.environ.get("LLM_PROVIDER_API_KEY"):
-            return None
-        model = _planner_chat_model()
-        return FreeformSemanticProviderConfig(
-            provider=provider,
-            model=model,
-            endpoint=f"{api_base.rstrip('/')}/v1/chat/completions",
-            timeout_seconds=research_start_planner_task_budget_seconds(),
-            max_tokens=_planner_max_tokens(),
-            temperature=_planner_temperature(),
-        )
-    if provider == "openai_responses":
-        if not os.environ.get("OPENAI_API_KEY"):
-            return None
-        model = _planner_openai_model()
-        return FreeformSemanticProviderConfig(
-            provider=provider,
-            model=model,
-            endpoint=f"{os.environ.get('OPENAI_API_BASE_URL', 'https://api.openai.com').rstrip('/')}/v1/responses",
-            timeout_seconds=research_start_planner_task_budget_seconds(),
-            max_tokens=_planner_max_tokens(),
-            temperature=_planner_temperature(),
-        )
-    return None
+    provider, model, protocol, base_url = binding
+    return FreeformSemanticProviderConfig(
+        provider=provider,
+        model=model,
+        endpoint=protocol_endpoint(protocol, base_url),
+        timeout_seconds=research_start_planner_task_budget_seconds(),
+        max_tokens=_planner_max_tokens(),
+        temperature=_planner_temperature(),
+    )
 
 
 def _workflow_semantic_provider_config() -> WorkflowSemanticProviderConfig | None:
     """Resolve one bounded Provider configuration for Workflow scientific semantics."""
-    try:
-        provider = _planner_provider()
-    except ProviderRegistryError:
+    binding = _planner_runtime_binding()
+    if binding is None or not provider_api_key():
         return None
-    if provider == "huiyan_chat_completions":
-        api_base = os.environ.get("LLM_PROVIDER_BASE_URL")
-        if not api_base or not os.environ.get("LLM_PROVIDER_API_KEY"):
-            return None
-        model = _planner_chat_model()
-        return WorkflowSemanticProviderConfig(
-            provider=provider,
-            model=model,
-            endpoint=f"{api_base.rstrip('/')}/v1/chat/completions",
-            timeout_seconds=research_start_planner_task_budget_seconds(),
-        )
-    if provider == "openai_responses":
-        if not os.environ.get("OPENAI_API_KEY"):
-            return None
-        model = _planner_openai_model()
-        return WorkflowSemanticProviderConfig(
-            provider=provider,
-            model=model,
-            endpoint=f"{os.environ.get('OPENAI_API_BASE_URL', 'https://api.openai.com').rstrip('/')}/v1/responses",
-            timeout_seconds=research_start_planner_task_budget_seconds(),
-        )
-    return None
+    provider, model, protocol, base_url = binding
+    return WorkflowSemanticProviderConfig(
+        provider=provider,
+        model=model,
+        endpoint=protocol_endpoint(protocol, base_url),
+        timeout_seconds=research_start_planner_task_budget_seconds(),
+    )
 
 
 def _planner_response_format_enabled() -> bool:
@@ -1664,31 +1645,64 @@ def _live_planning_audit(
     return audit
 
 
-def _run_chat_completions_planner(
+def _planner_evidence_protocol(
+    protocol: str,
+) -> Literal["chat_completions", "responses", "anthropic_messages"]:
+    """Map a canonical protocol to the physical-attempt ledger wire tag."""
+    if protocol == PROTOCOL_OPENAI_RESPONSES:
+        return "responses"
+    if protocol == PROTOCOL_ANTHROPIC_MESSAGES:
+        return "anthropic_messages"
+    return "chat_completions"
+
+
+def _planner_reasoning_effort(model: str) -> str | None:
+    # Only reasoning models accept a reasoning budget; other models take temperature.
+    if not _is_reasoning_model(model):
+        return None
+    return os.environ.get("OPENAIR_RESEARCH_START_PLANNER_REASONING_EFFORT") or None
+
+
+def _run_protocol_planner(
     *,
+    provider: str,
+    protocol: str,
+    model: str,
+    base_url: str,
     raw_input: str,
     planning_selection: Any | None,
     source_page: str,
     selected_hint: str | None,
     repair_instruction: str | None = None,
 ) -> tuple[dict[str, Any], dict[str, str]]:
-    api_key = os.environ.get("LLM_PROVIDER_API_KEY")
-    api_base = os.environ.get("LLM_PROVIDER_BASE_URL")
+    """Submit one protocol-native Planner call through the physical-attempt ledger."""
+    api_key = provider_api_key()
     if not api_key:
         raise ResearchStartPlannerUnavailable("LLM_PROVIDER_API_KEY environment variable not set")
-    if not api_base:
-        raise ResearchStartPlannerUnavailable("LLM_PROVIDER_BASE_URL environment variable not set")
 
     attempts_per_model = _planner_attempts()
-    include_response_format = _planner_response_format_enabled()
+    # Only the chat-completions protocol treats structural mode as optional:
+    # Responses and Anthropic carry the schema in their native envelope, so a
+    # rejection there is a real contract failure, not a request to downgrade.
+    allow_structure_fallback = protocol == PROTOCOL_OPENAI_CHAT_COMPLETIONS
+    include_response_format = (
+        _planner_response_format_enabled() if allow_structure_fallback else True
+    )
+    schema_name = "research_start_draft_plan"
+    models = (
+        _openai_model_fallback_chain(model)
+        if protocol == PROTOCOL_OPENAI_RESPONSES
+        else _planner_chat_model_fallback_chain()
+    )
     last_error: str | None = None
     logical_submission_ordinal = 0
-    for model in _planner_chat_model_fallback_chain():
+    for candidate_model in models:
         attempt = 0
         while attempt < attempts_per_model:
-            payload = {
-                "model": model,
-                "messages": [
+            payload = build_protocol_chat_payload(
+                protocol,
+                model=candidate_model,
+                messages=[
                     {"role": "system", "content": _planner_system_prompt()},
                     {
                         "role": "user",
@@ -1700,152 +1714,87 @@ def _run_chat_completions_planner(
                         ) + (f"\n\n{repair_instruction}" if repair_instruction else ""),
                     },
                 ],
-                "temperature": _planner_temperature(),
-                "max_tokens": _planner_max_tokens(),
-            }
-            response_format = structured_response_format(
-                "huiyan_chat_completions",
-                schema_name="research_start_draft_plan",
-                enabled=include_response_format,
+                max_tokens=_planner_max_tokens(),
+                temperature=_planner_temperature(),
+                reasoning_effort=_planner_reasoning_effort(candidate_model),
             )
-            if response_format:
-                payload["response_format"] = response_format
-            payload = apply_openai_compatible_thinking(
-                payload, "OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING"
+            if protocol == PROTOCOL_OPENAI_CHAT_COMPLETIONS:
+                payload = apply_openai_compatible_thinking(
+                    payload, "OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING"
+                )
+            payload, _structured_output_mode = (
+                apply_protocol_structured_output_with_prompt_fallback(
+                    protocol,
+                    payload=payload,
+                    provider_schema=PLANNER_PLAN_SCHEMA,
+                    schema_name=schema_name,
+                    enabled=include_response_format,
+                )
             )
             payload, _ = _prepare_payload_for_http(payload)
-            payload = apply_provider_schema_transport(
-                "huiyan_chat_completions",
-                payload=payload,
-                response_format=response_format,
-                provider_schema=PLANNER_PLAN_SCHEMA,
-            )
             try:
                 logical_submission_ordinal += 1
                 response_body = execute_observed_openai_compatible_json(
-                    protocol="chat_completions",
-                    base_url=api_base,
+                    protocol=_planner_evidence_protocol(protocol),
+                    base_url=base_url,
                     api_key=api_key,
                     timeout_seconds=research_start_planner_task_budget_seconds(),
                     payload=payload,
-                    adapter="huiyan_chat_completions",
-                    provider="huiyan_chat_completions",
-                    model=model,
+                    adapter=provider,
+                    provider=provider,
+                    model=candidate_model,
                     operation_identity="research_start:research_planner",
                     logical_attempt_ordinal=logical_submission_ordinal,
                 )
-                content, _choice = extract_final_chat_content(response_body)
+                content = read_protocol_provider_content(
+                    protocol, response_body, schema_name=schema_name
+                )
                 if not content.strip():
                     raise ValueError("empty LLM planner response content")
                 from llm_core.token_usage import record_observed_usage
 
                 record_observed_usage(
-                    provider="huiyan_chat_completions",
-                    model=str(response_body.get("model") or model),
+                    provider=provider,
+                    model=str(response_body.get("model") or candidate_model),
                     body=response_body,
                 )
                 return (
                     _parse_llm_json_content(content),
                     _live_planning_audit(
-                        provider="huiyan_chat_completions",
-                        requested_model=model,
+                        provider=provider,
+                        requested_model=candidate_model,
                         response_body=response_body,
                     ),
                 )
             except httpx.HTTPStatusError as exc:
-                if include_response_format and _is_unsupported_response_format_error(exc):
+                if (
+                    allow_structure_fallback
+                    and include_response_format
+                    and _is_unsupported_response_format_error(exc)
+                ):
                     include_response_format = False
-                    last_error = f"{model} attempt {attempt + 1}/{attempts_per_model}: response_format unsupported"
+                    last_error = (
+                        f"{candidate_model} attempt {attempt + 1}/{attempts_per_model}: "
+                        "response_format unsupported"
+                    )
                     continue
-                last_error = f"{model} attempt {attempt + 1}/{attempts_per_model}: {exc}"
+                last_error = f"{candidate_model} attempt {attempt + 1}/{attempts_per_model}: {exc}"
                 attempt += 1
             except Exception as exc:
-                if include_response_format and _should_retry_without_response_format(exc):
+                if (
+                    allow_structure_fallback
+                    and include_response_format
+                    and _should_retry_without_response_format(exc)
+                ):
                     include_response_format = False
-                    last_error = f"{model} attempt {attempt + 1}/{attempts_per_model}: response_format retry without structured mode after {exc}"
+                    last_error = (
+                        f"{candidate_model} attempt {attempt + 1}/{attempts_per_model}: "
+                        f"response_format retry without structured mode after {exc}"
+                    )
                     continue
-                last_error = f"{model} attempt {attempt + 1}/{attempts_per_model}: {exc}"
+                last_error = f"{candidate_model} attempt {attempt + 1}/{attempts_per_model}: {exc}"
                 attempt += 1
-    raise ResearchStartPlannerUnavailable(last_error or "chat completions planner failed")
-
-
-def _run_openai_responses_planner(
-    *,
-    raw_input: str,
-    planning_selection: Any | None,
-    source_page: str,
-    selected_hint: str | None,
-    repair_instruction: str | None = None,
-) -> tuple[dict[str, Any], dict[str, str]]:
-    api_key = os.environ.get("OPENAI_API_KEY")
-    api_base = os.environ.get("OPENAI_API_BASE_URL", "https://api.openai.com")
-    if not api_key:
-        raise ResearchStartPlannerUnavailable("OPENAI_API_KEY environment variable not set")
-
-    endpoint_base = api_base.rstrip("/")
-    last_error: str | None = None
-    logical_submission_ordinal = 0
-    for model in _openai_model_fallback_chain(_planner_openai_model()):
-        response_format = structured_response_format(
-            "openai_responses",
-            schema_name="research_start_draft_plan",
-        )
-        payload = _build_responses_payload(
-            model=model,
-            system_prompt=_planner_system_prompt(),
-            user_prompt=_planner_user_prompt(
-                raw_input=raw_input,
-                planning_selection=planning_selection,
-                source_page=source_page,
-                selected_hint=selected_hint,
-            ) + (f"\n\n{repair_instruction}" if repair_instruction else ""),
-            output_schema=PLANNER_PLAN_SCHEMA,
-            schema_name="research_start_draft_plan",
-            max_completion_tokens=_planner_max_tokens(),
-            reasoning_effort=os.environ.get("OPENAIR_RESEARCH_START_PLANNER_REASONING_EFFORT") or None,
-            temperature=_planner_temperature(),
-        )
-        payload, _ = _prepare_payload_for_http(payload)
-        payload = apply_provider_schema_transport(
-            "openai_responses",
-            payload=payload,
-            response_format=response_format,
-            provider_schema=PLANNER_PLAN_SCHEMA,
-        )
-        try:
-            logical_submission_ordinal += 1
-            response_body = execute_observed_openai_compatible_json(
-                protocol="responses",
-                base_url=endpoint_base,
-                api_key=api_key,
-                timeout_seconds=research_start_planner_task_budget_seconds(),
-                payload=payload,
-                adapter="openai_responses",
-                provider="openai_responses",
-                model=model,
-                operation_identity="research_start:research_planner",
-                logical_attempt_ordinal=logical_submission_ordinal,
-            )
-            content = _extract_responses_output_text(response_body)
-            from llm_core.token_usage import record_observed_usage
-
-            record_observed_usage(
-                provider="openai_responses",
-                model=str(response_body.get("model") or model),
-                body=response_body,
-            )
-            return (
-                _parse_llm_json_content(content),
-                _live_planning_audit(
-                    provider="openai_responses",
-                    requested_model=model,
-                    response_body=response_body,
-                ),
-            )
-        except Exception as exc:
-            last_error = f"{model}: {exc}"
-            continue
-    raise ResearchStartPlannerUnavailable(last_error or "OpenAI responses planner failed")
+    raise ResearchStartPlannerUnavailable(last_error or f"{provider} planner failed")
 
 
 def _planner_repair_instruction(payload: dict[str, Any], error: ResearchStartPlannerError) -> str:
@@ -3030,7 +2979,13 @@ def prepare_planner_attempt(
         )
 
 
-    provider = _planner_provider()
+    binding = _planner_runtime_binding()
+    if binding is None:
+        raise ResearchStartPlannerUnavailable("LLM_PROVIDER_BASE_URL environment variable not set")
+    provider, model, protocol, base_url = binding
+    if not provider_api_key():
+        raise ResearchStartPlannerUnavailable("LLM_PROVIDER_API_KEY environment variable not set")
+
     if settings.research_orchestration_v1:
         from app.modules.research_design_compiler import compile_research_design_proposal
         from app.modules.research_design_service import PlannerProviderResult
@@ -3067,99 +3022,62 @@ def prepare_planner_attempt(
                 provider_call_ref=provider_call_ref.strip(),
             )
 
-    if provider == "huiyan_chat_completions":
-        api_key = os.environ.get("LLM_PROVIDER_API_KEY")
-        api_base = os.environ.get("LLM_PROVIDER_BASE_URL")
-        if not api_key or not api_base:
-            raise ResearchStartPlannerUnavailable("HUIYAN planner provider configuration is incomplete")
-        model = _planner_chat_model()
-        schema_name = (
-            "planner_semantic_proposal_v2"
-            if settings.research_orchestration_v1
-            else "research_start_draft_plan"
-        )
-        response_format = structured_response_format(
-            provider,
-            schema_name=schema_name,
-            enabled=_planner_response_format_enabled(),
-        )
-        payload: dict[str, Any] = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            "temperature": _planner_temperature(),
-            "max_tokens": _planner_max_tokens(),
-        }
-        if response_format:
-            payload["response_format"] = response_format
+    schema_name = (
+        "planner_semantic_repair_v2"
+        if settings.research_orchestration_v1 and repair_context is not None
+        else "planner_semantic_proposal_v2"
+        if settings.research_orchestration_v1
+        else "research_start_draft_plan"
+    )
+    format_enabled = (
+        _planner_response_format_enabled()
+        if protocol == PROTOCOL_OPENAI_CHAT_COMPLETIONS
+        else True
+    )
+    response_format = protocol_response_format(
+        protocol, schema_name=schema_name, enabled=format_enabled
+    )
+    payload = build_protocol_chat_payload(
+        protocol,
+        model=model,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        max_tokens=_planner_max_tokens(),
+        temperature=_planner_temperature(),
+        reasoning_effort=_planner_reasoning_effort(model),
+    )
+    if protocol == PROTOCOL_OPENAI_CHAT_COMPLETIONS:
         payload = apply_openai_compatible_thinking(
             payload, "OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING"
         )
-        endpoint = f"{api_base.rstrip('/')}/v1/chat/completions"
+    payload, structured_output_mode = apply_protocol_structured_output_with_prompt_fallback(
+        protocol,
+        payload=payload,
+        provider_schema=output_schema,
+        schema_name=schema_name,
+        enabled=format_enabled,
+    )
+    endpoint = protocol_endpoint(protocol, base_url)
 
-        def decode(body: Mapping[str, Any]) -> Any:
-            content, _choice = read_provider_content(extract_final_chat_content, body)
-            parsed = _parse_planner_json_object(content)
-            if settings.research_orchestration_v1:
-                return decode_v12(parsed, body)
-            plan = _plan_from_llm_payload(
-                parsed,
-                raw_input=raw_input,
-                planning_selection=decision_snapshot,
-                selected_hint=selected_hint,
-            )
-            return replace(plan, planningAudit=_live_planning_audit(
-                provider=provider,
-                requested_model=model,
-                response_body=dict(body),
-            ))
-    elif provider == "openai_responses":
-        api_key = os.environ.get("OPENAI_API_KEY")
-        if not api_key:
-            raise ResearchStartPlannerUnavailable("OpenAI planner provider configuration is incomplete")
-        model = _planner_openai_model()
-        schema_name = (
-            "planner_semantic_repair_v2"
-            if settings.research_orchestration_v1 and repair_context is not None
-            else "planner_semantic_proposal_v2"
-            if settings.research_orchestration_v1
-            else "research_start_draft_plan"
+    def decode(body: Mapping[str, Any]) -> Any:
+        parsed = _parse_planner_json_object(
+            read_protocol_provider_content(protocol, body, schema_name=schema_name)
         )
-        response_format = structured_response_format(
-            provider,
-            schema_name=schema_name,
+        if settings.research_orchestration_v1:
+            return decode_v12(parsed, body)
+        plan = _plan_from_llm_payload(
+            parsed,
+            raw_input=raw_input,
+            planning_selection=decision_snapshot,
+            selected_hint=selected_hint,
         )
-        payload = _build_responses_payload(
-            model=model,
-            system_prompt=system_prompt,
-            user_prompt=user_prompt,
-            output_schema=output_schema,
-            schema_name=schema_name,
-            max_completion_tokens=_planner_max_tokens(),
-            reasoning_effort=os.environ.get("OPENAIR_RESEARCH_START_PLANNER_REASONING_EFFORT") or None,
-            temperature=_planner_temperature(),
-        )
-        endpoint = f"{os.environ.get('OPENAI_API_BASE_URL', 'https://api.openai.com').rstrip('/')}/v1/responses"
-
-        def decode(body: Mapping[str, Any]) -> Any:
-            parsed = _parse_planner_json_object(read_provider_content(_extract_responses_output_text, body))
-            if settings.research_orchestration_v1:
-                return decode_v12(parsed, body)
-            plan = _plan_from_llm_payload(
-                parsed,
-                raw_input=raw_input,
-                planning_selection=decision_snapshot,
-                selected_hint=selected_hint,
-            )
-            return replace(plan, planningAudit=_live_planning_audit(
-                provider=provider,
-                requested_model=model,
-                response_body=dict(body),
-            ))
-    else:
-        raise ResearchStartPlannerUnavailable(f"unsupported research start planner provider: {provider}")
+        return replace(plan, planningAudit=_live_planning_audit(
+            provider=provider,
+            requested_model=model,
+            response_body=dict(body),
+        ))
 
     payload, _ = _prepare_payload_for_http(payload)
     return PreparedPlannerAttempt(
@@ -3169,10 +3087,10 @@ def prepare_planner_attempt(
         model=model,
         endpoint=endpoint,
         payload=payload,
-        response_format=response_format,
+        response_format=response_format if structured_output_mode == "native" else None,
         timeout_seconds=research_start_planner_task_budget_seconds(),
         decode=decode,
-        provider_schema=output_schema,
+        provider_schema=output_schema if structured_output_mode == "native" else None,
     )
 
 def execute_planner_attempt(
@@ -3210,25 +3128,25 @@ def _run_live_research_start_planner(
     source_page: str,
     selected_hint: str | None,
 ) -> ResearchStartPlan:
-    provider = _planner_provider()
-    if provider == "huiyan_chat_completions":
-        runner = _run_chat_completions_planner
-        payload, planning_audit = runner(
+    binding = _planner_runtime_binding()
+    if binding is None:
+        raise ResearchStartPlannerUnavailable("LLM_PROVIDER_BASE_URL environment variable not set")
+    provider, model, protocol, base_url = binding
+
+    def runner(repair_instruction: str | None = None) -> tuple[dict[str, Any], dict[str, str]]:
+        return _run_protocol_planner(
+            provider=provider,
+            protocol=protocol,
+            model=model,
+            base_url=base_url,
             raw_input=raw_input,
             planning_selection=planning_selection,
             source_page=source_page,
             selected_hint=selected_hint,
+            repair_instruction=repair_instruction,
         )
-    elif provider == "openai_responses":
-        runner = _run_openai_responses_planner
-        payload, planning_audit = runner(
-            raw_input=raw_input,
-            planning_selection=planning_selection,
-            source_page=source_page,
-            selected_hint=selected_hint,
-        )
-    else:
-        raise ResearchStartPlannerUnavailable(f"unsupported research start planner provider: {provider}")
+
+    payload, planning_audit = runner()
     try:
         plan = _plan_from_llm_payload(
             payload,
@@ -3240,13 +3158,7 @@ def _run_live_research_start_planner(
         if not _is_repairable_planner_error(error):
             raise
         original_run_id = planning_audit.get("runId")
-        payload, planning_audit = runner(
-            raw_input=raw_input,
-            planning_selection=planning_selection,
-            source_page=source_page,
-            selected_hint=selected_hint,
-            repair_instruction=_planner_repair_instruction(payload, error),
-        )
+        payload, planning_audit = runner(_planner_repair_instruction(payload, error))
         plan = _plan_from_llm_payload(
             payload,
             raw_input=raw_input,

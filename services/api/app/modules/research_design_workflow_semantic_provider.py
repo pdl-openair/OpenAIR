@@ -11,21 +11,25 @@ from __future__ import annotations
 from app.execution.research_start_processing import (
     PlannerSemanticInputError,
     local_planning_step,
-    read_provider_content,
+    read_protocol_provider_content,
 )
 
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
 
+from app.execution.provider_protocol import (
+    PROTOCOL_OPENAI_CHAT_COMPLETIONS,
+    apply_protocol_structured_output_with_prompt_fallback,
+    build_protocol_chat_payload,
+    normalize_protocol,
+    protocol_response_format,
+)
 from app.execution.llm_structured_runner import (
-    _build_responses_payload,
-    _extract_responses_output_text,
+    _is_reasoning_model,
     _parse_llm_json_content,
     _prepare_payload_for_http,
-    extract_final_chat_content,
 )
-from app.execution.structured_output_provider_adapter import structured_response_format
 from app.execution.research_start_provider_adapter import (
     PreparedPlannerAttempt,
     ResearchStartHttpTransport,
@@ -274,54 +278,37 @@ def prepare_hybrid_workflow_planner_attempt(
             )
 
     config = provider_config
-    if config.provider == "huiyan_chat_completions":
-        response_format = structured_response_format(
-            config.provider,
-            schema_name=schema_name,
+    protocol = normalize_protocol(config.provider)
+    response_format = protocol_response_format(protocol, schema_name=schema_name)
+    payload = build_protocol_chat_payload(
+        protocol,
+        model=config.model,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        max_tokens=max_tokens,
+        temperature=0.1,
+        reasoning_effort="none" if _is_reasoning_model(config.model) else None,
+    )
+    if protocol == PROTOCOL_OPENAI_CHAT_COMPLETIONS:
+        payload["thinking"] = {"type": "disabled"}
+        payload["reasoning_effort"] = "none"
+    payload, structured_output_mode = apply_protocol_structured_output_with_prompt_fallback(
+        protocol,
+        payload=payload,
+        provider_schema=output_schema,
+        schema_name=schema_name,
+    )
+    payload, _ = _prepare_payload_for_http(payload)
+
+    def decode(body: Mapping[str, Any]) -> PlannerProviderResult:
+        return decode_semantic(
+            _parse_json_object(
+                read_protocol_provider_content(protocol, body, schema_name=schema_name)
+            ),
+            body,
         )
-        payload: dict[str, Any] = {
-            "model": config.model,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            "temperature": 0.1,
-            "max_tokens": max_tokens,
-            "thinking": {"type": "disabled"},
-            "reasoning_effort": "none",
-            "response_format": response_format,
-        }
-        payload, _ = _prepare_payload_for_http(payload)
-
-        def decode(body: Mapping[str, Any]) -> PlannerProviderResult:
-            content, _choice = read_provider_content(extract_final_chat_content, body)
-            return decode_semantic(_parse_json_object(content), body)
-
-    elif config.provider == "openai_responses":
-        response_format = structured_response_format(
-            config.provider,
-            schema_name=schema_name,
-        )
-        payload = _build_responses_payload(
-            model=config.model,
-            system_prompt=system_prompt,
-            user_prompt=user_prompt,
-            output_schema=output_schema,
-            schema_name=schema_name,
-            max_completion_tokens=max_tokens,
-            reasoning_effort="none",
-            temperature=0.1,
-        )
-        payload, _ = _prepare_payload_for_http(payload)
-
-        def decode(body: Mapping[str, Any]) -> PlannerProviderResult:
-            return decode_semantic(
-                _parse_json_object(read_provider_content(_extract_responses_output_text, body)),
-                body,
-            )
-
-    else:
-        raise ValueError(f"unsupported Workflow semantic provider: {config.provider}")
 
     semantic_attempt = PreparedPlannerAttempt(
         phase="research_planner",
@@ -330,10 +317,10 @@ def prepare_hybrid_workflow_planner_attempt(
         model=config.model,
         endpoint=config.endpoint,
         payload=payload,
-        response_format=response_format,
+        response_format=response_format if structured_output_mode == "native" else None,
         timeout_seconds=max(float(config.timeout_seconds), 0.1),
         decode=decode,
-        provider_schema=output_schema,
+        provider_schema=output_schema if structured_output_mode == "native" else None,
     )
     return PreparedHybridWorkflowPlannerAttempt(
         ordinal=ordinal,

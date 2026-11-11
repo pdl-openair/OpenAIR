@@ -1,10 +1,11 @@
-"""OpenAI-compatible chat-completions adapter for one frozen v1.2 research dispatch.
+"""Durable provider adapter for one frozen v1.2 research dispatch.
 
 Historically named ``*huiyan*`` because the first credential gateway was HUIYAN.
-HUIYAN is only a token/base-URL source; this module speaks the shared OpenAI
-chat-completions shape and is selected by registry ``adapter`` id
-(``huiyan_chat_completions`` today). Provider identity comes from
-``provider_id`` / runtime config, not from the module name.
+HUIYAN is only a token/base-URL source; the executor behind this module speaks
+all three registry protocols (``openai_chat_completions``,
+``openai_responses``, ``anthropic_messages``) and is selected by the registry
+``adapter`` id. Provider identity comes from ``provider_id`` / runtime config,
+not from the module name.
 """
 
 from __future__ import annotations
@@ -48,6 +49,7 @@ from app.execution.skill_dependency_runtime import (
 )
 from app.modules.artifact_write import artifact_write_service
 from app.modules.provider_registry import (
+    PROVIDER_PROTOCOLS,
     ProviderRegistry,
     ProviderSubmissionSafety,
     load_provider_registry,
@@ -563,7 +565,7 @@ class PreparedHuiyanResearchDispatch:
             request.capability_call_id,
             request.attempt_number,
             self.provider_id,
-            _OPENAI_COMPATIBLE_ADAPTER,
+            self.adapter,
             frozen_request.modelProfile,
             frozen_request.artifactContract,
             frozen_request.selectedAgentId,
@@ -762,7 +764,7 @@ class HuiyanResearchDispatchProvider:
     def preflight(self) -> PreparedHuiyanResearchDispatch:
         try:
             definition = self._registry.require(self._provider_id)
-            if definition.adapter != _OPENAI_COMPATIBLE_ADAPTER:
+            if definition.protocol not in PROVIDER_PROTOCOLS:
                 raise ValueError("unsupported adapter")
             resolve_provider_runtime_config(
                 self._provider_id,
@@ -776,6 +778,7 @@ class HuiyanResearchDispatchProvider:
             capabilities=definition.submissionSafety,
             repository=self._repository,
             executor=self._executor,
+            adapter=definition.adapter,
         )
 
 

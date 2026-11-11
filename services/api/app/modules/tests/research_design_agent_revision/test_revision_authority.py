@@ -164,3 +164,55 @@ def test_real_proposal_preserves_canonical_structural_authority():
     assert proposal.instances[0].expected_artifact_types == list(
         current.instances[0].expected_artifact_types
     )
+
+
+def _clear_provider_environment(monkeypatch: pytest.MonkeyPatch) -> None:
+    for name in (
+        "OPENAIR_RESEARCH_START_PLANNER_PROVIDER",
+        "OPENTRAJECTORY_LLM_PROVIDER",
+        "OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL",
+        "LLM_PROVIDER_MODEL",
+    ):
+        monkeypatch.delenv(name, raising=False)
+
+
+def _make_registry_resolvable(monkeypatch: pytest.MonkeyPatch) -> None:
+    # The default provider in schemas/providers/provider-registry.yaml speaks
+    # huiyan_chat_completions; these variables let the planner binding resolve
+    # so the registry adapter is known.
+    monkeypatch.setenv("OPENAIR_RESEARCH_START_PLANNER_LLM_MODEL", "registry-model")
+    monkeypatch.setenv("LLM_PROVIDER_MODEL", "registry-model")
+    monkeypatch.setenv("LLM_PROVIDER_BASE_URL", "https://provider.test")
+    monkeypatch.setenv("LLM_PROVIDER_API_KEY", "test-key")
+
+
+def test_provider_selector_conflicting_with_registry_adapter_fails_closed(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _clear_provider_environment(monkeypatch)
+    _make_registry_resolvable(monkeypatch)
+    monkeypatch.setenv("OPENTRAJECTORY_LLM_PROVIDER", "anthropic_messages")
+
+    with pytest.raises(revision.ResearchDesignRevisionSaveUnavailable):
+        revision._agent_revision_provider()
+
+
+def test_provider_selector_matching_registry_adapter_is_honored(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _clear_provider_environment(monkeypatch)
+    _make_registry_resolvable(monkeypatch)
+    monkeypatch.setenv("OPENTRAJECTORY_LLM_PROVIDER", "openai_chat_completions")
+
+    assert revision._agent_revision_provider() == "openai_chat_completions"
+
+
+def test_legacy_provider_selector_survives_without_a_resolvable_registry(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _clear_provider_environment(monkeypatch)
+    monkeypatch.setenv("LLM_PROVIDER_BASE_URL", "https://provider.test")
+    monkeypatch.setenv("LLM_PROVIDER_API_KEY", "test-key")
+    monkeypatch.setenv("OPENTRAJECTORY_LLM_PROVIDER", "anthropic_messages")
+
+    assert revision._agent_revision_provider() == "anthropic_messages"

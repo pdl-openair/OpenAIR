@@ -13,6 +13,7 @@ from typing import Any, Mapping
 from app.modules.provider_registry import (
     ProviderRegistry,
     ProviderRegistryError,
+    adapter_protocol,
     load_provider_registry,
     resolve_provider_runtime_config,
 )
@@ -219,7 +220,7 @@ def resolve_durable_llm_execution_policy(
             environ=environ,
             registry=provider_registry,
         )
-    if provider.adapter != runtime.adapter:
+    if adapter_protocol(provider.adapter) != adapter_protocol(runtime.adapter):
         raise ProviderRegistryError("Provider adapter resolution is inconsistent")
     resolved = {
         "contractVersion": _CONTRACT_VERSION,

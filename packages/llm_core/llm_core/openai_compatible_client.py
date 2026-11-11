@@ -367,6 +367,19 @@ async def apost_chat_completions(endpoint: ProviderEndpoint, payload: dict[str, 
     except (httpx.ConnectTimeout, httpx.ConnectError, httpx.ProxyError):
         return await _send(trust_env=True)
 
+
+def responses_url(base_url: str) -> str:
+    """Resolve the Responses endpoint for an OpenAI-compatible provider base."""
+    base = str(base_url or "").strip().rstrip("/")
+    if not base:
+        raise ValueError("provider base URL is empty")
+    if base.endswith("/responses"):
+        return base
+    if base.endswith("/v1"):
+        return f"{base}/responses"
+    return f"{base}/v1/responses"
+
+
 def post_responses(
     endpoint: ProviderEndpoint,
     payload: dict[str, Any],
@@ -381,11 +394,7 @@ def post_responses(
     caller can make Provider completion/failure permanent independently of later
     local processing.
     """
-    base = str(endpoint.base_url or "").strip().rstrip("/")
-    if base.endswith("/v1"):
-        url = f"{base}/responses"
-    else:
-        url = f"{base}/v1/responses"
+    url = responses_url(endpoint.base_url)
     headers = _headers(endpoint.api_key)
     if extra_headers:
         headers.update(dict(extra_headers))
