@@ -28,7 +28,10 @@ from app.config import settings
 from app.modules.agent_registry import load_agent_registry
 from app.modules.provider_registry import ProviderRegistryError, resolve_model_binding
 from app.modules.provider_transport_evidence import execute_observed_openai_compatible_json
-from app.modules.research_start_planner_budget import research_start_planner_task_budget_seconds
+from app.modules.research_start_planner_budget import (
+    research_start_planner_max_tokens,
+    research_start_planner_task_budget_seconds,
+)
 from app.modules.research_design_freeform_semantic_provider import (
     FreeformSemanticProviderConfig,
     prepare_freeform_research_design_attempt,
@@ -1195,7 +1198,7 @@ def _planner_chat_model_fallback_chain() -> list[str]:
 
 
 def _planner_max_tokens() -> int:
-    return _bounded_int_env("OPENAIR_RESEARCH_START_PLANNER_LLM_MAX_TOKENS", 1800, 600, 5000)
+    return research_start_planner_max_tokens()
 
 
 def _planner_attempts() -> int:
