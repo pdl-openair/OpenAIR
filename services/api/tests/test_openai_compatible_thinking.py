@@ -9,6 +9,7 @@ from llm_core.openai_compatible_client import (
     chat_completions_url,
     extract_final_chat_content,
     ProviderEndpoint,
+    THINKING_EFFORT_LEVELS,
     _provider_transport_timeout,
 )
 
@@ -56,6 +57,63 @@ def test_apply_thinking_enabled(monkeypatch: pytest.MonkeyPatch) -> None:
     )
     assert out["thinking"] == {"type": "enabled"}
     assert "reasoning_effort" not in out
+
+
+@pytest.mark.parametrize("env_name", [
+    "OPENAIR_RESEARCH_START_PLANNER_LLM_THINKING",
+    "OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING",
+])
+@pytest.mark.parametrize("effort", THINKING_EFFORT_LEVELS)
+def test_apply_thinking_effort_levels(
+    monkeypatch: pytest.MonkeyPatch, env_name: str, effort: str
+) -> None:
+    monkeypatch.setenv(env_name, effort)
+    payload = {"model": "m", "reasoning_effort": "none"}
+    out = apply_openai_compatible_thinking(payload, env_name)
+    assert out["thinking"] == {"type": "enabled"}
+    assert out["reasoning_effort"] == effort
+
+
+def test_apply_thinking_effort_levels_cover_xhigh_and_max() -> None:
+    assert {"xhigh", "max"}.issubset(THINKING_EFFORT_LEVELS)
+
+
+def test_apply_thinking_effort_is_case_insensitive(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING", "  XHIGH ")
+    out = apply_openai_compatible_thinking(
+        {"model": "m"}, "OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING"
+    )
+    assert out["thinking"] == {"type": "enabled"}
+    assert out["reasoning_effort"] == "xhigh"
+
+
+@pytest.mark.parametrize("value", ["disabled", "off", "0", "false", "none"])
+def test_apply_thinking_disabled_aliases(monkeypatch: pytest.MonkeyPatch, value: str) -> None:
+    monkeypatch.setenv("OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING", value)
+    out = apply_openai_compatible_thinking(
+        {"model": "m"}, "OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING"
+    )
+    assert out["thinking"] == {"type": "disabled"}
+    assert out["reasoning_effort"] == "none"
+
+
+@pytest.mark.parametrize("value", ["enabled", "on", "1", "true"])
+def test_apply_thinking_enabled_aliases(monkeypatch: pytest.MonkeyPatch, value: str) -> None:
+    monkeypatch.setenv("OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING", value)
+    out = apply_openai_compatible_thinking(
+        {"model": "m", "reasoning_effort": "none"}, "OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING"
+    )
+    assert out["thinking"] == {"type": "enabled"}
+    assert "reasoning_effort" not in out
+
+
+def test_apply_thinking_unknown_value_leaves_payload(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING", "ultra")
+    payload = {"model": "m"}
+    assert (
+        apply_openai_compatible_thinking(payload, "OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING")
+        == payload
+    )
 
 
 def test_apply_thinking_unset_leaves_payload(monkeypatch: pytest.MonkeyPatch) -> None:

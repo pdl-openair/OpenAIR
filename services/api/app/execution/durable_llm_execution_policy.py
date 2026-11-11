@@ -16,11 +16,17 @@ from app.modules.provider_registry import (
     load_provider_registry,
     resolve_provider_runtime_config,
 )
+from llm_core.openai_compatible_client import REASONING_EFFORT_VALUES
 
 
 DECLARATION_KEY = "durable_llm_execution_policy"
 _CONTRACT_VERSION = 1
-_ALLOWED_REASONING_EFFORTS = frozenset({"none", "minimal", "low", "medium", "high"})
+# Shared with the env toggle (``OPENAIR_*_LLM_THINKING`` via
+# ``llm_core.apply_openai_compatible_thinking``): both channels accept exactly
+# ``none`` plus the effort levels ``minimal``/``low``/``medium``/``high``/
+# ``xhigh``/``max``.  Toggle words (``disabled``/``enabled``) are env-only and
+# are never stored as a Provider ``reasoning_effort``.
+_ALLOWED_REASONING_EFFORTS = REASONING_EFFORT_VALUES
 _ALLOWED_RESPONSE_MODES = frozenset({"json_object"})
 _DECLARATION_FIELDS = frozenset({
     "contract_version",

@@ -153,6 +153,34 @@ def _usage_from_body(
 
 
 # ---------------------------------------------------------------------------
+# Thinking / reasoning-effort vocabulary — single source of truth.
+#
+# Two channels consume it and must never disagree:
+#   - the env toggle :func:`apply_openai_compatible_thinking` (below), and
+#   - the durable execution-policy declaration contract
+#     (``app.execution.durable_llm_execution_policy``), which forwards the value
+#     as ``reasoning_effort`` to the Provider untouched.
+#
+# ``THINKING_DISABLED_VALUES`` / ``THINKING_ENABLED_VALUES`` are env-only toggle
+# words: they are translated into ``thinking`` here and are never forwarded to a
+# Provider as an effort value. The declaration channel only accepts
+# :data:`REASONING_EFFORT_VALUES` (provider effort values plus ``none``).
+# ---------------------------------------------------------------------------
+
+THINKING_EFFORT_LEVELS: tuple[str, ...] = (
+    "minimal",
+    "low",
+    "medium",
+    "high",
+    "xhigh",
+    "max",
+)
+THINKING_DISABLED_VALUES = frozenset({"disabled", "off", "0", "false", "none"})
+THINKING_ENABLED_VALUES = frozenset({"enabled", "on", "1", "true"})
+REASONING_EFFORT_VALUES = frozenset({"none", *THINKING_EFFORT_LEVELS})
+
+
+# ---------------------------------------------------------------------------
 # Pure content extractors (moved here from llm_structured_runner to break the
 # import cycle; llm_structured_runner re-exports them for back-comat).
 # ---------------------------------------------------------------------------
@@ -164,21 +192,46 @@ def apply_openai_compatible_thinking(
 ) -> dict[str, Any]:
     """Optionally set OpenAI-compatible thinking controls from an env toggle.
 
+    The value is stripped and lower-cased, then matched in this order:
+
+    - empty / unset → payload unchanged (Provider default).
+    - disabled toggle (:data:`THINKING_DISABLED_VALUES`: ``disabled``, ``off``,
+      ``0``, ``false``, ``none``) → ``thinking`` disabled plus
+      ``reasoning_effort: "none"``.
+    - effort level (:data:`THINKING_EFFORT_LEVELS`: ``minimal``, ``low``,
+      ``medium``, ``high``, ``xhigh``, ``max``) → ``thinking`` enabled plus that
+      value as ``reasoning_effort``.
+    - enable toggle (:data:`THINKING_ENABLED_VALUES`: ``enabled``, ``on``,
+      ``1``, ``true``) → ``thinking`` enabled with any caller-supplied
+      ``reasoning_effort`` removed, leaving the model default effort.
+    - anything else → payload unchanged; unknown values are never forwarded to
+      the Provider.
+
+    ``THINKING_EFFORT_LEVELS`` is shared with the durable execution-policy
+    declaration contract, so a level accepted on one channel is accepted on the
+    other; the documentation surface for both is ``.env.example``.
+
     DeepSeek documents ``{"thinking": {"type": "enabled|disabled"}}``. Some
     gateways (observed: OpenCode Zen + deepseek-v4-flash-free) still emit
     ``reasoning_content`` unless ``reasoning_effort`` is also set to ``none``.
-    Empty / unset env leaves provider default.
     """
     raw = (os.environ.get(env_name) or "").strip().lower()
     if not raw:
         return payload
-    if raw in {"disabled", "off", "0", "false", "none"}:
+    if raw in THINKING_DISABLED_VALUES:
         return {
             **payload,
             "thinking": {"type": "disabled"},
             "reasoning_effort": "none",
         }
-    if raw in {"enabled", "on", "1", "true"}:
+    if raw in THINKING_EFFORT_LEVELS:
+        return {
+            **payload,
+            "thinking": {"type": "enabled"},
+            "reasoning_effort": raw,
+        }
+
+    if raw in THINKING_ENABLED_VALUES:
         out = {**payload, "thinking": {"type": "enabled"}}
         # Do not force a high effort; leave provider/model defaults for enable.
         out.pop("reasoning_effort", None)

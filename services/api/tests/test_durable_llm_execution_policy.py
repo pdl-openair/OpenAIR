@@ -6,11 +6,19 @@ from types import SimpleNamespace
 
 from app.execution.durable_llm_execution_policy import (
     normalize_durable_llm_execution_policy_declaration,
+    normalize_resolved_durable_llm_execution_policy,
     resolve_durable_llm_execution_policy,
 )
 from app.models.research_orchestration import WorkUnit
 from app.modules import research_execution_decision_service as decision_service
 from app.modules.provider_registry import build_provider_registry
+from llm_core.openai_compatible_client import (
+    apply_openai_compatible_thinking,
+    REASONING_EFFORT_VALUES,
+    THINKING_DISABLED_VALUES,
+    THINKING_EFFORT_LEVELS,
+    THINKING_ENABLED_VALUES,
+)
 
 
 _FIXTURE = (
@@ -19,6 +27,12 @@ _FIXTURE = (
     / "shared"
     / "test-fixtures"
     / "research-orchestration-v1.2-valid.json"
+)
+
+# Env-only toggle words (translated into ``thinking`` before the request leaves
+# the process), minus ``none`` which is also a valid Provider effort value.
+_TOGGLE_VALUES = sorted(
+    (THINKING_DISABLED_VALUES | THINKING_ENABLED_VALUES) - REASONING_EFFORT_VALUES
 )
 
 
@@ -32,6 +46,24 @@ def _declaration(**overrides):
         "response_mode": "json_object",
         "load_references": False,
         "structured_output_recovery_attempts": 1,
+    }
+    value.update(overrides)
+    return value
+
+
+def _resolved(**overrides):
+    value = {
+        "contractVersion": 1,
+        "providerId": "openai_primary",
+        "adapterId": "huiyan_chat_completions",
+        "model": "validated-terra-model",
+        "modelProfile": "terra",
+        "reasoningEffort": "none",
+        "maxOutputTokens": 6000,
+        "readTimeoutSeconds": 60.0,
+        "responseMode": "json_object",
+        "loadReferences": False,
+        "structuredOutputRecoveryAttempts": 1,
     }
     value.update(overrides)
     return value
@@ -228,3 +260,97 @@ def test_policy_declaration_rejects_more_than_one_recovery_attempt() -> None:
         assert str(exc) == "durable_llm_execution_policy_recovery_budget_invalid"
     else:
         raise AssertionError("unbounded structured-output recovery must be rejected")
+
+
+def test_policy_declaration_accepts_every_env_channel_effort_level(monkeypatch) -> None:
+    monkeypatch.setenv("LLM_PROVIDER_API_KEY", "test-key")
+    monkeypatch.setenv("LLM_PROVIDER_BASE_URL", "https://provider.test")
+    monkeypatch.setenv("LLM_PROVIDER_MODEL_TERRA", "validated-terra-model")
+
+    for effort in THINKING_EFFORT_LEVELS:
+        declaration = _declaration(reasoning_effort=effort)
+        definition = {"sourceContract": {"durable_llm_execution_policy": declaration}}
+
+        resolved = resolve_durable_llm_execution_policy(definition, registry=_registry())
+
+        assert resolved is not None
+        assert resolved["reasoningEffort"] == effort
+
+
+def test_resolved_policy_accepts_the_same_reasoning_effort_values() -> None:
+    for effort in REASONING_EFFORT_VALUES:
+        normalized = normalize_resolved_durable_llm_execution_policy(
+            _resolved(reasoningEffort=effort)
+        )
+        assert normalized["reasoningEffort"] == effort
+
+
+def test_policy_declaration_rejects_toggle_words_and_unknown_efforts() -> None:
+    for value in _TOGGLE_VALUES:
+        try:
+            normalize_durable_llm_execution_policy_declaration(
+                _declaration(reasoning_effort=value)
+            )
+        except ValueError as exc:
+            assert str(exc) == "durable_llm_execution_policy_reasoning_effort_invalid"
+        else:
+            raise AssertionError(f"{value!r} must not be stored as reasoning_effort")
+    try:
+        normalize_durable_llm_execution_policy_declaration(
+            _declaration(reasoning_effort="ultra")
+        )
+    except ValueError as exc:
+        assert str(exc) == "durable_llm_execution_policy_reasoning_effort_invalid"
+    else:
+        raise AssertionError("unknown effort levels must be rejected")
+
+
+def test_thinking_values_are_consistent_across_env_and_declaration_channels(monkeypatch) -> None:
+    """Both channels agree on effort levels; toggle words stay env-only.
+
+    ``none`` plus every effort level is accepted by the env toggle (``none``
+    disables thinking) AND by the declaration contract (stored verbatim as the
+    Provider ``reasoning_effort``). Toggle words exist only on the env channel
+    because the toggle translates them into ``thinking`` before the request
+    leaves the process, so the declaration channel rejects them instead of
+    forwarding a value no Provider understands.
+    """
+    env_name = "OPENAIR_DURABLE_ORCHESTRATE_LLM_THINKING"
+
+    monkeypatch.setenv(env_name, "none")
+    assert apply_openai_compatible_thinking({"model": "m"}, env_name) == {
+        "model": "m",
+        "thinking": {"type": "disabled"},
+        "reasoning_effort": "none",
+    }
+    assert (
+        normalize_durable_llm_execution_policy_declaration(
+            _declaration(reasoning_effort="none")
+        )["reasoning_effort"]
+        == "none"
+    )
+
+    for effort in THINKING_EFFORT_LEVELS:
+        monkeypatch.setenv(env_name, effort)
+        applied = apply_openai_compatible_thinking({"model": "m"}, env_name)
+        declared = normalize_durable_llm_execution_policy_declaration(
+            _declaration(reasoning_effort=effort)
+        )
+        assert applied["reasoning_effort"] == declared["reasoning_effort"] == effort
+
+    for toggle in _TOGGLE_VALUES:
+        monkeypatch.setenv(env_name, toggle)
+        applied = apply_openai_compatible_thinking(
+            {"model": "m", "reasoning_effort": "high"}, env_name
+        )
+        assert applied["thinking"] == {
+            "type": "disabled" if toggle in THINKING_DISABLED_VALUES else "enabled"
+        }
+        try:
+            normalize_durable_llm_execution_policy_declaration(
+                _declaration(reasoning_effort=toggle)
+            )
+        except ValueError as exc:
+            assert str(exc) == "durable_llm_execution_policy_reasoning_effort_invalid"
+        else:
+            raise AssertionError(f"{toggle!r} is an env toggle word, not a reasoning_effort")
