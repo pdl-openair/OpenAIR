@@ -127,8 +127,10 @@ def test_public_projection_rejects_false_running_without_responsibility() -> Non
     assert public["automaticRetryAllowed"] is False
 
 
-def test_prepared_provider_adapter_uses_the_same_phase_operation_identity(
+@pytest.mark.parametrize("ordinal", [1, 2])
+def test_prepared_provider_adapter_scopes_phase_operation_identity_by_ordinal(
     monkeypatch: pytest.MonkeyPatch,
+    ordinal: int,
 ) -> None:
     from app.execution.research_start_provider_adapter import (
         PreparedPlannerAttempt,
@@ -136,6 +138,7 @@ def test_prepared_provider_adapter_uses_the_same_phase_operation_identity(
     )
     from app.modules import provider_transport_evidence as evidence_module
     from app.modules.provider_transport_evidence import provider_execution_parent
+    from app.modules.research_start_attempt_lease import phase_operation_identity
 
     observed: list[str] = []
 
@@ -173,7 +176,7 @@ def test_prepared_provider_adapter_uses_the_same_phase_operation_identity(
     monkeypatch.setattr(evidence_module, "ProviderHttpAttemptRepository", EvidenceRepository)
     prepared = PreparedPlannerAttempt(
         phase="research_planner",
-        ordinal=1,
+        ordinal=ordinal,
         provider="huiyan_chat_completions",
         model="test",
         endpoint="https://provider.test/v1/chat/completions",
@@ -188,4 +191,5 @@ def test_prepared_provider_adapter_uses_the_same_phase_operation_identity(
         originating_authority="research_start:research_planner",
     ):
         execute_prepared_attempt(prepared, transport=Transport())
-    assert observed == ["research_start:research_planner"]
+    assert observed == [phase_operation_identity("research_planner", ordinal)]
+    assert observed == [f"research_start:research_planner:{ordinal}"]

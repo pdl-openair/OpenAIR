@@ -25,6 +25,7 @@ MIGRATIONS = (
     "20260920_90_research_start_attempt_response_evidence.sql",
     "20260928_01_physical_execution_truth.sql",
     "20261008_02_research_start_response_body.sql",
+    "20261008_04_research_start_thinking_transcript.sql",
 )
 MIGRATIONS_DIR = Path(__file__).parents[2] / "migrations"
 
@@ -380,6 +381,8 @@ def test_uncertain_provider_fact_remains_queued_and_counts_against_admission(
                        1, 'unknown', 'research_start:research_planner', TRUE, NULL
                    )""",
                 (
+                    # Pre-ordinal identity on purpose: staging a queued request
+                    # must stay blocked by evidence written before the upgrade.
                     f"pha_{uuid4().hex}",
                     "a" * 64,
                     "test:sha256:" + "b" * 64,

@@ -37,6 +37,19 @@ ATTEMPT_COLUMNS = """attempt_id, request_id, phase, ordinal, state, fence_epoch,
 result_payload, response_body, started_at, finished_at"""
 
 
+def phase_operation_identity(phase: str, ordinal: int) -> str:
+    """Provider operation identity of one logical Research Start attempt.
+
+    Write and read sides must agree on this exact string: the physical-attempt
+    ledger refuses to replay a terminal identity, so the identity has to
+    separate logical attempts of the same phase (``ordinal``) while staying
+    stable for every physical row inside one attempt.  ``research_start:{phase}``
+    (without an ordinal) is the pre-ordinal format and is only read for
+    requests that were already in flight when the ordinal was introduced.
+    """
+    return f"research_start:{str(phase).strip()}:{int(ordinal)}"
+
+
 def require_nonempty(**values: str) -> None:
     if any(not isinstance(value, str) or not value.strip() for value in values.values()):
         raise ValueError("durable research-start identifiers must be non-empty strings")

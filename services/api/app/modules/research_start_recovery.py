@@ -181,6 +181,7 @@ class ResearchStartRecoveryOperations:
                     cur,
                     request_id=str(prior["request_id"]),
                     phase=str(uncertain_attempt["phase"]),
+                    ordinal=int(uncertain_attempt["ordinal"]),
                 )
                 if not (
                     physical is not None
@@ -357,6 +358,7 @@ class ResearchStartRecoveryOperations:
                             cur,
                             request_id=str(request["request_id"]),
                             phase=str(attempt["phase"]),
+                            ordinal=int(attempt["ordinal"]),
                         )
                         safe_to_reclaim = bool(
                             physical is None

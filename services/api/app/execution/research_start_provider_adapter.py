@@ -524,6 +524,7 @@ def execute_prepared_attempt(
         ProviderHttpAttemptRepository,
         current_provider_execution_parent,
     )
+    from app.modules.research_start_attempt_lease import phase_operation_identity
 
     attempt_repository = None
     physical_attempt = None
@@ -536,7 +537,7 @@ def execute_prepared_attempt(
             request_body=request_body,
             endpoint=prepared.endpoint,
             adapter=prepared.provider,
-            operation_identity=f"research_start:{prepared.phase}",
+            operation_identity=phase_operation_identity(prepared.phase, prepared.ordinal),
             provider=prepared.provider,
             model=prepared.model,
         )

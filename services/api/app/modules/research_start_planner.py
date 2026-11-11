@@ -19,7 +19,8 @@ import os
 import re
 from copy import deepcopy
 from dataclasses import asdict, dataclass, field, replace
-from typing import Any, Literal, Mapping, Sequence
+from itertools import count
+from typing import Any, Iterator, Literal, Mapping, Sequence
 
 import httpx
 from pydantic import ValidationError
@@ -1664,6 +1665,24 @@ def _live_planning_audit(
     return audit
 
 
+def _planner_operation_identity(ordinal: int) -> str:
+    """Ordinal-scoped provider identity shared with the durable read side."""
+    from app.modules.research_start_attempt_lease import phase_operation_identity
+
+    return phase_operation_identity("research_planner", ordinal)
+
+
+def _planner_submission_ordinals() -> Iterator[int]:
+    """One monotonic submission sequence for every physical Planner call.
+
+    The ordinal is part of the ledger operation identity, so it must keep
+    advancing across in-run retries, model fallbacks, and the repair pass.
+    Restarting the count (or reusing a constant identity) makes the ledger
+    reject the next submission as a terminal replay of the previous one.
+    """
+    return count(1)
+
+
 def _run_chat_completions_planner(
     *,
     raw_input: str,
@@ -1671,6 +1690,7 @@ def _run_chat_completions_planner(
     source_page: str,
     selected_hint: str | None,
     repair_instruction: str | None = None,
+    submission_ordinals: Iterator[int] | None = None,
 ) -> tuple[dict[str, Any], dict[str, str]]:
     api_key = os.environ.get("LLM_PROVIDER_API_KEY")
     api_base = os.environ.get("LLM_PROVIDER_BASE_URL")
@@ -1682,7 +1702,7 @@ def _run_chat_completions_planner(
     attempts_per_model = _planner_attempts()
     include_response_format = _planner_response_format_enabled()
     last_error: str | None = None
-    logical_submission_ordinal = 0
+    ordinals = submission_ordinals if submission_ordinals is not None else _planner_submission_ordinals()
     for model in _planner_chat_model_fallback_chain():
         attempt = 0
         while attempt < attempts_per_model:
@@ -1721,7 +1741,7 @@ def _run_chat_completions_planner(
                 provider_schema=PLANNER_PLAN_SCHEMA,
             )
             try:
-                logical_submission_ordinal += 1
+                logical_submission_ordinal = next(ordinals)
                 response_body = execute_observed_openai_compatible_json(
                     protocol="chat_completions",
                     base_url=api_base,
@@ -1731,7 +1751,7 @@ def _run_chat_completions_planner(
                     adapter="huiyan_chat_completions",
                     provider="huiyan_chat_completions",
                     model=model,
-                    operation_identity="research_start:research_planner",
+                    operation_identity=_planner_operation_identity(logical_submission_ordinal),
                     logical_attempt_ordinal=logical_submission_ordinal,
                 )
                 content, _choice = extract_final_chat_content(response_body)
@@ -1776,6 +1796,7 @@ def _run_openai_responses_planner(
     source_page: str,
     selected_hint: str | None,
     repair_instruction: str | None = None,
+    submission_ordinals: Iterator[int] | None = None,
 ) -> tuple[dict[str, Any], dict[str, str]]:
     api_key = os.environ.get("OPENAI_API_KEY")
     api_base = os.environ.get("OPENAI_API_BASE_URL", "https://api.openai.com")
@@ -1784,7 +1805,7 @@ def _run_openai_responses_planner(
 
     endpoint_base = api_base.rstrip("/")
     last_error: str | None = None
-    logical_submission_ordinal = 0
+    ordinals = submission_ordinals if submission_ordinals is not None else _planner_submission_ordinals()
     for model in _openai_model_fallback_chain(_planner_openai_model()):
         response_format = structured_response_format(
             "openai_responses",
@@ -1813,7 +1834,7 @@ def _run_openai_responses_planner(
             provider_schema=PLANNER_PLAN_SCHEMA,
         )
         try:
-            logical_submission_ordinal += 1
+            logical_submission_ordinal = next(ordinals)
             response_body = execute_observed_openai_compatible_json(
                 protocol="responses",
                 base_url=endpoint_base,
@@ -1823,7 +1844,7 @@ def _run_openai_responses_planner(
                 adapter="openai_responses",
                 provider="openai_responses",
                 model=model,
-                operation_identity="research_start:research_planner",
+                operation_identity=_planner_operation_identity(logical_submission_ordinal),
                 logical_attempt_ordinal=logical_submission_ordinal,
             )
             content = _extract_responses_output_text(response_body)
@@ -3211,6 +3232,7 @@ def _run_live_research_start_planner(
     selected_hint: str | None,
 ) -> ResearchStartPlan:
     provider = _planner_provider()
+    submission_ordinals = _planner_submission_ordinals()
     if provider == "huiyan_chat_completions":
         runner = _run_chat_completions_planner
         payload, planning_audit = runner(
@@ -3218,6 +3240,7 @@ def _run_live_research_start_planner(
             planning_selection=planning_selection,
             source_page=source_page,
             selected_hint=selected_hint,
+            submission_ordinals=submission_ordinals,
         )
     elif provider == "openai_responses":
         runner = _run_openai_responses_planner
@@ -3226,6 +3249,7 @@ def _run_live_research_start_planner(
             planning_selection=planning_selection,
             source_page=source_page,
             selected_hint=selected_hint,
+            submission_ordinals=submission_ordinals,
         )
     else:
         raise ResearchStartPlannerUnavailable(f"unsupported research start planner provider: {provider}")
@@ -3246,6 +3270,7 @@ def _run_live_research_start_planner(
             source_page=source_page,
             selected_hint=selected_hint,
             repair_instruction=_planner_repair_instruction(payload, error),
+            submission_ordinals=submission_ordinals,
         )
         plan = _plan_from_llm_payload(
             payload,

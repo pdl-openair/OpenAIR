@@ -28,6 +28,7 @@ from app.modules.research_start_attempt_lease import (
     lock_path as _lock_path_impl,
     lock_request as _lock_request_impl,
     lock_session as _lock_session_impl,
+    phase_operation_identity,
     require_live_lease as _require_live_lease_impl,
     require_nonempty as _require_nonempty_impl,
 )
@@ -601,14 +602,25 @@ class ResearchStartRepository:
         *,
         request_id: str,
         phase: str,
+        ordinal: int,
     ) -> dict[str, Any] | None:
-        """Read body-free physical truth for one Research Start phase.
+        """Read body-free physical truth for one Research Start phase attempt.
 
         The row is read while the Session/Request/Attempt path is locked by the
         caller.  Multiple physical rows can exist inside a Provider adapter's
         bounded model/transport fallback, so the newest physical ordinal is the
         decisive observation for settlement.
+
+        Identity matches the write side exactly
+        (:func:`phase_operation_identity`), so one logical attempt (``ordinal``)
+        can never observe another attempt's physical truth.  ``research_start:
+        {phase}`` rows are still accepted read-only: they were written before
+        the ordinal was introduced, and a request that was in flight across the
+        upgrade must remain settleable.  Preferring the ordinal-scoped identity
+        keeps such legacy rows from outranking the current attempt's evidence.
         """
+        current = phase_operation_identity(phase, ordinal)
+        legacy = f"research_start:{str(phase).strip()}"
         cur.execute(
             """SELECT attempt_id, execution_state, transport_outcome,
                       provider_request_id, provider_response_id, http_status,
@@ -617,11 +629,11 @@ class ResearchStartRepository:
                  FROM openair_provider_http_attempts
                 WHERE parent_kind = 'research_start' AND parent_id = %s
                   AND evidence_kind = 'provider_submission'
-                  AND operation_identity = %s
-                ORDER BY attempt_number DESC
+                  AND operation_identity IN (%s, %s)
+                ORDER BY (operation_identity = %s) DESC, attempt_number DESC
                 LIMIT 1
                 FOR UPDATE""",
-            (request_id, f"research_start:{phase}"),
+            (request_id, current, legacy, current),
         )
         return _row(cur.fetchone())
 
@@ -686,6 +698,7 @@ class ResearchStartRepository:
                     cur,
                     request_id=request_id,
                     phase=str(attempt["phase"]),
+                    ordinal=int(attempt["ordinal"]),
                 )
                 persisted = dict(failure_result)
                 if physical is not None:

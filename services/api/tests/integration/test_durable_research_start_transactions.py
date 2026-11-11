@@ -11,6 +11,7 @@ import os
 import re
 from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
+from contextlib import contextmanager
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -26,9 +27,14 @@ CATALOG_PROMOTE_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "202
 RUNTIME_SOURCE_FENCE_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20260830_02_research_start_runtime_source_fence.sql"
 PROVIDER_ATTEMPTS_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20260802_04_c1_provider_http_attempts.sql"
 PROVIDER_ATTEMPTS_MULTI_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20260805_03_provider_http_attempts_multi.sql"
+PROVIDER_REJECTION_DIAGNOSTICS_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20260812_01_provider_rejection_safe_diagnostics.sql"
 RESPONSE_EVIDENCE_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20260920_90_research_start_attempt_response_evidence.sql"
+PROVIDER_EXECUTION_POLICY_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20260916_01_provider_execution_policy_evidence.sql"
+PROVIDER_TRANSPORT_NOT_SUBMITTED_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20260920_01_provider_transport_not_submitted.sql"
 PHYSICAL_EXECUTION_TRUTH_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20260928_01_physical_execution_truth.sql"
 RESPONSE_BODY_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20261008_02_research_start_response_body.sql"
+THINKING_TRANSCRIPT_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20261008_04_research_start_thinking_transcript.sql"
+DISPLAY_CONTEXT_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20261009_01_research_start_display_context.sql"
 DOWN_MIGRATION_PATH = Path(__file__).parents[2] / "migrations" / "20260725_02_durable_research_start_down.sql"
 
 RESEARCH_DESIGN_CASES_PATH = Path(__file__).parents[1] / "fixtures" / "research_design_v1_cases.json"
@@ -218,9 +224,13 @@ def postgres_test_environment():
             cur.execute(RUNTIME_SOURCE_FENCE_MIGRATION_PATH.read_text(encoding="utf-8"))
             cur.execute(PROVIDER_ATTEMPTS_MIGRATION_PATH.read_text(encoding="utf-8"))
             cur.execute(PROVIDER_ATTEMPTS_MULTI_MIGRATION_PATH.read_text(encoding="utf-8"))
+            cur.execute(PROVIDER_REJECTION_DIAGNOSTICS_MIGRATION_PATH.read_text(encoding="utf-8"))
+            cur.execute(PROVIDER_EXECUTION_POLICY_MIGRATION_PATH.read_text(encoding="utf-8"))
+            cur.execute(PROVIDER_TRANSPORT_NOT_SUBMITTED_MIGRATION_PATH.read_text(encoding="utf-8"))
             cur.execute(RESPONSE_EVIDENCE_MIGRATION_PATH.read_text(encoding="utf-8"))
             cur.execute(PHYSICAL_EXECUTION_TRUTH_MIGRATION_PATH.read_text(encoding="utf-8"))
             cur.execute(RESPONSE_BODY_MIGRATION_PATH.read_text(encoding="utf-8"))
+            cur.execute(THINKING_TRANSCRIPT_MIGRATION_PATH.read_text(encoding="utf-8"))
             from app.modules.artifact_repository import ARTIFACTS_TABLE_SQL
             from app.modules.task_repository import TASKS_TABLE_SQL
 
@@ -233,6 +243,8 @@ def postgres_test_environment():
                 "ALTER TABLE openair_tasks "
                 "ADD COLUMN IF NOT EXISTS revision BIGINT NOT NULL DEFAULT 0"
             )
+            # Display context adds task columns, so it runs after the task table.
+            cur.execute(DISPLAY_CONTEXT_MIGRATION_PATH.read_text(encoding="utf-8"))
             cur.execute(ARTIFACTS_TABLE_SQL)
         admin.commit()
 
@@ -985,8 +997,22 @@ def _insert_provider_evidence(
     transport_outcome: str,
     io_started: bool,
     submission_proven: bool | None,
+    ordinal: int = 1,
+    legacy_identity: bool = False,
 ) -> str:
+    """Seed one physical Provider row exactly as the production write side does.
+
+    ``legacy_identity`` reproduces a row written before the operation identity
+    became ordinal-scoped; those rows must stay readable across an upgrade.
+    """
+    from app.modules.research_start_attempt_lease import phase_operation_identity
+
     attempt_id = f"pha_{uuid4().hex}"
+    operation_identity = (
+        f"research_start:{phase}"
+        if legacy_identity
+        else phase_operation_identity(phase, ordinal)
+    )
     conn = connect()
     try:
         with conn.cursor() as cur:
@@ -998,16 +1024,18 @@ def _insert_provider_evidence(
                        logical_attempt_ordinal, execution_state,
                        originating_authority, io_started, submission_proven
                    ) VALUES (
-                       %s, NULL, 1, %s, %s, %s, 'provider_submission',
-                       'research_start', %s, %s, 1, %s, %s, %s, %s
+                       %s, NULL, %s, %s, %s, %s, 'provider_submission',
+                       'research_start', %s, %s, %s, %s, %s, %s, %s
                    )""",
                 (
                     attempt_id,
+                    ordinal,
                     "a" * 64,
                     "test:sha256:" + "b" * 64,
                     transport_outcome,
                     request_id,
-                    f"research_start:{phase}",
+                    operation_identity,
+                    ordinal,
                     execution_state,
                     f"research_start:{phase}",
                     io_started,
@@ -1079,6 +1107,218 @@ def test_provider_phase_failure_settlement_uses_physical_truth_under_fence(
         assert public["status"] == "external_result_unknown"
     else:
         assert public["status"] == "running"
+
+
+def test_settlement_reads_pre_ordinal_identity_rows_written_before_upgrade(
+    pg_repository,
+) -> None:
+    """A request in flight across the upgrade must stay settleable.
+
+    Rows written before the operation identity carried the attempt ordinal use
+    ``research_start:{phase}``; the read side keeps matching them so the
+    Provider outcome is not silently lost and physical uncertainty is honoured.
+    """
+    repository, connect, owner_id = pg_repository
+    reserved = repository.reserve(owner_id, "scope-legacy", "legacy-identity", _intent("legacy"))
+    claim = repository.claim("worker-legacy")
+    assert claim is not None
+    attempt = repository.begin_attempt(
+        claim["requestId"], "worker-legacy", claim["leaseEpoch"], "research_planner", 1
+    )
+    physical_attempt_id = _insert_provider_evidence(
+        connect,
+        request_id=str(claim["requestId"]),
+        phase="research_planner",
+        execution_state="unknown",
+        transport_outcome="transport_uncertain",
+        io_started=True,
+        submission_proven=None,
+        legacy_identity=True,
+    )
+
+    disposition = repository.settle_provider_phase_failure(
+        claim["requestId"],
+        "worker-legacy",
+        claim["leaseEpoch"],
+        attempt["attemptId"],
+        failure_result={"failureCode": "provider_transport_uncertain"},
+    )
+
+    assert disposition == "external_result_unknown"
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT state, result_payload FROM research_start_attempts WHERE attempt_id = %s",
+                (attempt["attemptId"],),
+            )
+            persisted = cur.fetchone()
+    finally:
+        conn.close()
+    assert persisted["state"] == "unknown"
+    evidence = persisted["result_payload"]["providerPhysicalEvidence"]
+    assert evidence["attemptId"] == physical_attempt_id
+    assert evidence["submissionProven"] is None
+    public = repository.get_scoped_session(owner_id, "scope-legacy", reserved["sessionId"])
+    assert public["status"] == "external_result_unknown"
+
+
+def test_settlement_ignores_physical_rows_from_an_earlier_attempt_ordinal(
+    pg_repository,
+) -> None:
+    """One attempt's Provider truth must never be read as another's.
+
+    Ordinal 1 completed physically and failed locally; a second logical attempt
+    that never submitted must settle as ``not_submitted`` so a durable retry
+    stays possible, instead of being misreported as ``response_observed`` from
+    the previous attempt's row.
+    """
+    repository, connect, owner_id = pg_repository
+    reserved = repository.reserve(owner_id, "scope-ordinal", "ordinal-isolation", _intent("ordinal"))
+    claim = repository.claim("worker-ordinal")
+    assert claim is not None
+    first = repository.begin_attempt(
+        claim["requestId"], "worker-ordinal", claim["leaseEpoch"], "research_planner", 1
+    )
+    _insert_provider_evidence(
+        connect,
+        request_id=str(claim["requestId"]),
+        phase="research_planner",
+        execution_state="completed",
+        transport_outcome="response_received",
+        io_started=True,
+        submission_proven=True,
+        ordinal=1,
+    )
+    assert (
+        repository.settle_provider_phase_failure(
+            claim["requestId"],
+            "worker-ordinal",
+            claim["leaseEpoch"],
+            first["attemptId"],
+            failure_result={"failureCode": "provider_phase_processing_failed"},
+        )
+        == "response_observed"
+    )
+
+    second = repository.begin_attempt(
+        claim["requestId"], "worker-ordinal", claim["leaseEpoch"], "research_planner", 2
+    )
+    disposition = repository.settle_provider_phase_failure(
+        claim["requestId"],
+        "worker-ordinal",
+        claim["leaseEpoch"],
+        second["attemptId"],
+        failure_result={"failureCode": "provider_phase_processing_failed"},
+    )
+
+    assert disposition == "not_submitted"
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT state, result_payload FROM research_start_attempts WHERE attempt_id = %s",
+                (second["attemptId"],),
+            )
+            persisted = cur.fetchone()
+    finally:
+        conn.close()
+    assert persisted["state"] == "failed"
+    assert "providerPhysicalEvidence" not in persisted["result_payload"]
+    public = repository.get_scoped_session(owner_id, "scope-ordinal", reserved["sessionId"])
+    assert public["status"] == "running"
+
+
+def _schema_bound_evidence_repository(connect):
+    """Run the production Provider ledger against the isolated test schema."""
+    from app.modules.provider_transport_evidence import ProviderHttpAttemptRepository
+
+    class _Repository(ProviderHttpAttemptRepository):
+        def __init__(self) -> None:
+            super().__init__(checkpoint_repository=None)
+
+        @contextmanager
+        def _connect(self):  # type: ignore[override]
+            conn = connect()
+            try:
+                yield conn
+                conn.commit()
+            except Exception:
+                conn.rollback()
+                raise
+            finally:
+                conn.close()
+
+    return _Repository()
+
+
+def test_same_ordinal_physical_identity_replay_is_refused_at_commit(pg_repository) -> None:
+    """Ordinal-scoped identity keeps replay refusal for one logical attempt."""
+    from app.modules.provider_transport_evidence import (
+        DuplicateProviderAttemptError,
+        provider_execution_parent,
+    )
+    from app.modules.research_start_attempt_lease import phase_operation_identity
+
+    repository, connect, _owner_id = pg_repository
+    reserved = repository.reserve(_owner_id, "scope-replay", "replay-identity", _intent("replay"))
+    claim = repository.claim("worker-identity")
+    assert claim is not None
+    request_id = str(claim["requestId"])
+    evidence = _schema_bound_evidence_repository(connect)
+    request_body = b'{"model":"m","messages":[]}'
+    endpoint = "https://provider.invalid/v1/chat/completions"
+
+    def begin(ordinal: int):
+        with provider_execution_parent(
+            kind="research_start",
+            parent_id=request_id,
+            originating_authority="research_start:research_planner",
+        ):
+            return evidence.begin(
+                capability_call_id="",
+                attempt_number=ordinal,
+                request_body=request_body,
+                endpoint=endpoint,
+                adapter="huiyan_chat_completions",
+                operation_identity=phase_operation_identity("research_planner", ordinal),
+                provider="huiyan_chat_completions",
+                model="m",
+            )
+
+    first = begin(1)
+    evidence.finish(
+        first,
+        request_body=request_body,
+        outcome="response_received",
+        http_status=200,
+        response_body=b'{"id":"resp_1"}',
+        response_headers={},
+    )
+
+    with pytest.raises(DuplicateProviderAttemptError, match="terminal_replay_forbidden"):
+        begin(1)
+
+    retried = begin(2)
+    assert retried.attempt_number == 2
+    assert retried.operation_identity == phase_operation_identity("research_planner", 2)
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                """SELECT operation_identity, attempt_number
+                     FROM openair_provider_http_attempts
+                    WHERE parent_kind = 'research_start' AND parent_id = %s
+                    ORDER BY attempt_number""",
+                (request_id,),
+            )
+            rows = cur.fetchall()
+    finally:
+        conn.close()
+    assert [(row["operation_identity"], row["attempt_number"]) for row in rows] == [
+        (phase_operation_identity("research_planner", 1), 1),
+        (phase_operation_identity("research_planner", 2), 2),
+    ]
 
 
 @pytest.mark.parametrize(
