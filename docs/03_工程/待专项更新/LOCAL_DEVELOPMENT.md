@@ -2,7 +2,8 @@
 
 > 状态：已确认  
 > 更新时间：2026-08-28  
-> 用途：帮助开发者在 Windows 本地启动 OpenAIR，并区分日常开发环境和最新 `origin/test` 验证环境。
+> 用途：帮助开发者在 Windows 本地启动 OpenAIR，并区分日常开发环境和最新 `origin/test` 验证环境。  
+> Linux 步骤见 [Linux 安装与本地开发](LINUX_INSTALLATION.md)。
 
 ## 1. 我该用哪种方式
 

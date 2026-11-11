@@ -22,4 +22,4 @@ description: >-
 
 ## Output
 
-引导用户：**Windows 双击仓库根 `setup.bat`** → 看 4 节体检报告（环境检测 / 项目级修复 / IDE 启动指引 / 启动卡片）→ 缺什么照打印命令复制；环境齐全后输入 Y 完成项目级修复。Mac / Linux 暂未提供脚本，参考 doctor.ps1 步骤手动执行同等操作。
+引导用户：**Windows 双击仓库根 `setup.bat`** → 看 4 节体检报告（环境检测 / 项目级修复 / IDE 启动指引 / 启动卡片）→ 缺什么照打印命令复制；环境齐全后输入 Y 完成项目级修复。Mac 暂未提供脚本，参考 doctor.ps1 步骤手动执行同等操作；Linux 按 [Linux 安装与本地开发](../../03_工程/待专项更新/LINUX_INSTALLATION.md) 执行。

@@ -12,6 +12,8 @@
 
 ## 环境要点（Windows + Git Bash）
 
+- Linux 安装与本地开发步骤见 [`docs/03_工程/待专项更新/LINUX_INSTALLATION.md`](../../docs/03_工程/待专项更新/LINUX_INSTALLATION.md)，Windows 与 Linux 命令对照见该文档第 5 节。
+
 - 前端：pnpm workspace（`pnpm install` 后 `pnpm --filter @openair/web dev` 起开发服 :5173；`build` 为生产构建）。
 - 后端：`services/api/` 下建 venv（`uv sync` 或 `pip install -r requirements-local.txt`，后者含 `-e ../../packages/llm_core`，`import llm_core` 是导入期硬依赖）；`uvicorn app.main:app --reload --port 8000 --timeout-graceful-shutdown 10`（限制 SSE 长连接在热重载时的退出等待）；健康检查 `GET /health` → `{"status":"ok"}`。
 - **不要让 uv 下载 Python**（Smart App Control 拦未签名二进制）：用已签名解释器（miniconda/python.org）重建 venv（`uv venv --python <绝对路径>`）。

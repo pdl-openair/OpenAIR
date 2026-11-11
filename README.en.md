@@ -305,6 +305,8 @@ uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 Windows note: if `uv sync` fails with an SSL error, rebuild the venv with a signed Python (`uv venv --python <path-to-python.exe>`). See the [local development doc](docs/03_工程/待专项更新/LOCAL_DEVELOPMENT.md).
 
+For a complete Linux installation (Docker stack and local development), see the [Linux installation guide](docs/03_工程/待专项更新/LINUX_INSTALLATION.md).
+
 </details>
 
 ## 🗺️ Roadmap

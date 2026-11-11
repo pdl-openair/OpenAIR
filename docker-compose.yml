@@ -4,7 +4,10 @@ services:
   # ---------------------------------------------------------------------------
 
   minio:
-    image: minio/minio:latest
+    # MinIO 社区版仓库自 2026-04 归档，Docker Hub 与 quay.io 已删除社区镜像
+    # 并关闭匿名拉取。Silo 是继续维护的 MinIO 分支，保留 S3 接口、MINIO_*
+    # 环境变量与命令行契约；固定 release tag，避免 latest 漂移。
+    image: pgsty/silo:RELEASE.2026-10-26T00-00-00Z
     ports:
       - "${OPENAIR_MINIO_API_PORT:-9000}:9000"    # S3 API
       - "${OPENAIR_MINIO_CONSOLE_PORT:-9001}:9001"    # Console UI

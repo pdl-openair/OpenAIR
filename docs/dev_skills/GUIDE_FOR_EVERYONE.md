@@ -11,6 +11,7 @@ OpenAIR 项目里内置了一套「AI 使用规范」，当你用 **Claude Code 
 ## 开始之前
 
 - **Windows**：双击项目根目录的 **`setup.bat`**（只需首次运行一次）
+- **Linux**：按 [Linux 安装与本地开发](../03_工程/待专项更新/LINUX_INSTALLATION.md) 手动安装依赖与项目
 
 完成后用 IDE 打开项目文件夹，开始跟 AI 对话。
 

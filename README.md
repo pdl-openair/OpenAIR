@@ -305,6 +305,8 @@ uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 Windows：`uv sync` 报 SSL 错误时用已签名 Python 重建 venv（`uv venv --python <python.exe 绝对路径>`）。详见 [本地开发文档](docs/03_工程/待专项更新/LOCAL_DEVELOPMENT.md)。
 
+Linux 从零安装的完整步骤见 [Linux 安装与本地开发](docs/03_工程/待专项更新/LINUX_INSTALLATION.md)。
+
 </details>
 
 ## 🗺️ Roadmap
