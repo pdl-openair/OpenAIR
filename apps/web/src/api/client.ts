@@ -956,6 +956,9 @@ export interface ResearchStartSessionStatus {
     taskId?: string | null;
   } | null;
   userMessage?: string | null;
+  tokenUsage?: {
+    totalTokens: number;
+  } | null;
 }
 
 export async function fetchResearchStartSession(sessionId: string): Promise<ResearchStartSessionStatus> {

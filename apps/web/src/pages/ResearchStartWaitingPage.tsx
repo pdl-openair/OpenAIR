@@ -211,6 +211,14 @@ export default function ResearchStartWaitingPage() {
               {waitingView.nextActionHint}
             </Typography.Paragraph>
           ) : null}
+          {waitingView.costNotice ? (
+            <Typography.Paragraph
+              className="mb-0! mt-2! text-warning"
+              data-testid="research-start-cost-notice"
+            >
+              {waitingView.costNotice}
+            </Typography.Paragraph>
+          ) : null}
           {readUnavailable || waitingView.unknown ? (
             <Button className="mt-5" icon={<ReloadOutlined />} loading={checking} onClick={checkAgain}>
               继续检查当前研究

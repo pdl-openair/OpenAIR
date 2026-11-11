@@ -69,4 +69,22 @@ describe("research planning status timing", () => {
     expect(view.message).toContain("研究范围");
     expect(view.message).not.toContain("材料边界");
   });
+
+  it("marks a workbench placeholder without a session as not consuming tokens", () => {
+    const view = projectResearchStartWaitingView(null, false, { inWorkbench: true });
+    expect(view.title).toContain("尚未发起");
+    expect(view.costNotice).toContain("不会消耗 token");
+  });
+
+  it("discloses real token usage while planning", () => {
+    const snapshot = {
+      sessionId: "s1",
+      status: "running",
+      currentPhase: "planning",
+      tokenUsage: { totalTokens: 1310 },
+    } as ResearchStartSessionStatus;
+    const view = projectResearchStartWaitingView(snapshot);
+    expect(view.costNotice).toContain("正在调用规划模型");
+    expect(view.costNotice).toContain("1,310 tokens");
+  });
 });

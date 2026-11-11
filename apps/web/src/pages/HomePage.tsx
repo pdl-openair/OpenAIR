@@ -703,7 +703,7 @@ export default function HomePage() {
           </header>
 
           <section
-            className="mt-[clamp(32px,4.3vh,44px)] flex h-[clamp(180px,19vh,196px)] w-full flex-col overflow-hidden rounded-xl border border-border bg-surface max-[420px]:h-[272px]"
+            className="mt-[clamp(32px,4.3vh,44px)] flex h-[clamp(212px,22.5vh,228px)] w-full flex-col overflow-hidden rounded-xl border border-border bg-surface max-[420px]:h-[304px]"
             aria-label="开始项目"
           >
             <Mentions
@@ -722,6 +722,15 @@ export default function HomePage() {
               className="min-h-0! flex-1 border-0! bg-surface! shadow-none! [&_textarea]:h-full! [&_textarea]:resize-none! [&_textarea]:px-[21px]! [&_textarea]:py-[22px]! [&_textarea]:text-[16px]! [&_textarea]:leading-7! [&_textarea]:text-text! [&_textarea]:placeholder:text-shell-text-secondary"
               aria-label="研究问题输入"
             />
+
+            <div
+              className="flex min-h-[32px] items-center px-[21px] pt-2 max-[420px]:items-start"
+              data-testid="research-start-cost-disclosure"
+            >
+              <Typography.Text type="secondary" className="text-[13px]! leading-5!">
+                点击「开始项目」后会调用模型生成项目标题与研究方案，并消耗 token；确认方案后的执行步骤会按实际调用继续消耗。
+              </Typography.Text>
+            </div>
 
             <div className="flex min-h-[74px] items-center justify-between gap-3 px-[21px] pb-[21px] max-[560px]:pb-4 max-[420px]:min-h-[126px] max-[420px]:flex-col max-[420px]:items-stretch max-[420px]:pt-2">
               <div className="flex min-w-0 items-center gap-2 max-[420px]:w-full">

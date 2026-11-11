@@ -18,6 +18,7 @@ export interface ResearchStartWaitingView {
   elapsedSeconds: number | null;
   progressCode: string | null;
   nextActionHint: string | null;
+  costNotice?: string | null;
 }
 
 function phaseMessage(phase: ResearchStartSessionStatus["currentPhase"]): string {
@@ -90,6 +91,17 @@ export function researchStartRecheckDelay(
   return Math.max(exponential, retryAfterMs ?? 0);
 }
 
+function tokenCostNotice(
+  snapshot: ResearchStartSessionStatus | null,
+  action: string,
+): string {
+  const total = snapshot?.tokenUsage?.totalTokens;
+  if (typeof total === "number" && Number.isFinite(total) && total >= 0) {
+    return `${action}，已产生 ${total.toLocaleString("zh-CN")} tokens。`;
+  }
+  return `${action}，消耗将计入 token。`;
+}
+
 export interface ResearchStartWaitingSurfaceOptions {
   /** When true, copy stays inside the workbench shell (no “return to home” default). */
   inWorkbench?: boolean;
@@ -104,8 +116,12 @@ export function projectResearchStartWaitingView(
   const inWorkbench = surface.inWorkbench === true;
   if (!snapshot) {
     return {
-      title: "任务准备状态",
-      message: readUnavailable ? "暂时无法读取最新状态，系统会按当前会话继续确认。" : "正在确认当前研究状态。",
+      title: inWorkbench && !readUnavailable ? "研究方案尚未发起" : "任务准备状态",
+      message: readUnavailable
+        ? "暂时无法读取最新状态，系统会按当前会话继续确认。"
+        : inWorkbench
+          ? "该项目目前只有看板占位信息，尚未创建研究起点会话。"
+          : "正在确认当前研究状态。",
       terminal: false,
       unknown: false,
       shouldOpenWorkbench: false,
@@ -113,7 +129,14 @@ export function projectResearchStartWaitingView(
       level: readUnavailable ? "warning" : "progress",
       elapsedSeconds: null,
       progressCode: null,
-      nextActionHint: readUnavailable ? "请保持当前页面，或稍后在系统提示中查看结果。" : "准备完成后会在工作台内显示研究方案。",
+      nextActionHint: readUnavailable
+        ? "请保持当前页面，或稍后在系统提示中查看结果。"
+        : inWorkbench
+          ? "发起研究方案生成后，才会调用模型并显示研究方案。"
+          : "准备完成后会在工作台内显示研究方案。",
+      costNotice: inWorkbench && !readUnavailable
+        ? "当前没有正在进行的模型调用，不会消耗 token。"
+        : "已提交的研究准备会按实际模型调用计入 token。",
     };
   }
 
@@ -139,6 +162,10 @@ export function projectResearchStartWaitingView(
       elapsedSeconds,
       progressCode,
       nextActionHint: "页面会自动确认进度，无需重复提交。",
+      costNotice: tokenCostNotice(
+        snapshot,
+        "提交后可能先生成项目标题，排队完成后会调用规划模型生成研究方案",
+      ),
     };
   }
   if (
@@ -164,6 +191,10 @@ export function projectResearchStartWaitingView(
       elapsedSeconds,
       progressCode,
       nextActionHint: "你可以继续等待，或返回修改问题。系统不会因此创建第二个任务。",
+      costNotice: tokenCostNotice(
+        snapshot,
+        "项目标题生成可能已经发生；worker 恢复后会调用规划模型",
+      ),
     };
   }
   if (snapshot.status === "running") {
@@ -178,6 +209,10 @@ export function projectResearchStartWaitingView(
       elapsedSeconds,
       progressCode,
       nextActionHint: "准备完成后会在工作台内显示研究方案。",
+      costNotice: tokenCostNotice(
+        snapshot,
+        "正在调用规划模型生成研究方案，项目标题生成也可能已经发生",
+      ),
     };
   }
   if (snapshot.status === "completed") {
@@ -194,6 +229,10 @@ export function projectResearchStartWaitingView(
         elapsedSeconds,
         progressCode,
         nextActionHint: null,
+      costNotice: tokenCostNotice(
+        snapshot,
+        "研究准备已完成，标题生成与方案规划均按实际调用计入",
+      ),
       };
     }
     return {
@@ -230,6 +269,10 @@ export function projectResearchStartWaitingView(
       nextActionHint: inWorkbench
         ? "主操作是再检查，不是重试。"
         : "可以继续检查当前研究。系统不会另建任务。",
+      costNotice: tokenCostNotice(
+        snapshot,
+        "方案生成调用已经提交，结果待核对，已发生的消耗不会回滚",
+      ),
     };
   }
   return {
@@ -252,5 +295,9 @@ export function projectResearchStartWaitingView(
     nextActionHint: inWorkbench
       ? "可以点击底栏「重试」重新生成方案。"
       : "请返回修改问题后重试。",
+      costNotice: tokenCostNotice(
+        snapshot,
+        "已发生的标题生成与方案规划调用不会回滚；重试会开始新的消耗",
+      ),
   };
 }

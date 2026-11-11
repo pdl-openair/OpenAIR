@@ -50,6 +50,11 @@ export function WorkbenchPlanningStatus({
               {planningWaitingView.nextActionHint}
             </Typography.Text>
           ) : null}
+          {planningWaitingView.costNotice ? (
+            <Typography.Text type="warning" data-testid="workbench-planning-cost-notice">
+              {planningWaitingView.costNotice}
+            </Typography.Text>
+          ) : null}
           {planningWaitingView.unknown && onRecheckPlanningSession ? (
             <Button
               size="small"
