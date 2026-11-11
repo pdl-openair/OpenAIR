@@ -13,6 +13,7 @@ import {
   ResearchActivityStream,
   type ResearchActivity,
 } from "../../../components/workbench/ResearchActivityStream";
+import { fetchAgentMessages } from "../../../api/agent";
 import { formingWorkbenchTaskModel } from "../../../model/workbenchTask";
 import { buildWorkbenchScreenView } from "../../../model/workbenchScreenView";
 import type { WorkbenchUserActionsController } from "../../../hooks/useWorkbenchUserActions";
@@ -202,6 +203,30 @@ it("shows one current planning summary and retains distinct starts, failures, re
   );
   expect(screen.getAllByText("已开始组织研究方案")).toHaveLength(2);
   expect(screen.getByText("首次规划失败，已保留输入")).toBeVisible();
+});
+
+it("renders durable assistant replies as Markdown instead of literal markers", async () => {
+  vi.mocked(fetchAgentMessages).mockResolvedValueOnce({
+    messages: [
+      {
+        id: "assistant-markdown",
+        role: "assistant",
+        messageType: "chat",
+        text: "## 研究提纲\n\n**优先验证可逆性**\n\n- 先检查辛映射误差\n- 再检查李雅普诺夫指数协变",
+        at: "2026-10-09T00:00:00Z",
+      },
+    ],
+  });
+
+  render(panel());
+
+  const markdown = await screen.findByTestId(
+    "workbench-assistant-markdown-assistant-markdown",
+  );
+  expect(screen.getByRole("heading", { name: "研究提纲" })).toBeVisible();
+  expect(screen.getByText("优先验证可逆性")).toBeVisible();
+  expect(screen.getByText("先检查辛映射误差")).toBeVisible();
+  expect(markdown.textContent).not.toContain("**");
 });
 
 it("keeps process expansion and artifact choice across canonical updates and conflicting SSE", () => {

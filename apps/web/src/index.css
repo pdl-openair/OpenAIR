@@ -440,6 +440,23 @@ a:hover {
   color: var(--color-foreground);
 }
 
+/* Chat Markdown: same Streamdown isolation as artifacts, sized for the
+   interaction stream instead of a full-page document. */
+.wb-chat-md {
+  color: var(--color-foreground);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.wb-chat-md .wb-artifact-streamdown {
+  max-width: 100%;
+  color: var(--color-foreground);
+}
+
+.wb-chat-md :where(p, ul, ol) {
+  margin-block: 0.25rem;
+}
+
 /* Neutralize host/UA table borders; Streamdown uses divide-y + wrapper chrome. */
 .wb-artifact-streamdown table {
   border-collapse: collapse;

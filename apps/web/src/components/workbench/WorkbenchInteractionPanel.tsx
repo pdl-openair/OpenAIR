@@ -13,6 +13,7 @@ import {
   type TaskExecutionPolicy
 } from "../../api/client";
 import { fetchAgentMessages, type AgentMessage } from "../../api/agent";
+import { StreamdownMarkdown } from "../artifacts/StreamdownMarkdown";
 import { ApiError } from "../../api/http";
 import type { TaskExecutionMode } from "@openair/shared";
 import type { ResearchStartSessionStatus } from "../../api/client";
@@ -221,7 +222,11 @@ function AgentMessageStreamItem({
   return (
     <StreamItem testId={`workbench-research-result-${message.id}`}>
       {summary ? <Typography.Text type="secondary">研究结果</Typography.Text> : null}
-      <Typography.Text>{assistantText}</Typography.Text>
+      <StreamdownMarkdown
+        content={assistantText}
+        className="wb-chat-md"
+        testId={`workbench-assistant-markdown-${message.id}`}
+      />
       {relatedContent}
     </StreamItem>
   );
