@@ -271,7 +271,7 @@ async def run_huiyan_selected_skill(request: Any) -> dict[str, Any]:
     output_file = metadata.get("output_file")
     if output_file is not None and (not isinstance(output_file, str) or not output_file.strip()):
         raise HuiyanSkillExecutionError("Selected Skill declares an invalid output contract.")
-    model = (os.environ.get("LLM_PROVIDER_MODEL") or "gpt-4o-mini").strip()
+    model = (os.environ.get("LLM_PROVIDER_MODEL") or "deepseek-flash").strip()
     declared_contract = metadata.get("input_contract")
     controller_input, controller_audit = await _controlled_skill_input(
         request=request,

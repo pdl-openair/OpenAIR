@@ -395,7 +395,8 @@ def config_wizard(d: Path):
         return
 
     say("\n② Skill/Agent 网关（Anthropic 兼容；live 模式必填）")
-    v = ask("   ANTHROPIC_BASE_URL（网关地址）", default=get_env(d, "ANTHROPIC_BASE_URL"))
+    v = ask("   ANTHROPIC_BASE_URL（网关地址）",
+            default=get_env(d, "ANTHROPIC_BASE_URL", "https://api.deepseek.com/anthropic"))
     set_env(d, "ANTHROPIC_BASE_URL", v)
     say(f"  → ANTHROPIC_BASE_URL={v or '（空）'}")
     k = ask("   ANTHROPIC_API_KEY（密钥，回车=保持现值）", secret=True)
@@ -403,7 +404,7 @@ def config_wizard(d: Path):
         set_env(d, "ANTHROPIC_API_KEY", k)
     say(f"  → ANTHROPIC_API_KEY={mask(k) if k else '（保持现值）'}")
     m = ask("   OPENAIR_CLAUDE_MODEL（执行模型名）",
-            default=get_env(d, "OPENAIR_CLAUDE_MODEL", "claude-sonnet-4-5"))
+            default=get_env(d, "OPENAIR_CLAUDE_MODEL", "deepseek-flash"))
     set_env(d, "OPENAIR_CLAUDE_MODEL", m)
     say(f"  → OPENAIR_CLAUDE_MODEL={m}")
     # Docker compose 不透传裸 ANTHROPIC_*：写入 OPENAIR_ANTHROPIC_* 覆盖位，
@@ -422,7 +423,7 @@ def config_wizard(d: Path):
     say("\n③ 开题规划器（OpenAI 兼容端点；live 模式必填）")
     note("不要填 ANTHROPIC 那种 …/api/anthropic 路径，规划请求会 404")
     v = ask("   LLM_PROVIDER_BASE_URL（OpenAI 兼容地址）",
-            default=get_env(d, "LLM_PROVIDER_BASE_URL"))
+            default=get_env(d, "LLM_PROVIDER_BASE_URL", "https://api.deepseek.com"))
     set_env(d, "LLM_PROVIDER_BASE_URL", v)
     say(f"  → LLM_PROVIDER_BASE_URL={v or '（空）'}")
     k = ask("   LLM_PROVIDER_API_KEY（密钥，回车=保持现值）", secret=True)
@@ -430,7 +431,7 @@ def config_wizard(d: Path):
         set_env(d, "LLM_PROVIDER_API_KEY", k)
     say(f"  → LLM_PROVIDER_API_KEY={mask(k) if k else '（保持现值）'}")
     m = ask("   LLM_PROVIDER_MODEL（规划模型名）",
-            default=get_env(d, "LLM_PROVIDER_MODEL", "gpt-4o-mini"))
+            default=get_env(d, "LLM_PROVIDER_MODEL", "deepseek-flash"))
     eff_key = k or get_env(d, "LLM_PROVIDER_API_KEY")
     for _ in range(3):
         ok, msg, _models = probe_openai_gateway(v, eff_key, m)

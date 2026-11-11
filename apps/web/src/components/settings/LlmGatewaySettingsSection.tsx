@@ -196,14 +196,14 @@ export function LlmGatewaySettingsSection() {
                 />
               </Form.Item>
               <Form.Item name="providerModel" label="默认执行模型">
-                <Input placeholder="如 gpt-4o-mini" />
+                <Input placeholder="如 deepseek-flash" />
               </Form.Item>
               <Form.Item
                 name="plannerModel"
                 label="规划器模型（开题/出方案）"
                 extra="独立于默认执行模型；只改其一不会带动另一个。"
               >
-                <Input placeholder="如 gpt-4o-mini" />
+                <Input placeholder="如 deepseek-flash" />
               </Form.Item>
             </Card>
           </Col>
@@ -241,7 +241,7 @@ export function LlmGatewaySettingsSection() {
                 />
               </Form.Item>
               <Form.Item name="claudeModel" label="Skill 执行模型">
-                <Input placeholder="如 claude-sonnet-4-5" />
+                <Input placeholder="如 deepseek-flash" />
               </Form.Item>
             </Card>
           </Col>

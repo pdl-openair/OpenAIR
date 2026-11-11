@@ -840,7 +840,7 @@ def run_skill_with_llm(
             or os.environ.get("OPENTRAJECTORY_REVIEW_LLM_MODEL")
             or os.environ.get("VITE_TEXT_LLM_MODEL")
             or os.environ.get("LLM_PROVIDER_MODEL")
-            or "gpt-4o-mini"
+            or "deepseek-flash"
         )
     # Internal trial execution owns one physical submission only. Compatibility
     # lists remain diagnostic helpers, but cannot authorize model resubmission.

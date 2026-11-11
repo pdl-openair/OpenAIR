@@ -335,7 +335,7 @@ def _agent_revision_chat_model() -> str:
         or os.environ.get("LLM_PROVIDER_MODEL_SOL")
         or os.environ.get("LLM_PROVIDER_MODEL")
         or os.environ.get("OPENTRAJECTORY_LIVE_LLM_MODEL")
-        or "gpt-4o-mini"
+        or "deepseek-flash"
     ).strip()
 
 

@@ -64,7 +64,7 @@ def _model_name() -> str:
         (os.environ.get("OPENAIR_WORKBENCH_COLLABORATION_LLM_MODEL") or "").strip()
         or (os.environ.get("LLM_PROVIDER_MODEL_SOL") or "").strip()
         or (os.environ.get("LLM_PROVIDER_MODEL") or "").strip()
-        or "gpt-4o-mini"
+        or "deepseek-flash"
     )
 
 
