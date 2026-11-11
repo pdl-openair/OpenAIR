@@ -1,0 +1,21 @@
+# 生产暴露用的端口收敛覆盖层。
+# 用法：docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# 版本门槛：`!override` YAML 标签要求 Docker Compose v2.24.4+（`docker compose version`
+# 确认）；低于该版本的 compose 会直接解析失败，不会静默忽略。
+# 只保留本机 loopback 的 web 端口供反向隧道访问；API 与基础设施端口不出宿主机。
+services:
+  api:
+    ports: !override []
+
+  web:
+    ports: !override
+      - "127.0.0.1:8080:80"
+
+  postgres:
+    ports: !override []
+
+  redis:
+    ports: !override []
+
+  minio:
+    ports: !override []
