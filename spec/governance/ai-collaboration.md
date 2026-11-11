@@ -43,7 +43,7 @@ hooks 硬拦清单（SPEC-GIT-01 / SPEC-GEN-01，细则见 `../enforcement/enfor
 ## 必须遵守
 
 - 使用任一 AI 工具前明确允许修改/禁止修改的文件范围（写入区 allowlist）。
-- AI 参与的提交带 Co-authored-by；提交信息规范见 [../collaboration/git_commit_rules.md](../collaboration/git_commit_rules.md)。
+- AI 参与时在提交正文或 PR 描述说明工具与模型；提交信息规范见 [../collaboration/git_commit_rules.md](../collaboration/git_commit_rules.md)。
 - AI 不得以缺证据的完成声明过门禁（PR 证据合同见 [../workflows/pr-workflow.md](../workflows/pr-workflow.md)）。
 
 ## 防什么失效模式

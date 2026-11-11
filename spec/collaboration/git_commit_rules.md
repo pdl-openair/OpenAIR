@@ -35,7 +35,7 @@ fix(api): record failed claude execution error
 chore(repo): update docs navigation
 ```
 
-[经典注记] 本条 ≈ Conventional Commits（conventionalcommits.org 规范）——差异：本仓 type 集合与禁用词表是自家裁剪（8 类型 + 禁 update/modify 等），scope 为建议值清单而非自由词，另强制 AI 参与带 Co-authored-by（见第 11 节）。
+[经典注记] 本条 ≈ Conventional Commits（conventionalcommits.org 规范）——差异：本仓 type 集合与禁用词表是自家裁剪（8 类型 + 禁 update/modify 等），scope 为建议值清单而非自由词，另要求 AI 参与在正文说明工具与模型（见第 11 节）。
 
 [SPEC-ENG-SPEC-PROC-03] 本条已机器强制：check_commit_msg.py（hook 即时 + CI 兜底，L0+L1；登记见 `spec/enforcement/enforcement-matrix.md`）。
 
@@ -195,33 +195,19 @@ PR 说明需要额外写清：
 
 [SPEC-ENG-SPEC-SEC-01] 该检查项已机器强制：gitleaks（pre-commit workspace 扫描 + CI secret-scan job，L0+L1；登记见 `spec/enforcement/enforcement-matrix.md`）。
 
-## 11. Co-authored-by（AI 协作署名）
+## 11. AI 参与说明（不强制 trailer）
 
-当 commit 由 AI coding 工具（Cursor / Qoder / Claude Code / GPT 等）参与生成时，必须在 commit message body 末尾追加 `Co-authored-by` trailer。
-
-格式示例：
+AI 参与的提交或 PR 不要求固定格式的 `Co-authored-by` trailer，也不维护允许标识清单。作者应在 commit body 或 PR 描述中用一行文字说明使用的工具与模型，例如：
 
 ```text
-docs(collaboration): add co-author convention
-
-Co-authored-by: qoder <qoder@users.noreply.github.com>
-```
-
-可用 Agent 标识（按实际使用选择，可多个并列）：
-
-```text
-Co-authored-by: qoder <qoder@users.noreply.github.com>
-Co-authored-by: cursor <cursor@users.noreply.github.com>
-Co-authored-by: claude-code <claude-code@users.noreply.github.com>
-Co-authored-by: gpt <gpt@users.noreply.github.com>
+AI 协助：omp / deepseek-flash
 ```
 
 规则：
 
-* 纯人工 commit 不加；
-* AI 辅助生成的 commit 必须加对应 Agent；
-* 一次 commit 涉及多个 AI 工具时，每个各占一行；
-* Co-authored-by 行与 summary 之间空一行（即放在 body 区域）；
-* GitHub 会自动识别并在 commit 页面展示贡献者头像。
+* 纯人工提交无需说明；
+* AI 参与时说明工具与模型即可，放在 commit body 或 PR 描述由作者选择；
+* 不要求 `Co-authored-by`，不校验标识清单，不要求邮箱或贡献者头像；
+* 已有提交中的历史 trailer 保留，不追溯改写。
 
-[SPEC-ENG-SPEC-PROC-03] 本条与第 3 节同属一个登记行：AI 参与必带 Co-authored-by 由 check_commit_msg.py 一并校验。
+[SPEC-ENG-SPEC-PROC-03] 本条与第 3 节同属一个登记行：提交信息格式由 check_commit_msg.py 校验；AI 参与说明为文本约定，不做机器强制。

@@ -8,9 +8,9 @@ rebase 至 024c5d1f 时撤销旧路径括注），以下常量是该文件实际
   type   ：feat / fix / docs / refactor / style / test / chore / revert
   禁用   ：update / modify / change / optimize / misc / wip（以规则文件条文为准，含 change）
   summary：非空、非泛化词（update/modify/fix bug…）
-  署名   ：AI 参与的提交须含 ``Co-Authored-By:`` 行（本仓现约定 + Claude Code 尾注）；
-           脚本不校验邮箱域名（多工具并存），只校验存在时的格式 ``Name <email>``。
-           纯人工提交可无该行；如需强制（CI/战役用）传 --require-coauthor。
+  署名   ：AI 参与说明是文本约定，放在 commit body 或 PR 描述即可，不强制 trailer。
+           脚本只校验存在时的 ``Co-Authored-By:`` 格式 ``Name <email>``，不校验标识清单。
+           ``--require-coauthor`` 仅保留给临时战役，不属于仓库规则。
 
 用法：
   python scripts/gates/check_commit_msg.py --file <path>     # 或 --file - 读 stdin
@@ -153,7 +153,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--require-coauthor",
         action="store_true",
-        help="强制要求 Co-Authored-By 行（AI 参与提交的战役/CI 场景）",
+        help="临时战役开关：强制要求 Co-Authored-By 行；仓库规则不要求",
     )
     args = parser.parse_args(argv)
 

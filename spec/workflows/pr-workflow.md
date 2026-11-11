@@ -34,7 +34,7 @@
 - CI 全绿（含 required checks）；无未解决 comment。
 - fix 类触产品代码：关联 `status/verified` issue（SPEC-PROC-02）。
 - 风险分级 high 必人审（CODEOWNERS），见 [review-workflow.md](review-workflow.md)。
-- Commit 带 Co-authored-by（AI 参与）——提交规范见 [../collaboration/git_commit_rules.md](../collaboration/git_commit_rules.md)。
+- AI 参与时在 PR 描述或 commit body 说明工具与模型——提交规范见 [../collaboration/git_commit_rules.md](../collaboration/git_commit_rules.md)。
 - release PR 额外要求：必含 `STATUS.md` 或 `CHANGELOG.md` 变更（SPEC-HYGIENE-01）。
 
 ## 防什么失效模式

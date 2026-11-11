@@ -25,10 +25,15 @@ OpenAIR：通用 AI 科研平台。用户用自然语言描述研究任务，平
 | 写代码前的质量底线与豁免棘轮 | [spec/foundations/coding-standards.md](spec/foundations/coding-standards.md) |
 | 发 PR / 证据合同必填字段 | [spec/workflows/pr-workflow.md](spec/workflows/pr-workflow.md) |
 | 写 commit message | [spec/collaboration/git_commit_rules.md](spec/collaboration/git_commit_rules.md) |
+| 写文档、PR 描述、issue 评论 | [spec/collaboration/08_设计与技术文档编写.md](spec/collaboration/08_设计与技术文档编写.md) |
 | 提交前跑门禁脚本 | [scripts/gates/](scripts/gates/) |
 | 写任务规格（复杂任务先写 spec 再动码） | [docs/task_specs/TEMPLATE.md](docs/task_specs/TEMPLATE.md) |
 | 产品设计合同（产品如何构成） | [docs/01_核心设计/](docs/01_核心设计/)（入口 docs/README.md） |
 | 开发 skill（IDE 触发与索引） | [docs/dev_skills/](docs/dev_skills/) |
+
+## Agent 协议
+
+工程技能的 harness 无关配置在 [docs/agents/](docs/agents/)：领域文档、issue tracker 与 AI 贡献标记、分诊标签映射。这些文件只放工具配置与映射，工程规则正文仍以 `spec/` 为准，冲突时以 spec 为准。
 
 ## 维护纪律
 

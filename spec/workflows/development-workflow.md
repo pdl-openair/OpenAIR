@@ -38,7 +38,7 @@
 
 1. 复杂任务先有 task spec（`docs/task_specs/`）；fix 类触产品代码须关联 `status/verified` issue（SPEC-PROC-02，见 [issue-workflow.md](issue-workflow.md)）。
 2. 原子提交：一个提交一个关注点；显式路径 `git add <paths>`，**禁止 `git add -A` / `git add .`**。
-3. 提交信息 `<type>(<scope>): <summary>`，AI 参与必带 Co-authored-by——全文见 [../collaboration/git_commit_rules.md](../collaboration/git_commit_rules.md)。
+3. 提交信息 `<type>(<scope>): <summary>`，AI 参与时在正文说明工具与模型——全文见 [../collaboration/git_commit_rules.md](../collaboration/git_commit_rules.md)。
 4. 分支命名 `<type>/<short-task-name>`。
 5. PR 前自跑本地门禁（pre-commit 镜像）；PR 证据合同字段见 [pr-workflow.md](pr-workflow.md)。
 

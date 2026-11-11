@@ -20,7 +20,7 @@
 | 测试替身分类学 | 三部曲 Fixture/Fake/Replay/Dataset/Live | 评审 checklist 项（语义判断，不强制） | L4 | Meszaros《xUnit Test Patterns》替身谱系 |
 | DoR/DoD 阶段门禁 | 四 Gate A-D（任务粒度） | issue `status/verified` 关联（DoR）+ PR 证据合同（DoD） | L2 | RUP/CMMI phase-gate；范例状态机的 GitHub 原生转译 |
 | 四眼原则/职责分离 | 五角色分权、施工者/评估者分离 | 作者≠评审（verdict 合同）+ CODEOWNERS + 风险分级 | L2/L4 | 审计四眼原则 |
-| 原子提交 | 提交规范 8 类型 + Co-authored-by（[../collaboration/git_commit_rules.md](../collaboration/git_commit_rules.md)） | hook_guard 禁 `git add -A`/`--no-verify` + check_commit_msg | L0+L1 | Conventional Commits；范例提交纪律 |
+| 原子提交 | 提交规范 8 类型 + AI 参与正文说明（[../collaboration/git_commit_rules.md](../collaboration/git_commit_rules.md)） | hook_guard 禁 `git add -A`/`--no-verify` + check_commit_msg | L0+L1 | Conventional Commits；范例提交纪律 |
 | 纵深防御 | secret 卫生散见 | [security.md](security.md) 三层防线 | L0+L1 | 范例三层防线原样采纳 |
 | DRY | —（防幻觉正则双抄实证） | 首轮清理 R2 抽取共享模块 + 评审 checklist"受控重复须注记"；pylint R0801 夜间报告（不阻断） | L4+夜间报告 | 《程序员修炼之道》DRY；PT/TS 契约镜像属"受控重复"，注记豁免 |
 | WIP 限制/精益 | WIP=1 + 第一真实阻塞 | 施工组织规则（批次任务规格字段）+ 99 号机制 | 流程 | Kanban/Lean；不强行工具化（人数少，工具化成本>收益，理由登记） |
@@ -57,7 +57,7 @@
 | 9 | [五角色协作责任](../collaboration/03_任务推进与交接.md) | ≈ 四眼原则/职责分离 | 审计 four-eyes principle；SoD | 五角色分权（含执行工具），把双人复核升级为职责与越权边界 |
 | 10 | [Before/After 判断变好](../collaboration/07_评测驱动迭代.md) | ≈ 对照实验 | 受控实验设计/A-B 测试 | 同场景自身对照且成本与下游可用性同权，非随机分组统计 |
 | 11 | [先产品后治理的债清单](../collaboration/OpenAIR%20多条线并行施工统一要求.md) | ≈ 技术债台账 | Cunningham technical debt 隐喻 | 固化为 `spec/governance/debt-ledger.md` 登记制，每条带复审日期 |
-| 12 | [提交格式与 AI 署名](../collaboration/git_commit_rules.md) | ≈ Conventional Commits | conventionalcommits.org | type/scope 为自家裁剪清单，另强制 AI 参与 Co-authored-by |
+| 12 | [提交格式与 AI 参与说明](../collaboration/git_commit_rules.md) | ≈ Conventional Commits | conventionalcommits.org | type/scope 为自家裁剪清单，另要求 AI 参与在正文说明工具与模型 |
 
 每条注记的原文落点行（插在对应条目/章节之后、不改原句）见各文档内 `[经典注记]` 行；总表与原文注记同 PR 维护。
 
